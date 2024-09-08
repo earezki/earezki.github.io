@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Microservices vs Monoliths | Dev Journal</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Microservices vs Monoliths" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Microservices are an architectural style that splits a software to a collection of fine-grained services. Those services have to be:" />
+<meta property="og:description" content="Microservices are an architectural style that splits a software to a collection of fine-grained services. Those services have to be:" />
+<link rel="canonical" href="https://earezki.com/microservices-vs-monoliths/" />
+<meta property="og:url" content="https://earezki.com/microservices-vs-monoliths/" />
+<meta property="og:site_name" content="Dev Journal" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-09-12T04:49:46+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Microservices vs Monoliths" />
+<script type="application/ld+json">
+{"description":"Microservices are an architectural style that splits a software to a collection of fine-grained services. Those services have to be:","url":"https://earezki.com/microservices-vs-monoliths/","@type":"BlogPosting","headline":"Microservices vs Monoliths","dateModified":"2020-09-12T04:49:46+00:00","datePublished":"2020-09-12T04:49:46+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://earezki.com/microservices-vs-monoliths/"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://earezki.com/feed.xml" title="Dev|Journal" /><!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-161447264-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-161447264-1');
+</script> </head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Dev|Journal</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Microservices vs Monoliths</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2020-09-12T04:49:46+00:00" itemprop="datePublished">Sep 12, 2020
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>Microservices are an architectural style that splits a software to a collection of fine-grained services. Those services have to be:</p>
+
+<ul>
+  <li>Loosely coupled with other services.</li>
+  <li>Independently testable.</li>
+  <li>Maintainable</li>
+  <li>Solely testable and deployable.</li>
+</ul>
+
+<p>Microservices could use lightweight protocols to communicate with each other.</p>
+
+<p>Each service solves a different problem than the other, and could be developed with a different programming language, database technology, operating system and hardware.</p>
+
+<p>Microservices architecture shines in deployment, it integrates well with the CI/CD process. Making a change to the software, requires testing and deploying a handful of services. Time to market is essential to many domains.</p>
+
+<p>Another clear advantage and a win is scalability, in a microservices architecture you can pinpoint services under load, and they could be scaled/optimized independently of other services, which in itself optimizes cost and resource usage.</p>
+
+<p>Software developement as an indistry is not yet governed, and we are embracing new technologies and architectures as long as they have proved a successful usage, and solves existing problems.</p>
+
+<p>Microservices was initially promoted by big companies, the likes of Netflix, Amazon, Spotify, Uber …</p>
+
+<p>A common thing for all those companies, is that they are big, many teams, many developers, many business units. Without a proper organization, communication and management would be difficult. Not to talk about time to market and the cost of new features.</p>
+
+<p>Microservices architecture, proved to be successful for their use case, it allowed them to continue to be competitive, scale their organization, and attract talented developers.</p>
+
+<p>With all of those successful stories, and the trend microservices attracted, many developers consider Microservices a standard rather than a solution. Trying to apply it anywhere and to everything.</p>
+
+<p>Let revisite some of the promises microservices promised to solve, and let's discuss each one:</p>
+
+<ol>
+  <li>Zero downtime independent deployment.</li>
+  <li>Higher degree of organizational autonomy and distribute responsibilities.</li>
+  <li>Scalability</li>
+  <li>Reusability (authentication, search, …)</li>
+</ol>
+
+<h1 id="1-zero-downtime-independent-deployment"><strong>1. Zero downtime independent deployment:</strong></h1>
+
+<p>With Microservices architecture, you can build and start the application quickly, which allows you to iterate more rapidly, and is more container friendly, as the startup time is massively reduced. You can change the behaviour and only test the parts you've changed or even introduce a breaking change assuming you're using a strategy (versioning as an example). Deploying a microservice doesn't require shutting the whole application, only the part that needs to. the other services could keep running in isolation and fullfilling user requests.</p>
+
+<p>Usually building a monolith has a lot of files and dependencies, and it takes a lot of time to build and start. Testing a monolith is another challenge, because you need to ensure that you don't break the rest of the application. Deploying a monolith in a traditional organization requires shutting all the services, and then deploy the new release, then restarting the application, which brings the whole application down for a couple of minutes (If you're lucky and everything went well).</p>
+
+<p>Build time is important, but as long as we're building a few times a day in a CI/CD platform, it doesn't matter to most of us, what matters is the time the developers are waiting for the build in their local machines. However, as long as we're writing proper unit tests, we might not even need to start the application. More over, modern tools allow incremental build which drastically reduces build time.</p>
+
+<p>Now a day, we have many strategies and tools that allows to deploy a monolith with zero downtime. One can use blue green deployment, canary deployment, rolling updates …</p>
+
+<p>My opinion, is that it depends, is build time crucial to you ? Are you using a language where you can't have incremental builds ? How is your release cycle being organized and what is your target ? What is your deployment strategy ? …</p>
+
+<h1 id="2-higher-degree-of-organizational-autonomy-and-distribute-responsibilities"><strong>2. Higher degree of organizational autonomy and distribute responsibilities.</strong></h1>
+
+<p>Scaling the business would require delivering more features, quickly and effectively. You can't ask developers to work on weekends, but you can bring in more developers. As the team grows, its responsibilities increases, getting more and more applications to maintain and enhance. Communication is another difficulty with big teams.</p>
+
+<p>In a microservices architecture, you can scale your teams, decrease its responsibilities, and facilitate communication. Each team is responsible for a set of applications. Giving each team the liberty to choose the technologies and the approach that fits best their challenges.</p>
+
+<p>Usually, in a monolith architecture, the teams are scaled vertically, adding more and more people to the same team, or a team besides that do the same thing. This introduces management overhead, and requires more communication. Development and solution design becomes harder.</p>
+
+<blockquote>
+  <p>Any organization that designs a system (defined broadly) will produce a design whose structure is a copy of the organization's communication structure.</p>
+</blockquote>
+
+<p>—  <strong>Melvin E. Conway</strong></p>
+
+<p>The organization in itself, shouldn't be structured in such a way that only one team is responsible for the whole application. There should be different business units each has as many developers as required, responsible for the development and the maintenance of a set of code that belongs to that team.</p>
+
+<p>Scaling the organization, doesn't require a microservices architecture, or a monolithic one. The organization and the teams should be structured around specific domains, allowing to add new business units, and new teams without affecting existing structure.</p>
+
+<h1 id="3-scalability"><strong>3. Scalability.</strong></h1>
+
+<p>As explained at the start of the article, microservices allows scalibity with an effective cost and resource usage.</p>
+
+<p>On the other hand, monoliths usually are running on bare metal, or beefy virtual machines. To scale a monolith, you need to scale all the modules, which comes at a cost, buying new servers, or paying for expensive VMs.</p>
+
+<p>I always believe that any application should fulfill a quorum, but exceeding a threshold, increases servers management overhead, at this stage, I would prefer a balance between vertical and horizontal scalability.</p>
+
+<p>At the time of writing, we can get up to 448 vCPUs and 24576 GiB of RAM on aws, so we have a lot of room for vertical scalability before hitting the limit and start to scale out.</p>
+
+<p>In microservices architecture, each call to an external service requires at least a 20ms extra time. And it's limited by the network's bandwidth.</p>
+
+<p>In monoliths however, every call, is an internal process communication, no network is involved and you're limited by the machine (CPU, memory and disk).</p>
+
+<h1 id="4-reusability"><strong>4. Reusability.</strong></h1>
+
+<p>Reusability is at the heart of a lot of paradigms, starting from  <strong>Object Oriented Programming</strong>  and  <strong>Functional Programming</strong>. To be able to reuse code, components or software, is a must to move forward and not have to build everything, every time from scratch.</p>
+
+<p>So we should try to maximise the amount of work we can reuse. But this is not trivial and doesn't come by default in any system requires proper planning and execution.</p>
+
+<p>In a microservices architecture, it's more common to create a service around a functionality that other systems require. The services communicate using the network, so you get to create new reusable services that have their own life cycle, programming language, infrastructure …</p>
+
+<p>Reusability in monoliths comes in the form of inter process communication. Either external libraries, or in house libraries. For this reason you have to use the same programming language or the same compiled code.</p>
+
+<p>Having a clean, modular monolith, makes good use of reusability. We have many layers and techniques to avoid the temptation of using new services to promote reusability.</p>
+
+<p>In the Java ecosystem, there are a lot of languages that ran on the JVM, so we can develop libraries in Scala, and use them in Java.</p>
+
+<p>Many startups and small companies have understood that Microservices makes their management much harder. they're a lot of stories on the internet of companies migrating back to monoliths.</p>
+
+<p><strong>Netflix</strong>  and the likes are big companies, having their own set of management complexities that doesn't apply to everyone. They have matured CI/CD platforms, tools and experience.</p>
+
+<p>Without proper understanding of this architecture, we usually see  <strong>distributed monoliths</strong> , you can't develop new features without adapting other services, you can't deploy a service without deploying everything, you can't scale individual services…</p>
+
+<p>Monitoring is another challenge in Microservices, you have to have the infrastructure that would allow to monitor every application, and correlate between them. In a monolithic architecture, you have to monitor a single application.</p>
+
+<p>I have compiled a list of which we should experiment until we hit a limit, then go to the next step.</p>
+
+<ol>
+  <li>Monolith</li>
+  <li>Modular monolith</li>
+  <li>Services as dependencies.</li>
+  <li>Microservices.</li>
+  <li>Serverless</li>
+</ol>
+
+<p><strong>Conclusion:</strong></p>
+
+<p>Don't use Microservices unless you really have to.</p>
+
+  </div><a class="u-url" href="/microservices-vs-monoliths/" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Dev|Journal</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Dev|Journal</li><li><a class="u-email" href="mailto:arezki.elmehdi@gmail.com">arezki.elmehdi@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/earezki"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">earezki</span></a></li><li><a href="https://www.linkedin.com/in/mehdi-arezki"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg> <span class="username">mehdi-arezki</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Blogging about interests.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
