@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>L from SOLID | Dev Journal</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="L from SOLID" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="The Liskov Substitution Principle (LSP) in Object-Oriented Design" />
+<meta property="og:description" content="The Liskov Substitution Principle (LSP) in Object-Oriented Design" />
+<link rel="canonical" href="https://earezki.com/liskov-substitution-principle/" />
+<meta property="og:url" content="https://earezki.com/liskov-substitution-principle/" />
+<meta property="og:site_name" content="Dev Journal" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-06-19T23:00:46+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="L from SOLID" />
+<script type="application/ld+json">
+{"description":"The Liskov Substitution Principle (LSP) in Object-Oriented Design","url":"https://earezki.com/liskov-substitution-principle/","@type":"BlogPosting","headline":"L from SOLID","dateModified":"2024-06-19T23:00:46+00:00","datePublished":"2024-06-19T23:00:46+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://earezki.com/liskov-substitution-principle/"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://earezki.com/feed.xml" title="Dev|Journal" /><!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-161447264-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-161447264-1');
+</script> </head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Dev|Journal</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">L from SOLID</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2024-06-19T23:00:46+00:00" itemprop="datePublished">Jun 19, 2024
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h1 id="the-liskov-substitution-principle-lsp-in-object-oriented-design">The Liskov Substitution Principle (LSP) in Object-Oriented Design</h1>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>The Liskov Substitution Principle (LSP) is one of the five SOLID principles of object-oriented design, it states that objects of a superclass should be replaceable with objects of a subclass without affecting the correctness of the program. This principle ensures that a subclass can stand in for its superclass, promoting more robust and maintainable code.</p>
+
+<h2 id="why-lsp-matters">Why LSP Matters</h2>
+
+<h3 id="1-maintainability">1. <strong>Maintainability</strong></h3>
+<p>Adhering to LSP makes the codebase easier to maintain. When subclasses can replace their parent classes without introducing errors, developers can extend and refactor the system without fear of breaking existing functionality.</p>
+
+<h3 id="2-reusability">2. <strong>Reusability</strong></h3>
+<p>LSP enhances code reusability. By ensuring subclasses maintain the behavior expected by the superclass, these subclasses can be used interchangeably in different parts of the application, increasing the versatility of the code.</p>
+
+<h3 id="3-polymorphism">3. <strong>Polymorphism</strong></h3>
+<p>LSP is foundational to achieving true polymorphism in object-oriented systems. It allows objects to be treated as instances of their parent class, enabling dynamic method dispatch and more flexible system design.</p>
+
+<h3 id="4-testability">4. <strong>Testability</strong></h3>
+<p>Following LSP improves testability. When subclasses adhere to the contracts defined by their superclasses, unit tests for the superclass are also valid for the subclass. This reduces redundancy in testing and ensures consistent behavior across the hierarchy.</p>
+
+<h3 id="example-before-applying-lsp">Example: Before Applying LSP</h3>
+
+<p>Consider a scenario with a base class <code class="language-plaintext highlighter-rouge">Bird</code> and a derived class <code class="language-plaintext highlighter-rouge">Penguin</code>.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Bird</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">fly</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"I am flying"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Penguin</span> <span class="kd">extends</span> <span class="nc">Bird</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">fly</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nf">UnsupportedOperationException</span><span class="o">(</span><span class="s">"Penguins cannot fly"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>In this example, <code class="language-plaintext highlighter-rouge">Penguin</code> violates LSP because it cannot be substituted for <code class="language-plaintext highlighter-rouge">Bird</code>. A <code class="language-plaintext highlighter-rouge">Penguin</code> object will cause unexpected behavior when the <code class="language-plaintext highlighter-rouge">fly</code> method is called, which contradicts the expectations set by the <code class="language-plaintext highlighter-rouge">Bird</code> class.</p>
+
+<h3 id="example-after-applying-lsp">Example: After Applying LSP</h3>
+
+<p>To adhere to LSP, we need to rethink our class hierarchy. One approach is to introduce a more specific class structure that accommodates different types of birds appropriately.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">Bird</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">abstract</span> <span class="kt">void</span> <span class="nf">move</span><span class="o">();</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">FlyingBird</span> <span class="kd">extends</span> <span class="nc">Bird</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">move</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">fly</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">fly</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"I am flying"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Penguin</span> <span class="kd">extends</span> <span class="nc">Bird</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">move</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">walk</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">walk</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"I am walking"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>In this revised structure:</p>
+<ul>
+  <li>The <code class="language-plaintext highlighter-rouge">Bird</code> class is abstract and defines a general movement behavior.</li>
+  <li><code class="language-plaintext highlighter-rouge">FlyingBird</code> and <code class="language-plaintext highlighter-rouge">Penguin</code> are concrete classes that implement the <code class="language-plaintext highlighter-rouge">move</code> method according to their capabilities.</li>
+</ul>
+
+<p>Now, substituting a <code class="language-plaintext highlighter-rouge">Penguin</code> for a <code class="language-plaintext highlighter-rouge">Bird</code> does not violate any expectations, as both can still perform the <code class="language-plaintext highlighter-rouge">move</code> action correctly.</p>
+
+<h2 id="examples-from-java">Examples from java</h2>
+
+<h3 id="1-java-collections-framework">1. <strong>Java Collections Framework</strong></h3>
+<p>The Java Collections Framework is a good example of LSP in action. Consider the <code class="language-plaintext highlighter-rouge">List</code> interface and its implementations, <code class="language-plaintext highlighter-rouge">ArrayList</code> and <code class="language-plaintext highlighter-rouge">LinkedList</code>.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">arrayList</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+<span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">linkedList</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LinkedList</span><span class="o">&lt;&gt;();</span>
+</code></pre></div></div>
+
+<p>Both <code class="language-plaintext highlighter-rouge">ArrayList</code> and <code class="language-plaintext highlighter-rouge">LinkedList</code> can be used interchangeably as <code class="language-plaintext highlighter-rouge">List</code> objects without affecting the correctness of the code. Methods defined in the <code class="language-plaintext highlighter-rouge">List</code> interface work seamlessly with both <code class="language-plaintext highlighter-rouge">ArrayList</code> and <code class="language-plaintext highlighter-rouge">LinkedList</code>, adhering to LSP.</p>
+
+<p>but the immutable list doesn’t support the remove method, so it doesn’t respect LSP.</p>
+
+<h3 id="2-java-inputoutput-io-streams">2. <strong>Java Input/Output (I/O) Streams</strong></h3>
+<p>The Java I/O Streams follow LSP by allowing different stream types to be used interchangeably. For example, <code class="language-plaintext highlighter-rouge">FileInputStream</code>, <code class="language-plaintext highlighter-rouge">BufferedInputStream</code>, and <code class="language-plaintext highlighter-rouge">DataInputStream</code> can all be used as <code class="language-plaintext highlighter-rouge">InputStream</code> objects.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">InputStream</span> <span class="n">fileStream</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">FileInputStream</span><span class="o">(</span><span class="s">"data.txt"</span><span class="o">);</span>
+<span class="nc">InputStream</span> <span class="n">bufferedStream</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BufferedInputStream</span><span class="o">(</span><span class="n">fileStream</span><span class="o">);</span>
+<span class="nc">InputStream</span> <span class="n">dataStream</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">DataInputStream</span><span class="o">(</span><span class="n">bufferedStream</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p>Each stream type can be substituted for <code class="language-plaintext highlighter-rouge">InputStream</code> without altering the behavior expected from an input stream.</p>
+
+<h2 id="common-pitfalls">Common Pitfalls</h2>
+
+<h3 id="1-improper-use-of-inheritance">1. <strong>Improper Use of Inheritance</strong></h3>
+<p>A common mistake is using inheritance for code reuse without considering LSP. This can lead to subclasses that do not fulfill the contract of the superclass. To avoid this, always ensure that a subclass can stand in for its superclass without altering the expected behavior.</p>
+
+<h3 id="2-ignoring-pre--and-post-conditions">2. <strong>Ignoring Pre- and Post-conditions</strong></h3>
+<p>Subclasses should not weaken preconditions or strengthen postconditions of methods they override. This means that the conditions required before and after method execution in a subclass should be consistent with those in the superclass.</p>
+
+<h3 id="3-overriding-methods-incorrectly">3. <strong>Overriding Methods Incorrectly</strong></h3>
+<p>Subclasses should override methods to provide specific behavior while still honoring the contract of the superclass. For instance, if a superclass method returns a specific type, the subclass should return a compatible type.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>The Liskov Substitution Principle is crucial for creating flexible, maintainable, and scalable object-oriented systems. By ensuring that subclasses can substitute their superclasses without altering expected behavior, developers can build more robust and reusable code. Adhering to LSP involves careful design of class hierarchies, mindful implementation of inheritance, and rigorous testing to confirm consistent behavior across the hierarchy. By mastering LSP, you will significantly improve the quality and reliability of your software.</p>
+
+  </div><a class="u-url" href="/liskov-substitution-principle/" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Dev|Journal</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Dev|Journal</li><li><a class="u-email" href="mailto:arezki.elmehdi@gmail.com">arezki.elmehdi@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/earezki"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">earezki</span></a></li><li><a href="https://www.linkedin.com/in/mehdi-arezki"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg> <span class="username">mehdi-arezki</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Blogging about interests.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
