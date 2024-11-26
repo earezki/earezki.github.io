@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>D from SOLID | Dev Journal</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="D from SOLID" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Dependency Inversion Principle (DIP) in Software Design" />
+<meta property="og:description" content="Dependency Inversion Principle (DIP) in Software Design" />
+<link rel="canonical" href="https://earezki.com/dependency-inversion-principle/" />
+<meta property="og:url" content="https://earezki.com/dependency-inversion-principle/" />
+<meta property="og:site_name" content="Dev Journal" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-07-24T23:00:46+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="D from SOLID" />
+<script type="application/ld+json">
+{"description":"Dependency Inversion Principle (DIP) in Software Design","url":"https://earezki.com/dependency-inversion-principle/","@type":"BlogPosting","headline":"D from SOLID","dateModified":"2024-07-24T23:00:46+00:00","datePublished":"2024-07-24T23:00:46+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://earezki.com/dependency-inversion-principle/"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://earezki.com/feed.xml" title="Dev|Journal" /><!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-161447264-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-161447264-1');
+</script> </head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Dev|Journal</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">D from SOLID</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2024-07-24T23:00:46+00:00" itemprop="datePublished">Jul 24, 2024
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h1 id="dependency-inversion-principle-dip-in-software-design">Dependency Inversion Principle (DIP) in Software Design</h1>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>The Dependency Inversion Principle (DIP) is one of the five SOLID principles of object-oriented design. It is fundamental to creating flexible and maintainable software systems. DIP states that:</p>
+
+<ol>
+  <li>High-level modules should not depend on low-level modules. Both should depend on abstractions.</li>
+  <li>Abstractions should not depend on details. Details should depend on abstractions.</li>
+</ol>
+
+<p>In simpler terms, the principle encourages dependency on interfaces or abstract classes rather than concrete implementations. This decouples the high-level logic of the application from the low-level details, making the system more modular and easier to maintain.</p>
+
+<h2 id="why-dip-matters">Why DIP Matters</h2>
+
+<ul>
+  <li><strong>Decoupling</strong>: By relying on abstractions, different parts of a system can change independently, leading to a more flexible architecture.</li>
+  <li><strong>Maintainability</strong>: Changes in one part of the system are less likely to impact other parts, reducing the risk of bugs.</li>
+  <li><strong>Testability</strong>: Abstracting dependencies makes it easier to mock or stub components, facilitating unit testing.</li>
+  <li><strong>Scalability</strong>: As the application grows, maintaining a loosely coupled architecture becomes crucial for scalability.</li>
+</ul>
+
+<h2 id="applying-dip-in-java">Applying DIP in Java</h2>
+
+<p>Let’s explore how to apply the Dependency Inversion Principle in Java with practical examples.</p>
+
+<h3 id="example-before-applying-dip">Example: Before Applying DIP</h3>
+
+<p>Consider a scenario where we have a <code class="language-plaintext highlighter-rouge">LightBulb</code> class and a <code class="language-plaintext highlighter-rouge">Switch</code> class. The <code class="language-plaintext highlighter-rouge">Switch</code> class controls the <code class="language-plaintext highlighter-rouge">LightBulb</code>.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">LightBulb</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">turnOn</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"LightBulb turned on"</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">turnOff</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"LightBulb turned off"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Switch</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="nc">LightBulb</span> <span class="n">lightBulb</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">Switch</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">lightBulb</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LightBulb</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">operate</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">on</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">on</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">lightBulb</span><span class="o">.</span><span class="na">turnOn</span><span class="o">();</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="n">lightBulb</span><span class="o">.</span><span class="na">turnOff</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>In this example, <code class="language-plaintext highlighter-rouge">Switch</code> directly depends on the concrete class <code class="language-plaintext highlighter-rouge">LightBulb</code>. This violates DIP because changes in <code class="language-plaintext highlighter-rouge">LightBulb</code> might require changes in <code class="language-plaintext highlighter-rouge">Switch</code>.</p>
+
+<h3 id="example-after-applying-dip">Example: After Applying DIP</h3>
+
+<p>To apply DIP, we need to introduce an abstraction for the <code class="language-plaintext highlighter-rouge">LightBulb</code>.</p>
+
+<h4 id="step-1-create-an-abstraction">Step 1: Create an Abstraction</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Switchable</span> <span class="o">{</span>
+    <span class="kt">void</span> <span class="nf">turnOn</span><span class="o">();</span>
+    <span class="kt">void</span> <span class="nf">turnOff</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="step-2-implement-the-abstraction">Step 2: Implement the Abstraction</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">LightBulb</span> <span class="kd">implements</span> <span class="nc">Switchable</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">turnOn</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"LightBulb turned on"</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">turnOff</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"LightBulb turned off"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="step-3-depend-on-the-abstraction">Step 3: Depend on the Abstraction</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Switch</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="nc">Switchable</span> <span class="n">switchableDevice</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">Switch</span><span class="o">(</span><span class="nc">Switchable</span> <span class="n">switchableDevice</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">switchableDevice</span> <span class="o">=</span> <span class="n">switchableDevice</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">operate</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">on</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">on</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">switchableDevice</span><span class="o">.</span><span class="na">turnOn</span><span class="o">();</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="n">switchableDevice</span><span class="o">.</span><span class="na">turnOff</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="step-4-use-dependency-injection">Step 4: Use Dependency Injection</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Switchable</span> <span class="n">lightBulb</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LightBulb</span><span class="o">();</span>
+        <span class="nc">Switch</span> <span class="n">lightSwitch</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Switch</span><span class="o">(</span><span class="n">lightBulb</span><span class="o">);</span>
+        
+        <span class="n">lightSwitch</span><span class="o">.</span><span class="na">operate</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>  <span class="c1">// Output: LightBulb turned on</span>
+        <span class="n">lightSwitch</span><span class="o">.</span><span class="na">operate</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span> <span class="c1">// Output: LightBulb turned off</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>In this refactored example, <code class="language-plaintext highlighter-rouge">Switch</code> depends on the <code class="language-plaintext highlighter-rouge">Switchable</code> interface rather than the concrete <code class="language-plaintext highlighter-rouge">LightBulb</code> class. This adheres to DIP and makes <code class="language-plaintext highlighter-rouge">Switch</code> more flexible and easier to maintain.</p>
+
+<h2 id="benefits-of-applying-dip">Benefits of Applying DIP</h2>
+
+<h3 id="1-decoupling-and-flexibility">1. <strong>Decoupling and Flexibility</strong></h3>
+
+<p>By depending on abstractions, high-level modules are decoupled from low-level modules. This means you can change the implementation of <code class="language-plaintext highlighter-rouge">Switchable</code> without affecting the <code class="language-plaintext highlighter-rouge">Switch</code> class.</p>
+
+<h3 id="2-enhanced-testability">2. <strong>Enhanced Testability</strong></h3>
+
+<p>Abstractions make it easier to substitute real implementations with mock objects during testing. This improves the ability to write unit tests.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">mockito</span><span class="o">.</span><span class="na">Mockito</span><span class="o">.*;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SwitchTest</span> <span class="o">{</span>
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testSwitchOperate</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">Switchable</span> <span class="n">mockDevice</span> <span class="o">=</span> <span class="n">mock</span><span class="o">(</span><span class="nc">Switchable</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+        <span class="nc">Switch</span> <span class="n">lightSwitch</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Switch</span><span class="o">(</span><span class="n">mockDevice</span><span class="o">);</span>
+
+        <span class="n">lightSwitch</span><span class="o">.</span><span class="na">operate</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+        <span class="n">verify</span><span class="o">(</span><span class="n">mockDevice</span><span class="o">).</span><span class="na">turnOn</span><span class="o">();</span>
+
+        <span class="n">lightSwitch</span><span class="o">.</span><span class="na">operate</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span>
+        <span class="n">verify</span><span class="o">(</span><span class="n">mockDevice</span><span class="o">).</span><span class="na">turnOff</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="3-improved-maintainability">3. <strong>Improved Maintainability</strong></h3>
+
+<p>With DIP, changes in low-level modules (e.g., <code class="language-plaintext highlighter-rouge">LightBulb</code>) do not propagate to high-level modules (e.g., <code class="language-plaintext highlighter-rouge">Switch</code>). This separation makes maintenance and upgrades easier.</p>
+
+<h3 id="4-scalability">4. <strong>Scalability</strong></h3>
+
+<p>As the system grows, adhering to DIP ensures that the codebase remains manageable. You can introduce new <code class="language-plaintext highlighter-rouge">Switchable</code> devices without modifying the <code class="language-plaintext highlighter-rouge">Switch</code> class.</p>
+
+<h2 id="real-world-examples-of-dip">Real-World Examples of DIP</h2>
+
+<h3 id="1-java-logging-framework-slf4j">1. <strong>Java Logging Framework (SLF4J)</strong></h3>
+
+<p>The Simple Logging Facade for Java (SLF4J) is a good example of DIP. It provides an abstraction for various logging frameworks like Log4j, Logback, and java.util.logging.</p>
+
+<h4 id="slf4j-abstraction">SLF4J Abstraction</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">org.slf4j.Logger</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.slf4j.LoggerFactory</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyClass</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">Logger</span> <span class="n">logger</span> <span class="o">=</span> <span class="nc">LoggerFactory</span><span class="o">.</span><span class="na">getLogger</span><span class="o">(</span><span class="nc">MyClass</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">doSomething</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">logger</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"Doing something"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>In this example, <code class="language-plaintext highlighter-rouge">MyClass</code> depends on the <code class="language-plaintext highlighter-rouge">Logger</code> interface from SLF4J rather than a specific logging framework. This allows for flexibility in choosing or changing the logging implementation.</p>
+
+<h3 id="2-spring-framework">2. <strong>Spring Framework</strong></h3>
+
+<p>The Spring Framework heavily relies on DIP through dependency injection. Beans in Spring are injected into each other based on their interfaces rather than their concrete classes.</p>
+
+<h4 id="spring-example">Spring Example</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">GreetingService</span> <span class="o">{</span>
+    <span class="nc">String</span> <span class="nf">greet</span><span class="o">();</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MorningGreetingService</span> <span class="kd">implements</span> <span class="nc">GreetingService</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">greet</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="s">"Good Morning!"</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="nd">@Service</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyService</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">GreetingService</span> <span class="n">greetingService</span><span class="o">;</span>
+
+    <span class="nd">@Autowired</span>
+    <span class="kd">public</span> <span class="nf">MyService</span><span class="o">(</span><span class="nc">GreetingService</span> <span class="n">greetingService</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">greetingService</span> <span class="o">=</span> <span class="n">greetingService</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">sayGreeting</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">greetingService</span><span class="o">.</span><span class="na">greet</span><span class="o">());</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>In this example, <code class="language-plaintext highlighter-rouge">MyService</code> depends on the <code class="language-plaintext highlighter-rouge">GreetingService</code> interface. The actual implementation is injected by the Spring container, adhering to DIP.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>The Dependency Inversion Principle is a cornerstone of good software design. By ensuring that high-level modules depend on abstractions rather than concrete implementations, DIP promotes decoupling, maintainability, testability, and scalability. Applying DIP in Java involves identifying and creating appropriate abstractions, then using dependency injection to manage dependencies.</p>
+
+<p>By following DIP, developers can build more robust, flexible, and maintainable systems, capable of adapting to changing requirements and technologies with minimal friction.</p>
+
+  </div><a class="u-url" href="/dependency-inversion-principle/" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Dev|Journal</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Dev|Journal</li><li><a class="u-email" href="mailto:arezki.elmehdi@gmail.com">arezki.elmehdi@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/earezki"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">earezki</span></a></li><li><a href="https://www.linkedin.com/in/mehdi-arezki"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg> <span class="username">mehdi-arezki</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Blogging about interests.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
