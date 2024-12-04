@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Tell, Don’t Ask: Getters Are Evil | Dev Journal</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Tell, Don’t Ask: Getters Are Evil" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Blogging about interests." />
+<meta property="og:description" content="Blogging about interests." />
+<link rel="canonical" href="https://earezki.com/tell-dont-ask-getters-are-evil/" />
+<meta property="og:url" content="https://earezki.com/tell-dont-ask-getters-are-evil/" />
+<meta property="og:site_name" content="Dev Journal" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-03-21T04:49:46+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Tell, Don’t Ask: Getters Are Evil" />
+<script type="application/ld+json">
+{"description":"Blogging about interests.","url":"https://earezki.com/tell-dont-ask-getters-are-evil/","@type":"BlogPosting","headline":"Tell, Don’t Ask: Getters Are Evil","dateModified":"2020-03-21T04:49:46+00:00","datePublished":"2020-03-21T04:49:46+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://earezki.com/tell-dont-ask-getters-are-evil/"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://earezki.com/feed.xml" title="Dev|Journal" /><!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-161447264-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-161447264-1');
+</script> </head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Dev|Journal</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Tell, Don’t Ask: Getters Are Evil</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2020-03-21T04:49:46+00:00" itemprop="datePublished">Mar 21, 2020
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p><img src="/assets/tell_dont_ask.jpg" alt="tell dont ask" title="tell dont ask" /></p>
+
+<p>Many times we were told that getters are evil and we should stop using them.</p>
+
+<p>So, What is wrong with getters ?</p>
+
+<p>Well, it leaks abstraction and you expose the internal structure of your objects (which is not OOP). as a result you have your business logic scattered around and not centralized, next thing, you’ll have duplicated business logic which is not good at all as you might guess.</p>
+
+<p>you might argue that you have a service (<code class="language-plaintext highlighter-rouge">ProductService</code>) that calculates the price of product and takes in charge of the business logic, if you do, then you need to expose the <code class="language-plaintext highlighter-rouge">price</code> with a <code class="language-plaintext highlighter-rouge">getPrice</code> for example, and you may be calling this <code class="language-plaintext highlighter-rouge">getPrice</code> on the view directly as it’s already a POJO, next thing you figure that you should convert it to the customer’s currency, and “BAM”, you (or another developer 🙂 ) implement this in the view because it’s so simple. and in many other cases you’ll find yourself calling <code class="language-plaintext highlighter-rouge">getPrice</code> on the product object and then you start implementing the expected behavior. but one of the developers will forget the tax, another will forget a promotion. etc. you get the idea.</p>
+
+<p>You should also think about future developers, they’ll find it easier to grab the data and do the logic quickly instead of adding it to the Service and then injecting the service (Maybe there are many layers that need to be injected). This point means that you need to train new developers and especially juniors or hire only seniors (Yeah it’s costy). Or, you can opt for the simple solution. Better design your application and separate the persistence and the view model from the domain model.</p>
+
+<p>But then, when do getters makes sense, and are mandatory, well, as long as they are used to expose information to other layers. Which means you can create your persistent model through getters in your domain model.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">Product</span> <span class="o">{</span>
+	<span class="kd">private</span> <span class="kt">double</span> <span class="n">cost</span><span class="o">;</span>
+	<span class="kt">double</span> <span class="nf">getCostFor</span><span class="o">(</span><span class="kt">int</span> <span class="n">quantity</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">cost</span> <span class="o">*</span> <span class="n">quantity</span><span class="o">;</span>
+	<span class="o">}</span>
+	
+	<span class="kt">double</span> <span class="nf">getCost</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">cost</span><span class="o">;</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p>There is no problem with this as long as the <code class="language-plaintext highlighter-rouge">getCost()</code> is only used to create a DTO.</p>
+
+<p>However, this is not the best idea.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">Product</span> <span class="o">{</span>
+	<span class="nc">ProductDto</span> <span class="nf">toDto</span><span class="o">()</span> <span class="o">{</span> 
+		<span class="k">return</span> <span class="k">new</span> <span class="nf">ProductDto</span><span class="o">(</span><span class="n">cost</span><span class="o">);</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p>It says, the domain object knows about the DTO, which sounds like a fancy word for a getter. And it’s even worse, because a DTO should not have any logic. All the issues you want to avoid when you’re not using getters you can have when using DTO’s this way.</p>
+
+<p>So, for now, I stick with the first approach to exchange data. Make sure to implement a method where It makes sense. If I used the <code class="language-plaintext highlighter-rouge">getCost()</code> to perform logic I’m 100% aware of It cause It makes sense In the context.</p>
+
+
+  </div><a class="u-url" href="/tell-dont-ask-getters-are-evil/" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Dev|Journal</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Dev|Journal</li><li><a class="u-email" href="mailto:arezki.elmehdi@gmail.com">arezki.elmehdi@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/earezki"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">earezki</span></a></li><li><a href="https://www.linkedin.com/in/mehdi-arezki"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg> <span class="username">mehdi-arezki</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Blogging about interests.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

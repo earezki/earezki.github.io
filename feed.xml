@@ -1,0 +1,1130 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://earezki.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://earezki.com/" rel="alternate" type="text/html" /><updated>2024-12-04T15:22:47+00:00</updated><id>https://earezki.com/feed.xml</id><title type="html">Dev|Journal</title><subtitle>Blogging about interests.</subtitle><entry><title type="html">How to push large projects to Github</title><link href="https://earezki.com/how-to-push-large-projects-to-github/" rel="alternate" type="text/html" title="How to push large projects to Github" /><published>2024-11-23T23:00:46+00:00</published><updated>2024-11-23T23:00:46+00:00</updated><id>https://earezki.com/push-large-projects-to-github</id><content type="html" xml:base="https://earezki.com/how-to-push-large-projects-to-github/">&lt;p&gt;Recently, I’ve had to push a somewhat large project (~50 GB) to &lt;strong&gt;Github&lt;/strong&gt; for the first time, the project was not tracked in &lt;strong&gt;Git&lt;/strong&gt;, and hence trying a single commit with all the files failed with the following:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;remote: fatal: pack exceeds maximum allowed size (2.00 gib)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Turns out (which I didn’t knew) that &lt;strong&gt;Github&lt;/strong&gt; imposes a size limit per &lt;em&gt;push&lt;/em&gt;.
+in this &lt;a href=&quot;(https://docs.github.com/en/get-started/using-git/troubleshooting-the-2-gb-push-limit)&quot;&gt;link&lt;/a&gt;, &lt;strong&gt;Github&lt;/strong&gt; suggests certain solutions, which didn’t work out for me, so I was inspired by the push per commit idea, and came up with a shell script to push per &lt;strong&gt;50 MB&lt;/strong&gt; worth of files.&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;BATCH_SIZE_MB&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;50
+&lt;span class=&quot;nv&quot;&gt;BATCH_SIZE_BYTES&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;$((&lt;/span&gt;BATCH_SIZE_MB &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1024&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1024&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;))&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;CURRENT_BATCH_SIZE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;0
+&lt;span class=&quot;nv&quot;&gt;BATCH_NUMBER&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;1
+
+&lt;span class=&quot;nv&quot;&gt;CURRENT_BATCH_FILES&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=()&lt;/span&gt;
+
+commit_batch&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;${#&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;CURRENT_BATCH_FILES&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[@]&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-eq&lt;/span&gt; 0 &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then
+        return
+    fi
+
+    &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Commit in progress ...&quot;&lt;/span&gt;
+
+    git add &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;CURRENT_BATCH_FILES&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[@]&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+
+    &lt;span class=&quot;c&quot;&gt;# Commit the batch&lt;/span&gt;
+    git commit &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Batch &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$BATCH_NUMBER&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;: Commit for approximately &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$BATCH_SIZE_MB&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt; MB of files&quot;&lt;/span&gt;
+    git push &lt;span class=&quot;nt&quot;&gt;-u&lt;/span&gt; origin master
+
+    &lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Commit done ...&quot;&lt;/span&gt;
+
+    &lt;span class=&quot;nv&quot;&gt;CURRENT_BATCH_SIZE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;0
+    &lt;span class=&quot;nv&quot;&gt;CURRENT_BATCH_FILES&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=()&lt;/span&gt;
+    &lt;span class=&quot;nv&quot;&gt;BATCH_NUMBER&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;$((&lt;/span&gt;BATCH_NUMBER &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Start ...&quot;&lt;/span&gt;
+
+find &lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-type&lt;/span&gt; f | &lt;span class=&quot;k&quot;&gt;while &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;read&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-r&lt;/span&gt; FILE&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# Skip files in the .git directory&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[[&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$FILE&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; ./.git&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;]]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then
+        continue
+    fi
+
+    &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;FILE_SIZE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;stat&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-c&lt;/span&gt;%s &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$FILE&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;((&lt;/span&gt; CURRENT_BATCH_SIZE + FILE_SIZE &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; BATCH_SIZE_BYTES &lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then
+        &lt;/span&gt;commit_batch
+    &lt;span class=&quot;k&quot;&gt;fi
+
+    &lt;/span&gt;CURRENT_BATCH_FILES+&lt;span class=&quot;o&quot;&gt;=(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$FILE&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;nv&quot;&gt;CURRENT_BATCH_SIZE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;$((&lt;/span&gt;CURRENT_BATCH_SIZE &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; FILE_SIZE&lt;span class=&quot;k&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;done&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# Commit remaining files&lt;/span&gt;
+commit_batch
+
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Finished...&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name></name></author><category term="Git" /><category term="Github" /><category term="Toolkit" /><summary type="html">Recently, I’ve had to push a somewhat large project (~50 GB) to Github for the first time, the project was not tracked in Git, and hence trying a single commit with all the files failed with the following: remote: fatal: pack exceeds maximum allowed size (2.00 gib) Turns out (which I didn’t knew) that Github imposes a size limit per push. in this link, Github suggests certain solutions, which didn’t work out for me, so I was inspired by the push per commit idea, and came up with a shell script to push per 50 MB worth of files.</summary></entry><entry><title type="html">Massively scaling a web application</title><link href="https://earezki.com/massively-scaling-a-web-application/" rel="alternate" type="text/html" title="Massively scaling a web application" /><published>2024-11-23T23:00:46+00:00</published><updated>2024-11-23T23:00:46+00:00</updated><id>https://earezki.com/scaling-software</id><content type="html" xml:base="https://earezki.com/massively-scaling-a-web-application/">&lt;p&gt;As user demands grow, scaling becomes critical. Whether it’s handling a surge in traffic, managing increasing amounts of data, or ensuring high availability, scaling ensures that an application remains responsive and reliable under varying workloads. The process involves strategically optimizing and expanding the infrastructure to meet the demands. This can be done vertically by enhancing the capabilities of existing servers or horizontally by adding more machines or nodes to distribute the load.&lt;/p&gt;
+
+&lt;p&gt;In this article, we’ll explore the core principles of application scaling, the strategies available, and some of the trade-offs involved. We’ll explore into technical considerations like managing databases, caching, and load balancing, while also addressing common challenges like cost, latency, and architectural complexity.&lt;/p&gt;
+
+&lt;h3 id=&quot;single-server-setup&quot;&gt;Single server setup&lt;/h3&gt;
+
+&lt;p&gt;A single server setup is an attractive option for software development due to its cost efficiency, as it avoids the expense of multiple physical or cloud servers, and its simplified management with centralized configuration reducing complexity.
+It involves hosting all components of a development environment, such as a database and an application service.
+It’s ideal for small teams or projects with low traffic and manageable user bases, offering quick and easy deployment compared to distributed systems.&lt;/p&gt;
+
+&lt;p&gt;However, it has limited scalability for high-traffic applications, vulnerability to a single point of failure where downtime affects the entire system, and potential resource contention as multiple services share the same resources under load.
+This setup should be upgraded when user demand grows, and the server struggles to handle the load, frequent deployments and/or uptime requirements.&lt;/p&gt;
+
+&lt;h3 id=&quot;vertical-scaling&quot;&gt;Vertical scaling&lt;/h3&gt;
+
+&lt;p&gt;Vertical scaling, or scaling up, refers to increasing the capacity of a single server by upgrading its hardware components, such as adding more CPUs, RAM, storage, faster network, …
+This approach is advantageous because it simplifies the architecture, avoiding the complexity of distributed systems, and allows applications to remain on a single machine, making data consistency and management straightforward.
+Vertical scaling often involves less overhead compared to other scaling strategies.
+It’s especially suitable for applications that are tightly coupled or require low-latency processing, such as relational databases, legacy systems, or enterprise software.&lt;/p&gt;
+
+&lt;p&gt;However, vertical scaling has significant limitations, the most notable being a fixed ceiling, every server/cloud provider has limits beyond which it cannot be upgraded.
+This can become a bottleneck for rapidly growing applications. Furthermore, we have a single point of failure, if the server goes down, the entire system becomes unavailable.
+On most cloud providers we can have more than 150 vCPUs and 1T of RAM, but the cost can escalate quickly, as high-performance hardware is often significantly more expensive than the equivalent processing power distributed across multiple servers.&lt;/p&gt;
+
+&lt;p&gt;Vertical scaling can be done by resizing virtual machines or switching to higher-tier instances on platforms like AWS, Azure, or GCP.
+While it’s effective for smaller systems or controlled environments, vertical scaling is less flexible in handling the unpredictable demands of large-scale or highly dynamic workloads.&lt;/p&gt;
+
+&lt;h3 id=&quot;horizontal-scaling&quot;&gt;Horizontal scaling&lt;/h3&gt;
+
+&lt;p&gt;Horizontal scaling, also known as scaling out, refers to the process of adding more VMs to handle increased load rather than scaling up.
+This approach is widely used in distributed computing systems, cloud services, and web applications where traffic and data can grow unpredictably.
+One of the primary advantages of horizontal scaling is its flexibility, it allows to add capacity incrementally, making it cost-efficient for systems with fluctuating demand.
+Additionally, it improves reliability and fault tolerance since workloads are distributed across multiple servers, if one server fails, the others can continue to operate.
+Horizontal scaling is also well-suited for modern cloud architectures that leverage microservices, containerization, and orchestration platforms such as Kubernetes, and is ideal for use cases like e-commerce, social media, and streaming services where user traffic can surge rapidly and unpredictably.&lt;/p&gt;
+
+&lt;p&gt;However, horizontal scaling comes with challenges, including increased complexity in management and coordination between servers.&lt;/p&gt;
+
+&lt;h3 id=&quot;stateful-vs-stateless-applications&quot;&gt;Stateful vs stateless applications&lt;/h3&gt;
+
+&lt;p&gt;Stateful and stateless applications are distinguished by how they handle and maintain data, particularly user session information and interaction contexts. In a &lt;strong&gt;stateful application&lt;/strong&gt;, the server retains information about the client across multiple requests, creating a “state” For example, in a web application, a user’s login session, shopping cart data, or game progress are stored on the server-side. This is typically achieved through session management systems, cookies, or an external storage (database, …). Stateful applications are vital for user experiences that require continuity, such as e-commerce platforms, banking applications, and collaborative tools. They excel in providing seamless user interaction but come with technical complexities, especially when scaling. Horizontal scaling, for example, requires mechanisms like session replication across servers or sticky sessions to ensure the user’s state is consistently accessible. This can increase latency and add complexity.&lt;/p&gt;
+
+&lt;p&gt;In contrast, &lt;strong&gt;stateless applications&lt;/strong&gt; do not store client-specific data between requests. Each request from a client contains all the information necessary to process it, and the server treats every interaction as independent. This architecture aligns well with protocols like HTTP, which are inherently stateless, and is a cornerstone of RESTful APIs and serverless computing. Stateless designs are advantageous for scalability and reliability because servers can handle any request without context. This simplifies load balancing (next chapter) and makes recovery from failures easier, as no session data is lost. However, stateless applications offload the responsibility of maintaining state to the client.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Technical differences&lt;/strong&gt; between these models highlight their strengths and weaknesses. Stateful applications often require a database or memory cache to store session data, which can lead to bottlenecks in performance and challenges in maintaining consistency across distributed systems. Techniques like database sharding or distributed caches (e.g., Redis or Memcached) can help mitigate these issues but add to architectural complexity. Stateless applications, on the other hand, often rely on idempotent operations and external storage (e.g., a database) for retrieving and processing repeated context.&lt;/p&gt;
+
+&lt;p&gt;In terms of &lt;strong&gt;use cases&lt;/strong&gt;, stateful applications are critical for workflows involving complex, multi-step, secured interactions where session continuity is required, such as online banking. Stateless systems shine in environments demanding rapid scaling and simplicity, such as in a microservices or serverless architectures.&lt;/p&gt;
+
+&lt;p&gt;Both models have their &lt;strong&gt;limitations&lt;/strong&gt;. Stateful systems risk downtime or data loss if the server handling the state crashes, making failover configurations more complex. Stateless systems, while scalable, can become inefficient when handling interaction-heavy workflows, as the repeated transmission of context data burdens both clients and servers. By understanding the trade-offs and technical considerations of stateful and stateless architectures, developers can select the model that best meets the scalability, performance, and user experience requirements of their applications.&lt;/p&gt;
+
+&lt;h3 id=&quot;load-balancer&quot;&gt;Load balancer&lt;/h3&gt;
+
+&lt;p&gt;A &lt;strong&gt;load balancer&lt;/strong&gt; is a critical network component designed to distribute incoming traffic or workloads across multiple servers to ensure no single server becomes overwhelmed, improving the reliability and performance of applications. Load balancers can operate at different levels of the OSI model, such as Layer 4 (transport level) for TCP/UDP traffic or Layer 7 (application level) for HTTP/HTTPS requests. By spreading requests evenly, they maximize resource utilization and minimize response times, creating a seamless user experience even during traffic spikes. Modern load balancers often incorporate health checks to identify and route traffic away from unresponsive or failing servers, thus enhancing system availability. They could support features like SSL termination and caching which further optimize performance.&lt;/p&gt;
+
+&lt;p&gt;The &lt;strong&gt;advantages&lt;/strong&gt; of load balancers are numerous. They ensure high availability by rerouting traffic during server outages, prevent server overloading, and improve fault tolerance in distributed systems. They play a crucial role in horizontal scaling, enabling applications to handle increased demand by adding more servers. Advanced load balancers support global traffic distribution, allowing companies to deploy geographically distributed systems for lower latency and improved user experiences.&lt;/p&gt;
+
+&lt;p&gt;However, load balancers add an additional layer of complexity and cost to infrastructure. Their performance becomes a bottleneck if not properly sized, and in some cases, they can become a single point of failure themselves unless deployed in a highly available configuration, such as with redundancy or failover mechanisms, and they might introduce latency.&lt;/p&gt;
+
+&lt;h3 id=&quot;choice-of-database&quot;&gt;Choice of database&lt;/h3&gt;
+
+&lt;p&gt;Databases are fundamental to storing, managing, and retrieving data, with various types designed for specific use cases, each with distinct architectures and trade-offs. &lt;strong&gt;Relational databases (RDBMS)&lt;/strong&gt;, like MySQL and PostgreSQL are structured and use tables with predefined schemas. They rely on SQL for queries and emphasize ACID (Atomicity, Consistency, Isolation, Durability) properties, ensuring high reliability and data integrity. These are ideal for applications needing complex relationships and queries, such as ERP systems, e-commerce sites, and financial applications.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;NoSQL databases&lt;/strong&gt;, represents document, key-value, column-family, and graph databases, are more flexible and scaleable, often trading off strong consistency for availability and partition tolerance (AP as per the CAP theorem). &lt;strong&gt;Document stores&lt;/strong&gt; like MongoDB and Couchbase handle semi-structured data using JSON-like documents, making them suitable for content management systems or rapidly changing schemas. &lt;strong&gt;Key-value stores&lt;/strong&gt;, such as Redis and DynamoDB, offer lightning-fast read/write performance for scenarios like caching, session management, or leaderboards but lack sophisticated querying capabilities. &lt;strong&gt;Column-family databases&lt;/strong&gt; like Cassandra and HBase are optimized for big data and time-series analysis, excelling in write-heavy workloads. &lt;strong&gt;Graph databases&lt;/strong&gt;, like Neo4j, are specialized for exploring and analyzing relationships, such as in recommendation engines or social networks.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;NewSQL databases&lt;/strong&gt;, such as CockroachDB or VoltDB, attempt to combine the scalability of NoSQL with the ACID guarantees of traditional RDBMS.&lt;/p&gt;
+
+&lt;p&gt;To choose the right database, start by evaluating your data’s structure, volume, and access patterns. If your application involves structured data with complex relationships and demands strong consistency, an RDBMS is typically the best choice. For unstructured or semi-structured data with scalability requirements, NoSQL solutions like document stores or key-value databases are more appropriate. When data is graph-like and relationship-driven, a graph database is optimal. For use cases like high-frequency logging or monitoring, a time-series database provides performance and efficiency. Consider the read/write balance, as databases optimized for heavy reads (like caching systems) may not perform well under heavy writes.&lt;/p&gt;
+
+&lt;p&gt;Scalability requirements also influence the decision: vertical scaling (adding resources to a single server) suits RDBMS initially but has limits, while horizontal scaling (adding more nodes) is more naturally supported by NoSQL systems. Operational complexity, licensing costs, and integration with existing technology stacks are also crucial. Increasingly, modern systems employ &lt;strong&gt;polyglot persistence&lt;/strong&gt;, combining multiple database types to leverage the strengths of each for different components of an application. For example, a system might use a relational database for transaction records, a document store for user-generated content, and a key-value store for caching.&lt;/p&gt;
+
+&lt;p&gt;Understanding the trade-offs between consistency, scalability, performance, and complexity will guide your choice, ensuring that the database fits your application’s unique needs.&lt;/p&gt;
+
+&lt;h3 id=&quot;database-replication&quot;&gt;Database replication&lt;/h3&gt;
+
+&lt;p&gt;Database replication is the process of duplicating data across multiple servers to ensure reliability, improve performance and enhance scalability. It involves copying data changes made on one database named the master node, to one or more other databases called replicas, enabling a distributed data architecture. There are various types of replication strategies, each tailored to specific application requirements. &lt;strong&gt;Synchronous replication&lt;/strong&gt; ensures that data is written to both the master and replica nodes simultaneously, guaranteeing strong consistency, as the write operation only completes when all replicas confirm the transaction. This method is ideal for critical applications like financial systems, but comes at the cost of increased latency. &lt;strong&gt;Asynchronous replication&lt;/strong&gt;, on the other hand, allows the master to continue processing transactions without waiting for replicas to acknowledge the changes. While this improves performance and reduces latency, it introduces the risk of data lag or eventual consistency.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Multi-master replication&lt;/strong&gt; allows updates on multiple nodes, enabling high availability and write scalability, but it introduces challenges in resolving conflicts when the same data is modified concurrently on different nodes. This strategy is common in applications requiring decentralized writes, such as distributed data entry systems or geographically distributed applications. &lt;strong&gt;Single-master replication&lt;/strong&gt;, where only one node accepts writes while others serve as read-only replicas, simplifies conflict resolution and is widely used for read-heavy workloads like analytics or high-traffic web applications. &lt;strong&gt;Bidirectional replication&lt;/strong&gt;, a subset of multi-master replication, allows two nodes to act as both master and replica for each other, often used in active-active failover setups. &lt;strong&gt;Filtered or partial replication&lt;/strong&gt; replicates only a subset of data based on specified criteria, optimizing bandwidth and storage in cases where full replication isn’t necessary.&lt;/p&gt;
+
+&lt;p&gt;Cloud-native databases often support advanced replication mechanisms, such as &lt;strong&gt;global replication&lt;/strong&gt;, which provides low-latency access across geographically distributed regions by replicating data closer to users. Amazon Aurora and Google Spanner are examples of managed database services that incorporate replication as a core feature to enhance availability and scalability.&lt;/p&gt;
+
+&lt;p&gt;The &lt;strong&gt;advantages&lt;/strong&gt; of replication are significant. It increases data availability by providing failover mechanisms, if the master database fails, replicas can take over, ensuring minimal downtime. It enhances scalability by offloading read operations to replicas, freeing up the master for write-heavy tasks. Replication also supports disaster recovery and backup strategies, as replicas can serve as live backups. Additionally, replication can improve performance for distributed systems by reducing latency, allowing users to access data from the nearest replica.&lt;/p&gt;
+
+&lt;p&gt;However, replication adds complexity to database management, requiring careful configuration and monitoring to ensure data consistency and synchronization. In asynchronous replication, the risk of data lag or divergence between the master and replicas must be managed, particularly for applications requiring strong consistency. Synchronous replication can degrade performance due to the overhead of waiting for multiple nodes to acknowledge transactions. Network bandwidth and storage costs increase with the number of replicas. Additionally, replication does not inherently solve scalability for write-heavy workloads unless combined with other techniques like sharding (which we will discuss next).&lt;/p&gt;
+
+&lt;p&gt;In practice, &lt;strong&gt;choosing a replication strategy&lt;/strong&gt; depends on the specific requirements of the application. For mission-critical systems, synchronous replication is preferred for consistency, while asynchronous replication works well for read-heavy distributed workloads.&lt;/p&gt;
+
+&lt;p&gt;PostgreSQL uses streaming replication and logical replication for real-time synchronization, while MySQL supports replication through binlogs. Cloud providers like AWS, GCP, and Azure offer managed replication services as a package with automated failover, backup, and monitoring.&lt;/p&gt;
+
+&lt;p&gt;Replication is a cornerstone of modern distributed database architectures, enabling the high availability, scalability, and resilience required by today’s data-intensive applications.&lt;/p&gt;
+
+&lt;h3 id=&quot;database-sharding&quot;&gt;Database sharding&lt;/h3&gt;
+
+&lt;p&gt;Database sharding is a technique used to partition data across multiple servers, or “shards,” to improve performance, scalability, and manageability in systems handling massive amounts of data. The fundamental principle involves splitting a single large database into smaller pieces called shards, where each shard operates as an independent database containing a subset of the data. The most common method of sharding is &lt;strong&gt;horizontal partitioning&lt;/strong&gt;, where rows of a table are distributed across different shards based on a sharding key.&lt;/p&gt;
+
+&lt;p&gt;One of the key &lt;strong&gt;advantages&lt;/strong&gt; of sharding is its ability to enhance scalability, by distributing data across multiple servers, sharding allows the system to handle a much larger workload than a single server could while improving performance. Sharding can improve fault tolerance and availability as well, if one shard fails, others can continue to operate.&lt;/p&gt;
+
+&lt;p&gt;The choice of a &lt;strong&gt;sharding key&lt;/strong&gt; is critical, as a poorly chosen key can lead to unbalanced shards and degrade system performance. Managing cross-shard queries is another challenge, operations like joins, aggregations, or transactions that span multiple shards are more complex/expensive and requires coordination between shards, which can result in higher latency.&lt;/p&gt;
+
+&lt;h3 id=&quot;caching&quot;&gt;Caching&lt;/h3&gt;
+
+&lt;p&gt;Caching is a technique used in software to store copies of data in a location that is faster to access than the original source, reducing latency and improving system performance. It’s a cornerstone of modern computing, used in everything from CPU operations to large-scale distributed systems like CDNs (next chapter) and web applications. The primary goal of caching is to reduce the time and resources needed to fetch frequently used data by keeping it closer to the application or end-user. Caches can exist in various layers of a system, such as in-memory caches (Redis or Memcached), disk-based caches, or client (browser, phone, …) caches, depending on the requirements of the application.&lt;/p&gt;
+
+&lt;p&gt;It can dramatically improves performance by reducing the time to retrieve data, especially when fetching from slow sources like databases, APIs, or remote servers, or doing intensive calculations. This leads to a better user experience, as pages load faster and applications respond more quickly. Caching also reduces the load on backend systems, since frequently accessed data doesn’t have to be repeatedly computed or fetched. It’s also a key enabler for scalability, allowing systems to handle a larger number of users without requiring proportional increases in infrastructure. In distributed systems, caching minimizes the latency associated with network hops by placing data closer to the point of consumption.&lt;/p&gt;
+
+&lt;p&gt;However adding a cache isn’t always a straighforwad operation, especially while maintaining data consistency in dynamic applications with frequent data changes. Cached data can become stale, leading to incorrect or outdated information being served to users. Managing cache invalidation (updating/removing outdated entries) is notoriously difficult and is often referred to as one of the hardest problems in computer science (along with naming). Over-caching or under-caching can also pose problems. If too much data is cached, it can exhaust memory, while insufficient caching could fail to deliver performance targets.&lt;/p&gt;
+
+&lt;p&gt;Hence, Determining what to cache and for how long is critical. we must identify data that is frequently accessed and unlikely to change rapidly to maximize the cache’s effectiveness.&lt;/p&gt;
+
+&lt;p&gt;There are three common invalidation strategies: time-based expiration (TTL), manual invalidation, and event-driven updates.&lt;/p&gt;
+
+&lt;p&gt;Cache misses—when data is requested but not found (not yet loaded, or was invalidated) in the cache which can lead to performance hits as the system falls back to the slower original data source, negating some of the cache’s advantages. Similarly, cache thundering or stampeding occurs when multiple requests simultaneously attempt to fetch the same missing item, overwhelming the backend.&lt;/p&gt;
+
+&lt;p&gt;For write-heavy applications or scenarios where every data fetch involves unique or constantly changing information, caching might provide little to negative benefits. Poorly configured caching can lead to security risks, such as exposing sensitive data to unauthorized third parties.&lt;/p&gt;
+
+&lt;p&gt;In web development, it powers faster page loads by caching static assets like images, CSS, and JS files. In databases, query caching reduces repetitive reads for commonly accessed data. On a smaller scale.&lt;/p&gt;
+
+&lt;h3 id=&quot;cdn&quot;&gt;CDN&lt;/h3&gt;
+
+&lt;p&gt;A &lt;strong&gt;Content Delivery Network (CDN for short)&lt;/strong&gt; is a distributed network of servers designed to deliver web content, such as images, videos, stylesheets, scripts, … to users more efficiently by serving them from geographically closer locations. CDNs improve &lt;strong&gt;performance&lt;/strong&gt; by reducing latency, minimizing the distance data travels, and offloading traffic from the origin server, enabling faster page load times and a better user experience. They are essential for high-traffic websites, global applications, and services requiring low-latency delivery, such as video streaming. They allow to better handle spikes of traffic, enhanced reliability through redundancy, and they have built-in security features like DDoS mitigation.&lt;/p&gt;
+
+&lt;h3 id=&quot;multi-region-deployment&quot;&gt;Multi-region deployment&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;Multi-region deployment&lt;/strong&gt; refers to deploying an application across multiple geographic regions to improve performance, reliability and scalability. This strategy enables faster response times for users by serving content from the nearest location and enhances fault tolerance by reducing the risk of service outages due to regional failures, such as natural disasters or localized infrastructure problems.&lt;/p&gt;
+
+&lt;p&gt;Multi-region deployment improves &lt;strong&gt;latency&lt;/strong&gt; because users are directed to the nearest server. It also enhances &lt;strong&gt;availability&lt;/strong&gt; and &lt;strong&gt;resilience&lt;/strong&gt;, if one region experiences downtime, traffic can be rerouted to other regions, ensuring continuous operation.&lt;/p&gt;
+
+&lt;p&gt;However, implementing a multi-region architecture is &lt;strong&gt;complex&lt;/strong&gt;. Synchronizing data across regions is challenging, as maintaining consistency often involves trade-offs between performance and strict ACID properties, also, it can cause potential latency for synchronization tasks, such as replicating databases, which can slow down write-heavy applications, moreover, compliance regulations might restrict certain data from being transferred between regions.&lt;/p&gt;</content><author><name></name></author><category term="Software design" /><category term="System design" /><summary type="html">As user demands grow, scaling becomes critical. Whether it’s handling a surge in traffic, managing increasing amounts of data, or ensuring high availability, scaling ensures that an application remains responsive and reliable under varying workloads. The process involves strategically optimizing and expanding the infrastructure to meet the demands. This can be done vertically by enhancing the capabilities of existing servers or horizontally by adding more machines or nodes to distribute the load.</summary></entry><entry><title type="html">SOLID</title><link href="https://earezki.com/solid-principles/" rel="alternate" type="text/html" title="SOLID" /><published>2024-07-24T23:00:46+00:00</published><updated>2024-07-24T23:00:46+00:00</updated><id>https://earezki.com/SOLID</id><content type="html" xml:base="https://earezki.com/solid-principles/">&lt;h1 id=&quot;solid&quot;&gt;SOLID&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;/single-responsibility-principle&quot;&gt;Single Responsibility Principle (SRP)&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;/open-closed-principle/&quot;&gt;Open/Closed Principle (OCP)&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;/liskov-substitution-principle&quot;&gt;The Liskov Substitution Principle (LSP)&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;/interface-segregation-principle&quot;&gt;Interface Segregation Principle (ISP)&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;/dependency-inversion-principle&quot;&gt;Dependency Inversion Principle (DIP)&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><category term="Software design" /><category term="SOLID" /><summary type="html">SOLID</summary></entry><entry><title type="html">D from SOLID</title><link href="https://earezki.com/dependency-inversion-principle/" rel="alternate" type="text/html" title="D from SOLID" /><published>2024-07-24T23:00:46+00:00</published><updated>2024-07-24T23:00:46+00:00</updated><id>https://earezki.com/D-from-SOLID</id><content type="html" xml:base="https://earezki.com/dependency-inversion-principle/">&lt;h1 id=&quot;dependency-inversion-principle-dip-in-software-design&quot;&gt;Dependency Inversion Principle (DIP) in Software Design&lt;/h1&gt;
+
+&lt;h2 id=&quot;introduction&quot;&gt;Introduction&lt;/h2&gt;
+
+&lt;p&gt;The Dependency Inversion Principle (DIP) is one of the five SOLID principles of object-oriented design. It is fundamental to creating flexible and maintainable software systems. DIP states that:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;High-level modules should not depend on low-level modules. Both should depend on abstractions.&lt;/li&gt;
+  &lt;li&gt;Abstractions should not depend on details. Details should depend on abstractions.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;In simpler terms, the principle encourages dependency on interfaces or abstract classes rather than concrete implementations. This decouples the high-level logic of the application from the low-level details, making the system more modular and easier to maintain.&lt;/p&gt;
+
+&lt;h2 id=&quot;why-dip-matters&quot;&gt;Why DIP Matters&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Decoupling&lt;/strong&gt;: By relying on abstractions, different parts of a system can change independently, leading to a more flexible architecture.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Maintainability&lt;/strong&gt;: Changes in one part of the system are less likely to impact other parts, reducing the risk of bugs.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Testability&lt;/strong&gt;: Abstracting dependencies makes it easier to mock or stub components, facilitating unit testing.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Scalability&lt;/strong&gt;: As the application grows, maintaining a loosely coupled architecture becomes crucial for scalability.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;applying-dip-in-java&quot;&gt;Applying DIP in Java&lt;/h2&gt;
+
+&lt;p&gt;Let’s explore how to apply the Dependency Inversion Principle in Java with practical examples.&lt;/p&gt;
+
+&lt;h3 id=&quot;example-before-applying-dip&quot;&gt;Example: Before Applying DIP&lt;/h3&gt;
+
+&lt;p&gt;Consider a scenario where we have a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LightBulb&lt;/code&gt; class and a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Switch&lt;/code&gt; class. The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Switch&lt;/code&gt; class controls the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LightBulb&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;LightBulb&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;turnOn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nc&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;LightBulb turned on&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;turnOff&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nc&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;LightBulb turned off&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Switch&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;LightBulb&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lightBulb&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;Switch&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;lightBulb&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;LightBulb&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;operate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;boolean&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;lightBulb&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;turnOn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;lightBulb&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;turnOff&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;In this example, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Switch&lt;/code&gt; directly depends on the concrete class &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LightBulb&lt;/code&gt;. This violates DIP because changes in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LightBulb&lt;/code&gt; might require changes in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Switch&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;example-after-applying-dip&quot;&gt;Example: After Applying DIP&lt;/h3&gt;
+
+&lt;p&gt;To apply DIP, we need to introduce an abstraction for the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LightBulb&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h4 id=&quot;step-1-create-an-abstraction&quot;&gt;Step 1: Create an Abstraction&lt;/h4&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;interface&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Switchable&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;turnOn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;turnOff&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;step-2-implement-the-abstraction&quot;&gt;Step 2: Implement the Abstraction&lt;/h4&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;LightBulb&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;implements&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Switchable&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;turnOn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nc&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;LightBulb turned on&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;turnOff&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nc&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;LightBulb turned off&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;step-3-depend-on-the-abstraction&quot;&gt;Step 3: Depend on the Abstraction&lt;/h4&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Switch&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Switchable&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;switchableDevice&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;Switch&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Switchable&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;switchableDevice&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;switchableDevice&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;switchableDevice&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;operate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;boolean&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;switchableDevice&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;turnOn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;switchableDevice&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;turnOff&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;step-4-use-dependency-injection&quot;&gt;Step 4: Use Dependency Injection&lt;/h4&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Main&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nc&quot;&gt;Switchable&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lightBulb&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;LightBulb&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+        &lt;span class=&quot;nc&quot;&gt;Switch&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lightSwitch&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Switch&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lightBulb&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        
+        &lt;span class=&quot;n&quot;&gt;lightSwitch&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;operate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// Output: LightBulb turned on&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;lightSwitch&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;operate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// Output: LightBulb turned off&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;In this refactored example, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Switch&lt;/code&gt; depends on the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Switchable&lt;/code&gt; interface rather than the concrete &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LightBulb&lt;/code&gt; class. This adheres to DIP and makes &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Switch&lt;/code&gt; more flexible and easier to maintain.&lt;/p&gt;
+
+&lt;h2 id=&quot;benefits-of-applying-dip&quot;&gt;Benefits of Applying DIP&lt;/h2&gt;
+
+&lt;h3 id=&quot;1-decoupling-and-flexibility&quot;&gt;1. &lt;strong&gt;Decoupling and Flexibility&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;By depending on abstractions, high-level modules are decoupled from low-level modules. This means you can change the implementation of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Switchable&lt;/code&gt; without affecting the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Switch&lt;/code&gt; class.&lt;/p&gt;
+
+&lt;h3 id=&quot;2-enhanced-testability&quot;&gt;2. &lt;strong&gt;Enhanced Testability&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;Abstractions make it easier to substitute real implementations with mock objects during testing. This improves the ability to write unit tests.&lt;/p&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;org&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;mockito&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;Mockito&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.*;&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;SwitchTest&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nd&quot;&gt;@Test&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;testSwitchOperate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nc&quot;&gt;Switchable&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mockDevice&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mock&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Switchable&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;class&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;nc&quot;&gt;Switch&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lightSwitch&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Switch&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mockDevice&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+
+        &lt;span class=&quot;n&quot;&gt;lightSwitch&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;operate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;verify&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mockDevice&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;turnOn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+
+        &lt;span class=&quot;n&quot;&gt;lightSwitch&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;operate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;verify&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mockDevice&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;turnOff&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;3-improved-maintainability&quot;&gt;3. &lt;strong&gt;Improved Maintainability&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;With DIP, changes in low-level modules (e.g., &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LightBulb&lt;/code&gt;) do not propagate to high-level modules (e.g., &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Switch&lt;/code&gt;). This separation makes maintenance and upgrades easier.&lt;/p&gt;
+
+&lt;h3 id=&quot;4-scalability&quot;&gt;4. &lt;strong&gt;Scalability&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;As the system grows, adhering to DIP ensures that the codebase remains manageable. You can introduce new &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Switchable&lt;/code&gt; devices without modifying the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Switch&lt;/code&gt; class.&lt;/p&gt;
+
+&lt;h2 id=&quot;real-world-examples-of-dip&quot;&gt;Real-World Examples of DIP&lt;/h2&gt;
+
+&lt;h3 id=&quot;1-java-logging-framework-slf4j&quot;&gt;1. &lt;strong&gt;Java Logging Framework (SLF4J)&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;The Simple Logging Facade for Java (SLF4J) is a good example of DIP. It provides an abstraction for various logging frameworks like Log4j, Logback, and java.util.logging.&lt;/p&gt;
+
+&lt;h4 id=&quot;slf4j-abstraction&quot;&gt;SLF4J Abstraction&lt;/h4&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;org.slf4j.Logger&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;org.slf4j.LoggerFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;MyClass&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Logger&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;logger&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;LoggerFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getLogger&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;MyClass&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;class&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;doSomething&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;logger&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;info&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Doing something&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;In this example, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MyClass&lt;/code&gt; depends on the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Logger&lt;/code&gt; interface from SLF4J rather than a specific logging framework. This allows for flexibility in choosing or changing the logging implementation.&lt;/p&gt;
+
+&lt;h3 id=&quot;2-spring-framework&quot;&gt;2. &lt;strong&gt;Spring Framework&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;The Spring Framework heavily relies on DIP through dependency injection. Beans in Spring are injected into each other based on their interfaces rather than their concrete classes.&lt;/p&gt;
+
+&lt;h4 id=&quot;spring-example&quot;&gt;Spring Example&lt;/h4&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;interface&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;GreetingService&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;greet&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;MorningGreetingService&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;implements&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;GreetingService&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;greet&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Good Morning!&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;nd&quot;&gt;@Service&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;MyService&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;GreetingService&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;greetingService&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;nd&quot;&gt;@Autowired&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;MyService&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;GreetingService&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;greetingService&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;greetingService&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;greetingService&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;sayGreeting&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nc&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;greetingService&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;greet&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;In this example, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MyService&lt;/code&gt; depends on the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;GreetingService&lt;/code&gt; interface. The actual implementation is injected by the Spring container, adhering to DIP.&lt;/p&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;The Dependency Inversion Principle is a cornerstone of good software design. By ensuring that high-level modules depend on abstractions rather than concrete implementations, DIP promotes decoupling, maintainability, testability, and scalability. Applying DIP in Java involves identifying and creating appropriate abstractions, then using dependency injection to manage dependencies.&lt;/p&gt;
+
+&lt;p&gt;By following DIP, developers can build more robust, flexible, and maintainable systems, capable of adapting to changing requirements and technologies with minimal friction.&lt;/p&gt;</content><author><name></name></author><category term="Software design" /><category term="SOLID" /><summary type="html">Dependency Inversion Principle (DIP) in Software Design</summary></entry><entry><title type="html">I from SOLID</title><link href="https://earezki.com/interface-segregation-principle/" rel="alternate" type="text/html" title="I from SOLID" /><published>2024-07-10T23:00:46+00:00</published><updated>2024-07-10T23:00:46+00:00</updated><id>https://earezki.com/I-from-SOLID%20copy</id><content type="html" xml:base="https://earezki.com/interface-segregation-principle/">&lt;h1 id=&quot;interface-segregation-principle-isp-in-java&quot;&gt;Interface Segregation Principle (ISP) in Java&lt;/h1&gt;
+
+&lt;h2 id=&quot;introduction&quot;&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;The Interface Segregation Principle (ISP) is one of the five SOLID principles of object-oriented design, it states that no client should be forced to depend on methods it does not use. Instead of having one large, fat interface, multiple small, specific interfaces are preferred, tailored to specific client needs. This principle promotes the creation of more modular, maintainable, and scalable systems.&lt;/p&gt;
+
+&lt;h2 id=&quot;why-isp-matters&quot;&gt;Why ISP Matters&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Decoupling&lt;/strong&gt;: Reduces the dependencies of a class on parts of a system it doesn’t use.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Cohesion&lt;/strong&gt;: Increases the cohesion of interfaces, making them more specific and aligned with the client needs.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Maintainability&lt;/strong&gt;: Makes the system easier to maintain and modify, as changes in one part of the system are less likely to affect unrelated parts.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Flexibility&lt;/strong&gt;: Enhances flexibility and scalability of the system, allowing for more granular changes and extensions.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;applying-isp-in-java&quot;&gt;Applying ISP in Java&lt;/h2&gt;
+&lt;p&gt;Let’s explore how to apply ISP with a detailed example. Consider a scenario involving a document management system.&lt;/p&gt;
+
+&lt;h3 id=&quot;example-before-applying-isp&quot;&gt;Example: Before Applying ISP&lt;/h3&gt;
+
+&lt;p&gt;Here’s an initial design where we have a single &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DocumentHandler&lt;/code&gt; interface with multiple responsibilities:&lt;/p&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;interface&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;DocumentHandler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;openDocument&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;saveDocument&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;printDocument&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;faxDocument&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;faxNumber&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This interface is used by different classes that handle various document-related operations.&lt;/p&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;DocumentManager&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;implements&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;DocumentHandler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;openDocument&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nc&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Document opened: &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;saveDocument&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nc&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Document saved: &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;printDocument&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nc&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Document printed.&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;faxDocument&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;faxNumber&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nc&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Document faxed to: &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;faxNumber&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Here, the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DocumentManager&lt;/code&gt; class implements all methods of the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DocumentHandler&lt;/code&gt; interface, even if it might not use all of them.&lt;/p&gt;
+
+&lt;h3 id=&quot;example-after-applying-isp&quot;&gt;Example: After Applying ISP&lt;/h3&gt;
+
+&lt;p&gt;By applying ISP, we can split the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DocumentHandler&lt;/code&gt; interface into multiple specific interfaces.&lt;/p&gt;
+
+&lt;h4 id=&quot;separate-interfaces&quot;&gt;Separate Interfaces&lt;/h4&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;interface&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Openable&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;openDocument&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;interface&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Saveable&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;saveDocument&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;interface&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Printable&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;printDocument&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;interface&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Faxable&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;faxDocument&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;faxNumber&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;refactored-documentmanager-class&quot;&gt;Refactored DocumentManager Class&lt;/h4&gt;
+
+&lt;p&gt;Now, we can refactor the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DocumentManager&lt;/code&gt; class to implement only the interfaces it needs.&lt;/p&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;DocumentManager&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;implements&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Openable&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Saveable&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;openDocument&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nc&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Document opened: &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;saveDocument&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nc&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Document saved: &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;printmanager-class&quot;&gt;PrintManager Class&lt;/h4&gt;
+
+&lt;p&gt;A separate class can handle printing responsibilities:&lt;/p&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PrintManager&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;implements&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Printable&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;printDocument&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nc&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Document printed.&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;faxmanager-class&quot;&gt;FaxManager Class&lt;/h4&gt;
+
+&lt;p&gt;And another class can handle faxing:&lt;/p&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;FaxManager&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;implements&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Faxable&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;faxDocument&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;faxNumber&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nc&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Document faxed to: &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;faxNumber&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;benefits-of-refactoring&quot;&gt;Benefits of Refactoring&lt;/h3&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;strong&gt;Single Responsibility&lt;/strong&gt;: Each class now adheres to the Single Responsibility Principle, handling only one aspect of document management.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Decoupling&lt;/strong&gt;: Classes are decoupled from methods they do not use, reducing unnecessary dependencies.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Maintainability&lt;/strong&gt;: Changes to one part of the system are less likely to impact unrelated parts, making the system easier to maintain.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Flexibility&lt;/strong&gt;: The system is more flexible, allowing for easy addition of new functionalities without modifying existing classes.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;real-world-examples-in-java-library&quot;&gt;Real-World Examples in Java Library&lt;/h2&gt;
+
+&lt;h3 id=&quot;1-java-collections-framework&quot;&gt;1. &lt;strong&gt;Java Collections Framework&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;The Java Collections Framework demonstrates ISP through its design of multiple specific interfaces such as &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;List&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Set&lt;/code&gt;, and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Queue&lt;/code&gt;, rather than a single, monolithic interface for all collections.&lt;/p&gt;
+
+&lt;h4 id=&quot;example-list-and-set-interfaces&quot;&gt;Example: List and Set Interfaces&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;List&lt;/strong&gt;: The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;List&lt;/code&gt; interface provides methods specific to ordered collections.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Set&lt;/strong&gt;: The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Set&lt;/code&gt; interface provides methods specific to collections that do not allow duplicate elements.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nc&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;arrayList&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ArrayList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;gt;();&lt;/span&gt;
+&lt;span class=&quot;nc&quot;&gt;Set&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hashSet&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;HashSet&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;gt;();&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;2-java-io-library&quot;&gt;2. &lt;strong&gt;Java IO Library&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;The Java IO library also follows ISP by providing multiple specific interfaces for different types of input and output operations.&lt;/p&gt;
+
+&lt;h4 id=&quot;example-inputstream-and-outputstream&quot;&gt;Example: InputStream and OutputStream&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;InputStream&lt;/strong&gt;: The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;InputStream&lt;/code&gt; interface provides methods for reading data.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;OutputStream&lt;/strong&gt;: The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;OutputStream&lt;/code&gt; interface provides methods for writing data.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nc&quot;&gt;InputStream&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;inputStream&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;FileInputStream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;file.txt&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;nc&quot;&gt;OutputStream&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;outputStream&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;FileOutputStream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;file.txt&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;3-java-util-logging&quot;&gt;3. &lt;strong&gt;Java Util Logging&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;java.util.logging&lt;/code&gt; package uses ISP to provide different handlers for different logging destinations.&lt;/p&gt;
+
+&lt;h4 id=&quot;example-logger-and-handler&quot;&gt;Example: Logger and Handler&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Logger&lt;/strong&gt;: The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Logger&lt;/code&gt; class is responsible for capturing log messages.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Handler&lt;/strong&gt;: Different &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Handler&lt;/code&gt; subclasses (e.g., &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ConsoleHandler&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FileHandler&lt;/code&gt;) handle the output destination of log messages.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nc&quot;&gt;Logger&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;logger&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Logger&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getLogger&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;MyLogger&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;nc&quot;&gt;Handler&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;consoleHandler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ConsoleHandler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;logger&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;addHandler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;consoleHandler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;logger&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;info&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;This is a log message&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h3&gt;
+&lt;p&gt;The Interface Segregation Principle is fundamental for creating clean, maintainable, and scalable software systems. By ensuring that interfaces are specific to client needs, we reduce unnecessary dependencies, enhance maintainability, and improve system flexibility. Applying ISP in Java involves identifying distinct responsibilities and defining specific interfaces for each responsibility, leading to a more modular and robust codebase.&lt;/p&gt;</content><author><name></name></author><category term="Software design" /><category term="SOLID" /><summary type="html">Interface Segregation Principle (ISP) in Java</summary></entry><entry><title type="html">L from SOLID</title><link href="https://earezki.com/liskov-substitution-principle/" rel="alternate" type="text/html" title="L from SOLID" /><published>2024-06-19T23:00:46+00:00</published><updated>2024-06-19T23:00:46+00:00</updated><id>https://earezki.com/L-from-SOLID</id><content type="html" xml:base="https://earezki.com/liskov-substitution-principle/">&lt;h1 id=&quot;the-liskov-substitution-principle-lsp-in-object-oriented-design&quot;&gt;The Liskov Substitution Principle (LSP) in Object-Oriented Design&lt;/h1&gt;
+
+&lt;h2 id=&quot;introduction&quot;&gt;Introduction&lt;/h2&gt;
+
+&lt;p&gt;The Liskov Substitution Principle (LSP) is one of the five SOLID principles of object-oriented design, it states that objects of a superclass should be replaceable with objects of a subclass without affecting the correctness of the program. This principle ensures that a subclass can stand in for its superclass, promoting more robust and maintainable code.&lt;/p&gt;
+
+&lt;h2 id=&quot;why-lsp-matters&quot;&gt;Why LSP Matters&lt;/h2&gt;
+
+&lt;h3 id=&quot;1-maintainability&quot;&gt;1. &lt;strong&gt;Maintainability&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;Adhering to LSP makes the codebase easier to maintain. When subclasses can replace their parent classes without introducing errors, developers can extend and refactor the system without fear of breaking existing functionality.&lt;/p&gt;
+
+&lt;h3 id=&quot;2-reusability&quot;&gt;2. &lt;strong&gt;Reusability&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;LSP enhances code reusability. By ensuring subclasses maintain the behavior expected by the superclass, these subclasses can be used interchangeably in different parts of the application, increasing the versatility of the code.&lt;/p&gt;
+
+&lt;h3 id=&quot;3-polymorphism&quot;&gt;3. &lt;strong&gt;Polymorphism&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;LSP is foundational to achieving true polymorphism in object-oriented systems. It allows objects to be treated as instances of their parent class, enabling dynamic method dispatch and more flexible system design.&lt;/p&gt;
+
+&lt;h3 id=&quot;4-testability&quot;&gt;4. &lt;strong&gt;Testability&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;Following LSP improves testability. When subclasses adhere to the contracts defined by their superclasses, unit tests for the superclass are also valid for the subclass. This reduces redundancy in testing and ensures consistent behavior across the hierarchy.&lt;/p&gt;
+
+&lt;h3 id=&quot;example-before-applying-lsp&quot;&gt;Example: Before Applying LSP&lt;/h3&gt;
+
+&lt;p&gt;Consider a scenario with a base class &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Bird&lt;/code&gt; and a derived class &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Penguin&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Bird&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;fly&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nc&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;I am flying&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Penguin&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Bird&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;fly&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;throw&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;UnsupportedOperationException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Penguins cannot fly&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;In this example, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Penguin&lt;/code&gt; violates LSP because it cannot be substituted for &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Bird&lt;/code&gt;. A &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Penguin&lt;/code&gt; object will cause unexpected behavior when the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;fly&lt;/code&gt; method is called, which contradicts the expectations set by the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Bird&lt;/code&gt; class.&lt;/p&gt;
+
+&lt;h3 id=&quot;example-after-applying-lsp&quot;&gt;Example: After Applying LSP&lt;/h3&gt;
+
+&lt;p&gt;To adhere to LSP, we need to rethink our class hierarchy. One approach is to introduce a more specific class structure that accommodates different types of birds appropriately.&lt;/p&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;abstract&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Bird&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;abstract&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;move&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;FlyingBird&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Bird&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;move&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;fly&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;fly&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nc&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;I am flying&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Penguin&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Bird&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;move&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;walk&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;walk&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nc&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;I am walking&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;In this revised structure:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Bird&lt;/code&gt; class is abstract and defines a general movement behavior.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FlyingBird&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Penguin&lt;/code&gt; are concrete classes that implement the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;move&lt;/code&gt; method according to their capabilities.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Now, substituting a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Penguin&lt;/code&gt; for a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Bird&lt;/code&gt; does not violate any expectations, as both can still perform the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;move&lt;/code&gt; action correctly.&lt;/p&gt;
+
+&lt;h2 id=&quot;examples-from-java&quot;&gt;Examples from java&lt;/h2&gt;
+
+&lt;h3 id=&quot;1-java-collections-framework&quot;&gt;1. &lt;strong&gt;Java Collections Framework&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;The Java Collections Framework is a good example of LSP in action. Consider the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;List&lt;/code&gt; interface and its implementations, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ArrayList&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LinkedList&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nc&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;arrayList&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ArrayList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;gt;();&lt;/span&gt;
+&lt;span class=&quot;nc&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;linkedList&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;LinkedList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;gt;();&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Both &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ArrayList&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LinkedList&lt;/code&gt; can be used interchangeably as &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;List&lt;/code&gt; objects without affecting the correctness of the code. Methods defined in the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;List&lt;/code&gt; interface work seamlessly with both &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ArrayList&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LinkedList&lt;/code&gt;, adhering to LSP.&lt;/p&gt;
+
+&lt;p&gt;but the immutable list doesn’t support the remove method, so it doesn’t respect LSP.&lt;/p&gt;
+
+&lt;h3 id=&quot;2-java-inputoutput-io-streams&quot;&gt;2. &lt;strong&gt;Java Input/Output (I/O) Streams&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;The Java I/O Streams follow LSP by allowing different stream types to be used interchangeably. For example, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FileInputStream&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;BufferedInputStream&lt;/code&gt;, and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DataInputStream&lt;/code&gt; can all be used as &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;InputStream&lt;/code&gt; objects.&lt;/p&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nc&quot;&gt;InputStream&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fileStream&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;FileInputStream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;data.txt&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;nc&quot;&gt;InputStream&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bufferedStream&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;BufferedInputStream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fileStream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;nc&quot;&gt;InputStream&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dataStream&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;DataInputStream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bufferedStream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Each stream type can be substituted for &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;InputStream&lt;/code&gt; without altering the behavior expected from an input stream.&lt;/p&gt;
+
+&lt;h2 id=&quot;common-pitfalls&quot;&gt;Common Pitfalls&lt;/h2&gt;
+
+&lt;h3 id=&quot;1-improper-use-of-inheritance&quot;&gt;1. &lt;strong&gt;Improper Use of Inheritance&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;A common mistake is using inheritance for code reuse without considering LSP. This can lead to subclasses that do not fulfill the contract of the superclass. To avoid this, always ensure that a subclass can stand in for its superclass without altering the expected behavior.&lt;/p&gt;
+
+&lt;h3 id=&quot;2-ignoring-pre--and-post-conditions&quot;&gt;2. &lt;strong&gt;Ignoring Pre- and Post-conditions&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;Subclasses should not weaken preconditions or strengthen postconditions of methods they override. This means that the conditions required before and after method execution in a subclass should be consistent with those in the superclass.&lt;/p&gt;
+
+&lt;h3 id=&quot;3-overriding-methods-incorrectly&quot;&gt;3. &lt;strong&gt;Overriding Methods Incorrectly&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;Subclasses should override methods to provide specific behavior while still honoring the contract of the superclass. For instance, if a superclass method returns a specific type, the subclass should return a compatible type.&lt;/p&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;The Liskov Substitution Principle is crucial for creating flexible, maintainable, and scalable object-oriented systems. By ensuring that subclasses can substitute their superclasses without altering expected behavior, developers can build more robust and reusable code. Adhering to LSP involves careful design of class hierarchies, mindful implementation of inheritance, and rigorous testing to confirm consistent behavior across the hierarchy. By mastering LSP, you will significantly improve the quality and reliability of your software.&lt;/p&gt;</content><author><name></name></author><category term="Software design" /><category term="SOLID" /><summary type="html">The Liskov Substitution Principle (LSP) in Object-Oriented Design</summary></entry><entry><title type="html">O from SOLID</title><link href="https://earezki.com/open-closed-principle/" rel="alternate" type="text/html" title="O from SOLID" /><published>2024-06-09T23:00:46+00:00</published><updated>2024-06-09T23:00:46+00:00</updated><id>https://earezki.com/O-from-SOLID</id><content type="html" xml:base="https://earezki.com/open-closed-principle/">&lt;h1 id=&quot;openclosed-principle-ocp-in-software-design&quot;&gt;Open/Closed Principle (OCP) in Software Design&lt;/h1&gt;
+
+&lt;h2 id=&quot;introduction&quot;&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;The Open/Closed Principle (OCP) is the second SOLID principle. It states that “software entities (classes, modules, functions, etc.) should be open for extension but closed for modification.” This means that the behavior of a module can be extended without modifying its source code.&lt;/p&gt;
+
+&lt;p&gt;Adhering to the OCP helps create systems that are easier to maintain and extend over time. It allows developers to add new functionality with minimal risk of introducing bugs into existing code. This principle is crucial for achieving a flexible and robust design, making it easier to accommodate new requirements without altering the existing system’s functionality.&lt;/p&gt;
+
+&lt;h2 id=&quot;why-ocp-matters&quot;&gt;Why OCP Matters&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Maintainability&lt;/strong&gt;: Changes to existing code are minimized, reducing the risk of introducing new bugs.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Extensibility&lt;/strong&gt;: New features can be added without altering existing code, making it easier to expand functionality.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Scalability&lt;/strong&gt;: Systems designed with OCP are easier to scale because new behaviors can be introduced seamlessly.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Testability&lt;/strong&gt;: Code that adheres to OCP is easier to test because existing tests remain valid even when new features are added.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;applying-ocp-in-java&quot;&gt;Applying OCP in Java&lt;/h2&gt;
+
+&lt;p&gt;To illustrate the Open/Closed Principle, let’s consider an example in Java. We’ll start with a scenario that violates OCP and then refactor it to adhere to OCP.&lt;/p&gt;
+
+&lt;h3 id=&quot;example-before-applying-ocp&quot;&gt;Example: Before Applying OCP&lt;/h3&gt;
+
+&lt;p&gt;Consider a basic &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Shape&lt;/code&gt; interface and a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Drawing&lt;/code&gt; class that draws various shapes. Initially, the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Drawing&lt;/code&gt; class handles drawing circles and rectangles.&lt;/p&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Drawing&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;drawCircle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nc&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Drawing a Circle&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;drawRectangle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nc&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Drawing a Rectangle&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;In this example, if we want to add a new shape, say &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Triangle&lt;/code&gt;, we would need to modify the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Drawing&lt;/code&gt; class to handle the new shape.&lt;/p&gt;
+
+&lt;h3 id=&quot;example-after-applying-ocp&quot;&gt;Example: After Applying OCP&lt;/h3&gt;
+
+&lt;p&gt;To adhere to the Open/Closed Principle, we refactor the code so that new shapes can be added without modifying the existing &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Drawing&lt;/code&gt; class. We achieve this by using polymorphism.&lt;/p&gt;
+
+&lt;h4 id=&quot;shape-interface&quot;&gt;Shape Interface&lt;/h4&gt;
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;interface&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Shape&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;draw&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;circle-class&quot;&gt;Circle Class&lt;/h4&gt;
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Circle&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;implements&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Shape&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;draw&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nc&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Drawing a Circle&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;rectangle-class&quot;&gt;Rectangle Class&lt;/h4&gt;
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Rectangle&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;implements&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Shape&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;draw&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nc&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Drawing a Rectangle&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;triangle-class&quot;&gt;Triangle Class&lt;/h4&gt;
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Triangle&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;implements&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Shape&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;draw&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nc&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Drawing a Triangle&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;drawing-class&quot;&gt;Drawing Class&lt;/h4&gt;
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Drawing&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;drawShape&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Shape&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;shape&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;shape&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;draw&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now, to add a new shape, we simply create a new class that implements the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Shape&lt;/code&gt; interface. The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Drawing&lt;/code&gt; class does not need to be modified.&lt;/p&gt;
+
+&lt;h3 id=&quot;benefits-of-refactoring&quot;&gt;Benefits of Refactoring&lt;/h3&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;strong&gt;Single Responsibility&lt;/strong&gt;: Each shape class is responsible for its own drawing logic.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Extensibility&lt;/strong&gt;: New shapes can be added without modifying existing classes.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Maintainability&lt;/strong&gt;: Existing code remains unchanged, reducing the risk of introducing bugs.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Testability&lt;/strong&gt;: Individual shape classes can be tested in isolation.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;real-world-examples-from-java-libraries&quot;&gt;Real-World Examples from Java Libraries&lt;/h2&gt;
+
+&lt;h3 id=&quot;1-java-collections-framework&quot;&gt;1. &lt;strong&gt;Java Collections Framework&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;The Java Collections Framework is a textbook example of OCP. The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;List&lt;/code&gt; interface, for example, is open for extension by creating new implementations like &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ArrayList&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LinkedList&lt;/code&gt; without modifying the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;List&lt;/code&gt; interface itself.&lt;/p&gt;
+
+&lt;h4 id=&quot;list-interface&quot;&gt;List Interface&lt;/h4&gt;
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;interface&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;E&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Collection&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;E&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// List-specific methods&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;arraylist-class&quot;&gt;ArrayList Class&lt;/h4&gt;
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ArrayList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;E&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;AbstractList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;E&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;implements&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;E&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;,&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;RandomAccess&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Cloneable&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;java&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;io&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;Serializable&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// Implementation details&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;linkedlist-class&quot;&gt;LinkedList Class&lt;/h4&gt;
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;LinkedList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;E&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;AbstractSequentialList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;E&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;implements&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;E&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;,&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Deque&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;E&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;,&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Cloneable&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;java&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;io&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;Serializable&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// Implementation details&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;2-java-streams-api&quot;&gt;2. &lt;strong&gt;Java Streams API&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;The Java Streams API also adheres to OCP. New operations can be added by creating new classes that implement the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Stream&lt;/code&gt; interface.&lt;/p&gt;
+
+&lt;h4 id=&quot;stream-interface&quot;&gt;Stream Interface&lt;/h4&gt;
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;interface&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Stream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;T&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;BaseStream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;T&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Stream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;T&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// Stream-specific methods&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;collectors-class&quot;&gt;Collectors Class&lt;/h4&gt;
+&lt;p&gt;The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Collectors&lt;/code&gt; utility class provides various implementations for common operations like collecting elements into a list, set, or map.&lt;/p&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Collectors&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// Various collector implementations&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;The Open/Closed Principle is a fundamental concept in object-oriented design that promotes the extension of software functionality without modifying existing code. By adhering to OCP, developers can create systems that are more maintainable, extensible, scalable, and testable.&lt;/p&gt;</content><author><name></name></author><category term="Software design" /><category term="SOLID" /><summary type="html">Open/Closed Principle (OCP) in Software Design</summary></entry><entry><title type="html">S from SOLID</title><link href="https://earezki.com/single-responsibility-principle/" rel="alternate" type="text/html" title="S from SOLID" /><published>2024-06-02T04:49:46+00:00</published><updated>2024-06-02T04:49:46+00:00</updated><id>https://earezki.com/S-from-SOLID</id><content type="html" xml:base="https://earezki.com/single-responsibility-principle/">&lt;h1 id=&quot;single-responsibility-principle-srp-in-java&quot;&gt;Single Responsibility Principle (SRP) in Java&lt;/h1&gt;
+
+&lt;h2 id=&quot;introduction&quot;&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;The Single Responsibility Principle (SRP) is one of the five SOLID principles of object-oriented design. It states that a class should have only one reason to change, meaning it should only have one job or responsibility. This principle helps to achieve a more modular, maintainable, and scalable codebase.&lt;/p&gt;
+
+&lt;h2 id=&quot;why-srp-matters&quot;&gt;Why SRP Matters&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Maintainability&lt;/strong&gt;: When a class has a single responsibility, it is easier to understand and modify. No more headaches trying to decipher spaghetti code!&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Testability&lt;/strong&gt;: Classes with single responsibilities are easier to test because their functionality is limited to one concern. Testing just got a whole lot simpler!&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Reusability&lt;/strong&gt;: Single-responsibility classes are more likely to be reusable in different contexts because they encapsulate specific functionality. Your code is now as flexible as a gymnast!&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;applying-srp-in-java&quot;&gt;Applying SRP in Java&lt;/h2&gt;
+&lt;p&gt;Let’s go through an example to understand how to apply SRP in Java. Spoiler: It’s easier than you think!&lt;/p&gt;
+
+&lt;h3 id=&quot;example-before-applying-srp&quot;&gt;Example: Before Applying SRP&lt;/h3&gt;
+
+&lt;p&gt;Consider a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;User&lt;/code&gt; class that handles user information, data validation, and persistence. It’s like that one friend who tries to juggle a dozen tasks at once!&lt;/p&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;User&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;email&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;User&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;email&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;email&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;email&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;getName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;getEmail&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;email&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;boolean&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;isValidEmail&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;// Basic email validation logic&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;email&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;contains&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;@&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;saveToDatabase&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;// Code to save user data to database&lt;/span&gt;
+        &lt;span class=&quot;nc&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Saving &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;: &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;email&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot; to the database.&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;In this example, the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;User&lt;/code&gt; class is doing too much:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Storing user information.&lt;/li&gt;
+  &lt;li&gt;Validating user email.&lt;/li&gt;
+  &lt;li&gt;Persisting user data to a database.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;It’s time for an intervention!&lt;/p&gt;
+
+&lt;h3 id=&quot;example-after-applying-srp&quot;&gt;Example: After Applying SRP&lt;/h3&gt;
+
+&lt;p&gt;Let’s break it down and give each task to a dedicated class.&lt;/p&gt;
+
+&lt;h4 id=&quot;user-class&quot;&gt;User Class&lt;/h4&gt;
+&lt;p&gt;The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;User&lt;/code&gt; class now focuses solely on user data.&lt;/p&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;record&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;User&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;email&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;emailvalidation-class&quot;&gt;EmailValidation Class&lt;/h4&gt;
+&lt;p&gt;The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;EmailValidation&lt;/code&gt; class is the new email guru.&lt;/p&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;EmailValidation&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;boolean&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;isValid&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;email&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;email&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;contains&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;@&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;userrepository-class&quot;&gt;UserRepository Class&lt;/h4&gt;
+&lt;p&gt;The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;UserRepository&lt;/code&gt; class is responsible for data persistence.&lt;/p&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;UserRepository&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;save&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;User&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nc&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Saving &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;: &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;email&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot; to the database.&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;unit-tests&quot;&gt;Unit Tests&lt;/h3&gt;
+&lt;p&gt;Of course, we need to make sure everything works perfectly.&lt;/p&gt;
+
+&lt;h4 id=&quot;emailvalidationtest&quot;&gt;EmailValidationTest&lt;/h4&gt;
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;org&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;junit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;jupiter&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;api&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;Assertions&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;assertTrue&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;org&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;junit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;jupiter&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;api&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;Assertions&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;assertFalse&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;org.junit.jupiter.api.BeforeEach&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;org.junit.jupiter.api.Test&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;EmailValidationTest&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;EmailValidation&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;emailValidation&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;nd&quot;&gt;@BeforeEach&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;setUp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;emailValidation&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;EmailValidation&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;nd&quot;&gt;@Test&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;testValidEmail&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;assertTrue&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;emailValidation&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;isValid&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;john.doe@example.com&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;));&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;nd&quot;&gt;@Test&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;testInvalidEmail&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;assertFalse&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;emailValidation&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;isValid&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;john.doeexample.com&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;));&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;assertFalse&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;emailValidation&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;isValid&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;john.doe@com&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;));&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;assertFalse&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;emailValidation&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;isValid&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;john.doe@.com&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;));&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;userrepositorytest&quot;&gt;UserRepositoryTest&lt;/h4&gt;
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;org&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;mockito&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;Mockito&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.*;&lt;/span&gt;
+
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;org.junit.jupiter.api.BeforeEach&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;org.junit.jupiter.api.Test&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;UserRepositoryTest&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;UserRepository&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;userRepository&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;nd&quot;&gt;@BeforeEach&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;setUp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;userRepository&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;UserRepository&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;nd&quot;&gt;@Test&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;testSave&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nc&quot;&gt;User&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;user&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;User&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;John Doe&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;john.doe@example.com&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        
+        &lt;span class=&quot;c1&quot;&gt;// Since saveToDatabase is a simple print operation, we just verify the method call&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;userRepository&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;save&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;benefits-of-refactoring&quot;&gt;Benefits of Refactoring&lt;/h3&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;strong&gt;Single Responsibility&lt;/strong&gt;: Each class now has a single responsibility:
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;User&lt;/code&gt; class handles user data.&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;EmailValidation&lt;/code&gt; class handles email validation.&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;UserRepository&lt;/code&gt; class handles data persistence.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Maintainability&lt;/strong&gt;: Changes to email validation logic do not affect user data or persistence logic.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Testability&lt;/strong&gt;: Each class can be tested in isolation, making unit tests simpler and more focused.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Reusability&lt;/strong&gt;: The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;EmailValidation&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;UserRepository&lt;/code&gt; classes can be reused across different parts of the application or in different projects.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;java-library-examples&quot;&gt;Java Library Examples&lt;/h2&gt;
+
+&lt;h3 id=&quot;1-java-io-library&quot;&gt;1. &lt;strong&gt;Java IO Library&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;The Java IO library is a great example of SRP in practice. Classes in this library are designed with SRP, making them easy to understand, maintain, and extend.&lt;/p&gt;
+
+&lt;h4 id=&quot;example-bufferedreader-and-filereader&quot;&gt;Example: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;BufferedReader&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FileReader&lt;/code&gt;&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;FileReader&lt;/strong&gt;: The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FileReader&lt;/code&gt; class is responsible for reading raw byte data from a file and translating it into characters.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;BufferedReader&lt;/strong&gt;: The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;BufferedReader&lt;/code&gt; class is responsible for buffering characters for efficient reading.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nc&quot;&gt;FileReader&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fileReader&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;FileReader&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;file.txt&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;nc&quot;&gt;BufferedReader&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bufferedReader&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;BufferedReader&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fileReader&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;line&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;line&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bufferedReader&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;readLine&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;())&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nc&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;line&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;bufferedReader&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;fileReader&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;In this example, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FileReader&lt;/code&gt; handles the file input, while &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;BufferedReader&lt;/code&gt; handles the buffering, adhering to SRP.&lt;/p&gt;
+
+&lt;h3 id=&quot;2-java-collections-framework&quot;&gt;2. &lt;strong&gt;Java Collections Framework&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;The Java Collections Framework also follows SRP by separating different concerns into various classes and interfaces.&lt;/p&gt;
+
+&lt;h4 id=&quot;example-arraylist-and-collectionssort&quot;&gt;Example: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ArrayList&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Collections.sort&lt;/code&gt;&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;ArrayList&lt;/strong&gt;: The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ArrayList&lt;/code&gt; class is responsible for managing a dynamic array of objects.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Collections.sort&lt;/strong&gt;: The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Collections&lt;/code&gt; class provides a static method &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sort&lt;/code&gt; for sorting lists.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nc&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;list&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ArrayList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;gt;();&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;banana&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;apple&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;cherry&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;nc&quot;&gt;Collections&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;sort&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;nc&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Here, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ArrayList&lt;/code&gt; is concerned with managing the list of elements, while the sorting logic is handled by the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Collections&lt;/code&gt; class.&lt;/p&gt;
+
+&lt;h3 id=&quot;3-java-networking&quot;&gt;3. &lt;strong&gt;Java Networking&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;The Java networking package (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;java.net&lt;/code&gt;) includes classes that adhere to SRP by separating concerns related to different network operations.&lt;/p&gt;
+
+&lt;h4 id=&quot;example-socket-and-printwriter&quot;&gt;Example: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Socket&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PrintWriter&lt;/code&gt;&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Socket&lt;/strong&gt;: The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Socket&lt;/code&gt; class is responsible for establishing and maintaining network connections.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;PrintWriter&lt;/strong&gt;: The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PrintWriter&lt;/code&gt; class is responsible for writing formatted text to an output stream.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nc&quot;&gt;Socket&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;socket&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Socket&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;example.com&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;80&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;nc&quot;&gt;PrintWriter&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;out&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PrintWriter&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;socket&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getOutputStream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;GET / HTTP/1.1\r\nHost: example.com\r\n\r\n&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;socket&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;In this example, the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Socket&lt;/code&gt; class handles the network connection, while &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PrintWriter&lt;/code&gt; manages text output, each with their distinct responsibility.&lt;/p&gt;
+
+&lt;h3 id=&quot;4-java-util-logging&quot;&gt;4. &lt;strong&gt;Java Util Logging&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;java.util.logging&lt;/code&gt; package provides a good example of SRP in logging functionality.&lt;/p&gt;
+
+&lt;h4 id=&quot;example-logger-and-handler&quot;&gt;Example: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Logger&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Handler&lt;/code&gt;&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Logger&lt;/strong&gt;: The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Logger&lt;/code&gt; class is responsible for capturing log messages.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Handler&lt;/strong&gt;: Different &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Handler&lt;/code&gt; subclasses (e.g., &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ConsoleHandler&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FileHandler&lt;/code&gt;) are responsible for the output destination of log messages.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nc&quot;&gt;Logger&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;logger&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Logger&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getLogger&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;MyLogger&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;nc&quot;&gt;Handler&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;consoleHandler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ConsoleHandler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;logger&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;addHandler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;consoleHandler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;logger&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;info&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;This is a log message&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;In this case, the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Logger&lt;/code&gt; class captures log messages, while the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Handler&lt;/code&gt; manages the output destination.&lt;/p&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;The Single Responsibility Principle is fundamental for writing clean, maintainable, and scalable code. By ensuring that each class in your application has only one responsibility, you make your codebase easier to understand, test, and modify. Applying SRP in Java involves identifying distinct responsibilities and refactoring your code to separate those responsibilities into different classes. Happy coding!&lt;/p&gt;</content><author><name></name></author><category term="Software design" /><category term="SOLID" /><summary type="html">Single Responsibility Principle (SRP) in Java</summary></entry><entry><title type="html">Full stack developers</title><link href="https://earezki.com/full-stack-developers/" rel="alternate" type="text/html" title="Full stack developers" /><published>2021-02-21T04:49:46+00:00</published><updated>2021-02-21T04:49:46+00:00</updated><id>https://earezki.com/full-stack-developers</id><content type="html" xml:base="https://earezki.com/full-stack-developers/">&lt;p&gt;&lt;img src=&quot;/assets/full-stack-developer.png&quot; alt=&quot;Full stack developer&quot; title=&quot;Full stack developer&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Looking for the meaning of &lt;strong&gt;full stack developer&lt;/strong&gt; on &lt;a href=&quot;https://www.google.com/search?q=full+stack+developer&quot;&gt;&lt;strong&gt;Google&lt;/strong&gt;&lt;/a&gt;, yields a range of definitions. Some of which says, a full stack developer should knows all the back end languages or the front end languages. Others say, the requirements are back end and front end skills. But I agree more with the definition that says, a full stack developer is required to have knowledge about the full stack developement cycle and tools, hence, I suggest the following definition:&lt;/p&gt;
+
+&lt;p&gt;A full stack developer, is a software developer, capable of fullfilling his tasks on the different technology stacks that constitutes a software application.&lt;/p&gt;
+
+&lt;p&gt;Skills required from a full stack developer, but not limited to, includes:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;To be able to start a project from scratch, communicate with the business stake holders and gather required features.&lt;/li&gt;
+  &lt;li&gt;Make plannings to the project, and manage it using a project management method such as &lt;a href=&quot;https://en.wikipedia.org/wiki/Agile_software_development&quot;&gt;&lt;strong&gt;Agile&lt;/strong&gt;&lt;/a&gt;.&lt;/li&gt;
+  &lt;li&gt;Provision the infrastructure that would host the application.&lt;/li&gt;
+  &lt;li&gt;Configure and secure the network.&lt;/li&gt;
+  &lt;li&gt;Develop the &lt;strong&gt;front end&lt;/strong&gt; for the different required clients (Web, Mobile, Desktop, …)&lt;/li&gt;
+  &lt;li&gt;Design the database’s data structure.&lt;/li&gt;
+  &lt;li&gt;Develop the &lt;strong&gt;back end&lt;/strong&gt; that serves the different &lt;strong&gt;front ends&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;Maintenance of all the above.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Mastering all of the above skills gives the developer the ability to design and develop an application from scratch.&lt;/p&gt;
+
+&lt;p&gt;In the real world, by nature, almost, every developer have to some degree knowledge of all of the above. Does it means that almost, all the developers are &lt;strong&gt;full stack&lt;/strong&gt; ? well, it depends, because usually when a recruter asks if you’re &lt;strong&gt;full stack&lt;/strong&gt;, they want to know if you can work with &lt;strong&gt;the backend&lt;/strong&gt;, &lt;strong&gt;the frontend&lt;/strong&gt; and &lt;strong&gt;the database&lt;/strong&gt;, so, yes, every developer is &lt;strong&gt;full stack&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;However, it’s very hard to build expertise in all the domains all at once (otherwise we wouldn’t need teams), so it’s hard to find &lt;strong&gt;full stack&lt;/strong&gt; developers that have solid and in depth knowledge of all those domains.&lt;/p&gt;
+
+&lt;p&gt;Let’s not forget that developers are humains (It’s hard to believe giving our nature but it’s true none the less), thus, they have preferences, hence, they have more knowledge at a field compared to another.&lt;/p&gt;
+
+&lt;p&gt;So, the &lt;strong&gt;full stack&lt;/strong&gt; seems like a valued business word used to get recruters and managers hyped.&lt;/p&gt;
+
+&lt;p&gt;So, it seems that the title &lt;strong&gt;full stack developer&lt;/strong&gt; and the question &lt;strong&gt;are you full stack&lt;/strong&gt; is meaningless, because by definition, all the developers have knowledge of the &lt;strong&gt;backend&lt;/strong&gt;, &lt;strong&gt;frontend&lt;/strong&gt; and the &lt;strong&gt;database&lt;/strong&gt;, then, maybe we should start talking about the stack itself.&lt;/p&gt;
+
+&lt;h3 id=&quot;summary&quot;&gt;&lt;strong&gt;Summary:&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;Talk about your experience with the different aspects, like how you can use the database, design the tables, issue SQL queries, but how you’re unable to optimize the design or the queries, how you can design and develop a GUI, but not able to produce state of the art UX designs, and how you’re skills at architecting the backend is unmatched, give a real experiece, how the database administrator was able to optimise your first iteration of the database tables structure, and how a UX designer intervened in the project and how you were able to progress a task or resolve a complicated issue at work.&lt;/p&gt;</content><author><name></name></author><category term="Fullstack" /><category term="Thoughts" /><summary type="html"></summary></entry><entry><title type="html">Technical debt</title><link href="https://earezki.com/technical-debt/" rel="alternate" type="text/html" title="Technical debt" /><published>2021-01-02T04:49:46+00:00</published><updated>2021-01-02T04:49:46+00:00</updated><id>https://earezki.com/technical-debt</id><content type="html" xml:base="https://earezki.com/technical-debt/">&lt;p&gt;&lt;img src=&quot;/assets/technical-debt.png&quot; alt=&quot;technical debt&quot; title=&quot;technical debt&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;In an agile environment, during the &lt;a href=&quot;https://en.wikipedia.org/wiki/Scrum_(software_development)&quot;&gt;sprint planning&lt;/a&gt;, prioritized tasks are defined, and unnecessary ones are deferred. tasks such as:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Migrate to the new programming language version.&lt;/li&gt;
+  &lt;li&gt;Refactor a legacy module.&lt;/li&gt;
+  &lt;li&gt;Use abstractions to better separate the modules.&lt;/li&gt;
+  &lt;li&gt;… etc&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;These are considered  &lt;strong&gt;&quot;Technical tasks&quot;&lt;/strong&gt;  and they're delaShipping first time codeyed and rescheduled sprint after another.&lt;/p&gt;
+
+&lt;p&gt;Usually, the business prioritize functional requirements that contributes to the evolution of the product.
+Shipping first time codeShipping first time code
+For this reason, technical tasks needs to be listed, keep track of them, and communicate them to the business, explaining that these tasks are like a debt, delaying them would increase the debt hence it would cost more interest to pay off that debt in the long run.&lt;/p&gt;
+
+&lt;p&gt;On a previous project, we had two boards, a business board with all the functional requirements, and a technical board managed by the developers that holds all the technical requirements to reduce the debt.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Ward Cunningham&lt;/strong&gt;  was the one to first make the comparison between technical complexity and debt, he said:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Shipping first time code is like going into debt. A little debt speeds development so long as it is paid back promptly with a rewrite… The danger occurs when the debt is not repaid. Every minute spent on not-quite-right code counts as interest on that debt. Entire engineering organizations can be brought to a stand-still under the debt load of an unconsolidated implementation, object-oriented or otherwise.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;—  &lt;strong&gt;Ward Cunningham, 1992&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;When writing a code, we express our understanding of the problem and the solution, as the project matures, we acquire new knowledge and understandings on the software. Technical debt is accumulated when we're not refactoring existing code to express current understandings.&lt;/p&gt;
+
+&lt;p&gt;This doesn't mean that we should lower the standards of the design and the code to go faster while adding new features, at the contrary, we should always thrive to develop to the best to our understandings at the time of making.&lt;/p&gt;
+
+&lt;p&gt;And we shouldn't forget to prioritize technical tasks, to make adjustments and refactor old code when new knowledge and understandings are acquired.&lt;/p&gt;</content><author><name></name></author><category term="Software design" /><summary type="html"></summary></entry></feed>

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>O from SOLID | Dev Journal</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="O from SOLID" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Open/Closed Principle (OCP) in Software Design" />
+<meta property="og:description" content="Open/Closed Principle (OCP) in Software Design" />
+<link rel="canonical" href="https://earezki.com/open-closed-principle/" />
+<meta property="og:url" content="https://earezki.com/open-closed-principle/" />
+<meta property="og:site_name" content="Dev Journal" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-06-09T23:00:46+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="O from SOLID" />
+<script type="application/ld+json">
+{"description":"Open/Closed Principle (OCP) in Software Design","url":"https://earezki.com/open-closed-principle/","@type":"BlogPosting","headline":"O from SOLID","dateModified":"2024-06-09T23:00:46+00:00","datePublished":"2024-06-09T23:00:46+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://earezki.com/open-closed-principle/"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://earezki.com/feed.xml" title="Dev|Journal" /><!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-161447264-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-161447264-1');
+</script> </head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Dev|Journal</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">O from SOLID</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2024-06-09T23:00:46+00:00" itemprop="datePublished">Jun 9, 2024
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h1 id="openclosed-principle-ocp-in-software-design">Open/Closed Principle (OCP) in Software Design</h1>
+
+<h2 id="introduction">Introduction</h2>
+<p>The Open/Closed Principle (OCP) is the second SOLID principle. It states that “software entities (classes, modules, functions, etc.) should be open for extension but closed for modification.” This means that the behavior of a module can be extended without modifying its source code.</p>
+
+<p>Adhering to the OCP helps create systems that are easier to maintain and extend over time. It allows developers to add new functionality with minimal risk of introducing bugs into existing code. This principle is crucial for achieving a flexible and robust design, making it easier to accommodate new requirements without altering the existing system’s functionality.</p>
+
+<h2 id="why-ocp-matters">Why OCP Matters</h2>
+<ul>
+  <li><strong>Maintainability</strong>: Changes to existing code are minimized, reducing the risk of introducing new bugs.</li>
+  <li><strong>Extensibility</strong>: New features can be added without altering existing code, making it easier to expand functionality.</li>
+  <li><strong>Scalability</strong>: Systems designed with OCP are easier to scale because new behaviors can be introduced seamlessly.</li>
+  <li><strong>Testability</strong>: Code that adheres to OCP is easier to test because existing tests remain valid even when new features are added.</li>
+</ul>
+
+<h2 id="applying-ocp-in-java">Applying OCP in Java</h2>
+
+<p>To illustrate the Open/Closed Principle, let’s consider an example in Java. We’ll start with a scenario that violates OCP and then refactor it to adhere to OCP.</p>
+
+<h3 id="example-before-applying-ocp">Example: Before Applying OCP</h3>
+
+<p>Consider a basic <code class="language-plaintext highlighter-rouge">Shape</code> interface and a <code class="language-plaintext highlighter-rouge">Drawing</code> class that draws various shapes. Initially, the <code class="language-plaintext highlighter-rouge">Drawing</code> class handles drawing circles and rectangles.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">Drawing</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">drawCircle</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Drawing a Circle"</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">drawRectangle</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Drawing a Rectangle"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>In this example, if we want to add a new shape, say <code class="language-plaintext highlighter-rouge">Triangle</code>, we would need to modify the <code class="language-plaintext highlighter-rouge">Drawing</code> class to handle the new shape.</p>
+
+<h3 id="example-after-applying-ocp">Example: After Applying OCP</h3>
+
+<p>To adhere to the Open/Closed Principle, we refactor the code so that new shapes can be added without modifying the existing <code class="language-plaintext highlighter-rouge">Drawing</code> class. We achieve this by using polymorphism.</p>
+
+<h4 id="shape-interface">Shape Interface</h4>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">interface</span> <span class="nc">Shape</span> <span class="o">{</span>
+    <span class="kt">void</span> <span class="nf">draw</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="circle-class">Circle Class</h4>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">Circle</span> <span class="kd">implements</span> <span class="nc">Shape</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">draw</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Drawing a Circle"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="rectangle-class">Rectangle Class</h4>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">Rectangle</span> <span class="kd">implements</span> <span class="nc">Shape</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">draw</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Drawing a Rectangle"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="triangle-class">Triangle Class</h4>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">Triangle</span> <span class="kd">implements</span> <span class="nc">Shape</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">draw</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Drawing a Triangle"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="drawing-class">Drawing Class</h4>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">Drawing</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">drawShape</span><span class="o">(</span><span class="nc">Shape</span> <span class="n">shape</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">shape</span><span class="o">.</span><span class="na">draw</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Now, to add a new shape, we simply create a new class that implements the <code class="language-plaintext highlighter-rouge">Shape</code> interface. The <code class="language-plaintext highlighter-rouge">Drawing</code> class does not need to be modified.</p>
+
+<h3 id="benefits-of-refactoring">Benefits of Refactoring</h3>
+
+<ol>
+  <li><strong>Single Responsibility</strong>: Each shape class is responsible for its own drawing logic.</li>
+  <li><strong>Extensibility</strong>: New shapes can be added without modifying existing classes.</li>
+  <li><strong>Maintainability</strong>: Existing code remains unchanged, reducing the risk of introducing bugs.</li>
+  <li><strong>Testability</strong>: Individual shape classes can be tested in isolation.</li>
+</ol>
+
+<h2 id="real-world-examples-from-java-libraries">Real-World Examples from Java Libraries</h2>
+
+<h3 id="1-java-collections-framework">1. <strong>Java Collections Framework</strong></h3>
+<p>The Java Collections Framework is a textbook example of OCP. The <code class="language-plaintext highlighter-rouge">List</code> interface, for example, is open for extension by creating new implementations like <code class="language-plaintext highlighter-rouge">ArrayList</code> and <code class="language-plaintext highlighter-rouge">LinkedList</code> without modifying the <code class="language-plaintext highlighter-rouge">List</code> interface itself.</p>
+
+<h4 id="list-interface">List Interface</h4>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">List</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="kd">extends</span> <span class="nc">Collection</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="o">{</span>
+    <span class="c1">// List-specific methods</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="arraylist-class">ArrayList Class</h4>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ArrayList</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="kd">extends</span> <span class="nc">AbstractList</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="kd">implements</span> <span class="nc">List</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;,</span> <span class="nc">RandomAccess</span><span class="o">,</span> <span class="nc">Cloneable</span><span class="o">,</span> <span class="n">java</span><span class="o">.</span><span class="na">io</span><span class="o">.</span><span class="na">Serializable</span> <span class="o">{</span>
+    <span class="c1">// Implementation details</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="linkedlist-class">LinkedList Class</h4>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">LinkedList</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="kd">extends</span> <span class="nc">AbstractSequentialList</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="kd">implements</span> <span class="nc">List</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;,</span> <span class="nc">Deque</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;,</span> <span class="nc">Cloneable</span><span class="o">,</span> <span class="n">java</span><span class="o">.</span><span class="na">io</span><span class="o">.</span><span class="na">Serializable</span> <span class="o">{</span>
+    <span class="c1">// Implementation details</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="2-java-streams-api">2. <strong>Java Streams API</strong></h3>
+<p>The Java Streams API also adheres to OCP. New operations can be added by creating new classes that implement the <code class="language-plaintext highlighter-rouge">Stream</code> interface.</p>
+
+<h4 id="stream-interface">Stream Interface</h4>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Stream</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="kd">extends</span> <span class="nc">BaseStream</span><span class="o">&lt;</span><span class="no">T</span><span class="o">,</span> <span class="nc">Stream</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;&gt;</span> <span class="o">{</span>
+    <span class="c1">// Stream-specific methods</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="collectors-class">Collectors Class</h4>
+<p>The <code class="language-plaintext highlighter-rouge">Collectors</code> utility class provides various implementations for common operations like collecting elements into a list, set, or map.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">Collectors</span> <span class="o">{</span>
+    <span class="c1">// Various collector implementations</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>The Open/Closed Principle is a fundamental concept in object-oriented design that promotes the extension of software functionality without modifying existing code. By adhering to OCP, developers can create systems that are more maintainable, extensible, scalable, and testable.</p>
+
+  </div><a class="u-url" href="/open-closed-principle/" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Dev|Journal</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Dev|Journal</li><li><a class="u-email" href="mailto:arezki.elmehdi@gmail.com">arezki.elmehdi@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/earezki"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">earezki</span></a></li><li><a href="https://www.linkedin.com/in/mehdi-arezki"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg> <span class="username">mehdi-arezki</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Blogging about interests.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

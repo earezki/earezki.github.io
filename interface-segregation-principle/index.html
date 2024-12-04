@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>I from SOLID | Dev Journal</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="I from SOLID" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Interface Segregation Principle (ISP) in Java" />
+<meta property="og:description" content="Interface Segregation Principle (ISP) in Java" />
+<link rel="canonical" href="https://earezki.com/interface-segregation-principle/" />
+<meta property="og:url" content="https://earezki.com/interface-segregation-principle/" />
+<meta property="og:site_name" content="Dev Journal" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-07-10T23:00:46+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="I from SOLID" />
+<script type="application/ld+json">
+{"description":"Interface Segregation Principle (ISP) in Java","url":"https://earezki.com/interface-segregation-principle/","@type":"BlogPosting","headline":"I from SOLID","dateModified":"2024-07-10T23:00:46+00:00","datePublished":"2024-07-10T23:00:46+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://earezki.com/interface-segregation-principle/"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://earezki.com/feed.xml" title="Dev|Journal" /><!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-161447264-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-161447264-1');
+</script> </head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Dev|Journal</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">I from SOLID</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2024-07-10T23:00:46+00:00" itemprop="datePublished">Jul 10, 2024
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h1 id="interface-segregation-principle-isp-in-java">Interface Segregation Principle (ISP) in Java</h1>
+
+<h2 id="introduction">Introduction</h2>
+<p>The Interface Segregation Principle (ISP) is one of the five SOLID principles of object-oriented design, it states that no client should be forced to depend on methods it does not use. Instead of having one large, fat interface, multiple small, specific interfaces are preferred, tailored to specific client needs. This principle promotes the creation of more modular, maintainable, and scalable systems.</p>
+
+<h2 id="why-isp-matters">Why ISP Matters</h2>
+<ul>
+  <li><strong>Decoupling</strong>: Reduces the dependencies of a class on parts of a system it doesn’t use.</li>
+  <li><strong>Cohesion</strong>: Increases the cohesion of interfaces, making them more specific and aligned with the client needs.</li>
+  <li><strong>Maintainability</strong>: Makes the system easier to maintain and modify, as changes in one part of the system are less likely to affect unrelated parts.</li>
+  <li><strong>Flexibility</strong>: Enhances flexibility and scalability of the system, allowing for more granular changes and extensions.</li>
+</ul>
+
+<h2 id="applying-isp-in-java">Applying ISP in Java</h2>
+<p>Let’s explore how to apply ISP with a detailed example. Consider a scenario involving a document management system.</p>
+
+<h3 id="example-before-applying-isp">Example: Before Applying ISP</h3>
+
+<p>Here’s an initial design where we have a single <code class="language-plaintext highlighter-rouge">DocumentHandler</code> interface with multiple responsibilities:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">DocumentHandler</span> <span class="o">{</span>
+    <span class="kt">void</span> <span class="nf">openDocument</span><span class="o">(</span><span class="nc">String</span> <span class="n">path</span><span class="o">);</span>
+    <span class="kt">void</span> <span class="nf">saveDocument</span><span class="o">(</span><span class="nc">String</span> <span class="n">path</span><span class="o">);</span>
+    <span class="kt">void</span> <span class="nf">printDocument</span><span class="o">();</span>
+    <span class="kt">void</span> <span class="nf">faxDocument</span><span class="o">(</span><span class="nc">String</span> <span class="n">faxNumber</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>This interface is used by different classes that handle various document-related operations.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">DocumentManager</span> <span class="kd">implements</span> <span class="nc">DocumentHandler</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">openDocument</span><span class="o">(</span><span class="nc">String</span> <span class="n">path</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Document opened: "</span> <span class="o">+</span> <span class="n">path</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">saveDocument</span><span class="o">(</span><span class="nc">String</span> <span class="n">path</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Document saved: "</span> <span class="o">+</span> <span class="n">path</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">printDocument</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Document printed."</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">faxDocument</span><span class="o">(</span><span class="nc">String</span> <span class="n">faxNumber</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Document faxed to: "</span> <span class="o">+</span> <span class="n">faxNumber</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Here, the <code class="language-plaintext highlighter-rouge">DocumentManager</code> class implements all methods of the <code class="language-plaintext highlighter-rouge">DocumentHandler</code> interface, even if it might not use all of them.</p>
+
+<h3 id="example-after-applying-isp">Example: After Applying ISP</h3>
+
+<p>By applying ISP, we can split the <code class="language-plaintext highlighter-rouge">DocumentHandler</code> interface into multiple specific interfaces.</p>
+
+<h4 id="separate-interfaces">Separate Interfaces</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Openable</span> <span class="o">{</span>
+    <span class="kt">void</span> <span class="nf">openDocument</span><span class="o">(</span><span class="nc">String</span> <span class="n">path</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Saveable</span> <span class="o">{</span>
+    <span class="kt">void</span> <span class="nf">saveDocument</span><span class="o">(</span><span class="nc">String</span> <span class="n">path</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Printable</span> <span class="o">{</span>
+    <span class="kt">void</span> <span class="nf">printDocument</span><span class="o">();</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Faxable</span> <span class="o">{</span>
+    <span class="kt">void</span> <span class="nf">faxDocument</span><span class="o">(</span><span class="nc">String</span> <span class="n">faxNumber</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="refactored-documentmanager-class">Refactored DocumentManager Class</h4>
+
+<p>Now, we can refactor the <code class="language-plaintext highlighter-rouge">DocumentManager</code> class to implement only the interfaces it needs.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">DocumentManager</span> <span class="kd">implements</span> <span class="nc">Openable</span><span class="o">,</span> <span class="nc">Saveable</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">openDocument</span><span class="o">(</span><span class="nc">String</span> <span class="n">path</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Document opened: "</span> <span class="o">+</span> <span class="n">path</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">saveDocument</span><span class="o">(</span><span class="nc">String</span> <span class="n">path</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Document saved: "</span> <span class="o">+</span> <span class="n">path</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="printmanager-class">PrintManager Class</h4>
+
+<p>A separate class can handle printing responsibilities:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PrintManager</span> <span class="kd">implements</span> <span class="nc">Printable</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">printDocument</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Document printed."</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="faxmanager-class">FaxManager Class</h4>
+
+<p>And another class can handle faxing:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">FaxManager</span> <span class="kd">implements</span> <span class="nc">Faxable</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">faxDocument</span><span class="o">(</span><span class="nc">String</span> <span class="n">faxNumber</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Document faxed to: "</span> <span class="o">+</span> <span class="n">faxNumber</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="benefits-of-refactoring">Benefits of Refactoring</h3>
+
+<ol>
+  <li><strong>Single Responsibility</strong>: Each class now adheres to the Single Responsibility Principle, handling only one aspect of document management.</li>
+  <li><strong>Decoupling</strong>: Classes are decoupled from methods they do not use, reducing unnecessary dependencies.</li>
+  <li><strong>Maintainability</strong>: Changes to one part of the system are less likely to impact unrelated parts, making the system easier to maintain.</li>
+  <li><strong>Flexibility</strong>: The system is more flexible, allowing for easy addition of new functionalities without modifying existing classes.</li>
+</ol>
+
+<h2 id="real-world-examples-in-java-library">Real-World Examples in Java Library</h2>
+
+<h3 id="1-java-collections-framework">1. <strong>Java Collections Framework</strong></h3>
+<p>The Java Collections Framework demonstrates ISP through its design of multiple specific interfaces such as <code class="language-plaintext highlighter-rouge">List</code>, <code class="language-plaintext highlighter-rouge">Set</code>, and <code class="language-plaintext highlighter-rouge">Queue</code>, rather than a single, monolithic interface for all collections.</p>
+
+<h4 id="example-list-and-set-interfaces">Example: List and Set Interfaces</h4>
+
+<ul>
+  <li><strong>List</strong>: The <code class="language-plaintext highlighter-rouge">List</code> interface provides methods specific to ordered collections.</li>
+  <li><strong>Set</strong>: The <code class="language-plaintext highlighter-rouge">Set</code> interface provides methods specific to collections that do not allow duplicate elements.</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">arrayList</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+<span class="nc">Set</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">hashSet</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashSet</span><span class="o">&lt;&gt;();</span>
+</code></pre></div></div>
+
+<h3 id="2-java-io-library">2. <strong>Java IO Library</strong></h3>
+<p>The Java IO library also follows ISP by providing multiple specific interfaces for different types of input and output operations.</p>
+
+<h4 id="example-inputstream-and-outputstream">Example: InputStream and OutputStream</h4>
+
+<ul>
+  <li><strong>InputStream</strong>: The <code class="language-plaintext highlighter-rouge">InputStream</code> interface provides methods for reading data.</li>
+  <li><strong>OutputStream</strong>: The <code class="language-plaintext highlighter-rouge">OutputStream</code> interface provides methods for writing data.</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">InputStream</span> <span class="n">inputStream</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">FileInputStream</span><span class="o">(</span><span class="s">"file.txt"</span><span class="o">);</span>
+<span class="nc">OutputStream</span> <span class="n">outputStream</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">FileOutputStream</span><span class="o">(</span><span class="s">"file.txt"</span><span class="o">);</span>
+</code></pre></div></div>
+
+<h3 id="3-java-util-logging">3. <strong>Java Util Logging</strong></h3>
+<p>The <code class="language-plaintext highlighter-rouge">java.util.logging</code> package uses ISP to provide different handlers for different logging destinations.</p>
+
+<h4 id="example-logger-and-handler">Example: Logger and Handler</h4>
+
+<ul>
+  <li><strong>Logger</strong>: The <code class="language-plaintext highlighter-rouge">Logger</code> class is responsible for capturing log messages.</li>
+  <li><strong>Handler</strong>: Different <code class="language-plaintext highlighter-rouge">Handler</code> subclasses (e.g., <code class="language-plaintext highlighter-rouge">ConsoleHandler</code>, <code class="language-plaintext highlighter-rouge">FileHandler</code>) handle the output destination of log messages.</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Logger</span> <span class="n">logger</span> <span class="o">=</span> <span class="nc">Logger</span><span class="o">.</span><span class="na">getLogger</span><span class="o">(</span><span class="s">"MyLogger"</span><span class="o">);</span>
+<span class="nc">Handler</span> <span class="n">consoleHandler</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ConsoleHandler</span><span class="o">();</span>
+<span class="n">logger</span><span class="o">.</span><span class="na">addHandler</span><span class="o">(</span><span class="n">consoleHandler</span><span class="o">);</span>
+<span class="n">logger</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"This is a log message"</span><span class="o">);</span>
+</code></pre></div></div>
+
+<h3 id="conclusion">Conclusion</h3>
+<p>The Interface Segregation Principle is fundamental for creating clean, maintainable, and scalable software systems. By ensuring that interfaces are specific to client needs, we reduce unnecessary dependencies, enhance maintainability, and improve system flexibility. Applying ISP in Java involves identifying distinct responsibilities and defining specific interfaces for each responsibility, leading to a more modular and robust codebase.</p>
+
+  </div><a class="u-url" href="/interface-segregation-principle/" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Dev|Journal</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Dev|Journal</li><li><a class="u-email" href="mailto:arezki.elmehdi@gmail.com">arezki.elmehdi@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/earezki"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">earezki</span></a></li><li><a href="https://www.linkedin.com/in/mehdi-arezki"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg> <span class="username">mehdi-arezki</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Blogging about interests.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
