@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Massively scaling a web application | Dev Journal</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Massively scaling a web application" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="As user demands grow, scaling becomes critical. Whether it’s handling a surge in traffic, managing increasing amounts of data, or ensuring high availability, scaling ensures that an application remains responsive and reliable under varying workloads. The process involves strategically optimizing and expanding the infrastructure to meet the demands. This can be done vertically by enhancing the capabilities of existing servers or horizontally by adding more machines or nodes to distribute the load." />
+<meta property="og:description" content="As user demands grow, scaling becomes critical. Whether it’s handling a surge in traffic, managing increasing amounts of data, or ensuring high availability, scaling ensures that an application remains responsive and reliable under varying workloads. The process involves strategically optimizing and expanding the infrastructure to meet the demands. This can be done vertically by enhancing the capabilities of existing servers or horizontally by adding more machines or nodes to distribute the load." />
+<link rel="canonical" href="https://earezki.com/massively-scaling-a-web-application/" />
+<meta property="og:url" content="https://earezki.com/massively-scaling-a-web-application/" />
+<meta property="og:site_name" content="Dev Journal" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-11-23T23:00:46+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Massively scaling a web application" />
+<script type="application/ld+json">
+{"description":"As user demands grow, scaling becomes critical. Whether it’s handling a surge in traffic, managing increasing amounts of data, or ensuring high availability, scaling ensures that an application remains responsive and reliable under varying workloads. The process involves strategically optimizing and expanding the infrastructure to meet the demands. This can be done vertically by enhancing the capabilities of existing servers or horizontally by adding more machines or nodes to distribute the load.","url":"https://earezki.com/massively-scaling-a-web-application/","@type":"BlogPosting","headline":"Massively scaling a web application","dateModified":"2024-11-23T23:00:46+00:00","datePublished":"2024-11-23T23:00:46+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://earezki.com/massively-scaling-a-web-application/"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://earezki.com/feed.xml" title="Dev|Journal" /><!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-161447264-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-161447264-1');
+</script> </head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Dev|Journal</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Massively scaling a web application</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2024-11-23T23:00:46+00:00" itemprop="datePublished">Nov 23, 2024
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>As user demands grow, scaling becomes critical. Whether it’s handling a surge in traffic, managing increasing amounts of data, or ensuring high availability, scaling ensures that an application remains responsive and reliable under varying workloads. The process involves strategically optimizing and expanding the infrastructure to meet the demands. This can be done vertically by enhancing the capabilities of existing servers or horizontally by adding more machines or nodes to distribute the load.</p>
+
+<p>In this article, we’ll explore the core principles of application scaling, the strategies available, and some of the trade-offs involved. We’ll explore into technical considerations like managing databases, caching, and load balancing, while also addressing common challenges like cost, latency, and architectural complexity.</p>
+
+<h3 id="single-server-setup">Single server setup</h3>
+
+<p>A single server setup is an attractive option for software development due to its cost efficiency, as it avoids the expense of multiple physical or cloud servers, and its simplified management with centralized configuration reducing complexity.
+It involves hosting all components of a development environment, such as a database and an application service.
+It’s ideal for small teams or projects with low traffic and manageable user bases, offering quick and easy deployment compared to distributed systems.</p>
+
+<p>However, it has limited scalability for high-traffic applications, vulnerability to a single point of failure where downtime affects the entire system, and potential resource contention as multiple services share the same resources under load.
+This setup should be upgraded when user demand grows, and the server struggles to handle the load, frequent deployments and/or uptime requirements.</p>
+
+<h3 id="vertical-scaling">Vertical scaling</h3>
+
+<p>Vertical scaling, or scaling up, refers to increasing the capacity of a single server by upgrading its hardware components, such as adding more CPUs, RAM, storage, faster network, …
+This approach is advantageous because it simplifies the architecture, avoiding the complexity of distributed systems, and allows applications to remain on a single machine, making data consistency and management straightforward.
+Vertical scaling often involves less overhead compared to other scaling strategies.
+It’s especially suitable for applications that are tightly coupled or require low-latency processing, such as relational databases, legacy systems, or enterprise software.</p>
+
+<p>However, vertical scaling has significant limitations, the most notable being a fixed ceiling, every server/cloud provider has limits beyond which it cannot be upgraded.
+This can become a bottleneck for rapidly growing applications. Furthermore, we have a single point of failure, if the server goes down, the entire system becomes unavailable.
+On most cloud providers we can have more than 150 vCPUs and 1T of RAM, but the cost can escalate quickly, as high-performance hardware is often significantly more expensive than the equivalent processing power distributed across multiple servers.</p>
+
+<p>Vertical scaling can be done by resizing virtual machines or switching to higher-tier instances on platforms like AWS, Azure, or GCP.
+While it’s effective for smaller systems or controlled environments, vertical scaling is less flexible in handling the unpredictable demands of large-scale or highly dynamic workloads.</p>
+
+<h3 id="horizontal-scaling">Horizontal scaling</h3>
+
+<p>Horizontal scaling, also known as scaling out, refers to the process of adding more VMs to handle increased load rather than scaling up.
+This approach is widely used in distributed computing systems, cloud services, and web applications where traffic and data can grow unpredictably.
+One of the primary advantages of horizontal scaling is its flexibility, it allows to add capacity incrementally, making it cost-efficient for systems with fluctuating demand.
+Additionally, it improves reliability and fault tolerance since workloads are distributed across multiple servers, if one server fails, the others can continue to operate.
+Horizontal scaling is also well-suited for modern cloud architectures that leverage microservices, containerization, and orchestration platforms such as Kubernetes, and is ideal for use cases like e-commerce, social media, and streaming services where user traffic can surge rapidly and unpredictably.</p>
+
+<p>However, horizontal scaling comes with challenges, including increased complexity in management and coordination between servers.</p>
+
+<h3 id="stateful-vs-stateless-applications">Stateful vs stateless applications</h3>
+
+<p>Stateful and stateless applications are distinguished by how they handle and maintain data, particularly user session information and interaction contexts. In a <strong>stateful application</strong>, the server retains information about the client across multiple requests, creating a “state” For example, in a web application, a user’s login session, shopping cart data, or game progress are stored on the server-side. This is typically achieved through session management systems, cookies, or an external storage (database, …). Stateful applications are vital for user experiences that require continuity, such as e-commerce platforms, banking applications, and collaborative tools. They excel in providing seamless user interaction but come with technical complexities, especially when scaling. Horizontal scaling, for example, requires mechanisms like session replication across servers or sticky sessions to ensure the user’s state is consistently accessible. This can increase latency and add complexity.</p>
+
+<p>In contrast, <strong>stateless applications</strong> do not store client-specific data between requests. Each request from a client contains all the information necessary to process it, and the server treats every interaction as independent. This architecture aligns well with protocols like HTTP, which are inherently stateless, and is a cornerstone of RESTful APIs and serverless computing. Stateless designs are advantageous for scalability and reliability because servers can handle any request without context. This simplifies load balancing (next chapter) and makes recovery from failures easier, as no session data is lost. However, stateless applications offload the responsibility of maintaining state to the client.</p>
+
+<p><strong>Technical differences</strong> between these models highlight their strengths and weaknesses. Stateful applications often require a database or memory cache to store session data, which can lead to bottlenecks in performance and challenges in maintaining consistency across distributed systems. Techniques like database sharding or distributed caches (e.g., Redis or Memcached) can help mitigate these issues but add to architectural complexity. Stateless applications, on the other hand, often rely on idempotent operations and external storage (e.g., a database) for retrieving and processing repeated context.</p>
+
+<p>In terms of <strong>use cases</strong>, stateful applications are critical for workflows involving complex, multi-step, secured interactions where session continuity is required, such as online banking. Stateless systems shine in environments demanding rapid scaling and simplicity, such as in a microservices or serverless architectures.</p>
+
+<p>Both models have their <strong>limitations</strong>. Stateful systems risk downtime or data loss if the server handling the state crashes, making failover configurations more complex. Stateless systems, while scalable, can become inefficient when handling interaction-heavy workflows, as the repeated transmission of context data burdens both clients and servers. By understanding the trade-offs and technical considerations of stateful and stateless architectures, developers can select the model that best meets the scalability, performance, and user experience requirements of their applications.</p>
+
+<h3 id="load-balancer">Load balancer</h3>
+
+<p>A <strong>load balancer</strong> is a critical network component designed to distribute incoming traffic or workloads across multiple servers to ensure no single server becomes overwhelmed, improving the reliability and performance of applications. Load balancers can operate at different levels of the OSI model, such as Layer 4 (transport level) for TCP/UDP traffic or Layer 7 (application level) for HTTP/HTTPS requests. By spreading requests evenly, they maximize resource utilization and minimize response times, creating a seamless user experience even during traffic spikes. Modern load balancers often incorporate health checks to identify and route traffic away from unresponsive or failing servers, thus enhancing system availability. They could support features like SSL termination and caching which further optimize performance.</p>
+
+<p>The <strong>advantages</strong> of load balancers are numerous. They ensure high availability by rerouting traffic during server outages, prevent server overloading, and improve fault tolerance in distributed systems. They play a crucial role in horizontal scaling, enabling applications to handle increased demand by adding more servers. Advanced load balancers support global traffic distribution, allowing companies to deploy geographically distributed systems for lower latency and improved user experiences.</p>
+
+<p>However, load balancers add an additional layer of complexity and cost to infrastructure. Their performance becomes a bottleneck if not properly sized, and in some cases, they can become a single point of failure themselves unless deployed in a highly available configuration, such as with redundancy or failover mechanisms, and they might introduce latency.</p>
+
+<h3 id="choice-of-database">Choice of database</h3>
+
+<p>Databases are fundamental to storing, managing, and retrieving data, with various types designed for specific use cases, each with distinct architectures and trade-offs. <strong>Relational databases (RDBMS)</strong>, like MySQL and PostgreSQL are structured and use tables with predefined schemas. They rely on SQL for queries and emphasize ACID (Atomicity, Consistency, Isolation, Durability) properties, ensuring high reliability and data integrity. These are ideal for applications needing complex relationships and queries, such as ERP systems, e-commerce sites, and financial applications.</p>
+
+<p><strong>NoSQL databases</strong>, represents document, key-value, column-family, and graph databases, are more flexible and scaleable, often trading off strong consistency for availability and partition tolerance (AP as per the CAP theorem). <strong>Document stores</strong> like MongoDB and Couchbase handle semi-structured data using JSON-like documents, making them suitable for content management systems or rapidly changing schemas. <strong>Key-value stores</strong>, such as Redis and DynamoDB, offer lightning-fast read/write performance for scenarios like caching, session management, or leaderboards but lack sophisticated querying capabilities. <strong>Column-family databases</strong> like Cassandra and HBase are optimized for big data and time-series analysis, excelling in write-heavy workloads. <strong>Graph databases</strong>, like Neo4j, are specialized for exploring and analyzing relationships, such as in recommendation engines or social networks.</p>
+
+<p><strong>NewSQL databases</strong>, such as CockroachDB or VoltDB, attempt to combine the scalability of NoSQL with the ACID guarantees of traditional RDBMS.</p>
+
+<p>To choose the right database, start by evaluating your data’s structure, volume, and access patterns. If your application involves structured data with complex relationships and demands strong consistency, an RDBMS is typically the best choice. For unstructured or semi-structured data with scalability requirements, NoSQL solutions like document stores or key-value databases are more appropriate. When data is graph-like and relationship-driven, a graph database is optimal. For use cases like high-frequency logging or monitoring, a time-series database provides performance and efficiency. Consider the read/write balance, as databases optimized for heavy reads (like caching systems) may not perform well under heavy writes.</p>
+
+<p>Scalability requirements also influence the decision: vertical scaling (adding resources to a single server) suits RDBMS initially but has limits, while horizontal scaling (adding more nodes) is more naturally supported by NoSQL systems. Operational complexity, licensing costs, and integration with existing technology stacks are also crucial. Increasingly, modern systems employ <strong>polyglot persistence</strong>, combining multiple database types to leverage the strengths of each for different components of an application. For example, a system might use a relational database for transaction records, a document store for user-generated content, and a key-value store for caching.</p>
+
+<p>Understanding the trade-offs between consistency, scalability, performance, and complexity will guide your choice, ensuring that the database fits your application’s unique needs.</p>
+
+<h3 id="database-replication">Database replication</h3>
+
+<p>Database replication is the process of duplicating data across multiple servers to ensure reliability, improve performance and enhance scalability. It involves copying data changes made on one database named the master node, to one or more other databases called replicas, enabling a distributed data architecture. There are various types of replication strategies, each tailored to specific application requirements. <strong>Synchronous replication</strong> ensures that data is written to both the master and replica nodes simultaneously, guaranteeing strong consistency, as the write operation only completes when all replicas confirm the transaction. This method is ideal for critical applications like financial systems, but comes at the cost of increased latency. <strong>Asynchronous replication</strong>, on the other hand, allows the master to continue processing transactions without waiting for replicas to acknowledge the changes. While this improves performance and reduces latency, it introduces the risk of data lag or eventual consistency.</p>
+
+<p><strong>Multi-master replication</strong> allows updates on multiple nodes, enabling high availability and write scalability, but it introduces challenges in resolving conflicts when the same data is modified concurrently on different nodes. This strategy is common in applications requiring decentralized writes, such as distributed data entry systems or geographically distributed applications. <strong>Single-master replication</strong>, where only one node accepts writes while others serve as read-only replicas, simplifies conflict resolution and is widely used for read-heavy workloads like analytics or high-traffic web applications. <strong>Bidirectional replication</strong>, a subset of multi-master replication, allows two nodes to act as both master and replica for each other, often used in active-active failover setups. <strong>Filtered or partial replication</strong> replicates only a subset of data based on specified criteria, optimizing bandwidth and storage in cases where full replication isn’t necessary.</p>
+
+<p>Cloud-native databases often support advanced replication mechanisms, such as <strong>global replication</strong>, which provides low-latency access across geographically distributed regions by replicating data closer to users. Amazon Aurora and Google Spanner are examples of managed database services that incorporate replication as a core feature to enhance availability and scalability.</p>
+
+<p>The <strong>advantages</strong> of replication are significant. It increases data availability by providing failover mechanisms, if the master database fails, replicas can take over, ensuring minimal downtime. It enhances scalability by offloading read operations to replicas, freeing up the master for write-heavy tasks. Replication also supports disaster recovery and backup strategies, as replicas can serve as live backups. Additionally, replication can improve performance for distributed systems by reducing latency, allowing users to access data from the nearest replica.</p>
+
+<p>However, replication adds complexity to database management, requiring careful configuration and monitoring to ensure data consistency and synchronization. In asynchronous replication, the risk of data lag or divergence between the master and replicas must be managed, particularly for applications requiring strong consistency. Synchronous replication can degrade performance due to the overhead of waiting for multiple nodes to acknowledge transactions. Network bandwidth and storage costs increase with the number of replicas. Additionally, replication does not inherently solve scalability for write-heavy workloads unless combined with other techniques like sharding (which we will discuss next).</p>
+
+<p>In practice, <strong>choosing a replication strategy</strong> depends on the specific requirements of the application. For mission-critical systems, synchronous replication is preferred for consistency, while asynchronous replication works well for read-heavy distributed workloads.</p>
+
+<p>PostgreSQL uses streaming replication and logical replication for real-time synchronization, while MySQL supports replication through binlogs. Cloud providers like AWS, GCP, and Azure offer managed replication services as a package with automated failover, backup, and monitoring.</p>
+
+<p>Replication is a cornerstone of modern distributed database architectures, enabling the high availability, scalability, and resilience required by today’s data-intensive applications.</p>
+
+<h3 id="database-sharding">Database sharding</h3>
+
+<p>Database sharding is a technique used to partition data across multiple servers, or “shards,” to improve performance, scalability, and manageability in systems handling massive amounts of data. The fundamental principle involves splitting a single large database into smaller pieces called shards, where each shard operates as an independent database containing a subset of the data. The most common method of sharding is <strong>horizontal partitioning</strong>, where rows of a table are distributed across different shards based on a sharding key.</p>
+
+<p>One of the key <strong>advantages</strong> of sharding is its ability to enhance scalability, by distributing data across multiple servers, sharding allows the system to handle a much larger workload than a single server could while improving performance. Sharding can improve fault tolerance and availability as well, if one shard fails, others can continue to operate.</p>
+
+<p>The choice of a <strong>sharding key</strong> is critical, as a poorly chosen key can lead to unbalanced shards and degrade system performance. Managing cross-shard queries is another challenge, operations like joins, aggregations, or transactions that span multiple shards are more complex/expensive and requires coordination between shards, which can result in higher latency.</p>
+
+<h3 id="caching">Caching</h3>
+
+<p>Caching is a technique used in software to store copies of data in a location that is faster to access than the original source, reducing latency and improving system performance. It’s a cornerstone of modern computing, used in everything from CPU operations to large-scale distributed systems like CDNs (next chapter) and web applications. The primary goal of caching is to reduce the time and resources needed to fetch frequently used data by keeping it closer to the application or end-user. Caches can exist in various layers of a system, such as in-memory caches (Redis or Memcached), disk-based caches, or client (browser, phone, …) caches, depending on the requirements of the application.</p>
+
+<p>It can dramatically improves performance by reducing the time to retrieve data, especially when fetching from slow sources like databases, APIs, or remote servers, or doing intensive calculations. This leads to a better user experience, as pages load faster and applications respond more quickly. Caching also reduces the load on backend systems, since frequently accessed data doesn’t have to be repeatedly computed or fetched. It’s also a key enabler for scalability, allowing systems to handle a larger number of users without requiring proportional increases in infrastructure. In distributed systems, caching minimizes the latency associated with network hops by placing data closer to the point of consumption.</p>
+
+<p>However adding a cache isn’t always a straighforwad operation, especially while maintaining data consistency in dynamic applications with frequent data changes. Cached data can become stale, leading to incorrect or outdated information being served to users. Managing cache invalidation (updating/removing outdated entries) is notoriously difficult and is often referred to as one of the hardest problems in computer science (along with naming). Over-caching or under-caching can also pose problems. If too much data is cached, it can exhaust memory, while insufficient caching could fail to deliver performance targets.</p>
+
+<p>Hence, Determining what to cache and for how long is critical. we must identify data that is frequently accessed and unlikely to change rapidly to maximize the cache’s effectiveness.</p>
+
+<p>There are three common invalidation strategies: time-based expiration (TTL), manual invalidation, and event-driven updates.</p>
+
+<p>Cache misses—when data is requested but not found (not yet loaded, or was invalidated) in the cache which can lead to performance hits as the system falls back to the slower original data source, negating some of the cache’s advantages. Similarly, cache thundering or stampeding occurs when multiple requests simultaneously attempt to fetch the same missing item, overwhelming the backend.</p>
+
+<p>For write-heavy applications or scenarios where every data fetch involves unique or constantly changing information, caching might provide little to negative benefits. Poorly configured caching can lead to security risks, such as exposing sensitive data to unauthorized third parties.</p>
+
+<p>In web development, it powers faster page loads by caching static assets like images, CSS, and JS files. In databases, query caching reduces repetitive reads for commonly accessed data. On a smaller scale.</p>
+
+<h3 id="cdn">CDN</h3>
+
+<p>A <strong>Content Delivery Network (CDN for short)</strong> is a distributed network of servers designed to deliver web content, such as images, videos, stylesheets, scripts, … to users more efficiently by serving them from geographically closer locations. CDNs improve <strong>performance</strong> by reducing latency, minimizing the distance data travels, and offloading traffic from the origin server, enabling faster page load times and a better user experience. They are essential for high-traffic websites, global applications, and services requiring low-latency delivery, such as video streaming. They allow to better handle spikes of traffic, enhanced reliability through redundancy, and they have built-in security features like DDoS mitigation.</p>
+
+<h3 id="multi-region-deployment">Multi-region deployment</h3>
+
+<p><strong>Multi-region deployment</strong> refers to deploying an application across multiple geographic regions to improve performance, reliability and scalability. This strategy enables faster response times for users by serving content from the nearest location and enhances fault tolerance by reducing the risk of service outages due to regional failures, such as natural disasters or localized infrastructure problems.</p>
+
+<p>Multi-region deployment improves <strong>latency</strong> because users are directed to the nearest server. It also enhances <strong>availability</strong> and <strong>resilience</strong>, if one region experiences downtime, traffic can be rerouted to other regions, ensuring continuous operation.</p>
+
+<p>However, implementing a multi-region architecture is <strong>complex</strong>. Synchronizing data across regions is challenging, as maintaining consistency often involves trade-offs between performance and strict ACID properties, also, it can cause potential latency for synchronization tasks, such as replicating databases, which can slow down write-heavy applications, moreover, compliance regulations might restrict certain data from being transferred between regions.</p>
+
+<p><img src="/assets/scaling_software.jpg" alt="Scaling software" title="Scaling software" /></p>
+
+  </div><a class="u-url" href="/massively-scaling-a-web-application/" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Dev|Journal</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Dev|Journal</li><li><a class="u-email" href="mailto:arezki.elmehdi@gmail.com">arezki.elmehdi@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/earezki"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">earezki</span></a></li><li><a href="https://www.linkedin.com/in/mehdi-arezki"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg> <span class="username">mehdi-arezki</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Blogging about interests.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
