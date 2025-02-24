@@ -6,13 +6,9 @@ permalink: /about/
 
 ### **AREZKI El Mehdi**
 
-A java developer with over 8 years of development and implementation experience on projects ranging from small departmental applications through complex enterprise solutions in multi-national corporate environments.
+8 years of software development experience across e-commerce, banking, and document management. Expert in Java/Spring (SpringBoot, MVC, Data, Security), databases (PostgreSQL, Redis, MongoDB), and cloud (S3, Kubernetes, Docker). Proficient in DDD, Event Sourcing, and modern web technologies (React, Typescript). Skilled in building scalable, robust systems.
 
-When not coding, I Like to blog about:
-. `Java`, `Vert.x`, `TDD`, `DDD`, `Microservices`, `Docker`, …
-
-
-[Linkeding](https://www.linkedin.com/in/mehdi-arezki/)
+[Linkedin](https://www.linkedin.com/in/mehdi-arezki/)
 
 [Youtube](https://www.youtube.com/channel/UCeU54Sja74q8YLVXuO3HFRg)
 
