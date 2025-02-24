@@ -6,7 +6,7 @@ categories:
     - '2025'
     - tech
     - recallfilai
-permalink: /recallfilai/
+permalink: /recallfilai/tech-stack/
 ---
 
 ### What is:
