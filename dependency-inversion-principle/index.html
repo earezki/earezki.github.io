@@ -1,0 +1,171 @@
+<!DOCTYPE html><html lang="en" data-theme="light"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>D from SOLID • Dev|Journal</title><meta name="description" content="Dependency Inversion Principle (DIP) in Software Design Introduction The Dependency Inversion Principle (DIP) is one of the five SOLID principles of…"><meta property="og:title" content="D from SOLID • Dev|Journal"><meta property="og:site_name" content="Dev|Journal"><meta property="og:description" content="Dependency Inversion Principle (DIP) in Software Design Introduction The Dependency Inversion Principle (DIP) is one of the five SOLID principles of…"><link rel="canonical" href="https://earezki.com/dependency-inversion-principle/"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="D from SOLID • Dev|Journal"><meta name="twitter:description" content="Dependency Inversion Principle (DIP) in Software Design Introduction The Dependency Inversion Principle (DIP) is one of the five SOLID principles of…"><link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"><script async src="https://www.googletagmanager.com/gtag/js?id=UA-161447264-1"></script><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"D from SOLID","datePublished":"2024-07-24T23:00:46.000Z","dateModified":"2024-07-24T23:00:46.000Z","author":{"@type":"Person","name":"AREZKI El Mehdi"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://earezki.com/dependency-inversion-principle/"},"description":"Dependency Inversion Principle (DIP) in Software Design Introduction The Dependency Inversion Principle (DIP) is one of the five SOLID principles of…"}</script><link rel="stylesheet" href="/_astro/_slug_.UD-9jzHW.css">
+<style>.toc[data-astro-cid-xvrfupwn]{position:sticky;top:90px;max-height:calc(100vh - 120px);overflow:auto;padding:1rem 1rem 1.2rem;background:var(--color-bg-alt);border:1px solid var(--color-border);border-radius:var(--radius-md);font-size:.8rem;line-height:1.3}.toc-title[data-astro-cid-xvrfupwn]{font-weight:600;font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.6rem;color:var(--color-text-alt)}.toc[data-astro-cid-xvrfupwn] ul[data-astro-cid-xvrfupwn]{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.35rem}.toc[data-astro-cid-xvrfupwn] a[data-astro-cid-xvrfupwn]{text-decoration:none;color:var(--color-text-alt)}.toc[data-astro-cid-xvrfupwn] a[data-astro-cid-xvrfupwn]:hover{color:var(--color-accent)}.toc[data-astro-cid-xvrfupwn] li[data-astro-cid-xvrfupwn][class*=d-3]{margin-left:.75rem}.toc[data-astro-cid-xvrfupwn] li[data-astro-cid-xvrfupwn][class*=d-4]{margin-left:1.4rem}@media (max-width: 1080px){.toc[data-astro-cid-xvrfupwn]{display:none}}.post-layout[data-astro-cid-yvbahnfj]{display:grid;grid-template-columns:260px 1fr;gap:2.5rem}.sidebar-left[data-astro-cid-yvbahnfj]{position:relative}@media (max-width: 1080px){.post-layout[data-astro-cid-yvbahnfj]{grid-template-columns:1fr}}
+</style><script type="module" src="/_astro/hoisted.Bhe4AXry.js"></script></head> <body> <div id="readingProgress" style="position:fixed;left:0;top:0;height:3px;background:linear-gradient(90deg,#2563eb,#9333ea);width:0;z-index:999;transition:width .15s ease;"></div>  <header class="site-header container"> <div class="logo-wrap"> <a class="logo" href="/">Dev|Journal</a> </div> <nav class="main-nav"> <a href="/">Home</a> <a href="/about/">About</a> <a href="/tags/">Tags</a> <a href="/search/">Search</a> <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode">☾</button> </nav> </header> <main class="container content-area">  <div class="post-layout" data-astro-cid-yvbahnfj> <aside class="sidebar-left" data-astro-cid-yvbahnfj> <nav class="toc" aria-label="Table of Contents" data-astro-cid-xvrfupwn> <div class="toc-title" data-astro-cid-xvrfupwn>On this page</div> <ul data-astro-cid-xvrfupwn> <li class="d-2" data-astro-cid-xvrfupwn><a href="#introduction" data-astro-cid-xvrfupwn>Introduction</a></li><li class="d-2" data-astro-cid-xvrfupwn><a href="#why-dip-matters" data-astro-cid-xvrfupwn>Why DIP Matters</a></li><li class="d-2" data-astro-cid-xvrfupwn><a href="#applying-dip-in-java" data-astro-cid-xvrfupwn>Applying DIP in Java</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#example-before-applying-dip" data-astro-cid-xvrfupwn>Example: Before Applying DIP</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#example-after-applying-dip" data-astro-cid-xvrfupwn>Example: After Applying DIP</a></li><li class="d-4" data-astro-cid-xvrfupwn><a href="#step-1-create-an-abstraction" data-astro-cid-xvrfupwn>Step 1: Create an Abstraction</a></li><li class="d-4" data-astro-cid-xvrfupwn><a href="#step-2-implement-the-abstraction" data-astro-cid-xvrfupwn>Step 2: Implement the Abstraction</a></li><li class="d-4" data-astro-cid-xvrfupwn><a href="#step-3-depend-on-the-abstraction" data-astro-cid-xvrfupwn>Step 3: Depend on the Abstraction</a></li><li class="d-4" data-astro-cid-xvrfupwn><a href="#step-4-use-dependency-injection" data-astro-cid-xvrfupwn>Step 4: Use Dependency Injection</a></li><li class="d-2" data-astro-cid-xvrfupwn><a href="#benefits-of-applying-dip" data-astro-cid-xvrfupwn>Benefits of Applying DIP</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#1-decoupling-and-flexibility" data-astro-cid-xvrfupwn>1. **Decoupling and Flexibility**</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#2-enhanced-testability" data-astro-cid-xvrfupwn>2. **Enhanced Testability**</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#3-improved-maintainability" data-astro-cid-xvrfupwn>3. **Improved Maintainability**</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#4-scalability" data-astro-cid-xvrfupwn>4. **Scalability**</a></li><li class="d-2" data-astro-cid-xvrfupwn><a href="#real-world-examples-of-dip" data-astro-cid-xvrfupwn>Real-World Examples of DIP</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#1-java-logging-framework-slf4j" data-astro-cid-xvrfupwn>1. **Java Logging Framework (SLF4J)**</a></li><li class="d-4" data-astro-cid-xvrfupwn><a href="#slf4j-abstraction" data-astro-cid-xvrfupwn>SLF4J Abstraction</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#2-spring-framework" data-astro-cid-xvrfupwn>2. **Spring Framework**</a></li><li class="d-4" data-astro-cid-xvrfupwn><a href="#spring-example" data-astro-cid-xvrfupwn>Spring Example</a></li><li class="d-2" data-astro-cid-xvrfupwn><a href="#conclusion" data-astro-cid-xvrfupwn>Conclusion</a></li> </ul> </nav>  </aside> <article class="post" data-astro-cid-yvbahnfj> <header class="post-header" data-astro-cid-yvbahnfj> <h1 data-astro-cid-yvbahnfj>D from SOLID</h1> <div class="meta" data-astro-cid-yvbahnfj> <time datetime="2024-07-24T23:00:46.000Z" data-astro-cid-yvbahnfj>Wed Jul 24 2024</time> <span data-astro-cid-yvbahnfj>• 4 min read</span> </div> <div class="tag-row" data-astro-cid-yvbahnfj><span class="tag" data-astro-cid-yvbahnfj>Software design</span><span class="tag" data-astro-cid-yvbahnfj>SOLID</span></div> </header> <div class="post-body prose" data-astro-cid-yvbahnfj> <h1 id="dependency-inversion-principle-dip-in-software-design">Dependency Inversion Principle (DIP) in Software Design</h1>
+<h2 id="introduction">Introduction</h2>
+<p>The Dependency Inversion Principle (DIP) is one of the five SOLID principles of object-oriented design. It is fundamental to creating flexible and maintainable software systems. DIP states that:</p>
+<ol>
+<li>High-level modules should not depend on low-level modules. Both should depend on abstractions.</li>
+<li>Abstractions should not depend on details. Details should depend on abstractions.</li>
+</ol>
+<p>In simpler terms, the principle encourages dependency on interfaces or abstract classes rather than concrete implementations. This decouples the high-level logic of the application from the low-level details, making the system more modular and easier to maintain.</p>
+<h2 id="why-dip-matters">Why DIP Matters</h2>
+<ul>
+<li><strong>Decoupling</strong>: By relying on abstractions, different parts of a system can change independently, leading to a more flexible architecture.</li>
+<li><strong>Maintainability</strong>: Changes in one part of the system are less likely to impact other parts, reducing the risk of bugs.</li>
+<li><strong>Testability</strong>: Abstracting dependencies makes it easier to mock or stub components, facilitating unit testing.</li>
+<li><strong>Scalability</strong>: As the application grows, maintaining a loosely coupled architecture becomes crucial for scalability.</li>
+</ul>
+<h2 id="applying-dip-in-java">Applying DIP in Java</h2>
+<p>Let’s explore how to apply the Dependency Inversion Principle in Java with practical examples.</p>
+<h3 id="example-before-applying-dip">Example: Before Applying DIP</h3>
+<p>Consider a scenario where we have a <code>LightBulb</code> class and a <code>Switch</code> class. The <code>Switch</code> class controls the <code>LightBulb</code>.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#FF7B72">public</span><span style="color:#FF7B72"> class</span><span style="color:#FFA657"> LightBulb</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#FF7B72"> void</span><span style="color:#D2A8FF"> turnOn</span><span style="color:#E6EDF3">() {</span></span>
+<span class="line"><span style="color:#E6EDF3">        System.out.</span><span style="color:#D2A8FF">println</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"LightBulb turned on"</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#FF7B72"> void</span><span style="color:#D2A8FF"> turnOff</span><span style="color:#E6EDF3">() {</span></span>
+<span class="line"><span style="color:#E6EDF3">        System.out.</span><span style="color:#D2A8FF">println</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"LightBulb turned off"</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">public</span><span style="color:#FF7B72"> class</span><span style="color:#FFA657"> Switch</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#FF7B72">    private</span><span style="color:#E6EDF3"> LightBulb</span><span style="color:#E6EDF3"> lightBulb;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#D2A8FF"> Switch</span><span style="color:#E6EDF3">() {</span></span>
+<span class="line"><span style="color:#79C0FF">        this</span><span style="color:#E6EDF3">.lightBulb </span><span style="color:#FF7B72">=</span><span style="color:#FF7B72"> new</span><span style="color:#D2A8FF"> LightBulb</span><span style="color:#E6EDF3">();</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#FF7B72"> void</span><span style="color:#D2A8FF"> operate</span><span style="color:#E6EDF3">(</span><span style="color:#FF7B72">boolean</span><span style="color:#FFA657"> on</span><span style="color:#E6EDF3">) {</span></span>
+<span class="line"><span style="color:#FF7B72">        if</span><span style="color:#E6EDF3"> (on) {</span></span>
+<span class="line"><span style="color:#E6EDF3">            lightBulb.</span><span style="color:#D2A8FF">turnOn</span><span style="color:#E6EDF3">();</span></span>
+<span class="line"><span style="color:#E6EDF3">        } </span><span style="color:#FF7B72">else</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">            lightBulb.</span><span style="color:#D2A8FF">turnOff</span><span style="color:#E6EDF3">();</span></span>
+<span class="line"><span style="color:#E6EDF3">        }</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span></code></pre>
+<p>In this example, <code>Switch</code> directly depends on the concrete class <code>LightBulb</code>. This violates DIP because changes in <code>LightBulb</code> might require changes in <code>Switch</code>.</p>
+<h3 id="example-after-applying-dip">Example: After Applying DIP</h3>
+<p>To apply DIP, we need to introduce an abstraction for the <code>LightBulb</code>.</p>
+<h4 id="step-1-create-an-abstraction">Step 1: Create an Abstraction</h4>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#FF7B72">public</span><span style="color:#FF7B72"> interface</span><span style="color:#FFA657"> Switchable</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#FF7B72">    void</span><span style="color:#D2A8FF"> turnOn</span><span style="color:#E6EDF3">();</span></span>
+<span class="line"><span style="color:#FF7B72">    void</span><span style="color:#D2A8FF"> turnOff</span><span style="color:#E6EDF3">();</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span></code></pre>
+<h4 id="step-2-implement-the-abstraction">Step 2: Implement the Abstraction</h4>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#FF7B72">public</span><span style="color:#FF7B72"> class</span><span style="color:#FFA657"> LightBulb</span><span style="color:#FF7B72"> implements</span><span style="color:#79C0FF"> Switchable</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">    @</span><span style="color:#FF7B72">Override</span></span>
+<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#FF7B72"> void</span><span style="color:#D2A8FF"> turnOn</span><span style="color:#E6EDF3">() {</span></span>
+<span class="line"><span style="color:#E6EDF3">        System.out.</span><span style="color:#D2A8FF">println</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"LightBulb turned on"</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">    @</span><span style="color:#FF7B72">Override</span></span>
+<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#FF7B72"> void</span><span style="color:#D2A8FF"> turnOff</span><span style="color:#E6EDF3">() {</span></span>
+<span class="line"><span style="color:#E6EDF3">        System.out.</span><span style="color:#D2A8FF">println</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"LightBulb turned off"</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span></code></pre>
+<h4 id="step-3-depend-on-the-abstraction">Step 3: Depend on the Abstraction</h4>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#FF7B72">public</span><span style="color:#FF7B72"> class</span><span style="color:#FFA657"> Switch</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#FF7B72">    private</span><span style="color:#E6EDF3"> Switchable</span><span style="color:#E6EDF3"> switchableDevice;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#D2A8FF"> Switch</span><span style="color:#E6EDF3">(Switchable </span><span style="color:#FFA657">switchableDevice</span><span style="color:#E6EDF3">) {</span></span>
+<span class="line"><span style="color:#79C0FF">        this</span><span style="color:#E6EDF3">.switchableDevice </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> switchableDevice;</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#FF7B72"> void</span><span style="color:#D2A8FF"> operate</span><span style="color:#E6EDF3">(</span><span style="color:#FF7B72">boolean</span><span style="color:#FFA657"> on</span><span style="color:#E6EDF3">) {</span></span>
+<span class="line"><span style="color:#FF7B72">        if</span><span style="color:#E6EDF3"> (on) {</span></span>
+<span class="line"><span style="color:#E6EDF3">            switchableDevice.</span><span style="color:#D2A8FF">turnOn</span><span style="color:#E6EDF3">();</span></span>
+<span class="line"><span style="color:#E6EDF3">        } </span><span style="color:#FF7B72">else</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">            switchableDevice.</span><span style="color:#D2A8FF">turnOff</span><span style="color:#E6EDF3">();</span></span>
+<span class="line"><span style="color:#E6EDF3">        }</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span></code></pre>
+<h4 id="step-4-use-dependency-injection">Step 4: Use Dependency Injection</h4>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#FF7B72">public</span><span style="color:#FF7B72"> class</span><span style="color:#FFA657"> Main</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#FF7B72"> static</span><span style="color:#FF7B72"> void</span><span style="color:#D2A8FF"> main</span><span style="color:#E6EDF3">(</span><span style="color:#FF7B72">String</span><span style="color:#E6EDF3">[] </span><span style="color:#FFA657">args</span><span style="color:#E6EDF3">) {</span></span>
+<span class="line"><span style="color:#E6EDF3">        Switchable</span><span style="color:#E6EDF3"> lightBulb</span><span style="color:#FF7B72"> =</span><span style="color:#FF7B72"> new</span><span style="color:#D2A8FF"> LightBulb</span><span style="color:#E6EDF3">();</span></span>
+<span class="line"><span style="color:#E6EDF3">        Switch</span><span style="color:#E6EDF3"> lightSwitch</span><span style="color:#FF7B72"> =</span><span style="color:#FF7B72"> new</span><span style="color:#D2A8FF"> Switch</span><span style="color:#E6EDF3">(lightBulb);</span></span>
+<span class="line"><span style="color:#E6EDF3">        </span></span>
+<span class="line"><span style="color:#E6EDF3">        lightSwitch.</span><span style="color:#D2A8FF">operate</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">true</span><span style="color:#E6EDF3">);  </span><span style="color:#8B949E">// Output: LightBulb turned on</span></span>
+<span class="line"><span style="color:#E6EDF3">        lightSwitch.</span><span style="color:#D2A8FF">operate</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">false</span><span style="color:#E6EDF3">); </span><span style="color:#8B949E">// Output: LightBulb turned off</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span></code></pre>
+<p>In this refactored example, <code>Switch</code> depends on the <code>Switchable</code> interface rather than the concrete <code>LightBulb</code> class. This adheres to DIP and makes <code>Switch</code> more flexible and easier to maintain.</p>
+<h2 id="benefits-of-applying-dip">Benefits of Applying DIP</h2>
+<h3 id="1-decoupling-and-flexibility">1. <strong>Decoupling and Flexibility</strong></h3>
+<p>By depending on abstractions, high-level modules are decoupled from low-level modules. This means you can change the implementation of <code>Switchable</code> without affecting the <code>Switch</code> class.</p>
+<h3 id="2-enhanced-testability">2. <strong>Enhanced Testability</strong></h3>
+<p>Abstractions make it easier to substitute real implementations with mock objects during testing. This improves the ability to write unit tests.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#FF7B72">import</span><span style="color:#FF7B72"> static</span><span style="color:#E6EDF3"> org.mockito.Mockito.</span><span style="color:#79C0FF">*</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">public</span><span style="color:#FF7B72"> class</span><span style="color:#FFA657"> SwitchTest</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">    @</span><span style="color:#FF7B72">Test</span></span>
+<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#FF7B72"> void</span><span style="color:#D2A8FF"> testSwitchOperate</span><span style="color:#E6EDF3">() {</span></span>
+<span class="line"><span style="color:#E6EDF3">        Switchable</span><span style="color:#E6EDF3"> mockDevice</span><span style="color:#FF7B72"> =</span><span style="color:#D2A8FF"> mock</span><span style="color:#E6EDF3">(Switchable.class);</span></span>
+<span class="line"><span style="color:#E6EDF3">        Switch</span><span style="color:#E6EDF3"> lightSwitch</span><span style="color:#FF7B72"> =</span><span style="color:#FF7B72"> new</span><span style="color:#D2A8FF"> Switch</span><span style="color:#E6EDF3">(mockDevice);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">        lightSwitch.</span><span style="color:#D2A8FF">operate</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">true</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#D2A8FF">        verify</span><span style="color:#E6EDF3">(mockDevice).</span><span style="color:#D2A8FF">turnOn</span><span style="color:#E6EDF3">();</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">        lightSwitch.</span><span style="color:#D2A8FF">operate</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">false</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#D2A8FF">        verify</span><span style="color:#E6EDF3">(mockDevice).</span><span style="color:#D2A8FF">turnOff</span><span style="color:#E6EDF3">();</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span></code></pre>
+<h3 id="3-improved-maintainability">3. <strong>Improved Maintainability</strong></h3>
+<p>With DIP, changes in low-level modules (e.g., <code>LightBulb</code>) do not propagate to high-level modules (e.g., <code>Switch</code>). This separation makes maintenance and upgrades easier.</p>
+<h3 id="4-scalability">4. <strong>Scalability</strong></h3>
+<p>As the system grows, adhering to DIP ensures that the codebase remains manageable. You can introduce new <code>Switchable</code> devices without modifying the <code>Switch</code> class.</p>
+<h2 id="real-world-examples-of-dip">Real-World Examples of DIP</h2>
+<h3 id="1-java-logging-framework-slf4j">1. <strong>Java Logging Framework (SLF4J)</strong></h3>
+<p>The Simple Logging Facade for Java (SLF4J) is a good example of DIP. It provides an abstraction for various logging frameworks like Log4j, Logback, and java.util.logging.</p>
+<h4 id="slf4j-abstraction">SLF4J Abstraction</h4>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#FF7B72">import</span><span style="color:#E6EDF3"> org.slf4j.Logger;</span></span>
+<span class="line"><span style="color:#FF7B72">import</span><span style="color:#E6EDF3"> org.slf4j.LoggerFactory;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">public</span><span style="color:#FF7B72"> class</span><span style="color:#FFA657"> MyClass</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#FF7B72">    private</span><span style="color:#FF7B72"> static</span><span style="color:#FF7B72"> final</span><span style="color:#E6EDF3"> Logger</span><span style="color:#E6EDF3"> logger</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> LoggerFactory.</span><span style="color:#D2A8FF">getLogger</span><span style="color:#E6EDF3">(MyClass.class);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#FF7B72"> void</span><span style="color:#D2A8FF"> doSomething</span><span style="color:#E6EDF3">() {</span></span>
+<span class="line"><span style="color:#E6EDF3">        logger.</span><span style="color:#D2A8FF">info</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"Doing something"</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span></code></pre>
+<p>In this example, <code>MyClass</code> depends on the <code>Logger</code> interface from SLF4J rather than a specific logging framework. This allows for flexibility in choosing or changing the logging implementation.</p>
+<h3 id="2-spring-framework">2. <strong>Spring Framework</strong></h3>
+<p>The Spring Framework heavily relies on DIP through dependency injection. Beans in Spring are injected into each other based on their interfaces rather than their concrete classes.</p>
+<h4 id="spring-example">Spring Example</h4>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#FF7B72">public</span><span style="color:#FF7B72"> interface</span><span style="color:#FFA657"> GreetingService</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">    String </span><span style="color:#D2A8FF">greet</span><span style="color:#E6EDF3">();</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">public</span><span style="color:#FF7B72"> class</span><span style="color:#FFA657"> MorningGreetingService</span><span style="color:#FF7B72"> implements</span><span style="color:#79C0FF"> GreetingService</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">    @</span><span style="color:#FF7B72">Override</span></span>
+<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#E6EDF3"> String </span><span style="color:#D2A8FF">greet</span><span style="color:#E6EDF3">() {</span></span>
+<span class="line"><span style="color:#FF7B72">        return</span><span style="color:#A5D6FF"> "Good Morning!"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">@</span><span style="color:#FF7B72">Service</span></span>
+<span class="line"><span style="color:#FF7B72">public</span><span style="color:#FF7B72"> class</span><span style="color:#FFA657"> MyService</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#FF7B72">    private</span><span style="color:#FF7B72"> final</span><span style="color:#E6EDF3"> GreetingService</span><span style="color:#E6EDF3"> greetingService;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">    @</span><span style="color:#FF7B72">Autowired</span></span>
+<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#D2A8FF"> MyService</span><span style="color:#E6EDF3">(GreetingService </span><span style="color:#FFA657">greetingService</span><span style="color:#E6EDF3">) {</span></span>
+<span class="line"><span style="color:#79C0FF">        this</span><span style="color:#E6EDF3">.greetingService </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> greetingService;</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#FF7B72"> void</span><span style="color:#D2A8FF"> sayGreeting</span><span style="color:#E6EDF3">() {</span></span>
+<span class="line"><span style="color:#E6EDF3">        System.out.</span><span style="color:#D2A8FF">println</span><span style="color:#E6EDF3">(greetingService.</span><span style="color:#D2A8FF">greet</span><span style="color:#E6EDF3">());</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span></code></pre>
+<p>In this example, <code>MyService</code> depends on the <code>GreetingService</code> interface. The actual implementation is injected by the Spring container, adhering to DIP.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>The Dependency Inversion Principle is a cornerstone of good software design. By ensuring that high-level modules depend on abstractions rather than concrete implementations, DIP promotes decoupling, maintainability, testability, and scalability. Applying DIP in Java involves identifying and creating appropriate abstractions, then using dependency injection to manage dependencies.</p>
+<p>By following DIP, developers can build more robust, flexible, and maintainable systems, capable of adapting to changing requirements and technologies with minimal friction.</p> </div> </article> </div> <div class="back-link" data-astro-cid-yvbahnfj><a href="/" data-astro-cid-yvbahnfj>← Back to home</a></div>  </main> <footer class="site-footer container"> <p>© 2025 AREZKI El Mehdi • <a href="https://github.com/earezki">GitHub</a></p> </footer>  </body> </html> 

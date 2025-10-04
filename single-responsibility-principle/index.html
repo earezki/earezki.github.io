@@ -1,0 +1,210 @@
+<!DOCTYPE html><html lang="en" data-theme="light"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>S from SOLID • Dev|Journal</title><meta name="description" content="Single Responsibility Principle (SRP) in Java Introduction The Single Responsibility Principle (SRP) is one of the five SOLID principles of object-oriented…"><meta property="og:title" content="S from SOLID • Dev|Journal"><meta property="og:site_name" content="Dev|Journal"><meta property="og:description" content="Single Responsibility Principle (SRP) in Java Introduction The Single Responsibility Principle (SRP) is one of the five SOLID principles of object-oriented…"><link rel="canonical" href="https://earezki.com/single-responsibility-principle/"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="S from SOLID • Dev|Journal"><meta name="twitter:description" content="Single Responsibility Principle (SRP) in Java Introduction The Single Responsibility Principle (SRP) is one of the five SOLID principles of object-oriented…"><link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"><script async src="https://www.googletagmanager.com/gtag/js?id=UA-161447264-1"></script><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"S from SOLID","datePublished":"2024-06-02T04:49:46.000Z","dateModified":"2024-06-02T04:49:46.000Z","author":{"@type":"Person","name":"AREZKI El Mehdi"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://earezki.com/single-responsibility-principle/"},"description":"Single Responsibility Principle (SRP) in Java Introduction The Single Responsibility Principle (SRP) is one of the five SOLID principles of object-oriented…"}</script><link rel="stylesheet" href="/_astro/_slug_.UD-9jzHW.css">
+<style>.toc[data-astro-cid-xvrfupwn]{position:sticky;top:90px;max-height:calc(100vh - 120px);overflow:auto;padding:1rem 1rem 1.2rem;background:var(--color-bg-alt);border:1px solid var(--color-border);border-radius:var(--radius-md);font-size:.8rem;line-height:1.3}.toc-title[data-astro-cid-xvrfupwn]{font-weight:600;font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.6rem;color:var(--color-text-alt)}.toc[data-astro-cid-xvrfupwn] ul[data-astro-cid-xvrfupwn]{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.35rem}.toc[data-astro-cid-xvrfupwn] a[data-astro-cid-xvrfupwn]{text-decoration:none;color:var(--color-text-alt)}.toc[data-astro-cid-xvrfupwn] a[data-astro-cid-xvrfupwn]:hover{color:var(--color-accent)}.toc[data-astro-cid-xvrfupwn] li[data-astro-cid-xvrfupwn][class*=d-3]{margin-left:.75rem}.toc[data-astro-cid-xvrfupwn] li[data-astro-cid-xvrfupwn][class*=d-4]{margin-left:1.4rem}@media (max-width: 1080px){.toc[data-astro-cid-xvrfupwn]{display:none}}.post-layout[data-astro-cid-yvbahnfj]{display:grid;grid-template-columns:260px 1fr;gap:2.5rem}.sidebar-left[data-astro-cid-yvbahnfj]{position:relative}@media (max-width: 1080px){.post-layout[data-astro-cid-yvbahnfj]{grid-template-columns:1fr}}
+</style><script type="module" src="/_astro/hoisted.Bhe4AXry.js"></script></head> <body> <div id="readingProgress" style="position:fixed;left:0;top:0;height:3px;background:linear-gradient(90deg,#2563eb,#9333ea);width:0;z-index:999;transition:width .15s ease;"></div>  <header class="site-header container"> <div class="logo-wrap"> <a class="logo" href="/">Dev|Journal</a> </div> <nav class="main-nav"> <a href="/">Home</a> <a href="/about/">About</a> <a href="/tags/">Tags</a> <a href="/search/">Search</a> <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode">☾</button> </nav> </header> <main class="container content-area">  <div class="post-layout" data-astro-cid-yvbahnfj> <aside class="sidebar-left" data-astro-cid-yvbahnfj> <nav class="toc" aria-label="Table of Contents" data-astro-cid-xvrfupwn> <div class="toc-title" data-astro-cid-xvrfupwn>On this page</div> <ul data-astro-cid-xvrfupwn> <li class="d-2" data-astro-cid-xvrfupwn><a href="#introduction" data-astro-cid-xvrfupwn>Introduction</a></li><li class="d-2" data-astro-cid-xvrfupwn><a href="#why-srp-matters" data-astro-cid-xvrfupwn>Why SRP Matters</a></li><li class="d-2" data-astro-cid-xvrfupwn><a href="#applying-srp-in-java" data-astro-cid-xvrfupwn>Applying SRP in Java</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#example-before-applying-srp" data-astro-cid-xvrfupwn>Example: Before Applying SRP</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#example-after-applying-srp" data-astro-cid-xvrfupwn>Example: After Applying SRP</a></li><li class="d-4" data-astro-cid-xvrfupwn><a href="#user-class" data-astro-cid-xvrfupwn>User Class</a></li><li class="d-4" data-astro-cid-xvrfupwn><a href="#emailvalidation-class" data-astro-cid-xvrfupwn>EmailValidation Class</a></li><li class="d-4" data-astro-cid-xvrfupwn><a href="#userrepository-class" data-astro-cid-xvrfupwn>UserRepository Class</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#unit-tests" data-astro-cid-xvrfupwn>Unit Tests</a></li><li class="d-4" data-astro-cid-xvrfupwn><a href="#emailvalidationtest" data-astro-cid-xvrfupwn>EmailValidationTest</a></li><li class="d-4" data-astro-cid-xvrfupwn><a href="#userrepositorytest" data-astro-cid-xvrfupwn>UserRepositoryTest</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#benefits-of-refactoring" data-astro-cid-xvrfupwn>Benefits of Refactoring</a></li><li class="d-2" data-astro-cid-xvrfupwn><a href="#java-library-examples" data-astro-cid-xvrfupwn>Java Library Examples</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#1-java-io-library" data-astro-cid-xvrfupwn>1. **Java IO Library**</a></li><li class="d-4" data-astro-cid-xvrfupwn><a href="#example-bufferedreader-and-filereader" data-astro-cid-xvrfupwn>Example: `BufferedReader` and `FileReader`</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#2-java-collections-framework" data-astro-cid-xvrfupwn>2. **Java Collections Framework**</a></li><li class="d-4" data-astro-cid-xvrfupwn><a href="#example-arraylist-and-collectionssort" data-astro-cid-xvrfupwn>Example: `ArrayList` and `Collections.sort`</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#3-java-networking" data-astro-cid-xvrfupwn>3. **Java Networking**</a></li><li class="d-4" data-astro-cid-xvrfupwn><a href="#example-socket-and-printwriter" data-astro-cid-xvrfupwn>Example: `Socket` and `PrintWriter`</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#4-java-util-logging" data-astro-cid-xvrfupwn>4. **Java Util Logging**</a></li><li class="d-4" data-astro-cid-xvrfupwn><a href="#example-logger-and-handler" data-astro-cid-xvrfupwn>Example: `Logger` and `Handler`</a></li><li class="d-2" data-astro-cid-xvrfupwn><a href="#conclusion" data-astro-cid-xvrfupwn>Conclusion</a></li> </ul> </nav>  </aside> <article class="post" data-astro-cid-yvbahnfj> <header class="post-header" data-astro-cid-yvbahnfj> <h1 data-astro-cid-yvbahnfj>S from SOLID</h1> <div class="meta" data-astro-cid-yvbahnfj> <time datetime="2024-06-02T04:49:46.000Z" data-astro-cid-yvbahnfj>Sun Jun 02 2024</time> <span data-astro-cid-yvbahnfj>• 5 min read</span> </div> <div class="tag-row" data-astro-cid-yvbahnfj><span class="tag" data-astro-cid-yvbahnfj>Software design</span><span class="tag" data-astro-cid-yvbahnfj>SOLID</span></div> </header> <div class="post-body prose" data-astro-cid-yvbahnfj> <h1 id="single-responsibility-principle-srp-in-java">Single Responsibility Principle (SRP) in Java</h1>
+<h2 id="introduction">Introduction</h2>
+<p>The Single Responsibility Principle (SRP) is one of the five SOLID principles of object-oriented design. It states that a class should have only one reason to change, meaning it should only have one job or responsibility. This principle helps to achieve a more modular, maintainable, and scalable codebase.</p>
+<h2 id="why-srp-matters">Why SRP Matters</h2>
+<ul>
+<li><strong>Maintainability</strong>: When a class has a single responsibility, it is easier to understand and modify. No more headaches trying to decipher spaghetti code!</li>
+<li><strong>Testability</strong>: Classes with single responsibilities are easier to test because their functionality is limited to one concern. Testing just got a whole lot simpler!</li>
+<li><strong>Reusability</strong>: Single-responsibility classes are more likely to be reusable in different contexts because they encapsulate specific functionality. Your code is now as flexible as a gymnast!</li>
+</ul>
+<h2 id="applying-srp-in-java">Applying SRP in Java</h2>
+<p>Let’s go through an example to understand how to apply SRP in Java. Spoiler: It’s easier than you think!</p>
+<h3 id="example-before-applying-srp">Example: Before Applying SRP</h3>
+<p>Consider a <code>User</code> class that handles user information, data validation, and persistence. It’s like that one friend who tries to juggle a dozen tasks at once!</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#FF7B72">public</span><span style="color:#FF7B72"> class</span><span style="color:#FFA657"> User</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#FF7B72">    private</span><span style="color:#E6EDF3"> String</span><span style="color:#E6EDF3"> name;</span></span>
+<span class="line"><span style="color:#FF7B72">    private</span><span style="color:#E6EDF3"> String</span><span style="color:#E6EDF3"> email;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#D2A8FF"> User</span><span style="color:#E6EDF3">(String </span><span style="color:#FFA657">name</span><span style="color:#E6EDF3">, String </span><span style="color:#FFA657">email</span><span style="color:#E6EDF3">) {</span></span>
+<span class="line"><span style="color:#79C0FF">        this</span><span style="color:#E6EDF3">.name </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> name;</span></span>
+<span class="line"><span style="color:#79C0FF">        this</span><span style="color:#E6EDF3">.email </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> email;</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#E6EDF3"> String </span><span style="color:#D2A8FF">getName</span><span style="color:#E6EDF3">() {</span></span>
+<span class="line"><span style="color:#FF7B72">        return</span><span style="color:#E6EDF3"> name;</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#E6EDF3"> String </span><span style="color:#D2A8FF">getEmail</span><span style="color:#E6EDF3">() {</span></span>
+<span class="line"><span style="color:#FF7B72">        return</span><span style="color:#E6EDF3"> email;</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#FF7B72"> boolean</span><span style="color:#D2A8FF"> isValidEmail</span><span style="color:#E6EDF3">() {</span></span>
+<span class="line"><span style="color:#8B949E">        // Basic email validation logic</span></span>
+<span class="line"><span style="color:#FF7B72">        return</span><span style="color:#E6EDF3"> email.</span><span style="color:#D2A8FF">contains</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"@"</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#FF7B72"> void</span><span style="color:#D2A8FF"> saveToDatabase</span><span style="color:#E6EDF3">() {</span></span>
+<span class="line"><span style="color:#8B949E">        // Code to save user data to database</span></span>
+<span class="line"><span style="color:#E6EDF3">        System.out.</span><span style="color:#D2A8FF">println</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"Saving "</span><span style="color:#FF7B72"> +</span><span style="color:#79C0FF"> this</span><span style="color:#E6EDF3">.name </span><span style="color:#FF7B72">+</span><span style="color:#A5D6FF"> ": "</span><span style="color:#FF7B72"> +</span><span style="color:#79C0FF"> this</span><span style="color:#E6EDF3">.email </span><span style="color:#FF7B72">+</span><span style="color:#A5D6FF"> " to the database."</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span></code></pre>
+<p>In this example, the <code>User</code> class is doing too much:</p>
+<ul>
+<li>Storing user information.</li>
+<li>Validating user email.</li>
+<li>Persisting user data to a database.</li>
+</ul>
+<p>It’s time for an intervention!</p>
+<h3 id="example-after-applying-srp">Example: After Applying SRP</h3>
+<p>Let’s break it down and give each task to a dedicated class.</p>
+<h4 id="user-class">User Class</h4>
+<p>The <code>User</code> class now focuses solely on user data.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#FF7B72">public</span><span style="color:#FF7B72"> record</span><span style="color:#FFA657"> User</span><span style="color:#E6EDF3">(String name, String email) {</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span></code></pre>
+<h4 id="emailvalidation-class">EmailValidation Class</h4>
+<p>The <code>EmailValidation</code> class is the new email guru.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#FF7B72">public</span><span style="color:#FF7B72"> class</span><span style="color:#FFA657"> EmailValidation</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#FF7B72"> boolean</span><span style="color:#D2A8FF"> isValid</span><span style="color:#E6EDF3">(String </span><span style="color:#FFA657">email</span><span style="color:#E6EDF3">) {</span></span>
+<span class="line"><span style="color:#FF7B72">        return</span><span style="color:#E6EDF3"> email.</span><span style="color:#D2A8FF">contains</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"@"</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span></code></pre>
+<h4 id="userrepository-class">UserRepository Class</h4>
+<p>The <code>UserRepository</code> class is responsible for data persistence.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#FF7B72">public</span><span style="color:#FF7B72"> class</span><span style="color:#FFA657"> UserRepository</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#FF7B72"> void</span><span style="color:#D2A8FF"> save</span><span style="color:#E6EDF3">(User </span><span style="color:#FFA657">user</span><span style="color:#E6EDF3">) {</span></span>
+<span class="line"><span style="color:#E6EDF3">        System.out.</span><span style="color:#D2A8FF">println</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"Saving "</span><span style="color:#FF7B72"> +</span><span style="color:#E6EDF3"> user.</span><span style="color:#D2A8FF">name</span><span style="color:#E6EDF3">() </span><span style="color:#FF7B72">+</span><span style="color:#A5D6FF"> ": "</span><span style="color:#FF7B72"> +</span><span style="color:#E6EDF3"> user.</span><span style="color:#D2A8FF">email</span><span style="color:#E6EDF3">() </span><span style="color:#FF7B72">+</span><span style="color:#A5D6FF"> " to the database."</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span></code></pre>
+<h3 id="unit-tests">Unit Tests</h3>
+<p>Of course, we need to make sure everything works perfectly.</p>
+<h4 id="emailvalidationtest">EmailValidationTest</h4>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#FF7B72">import</span><span style="color:#FF7B72"> static</span><span style="color:#E6EDF3"> org.junit.jupiter.api.Assertions.assertTrue;</span></span>
+<span class="line"><span style="color:#FF7B72">import</span><span style="color:#FF7B72"> static</span><span style="color:#E6EDF3"> org.junit.jupiter.api.Assertions.assertFalse;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">import</span><span style="color:#E6EDF3"> org.junit.jupiter.api.BeforeEach;</span></span>
+<span class="line"><span style="color:#FF7B72">import</span><span style="color:#E6EDF3"> org.junit.jupiter.api.Test;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">public</span><span style="color:#FF7B72"> class</span><span style="color:#FFA657"> EmailValidationTest</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">    private</span><span style="color:#E6EDF3"> EmailValidation</span><span style="color:#E6EDF3"> emailValidation;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">    @</span><span style="color:#FF7B72">BeforeEach</span></span>
+<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#FF7B72"> void</span><span style="color:#D2A8FF"> setUp</span><span style="color:#E6EDF3">() {</span></span>
+<span class="line"><span style="color:#E6EDF3">        emailValidation </span><span style="color:#FF7B72">=</span><span style="color:#FF7B72"> new</span><span style="color:#D2A8FF"> EmailValidation</span><span style="color:#E6EDF3">();</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">    @</span><span style="color:#FF7B72">Test</span></span>
+<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#FF7B72"> void</span><span style="color:#D2A8FF"> testValidEmail</span><span style="color:#E6EDF3">() {</span></span>
+<span class="line"><span style="color:#D2A8FF">        assertTrue</span><span style="color:#E6EDF3">(emailValidation.</span><span style="color:#D2A8FF">isValid</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"john.doe@example.com"</span><span style="color:#E6EDF3">));</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">    @</span><span style="color:#FF7B72">Test</span></span>
+<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#FF7B72"> void</span><span style="color:#D2A8FF"> testInvalidEmail</span><span style="color:#E6EDF3">() {</span></span>
+<span class="line"><span style="color:#D2A8FF">        assertFalse</span><span style="color:#E6EDF3">(emailValidation.</span><span style="color:#D2A8FF">isValid</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"john.doeexample.com"</span><span style="color:#E6EDF3">));</span></span>
+<span class="line"><span style="color:#D2A8FF">        assertFalse</span><span style="color:#E6EDF3">(emailValidation.</span><span style="color:#D2A8FF">isValid</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"john.doe@com"</span><span style="color:#E6EDF3">));</span></span>
+<span class="line"><span style="color:#D2A8FF">        assertFalse</span><span style="color:#E6EDF3">(emailValidation.</span><span style="color:#D2A8FF">isValid</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"john.doe@.com"</span><span style="color:#E6EDF3">));</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span></code></pre>
+<h4 id="userrepositorytest">UserRepositoryTest</h4>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#FF7B72">import</span><span style="color:#FF7B72"> static</span><span style="color:#E6EDF3"> org.mockito.Mockito.</span><span style="color:#79C0FF">*</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">import</span><span style="color:#E6EDF3"> org.junit.jupiter.api.BeforeEach;</span></span>
+<span class="line"><span style="color:#FF7B72">import</span><span style="color:#E6EDF3"> org.junit.jupiter.api.Test;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">public</span><span style="color:#FF7B72"> class</span><span style="color:#FFA657"> UserRepositoryTest</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">    private</span><span style="color:#E6EDF3"> UserRepository</span><span style="color:#E6EDF3"> userRepository;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">    @</span><span style="color:#FF7B72">BeforeEach</span></span>
+<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#FF7B72"> void</span><span style="color:#D2A8FF"> setUp</span><span style="color:#E6EDF3">() {</span></span>
+<span class="line"><span style="color:#E6EDF3">        userRepository </span><span style="color:#FF7B72">=</span><span style="color:#FF7B72"> new</span><span style="color:#D2A8FF"> UserRepository</span><span style="color:#E6EDF3">();</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">    @</span><span style="color:#FF7B72">Test</span></span>
+<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#FF7B72"> void</span><span style="color:#D2A8FF"> testSave</span><span style="color:#E6EDF3">() {</span></span>
+<span class="line"><span style="color:#E6EDF3">        User</span><span style="color:#E6EDF3"> user</span><span style="color:#FF7B72"> =</span><span style="color:#FF7B72"> new</span><span style="color:#D2A8FF"> User</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"John Doe"</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"john.doe@example.com"</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">        </span></span>
+<span class="line"><span style="color:#8B949E">        // Since saveToDatabase is a simple print operation, we just verify the method call</span></span>
+<span class="line"><span style="color:#E6EDF3">        userRepository.</span><span style="color:#D2A8FF">save</span><span style="color:#E6EDF3">(user);</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span></code></pre>
+<h3 id="benefits-of-refactoring">Benefits of Refactoring</h3>
+<ol>
+<li>
+<p><strong>Single Responsibility</strong>: Each class now has a single responsibility:</p>
+<ul>
+<li><code>User</code> class handles user data.</li>
+<li><code>EmailValidation</code> class handles email validation.</li>
+<li><code>UserRepository</code> class handles data persistence.</li>
+</ul>
+</li>
+<li>
+<p><strong>Maintainability</strong>: Changes to email validation logic do not affect user data or persistence logic.</p>
+</li>
+<li>
+<p><strong>Testability</strong>: Each class can be tested in isolation, making unit tests simpler and more focused.</p>
+</li>
+<li>
+<p><strong>Reusability</strong>: The <code>EmailValidation</code> and <code>UserRepository</code> classes can be reused across different parts of the application or in different projects.</p>
+</li>
+</ol>
+<h2 id="java-library-examples">Java Library Examples</h2>
+<h3 id="1-java-io-library">1. <strong>Java IO Library</strong></h3>
+<p>The Java IO library is a great example of SRP in practice. Classes in this library are designed with SRP, making them easy to understand, maintain, and extend.</p>
+<h4 id="example-bufferedreader-and-filereader">Example: <code>BufferedReader</code> and <code>FileReader</code></h4>
+<ul>
+<li><strong>FileReader</strong>: The <code>FileReader</code> class is responsible for reading raw byte data from a file and translating it into characters.</li>
+<li><strong>BufferedReader</strong>: The <code>BufferedReader</code> class is responsible for buffering characters for efficient reading.</li>
+</ul>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#E6EDF3">FileReader</span><span style="color:#E6EDF3"> fileReader</span><span style="color:#FF7B72"> =</span><span style="color:#FF7B72"> new</span><span style="color:#D2A8FF"> FileReader</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"file.txt"</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">BufferedReader</span><span style="color:#E6EDF3"> bufferedReader</span><span style="color:#FF7B72"> =</span><span style="color:#FF7B72"> new</span><span style="color:#D2A8FF"> BufferedReader</span><span style="color:#E6EDF3">(fileReader);</span></span>
+<span class="line"><span style="color:#E6EDF3">String</span><span style="color:#E6EDF3"> line;</span></span>
+<span class="line"><span style="color:#FF7B72">while</span><span style="color:#E6EDF3"> ((line </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> bufferedReader.</span><span style="color:#D2A8FF">readLine</span><span style="color:#E6EDF3">()) </span><span style="color:#FF7B72">!=</span><span style="color:#79C0FF"> null</span><span style="color:#E6EDF3">) {</span></span>
+<span class="line"><span style="color:#E6EDF3">    System.out.</span><span style="color:#D2A8FF">println</span><span style="color:#E6EDF3">(line);</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"><span style="color:#E6EDF3">bufferedReader.</span><span style="color:#D2A8FF">close</span><span style="color:#E6EDF3">();</span></span>
+<span class="line"><span style="color:#E6EDF3">fileReader.</span><span style="color:#D2A8FF">close</span><span style="color:#E6EDF3">();</span></span>
+<span class="line"></span></code></pre>
+<p>In this example, <code>FileReader</code> handles the file input, while <code>BufferedReader</code> handles the buffering, adhering to SRP.</p>
+<h3 id="2-java-collections-framework">2. <strong>Java Collections Framework</strong></h3>
+<p>The Java Collections Framework also follows SRP by separating different concerns into various classes and interfaces.</p>
+<h4 id="example-arraylist-and-collectionssort">Example: <code>ArrayList</code> and <code>Collections.sort</code></h4>
+<ul>
+<li><strong>ArrayList</strong>: The <code>ArrayList</code> class is responsible for managing a dynamic array of objects.</li>
+<li><strong>Collections.sort</strong>: The <code>Collections</code> class provides a static method <code>sort</code> for sorting lists.</li>
+</ul>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#E6EDF3">List</span><span style="color:#FFA657">&#x3C;</span><span style="color:#FF7B72">String</span><span style="color:#FFA657">> </span><span style="color:#E6EDF3">list</span><span style="color:#FF7B72"> =</span><span style="color:#FF7B72"> new</span><span style="color:#E6EDF3"> ArrayList&#x3C;>();</span></span>
+<span class="line"><span style="color:#E6EDF3">list.</span><span style="color:#D2A8FF">add</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"banana"</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">list.</span><span style="color:#D2A8FF">add</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"apple"</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">list.</span><span style="color:#D2A8FF">add</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"cherry"</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">Collections.</span><span style="color:#D2A8FF">sort</span><span style="color:#E6EDF3">(list);</span></span>
+<span class="line"><span style="color:#E6EDF3">System.out.</span><span style="color:#D2A8FF">println</span><span style="color:#E6EDF3">(list);</span></span>
+<span class="line"></span></code></pre>
+<p>Here, <code>ArrayList</code> is concerned with managing the list of elements, while the sorting logic is handled by the <code>Collections</code> class.</p>
+<h3 id="3-java-networking">3. <strong>Java Networking</strong></h3>
+<p>The Java networking package (<code>java.net</code>) includes classes that adhere to SRP by separating concerns related to different network operations.</p>
+<h4 id="example-socket-and-printwriter">Example: <code>Socket</code> and <code>PrintWriter</code></h4>
+<ul>
+<li><strong>Socket</strong>: The <code>Socket</code> class is responsible for establishing and maintaining network connections.</li>
+<li><strong>PrintWriter</strong>: The <code>PrintWriter</code> class is responsible for writing formatted text to an output stream.</li>
+</ul>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#E6EDF3">Socket</span><span style="color:#E6EDF3"> socket</span><span style="color:#FF7B72"> =</span><span style="color:#FF7B72"> new</span><span style="color:#D2A8FF"> Socket</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"example.com"</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">80</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">PrintWriter</span><span style="color:#E6EDF3"> out</span><span style="color:#FF7B72"> =</span><span style="color:#FF7B72"> new</span><span style="color:#D2A8FF"> PrintWriter</span><span style="color:#E6EDF3">(socket.</span><span style="color:#D2A8FF">getOutputStream</span><span style="color:#E6EDF3">(), </span><span style="color:#79C0FF">true</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">out.</span><span style="color:#D2A8FF">println</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"GET / HTTP/1.1</span><span style="color:#FF7B72">\r\n</span><span style="color:#A5D6FF">Host: example.com</span><span style="color:#FF7B72">\r\n\r\n</span><span style="color:#A5D6FF">"</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">out.</span><span style="color:#D2A8FF">close</span><span style="color:#E6EDF3">();</span></span>
+<span class="line"><span style="color:#E6EDF3">socket.</span><span style="color:#D2A8FF">close</span><span style="color:#E6EDF3">();</span></span>
+<span class="line"></span></code></pre>
+<p>In this example, the <code>Socket</code> class handles the network connection, while <code>PrintWriter</code> manages text output, each with their distinct responsibility.</p>
+<h3 id="4-java-util-logging">4. <strong>Java Util Logging</strong></h3>
+<p>The <code>java.util.logging</code> package provides a good example of SRP in logging functionality.</p>
+<h4 id="example-logger-and-handler">Example: <code>Logger</code> and <code>Handler</code></h4>
+<ul>
+<li><strong>Logger</strong>: The <code>Logger</code> class is responsible for capturing log messages.</li>
+<li><strong>Handler</strong>: Different <code>Handler</code> subclasses (e.g., <code>ConsoleHandler</code>, <code>FileHandler</code>) are responsible for the output destination of log messages.</li>
+</ul>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#E6EDF3">Logger</span><span style="color:#E6EDF3"> logger</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> Logger.</span><span style="color:#D2A8FF">getLogger</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"MyLogger"</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">Handler</span><span style="color:#E6EDF3"> consoleHandler</span><span style="color:#FF7B72"> =</span><span style="color:#FF7B72"> new</span><span style="color:#D2A8FF"> ConsoleHandler</span><span style="color:#E6EDF3">();</span></span>
+<span class="line"><span style="color:#E6EDF3">logger.</span><span style="color:#D2A8FF">addHandler</span><span style="color:#E6EDF3">(consoleHandler);</span></span>
+<span class="line"><span style="color:#E6EDF3">logger.</span><span style="color:#D2A8FF">info</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"This is a log message"</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"></span></code></pre>
+<p>In this case, the <code>Logger</code> class captures log messages, while the <code>Handler</code> manages the output destination.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>The Single Responsibility Principle is fundamental for writing clean, maintainable, and scalable code. By ensuring that each class in your application has only one responsibility, you make your codebase easier to understand, test, and modify. Applying SRP in Java involves identifying distinct responsibilities and refactoring your code to separate those responsibilities into different classes. Happy coding!</p> </div> </article> </div> <div class="back-link" data-astro-cid-yvbahnfj><a href="/" data-astro-cid-yvbahnfj>← Back to home</a></div>  </main> <footer class="site-footer container"> <p>© 2025 AREZKI El Mehdi • <a href="https://github.com/earezki">GitHub</a></p> </footer>  </body> </html> 

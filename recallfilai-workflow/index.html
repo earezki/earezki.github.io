@@ -1,0 +1,441 @@
+<!DOCTYPE html><html lang="en" data-theme="light"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Recallfilai: document workflow • Dev|Journal</title><meta name="description" content="**System Overview:** This system introduces a linear workflow for &#34;Document&#34; objects, managed within a multi-tenant environment. Each &#34;Tenant&#34; defines a…"><meta property="og:title" content="Recallfilai: document workflow • Dev|Journal"><meta property="og:site_name" content="Dev|Journal"><meta property="og:description" content="**System Overview:** This system introduces a linear workflow for &#34;Document&#34; objects, managed within a multi-tenant environment. Each &#34;Tenant&#34; defines a…"><link rel="canonical" href="https://earezki.com/recallfilai-workflow/"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Recallfilai: document workflow • Dev|Journal"><meta name="twitter:description" content="**System Overview:** This system introduces a linear workflow for &#34;Document&#34; objects, managed within a multi-tenant environment. Each &#34;Tenant&#34; defines a…"><link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"><script async src="https://www.googletagmanager.com/gtag/js?id=UA-161447264-1"></script><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Recallfilai: document workflow","datePublished":"2025-02-23T23:00:46.000Z","dateModified":"2025-02-23T23:00:46.000Z","author":{"@type":"Person","name":"AREZKI El Mehdi"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://earezki.com/recallfilai-workflow/"},"description":"**System Overview:** This system introduces a linear workflow for \"Document\" objects, managed within a multi-tenant environment. Each \"Tenant\" defines a…"}</script><link rel="stylesheet" href="/_astro/_slug_.UD-9jzHW.css">
+<style>.toc[data-astro-cid-xvrfupwn]{position:sticky;top:90px;max-height:calc(100vh - 120px);overflow:auto;padding:1rem 1rem 1.2rem;background:var(--color-bg-alt);border:1px solid var(--color-border);border-radius:var(--radius-md);font-size:.8rem;line-height:1.3}.toc-title[data-astro-cid-xvrfupwn]{font-weight:600;font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.6rem;color:var(--color-text-alt)}.toc[data-astro-cid-xvrfupwn] ul[data-astro-cid-xvrfupwn]{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.35rem}.toc[data-astro-cid-xvrfupwn] a[data-astro-cid-xvrfupwn]{text-decoration:none;color:var(--color-text-alt)}.toc[data-astro-cid-xvrfupwn] a[data-astro-cid-xvrfupwn]:hover{color:var(--color-accent)}.toc[data-astro-cid-xvrfupwn] li[data-astro-cid-xvrfupwn][class*=d-3]{margin-left:.75rem}.toc[data-astro-cid-xvrfupwn] li[data-astro-cid-xvrfupwn][class*=d-4]{margin-left:1.4rem}@media (max-width: 1080px){.toc[data-astro-cid-xvrfupwn]{display:none}}.post-layout[data-astro-cid-yvbahnfj]{display:grid;grid-template-columns:260px 1fr;gap:2.5rem}.sidebar-left[data-astro-cid-yvbahnfj]{position:relative}@media (max-width: 1080px){.post-layout[data-astro-cid-yvbahnfj]{grid-template-columns:1fr}}
+</style><script type="module" src="/_astro/hoisted.Bhe4AXry.js"></script></head> <body> <div id="readingProgress" style="position:fixed;left:0;top:0;height:3px;background:linear-gradient(90deg,#2563eb,#9333ea);width:0;z-index:999;transition:width .15s ease;"></div>  <header class="site-header container"> <div class="logo-wrap"> <a class="logo" href="/">Dev|Journal</a> </div> <nav class="main-nav"> <a href="/">Home</a> <a href="/about/">About</a> <a href="/tags/">Tags</a> <a href="/search/">Search</a> <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode">☾</button> </nav> </header> <main class="container content-area">  <div class="post-layout" data-astro-cid-yvbahnfj> <aside class="sidebar-left" data-astro-cid-yvbahnfj> <nav class="toc" aria-label="Table of Contents" data-astro-cid-xvrfupwn> <div class="toc-title" data-astro-cid-xvrfupwn>On this page</div> <ul data-astro-cid-xvrfupwn> <li class="d-3" data-astro-cid-xvrfupwn><a href="#object-design" data-astro-cid-xvrfupwn>**Object design**</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#conditions-supported" data-astro-cid-xvrfupwn>**Conditions Supported:**</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#api-design" data-astro-cid-xvrfupwn>**API Design**</a></li> </ul> </nav>  </aside> <article class="post" data-astro-cid-yvbahnfj> <header class="post-header" data-astro-cid-yvbahnfj> <h1 data-astro-cid-yvbahnfj>Recallfilai: document workflow</h1> <div class="meta" data-astro-cid-yvbahnfj> <time datetime="2025-02-23T23:00:46.000Z" data-astro-cid-yvbahnfj>Sun Feb 23 2025</time> <span data-astro-cid-yvbahnfj>• 5 min read</span> </div> <div class="tag-row" data-astro-cid-yvbahnfj><span class="tag" data-astro-cid-yvbahnfj>2025</span><span class="tag" data-astro-cid-yvbahnfj>tech</span><span class="tag" data-astro-cid-yvbahnfj>recallfilai</span><span class="tag" data-astro-cid-yvbahnfj>workflow</span><span class="tag" data-astro-cid-yvbahnfj>document</span></div> </header> <div class="post-body prose" data-astro-cid-yvbahnfj> <p><strong>System Overview:</strong></p>
+<p>This system introduces a linear workflow for “Document” objects, managed within a multi-tenant environment. Each “Tenant” defines a single, shared workflow that all its “Document” objects could adhere to.</p>
+<p><strong>Core Components:</strong></p>
+<ol>
+<li>
+<p><strong>Tenant:</strong></p>
+<ul>
+<li>Each “Tenant” maintains a unique, linear workflow.</li>
+<li>A “Tenant” defines a list of possible “Document” statuses.</li>
+</ul>
+</li>
+<li>
+<p><strong>Document:</strong></p>
+<ul>
+<li>A “Document” is associated with a specific “Tenant.”</li>
+<li>All “Documents” within a “Tenant” follow the same workflow.</li>
+<li>A “Document” has a current “Status” that reflects its position in the workflow.</li>
+</ul>
+</li>
+<li>
+<p><strong>Status:</strong></p>
+<ul>
+<li>Each “Status” within a “Tenant’s” workflow is a distinct stage.</li>
+<li>A “Status” defines:
+<ul>
+<li>A “Next Status” and a “Previous Status,” establishing the linear progression.</li>
+<li>“Transition Conditions” for moving to the “Next Status” or “Previous Status.”</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Transitions:</strong></p>
+<ul>
+<li>Transitions between “Statuses” can occur:
+<ul>
+<li><strong>Automatically:</strong> Based on predefined time-based conditions (e.g., after a set duration).</li>
+<li><strong>Conditionally:</strong> Based on “Transition Conditions.”</li>
+<li><strong>Manually:</strong> Through user intervention.</li>
+</ul>
+</li>
+<li>If a transition condition is not met, the status remains unchanged.</li>
+</ul>
+</li>
+</ol>
+<h3 id="object-design"><strong>Object design</strong></h3>
+<p><strong>1. Tenant:</strong></p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">    "id"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"Tenant A"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#FFA198;font-style:italic">    ...</span></span>
+<span class="line"><span style="color:#7EE787">    "workflow"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">        "statuses"</span><span style="color:#E6EDF3">: [</span></span>
+<span class="line"><span style="color:#E6EDF3">            {</span></span>
+<span class="line"><span style="color:#7EE787">                "id"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"DRAFT"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">                "label"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"Draft"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">                "next"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"IN_REVIEW"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">                "previous"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">null</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">                "forwardRules"</span><span style="color:#E6EDF3">: [],</span></span>
+<span class="line"><span style="color:#7EE787">                "backwardRules"</span><span style="color:#E6EDF3">: []</span></span>
+<span class="line"><span style="color:#E6EDF3">            },</span></span>
+<span class="line"><span style="color:#E6EDF3">            {</span></span>
+<span class="line"><span style="color:#7EE787">                "id"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"IN_REVIEW"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">                "label"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"In Review"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">                "next"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"DONE"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">                "previous"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"DRAFT"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">                "forwardRules"</span><span style="color:#E6EDF3">: [</span></span>
+<span class="line"><span style="color:#E6EDF3">                    { </span><span style="color:#7EE787">"type"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"equals"</span><span style="color:#E6EDF3">, </span><span style="color:#7EE787">"field"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"approved"</span><span style="color:#E6EDF3">, </span><span style="color:#7EE787">"value"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span><span style="color:#E6EDF3"> }</span></span>
+<span class="line"><span style="color:#E6EDF3">                ],</span></span>
+<span class="line"><span style="color:#7EE787">                "backwardRules"</span><span style="color:#E6EDF3">: []</span></span>
+<span class="line"><span style="color:#E6EDF3">            },</span></span>
+<span class="line"><span style="color:#E6EDF3">            {</span></span>
+<span class="line"><span style="color:#7EE787">                "id"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"DONE"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">                "label"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"Done"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">                "next"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">null</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">                "previous"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"IN_REVIEW"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">                "forwardRules"</span><span style="color:#E6EDF3">: [],</span></span>
+<span class="line"><span style="color:#7EE787">                "backwardRules"</span><span style="color:#E6EDF3">: []</span></span>
+<span class="line"><span style="color:#E6EDF3">            }</span></span>
+<span class="line"><span style="color:#E6EDF3">        ],</span></span>
+<span class="line"><span style="color:#7EE787">        "automated_transitions"</span><span style="color:#E6EDF3">: [</span></span>
+<span class="line"><span style="color:#E6EDF3">            {</span></span>
+<span class="line"><span style="color:#7EE787">                "from_status"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"IN_REVIEW"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">                "to_status"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"DONE"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">                "condition"</span><span style="color:#E6EDF3">: { </span><span style="color:#7EE787">"type"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"time_elapsed"</span><span style="color:#E6EDF3">, </span><span style="color:#7EE787">"duration"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">7</span><span style="color:#E6EDF3">, </span><span style="color:#7EE787">"unit"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"day"</span><span style="color:#E6EDF3"> }</span></span>
+<span class="line"><span style="color:#E6EDF3">            }</span></span>
+<span class="line"><span style="color:#E6EDF3">        ]</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span></code></pre>
+<ul>
+<li><strong>Statuses:</strong> Each status has an ID, label, and pointers to next and previous states, along with conditions for transitioning forward and backward.</li>
+</ul>
+<hr>
+<p><strong>2. Document:</strong></p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">    "id"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"Document A"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "tenant_id"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"Tenant A"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#FFA198;font-style:italic">    ...</span></span>
+<span class="line"><span style="color:#7EE787">    "metadata"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">        "approved"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "priority"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"high"</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#7EE787">    "status"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"IN_REVIEW"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "statusUpdatedAt"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"2024-02-17T00:00:00Z"</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span></code></pre>
+<ul>
+<li><strong>Metadata:</strong> A flexible object that can store any key-value pairs. Conditions will be evaluated against this metadata.</li>
+</ul>
+<hr>
+<h3 id="conditions-supported"><strong>Conditions Supported:</strong></h3>
+<ol>
+<li>
+<p><strong>Metadata-Based:</strong></p>
+<ul>
+<li><code>equals</code> — Field equals a specific value.</li>
+<li><code>not_equals</code> — Field does not equal a value.</li>
+<li><code>includes</code> — Array field includes a specific value.</li>
+<li><code>exists</code> — Field exists in metadata.</li>
+</ul>
+</li>
+<li>
+<p><strong>Time-Based:</strong></p>
+<ul>
+<li><code>time_elapsed</code> — Transition if a certain number of unit time have passed since the last status update.</li>
+</ul>
+</li>
+<li>
+<p><strong>Manual Override:</strong></p>
+<ul>
+<li>Any user can manually trigger a transition, bypassing conditions.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="api-design"><strong>API Design</strong></h3>
+<p><strong>Transition document automatically</strong></p>
+<ul>
+<li><strong>PUT</strong> <code>/documents/{documentId}/metadata</code></li>
+<li><strong>Body:</strong></li>
+</ul>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">    "approved"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span></code></pre>
+<ul>
+<li><strong>Logic:</strong>
+<ul>
+<li>Update the metadata and trigger the status workflow.</li>
+<li>Find the document’s current status from the tenant workflow.</li>
+<li>Evaluate all <code>forwardRules</code> and <code>backwardRules</code>. If all pass, update the status.</li>
+<li>Update <code>statusUpdatedAt</code> to the current date/time.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Transition document manually</strong></p>
+<ul>
+<li><strong>PUT</strong> <code>/documents/{documentId}/workflow</code></li>
+<li><strong>Body:</strong></li>
+</ul>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">    "status"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"DONE"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "reason"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"Document reviewed and approved"</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span></code></pre>
+<p><strong>Get available workflow</strong></p>
+<ul>
+<li><strong>GET</strong> <code>/tenants/{tenantId}/workflow</code></li>
+<li><strong>Response:</strong></li>
+</ul>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">    "statuses"</span><span style="color:#E6EDF3">: [</span></span>
+<span class="line"><span style="color:#E6EDF3">        { </span><span style="color:#7EE787">"id"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"DRAFT"</span><span style="color:#E6EDF3">, </span><span style="color:#7EE787">"label"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"Draft"</span><span style="color:#E6EDF3"> },</span></span>
+<span class="line"><span style="color:#E6EDF3">        { </span><span style="color:#7EE787">"id"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"IN_REVIEW"</span><span style="color:#E6EDF3">, </span><span style="color:#7EE787">"label"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"In Review"</span><span style="color:#E6EDF3"> },</span></span>
+<span class="line"><span style="color:#E6EDF3">        { </span><span style="color:#7EE787">"id"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"DONE"</span><span style="color:#E6EDF3">, </span><span style="color:#7EE787">"label"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"Done"</span><span style="color:#E6EDF3"> }</span></span>
+<span class="line"><span style="color:#E6EDF3">    ]</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span></code></pre>
+<p><strong>Java code</strong></p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#FF7B72">public</span><span style="color:#FF7B72"> record</span><span style="color:#FFA657"> RuleDef</span><span style="color:#E6EDF3">(</span></span>
+<span class="line"><span style="color:#E6EDF3">        String type,</span></span>
+<span class="line"><span style="color:#E6EDF3">        Map</span><span style="color:#FF7B72">&#x3C;</span><span style="color:#E6EDF3">String, Object</span><span style="color:#FF7B72">></span><span style="color:#E6EDF3"> context</span></span>
+<span class="line"><span style="color:#E6EDF3">) {</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span></code></pre>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#FF7B72">public</span><span style="color:#FF7B72"> record</span><span style="color:#FFA657"> Status</span><span style="color:#E6EDF3">(</span></span>
+<span class="line"><span style="color:#E6EDF3">        String id,</span></span>
+<span class="line"><span style="color:#E6EDF3">        String label,</span></span>
+<span class="line"><span style="color:#E6EDF3">        String next,</span></span>
+<span class="line"><span style="color:#E6EDF3">        String previous,</span></span>
+<span class="line"><span style="color:#E6EDF3">        List</span><span style="color:#FF7B72">&#x3C;</span><span style="color:#E6EDF3">RuleDef</span><span style="color:#FF7B72">></span><span style="color:#E6EDF3"> forwardRules,</span></span>
+<span class="line"><span style="color:#E6EDF3">        List</span><span style="color:#FF7B72">&#x3C;</span><span style="color:#E6EDF3">RuleDef</span><span style="color:#FF7B72">></span><span style="color:#E6EDF3"> backwardRules</span></span>
+<span class="line"><span style="color:#E6EDF3">) {</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span></code></pre>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#FF7B72">public</span><span style="color:#FF7B72"> interface</span><span style="color:#FFA657"> Rule</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">    Outcome </span><span style="color:#D2A8FF">evaluate</span><span style="color:#E6EDF3">(RuleDef </span><span style="color:#FFA657">ruleDef</span><span style="color:#E6EDF3">, Document </span><span style="color:#FFA657">document</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span>
+<span class="line"></span></code></pre>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#FF7B72">public</span><span style="color:#FF7B72"> record</span><span style="color:#FFA657"> Outcome</span><span style="color:#E6EDF3">(</span></span>
+<span class="line"><span style="color:#FF7B72">        boolean</span><span style="color:#E6EDF3"> success,</span></span>
+<span class="line"><span style="color:#E6EDF3">        @</span><span style="color:#FF7B72">Nullable</span><span style="color:#E6EDF3"> String message</span></span>
+<span class="line"><span style="color:#E6EDF3">) {</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#FF7B72"> static</span><span style="color:#E6EDF3"> Outcome</span><span style="color:#E6EDF3"> TRUE</span><span style="color:#FF7B72"> =</span><span style="color:#FF7B72"> new</span><span style="color:#D2A8FF"> Outcome</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">true</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">null</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#FF7B72"> static</span><span style="color:#E6EDF3"> Outcome</span><span style="color:#E6EDF3"> FALSE</span><span style="color:#FF7B72"> =</span><span style="color:#FF7B72"> new</span><span style="color:#D2A8FF"> Outcome</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">false</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">null</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#FF7B72"> static</span><span style="color:#E6EDF3"> Outcome </span><span style="color:#D2A8FF">fail</span><span style="color:#E6EDF3">(String </span><span style="color:#FFA657">message</span><span style="color:#E6EDF3">) {</span></span>
+<span class="line"><span style="color:#FF7B72">        return</span><span style="color:#FF7B72"> new</span><span style="color:#D2A8FF"> Outcome</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">false</span><span style="color:#E6EDF3">, message);</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span></code></pre>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#FF7B72">public</span><span style="color:#FF7B72"> class</span><span style="color:#FFA657"> ElapsedTimeRule</span><span style="color:#FF7B72"> implements</span><span style="color:#79C0FF"> Rule</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">    @</span><span style="color:#FF7B72">Override</span></span>
+<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#E6EDF3"> Outcome </span><span style="color:#D2A8FF">evaluate</span><span style="color:#E6EDF3">(RuleDef </span><span style="color:#FFA657">ruleDef</span><span style="color:#E6EDF3">, Document </span><span style="color:#FFA657">document</span><span style="color:#E6EDF3">) {</span></span>
+<span class="line"><span style="color:#FF7B72">        var</span><span style="color:#E6EDF3"> dateKey</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> ruleDef.</span><span style="color:#D2A8FF">context</span><span style="color:#E6EDF3">().</span><span style="color:#D2A8FF">get</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"date"</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#FF7B72">        var</span><span style="color:#E6EDF3"> durationObj</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> ruleDef.</span><span style="color:#D2A8FF">context</span><span style="color:#E6EDF3">().</span><span style="color:#D2A8FF">get</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"duration"</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#FF7B72">        var</span><span style="color:#E6EDF3"> unitObj</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> ruleDef.</span><span style="color:#D2A8FF">context</span><span style="color:#E6EDF3">().</span><span style="color:#D2A8FF">get</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"unit"</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">        var</span><span style="color:#E6EDF3"> missingDef</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> Stream.</span><span style="color:#D2A8FF">of</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"dateKey"</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"duration"</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"unit"</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#E6EDF3">                .</span><span style="color:#D2A8FF">map</span><span style="color:#E6EDF3">(k </span><span style="color:#FF7B72">-></span><span style="color:#E6EDF3"> ruleDef.</span><span style="color:#D2A8FF">context</span><span style="color:#E6EDF3">().</span><span style="color:#D2A8FF">get</span><span style="color:#E6EDF3">(k) </span><span style="color:#FF7B72">==</span><span style="color:#79C0FF"> null</span><span style="color:#FF7B72"> ?</span><span style="color:#E6EDF3"> k </span><span style="color:#FF7B72">:</span><span style="color:#79C0FF"> null</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#E6EDF3">                .</span><span style="color:#D2A8FF">filter</span><span style="color:#E6EDF3">(Objects</span><span style="color:#FF7B72">::</span><span style="color:#E6EDF3">nonNull)</span></span>
+<span class="line"><span style="color:#E6EDF3">                .</span><span style="color:#D2A8FF">collect</span><span style="color:#E6EDF3">(Collectors.</span><span style="color:#D2A8FF">joining</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">", "</span><span style="color:#E6EDF3">));</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">        if</span><span style="color:#E6EDF3"> (</span><span style="color:#D2A8FF">isNotBlank</span><span style="color:#E6EDF3">(missingDef)) {</span></span>
+<span class="line"><span style="color:#FF7B72">            return</span><span style="color:#E6EDF3"> Outcome.</span><span style="color:#D2A8FF">fail</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"missing rule definition: "</span><span style="color:#FF7B72"> +</span><span style="color:#E6EDF3"> missingDef);</span></span>
+<span class="line"><span style="color:#E6EDF3">        }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">        Object</span><span style="color:#E6EDF3"> dateAsText</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> document.</span><span style="color:#D2A8FF">metadata</span><span style="color:#E6EDF3">().</span><span style="color:#D2A8FF">get</span><span style="color:#E6EDF3">(dateKey.</span><span style="color:#D2A8FF">toString</span><span style="color:#E6EDF3">());</span></span>
+<span class="line"><span style="color:#FF7B72">        if</span><span style="color:#E6EDF3"> (dateAsText </span><span style="color:#FF7B72">==</span><span style="color:#79C0FF"> null</span><span style="color:#E6EDF3">) {</span></span>
+<span class="line"><span style="color:#FF7B72">            return</span><span style="color:#E6EDF3"> Outcome.</span><span style="color:#D2A8FF">fail</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"missing date from metadata"</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">        }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">        long</span><span style="color:#E6EDF3"> duration;</span></span>
+<span class="line"><span style="color:#E6EDF3">        ChronoUnit</span><span style="color:#E6EDF3"> unit;</span></span>
+<span class="line"><span style="color:#E6EDF3">        LocalDateTime</span><span style="color:#E6EDF3"> date;</span></span>
+<span class="line"><span style="color:#FF7B72">        try</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">            duration </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> Long.</span><span style="color:#D2A8FF">parseLong</span><span style="color:#E6EDF3">(durationObj.</span><span style="color:#D2A8FF">toString</span><span style="color:#E6EDF3">());</span></span>
+<span class="line"><span style="color:#E6EDF3">            unit </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> ChronoUnit.</span><span style="color:#D2A8FF">valueOf</span><span style="color:#E6EDF3">(unitObj.</span><span style="color:#D2A8FF">toString</span><span style="color:#E6EDF3">().</span><span style="color:#D2A8FF">toUpperCase</span><span style="color:#E6EDF3">());</span></span>
+<span class="line"><span style="color:#E6EDF3">            date </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> LocalDateTime.</span><span style="color:#D2A8FF">parse</span><span style="color:#E6EDF3">(dateAsText.</span><span style="color:#D2A8FF">toString</span><span style="color:#E6EDF3">());</span></span>
+<span class="line"><span style="color:#E6EDF3">        } </span><span style="color:#FF7B72">catch</span><span style="color:#E6EDF3"> (Exception </span><span style="color:#FFA657">e</span><span style="color:#E6EDF3">) {</span></span>
+<span class="line"><span style="color:#E6EDF3">            log.</span><span style="color:#D2A8FF">warn</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"failed to parse date({})/duration({})/unit({})"</span><span style="color:#E6EDF3">, dateAsText, durationObj, unitObj, e);</span></span>
+<span class="line"><span style="color:#FF7B72">            return</span><span style="color:#E6EDF3"> Outcome.</span><span style="color:#D2A8FF">fail</span><span style="color:#E6EDF3">(e.</span><span style="color:#D2A8FF">getMessage</span><span style="color:#E6EDF3">());</span></span>
+<span class="line"><span style="color:#E6EDF3">        }</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">        var</span><span style="color:#E6EDF3"> sinceCreation</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> Duration.</span><span style="color:#D2A8FF">between</span><span style="color:#E6EDF3">(</span></span>
+<span class="line"><span style="color:#E6EDF3">                date, Services.</span><span style="color:#D2A8FF">getService</span><span style="color:#E6EDF3">(Time.class).</span><span style="color:#D2A8FF">now</span><span style="color:#E6EDF3">()</span></span>
+<span class="line"><span style="color:#E6EDF3">        );</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">        if</span><span style="color:#E6EDF3"> (sinceCreation.</span><span style="color:#D2A8FF">get</span><span style="color:#E6EDF3">(unit) </span><span style="color:#FF7B72">></span><span style="color:#E6EDF3"> duration) {</span></span>
+<span class="line"><span style="color:#FF7B72">            return</span><span style="color:#E6EDF3"> Outcome.TRUE;</span></span>
+<span class="line"><span style="color:#E6EDF3">        }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">        return</span><span style="color:#E6EDF3"> Outcome.FALSE;</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span></code></pre>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#FF7B72">public</span><span style="color:#FF7B72"> record</span><span style="color:#FFA657"> Workflow</span><span style="color:#E6EDF3">(</span></span>
+<span class="line"><span style="color:#E6EDF3">        List</span><span style="color:#FF7B72">&#x3C;</span><span style="color:#E6EDF3">Status</span><span style="color:#FF7B72">></span><span style="color:#E6EDF3"> statuses</span></span>
+<span class="line"><span style="color:#E6EDF3">) {</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">    private</span><span style="color:#FF7B72"> static</span><span style="color:#E6EDF3"> Map</span><span style="color:#FFA657">&#x3C;</span><span style="color:#FF7B72">String</span><span style="color:#FFA657">, </span><span style="color:#FF7B72">Rule</span><span style="color:#FFA657">> </span><span style="color:#E6EDF3">RULES</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> Map.</span><span style="color:#D2A8FF">of</span><span style="color:#E6EDF3">(</span></span>
+<span class="line"><span style="color:#A5D6FF">            "time_elapsed"</span><span style="color:#E6EDF3">, </span><span style="color:#FF7B72">new</span><span style="color:#D2A8FF"> ElapsedTimeRule</span><span style="color:#E6EDF3">(),</span></span>
+<span class="line"><span style="color:#A5D6FF">            "equals"</span><span style="color:#E6EDF3">, </span><span style="color:#FF7B72">new</span><span style="color:#D2A8FF"> MetadataValueRule</span><span style="color:#E6EDF3">(MetadataValueRule.Op.EQ),</span></span>
+<span class="line"><span style="color:#A5D6FF">            "contains"</span><span style="color:#E6EDF3">, </span><span style="color:#FF7B72">new</span><span style="color:#D2A8FF"> MetadataValueRule</span><span style="color:#E6EDF3">(MetadataValueRule.Op.CONTAINS),</span></span>
+<span class="line"><span style="color:#E6EDF3">            ...</span></span>
+<span class="line"><span style="color:#E6EDF3">    );</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#E6EDF3"> Status </span><span style="color:#D2A8FF">getInitialStatus</span><span style="color:#E6EDF3">() {</span></span>
+<span class="line"><span style="color:#FF7B72">        if</span><span style="color:#E6EDF3"> (CollectionUtils.</span><span style="color:#D2A8FF">isEmpty</span><span style="color:#E6EDF3">(statuses)) {</span></span>
+<span class="line"><span style="color:#FF7B72">            return</span><span style="color:#79C0FF"> null</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#E6EDF3">        }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">        return</span><span style="color:#E6EDF3"> statuses.</span><span style="color:#D2A8FF">getFirst</span><span style="color:#E6EDF3">();</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#E6EDF3"> Document </span><span style="color:#D2A8FF">transition</span><span style="color:#E6EDF3">(Document </span><span style="color:#FFA657">document</span><span style="color:#E6EDF3">) {</span></span>
+<span class="line"><span style="color:#E6EDF3">        Status</span><span style="color:#E6EDF3"> status</span><span style="color:#FF7B72"> =</span><span style="color:#D2A8FF"> getStatus</span><span style="color:#E6EDF3">(document.</span><span style="color:#D2A8FF">status</span><span style="color:#E6EDF3">());</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">        final</span><span style="color:#FF7B72"> var</span><span style="color:#E6EDF3"> forwardPass</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> status.</span><span style="color:#D2A8FF">forwardRules</span><span style="color:#E6EDF3">().</span><span style="color:#D2A8FF">stream</span><span style="color:#E6EDF3">()</span></span>
+<span class="line"><span style="color:#E6EDF3">                .</span><span style="color:#D2A8FF">map</span><span style="color:#E6EDF3">(ruleDef </span><span style="color:#FF7B72">-></span><span style="color:#D2A8FF"> getOutcome</span><span style="color:#E6EDF3">(document, ruleDef))</span></span>
+<span class="line"><span style="color:#E6EDF3">                .</span><span style="color:#D2A8FF">filter</span><span style="color:#E6EDF3">(Objects</span><span style="color:#FF7B72">::</span><span style="color:#E6EDF3">nonNull)</span></span>
+<span class="line"><span style="color:#E6EDF3">                .</span><span style="color:#D2A8FF">allMatch</span><span style="color:#E6EDF3">(Outcome</span><span style="color:#FF7B72">::</span><span style="color:#E6EDF3">success);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">        if</span><span style="color:#E6EDF3"> (forwardPass) {</span></span>
+<span class="line"><span style="color:#FF7B72">            final</span><span style="color:#FF7B72"> var</span><span style="color:#E6EDF3"> nextStatus</span><span style="color:#FF7B72"> =</span><span style="color:#D2A8FF"> getStatus</span><span style="color:#E6EDF3">(status.</span><span style="color:#D2A8FF">next</span><span style="color:#E6EDF3">());</span></span>
+<span class="line"><span style="color:#FF7B72">            if</span><span style="color:#E6EDF3"> (nextStatus </span><span style="color:#FF7B72">!=</span><span style="color:#79C0FF"> null</span><span style="color:#E6EDF3">) {</span></span>
+<span class="line"><span style="color:#FF7B72">                return</span><span style="color:#E6EDF3"> document.</span><span style="color:#D2A8FF">withStatus</span><span style="color:#E6EDF3">(nextStatus.</span><span style="color:#D2A8FF">id</span><span style="color:#E6EDF3">());</span></span>
+<span class="line"><span style="color:#E6EDF3">            }</span></span>
+<span class="line"><span style="color:#E6EDF3">        }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">        final</span><span style="color:#FF7B72"> var</span><span style="color:#E6EDF3"> backwardPass</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> status.</span><span style="color:#D2A8FF">backwardRules</span><span style="color:#E6EDF3">().</span><span style="color:#D2A8FF">stream</span><span style="color:#E6EDF3">()</span></span>
+<span class="line"><span style="color:#E6EDF3">                .</span><span style="color:#D2A8FF">map</span><span style="color:#E6EDF3">(ruleDef </span><span style="color:#FF7B72">-></span><span style="color:#D2A8FF"> getOutcome</span><span style="color:#E6EDF3">(document, ruleDef))</span></span>
+<span class="line"><span style="color:#E6EDF3">                .</span><span style="color:#D2A8FF">filter</span><span style="color:#E6EDF3">(Objects</span><span style="color:#FF7B72">::</span><span style="color:#E6EDF3">nonNull)</span></span>
+<span class="line"><span style="color:#E6EDF3">                .</span><span style="color:#D2A8FF">allMatch</span><span style="color:#E6EDF3">(Outcome</span><span style="color:#FF7B72">::</span><span style="color:#E6EDF3">success);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">        if</span><span style="color:#E6EDF3"> (backwardPass) {</span></span>
+<span class="line"><span style="color:#FF7B72">            final</span><span style="color:#FF7B72"> var</span><span style="color:#E6EDF3"> prevStatus</span><span style="color:#FF7B72"> =</span><span style="color:#D2A8FF"> getStatus</span><span style="color:#E6EDF3">(status.</span><span style="color:#D2A8FF">previous</span><span style="color:#E6EDF3">());</span></span>
+<span class="line"><span style="color:#FF7B72">            if</span><span style="color:#E6EDF3"> (prevStatus </span><span style="color:#FF7B72">!=</span><span style="color:#79C0FF"> null</span><span style="color:#E6EDF3">) {</span></span>
+<span class="line"><span style="color:#FF7B72">                return</span><span style="color:#E6EDF3"> document.</span><span style="color:#D2A8FF">withStatus</span><span style="color:#E6EDF3">(prevStatus.</span><span style="color:#D2A8FF">id</span><span style="color:#E6EDF3">());</span></span>
+<span class="line"><span style="color:#E6EDF3">            }</span></span>
+<span class="line"><span style="color:#E6EDF3">        }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">        return</span><span style="color:#E6EDF3"> document;</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">    private</span><span style="color:#E6EDF3"> Outcome </span><span style="color:#D2A8FF">getOutcome</span><span style="color:#E6EDF3">(Document </span><span style="color:#FFA657">document</span><span style="color:#E6EDF3">, RuleDef </span><span style="color:#FFA657">ruleDef</span><span style="color:#E6EDF3">) {</span></span>
+<span class="line"><span style="color:#E6EDF3">        Rule</span><span style="color:#E6EDF3"> rule</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> RULES.</span><span style="color:#D2A8FF">get</span><span style="color:#E6EDF3">(ruleDef.</span><span style="color:#D2A8FF">type</span><span style="color:#E6EDF3">());</span></span>
+<span class="line"><span style="color:#FF7B72">        if</span><span style="color:#E6EDF3"> (rule </span><span style="color:#FF7B72">==</span><span style="color:#79C0FF"> null</span><span style="color:#E6EDF3">) {</span></span>
+<span class="line"><span style="color:#E6EDF3">            log.</span><span style="color:#D2A8FF">warn</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"rule {} not found"</span><span style="color:#E6EDF3">, ruleDef.</span><span style="color:#D2A8FF">type</span><span style="color:#E6EDF3">());</span></span>
+<span class="line"><span style="color:#FF7B72">            return</span><span style="color:#79C0FF"> null</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#E6EDF3">        }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">        final</span><span style="color:#FF7B72"> var</span><span style="color:#E6EDF3"> outcome</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> rule.</span><span style="color:#D2A8FF">evaluate</span><span style="color:#E6EDF3">(ruleDef, document);</span></span>
+<span class="line"><span style="color:#FF7B72">        if</span><span style="color:#E6EDF3"> (</span><span style="color:#D2A8FF">isNotBlank</span><span style="color:#E6EDF3">(outcome.</span><span style="color:#D2A8FF">message</span><span style="color:#E6EDF3">())) {</span></span>
+<span class="line"><span style="color:#FF7B72">            throw</span><span style="color:#FF7B72"> new</span><span style="color:#D2A8FF"> IllegalStateException</span><span style="color:#E6EDF3">(outcome.</span><span style="color:#D2A8FF">message</span><span style="color:#E6EDF3">());</span></span>
+<span class="line"><span style="color:#E6EDF3">        }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">        return</span><span style="color:#E6EDF3"> outcome;</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">    private</span><span style="color:#E6EDF3"> Status </span><span style="color:#D2A8FF">getStatus</span><span style="color:#E6EDF3">(String </span><span style="color:#FFA657">id</span><span style="color:#E6EDF3">) {</span></span>
+<span class="line"><span style="color:#FF7B72">        return</span><span style="color:#E6EDF3"> statuses.</span><span style="color:#D2A8FF">stream</span><span style="color:#E6EDF3">()</span></span>
+<span class="line"><span style="color:#E6EDF3">                .</span><span style="color:#D2A8FF">filter</span><span style="color:#E6EDF3">(status </span><span style="color:#FF7B72">-></span><span style="color:#E6EDF3"> status.</span><span style="color:#D2A8FF">id</span><span style="color:#E6EDF3">().</span><span style="color:#D2A8FF">equals</span><span style="color:#E6EDF3">(id))</span></span>
+<span class="line"><span style="color:#E6EDF3">                .</span><span style="color:#D2A8FF">findAny</span><span style="color:#E6EDF3">()</span></span>
+<span class="line"><span style="color:#E6EDF3">                .</span><span style="color:#D2A8FF">orElse</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">null</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span></code></pre>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#E6EDF3">@</span><span style="color:#FF7B72">TestInstance</span><span style="color:#E6EDF3">(TestInstance.Lifecycle.PER_CLASS)</span></span>
+<span class="line"><span style="color:#FF7B72">class</span><span style="color:#FFA657"> WorkflowTest</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">    MockedStatic</span><span style="color:#FFA657">&#x3C;</span><span style="color:#FF7B72">?</span><span style="color:#FFA657">> </span><span style="color:#E6EDF3">servicesMock;</span></span>
+<span class="line"><span style="color:#E6EDF3">    Time</span><span style="color:#E6EDF3"> time;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">    Workflow</span><span style="color:#E6EDF3"> workflow;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">    @</span><span style="color:#FF7B72">BeforeAll</span></span>
+<span class="line"><span style="color:#FF7B72">    void</span><span style="color:#D2A8FF"> setup</span><span style="color:#E6EDF3">() {</span></span>
+<span class="line"><span style="color:#8B949E">        /**</span></span>
+<span class="line"><span style="color:#8B949E">         * DRAFT => IN_REVIEW : when approved metadata is set to true.</span></span>
+<span class="line"><span style="color:#8B949E">         * IN_REVIEW => DRAFT : when approved metadata is set to false.</span></span>
+<span class="line"><span style="color:#8B949E">         * IN_REVIEW => DONE : when reviewed metadata is set to true.</span></span>
+<span class="line"><span style="color:#8B949E">         * DONE => ARCHIVED : when duration is passed for the "createdAt" date in metadata.</span></span>
+<span class="line"><span style="color:#8B949E">         */</span></span>
+<span class="line"><span style="color:#E6EDF3">        workflow </span><span style="color:#FF7B72">=</span><span style="color:#FF7B72"> new</span><span style="color:#D2A8FF"> Workflow</span><span style="color:#E6EDF3">(</span></span>
+<span class="line"><span style="color:#E6EDF3">                List.</span><span style="color:#D2A8FF">of</span><span style="color:#E6EDF3">(</span></span>
+<span class="line"><span style="color:#FF7B72">                        new</span><span style="color:#D2A8FF"> Status</span><span style="color:#E6EDF3">(</span></span>
+<span class="line"><span style="color:#A5D6FF">                                "DRAFT"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">                                "Draft"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">                                "IN_REVIEW"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#79C0FF">                                null</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">                                List.</span><span style="color:#D2A8FF">of</span><span style="color:#E6EDF3">(</span></span>
+<span class="line"><span style="color:#FF7B72">                                        new</span><span style="color:#D2A8FF"> RuleDef</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"equals"</span><span style="color:#E6EDF3">, Map.</span><span style="color:#D2A8FF">of</span><span style="color:#E6EDF3">(</span></span>
+<span class="line"><span style="color:#A5D6FF">                                                "approved"</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#E6EDF3">                                        ))</span></span>
+<span class="line"><span style="color:#E6EDF3">                                ),</span></span>
+<span class="line"><span style="color:#E6EDF3">                                List.</span><span style="color:#D2A8FF">of</span><span style="color:#E6EDF3">()</span></span>
+<span class="line"><span style="color:#E6EDF3">                        ),</span></span>
+<span class="line"><span style="color:#FF7B72">                        new</span><span style="color:#D2A8FF"> Status</span><span style="color:#E6EDF3">(</span></span>
+<span class="line"><span style="color:#A5D6FF">                                "IN_REVIEW"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">                                "In review"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">                                "DONE"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">                                "DRAFT"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">                                List.</span><span style="color:#D2A8FF">of</span><span style="color:#E6EDF3">(</span></span>
+<span class="line"><span style="color:#FF7B72">                                        new</span><span style="color:#D2A8FF"> RuleDef</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"equals"</span><span style="color:#E6EDF3">, Map.</span><span style="color:#D2A8FF">of</span><span style="color:#E6EDF3">(</span></span>
+<span class="line"><span style="color:#A5D6FF">                                                "reviewed"</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#E6EDF3">                                        ))</span></span>
+<span class="line"><span style="color:#E6EDF3">                                ),</span></span>
+<span class="line"><span style="color:#E6EDF3">                                List.</span><span style="color:#D2A8FF">of</span><span style="color:#E6EDF3">(</span></span>
+<span class="line"><span style="color:#FF7B72">                                        new</span><span style="color:#D2A8FF"> RuleDef</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"equals"</span><span style="color:#E6EDF3">, Map.</span><span style="color:#D2A8FF">of</span><span style="color:#E6EDF3">(</span></span>
+<span class="line"><span style="color:#A5D6FF">                                                "approved"</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">false</span></span>
+<span class="line"><span style="color:#E6EDF3">                                        ))</span></span>
+<span class="line"><span style="color:#E6EDF3">                                )</span></span>
+<span class="line"><span style="color:#E6EDF3">                        ),</span></span>
+<span class="line"><span style="color:#FF7B72">                        new</span><span style="color:#D2A8FF"> Status</span><span style="color:#E6EDF3">(</span></span>
+<span class="line"><span style="color:#A5D6FF">                                "DONE"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">                                "Done"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">                                "ARCHIVED"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#79C0FF">                                null</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">                                List.</span><span style="color:#D2A8FF">of</span><span style="color:#E6EDF3">(</span></span>
+<span class="line"><span style="color:#FF7B72">                                        new</span><span style="color:#D2A8FF"> RuleDef</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"time_elapsed"</span><span style="color:#E6EDF3">, Map.</span><span style="color:#D2A8FF">of</span><span style="color:#E6EDF3">(</span></span>
+<span class="line"><span style="color:#A5D6FF">                                                "date"</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"createdAt"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">                                                "duration"</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">7</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">                                                "unit"</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"seconds"</span></span>
+<span class="line"><span style="color:#E6EDF3">                                        ))</span></span>
+<span class="line"><span style="color:#E6EDF3">                                ),</span></span>
+<span class="line"><span style="color:#E6EDF3">                                List.</span><span style="color:#D2A8FF">of</span><span style="color:#E6EDF3">()</span></span>
+<span class="line"><span style="color:#E6EDF3">                        )</span></span>
+<span class="line"><span style="color:#E6EDF3">                )</span></span>
+<span class="line"><span style="color:#E6EDF3">        );</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">        time </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> Mockito.</span><span style="color:#D2A8FF">mock</span><span style="color:#E6EDF3">(Time.class, Mockito.RETURNS_DEEP_STUBS);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">        servicesMock </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> Mockito.</span><span style="color:#D2A8FF">mockStatic</span><span style="color:#E6EDF3">(Services.class);</span></span>
+<span class="line"><span style="color:#E6EDF3">        servicesMock.</span><span style="color:#D2A8FF">when</span><span style="color:#E6EDF3">(() </span><span style="color:#FF7B72">-></span><span style="color:#E6EDF3"> Services.</span><span style="color:#D2A8FF">getService</span><span style="color:#E6EDF3">(Time.class)).</span><span style="color:#D2A8FF">thenReturn</span><span style="color:#E6EDF3">(time);</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">    @</span><span style="color:#FF7B72">Test</span></span>
+<span class="line"><span style="color:#FF7B72">    void</span><span style="color:#D2A8FF"> test_forward</span><span style="color:#E6EDF3">() {</span></span>
+<span class="line"><span style="color:#FF7B72">        final</span><span style="color:#FF7B72"> var</span><span style="color:#E6EDF3"> document</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> Document.</span><span style="color:#D2A8FF">builder</span><span style="color:#E6EDF3">()</span></span>
+<span class="line"><span style="color:#E6EDF3">                .</span><span style="color:#D2A8FF">status</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"DRAFT"</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#E6EDF3">                .</span><span style="color:#D2A8FF">metadata</span><span style="color:#E6EDF3">(Map.</span><span style="color:#D2A8FF">of</span><span style="color:#E6EDF3">(</span></span>
+<span class="line"><span style="color:#A5D6FF">                        "approved"</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#E6EDF3">                ))</span></span>
+<span class="line"><span style="color:#E6EDF3">                .</span><span style="color:#D2A8FF">build</span><span style="color:#E6EDF3">();</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">        final</span><span style="color:#FF7B72"> var</span><span style="color:#E6EDF3"> newDocument</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> workflow.</span><span style="color:#D2A8FF">transition</span><span style="color:#E6EDF3">(document);</span></span>
+<span class="line"><span style="color:#D2A8FF">        assertEquals</span><span style="color:#E6EDF3">(</span></span>
+<span class="line"><span style="color:#A5D6FF">                "IN_REVIEW"</span><span style="color:#E6EDF3">, newDocument.</span><span style="color:#D2A8FF">status</span><span style="color:#E6EDF3">()</span></span>
+<span class="line"><span style="color:#E6EDF3">        );</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">    @</span><span style="color:#FF7B72">Test</span></span>
+<span class="line"><span style="color:#FF7B72">    void</span><span style="color:#D2A8FF"> test_backward</span><span style="color:#E6EDF3">() {</span></span>
+<span class="line"><span style="color:#FF7B72">        final</span><span style="color:#FF7B72"> var</span><span style="color:#E6EDF3"> document</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> Document.</span><span style="color:#D2A8FF">builder</span><span style="color:#E6EDF3">()</span></span>
+<span class="line"><span style="color:#E6EDF3">                .</span><span style="color:#D2A8FF">status</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"IN_REVIEW"</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#E6EDF3">                .</span><span style="color:#D2A8FF">metadata</span><span style="color:#E6EDF3">(Map.</span><span style="color:#D2A8FF">of</span><span style="color:#E6EDF3">(</span></span>
+<span class="line"><span style="color:#A5D6FF">                        "approved"</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">false</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">                        "reviewed"</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">false</span></span>
+<span class="line"><span style="color:#E6EDF3">                ))</span></span>
+<span class="line"><span style="color:#E6EDF3">                .</span><span style="color:#D2A8FF">build</span><span style="color:#E6EDF3">();</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">        final</span><span style="color:#FF7B72"> var</span><span style="color:#E6EDF3"> newDocument</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> workflow.</span><span style="color:#D2A8FF">transition</span><span style="color:#E6EDF3">(document);</span></span>
+<span class="line"><span style="color:#D2A8FF">        assertEquals</span><span style="color:#E6EDF3">(</span></span>
+<span class="line"><span style="color:#A5D6FF">                "DRAFT"</span><span style="color:#E6EDF3">, newDocument.</span><span style="color:#D2A8FF">status</span><span style="color:#E6EDF3">()</span></span>
+<span class="line"><span style="color:#E6EDF3">        );</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span></code></pre> </div> </article> </div> <div class="back-link" data-astro-cid-yvbahnfj><a href="/" data-astro-cid-yvbahnfj>← Back to home</a></div>  </main> <footer class="site-footer container"> <p>© 2025 AREZKI El Mehdi • <a href="https://github.com/earezki">GitHub</a></p> </footer>  </body> </html> 
