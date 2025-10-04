@@ -1,0 +1,56 @@
+name: Build & Publish (Astro -> gh-pages)
+
+on:
+  push:
+    branches: [ master ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  NODE_VERSION: 20
+  DIST_DIR: dist
+  PUBLISH_BRANCH: gh-pages
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Copy CNAME
+        run: |
+          if [ -f public/CNAME ]; then cp public/CNAME $DIST_DIR/CNAME; fi
+
+      - name: Verify dist not empty
+        run: |
+          if [ ! -d "$DIST_DIR" ] || [ -z "$(ls -A $DIST_DIR)" ]; then echo "dist empty"; ls -al; exit 1; fi
+          echo "Dist content:"; ls -al $DIST_DIR | head -40
+
+      - name: Publish
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ${{ env.DIST_DIR }}
+          publish_branch: ${{ env.PUBLISH_BRANCH }}
+          enable_jekyll: false
+          commit_message: "deploy: ${GITHUB_SHA}"
+
+      - name: Summary
+        run: echo "Published dist to $PUBLISH_BRANCH" >> $GITHUB_STEP_SUMMARY

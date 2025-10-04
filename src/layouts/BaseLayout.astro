@@ -1,0 +1,83 @@
+---
+import '../styles/global.css';
+import ProgressBar from '../components/ProgressBar.astro';
+
+export interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  canonical?: string;
+  noIndex?: boolean;
+  structuredData?: Record<string, any> | null;
+}
+const siteTitle = 'Dev|Journal';
+const siteDesc = 'Blogging about interests.';
+const origin = 'https://earezki.com';
+const { title = siteTitle, description = siteDesc, image, canonical, noIndex = false, structuredData = null } = Astro.props;
+const fullTitle = title === siteTitle ? title : `${title} • ${siteTitle}`;
+const canonicalUrl = canonical ? (canonical.startsWith('http') ? canonical : origin + canonical) : undefined;
+---
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+  <meta property="og:title" content={fullTitle} />
+  <meta property="og:site_name" content={siteTitle} />
+  <meta property="og:description" content={description} />
+  {image && <meta property="og:image" content={image} />}
+  {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={fullTitle} />
+  <meta name="twitter:description" content={description} />
+  {image && <meta name="twitter:image" content={image} />}
+  {noIndex && <meta name="robots" content="noindex,follow" />}
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml" />
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-161447264-1"></script>
+    <script>
+      // GA UA (legacy)
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'UA-161447264-1');
+      // Dark mode persistence
+      (function(){
+        const theme = localStorage.getItem('theme');
+        if(theme){ document.documentElement.setAttribute('data-theme', theme); }
+      })();
+    </script>
+    {structuredData && <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />}
+  </head>
+  <body>
+  <ProgressBar />
+  <header class="site-header container">
+      <div class="logo-wrap">
+        <a class="logo" href="/">Dev|Journal</a>
+      </div>
+      <nav class="main-nav">
+        <a href="/">Home</a>
+  <a href="/about/">About</a>
+  <a href="/tags/">Tags</a>
+  <a href="/search/">Search</a>
+        <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode">☾</button>
+      </nav>
+    </header>
+    <main class="container content-area">
+      <slot />
+    </main>
+    <footer class="site-footer container">
+  <p>© {new Date().getFullYear()} AREZKI El Mehdi • <a href="https://github.com/earezki">GitHub</a></p>
+    </footer>
+    <script>
+      const btn = document.getElementById('themeToggle');
+      if(btn){
+        btn.addEventListener('click', () => {
+          const html = document.documentElement;
+            const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', next);
+            localStorage.setItem('theme', next);
+        });
+      }
+    </script>
+  </body>
+</html>

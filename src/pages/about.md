@@ -1,13 +1,16 @@
+---
+title: About
+layout: ../layouts/BaseLayout.astro
+---
+
+# About Me
+
 # El Mehdi AREZKI
 
 [LinkedIn: mehdi-arezki](https://www.linkedin.com/in/mehdi-arezki)<br/>
 [GitHub: earezki](https://github.com/earezki)<br/>
 [Blog: www.earezki.com](https://earezki.com)<br/>
 [StackOverflow: 4059373/mehdi](https://stackoverflow.com/users/4059373/mehdi)<br/>
-
----
-
-# About Me
 
 A results-driven Lead Software Engineer and System Architect with extensive experience in building and scaling distributed backend systems. I excel at leading engineering teams, designing cloud-native solutions, and driving technical innovation from concept to production.
 

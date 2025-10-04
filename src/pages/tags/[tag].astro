@@ -1,0 +1,25 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+  const set = new Set<string>();
+  posts.forEach(p => (p.data.categories || []).forEach(c => set.add((c || '').toString().trim())));
+  return Array.from(set).map(label => {
+    const slug = label.toLowerCase().replace(/\s+/g,'-');
+    return { params: { tag: slug }, props: { slug, label } };
+  });
+}
+
+const { slug, label } = Astro.props;
+const all = await getCollection('posts');
+const filtered = all.filter(p => (p.data.categories || []).some(c => (c || '').toString().toLowerCase().replace(/\s+/g,'-') === slug));
+---
+<BaseLayout title={`Tag: ${label}`}>
+  <h1>Tag: {label}</h1>
+  <ul style="list-style:none; padding:0;">
+    {filtered.map(p => <li style="margin:.6rem 0;"><a href={`/${p.slug}/`}>{p.data.title}</a></li>)}
+  </ul>
+  <p style="margin-top:2rem;"><a href="/tags/">← All tags</a></p>
+</BaseLayout>

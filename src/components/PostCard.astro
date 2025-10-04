@@ -1,0 +1,19 @@
+---
+import type { CollectionEntry } from 'astro:content';
+interface Props { post: CollectionEntry<'posts'> & { readingTime: { text: string } } }
+const { post } = Astro.props;
+const url = `/${post.slug}/`;
+const date = post.data.pubDate.toISOString().split('T')[0];
+// crude excerpt (first 30 words)
+const excerpt = post.body.split(/\s+/).slice(0, 30).join(' ') + '…';
+---
+<article class="post-card">
+  <div class="meta-row">
+    <time datetime={post.data.pubDate.toISOString()}>{date}</time>
+    <span>{post.readingTime.text}</span>
+  </div>
+  <h3><a href={url} class="card-link">{post.data.title}</a></h3>
+  {post.data.categories && <div class="tag-row">{post.data.categories.map(c => <span class="tag">{c}</span>)}</div>}
+  <a class="stretched-link" href={url} aria-label={post.data.title}></a>
+  <p class="excerpt">{excerpt}</p>
+</article>

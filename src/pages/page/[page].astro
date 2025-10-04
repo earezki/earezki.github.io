@@ -1,0 +1,36 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from 'astro:content';
+import PostCard from '../../components/PostCard.astro';
+import readingTime from '../../utils/readingTime';
+import { SITE } from '../../config/site';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+  const totalPages = Math.ceil(posts.length / SITE.postsPerPage);
+  return Array.from({length: totalPages}, (_,i) => ({ params: { page: String(i+1) }, props: { page: i+1, totalPages } }));
+}
+
+const { page, totalPages } = Astro.props as { page: number; totalPages: number };
+const all = (await getCollection('posts'))
+  .map(p => ({ ...p, readingTime: readingTime(p.body) }))
+  .sort((a,b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+const start = (page - 1) * SITE.postsPerPage;
+const posts = all.slice(start, start + SITE.postsPerPage);
+---
+<BaseLayout title={`Page ${page}`} canonical={`/page/${page}/`} description={`Blog page ${page} of ${totalPages}`}>
+  <h1 style="margin-top:0;">Posts – Page {page}</h1>
+  <section class="posts-grid">
+    {posts.map(p => <PostCard post={p} />)}
+  </section>
+  <nav class="pagination" aria-label="Pagination">
+    {page > 1 && <a href={page === 2 ? '/' : `/page/${page-1}/`} class="prev">← Newer</a>}
+    {page < totalPages && <a href={`/page/${page+1}/`} class="next">Older →</a>}
+  </nav>
+</BaseLayout>
+
+<style>
+  .pagination { display:flex; justify-content:space-between; margin:2.5rem 0 1rem; font-size:.9rem; }
+  .pagination a { padding:.55rem 1rem; background:var(--color-bg-alt); border:1px solid var(--color-border); border-radius: var(--radius-pill); }
+  .pagination a:hover { background:var(--color-accent); color:#fff; border-color:var(--color-accent); }
+</style>

@@ -1,0 +1,15 @@
+---
+---
+<div id="readingProgress" style="position:fixed;left:0;top:0;height:3px;background:linear-gradient(90deg,#2563eb,#9333ea);width:0;z-index:999;transition:width .15s ease;"></div>
+<script>
+  const bar = document.getElementById('readingProgress');
+  const onScroll = () => {
+    const h = document.documentElement;
+    const scrollTop = h.scrollTop || document.body.scrollTop;
+    const height = h.scrollHeight - h.clientHeight;
+    const p = height > 0 ? (scrollTop / height) * 100 : 0;
+    bar.style.width = p + '%';
+  };
+  document.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+</script>
