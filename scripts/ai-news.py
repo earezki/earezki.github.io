@@ -109,9 +109,9 @@ def main():
 
     print(f"Today's feeds: {json.dumps(feeds, indent=2)}")
 
-    # if not feeds:
-    #     print("No new entries found for today. Exiting.")
-    #     return
+    if not feeds:
+        print("No new entries found for today. Exiting.")
+        return
 
     for entry in feeds:
         try:
@@ -170,12 +170,11 @@ def main():
     
 
 if __name__ == "__main__":
-    main()
-    # import schedule
-    # import time
+    import schedule
+    import time
 
-    # schedule.every().day.at("23:00").do(main)
+    schedule.every().day.at("23:00").do(main)
 
-    # while True:
-    #     schedule.run_pending()
-    #     time.sleep(3600) # check every hour
+    while True:
+        schedule.run_pending()
+        time.sleep(3600) # check every hour
