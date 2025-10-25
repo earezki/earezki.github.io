@@ -4,20 +4,81 @@ import { getCollection } from 'astro:content';
 import PostCard from '../components/PostCard.astro';
 import readingTime from '../utils/readingTime';
 
-const all = (await getCollection('posts'))
-  .filter(p => (p.data.categories || []).some(c => c.toLowerCase() === 'ai news'))
+const all = (await getCollection('ainews'))
   .map(p => ({ ...p, readingTime: readingTime(p.body) }))
   .sort((a,b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
 
 const posts = all;
 ---
 <BaseLayout title="AI News • Dev|Journal" description="Latest news and developments in AI and machine learning." canonical="/ai-news/">
-  <h1 style="margin-bottom:1.5rem;">AI News</h1>
+  <h1 style="margin-bottom:1rem;">AI News</h1>
+  
+  <div class="ai-disclaimer">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;">
+      <circle cx="12" cy="12" r="10"></circle>
+      <line x1="12" y1="8" x2="12" y2="12"></line>
+      <line x1="12" y1="16" x2="12.01" y2="16"></line>
+    </svg>
+    <div>
+      <strong>AI-Generated Content:</strong> Articles in this section are created with AI assistance. Please verify important information and check original references before relying on the content.
+    </div>
+  </div>
+
   <section class="posts-grid">
     {posts.length > 0 ? (
-      posts.map(p => <PostCard post={p} />)
+      posts.map(p => <PostCard post={p} collection="ainews" />)
     ) : (
       <p style="color:var(--color-text-alt);">No AI News articles yet. Check back soon!</p>
     )}
   </section>
 </BaseLayout>
+
+<style>
+  .ai-disclaimer {
+    display: flex;
+    gap: 0.75rem;
+    padding: 1rem 1.25rem;
+    margin-bottom: 2rem;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1), rgba(240, 147, 251, 0.1));
+    border: 2px solid transparent;
+    border-radius: var(--radius-md);
+    position: relative;
+    background-clip: padding-box;
+  }
+  
+  .ai-disclaimer::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: var(--radius-md);
+    padding: 2px;
+    background: var(--ai-gradient-border);
+    background-size: 200% 200%;
+    animation: gradient-rotate 3s linear infinite;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+  
+  html[data-theme="dark"] .ai-disclaimer {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15), rgba(240, 147, 251, 0.15));
+  }
+  
+  .ai-disclaimer svg {
+    margin-top: 0.15rem;
+  }
+  
+  .ai-disclaimer strong {
+    color: var(--color-text);
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+  
+  .ai-disclaimer div {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--color-text-alt);
+  }
+</style>

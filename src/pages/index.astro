@@ -6,7 +6,6 @@ import readingTime from '../utils/readingTime';
 import { SITE } from '../config/site';
 
 const all = (await getCollection('posts'))
-  .filter(p => !(p.data.categories || []).some(c => c.toLowerCase() === 'ai news'))
   .map(p => ({ ...p, readingTime: readingTime(p.body) }))
   .sort((a,b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
 const posts = all.slice(0, SITE.postsPerPage);

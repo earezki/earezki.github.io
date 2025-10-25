@@ -6,15 +6,13 @@ import readingTime from '../../utils/readingTime';
 import { SITE } from '../../config/site';
 
 export async function getStaticPaths() {
-  const posts = (await getCollection('posts'))
-    .filter(p => !(p.data.categories || []).some(c => c.toLowerCase() === 'ai news'));
+  const posts = await getCollection('posts');
   const totalPages = Math.ceil(posts.length / SITE.postsPerPage);
   return Array.from({length: totalPages}, (_,i) => ({ params: { page: String(i+1) }, props: { page: i+1, totalPages } }));
 }
 
 const { page, totalPages } = Astro.props as { page: number; totalPages: number };
 const all = (await getCollection('posts'))
-  .filter(p => !(p.data.categories || []).some(c => c.toLowerCase() === 'ai news'))
   .map(p => ({ ...p, readingTime: readingTime(p.body) }))
   .sort((a,b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
 const start = (page - 1) * SITE.postsPerPage;

@@ -1,8 +1,11 @@
 ---
 import type { CollectionEntry } from 'astro:content';
-interface Props { post: CollectionEntry<'posts'> & { readingTime: { text: string } } }
-const { post } = Astro.props;
-const url = `/${post.slug}/`;
+interface Props { 
+  post: (CollectionEntry<'posts'> | CollectionEntry<'ainews'>) & { readingTime: { text: string } };
+  collection?: 'posts' | 'ainews';
+}
+const { post, collection = 'posts' } = Astro.props;
+const url = collection === 'ainews' ? `/ai-news/${post.slug}/` : `/${post.slug}/`;
 const date = post.data.pubDate.toISOString().split('T')[0];
 // crude excerpt (first 30 words)
 const excerpt = post.body.split(/\s+/).slice(0, 30).join(' ') + '…';
