@@ -1,0 +1,23 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCollection } from 'astro:content';
+import PostCard from '../components/PostCard.astro';
+import readingTime from '../utils/readingTime';
+
+const all = (await getCollection('posts'))
+  .filter(p => (p.data.categories || []).some(c => c.toLowerCase() === 'ai news'))
+  .map(p => ({ ...p, readingTime: readingTime(p.body) }))
+  .sort((a,b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+
+const posts = all;
+---
+<BaseLayout title="AI News • Dev|Journal" description="Latest news and developments in AI and machine learning." canonical="/ai-news/">
+  <h1 style="margin-bottom:1.5rem;">AI News</h1>
+  <section class="posts-grid">
+    {posts.length > 0 ? (
+      posts.map(p => <PostCard post={p} />)
+    ) : (
+      <p style="color:var(--color-text-alt);">No AI News articles yet. Check back soon!</p>
+    )}
+  </section>
+</BaseLayout>

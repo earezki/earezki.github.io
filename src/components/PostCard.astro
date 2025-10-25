@@ -6,6 +6,7 @@ const url = `/${post.slug}/`;
 const date = post.data.pubDate.toISOString().split('T')[0];
 // crude excerpt (first 30 words)
 const excerpt = post.body.split(/\s+/).slice(0, 30).join(' ') + '…';
+const hasAINewsTag = post.data.categories?.some(c => c.toLowerCase() === 'ai news');
 ---
 <article class="post-card">
   <div class="meta-row">
@@ -13,7 +14,7 @@ const excerpt = post.body.split(/\s+/).slice(0, 30).join(' ') + '…';
     <span>{post.readingTime.text}</span>
   </div>
   <h3><a href={url} class="card-link">{post.data.title}</a></h3>
-  {post.data.categories && <div class="tag-row">{post.data.categories.map(c => <span class="tag">{c}</span>)}</div>}
+  {post.data.categories && <div class="tag-row">{post.data.categories.map(c => <span class={`tag ${c.toLowerCase() === 'ai news' ? 'ai-news-tag' : ''}`}>{c}</span>)}</div>}
   <a class="stretched-link" href={url} aria-label={post.data.title}></a>
   <p class="excerpt">{excerpt}</p>
 </article>
