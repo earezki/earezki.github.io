@@ -1,12 +1,11 @@
-<!DOCTYPE html><html lang="en" data-theme="dark"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>React Hooks: UseReducer Generics Params In Typescript • Dev|Journal</title><meta name="description" content="The new React Hooks introduces a lot of functions to encourage the creation of function components. One of those functions is the useReducer . Out of the box,…"><meta property="og:title" content="React Hooks: UseReducer Generics Params In Typescript • Dev|Journal"><meta property="og:site_name" content="Dev|Journal"><meta property="og:description" content="The new React Hooks introduces a lot of functions to encourage the creation of function components. One of those functions is the useReducer . Out of the box,…"><link rel="canonical" href="https://earezki.com/react-hooks-usereducer-generics-params-in-typescript/"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="React Hooks: UseReducer Generics Params In Typescript • Dev|Journal"><meta name="twitter:description" content="The new React Hooks introduces a lot of functions to encourage the creation of function components. One of those functions is the useReducer . Out of the box,…"><link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"><script async src="https://www.googletagmanager.com/gtag/js?id=UA-161447264-1"></script><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"React Hooks: UseReducer Generics Params In Typescript","datePublished":"2020-04-02T04:49:46.000Z","dateModified":"2020-04-02T04:49:46.000Z","author":{"@type":"Person","name":"AREZKI El Mehdi"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://earezki.com/react-hooks-usereducer-generics-params-in-typescript/"},"description":"The new React Hooks introduces a lot of functions to encourage the creation of function components. One of those functions is the useReducer . Out of the box,…"}</script><link rel="stylesheet" href="/_astro/_slug_.CKLbyC1A.css">
+<!DOCTYPE html><html lang="en" data-theme="dark"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>React Hooks: UseReducer Generics Params In Typescript • Dev|Journal</title><meta name="description" content="The new React Hooks introduces a lot of functions to encourage the creation of function components. One of those functions is the useReducer . Out of the box,…"><meta property="og:title" content="React Hooks: UseReducer Generics Params In Typescript • Dev|Journal"><meta property="og:site_name" content="Dev|Journal"><meta property="og:description" content="The new React Hooks introduces a lot of functions to encourage the creation of function components. One of those functions is the useReducer . Out of the box,…"><link rel="canonical" href="https://earezki.com/react-hooks-usereducer-generics-params-in-typescript/"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="React Hooks: UseReducer Generics Params In Typescript • Dev|Journal"><meta name="twitter:description" content="The new React Hooks introduces a lot of functions to encourage the creation of function components. One of those functions is the useReducer . Out of the box,…"><link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"><script async src="https://www.googletagmanager.com/gtag/js?id=UA-161447264-1"></script><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"React Hooks: UseReducer Generics Params In Typescript","datePublished":"2020-04-02T04:49:46.000Z","dateModified":"2020-04-02T04:49:46.000Z","author":{"@type":"Person","name":"AREZKI El Mehdi"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://earezki.com/react-hooks-usereducer-generics-params-in-typescript/"},"description":"The new React Hooks introduces a lot of functions to encourage the creation of function components. One of those functions is the useReducer . Out of the box,…"}</script><link rel="stylesheet" href="/_astro/_slug_.BIhZce9E.css">
 <style>.post-layout[data-astro-cid-yvbahnfj]{display:grid;grid-template-columns:260px 1fr;gap:2.5rem}.sidebar-left[data-astro-cid-yvbahnfj]{position:relative}@media (max-width: 1080px){.post-layout[data-astro-cid-yvbahnfj]{grid-template-columns:1fr}}
 .toc[data-astro-cid-xvrfupwn]{position:sticky;top:90px;max-height:calc(100vh - 120px);overflow:auto;padding:1rem 1rem 1.2rem;background:var(--color-bg-alt);border:1px solid var(--color-border);border-radius:var(--radius-md);font-size:.8rem;line-height:1.3}.toc-title[data-astro-cid-xvrfupwn]{font-weight:600;font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.6rem;color:var(--color-text-alt)}.toc[data-astro-cid-xvrfupwn] ul[data-astro-cid-xvrfupwn]{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.35rem}.toc[data-astro-cid-xvrfupwn] a[data-astro-cid-xvrfupwn]{text-decoration:none;color:var(--color-text-alt)}.toc[data-astro-cid-xvrfupwn] a[data-astro-cid-xvrfupwn]:hover{color:var(--color-accent)}.toc[data-astro-cid-xvrfupwn] li[data-astro-cid-xvrfupwn][class*=d-3]{margin-left:.75rem}.toc[data-astro-cid-xvrfupwn] li[data-astro-cid-xvrfupwn][class*=d-4]{margin-left:1.4rem}@media (max-width: 1080px){.toc[data-astro-cid-xvrfupwn]{display:none}}
-</style><script type="module" src="/_astro/hoisted.CwSnpN4J.js"></script></head> <body> <div id="readingProgress" style="position:fixed;left:0;top:0;height:3px;background:linear-gradient(90deg,#2563eb,#9333ea);width:0;z-index:999;transition:width .15s ease;"></div>  <header class="site-header container"> <div class="logo-wrap"> <a class="logo" href="/">Dev|Journal</a> </div> <nav class="main-nav"> <a href="/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px;"> <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path> <polyline points="9 22 9 12 15 12 15 22"></polyline> </svg>
+</style><script type="module">const o=document.getElementById("themeToggle"),c=t=>{const n=o?.querySelector(".theme-icon"),e=o?.querySelector(".theme-text");n&&e&&(t==="dark"?(n.textContent="☀",e.textContent="light"):(n.textContent="☾",e.textContent="dark"))};if(o){const t=document.documentElement.getAttribute("data-theme")||"dark";c(t),o.addEventListener("click",()=>{const n=document.documentElement,e=n.getAttribute("data-theme")==="dark"?"light":"dark";n.setAttribute("data-theme",e),localStorage.setItem("theme",e),c(e)})}window.dataLayer=window.dataLayer||[];function d(){dataLayer.push(arguments)}d("js",new Date);d("config","UA-161447264-1");(function(){const t=localStorage.getItem("theme");t&&document.documentElement.setAttribute("data-theme",t)})();const r=document.getElementById("readingProgress"),a=()=>{const t=document.documentElement,n=t.scrollTop||document.body.scrollTop,e=t.scrollHeight-t.clientHeight,m=e>0?n/e*100:0;r.style.width=m+"%"};document.addEventListener("scroll",a,{passive:!0});a();
+</script></head> <body> <div id="readingProgress" style="position:fixed;left:0;top:0;height:3px;background:linear-gradient(90deg,#2563eb,#9333ea);width:0;z-index:999;transition:width .15s ease;"></div>  <header class="site-header container"> <div class="logo-wrap"> <a class="logo" href="/">Dev|Journal</a> </div> <nav class="main-nav"> <a href="/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px;"> <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path> <polyline points="9 22 9 12 15 12 15 22"></polyline> </svg>
 Home
 </a> <a href="/ai-news/" class="ai-news-link"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px;"> <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h-9.5a.5.5 0 0 0-.5.5.5.5 0 0 1-1 0 .5.5 0 0 0-.5-.5H1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"></path> <path d="M7 15v4a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-4"></path> </svg>
 AI News
-</a> <a href="/search/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px;"> <circle cx="11" cy="11" r="8"></circle> <path d="m21 21-4.35-4.35"></path> </svg>
-Search
 </a> <a href="/tags/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px;"> <path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2z"></path> <circle cx="7" cy="7" r="1.5"></circle> </svg>
 Tags
 </a> <a href="/about/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px;"> <circle cx="12" cy="12" r="10"></circle> <path d="M12 16v-4"></path> <path d="M12 8h.01"></path> </svg>
@@ -22,4 +21,67 @@ About
 <p>The solution is simple, you can’t just pass the <code>state</code> and the <code>action</code> to the <code>useReducer</code> generic types, you need to pass a <code>React.Reducer</code>.</p>
 <pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="typescript"><code><span class="line"><span style="color:#FF7B72">const</span><span style="color:#E6EDF3"> [</span><span style="color:#79C0FF">state</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">dispatch</span><span style="color:#E6EDF3">] </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> </span></span>
 <span class="line"><span style="color:#E6EDF3">React.</span><span style="color:#D2A8FF">useReducer</span><span style="color:#E6EDF3">&#x3C;</span><span style="color:#FFA657">React</span><span style="color:#E6EDF3">.</span><span style="color:#FFA657">Reducer</span><span style="color:#E6EDF3">&#x3C;</span><span style="color:#FFA657">IComponentState</span><span style="color:#E6EDF3">, </span><span style="color:#FFA657">IAction</span><span style="color:#E6EDF3">>>(reduceFunction, initialState);</span></span>
-<span class="line"></span></code></pre> </div> </article> </div> <div class="back-link" data-astro-cid-yvbahnfj><a href="/" data-astro-cid-yvbahnfj>← Back to home</a></div>  </main> <footer class="site-footer container"> <p>© 2025 AREZKI El Mehdi • <a href="https://github.com/earezki">GitHub</a></p> </footer>  </body> </html> 
+<span class="line"></span></code></pre> </div> </article> </div> <div class="back-link" data-astro-cid-yvbahnfj><a href="/" data-astro-cid-yvbahnfj>← Back to home</a></div>  </main> <footer class="site-footer container"> <p>© 2025 AREZKI El Mehdi • <a href="https://github.com/earezki">GitHub</a></p> </footer>  <script>
+      // Read/Unread article tracking
+      (function() {
+        const STORAGE_KEY = 'readArticles';
+        
+        function getReadArticles() {
+          try {
+            const data = localStorage.getItem(STORAGE_KEY);
+            return data ? JSON.parse(data) : [];
+          } catch (e) {
+            return [];
+          }
+        }
+        
+        function markArticleAsRead(url) {
+          try {
+            const readArticles = getReadArticles();
+            if (!readArticles.includes(url)) {
+              readArticles.push(url);
+              localStorage.setItem(STORAGE_KEY, JSON.stringify(readArticles));
+            }
+          } catch (e) {
+            console.error('Failed to mark article as read:', e);
+          }
+        }
+        
+        function isArticleRead(url) {
+          const readArticles = getReadArticles();
+          return readArticles.includes(url);
+        }
+        
+        // Update post cards on list pages
+        function updatePostCards() {
+          const postCards = document.querySelectorAll('.post-card[data-article-url]');
+          postCards.forEach(function(card) {
+            const url = card.getAttribute('data-article-url');
+            if (url) {
+              if (isArticleRead(url)) {
+                card.classList.add('read');
+                card.classList.remove('unread');
+              } else {
+                card.classList.add('unread');
+                card.classList.remove('read');
+              }
+            }
+          });
+        }
+        
+        // Mark current article as read (on article pages)
+        function markCurrentArticleAsRead() {
+          const isArticlePage = document.querySelector('.post-body');
+          if (isArticlePage) {
+            const currentPath = window.location.pathname;
+            markArticleAsRead(currentPath);
+          }
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+          updatePostCards();
+          markCurrentArticleAsRead();
+        });
+      })();
+    </script> </body> </html> 
