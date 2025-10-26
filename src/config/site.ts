@@ -3,5 +3,5 @@ export const SITE = {
   description: 'Blogging about interests.',
   url: 'https://earezki.com',
   author: 'AREZKI El Mehdi',
-  postsPerPage: 10,
+  postsPerPage: 12,
 };
