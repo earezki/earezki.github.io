@@ -5,13 +5,15 @@ load_dotenv()
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import PromptTemplate
 
-from datetime import date, datetime, time
+from datetime import date, datetime, time, timedelta
 
 import feedparser
 from trafilatura import fetch_url, extract
 
 import json
 from email.utils import parsedate_to_datetime
+
+import random
 
 def main():
     print(f"=== AI News Script: {datetime.now().isoformat()} ===")
@@ -93,7 +95,8 @@ def main():
                     'published': str(parsedate_to_datetime(e.published).date() if hasattr(e, 'published') else None)
                 } 
                 for e in d.entries 
-                if hasattr(e, 'published') and parsedate_to_datetime(e.published).date() == date.today()
+                # check if the published date is in the last 7 days.
+                if hasattr(e, 'published') and parsedate_to_datetime(e.published).date() >= (date.today() - timedelta(days=7))
             ]
         except Exception as e:
             print(f"Error fetching feed {feed_url}: {e}")
@@ -105,7 +108,8 @@ def main():
     # Remove duplicates feeds by link
     feeds = [dict(t) for t in {tuple(d.items()) for d in feeds}]
 
-    feeds = feeds[:3]  # Limit to first x entries
+    # Limit to x random entries
+    feeds = random.sample(feeds, min(len(feeds), 5))
 
     print(f"Today's feeds: {json.dumps(feeds, indent=2)}")
 
@@ -151,25 +155,25 @@ def main():
             continue
     
     print("check building the site")
-    # check if npm run build is successful
     # the script is run from scripts/ so we need to run it from parent directory
 
-    result = os.system("npm run build")
-    if result != 0:
-        print("Error building the site.")
-    else:
-        print("Site built successfully.")
-        print("Deploying the site...")
-        # commit and push the changes
-        os.system("git add .")
-        os.system(f'git commit -m "chore: update AI news articles ({date.today().isoformat()})"')
-        os.system("git push origin master")
-        print("Site deployed successfully.")
+    print("Deploying the site...")
+    # commit and push the changes
+    os.system("git add .")
+    os.system(f'git commit -m "chore: update AI news articles ({date.today().isoformat()})"')
+    os.system("git push origin master")
+    print("Site deployed successfully.")
 
     print(f"=== AI News Script Completed At: {datetime.now().isoformat()} ===")
     
 
 if __name__ == "__main__":
+    print("===============>")
+    # initial run
+    main()
+    print("<===============")
+
+    # schedule daily run at 23:00
     import schedule
     import time
 
