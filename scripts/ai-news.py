@@ -86,7 +86,7 @@ def main():
     )
 
     #pull the latest versions from git & quit if it fails
-    git_pull_result = os.system("git pull origin master")
+    git_pull_result = os.system("git pull")
     if git_pull_result != 0:
         print("Git pull failed. Exiting.")
         return
@@ -188,11 +188,11 @@ if __name__ == "__main__":
     print("<===============")
 
     # schedule daily run at 23:00
-    import schedule
-    import time
+    # import schedule
+    # import time
 
-    schedule.every().day.at("23:00").do(main)
+    # schedule.every().day.at("23:00").do(main)
 
-    while True:
-        schedule.run_pending()
-        time.sleep(3600) # check every hour
+    # while True:
+    #     schedule.run_pending()
+    #     time.sleep(3600) # check every hour
