@@ -85,6 +85,12 @@ def main():
     """
     )
 
+    #pull the latest versions from git & quit if it fails
+    git_pull_result = os.system("git pull origin master")
+    if git_pull_result != 0:
+        print("Git pull failed. Exiting.")
+        return
+
     chain = prompt | llm
 
     feed_list = os.getenv("FEED_LIST", "").split(",")
