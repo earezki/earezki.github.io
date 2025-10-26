@@ -59,9 +59,12 @@ const { Content } = await post.render();
           <span>• {stats.text}</span>
         </div>
         {post.data.categories && <div class="tag-row">{post.data.categories.map(c => {
-          const slugTag = c.toLowerCase().replace(/\s+/g,'-');
           const isAINews = c.toLowerCase() === 'ai news';
-          return <a class={`tag ${isAINews ? 'ai-news-tag' : ''}`} href={`/tags/${encodeURIComponent(slugTag)}/`}>{c}</a>;
+          if (isAINews) {
+            return <a class="tag ai-news-tag" href="/ai-news/">{c}</a>;
+          } else {
+            return <span class="tag">{c}</span>;
+          }
         })}</div>}
       </header>
       <div class="post-body prose">

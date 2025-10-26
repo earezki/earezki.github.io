@@ -17,7 +17,17 @@ const hasAINewsTag = post.data.categories?.some(c => c.toLowerCase() === 'ai new
     <span>{post.readingTime.text}</span>
   </div>
   <h3><a href={url} class="card-link">{post.data.title}</a></h3>
-  {post.data.categories && <div class="tag-row">{post.data.categories.map(c => <span class={`tag ${c.toLowerCase() === 'ai news' ? 'ai-news-tag' : ''}`}>{c}</span>)}</div>}
+  {post.data.categories && <div class="tag-row">{post.data.categories.map(c => {
+    const isAINews = c.toLowerCase() === 'ai news';
+    const tagClass = `tag ${isAINews ? 'ai-news-tag' : ''}`;
+    if (collection === 'ainews' && isAINews) {
+      return <a class={tagClass} href="/ai-news/">{c}</a>;
+    } else if (collection === 'ainews') {
+      return <span class={tagClass}>{c}</span>;
+    } else {
+      return <span class={tagClass}>{c}</span>;
+    }
+  })}</div>}
   <a class="stretched-link" href={url} aria-label={post.data.title}></a>
   <p class="excerpt">{excerpt}</p>
 </article>
