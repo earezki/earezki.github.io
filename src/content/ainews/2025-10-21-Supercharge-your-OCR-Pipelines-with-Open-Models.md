@@ -1,11 +1,11 @@
-## Supercharge your OCR Pipelines with Open Models
-
 ---
 title: "Supercharge your OCR Pipelines with Open Models"
-pubDate: 2025-10-23
-description: "We’re on a journey to advance and democratize artificial intelligence through open source and open science."
+pubDate: 2025-10-21
+description: "We're on a journey to advance and democratize artificial intelligence through open source and open science."
 categories: ["AI News", "Document AI"]
 ---
+
+## Supercharge your OCR Pipelines with Open Models
 
 ## Summary
 

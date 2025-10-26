@@ -61,12 +61,20 @@ def main():
     Content with proper Markdown formatting...
     ```
 
-    **Rules:**
+    **IMPORTANT YAML Rules:**
+    - ALWAYS wrap title in double quotes (required for YAML)
+    - ALWAYS wrap description in double quotes (required for YAML)
+    - Use single quotes inside double-quoted strings if needed
+    - pubDate must be in YYYY-MM-DD format (not quoted)
+    - Extract pubDate from the article's published date in the context
+    - If title or description contains colons (:), quotes are MANDATORY
+    - Categories must be a JSON array format
+
+    **Content Rules:**
     - Use only provided context
     - Ignore irrelevant content
     - Professional, neutral tone
     - Generate title and description from content
-    - Extract pubDate from context
     - Include 'AI News' in categories
 
     <CONTEXT>

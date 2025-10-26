@@ -1,7 +1,7 @@
 ---
-title: DeepSeek AI Introduces DeepSeek-OCR: A Novel Approach to Context Compression for LLMs
+title: "DeepSeek AI Introduces DeepSeek-OCR: A Novel Approach to Context Compression for LLMs"
 pubDate: 2025-10-22
-description: DeepSeek AI has released DeepSeek-OCR, an open-source system leveraging optical 2D mapping for efficient compression of long text, potentially revolutionizing how large language models handle extensive inputs.
+description: "DeepSeek AI has released DeepSeek-OCR, an open-source system leveraging optical 2D mapping for efficient compression of long text, potentially revolutionizing how large language models handle extensive inputs."
 categories: ["AI News", "ML & Data Engineering", "Large language models"]
 ---
 

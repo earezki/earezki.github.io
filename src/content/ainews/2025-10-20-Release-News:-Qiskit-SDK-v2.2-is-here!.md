@@ -1,10 +1,11 @@
-## Qiskit SDK v2.2 Release Summary
+---
+title: "Release News: Qiskit SDK v2.2 is here!"
+pubDate: 2025-10-20
+description: "Technical release summary for Qiskit SDK v2.2, including updates on the new end-to-end quantum + HPC workflow demo enabled by Qiskit's C API."
+categories: ["AI News", "Quantum Computing", "Software Development"]
+---
 
-### Title: Release News: Qiskit SDK v2.2 is here! | IBM Quantum Computing Blog
-### Pub Date: 2025-10-20
-### Description: Technical release summary for Qiskit SDK v2.2, including updates on the new end-to-end quantum + HPC workflow demo enabled by Qiskit's C API.
-### Categories: ["AI News", "Quantum Computing", "Software Development"]
-### URL: https://www.ibm.com/quantum/blog/qiskit-2-2-release-summary
+## Qiskit SDK v2.2 Release Summary
 
 **Summary:**
 

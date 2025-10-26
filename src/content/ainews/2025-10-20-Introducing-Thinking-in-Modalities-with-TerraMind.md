@@ -1,7 +1,7 @@
 ---
-title: Introducing Thinking-in-Modalities with TerraMind: A Novel Approach to Foundation Models
-pubDate: 2021-02-09
-description: IBM Research introduces TerraMind, a foundation model leveraging "Thinking in Modalities" (TiM) to enhance Earth observation analysis by generating missing data representations.
+title: "Introducing Thinking-in-Modalities with TerraMind: A Novel Approach to Foundation Models"
+pubDate: 2025-10-20
+description: "IBM Research introduces TerraMind, a foundation model leveraging 'Thinking in Modalities' (TiM) to enhance Earth observation analysis by generating missing data representations."
 categories: ["AI News", "Earth Observation", "Machine Learning"]
 ---
 
