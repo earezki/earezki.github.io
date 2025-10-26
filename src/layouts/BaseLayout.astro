@@ -126,5 +126,70 @@ const canonicalUrl = canonical ? (canonical.startsWith('http') ? canonical : ori
         });
       }
     </script>
+    
+    <script is:inline>
+      // Read/Unread article tracking
+      (function() {
+        const STORAGE_KEY = 'readArticles';
+        
+        function getReadArticles() {
+          try {
+            const data = localStorage.getItem(STORAGE_KEY);
+            return data ? JSON.parse(data) : [];
+          } catch (e) {
+            return [];
+          }
+        }
+        
+        function markArticleAsRead(url) {
+          try {
+            const readArticles = getReadArticles();
+            if (!readArticles.includes(url)) {
+              readArticles.push(url);
+              localStorage.setItem(STORAGE_KEY, JSON.stringify(readArticles));
+            }
+          } catch (e) {
+            console.error('Failed to mark article as read:', e);
+          }
+        }
+        
+        function isArticleRead(url) {
+          const readArticles = getReadArticles();
+          return readArticles.includes(url);
+        }
+        
+        // Update post cards on list pages
+        function updatePostCards() {
+          const postCards = document.querySelectorAll('.post-card[data-article-url]');
+          postCards.forEach(function(card) {
+            const url = card.getAttribute('data-article-url');
+            if (url) {
+              if (isArticleRead(url)) {
+                card.classList.add('read');
+                card.classList.remove('unread');
+              } else {
+                card.classList.add('unread');
+                card.classList.remove('read');
+              }
+            }
+          });
+        }
+        
+        // Mark current article as read (on article pages)
+        function markCurrentArticleAsRead() {
+          const isArticlePage = document.querySelector('.post-body');
+          if (isArticlePage) {
+            const currentPath = window.location.pathname;
+            markArticleAsRead(currentPath);
+          }
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+          updatePostCards();
+          markCurrentArticleAsRead();
+        });
+      })();
+    </script>
   </body>
 </html>
