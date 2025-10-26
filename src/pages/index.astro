@@ -2,6 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { getCollection } from 'astro:content';
 import PostCard from '../components/PostCard.astro';
+import SearchBox from '../components/SearchBox.astro';
 import readingTime from '../utils/readingTime';
 import { SITE } from '../config/site';
 
@@ -17,14 +18,21 @@ const totalPages = Math.ceil(all.length / SITE.postsPerPage);
   name: 'Dev|Journal',
   url: 'https://earezki.com/'
 }}>
+  <SearchBox containerId="home" />
+  
   <section class="posts-grid">
     {posts.map(p => <PostCard post={p} />)}
   </section>
-  {totalPages > 1 && <div class="more-posts"><a class="next" href="/page/2/">Older posts →</a></div>}
+  
+  {totalPages > 1 && (
+    <nav class="pagination" aria-label="Pagination">
+      <a href="/page/2/" class="next">Older →</a>
+    </nav>
+  )}
 </BaseLayout>
 
 <style>
-  .more-posts { margin:2.5rem 0 1rem; text-align:center; }
-  .more-posts a { padding:.65rem 1.25rem; background:var(--color-bg-alt); border:1px solid var(--color-border); border-radius: var(--radius-pill); }
-  .more-posts a:hover { background:var(--color-accent); color:#fff; border-color:var(--color-accent); }
+  .pagination { display:flex; justify-content:flex-end; margin:2.5rem 0 1rem; font-size:.9rem; }
+  .pagination a { padding:.55rem 1rem; background:var(--color-bg-alt); border:1px solid var(--color-border); border-radius: var(--radius-pill); }
+  .pagination a:hover { background:var(--color-accent); color:#fff; border-color:var(--color-accent); }
 </style>

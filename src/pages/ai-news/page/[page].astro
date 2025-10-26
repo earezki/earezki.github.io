@@ -1,20 +1,26 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
 import { getCollection } from 'astro:content';
-import PostCard from '../components/PostCard.astro';
-import SearchBox from '../components/SearchBox.astro';
-import readingTime from '../utils/readingTime';
-import { SITE } from '../config/site';
+import PostCard from '../../../components/PostCard.astro';
+import SearchBox from '../../../components/SearchBox.astro';
+import readingTime from '../../../utils/readingTime';
+import { SITE } from '../../../config/site';
 
+export async function getStaticPaths() {
+  const posts = await getCollection('ainews');
+  const totalPages = Math.ceil(posts.length / SITE.postsPerPage);
+  return Array.from({length: totalPages}, (_,i) => ({ params: { page: String(i+1) }, props: { page: i+1, totalPages } }));
+}
+
+const { page, totalPages } = Astro.props as { page: number; totalPages: number };
 const all = (await getCollection('ainews'))
   .map(p => ({ ...p, readingTime: readingTime(p.body) }))
   .sort((a,b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
-
-const posts = all.slice(0, SITE.postsPerPage);
-const totalPages = Math.ceil(all.length / SITE.postsPerPage);
+const start = (page - 1) * SITE.postsPerPage;
+const posts = all.slice(start, start + SITE.postsPerPage);
 ---
-<BaseLayout title="AI News • Dev|Journal" description="Latest news and developments in AI and machine learning." canonical="/ai-news/">
-  <h1 style="margin-bottom:1rem;">AI News</h1>
+<BaseLayout title={`AI News - Page ${page} • Dev|Journal`} canonical={`/ai-news/page/${page}/`} description={`AI News page ${page} of ${totalPages}`}>
+  <h1 style="margin-bottom:1rem;">AI News – Page {page}</h1>
   
   <div class="ai-disclaimer">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;">
@@ -27,21 +33,16 @@ const totalPages = Math.ceil(all.length / SITE.postsPerPage);
     </div>
   </div>
 
-  <SearchBox containerId="ai-news" />
+  <SearchBox containerId={`ai-news-page-${page}`} />
 
   <section class="posts-grid">
-    {posts.length > 0 ? (
-      posts.map(p => <PostCard post={p} collection="ainews" />)
-    ) : (
-      <p style="color:var(--color-text-alt);">No AI News articles yet. Check back soon!</p>
-    )}
+    {posts.map(p => <PostCard post={p} collection="ainews" />)}
   </section>
-
-  {totalPages > 1 && (
-    <nav class="pagination" aria-label="Pagination">
-      <a href="/ai-news/page/2/" class="next">Older →</a>
-    </nav>
-  )}
+  
+  <nav class="pagination" aria-label="Pagination">
+    {page > 1 && <a href={page === 2 ? '/ai-news/' : `/ai-news/page/${page-1}/`} class="prev">← Newer</a>}
+    {page < totalPages && <a href={`/ai-news/page/${page+1}/`} class="next">Older →</a>}
+  </nav>
 </BaseLayout>
 
 <style>
@@ -95,7 +96,7 @@ const totalPages = Math.ceil(all.length / SITE.postsPerPage);
 
   .pagination { 
     display: flex; 
-    justify-content: flex-end; 
+    justify-content: space-between; 
     margin: 2.5rem 0 1rem; 
     font-size: 0.9rem; 
   }

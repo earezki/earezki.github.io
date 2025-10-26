@@ -2,6 +2,7 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getCollection } from 'astro:content';
 import PostCard from '../../components/PostCard.astro';
+import SearchBox from '../../components/SearchBox.astro';
 import readingTime from '../../utils/readingTime';
 import { SITE } from '../../config/site';
 
@@ -20,6 +21,9 @@ const posts = all.slice(start, start + SITE.postsPerPage);
 ---
 <BaseLayout title={`Page ${page}`} canonical={`/page/${page}/`} description={`Blog page ${page} of ${totalPages}`}>
   <h1 style="margin-top:0;">Posts – Page {page}</h1>
+  
+  <SearchBox containerId={`home-page-${page}`} />
+  
   <section class="posts-grid">
     {posts.map(p => <PostCard post={p} />)}
   </section>
