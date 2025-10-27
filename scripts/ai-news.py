@@ -122,14 +122,14 @@ def main():
     # Remove duplicates feeds by link
     feeds = [dict(t) for t in {tuple(d.items()) for d in feeds}]
 
-    # Limit to x random entries
-    feeds = random.sample(feeds, min(len(feeds), 10))
-
     print(f"Today's feeds: {json.dumps(feeds, indent=2)}")
 
     if not feeds:
         print("No new entries found for today. Exiting.")
         return
+    
+    max_entries = 10
+    current_count = 0
 
     for entry in feeds:
         try:
@@ -158,6 +158,11 @@ def main():
                     
                     with open(filename, 'w', encoding='utf-8') as f:
                         f.write(response)
+
+                    current_count += 1
+                    if current_count >= max_entries:
+                        print(f"Reached maximum of {max_entries} entries for today.")
+                        break
 
                     print(f"Saved article to {filename}")
                 else:
