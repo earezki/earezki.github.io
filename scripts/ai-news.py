@@ -123,7 +123,7 @@ def main():
     feeds = [dict(t) for t in {tuple(d.items()) for d in feeds}]
 
     # Limit to x random entries
-    feeds = random.sample(feeds, min(len(feeds), 5))
+    feeds = random.sample(feeds, min(len(feeds), 10))
 
     print(f"Today's feeds: {json.dumps(feeds, indent=2)}")
 
