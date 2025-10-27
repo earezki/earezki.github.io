@@ -76,10 +76,21 @@ There is nothing wrong with an  <strong>Anemic Domain Model</strong>  if what we
           }
         }
         
-        // Initialize on page load
-        document.addEventListener('DOMContentLoaded', function() {
+        // Initialize function
+        function init() {
           updatePostCards();
           markCurrentArticleAsRead();
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', init);
+        
+        // Handle back/forward navigation (bfcache)
+        window.addEventListener('pageshow', function(event) {
+          // If page is loaded from cache, update the cards
+          if (event.persisted) {
+            init();
+          }
         });
       })();
     </script> </body> </html> 
