@@ -3,7 +3,15 @@ import rss from '@astrojs/rss';
 
 export async function GET(context) {
   const posts = await getCollection('posts');
-  const aiNews = await getCollection('ainews');
+  const aiNews = await getCollection('ainews')
+    // prefix aiNews with 'ainews/' for proper linking
+    .map(item => {
+      const slug = `ainews/${item.slug}`;
+      return {
+        ...item,
+        slug: slug
+      };
+    });
 
   // Combine and sort by pubDate descending
   const allItems = [...posts, ...aiNews].sort((a, b) => 

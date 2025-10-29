@@ -129,7 +129,7 @@ def main():
         print("No new entries found for today. Exiting.")
         return
     
-    max_entries = 20
+    max_entries = 2
     current_count = 0
 
     for entry in feeds:
@@ -138,11 +138,13 @@ def main():
             url = entry['link']
 
             # check if already processed
-            filename = f"src/content/ainews/{entry['published']}-{entry['title'].replace(' ', '-').replace('/', '-')}.md"
+            filename = f"{entry['published']}-{entry['title'].replace(' ', '-').replace('/', '-')}.md"
             # lowercase, remove special characters, and replace spaces with hyphens
             filename = filename.lower()
             filename = re.sub(r'[^a-z0-9-]', '', filename)
             filename = re.sub(r'-+', '-', filename)
+
+            filename = f"src/content/ainews/{filename}"
 
             if os.path.exists(filename):
                 print(f"Entry {entry['title']} already processed.")
