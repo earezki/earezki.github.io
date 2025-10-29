@@ -5,18 +5,19 @@
   "version": "0.1.0",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "node scripts/generate-cv-markdown.js && astro build && node scripts/generate-pdf.js",
     "preview": "astro preview",
-    "postbuild": "node -e \"const fs=require('fs');try{fs.mkdirSync('public',{recursive:true});fs.copyFileSync('dist/search.json','public/search.json');console.log('Copied dist/search.json -> public/search.json')}catch(e){console.warn('postbuild: no search.json to copy')};\"",
+    "postbuild": "node scripts/postbuild.js",
     "migrate:posts": "node scripts/migrate-posts.js"
   },
   "dependencies": {
-    "astro": "^4.10.0",
     "@astrojs/rss": "^4.0.0",
-    "@astrojs/sitemap": "^3.1.2"
+    "@astrojs/sitemap": "^3.1.2",
+    "astro": "^4.10.0"
   },
   "devDependencies": {
     "@types/node": "^20.11.30",
-    "gray-matter": "^4.0.3"
+    "gray-matter": "^4.0.3",
+    "puppeteer": "^24.27.0"
   }
 }

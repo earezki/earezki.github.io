@@ -19,4 +19,11 @@ const ainews = defineCollection({
   })
 });
 
-export const collections = { posts, ainews };
+const about = defineCollection({
+  schema: z.object({
+    title: z.string(),
+    language: z.enum(['fr', 'en']),
+  })
+});
+
+export const collections = { posts, ainews, about };
