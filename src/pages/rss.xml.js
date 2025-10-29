@@ -6,7 +6,7 @@ export async function GET(context) {
   const aiNews = (await getCollection('ainews'))
     // prefix aiNews with 'ainews/' for proper linking
     .map(item => {
-      const slug = `ainews/${item.slug}`;
+      const slug = `ai-news/${item.slug}`;
       return {
         ...item,
         slug: slug
