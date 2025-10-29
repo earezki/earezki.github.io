@@ -128,7 +128,7 @@ def main():
         print("No new entries found for today. Exiting.")
         return
     
-    max_entries = 10
+    max_entries = 2
     current_count = 0
 
     for entry in feeds:
@@ -138,6 +138,8 @@ def main():
 
             # check if already processed
             filename = f"src/content/ainews/{entry['published']}-{entry['title'].replace(' ', '-').replace('/', '-')}.md"
+            filename = filename.lower()
+
             if os.path.exists(filename):
                 print(f"Entry {entry['title']} already processed.")
                 continue
