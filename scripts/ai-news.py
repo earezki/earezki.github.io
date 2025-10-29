@@ -129,7 +129,7 @@ def main():
         print("No new entries found for today. Exiting.")
         return
     
-    max_entries = 2
+    max_entries = 20
     current_count = 0
 
     for entry in feeds:
