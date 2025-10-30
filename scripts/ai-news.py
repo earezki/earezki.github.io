@@ -49,6 +49,14 @@ def create_prompt():
         - Explain nature, purpose, and impact of each point
         - Add the url as a reference link at the end
 
+        **Special Instructions for Code Content:**
+        If the context contains code examples or technical implementations:
+        - Explain what the main code does and why it's important
+        - Provide a complete working example that demonstrates the concept
+        - Include practical recommendations and best practices when applicable
+        - Show how to apply the technique in real-world scenarios
+        - Highlight potential pitfalls or common mistakes to avoid
+
         **Format:**
 
         ```
@@ -62,6 +70,18 @@ def create_prompt():
         ## Main Heading
 
         Content with proper Markdown formatting...
+
+        ## Working Example (if code-related)
+
+        ```language
+        // Complete, runnable code example
+        ```
+
+        ## Recommendations (if code-related)
+
+        - Practical tips and best practices
+        - When to use this approach
+        - What to watch out for
         ```
 
         **IMPORTANT YAML Rules:**
@@ -87,7 +107,6 @@ def create_prompt():
         **Your Answer:**
         """
     )
-
 
 def sync_git():
     """Sync with remote to avoid conflicts before processing"""
