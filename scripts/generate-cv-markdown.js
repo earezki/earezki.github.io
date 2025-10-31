@@ -143,7 +143,15 @@ function extractContent(filePath) {
   const content = fs.readFileSync(filePath, 'utf-8');
   
   // Remove frontmatter
-  const withoutFrontmatter = content.replace(/^---[\s\S]*?---\n/, '');
+  let withoutFrontmatter = content.replace(/^---[\s\S]*?---\n/, '');
+  
+  // Remove GitHub Stats section
+  // Match the entire section from the separator before it to the separator after it
+  // Use a more flexible pattern that matches any emoji or text followed by "GitHub Stats"
+  withoutFrontmatter = withoutFrontmatter.replace(
+    /---\s*\n+##\s+[^\n]*(?:GitHub Stats|Statistiques GitHub)[^\n]*\n[\s\S]*?\n---\s*\n/,
+    '---\n\n'
+  );
   
   return withoutFrontmatter;
 }

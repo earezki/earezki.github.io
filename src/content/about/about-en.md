@@ -60,6 +60,15 @@ language: "en"
 
 ---
 
+## 📊 GitHub Stats
+
+<div align="center" class="github-stats-container">
+  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=earezki&layout=compact&theme=transparent&hide_border=true&langs_count=8" alt="Top Languages" height="180" />
+  <img src="https://github-readme-stats.vercel.app/api?username=earezki&show_icons=true&theme=transparent&hide_border=true&include_all_commits=true&count_private=true" alt="GitHub Stats" height="180" />
+</div>
+
+---
+
 ## 💼 Professional Experience
 
 ### <span class="company-highlight">Company A (European Banking Group)</span> <span class="location-badge">📍 Île-de-France</span>
