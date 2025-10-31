@@ -1,0 +1,1099 @@
+<!DOCTYPE html><html lang="en" data-theme="dark"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>React Performance Optimization: Complete Guide to Building Fast Applications • Dev|Journal</title><meta name="description" content="React Performance Optimization: Complete Guide to Building Fast Applications React applications can become slow as they grow. This comprehensive guide covers…"><meta name="keywords" content="software architecture, backend development, microservices, Java, Python, Spring Boot, technical blog"><meta name="author" content="El Mehdi Arezki"><!-- Open Graph / Facebook --><meta property="og:type" content="website"><meta property="og:url" content="https://earezki.com/ai-news/2025-11-01-react-performance-optimization-guide/"><meta property="og:title" content="React Performance Optimization: Complete Guide to Building Fast Applications • Dev|Journal"><meta property="og:site_name" content="Dev|Journal"><meta property="og:description" content="React Performance Optimization: Complete Guide to Building Fast Applications React applications can become slow as they grow. This comprehensive guide covers…"><meta property="og:image" content="https://earezki.com/assets/og-image-default.jpg"><!-- Twitter --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:url" content="https://earezki.com/ai-news/2025-11-01-react-performance-optimization-guide/"><meta name="twitter:title" content="React Performance Optimization: Complete Guide to Building Fast Applications • Dev|Journal"><meta name="twitter:description" content="React Performance Optimization: Complete Guide to Building Fast Applications React applications can become slow as they grow. This comprehensive guide covers…"><meta name="twitter:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:creator" content="@earezki"><link rel="canonical" href="https://earezki.com/ai-news/2025-11-01-react-performance-optimization-guide/"><link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"><script async src="https://www.googletagmanager.com/gtag/js?id=UA-161447264-1"></script><script defer src="https://cloud.umami.is/script.js" data-website-id="4a26531d-1053-4f79-97a6-06a1366aff91"></script><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"React Performance Optimization: Complete Guide to Building Fast Applications","datePublished":"2025-11-01T13:00:00.000Z","dateModified":"2025-11-01T13:00:00.000Z","author":{"@type":"Person","name":"AREZKI El Mehdi"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://earezki.com/ai-news/2025-11-01-react-performance-optimization-guide/"},"description":"React Performance Optimization: Complete Guide to Building Fast Applications React applications can become slow as they grow. This comprehensive guide covers…"}</script><link rel="stylesheet" href="/_astro/_slug_.CDWqF8AB.css">
+<style>.post-layout[data-astro-cid-rkg3zjxi]{display:grid;grid-template-columns:260px 1fr;gap:2.5rem}.sidebar-left[data-astro-cid-rkg3zjxi]{position:relative}@media (max-width: 1080px){.post-layout[data-astro-cid-rkg3zjxi]{grid-template-columns:1fr}}.ai-disclaimer-article[data-astro-cid-rkg3zjxi]{display:flex;gap:.75rem;padding:.9rem 1.1rem;margin:0 auto 2rem;max-width:780px;background:linear-gradient(135deg,#667eea1a,#764ba21a,#f093fb1a);border:2px solid transparent;border-radius:var(--radius-md);position:relative;background-clip:padding-box;font-size:.85rem}.ai-disclaimer-article[data-astro-cid-rkg3zjxi]:before{content:"";position:absolute;inset:-2px;border-radius:var(--radius-md);padding:2px;background:var(--ai-gradient-border);background-size:200% 200%;animation:gradient-rotate 3s linear infinite;-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask-composite:exclude;pointer-events:none}html[data-theme=dark] .ai-disclaimer-article[data-astro-cid-rkg3zjxi]{background:linear-gradient(135deg,#667eea26,#764ba226,#f093fb26)}.ai-disclaimer-article[data-astro-cid-rkg3zjxi] svg[data-astro-cid-rkg3zjxi]{margin-top:.15rem}.ai-disclaimer-article[data-astro-cid-rkg3zjxi] strong[data-astro-cid-rkg3zjxi]{color:var(--color-text);display:block;margin-bottom:.15rem}.ai-disclaimer-article[data-astro-cid-rkg3zjxi] div[data-astro-cid-rkg3zjxi]{line-height:1.5;color:var(--color-text-alt)}
+.toc[data-astro-cid-xvrfupwn]{position:sticky;top:90px;max-height:calc(100vh - 120px);overflow:auto;padding:1rem 1rem 1.2rem;background:var(--color-bg-alt);border:1px solid var(--color-border);border-radius:var(--radius-md);font-size:.8rem;line-height:1.3}.toc-title[data-astro-cid-xvrfupwn]{font-weight:600;font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.6rem;color:var(--color-text-alt)}.toc[data-astro-cid-xvrfupwn] ul[data-astro-cid-xvrfupwn]{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.35rem}.toc[data-astro-cid-xvrfupwn] a[data-astro-cid-xvrfupwn]{text-decoration:none;color:var(--color-text-alt)}.toc[data-astro-cid-xvrfupwn] a[data-astro-cid-xvrfupwn]:hover{color:var(--color-accent)}.toc[data-astro-cid-xvrfupwn] li[data-astro-cid-xvrfupwn][class*=d-3]{margin-left:.75rem}.toc[data-astro-cid-xvrfupwn] li[data-astro-cid-xvrfupwn][class*=d-4]{margin-left:1.4rem}@media (max-width: 1080px){.toc[data-astro-cid-xvrfupwn]{display:none}}
+</style><script type="module" src="/_astro/hoisted.CwSnpN4J.js"></script></head> <body> <div id="readingProgress" style="position:fixed;left:0;top:0;height:3px;background:linear-gradient(90deg,#2563eb,#9333ea);width:0;z-index:999;transition:width .15s ease;"></div>  <header class="site-header container"> <div class="logo-wrap"> <a class="logo" href="/">Dev|Journal</a> </div> <nav class="main-nav"> <a href="/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px;"> <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path> <polyline points="9 22 9 12 15 12 15 22"></polyline> </svg>
+Home
+</a> <a href="/ai-news/" class="ai-news-link"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px;"> <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h-9.5a.5.5 0 0 0-.5.5.5.5 0 0 1-1 0 .5.5 0 0 0-.5-.5H1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"></path> <path d="M7 15v4a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-4"></path> </svg>
+AI News
+</a> <a href="/tags/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px;"> <path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2z"></path> <circle cx="7" cy="7" r="1.5"></circle> </svg>
+Tags
+</a> <a href="/about/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px;"> <circle cx="12" cy="12" r="10"></circle> <path d="M12 16v-4"></path> <path d="M12 8h.01"></path> </svg>
+About
+</a> <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode"> <span class="theme-icon">☾</span> <span class="theme-text">dark</span> </button> </nav> </header> <main class="container content-area">  <div class="ai-disclaimer-article" data-astro-cid-rkg3zjxi> <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;" data-astro-cid-rkg3zjxi> <circle cx="12" cy="12" r="10" data-astro-cid-rkg3zjxi></circle> <line x1="12" y1="8" x2="12" y2="12" data-astro-cid-rkg3zjxi></line> <line x1="12" y1="16" x2="12.01" y2="16" data-astro-cid-rkg3zjxi></line> </svg> <div data-astro-cid-rkg3zjxi> <strong data-astro-cid-rkg3zjxi>AI-Generated Content:</strong> This article was created with AI assistance. Please verify important information and check original references.
+</div> </div> <div class="post-layout" data-astro-cid-rkg3zjxi> <aside class="sidebar-left" data-astro-cid-rkg3zjxi> <nav class="toc" aria-label="Table of Contents" data-astro-cid-xvrfupwn> <div class="toc-title" data-astro-cid-xvrfupwn>On this page</div> <ul data-astro-cid-xvrfupwn> <li class="d-2" data-astro-cid-xvrfupwn><a href="#table-of-contents" data-astro-cid-xvrfupwn>Table of Contents</a></li><li class="d-2" data-astro-cid-xvrfupwn><a href="#understanding-react-performance-understanding-performance" data-astro-cid-xvrfupwn>Understanding React Performance {#understanding-performance}</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#performance-metrics-that-matter" data-astro-cid-xvrfupwn>Performance Metrics That Matter</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#how-react-rendering-works" data-astro-cid-xvrfupwn>How React Rendering Works</a></li><li class="d-2" data-astro-cid-xvrfupwn><a href="#profiling-and-measuring-performance-profiling" data-astro-cid-xvrfupwn>Profiling and Measuring Performance {#profiling}</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#1-react-devtools-profiler" data-astro-cid-xvrfupwn>1. React DevTools Profiler</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#2-performance-api" data-astro-cid-xvrfupwn>2. Performance API</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#3-custom-performance-hook" data-astro-cid-xvrfupwn>3. Custom Performance Hook</a></li><li class="d-2" data-astro-cid-xvrfupwn><a href="#component-optimization-component-optimization" data-astro-cid-xvrfupwn>Component Optimization {#component-optimization}</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#1-reactmemo-for-preventing-unnecessary-re-renders" data-astro-cid-xvrfupwn>1. React.memo for Preventing Unnecessary Re-renders</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#2-usememo-for-expensive-calculations" data-astro-cid-xvrfupwn>2. useMemo for Expensive Calculations</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#3-usecallback-for-function-memoization" data-astro-cid-xvrfupwn>3. useCallback for Function Memoization</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#4-debouncing-and-throttling" data-astro-cid-xvrfupwn>4. Debouncing and Throttling</a></li><li class="d-2" data-astro-cid-xvrfupwn><a href="#code-splitting-and-lazy-loading-code-splitting" data-astro-cid-xvrfupwn>Code Splitting and Lazy Loading {#code-splitting}</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#1-route-based-code-splitting" data-astro-cid-xvrfupwn>1. Route-Based Code Splitting</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#2-component-based-code-splitting" data-astro-cid-xvrfupwn>2. Component-Based Code Splitting</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#3-preloading-components" data-astro-cid-xvrfupwn>3. Preloading Components</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#4-dynamic-imports-with-webpack-magic-comments" data-astro-cid-xvrfupwn>4. Dynamic Imports with Webpack Magic Comments</a></li><li class="d-2" data-astro-cid-xvrfupwn><a href="#state-management-optimization-state-management" data-astro-cid-xvrfupwn>State Management Optimization {#state-management}</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#1-state-colocation" data-astro-cid-xvrfupwn>1. State Colocation</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#2-context-optimization" data-astro-cid-xvrfupwn>2. Context Optimization</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#3-zustand-for-efficient-state-management" data-astro-cid-xvrfupwn>3. Zustand for Efficient State Management</a></li><li class="d-2" data-astro-cid-xvrfupwn><a href="#rendering-optimization-rendering-optimization" data-astro-cid-xvrfupwn>Rendering Optimization {#rendering-optimization}</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#1-virtualization-for-long-lists" data-astro-cid-xvrfupwn>1. Virtualization for Long Lists</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#2-react-window-with-autosizer" data-astro-cid-xvrfupwn>2. React Window with AutoSizer</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#3-windowing-with-infinite-scroll" data-astro-cid-xvrfupwn>3. Windowing with Infinite Scroll</a></li><li class="d-2" data-astro-cid-xvrfupwn><a href="#bundle-size-optimization-bundle-size" data-astro-cid-xvrfupwn>Bundle Size Optimization {#bundle-size}</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#1-analyzing-bundle-size" data-astro-cid-xvrfupwn>1. Analyzing Bundle Size</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#2-tree-shaking" data-astro-cid-xvrfupwn>2. Tree Shaking</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#3-dynamic-imports-for-heavy-libraries" data-astro-cid-xvrfupwn>3. Dynamic Imports for Heavy Libraries</a></li><li class="d-2" data-astro-cid-xvrfupwn><a href="#advanced-patterns-advanced-patterns" data-astro-cid-xvrfupwn>Advanced Patterns {#advanced-patterns}</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#1-concurrent-rendering-react-18" data-astro-cid-xvrfupwn>1. Concurrent Rendering (React 18)</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#2-usedeferredvalue" data-astro-cid-xvrfupwn>2. useDeferredValue</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#3-web-workers-for-heavy-computations" data-astro-cid-xvrfupwn>3. Web Workers for Heavy Computations</a></li><li class="d-2" data-astro-cid-xvrfupwn><a href="#real-world-case-studies-case-studies" data-astro-cid-xvrfupwn>Real-World Case Studies {#case-studies}</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#case-study-1-optimizing-a-dashboard" data-astro-cid-xvrfupwn>Case Study 1: Optimizing a Dashboard</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#case-study-2-e-commerce-product-list" data-astro-cid-xvrfupwn>Case Study 2: E-Commerce Product List</a></li><li class="d-2" data-astro-cid-xvrfupwn><a href="#performance-checklist" data-astro-cid-xvrfupwn>Performance Checklist</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#development" data-astro-cid-xvrfupwn>Development:</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#build" data-astro-cid-xvrfupwn>Build:</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#runtime" data-astro-cid-xvrfupwn>Runtime:</a></li><li class="d-2" data-astro-cid-xvrfupwn><a href="#conclusion" data-astro-cid-xvrfupwn>Conclusion</a></li><li class="d-2" data-astro-cid-xvrfupwn><a href="#resources" data-astro-cid-xvrfupwn>Resources</a></li> </ul> </nav>  </aside> <article class="post" data-astro-cid-rkg3zjxi> <header class="post-header" data-astro-cid-rkg3zjxi> <h1 data-astro-cid-rkg3zjxi>React Performance Optimization: Complete Guide to Building Fast Applications</h1> <div class="meta" data-astro-cid-rkg3zjxi> <time datetime="2025-11-01T13:00:00.000Z" data-astro-cid-rkg3zjxi>Sat Nov 01 2025</time> <span data-astro-cid-rkg3zjxi>• 13 min read</span> </div> <div class="tag-row" data-astro-cid-rkg3zjxi><span class="tag" data-astro-cid-rkg3zjxi>React</span><span class="tag" data-astro-cid-rkg3zjxi>Frontend</span><span class="tag" data-astro-cid-rkg3zjxi>Performance</span><span class="tag" data-astro-cid-rkg3zjxi>JavaScript</span></div> </header> <div class="post-body prose" data-astro-cid-rkg3zjxi> <h1 id="react-performance-optimization-complete-guide-to-building-fast-applications">React Performance Optimization: Complete Guide to Building Fast Applications</h1>
+<p>React applications can become slow as they grow. This comprehensive guide covers everything you need to know about optimizing React applications for maximum performance, from basic techniques to advanced patterns used in production by top companies.</p>
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol>
+<li><a href="#understanding-performance">Understanding React Performance</a></li>
+<li><a href="#profiling">Profiling and Measuring Performance</a></li>
+<li><a href="#component-optimization">Component Optimization</a></li>
+<li><a href="#code-splitting">Code Splitting and Lazy Loading</a></li>
+<li><a href="#state-management">State Management Optimization</a></li>
+<li><a href="#rendering-optimization">Rendering Optimization</a></li>
+<li><a href="#bundle-size">Bundle Size Optimization</a></li>
+<li><a href="#advanced-patterns">Advanced Patterns</a></li>
+<li><a href="#case-studies">Real-World Case Studies</a></li>
+</ol>
+<h2 id="understanding-react-performance-understanding-performance">Understanding React Performance {#understanding-performance}</h2>
+<h3 id="performance-metrics-that-matter">Performance Metrics That Matter</h3>
+<p><strong>Core Web Vitals:</strong></p>
+<ul>
+<li><strong>LCP (Largest Contentful Paint)</strong>: &#x3C; 2.5s</li>
+<li><strong>FID (First Input Delay)</strong>: &#x3C; 100ms</li>
+<li><strong>CLS (Cumulative Layout Shift)</strong>: &#x3C; 0.1</li>
+<li><strong>TTI (Time to Interactive)</strong>: &#x3C; 3.8s</li>
+</ul>
+<p><strong>React-Specific Metrics:</strong></p>
+<ul>
+<li>Component render time</li>
+<li>Re-render frequency</li>
+<li>Bundle size</li>
+<li>Initial load time</li>
+<li>JavaScript execution time</li>
+</ul>
+<h3 id="how-react-rendering-works">How React Rendering Works</h3>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="jsx"><code><span class="line"><span style="color:#8B949E">// React's rendering phases</span></span>
+<span class="line"><span style="color:#79C0FF">1.</span><span style="color:#E6EDF3"> Trigger → </span><span style="color:#79C0FF">2.</span><span style="color:#E6EDF3"> Render → </span><span style="color:#79C0FF">3.</span><span style="color:#E6EDF3"> Commit → </span><span style="color:#79C0FF">4.</span><span style="color:#E6EDF3"> Browser Paint</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">// Understanding the render phase</span></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> ParentComponent</span><span style="color:#E6EDF3">() {</span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#E6EDF3"> [</span><span style="color:#79C0FF">count</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">setCount</span><span style="color:#E6EDF3">] </span><span style="color:#FF7B72">=</span><span style="color:#D2A8FF"> useState</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">0</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">  </span></span>
+<span class="line"><span style="color:#8B949E">  // Every state update triggers a re-render</span></span>
+<span class="line"><span style="color:#8B949E">  // All child components re-render by default!</span></span>
+<span class="line"><span style="color:#FF7B72">  return</span><span style="color:#E6EDF3"> (</span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;</span><span style="color:#7EE787">div</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">      &#x3C;</span><span style="color:#7EE787">button</span><span style="color:#79C0FF"> onClick</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">() </span><span style="color:#FF7B72">=></span><span style="color:#D2A8FF"> setCount</span><span style="color:#E6EDF3">(count </span><span style="color:#FF7B72">+</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">)</span><span style="color:#FF7B72">}</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">        Count: </span><span style="color:#FF7B72">{</span><span style="color:#E6EDF3">count</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#E6EDF3">      &#x3C;/</span><span style="color:#7EE787">button</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">      &#x3C;</span><span style="color:#7EE787">ChildComponent</span><span style="color:#E6EDF3"> />  </span><span style="color:#FF7B72">{</span><span style="color:#8B949E">/* Re-renders unnecessarily */</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#E6EDF3">      &#x3C;</span><span style="color:#7EE787">AnotherChild</span><span style="color:#E6EDF3"> />    </span><span style="color:#FF7B72">{</span><span style="color:#8B949E">/* Re-renders unnecessarily */</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;/</span><span style="color:#7EE787">div</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">  );</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span></code></pre>
+<h2 id="profiling-and-measuring-performance-profiling">Profiling and Measuring Performance {#profiling}</h2>
+<h3 id="1-react-devtools-profiler">1. React DevTools Profiler</h3>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="jsx"><code><span class="line"><span style="color:#FF7B72">import</span><span style="color:#E6EDF3"> { Profiler } </span><span style="color:#FF7B72">from</span><span style="color:#A5D6FF"> 'react'</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> onRenderCallback</span><span style="color:#E6EDF3">(</span></span>
+<span class="line"><span style="color:#FFA657">  id</span><span style="color:#E6EDF3">,                 </span><span style="color:#8B949E">// Component ID</span></span>
+<span class="line"><span style="color:#FFA657">  phase</span><span style="color:#E6EDF3">,             </span><span style="color:#8B949E">// "mount" or "update"</span></span>
+<span class="line"><span style="color:#FFA657">  actualDuration</span><span style="color:#E6EDF3">,    </span><span style="color:#8B949E">// Time spent rendering</span></span>
+<span class="line"><span style="color:#FFA657">  baseDuration</span><span style="color:#E6EDF3">,      </span><span style="color:#8B949E">// Estimated time without memoization</span></span>
+<span class="line"><span style="color:#FFA657">  startTime</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#FFA657">  commitTime</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#FFA657">  interactions</span></span>
+<span class="line"><span style="color:#E6EDF3">) {</span></span>
+<span class="line"><span style="color:#E6EDF3">  console.</span><span style="color:#D2A8FF">log</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">`${</span><span style="color:#E6EDF3">id</span><span style="color:#A5D6FF">} took ${</span><span style="color:#E6EDF3">actualDuration</span><span style="color:#A5D6FF">}ms to render`</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> App</span><span style="color:#E6EDF3">() {</span></span>
+<span class="line"><span style="color:#FF7B72">  return</span><span style="color:#E6EDF3"> (</span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;</span><span style="color:#7EE787">Profiler</span><span style="color:#79C0FF"> id</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">"App"</span><span style="color:#79C0FF"> onRender</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">onRenderCallback</span><span style="color:#FF7B72">}</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">      &#x3C;</span><span style="color:#7EE787">MainContent</span><span style="color:#E6EDF3"> /></span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;/</span><span style="color:#7EE787">Profiler</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">  );</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span></code></pre>
+<h3 id="2-performance-api">2. Performance API</h3>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="jsx"><code><span class="line"><span style="color:#FF7B72">import</span><span style="color:#E6EDF3"> { useEffect } </span><span style="color:#FF7B72">from</span><span style="color:#A5D6FF"> 'react'</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> PerformanceMonitor</span><span style="color:#E6EDF3">() {</span></span>
+<span class="line"><span style="color:#D2A8FF">  useEffect</span><span style="color:#E6EDF3">(() </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#8B949E">    // Measure component mount time</span></span>
+<span class="line"><span style="color:#FF7B72">    const</span><span style="color:#79C0FF"> observer</span><span style="color:#FF7B72"> =</span><span style="color:#FF7B72"> new</span><span style="color:#D2A8FF"> PerformanceObserver</span><span style="color:#E6EDF3">((</span><span style="color:#FFA657">list</span><span style="color:#E6EDF3">) </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#FF7B72">      for</span><span style="color:#E6EDF3"> (</span><span style="color:#FF7B72">const</span><span style="color:#79C0FF"> entry</span><span style="color:#FF7B72"> of</span><span style="color:#E6EDF3"> list.</span><span style="color:#D2A8FF">getEntries</span><span style="color:#E6EDF3">()) {</span></span>
+<span class="line"><span style="color:#E6EDF3">        console.</span><span style="color:#D2A8FF">log</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">'Performance entry:'</span><span style="color:#E6EDF3">, {</span></span>
+<span class="line"><span style="color:#E6EDF3">          name: entry.name,</span></span>
+<span class="line"><span style="color:#E6EDF3">          duration: entry.duration,</span></span>
+<span class="line"><span style="color:#E6EDF3">          startTime: entry.startTime</span></span>
+<span class="line"><span style="color:#E6EDF3">        });</span></span>
+<span class="line"><span style="color:#E6EDF3">      }</span></span>
+<span class="line"><span style="color:#E6EDF3">    });</span></span>
+<span class="line"><span style="color:#E6EDF3">    </span></span>
+<span class="line"><span style="color:#E6EDF3">    observer.</span><span style="color:#D2A8FF">observe</span><span style="color:#E6EDF3">({ entryTypes: [</span><span style="color:#A5D6FF">'measure'</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">'navigation'</span><span style="color:#E6EDF3">] });</span></span>
+<span class="line"><span style="color:#E6EDF3">    </span></span>
+<span class="line"><span style="color:#FF7B72">    return</span><span style="color:#E6EDF3"> () </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> observer.</span><span style="color:#D2A8FF">disconnect</span><span style="color:#E6EDF3">();</span></span>
+<span class="line"><span style="color:#E6EDF3">  }, []);</span></span>
+<span class="line"><span style="color:#E6EDF3">  </span></span>
+<span class="line"><span style="color:#FF7B72">  return</span><span style="color:#79C0FF"> null</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span></code></pre>
+<h3 id="3-custom-performance-hook">3. Custom Performance Hook</h3>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="jsx"><code><span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> usePerformance</span><span style="color:#E6EDF3">(</span><span style="color:#FFA657">componentName</span><span style="color:#E6EDF3">) {</span></span>
+<span class="line"><span style="color:#D2A8FF">  useEffect</span><span style="color:#E6EDF3">(() </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#FF7B72">    const</span><span style="color:#79C0FF"> startTime</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> performance.</span><span style="color:#D2A8FF">now</span><span style="color:#E6EDF3">();</span></span>
+<span class="line"><span style="color:#E6EDF3">    </span></span>
+<span class="line"><span style="color:#FF7B72">    return</span><span style="color:#E6EDF3"> () </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#FF7B72">      const</span><span style="color:#79C0FF"> endTime</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> performance.</span><span style="color:#D2A8FF">now</span><span style="color:#E6EDF3">();</span></span>
+<span class="line"><span style="color:#FF7B72">      const</span><span style="color:#79C0FF"> renderTime</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> endTime </span><span style="color:#FF7B72">-</span><span style="color:#E6EDF3"> startTime;</span></span>
+<span class="line"><span style="color:#E6EDF3">      </span></span>
+<span class="line"><span style="color:#FF7B72">      if</span><span style="color:#E6EDF3"> (renderTime </span><span style="color:#FF7B72">></span><span style="color:#79C0FF"> 16.67</span><span style="color:#E6EDF3">) { </span><span style="color:#8B949E">// > 60fps threshold</span></span>
+<span class="line"><span style="color:#E6EDF3">        console.</span><span style="color:#D2A8FF">warn</span><span style="color:#E6EDF3">(</span></span>
+<span class="line"><span style="color:#A5D6FF">          `${</span><span style="color:#E6EDF3">componentName</span><span style="color:#A5D6FF">} took ${</span><span style="color:#E6EDF3">renderTime</span><span style="color:#A5D6FF">}ms to render`</span></span>
+<span class="line"><span style="color:#E6EDF3">        );</span></span>
+<span class="line"><span style="color:#E6EDF3">      }</span></span>
+<span class="line"><span style="color:#E6EDF3">    };</span></span>
+<span class="line"><span style="color:#E6EDF3">  });</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">// Usage</span></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> ExpensiveComponent</span><span style="color:#E6EDF3">() {</span></span>
+<span class="line"><span style="color:#D2A8FF">  usePerformance</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">'ExpensiveComponent'</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#8B949E">  // Component logic...</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span></code></pre>
+<h2 id="component-optimization-component-optimization">Component Optimization {#component-optimization}</h2>
+<h3 id="1-reactmemo-for-preventing-unnecessary-re-renders">1. React.memo for Preventing Unnecessary Re-renders</h3>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="jsx"><code><span class="line"><span style="color:#8B949E">// ❌ Bad: Re-renders on every parent update</span></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> ExpensiveChild</span><span style="color:#E6EDF3">({ </span><span style="color:#FFA657">data</span><span style="color:#E6EDF3"> }) {</span></span>
+<span class="line"><span style="color:#E6EDF3">  console.</span><span style="color:#D2A8FF">log</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">'Child rendered'</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#FF7B72">  return</span><span style="color:#E6EDF3"> &#x3C;</span><span style="color:#7EE787">div</span><span style="color:#E6EDF3">></span><span style="color:#FF7B72">{</span><span style="color:#D2A8FF">expensiveComputation</span><span style="color:#E6EDF3">(data)</span><span style="color:#FF7B72">}</span><span style="color:#E6EDF3">&#x3C;/</span><span style="color:#7EE787">div</span><span style="color:#E6EDF3">>;</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">// ✅ Good: Only re-renders when data changes</span></span>
+<span class="line"><span style="color:#FF7B72">const</span><span style="color:#79C0FF"> ExpensiveChild</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> React.</span><span style="color:#D2A8FF">memo</span><span style="color:#E6EDF3">(</span><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> ExpensiveChild</span><span style="color:#E6EDF3">({ </span><span style="color:#FFA657">data</span><span style="color:#E6EDF3"> }) {</span></span>
+<span class="line"><span style="color:#E6EDF3">  console.</span><span style="color:#D2A8FF">log</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">'Child rendered'</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#FF7B72">  return</span><span style="color:#E6EDF3"> &#x3C;</span><span style="color:#7EE787">div</span><span style="color:#E6EDF3">></span><span style="color:#FF7B72">{</span><span style="color:#D2A8FF">expensiveComputation</span><span style="color:#E6EDF3">(data)</span><span style="color:#FF7B72">}</span><span style="color:#E6EDF3">&#x3C;/</span><span style="color:#7EE787">div</span><span style="color:#E6EDF3">>;</span></span>
+<span class="line"><span style="color:#E6EDF3">});</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">// ✅ Better: Custom comparison function</span></span>
+<span class="line"><span style="color:#FF7B72">const</span><span style="color:#79C0FF"> ExpensiveChild</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> React.</span><span style="color:#D2A8FF">memo</span><span style="color:#E6EDF3">(</span></span>
+<span class="line"><span style="color:#FF7B72">  function</span><span style="color:#D2A8FF"> ExpensiveChild</span><span style="color:#E6EDF3">({ </span><span style="color:#FFA657">user</span><span style="color:#E6EDF3">, </span><span style="color:#FFA657">metadata</span><span style="color:#E6EDF3"> }) {</span></span>
+<span class="line"><span style="color:#FF7B72">    return</span><span style="color:#E6EDF3"> (</span></span>
+<span class="line"><span style="color:#E6EDF3">      &#x3C;</span><span style="color:#7EE787">div</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#FF7B72">        {</span><span style="color:#E6EDF3">user.name</span><span style="color:#FF7B72">}</span><span style="color:#E6EDF3"> - </span><span style="color:#FF7B72">{</span><span style="color:#E6EDF3">metadata.lastSeen</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#E6EDF3">      &#x3C;/</span><span style="color:#7EE787">div</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">    );</span></span>
+<span class="line"><span style="color:#E6EDF3">  },</span></span>
+<span class="line"><span style="color:#E6EDF3">  (</span><span style="color:#FFA657">prevProps</span><span style="color:#E6EDF3">, </span><span style="color:#FFA657">nextProps</span><span style="color:#E6EDF3">) </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#8B949E">    // Only re-render if user.id changes</span></span>
+<span class="line"><span style="color:#FF7B72">    return</span><span style="color:#E6EDF3"> prevProps.user.id </span><span style="color:#FF7B72">===</span><span style="color:#E6EDF3"> nextProps.user.id;</span></span>
+<span class="line"><span style="color:#E6EDF3">  }</span></span>
+<span class="line"><span style="color:#E6EDF3">);</span></span>
+<span class="line"></span></code></pre>
+<h3 id="2-usememo-for-expensive-calculations">2. useMemo for Expensive Calculations</h3>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="jsx"><code><span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> DataTable</span><span style="color:#E6EDF3">({ </span><span style="color:#FFA657">items</span><span style="color:#E6EDF3">, </span><span style="color:#FFA657">filters</span><span style="color:#E6EDF3"> }) {</span></span>
+<span class="line"><span style="color:#8B949E">  // ❌ Bad: Recalculates on every render</span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#79C0FF"> filteredItems</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> items.</span><span style="color:#D2A8FF">filter</span><span style="color:#E6EDF3">(</span><span style="color:#FFA657">item</span><span style="color:#FF7B72"> =></span><span style="color:#E6EDF3"> </span></span>
+<span class="line"><span style="color:#E6EDF3">    filters.</span><span style="color:#D2A8FF">every</span><span style="color:#E6EDF3">(</span><span style="color:#FFA657">filter</span><span style="color:#FF7B72"> =></span><span style="color:#D2A8FF"> filter</span><span style="color:#E6EDF3">(item))</span></span>
+<span class="line"><span style="color:#E6EDF3">  );</span></span>
+<span class="line"><span style="color:#E6EDF3">  </span></span>
+<span class="line"><span style="color:#8B949E">  // ✅ Good: Only recalculates when dependencies change</span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#79C0FF"> filteredItems</span><span style="color:#FF7B72"> =</span><span style="color:#D2A8FF"> useMemo</span><span style="color:#E6EDF3">(() </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">    console.</span><span style="color:#D2A8FF">log</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">'Filtering items...'</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#FF7B72">    return</span><span style="color:#E6EDF3"> items.</span><span style="color:#D2A8FF">filter</span><span style="color:#E6EDF3">(</span><span style="color:#FFA657">item</span><span style="color:#FF7B72"> =></span><span style="color:#E6EDF3"> </span></span>
+<span class="line"><span style="color:#E6EDF3">      filters.</span><span style="color:#D2A8FF">every</span><span style="color:#E6EDF3">(</span><span style="color:#FFA657">filter</span><span style="color:#FF7B72"> =></span><span style="color:#D2A8FF"> filter</span><span style="color:#E6EDF3">(item))</span></span>
+<span class="line"><span style="color:#E6EDF3">    );</span></span>
+<span class="line"><span style="color:#E6EDF3">  }, [items, filters]);</span></span>
+<span class="line"><span style="color:#E6EDF3">  </span></span>
+<span class="line"><span style="color:#8B949E">  // ✅ Complex example with sorting</span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#79C0FF"> sortedAndFilteredData</span><span style="color:#FF7B72"> =</span><span style="color:#D2A8FF"> useMemo</span><span style="color:#E6EDF3">(() </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#FF7B72">    const</span><span style="color:#79C0FF"> filtered</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> items.</span><span style="color:#D2A8FF">filter</span><span style="color:#E6EDF3">(</span><span style="color:#FFA657">item</span><span style="color:#FF7B72"> =></span><span style="color:#E6EDF3"> </span></span>
+<span class="line"><span style="color:#E6EDF3">      item.active </span><span style="color:#FF7B72">&#x26;&#x26;</span><span style="color:#E6EDF3"> item.score </span><span style="color:#FF7B72">></span><span style="color:#79C0FF"> 50</span></span>
+<span class="line"><span style="color:#E6EDF3">    );</span></span>
+<span class="line"><span style="color:#E6EDF3">    </span></span>
+<span class="line"><span style="color:#FF7B72">    return</span><span style="color:#E6EDF3"> filtered.</span><span style="color:#D2A8FF">sort</span><span style="color:#E6EDF3">((</span><span style="color:#FFA657">a</span><span style="color:#E6EDF3">, </span><span style="color:#FFA657">b</span><span style="color:#E6EDF3">) </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> </span></span>
+<span class="line"><span style="color:#E6EDF3">      b.score </span><span style="color:#FF7B72">-</span><span style="color:#E6EDF3"> a.score</span></span>
+<span class="line"><span style="color:#E6EDF3">    ).</span><span style="color:#D2A8FF">slice</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">0</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">100</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">  }, [items]);</span></span>
+<span class="line"><span style="color:#E6EDF3">  </span></span>
+<span class="line"><span style="color:#FF7B72">  return</span><span style="color:#E6EDF3"> (</span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;</span><span style="color:#7EE787">div</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#FF7B72">      {</span><span style="color:#E6EDF3">filteredItems.</span><span style="color:#D2A8FF">map</span><span style="color:#E6EDF3">(</span><span style="color:#FFA657">item</span><span style="color:#FF7B72"> =></span><span style="color:#E6EDF3"> (</span></span>
+<span class="line"><span style="color:#E6EDF3">        &#x3C;</span><span style="color:#7EE787">ItemRow</span><span style="color:#79C0FF"> key</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">item.id</span><span style="color:#FF7B72">}</span><span style="color:#79C0FF"> item</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">item</span><span style="color:#FF7B72">}</span><span style="color:#E6EDF3"> /></span></span>
+<span class="line"><span style="color:#E6EDF3">      ))</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;/</span><span style="color:#7EE787">div</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">  );</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span></code></pre>
+<h3 id="3-usecallback-for-function-memoization">3. useCallback for Function Memoization</h3>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="jsx"><code><span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> SearchComponent</span><span style="color:#E6EDF3">() {</span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#E6EDF3"> [</span><span style="color:#79C0FF">query</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">setQuery</span><span style="color:#E6EDF3">] </span><span style="color:#FF7B72">=</span><span style="color:#D2A8FF"> useState</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">''</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#E6EDF3"> [</span><span style="color:#79C0FF">results</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">setResults</span><span style="color:#E6EDF3">] </span><span style="color:#FF7B72">=</span><span style="color:#D2A8FF"> useState</span><span style="color:#E6EDF3">([]);</span></span>
+<span class="line"><span style="color:#E6EDF3">  </span></span>
+<span class="line"><span style="color:#8B949E">  // ❌ Bad: Creates new function on every render</span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#D2A8FF"> handleSearch</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> (</span><span style="color:#FFA657">value</span><span style="color:#E6EDF3">) </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#D2A8FF">    fetchResults</span><span style="color:#E6EDF3">(value).</span><span style="color:#D2A8FF">then</span><span style="color:#E6EDF3">(setResults);</span></span>
+<span class="line"><span style="color:#E6EDF3">  };</span></span>
+<span class="line"><span style="color:#E6EDF3">  </span></span>
+<span class="line"><span style="color:#8B949E">  // ✅ Good: Stable function reference</span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#79C0FF"> handleSearch</span><span style="color:#FF7B72"> =</span><span style="color:#D2A8FF"> useCallback</span><span style="color:#E6EDF3">((</span><span style="color:#FFA657">value</span><span style="color:#E6EDF3">) </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#D2A8FF">    fetchResults</span><span style="color:#E6EDF3">(value).</span><span style="color:#D2A8FF">then</span><span style="color:#E6EDF3">(setResults);</span></span>
+<span class="line"><span style="color:#E6EDF3">  }, []); </span><span style="color:#8B949E">// Empty deps if function is self-contained</span></span>
+<span class="line"><span style="color:#E6EDF3">  </span></span>
+<span class="line"><span style="color:#8B949E">  // ✅ With dependencies</span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#79C0FF"> handleSearchWithFilter</span><span style="color:#FF7B72"> =</span><span style="color:#D2A8FF"> useCallback</span><span style="color:#E6EDF3">((</span><span style="color:#FFA657">value</span><span style="color:#E6EDF3">) </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#D2A8FF">    fetchResults</span><span style="color:#E6EDF3">(value, query).</span><span style="color:#D2A8FF">then</span><span style="color:#E6EDF3">(setResults);</span></span>
+<span class="line"><span style="color:#E6EDF3">  }, [query]); </span><span style="color:#8B949E">// Recreate when query changes</span></span>
+<span class="line"><span style="color:#E6EDF3">  </span></span>
+<span class="line"><span style="color:#FF7B72">  return</span><span style="color:#E6EDF3"> (</span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;</span><span style="color:#7EE787">SearchInput</span><span style="color:#E6EDF3"> </span></span>
+<span class="line"><span style="color:#79C0FF">      onSearch</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">handleSearch</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#79C0FF">      placeholder</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">"Search..."</span></span>
+<span class="line"><span style="color:#E6EDF3">    /></span></span>
+<span class="line"><span style="color:#E6EDF3">  );</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">// Child component benefits from stable function</span></span>
+<span class="line"><span style="color:#FF7B72">const</span><span style="color:#79C0FF"> SearchInput</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> React.</span><span style="color:#D2A8FF">memo</span><span style="color:#E6EDF3">(({ </span><span style="color:#FFA657">onSearch</span><span style="color:#E6EDF3">, </span><span style="color:#FFA657">placeholder</span><span style="color:#E6EDF3"> }) </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#E6EDF3"> [</span><span style="color:#79C0FF">value</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">setValue</span><span style="color:#E6EDF3">] </span><span style="color:#FF7B72">=</span><span style="color:#D2A8FF"> useState</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">''</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">  </span></span>
+<span class="line"><span style="color:#FF7B72">  return</span><span style="color:#E6EDF3"> (</span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;</span><span style="color:#7EE787">input</span></span>
+<span class="line"><span style="color:#79C0FF">      value</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">value</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#79C0FF">      onChange</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">(</span><span style="color:#FFA657">e</span><span style="color:#E6EDF3">) </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#D2A8FF">        setValue</span><span style="color:#E6EDF3">(e.target.value);</span></span>
+<span class="line"><span style="color:#D2A8FF">        onSearch</span><span style="color:#E6EDF3">(e.target.value);</span></span>
+<span class="line"><span style="color:#E6EDF3">      }</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#79C0FF">      placeholder</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">placeholder</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#E6EDF3">    /></span></span>
+<span class="line"><span style="color:#E6EDF3">  );</span></span>
+<span class="line"><span style="color:#E6EDF3">});</span></span>
+<span class="line"></span></code></pre>
+<h3 id="4-debouncing-and-throttling">4. Debouncing and Throttling</h3>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="jsx"><code><span class="line"><span style="color:#FF7B72">import</span><span style="color:#E6EDF3"> { useCallback, useRef, useEffect } </span><span style="color:#FF7B72">from</span><span style="color:#A5D6FF"> 'react'</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">// Custom debounce hook</span></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> useDebounce</span><span style="color:#E6EDF3">(</span><span style="color:#FFA657">callback</span><span style="color:#E6EDF3">, </span><span style="color:#FFA657">delay</span><span style="color:#E6EDF3">) {</span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#79C0FF"> timeoutRef</span><span style="color:#FF7B72"> =</span><span style="color:#D2A8FF"> useRef</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">null</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">  </span></span>
+<span class="line"><span style="color:#D2A8FF">  useEffect</span><span style="color:#E6EDF3">(() </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#FF7B72">    return</span><span style="color:#E6EDF3"> () </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#FF7B72">      if</span><span style="color:#E6EDF3"> (timeoutRef.current) {</span></span>
+<span class="line"><span style="color:#D2A8FF">        clearTimeout</span><span style="color:#E6EDF3">(timeoutRef.current);</span></span>
+<span class="line"><span style="color:#E6EDF3">      }</span></span>
+<span class="line"><span style="color:#E6EDF3">    };</span></span>
+<span class="line"><span style="color:#E6EDF3">  }, []);</span></span>
+<span class="line"><span style="color:#E6EDF3">  </span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#79C0FF"> debouncedCallback</span><span style="color:#FF7B72"> =</span><span style="color:#D2A8FF"> useCallback</span><span style="color:#E6EDF3">((</span><span style="color:#FF7B72">...</span><span style="color:#FFA657">args</span><span style="color:#E6EDF3">) </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#FF7B72">    if</span><span style="color:#E6EDF3"> (timeoutRef.current) {</span></span>
+<span class="line"><span style="color:#D2A8FF">      clearTimeout</span><span style="color:#E6EDF3">(timeoutRef.current);</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">    </span></span>
+<span class="line"><span style="color:#E6EDF3">    timeoutRef.current </span><span style="color:#FF7B72">=</span><span style="color:#D2A8FF"> setTimeout</span><span style="color:#E6EDF3">(() </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#D2A8FF">      callback</span><span style="color:#E6EDF3">(</span><span style="color:#FF7B72">...</span><span style="color:#E6EDF3">args);</span></span>
+<span class="line"><span style="color:#E6EDF3">    }, delay);</span></span>
+<span class="line"><span style="color:#E6EDF3">  }, [callback, delay]);</span></span>
+<span class="line"><span style="color:#E6EDF3">  </span></span>
+<span class="line"><span style="color:#FF7B72">  return</span><span style="color:#E6EDF3"> debouncedCallback;</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">// Usage in search</span></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> SearchWithDebounce</span><span style="color:#E6EDF3">() {</span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#E6EDF3"> [</span><span style="color:#79C0FF">query</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">setQuery</span><span style="color:#E6EDF3">] </span><span style="color:#FF7B72">=</span><span style="color:#D2A8FF"> useState</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">''</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#E6EDF3"> [</span><span style="color:#79C0FF">results</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">setResults</span><span style="color:#E6EDF3">] </span><span style="color:#FF7B72">=</span><span style="color:#D2A8FF"> useState</span><span style="color:#E6EDF3">([]);</span></span>
+<span class="line"><span style="color:#E6EDF3">  </span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#D2A8FF"> search</span><span style="color:#FF7B72"> =</span><span style="color:#FF7B72"> async</span><span style="color:#E6EDF3"> (</span><span style="color:#FFA657">searchTerm</span><span style="color:#E6EDF3">) </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#FF7B72">    const</span><span style="color:#79C0FF"> data</span><span style="color:#FF7B72"> =</span><span style="color:#FF7B72"> await</span><span style="color:#D2A8FF"> fetchResults</span><span style="color:#E6EDF3">(searchTerm);</span></span>
+<span class="line"><span style="color:#D2A8FF">    setResults</span><span style="color:#E6EDF3">(data);</span></span>
+<span class="line"><span style="color:#E6EDF3">  };</span></span>
+<span class="line"><span style="color:#E6EDF3">  </span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#79C0FF"> debouncedSearch</span><span style="color:#FF7B72"> =</span><span style="color:#D2A8FF"> useDebounce</span><span style="color:#E6EDF3">(search, </span><span style="color:#79C0FF">300</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">  </span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#D2A8FF"> handleChange</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> (</span><span style="color:#FFA657">e</span><span style="color:#E6EDF3">) </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#FF7B72">    const</span><span style="color:#79C0FF"> value</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> e.target.value;</span></span>
+<span class="line"><span style="color:#D2A8FF">    setQuery</span><span style="color:#E6EDF3">(value);</span></span>
+<span class="line"><span style="color:#D2A8FF">    debouncedSearch</span><span style="color:#E6EDF3">(value); </span><span style="color:#8B949E">// Only calls API after 300ms of no typing</span></span>
+<span class="line"><span style="color:#E6EDF3">  };</span></span>
+<span class="line"><span style="color:#E6EDF3">  </span></span>
+<span class="line"><span style="color:#FF7B72">  return</span><span style="color:#E6EDF3"> (</span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;</span><span style="color:#7EE787">div</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">      &#x3C;</span><span style="color:#7EE787">input</span><span style="color:#E6EDF3"> </span></span>
+<span class="line"><span style="color:#79C0FF">        value</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">query</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#79C0FF">        onChange</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">handleChange</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#79C0FF">        placeholder</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">"Search..."</span></span>
+<span class="line"><span style="color:#E6EDF3">      /></span></span>
+<span class="line"><span style="color:#E6EDF3">      &#x3C;</span><span style="color:#7EE787">Results</span><span style="color:#79C0FF"> data</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">results</span><span style="color:#FF7B72">}</span><span style="color:#E6EDF3"> /></span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;/</span><span style="color:#7EE787">div</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">  );</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">// Throttle hook for scroll events</span></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> useThrottle</span><span style="color:#E6EDF3">(</span><span style="color:#FFA657">callback</span><span style="color:#E6EDF3">, </span><span style="color:#FFA657">limit</span><span style="color:#E6EDF3">) {</span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#79C0FF"> inThrottle</span><span style="color:#FF7B72"> =</span><span style="color:#D2A8FF"> useRef</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">false</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">  </span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#79C0FF"> throttledCallback</span><span style="color:#FF7B72"> =</span><span style="color:#D2A8FF"> useCallback</span><span style="color:#E6EDF3">((</span><span style="color:#FF7B72">...</span><span style="color:#FFA657">args</span><span style="color:#E6EDF3">) </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#FF7B72">    if</span><span style="color:#E6EDF3"> (</span><span style="color:#FF7B72">!</span><span style="color:#E6EDF3">inThrottle.current) {</span></span>
+<span class="line"><span style="color:#D2A8FF">      callback</span><span style="color:#E6EDF3">(</span><span style="color:#FF7B72">...</span><span style="color:#E6EDF3">args);</span></span>
+<span class="line"><span style="color:#E6EDF3">      inThrottle.current </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> true</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#D2A8FF">      setTimeout</span><span style="color:#E6EDF3">(() </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">        inThrottle.current </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> false</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#E6EDF3">      }, limit);</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">  }, [callback, limit]);</span></span>
+<span class="line"><span style="color:#E6EDF3">  </span></span>
+<span class="line"><span style="color:#FF7B72">  return</span><span style="color:#E6EDF3"> throttledCallback;</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">// Usage in infinite scroll</span></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> InfiniteScrollList</span><span style="color:#E6EDF3">() {</span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#D2A8FF"> loadMore</span><span style="color:#FF7B72"> =</span><span style="color:#FF7B72"> async</span><span style="color:#E6EDF3"> () </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#8B949E">    // Load more items</span></span>
+<span class="line"><span style="color:#E6EDF3">  };</span></span>
+<span class="line"><span style="color:#E6EDF3">  </span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#79C0FF"> throttledLoadMore</span><span style="color:#FF7B72"> =</span><span style="color:#D2A8FF"> useThrottle</span><span style="color:#E6EDF3">(loadMore, </span><span style="color:#79C0FF">1000</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">  </span></span>
+<span class="line"><span style="color:#D2A8FF">  useEffect</span><span style="color:#E6EDF3">(() </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#FF7B72">    const</span><span style="color:#D2A8FF"> handleScroll</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> () </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#FF7B72">      if</span><span style="color:#E6EDF3"> (window.innerHeight </span><span style="color:#FF7B72">+</span><span style="color:#E6EDF3"> window.scrollY </span><span style="color:#FF7B72">>=</span><span style="color:#E6EDF3"> document.body.offsetHeight </span><span style="color:#FF7B72">-</span><span style="color:#79C0FF"> 500</span><span style="color:#E6EDF3">) {</span></span>
+<span class="line"><span style="color:#D2A8FF">        throttledLoadMore</span><span style="color:#E6EDF3">();</span></span>
+<span class="line"><span style="color:#E6EDF3">      }</span></span>
+<span class="line"><span style="color:#E6EDF3">    };</span></span>
+<span class="line"><span style="color:#E6EDF3">    </span></span>
+<span class="line"><span style="color:#E6EDF3">    window.</span><span style="color:#D2A8FF">addEventListener</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">'scroll'</span><span style="color:#E6EDF3">, handleScroll);</span></span>
+<span class="line"><span style="color:#FF7B72">    return</span><span style="color:#E6EDF3"> () </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> window.</span><span style="color:#D2A8FF">removeEventListener</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">'scroll'</span><span style="color:#E6EDF3">, handleScroll);</span></span>
+<span class="line"><span style="color:#E6EDF3">  }, [throttledLoadMore]);</span></span>
+<span class="line"><span style="color:#E6EDF3">  </span></span>
+<span class="line"><span style="color:#FF7B72">  return</span><span style="color:#E6EDF3"> &#x3C;</span><span style="color:#7EE787">div</span><span style="color:#E6EDF3">></span><span style="color:#FF7B72">{</span><span style="color:#8B949E">/* List items */</span><span style="color:#FF7B72">}</span><span style="color:#E6EDF3">&#x3C;/</span><span style="color:#7EE787">div</span><span style="color:#E6EDF3">>;</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span></code></pre>
+<h2 id="code-splitting-and-lazy-loading-code-splitting">Code Splitting and Lazy Loading {#code-splitting}</h2>
+<h3 id="1-route-based-code-splitting">1. Route-Based Code Splitting</h3>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="jsx"><code><span class="line"><span style="color:#FF7B72">import</span><span style="color:#E6EDF3"> { lazy, Suspense } </span><span style="color:#FF7B72">from</span><span style="color:#A5D6FF"> 'react'</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">import</span><span style="color:#E6EDF3"> { BrowserRouter, Routes, Route } </span><span style="color:#FF7B72">from</span><span style="color:#A5D6FF"> 'react-router-dom'</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">// ❌ Bad: All routes loaded upfront</span></span>
+<span class="line"><span style="color:#FF7B72">import</span><span style="color:#E6EDF3"> Home </span><span style="color:#FF7B72">from</span><span style="color:#A5D6FF"> './pages/Home'</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">import</span><span style="color:#E6EDF3"> Dashboard </span><span style="color:#FF7B72">from</span><span style="color:#A5D6FF"> './pages/Dashboard'</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">import</span><span style="color:#E6EDF3"> Profile </span><span style="color:#FF7B72">from</span><span style="color:#A5D6FF"> './pages/Profile'</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">import</span><span style="color:#E6EDF3"> Settings </span><span style="color:#FF7B72">from</span><span style="color:#A5D6FF"> './pages/Settings'</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">// ✅ Good: Lazy load route components</span></span>
+<span class="line"><span style="color:#FF7B72">const</span><span style="color:#79C0FF"> Home</span><span style="color:#FF7B72"> =</span><span style="color:#D2A8FF"> lazy</span><span style="color:#E6EDF3">(() </span><span style="color:#FF7B72">=></span><span style="color:#FF7B72"> import</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">'./pages/Home'</span><span style="color:#E6EDF3">));</span></span>
+<span class="line"><span style="color:#FF7B72">const</span><span style="color:#79C0FF"> Dashboard</span><span style="color:#FF7B72"> =</span><span style="color:#D2A8FF"> lazy</span><span style="color:#E6EDF3">(() </span><span style="color:#FF7B72">=></span><span style="color:#FF7B72"> import</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">'./pages/Dashboard'</span><span style="color:#E6EDF3">));</span></span>
+<span class="line"><span style="color:#FF7B72">const</span><span style="color:#79C0FF"> Profile</span><span style="color:#FF7B72"> =</span><span style="color:#D2A8FF"> lazy</span><span style="color:#E6EDF3">(() </span><span style="color:#FF7B72">=></span><span style="color:#FF7B72"> import</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">'./pages/Profile'</span><span style="color:#E6EDF3">));</span></span>
+<span class="line"><span style="color:#FF7B72">const</span><span style="color:#79C0FF"> Settings</span><span style="color:#FF7B72"> =</span><span style="color:#D2A8FF"> lazy</span><span style="color:#E6EDF3">(() </span><span style="color:#FF7B72">=></span><span style="color:#FF7B72"> import</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">'./pages/Settings'</span><span style="color:#E6EDF3">));</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> App</span><span style="color:#E6EDF3">() {</span></span>
+<span class="line"><span style="color:#FF7B72">  return</span><span style="color:#E6EDF3"> (</span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;</span><span style="color:#7EE787">BrowserRouter</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">      &#x3C;</span><span style="color:#7EE787">Suspense</span><span style="color:#79C0FF"> fallback</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">&#x3C;</span><span style="color:#7EE787">LoadingSpinner</span><span style="color:#E6EDF3"> /></span><span style="color:#FF7B72">}</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">        &#x3C;</span><span style="color:#7EE787">Routes</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">          &#x3C;</span><span style="color:#7EE787">Route</span><span style="color:#79C0FF"> path</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">"/"</span><span style="color:#79C0FF"> element</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">&#x3C;</span><span style="color:#7EE787">Home</span><span style="color:#E6EDF3"> /></span><span style="color:#FF7B72">}</span><span style="color:#E6EDF3"> /></span></span>
+<span class="line"><span style="color:#E6EDF3">          &#x3C;</span><span style="color:#7EE787">Route</span><span style="color:#79C0FF"> path</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">"/dashboard"</span><span style="color:#79C0FF"> element</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">&#x3C;</span><span style="color:#7EE787">Dashboard</span><span style="color:#E6EDF3"> /></span><span style="color:#FF7B72">}</span><span style="color:#E6EDF3"> /></span></span>
+<span class="line"><span style="color:#E6EDF3">          &#x3C;</span><span style="color:#7EE787">Route</span><span style="color:#79C0FF"> path</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">"/profile"</span><span style="color:#79C0FF"> element</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">&#x3C;</span><span style="color:#7EE787">Profile</span><span style="color:#E6EDF3"> /></span><span style="color:#FF7B72">}</span><span style="color:#E6EDF3"> /></span></span>
+<span class="line"><span style="color:#E6EDF3">          &#x3C;</span><span style="color:#7EE787">Route</span><span style="color:#79C0FF"> path</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">"/settings"</span><span style="color:#79C0FF"> element</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">&#x3C;</span><span style="color:#7EE787">Settings</span><span style="color:#E6EDF3"> /></span><span style="color:#FF7B72">}</span><span style="color:#E6EDF3"> /></span></span>
+<span class="line"><span style="color:#E6EDF3">        &#x3C;/</span><span style="color:#7EE787">Routes</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">      &#x3C;/</span><span style="color:#7EE787">Suspense</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;/</span><span style="color:#7EE787">BrowserRouter</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">  );</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span></code></pre>
+<h3 id="2-component-based-code-splitting">2. Component-Based Code Splitting</h3>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="jsx"><code><span class="line"><span style="color:#8B949E">// Lazy load heavy components</span></span>
+<span class="line"><span style="color:#FF7B72">const</span><span style="color:#79C0FF"> Chart</span><span style="color:#FF7B72"> =</span><span style="color:#D2A8FF"> lazy</span><span style="color:#E6EDF3">(() </span><span style="color:#FF7B72">=></span><span style="color:#FF7B72"> import</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">'./components/Chart'</span><span style="color:#E6EDF3">));</span></span>
+<span class="line"><span style="color:#FF7B72">const</span><span style="color:#79C0FF"> DataTable</span><span style="color:#FF7B72"> =</span><span style="color:#D2A8FF"> lazy</span><span style="color:#E6EDF3">(() </span><span style="color:#FF7B72">=></span><span style="color:#FF7B72"> import</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">'./components/DataTable'</span><span style="color:#E6EDF3">));</span></span>
+<span class="line"><span style="color:#FF7B72">const</span><span style="color:#79C0FF"> RichTextEditor</span><span style="color:#FF7B72"> =</span><span style="color:#D2A8FF"> lazy</span><span style="color:#E6EDF3">(() </span><span style="color:#FF7B72">=></span><span style="color:#FF7B72"> import</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">'./components/RichTextEditor'</span><span style="color:#E6EDF3">));</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> Dashboard</span><span style="color:#E6EDF3">() {</span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#E6EDF3"> [</span><span style="color:#79C0FF">showChart</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">setShowChart</span><span style="color:#E6EDF3">] </span><span style="color:#FF7B72">=</span><span style="color:#D2A8FF"> useState</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">false</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">  </span></span>
+<span class="line"><span style="color:#FF7B72">  return</span><span style="color:#E6EDF3"> (</span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;</span><span style="color:#7EE787">div</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">      &#x3C;</span><span style="color:#7EE787">h1</span><span style="color:#E6EDF3">>Dashboard&#x3C;/</span><span style="color:#7EE787">h1</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">      </span></span>
+<span class="line"><span style="color:#E6EDF3">      &#x3C;</span><span style="color:#7EE787">button</span><span style="color:#79C0FF"> onClick</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">() </span><span style="color:#FF7B72">=></span><span style="color:#D2A8FF"> setShowChart</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">true</span><span style="color:#E6EDF3">)</span><span style="color:#FF7B72">}</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">        Show Chart</span></span>
+<span class="line"><span style="color:#E6EDF3">      &#x3C;/</span><span style="color:#7EE787">button</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">      </span></span>
+<span class="line"><span style="color:#FF7B72">      {</span><span style="color:#E6EDF3">showChart </span><span style="color:#FF7B72">&#x26;&#x26;</span><span style="color:#E6EDF3"> (</span></span>
+<span class="line"><span style="color:#E6EDF3">        &#x3C;</span><span style="color:#7EE787">Suspense</span><span style="color:#79C0FF"> fallback</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">&#x3C;</span><span style="color:#7EE787">ChartSkeleton</span><span style="color:#E6EDF3"> /></span><span style="color:#FF7B72">}</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">          &#x3C;</span><span style="color:#7EE787">Chart</span><span style="color:#79C0FF"> data</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">data</span><span style="color:#FF7B72">}</span><span style="color:#E6EDF3"> /></span></span>
+<span class="line"><span style="color:#E6EDF3">        &#x3C;/</span><span style="color:#7EE787">Suspense</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">      )</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;/</span><span style="color:#7EE787">div</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">  );</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span></code></pre>
+<h3 id="3-preloading-components">3. Preloading Components</h3>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="jsx"><code><span class="line"><span style="color:#8B949E">// Preload on hover for better UX</span></span>
+<span class="line"><span style="color:#FF7B72">const</span><span style="color:#79C0FF"> Settings</span><span style="color:#FF7B72"> =</span><span style="color:#D2A8FF"> lazy</span><span style="color:#E6EDF3">(() </span><span style="color:#FF7B72">=></span><span style="color:#FF7B72"> import</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">'./pages/Settings'</span><span style="color:#E6EDF3">));</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> Navigation</span><span style="color:#E6EDF3">() {</span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#D2A8FF"> preloadSettings</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> () </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#8B949E">    // Preload the component</span></span>
+<span class="line"><span style="color:#FF7B72">    const</span><span style="color:#79C0FF"> component</span><span style="color:#FF7B72"> =</span><span style="color:#FF7B72"> import</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">'./pages/Settings'</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">  };</span></span>
+<span class="line"><span style="color:#E6EDF3">  </span></span>
+<span class="line"><span style="color:#FF7B72">  return</span><span style="color:#E6EDF3"> (</span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;</span><span style="color:#7EE787">nav</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">      &#x3C;</span><span style="color:#7EE787">Link</span><span style="color:#E6EDF3"> </span></span>
+<span class="line"><span style="color:#79C0FF">        to</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">"/settings"</span></span>
+<span class="line"><span style="color:#79C0FF">        onMouseEnter</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">preloadSettings</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#79C0FF">        onFocus</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">preloadSettings</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#E6EDF3">      ></span></span>
+<span class="line"><span style="color:#E6EDF3">        Settings</span></span>
+<span class="line"><span style="color:#E6EDF3">      &#x3C;/</span><span style="color:#7EE787">Link</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;/</span><span style="color:#7EE787">nav</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">  );</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span></code></pre>
+<h3 id="4-dynamic-imports-with-webpack-magic-comments">4. Dynamic Imports with Webpack Magic Comments</h3>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="jsx"><code><span class="line"><span style="color:#8B949E">// Prefetch: Load during idle time</span></span>
+<span class="line"><span style="color:#FF7B72">const</span><span style="color:#79C0FF"> AdminPanel</span><span style="color:#FF7B72"> =</span><span style="color:#D2A8FF"> lazy</span><span style="color:#E6EDF3">(() </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> </span></span>
+<span class="line"><span style="color:#D2A8FF">  import</span><span style="color:#E6EDF3">(</span></span>
+<span class="line"><span style="color:#8B949E">    /* webpackChunkName: "admin" */</span></span>
+<span class="line"><span style="color:#8B949E">    /* webpackPrefetch: true */</span></span>
+<span class="line"><span style="color:#A5D6FF">    './pages/AdminPanel'</span></span>
+<span class="line"><span style="color:#E6EDF3">  )</span></span>
+<span class="line"><span style="color:#E6EDF3">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">// Preload: Load in parallel with parent</span></span>
+<span class="line"><span style="color:#FF7B72">const</span><span style="color:#79C0FF"> CriticalComponent</span><span style="color:#FF7B72"> =</span><span style="color:#D2A8FF"> lazy</span><span style="color:#E6EDF3">(() </span><span style="color:#FF7B72">=></span></span>
+<span class="line"><span style="color:#D2A8FF">  import</span><span style="color:#E6EDF3">(</span></span>
+<span class="line"><span style="color:#8B949E">    /* webpackChunkName: "critical" */</span></span>
+<span class="line"><span style="color:#8B949E">    /* webpackPreload: true */</span></span>
+<span class="line"><span style="color:#A5D6FF">    './components/CriticalComponent'</span></span>
+<span class="line"><span style="color:#E6EDF3">  )</span></span>
+<span class="line"><span style="color:#E6EDF3">);</span></span>
+<span class="line"></span></code></pre>
+<h2 id="state-management-optimization-state-management">State Management Optimization {#state-management}</h2>
+<h3 id="1-state-colocation">1. State Colocation</h3>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="jsx"><code><span class="line"><span style="color:#8B949E">// ❌ Bad: State in parent, causing unnecessary re-renders</span></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> Parent</span><span style="color:#E6EDF3">() {</span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#E6EDF3"> [</span><span style="color:#79C0FF">name</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">setName</span><span style="color:#E6EDF3">] </span><span style="color:#FF7B72">=</span><span style="color:#D2A8FF"> useState</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">''</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#E6EDF3"> [</span><span style="color:#79C0FF">email</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">setEmail</span><span style="color:#E6EDF3">] </span><span style="color:#FF7B72">=</span><span style="color:#D2A8FF"> useState</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">''</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#E6EDF3"> [</span><span style="color:#79C0FF">address</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">setAddress</span><span style="color:#E6EDF3">] </span><span style="color:#FF7B72">=</span><span style="color:#D2A8FF"> useState</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">''</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">  </span></span>
+<span class="line"><span style="color:#FF7B72">  return</span><span style="color:#E6EDF3"> (</span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;</span><span style="color:#7EE787">div</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">      &#x3C;</span><span style="color:#7EE787">NameInput</span><span style="color:#79C0FF"> value</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">name</span><span style="color:#FF7B72">}</span><span style="color:#79C0FF"> onChange</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">setName</span><span style="color:#FF7B72">}</span><span style="color:#E6EDF3"> /></span></span>
+<span class="line"><span style="color:#E6EDF3">      &#x3C;</span><span style="color:#7EE787">EmailInput</span><span style="color:#79C0FF"> value</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">email</span><span style="color:#FF7B72">}</span><span style="color:#79C0FF"> onChange</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">setEmail</span><span style="color:#FF7B72">}</span><span style="color:#E6EDF3"> /></span></span>
+<span class="line"><span style="color:#E6EDF3">      &#x3C;</span><span style="color:#7EE787">AddressInput</span><span style="color:#79C0FF"> value</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">address</span><span style="color:#FF7B72">}</span><span style="color:#79C0FF"> onChange</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">setAddress</span><span style="color:#FF7B72">}</span><span style="color:#E6EDF3"> /></span></span>
+<span class="line"><span style="color:#E6EDF3">      &#x3C;</span><span style="color:#7EE787">ExpensiveList</span><span style="color:#E6EDF3"> /> </span><span style="color:#FF7B72">{</span><span style="color:#8B949E">/* Re-renders unnecessarily */</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;/</span><span style="color:#7EE787">div</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">  );</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">// ✅ Good: State colocated with component that needs it</span></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> NameInput</span><span style="color:#E6EDF3">() {</span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#E6EDF3"> [</span><span style="color:#79C0FF">name</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">setName</span><span style="color:#E6EDF3">] </span><span style="color:#FF7B72">=</span><span style="color:#D2A8FF"> useState</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">''</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">  </span></span>
+<span class="line"><span style="color:#FF7B72">  return</span><span style="color:#E6EDF3"> (</span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;</span><span style="color:#7EE787">input</span><span style="color:#E6EDF3"> </span></span>
+<span class="line"><span style="color:#79C0FF">      value</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">name</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#79C0FF">      onChange</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">(</span><span style="color:#FFA657">e</span><span style="color:#E6EDF3">) </span><span style="color:#FF7B72">=></span><span style="color:#D2A8FF"> setName</span><span style="color:#E6EDF3">(e.target.value)</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#E6EDF3">    /></span></span>
+<span class="line"><span style="color:#E6EDF3">  );</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> Parent</span><span style="color:#E6EDF3">() {</span></span>
+<span class="line"><span style="color:#FF7B72">  return</span><span style="color:#E6EDF3"> (</span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;</span><span style="color:#7EE787">div</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">      &#x3C;</span><span style="color:#7EE787">NameInput</span><span style="color:#E6EDF3"> /></span></span>
+<span class="line"><span style="color:#E6EDF3">      &#x3C;</span><span style="color:#7EE787">EmailInput</span><span style="color:#E6EDF3"> /></span></span>
+<span class="line"><span style="color:#E6EDF3">      &#x3C;</span><span style="color:#7EE787">AddressInput</span><span style="color:#E6EDF3"> /></span></span>
+<span class="line"><span style="color:#E6EDF3">      &#x3C;</span><span style="color:#7EE787">ExpensiveList</span><span style="color:#E6EDF3"> /> </span><span style="color:#FF7B72">{</span><span style="color:#8B949E">/* Doesn't re-render */</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;/</span><span style="color:#7EE787">div</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">  );</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span></code></pre>
+<h3 id="2-context-optimization">2. Context Optimization</h3>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="jsx"><code><span class="line"><span style="color:#8B949E">// ❌ Bad: Single context causes all consumers to re-render</span></span>
+<span class="line"><span style="color:#FF7B72">const</span><span style="color:#79C0FF"> AppContext</span><span style="color:#FF7B72"> =</span><span style="color:#D2A8FF"> createContext</span><span style="color:#E6EDF3">();</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> AppProvider</span><span style="color:#E6EDF3">({ </span><span style="color:#FFA657">children</span><span style="color:#E6EDF3"> }) {</span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#E6EDF3"> [</span><span style="color:#79C0FF">user</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">setUser</span><span style="color:#E6EDF3">] </span><span style="color:#FF7B72">=</span><span style="color:#D2A8FF"> useState</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">null</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#E6EDF3"> [</span><span style="color:#79C0FF">theme</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">setTheme</span><span style="color:#E6EDF3">] </span><span style="color:#FF7B72">=</span><span style="color:#D2A8FF"> useState</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">'light'</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#E6EDF3"> [</span><span style="color:#79C0FF">notifications</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">setNotifications</span><span style="color:#E6EDF3">] </span><span style="color:#FF7B72">=</span><span style="color:#D2A8FF"> useState</span><span style="color:#E6EDF3">([]);</span></span>
+<span class="line"><span style="color:#E6EDF3">  </span></span>
+<span class="line"><span style="color:#FF7B72">  return</span><span style="color:#E6EDF3"> (</span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;</span><span style="color:#7EE787">AppContext.Provider</span><span style="color:#79C0FF"> value</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">{ </span></span>
+<span class="line"><span style="color:#E6EDF3">      user, setUser,</span></span>
+<span class="line"><span style="color:#E6EDF3">      theme, setTheme,</span></span>
+<span class="line"><span style="color:#E6EDF3">      notifications, setNotifications</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span><span style="color:#FF7B72">}</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#FF7B72">      {</span><span style="color:#E6EDF3">children</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;/</span><span style="color:#7EE787">AppContext.Provider</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">  );</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">// ✅ Good: Split contexts by update frequency</span></span>
+<span class="line"><span style="color:#FF7B72">const</span><span style="color:#79C0FF"> UserContext</span><span style="color:#FF7B72"> =</span><span style="color:#D2A8FF"> createContext</span><span style="color:#E6EDF3">();</span></span>
+<span class="line"><span style="color:#FF7B72">const</span><span style="color:#79C0FF"> ThemeContext</span><span style="color:#FF7B72"> =</span><span style="color:#D2A8FF"> createContext</span><span style="color:#E6EDF3">();</span></span>
+<span class="line"><span style="color:#FF7B72">const</span><span style="color:#79C0FF"> NotificationsContext</span><span style="color:#FF7B72"> =</span><span style="color:#D2A8FF"> createContext</span><span style="color:#E6EDF3">();</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> AppProvider</span><span style="color:#E6EDF3">({ </span><span style="color:#FFA657">children</span><span style="color:#E6EDF3"> }) {</span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#E6EDF3"> [</span><span style="color:#79C0FF">user</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">setUser</span><span style="color:#E6EDF3">] </span><span style="color:#FF7B72">=</span><span style="color:#D2A8FF"> useState</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">null</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#E6EDF3"> [</span><span style="color:#79C0FF">theme</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">setTheme</span><span style="color:#E6EDF3">] </span><span style="color:#FF7B72">=</span><span style="color:#D2A8FF"> useState</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">'light'</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#E6EDF3"> [</span><span style="color:#79C0FF">notifications</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">setNotifications</span><span style="color:#E6EDF3">] </span><span style="color:#FF7B72">=</span><span style="color:#D2A8FF"> useState</span><span style="color:#E6EDF3">([]);</span></span>
+<span class="line"><span style="color:#E6EDF3">  </span></span>
+<span class="line"><span style="color:#FF7B72">  return</span><span style="color:#E6EDF3"> (</span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;</span><span style="color:#7EE787">UserContext.Provider</span><span style="color:#79C0FF"> value</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">{ user, setUser }</span><span style="color:#FF7B72">}</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">      &#x3C;</span><span style="color:#7EE787">ThemeContext.Provider</span><span style="color:#79C0FF"> value</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">{ theme, setTheme }</span><span style="color:#FF7B72">}</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">        &#x3C;</span><span style="color:#7EE787">NotificationsContext.Provider</span><span style="color:#79C0FF"> value</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">{ notifications, setNotifications }</span><span style="color:#FF7B72">}</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#FF7B72">          {</span><span style="color:#E6EDF3">children</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#E6EDF3">        &#x3C;/</span><span style="color:#7EE787">NotificationsContext.Provider</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">      &#x3C;/</span><span style="color:#7EE787">ThemeContext.Provider</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;/</span><span style="color:#7EE787">UserContext.Provider</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">  );</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">// ✅ Better: Use composition to prevent re-renders</span></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> AppProvider</span><span style="color:#E6EDF3">({ </span><span style="color:#FFA657">children</span><span style="color:#E6EDF3"> }) {</span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#E6EDF3"> [</span><span style="color:#79C0FF">user</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">setUser</span><span style="color:#E6EDF3">] </span><span style="color:#FF7B72">=</span><span style="color:#D2A8FF"> useState</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">null</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#79C0FF"> userValue</span><span style="color:#FF7B72"> =</span><span style="color:#D2A8FF"> useMemo</span><span style="color:#E6EDF3">(() </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> ({ user, setUser }), [user]);</span></span>
+<span class="line"><span style="color:#E6EDF3">  </span></span>
+<span class="line"><span style="color:#FF7B72">  return</span><span style="color:#E6EDF3"> (</span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;</span><span style="color:#7EE787">UserContext.Provider</span><span style="color:#79C0FF"> value</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">userValue</span><span style="color:#FF7B72">}</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#FF7B72">      {</span><span style="color:#E6EDF3">children</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;/</span><span style="color:#7EE787">UserContext.Provider</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">  );</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span></code></pre>
+<h3 id="3-zustand-for-efficient-state-management">3. Zustand for Efficient State Management</h3>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="jsx"><code><span class="line"><span style="color:#FF7B72">import</span><span style="color:#E6EDF3"> create </span><span style="color:#FF7B72">from</span><span style="color:#A5D6FF"> 'zustand'</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">// Create store with minimal re-renders</span></span>
+<span class="line"><span style="color:#FF7B72">const</span><span style="color:#79C0FF"> useStore</span><span style="color:#FF7B72"> =</span><span style="color:#D2A8FF"> create</span><span style="color:#E6EDF3">((</span><span style="color:#FFA657">set</span><span style="color:#E6EDF3">) </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> ({</span></span>
+<span class="line"><span style="color:#8B949E">  // State</span></span>
+<span class="line"><span style="color:#E6EDF3">  user: </span><span style="color:#79C0FF">null</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">  todos: [],</span></span>
+<span class="line"><span style="color:#E6EDF3">  filter: </span><span style="color:#A5D6FF">'all'</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">  </span></span>
+<span class="line"><span style="color:#8B949E">  // Actions</span></span>
+<span class="line"><span style="color:#D2A8FF">  setUser</span><span style="color:#E6EDF3">: (</span><span style="color:#FFA657">user</span><span style="color:#E6EDF3">) </span><span style="color:#FF7B72">=></span><span style="color:#D2A8FF"> set</span><span style="color:#E6EDF3">({ user }),</span></span>
+<span class="line"><span style="color:#D2A8FF">  addTodo</span><span style="color:#E6EDF3">: (</span><span style="color:#FFA657">todo</span><span style="color:#E6EDF3">) </span><span style="color:#FF7B72">=></span><span style="color:#D2A8FF"> set</span><span style="color:#E6EDF3">((</span><span style="color:#FFA657">state</span><span style="color:#E6EDF3">) </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> ({ </span></span>
+<span class="line"><span style="color:#E6EDF3">    todos: [</span><span style="color:#FF7B72">...</span><span style="color:#E6EDF3">state.todos, todo] </span></span>
+<span class="line"><span style="color:#E6EDF3">  })),</span></span>
+<span class="line"><span style="color:#D2A8FF">  setFilter</span><span style="color:#E6EDF3">: (</span><span style="color:#FFA657">filter</span><span style="color:#E6EDF3">) </span><span style="color:#FF7B72">=></span><span style="color:#D2A8FF"> set</span><span style="color:#E6EDF3">({ filter }),</span></span>
+<span class="line"><span style="color:#E6EDF3">  </span></span>
+<span class="line"><span style="color:#8B949E">  // Computed values</span></span>
+<span class="line"><span style="color:#FF7B72">  get</span><span style="color:#D2A8FF"> filteredTodos</span><span style="color:#E6EDF3">() {</span></span>
+<span class="line"><span style="color:#FF7B72">    const</span><span style="color:#E6EDF3"> { </span><span style="color:#79C0FF">todos</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">filter</span><span style="color:#E6EDF3"> } </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> this</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    if</span><span style="color:#E6EDF3"> (filter </span><span style="color:#FF7B72">===</span><span style="color:#A5D6FF"> 'completed'</span><span style="color:#E6EDF3">) {</span></span>
+<span class="line"><span style="color:#FF7B72">      return</span><span style="color:#E6EDF3"> todos.</span><span style="color:#D2A8FF">filter</span><span style="color:#E6EDF3">(</span><span style="color:#FFA657">t</span><span style="color:#FF7B72"> =></span><span style="color:#E6EDF3"> t.completed);</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#FF7B72">    return</span><span style="color:#E6EDF3"> todos;</span></span>
+<span class="line"><span style="color:#E6EDF3">  }</span></span>
+<span class="line"><span style="color:#E6EDF3">}));</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">// Component only re-renders when user changes</span></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> UserProfile</span><span style="color:#E6EDF3">() {</span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#79C0FF"> user</span><span style="color:#FF7B72"> =</span><span style="color:#D2A8FF"> useStore</span><span style="color:#E6EDF3">((</span><span style="color:#FFA657">state</span><span style="color:#E6EDF3">) </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> state.user);</span></span>
+<span class="line"><span style="color:#FF7B72">  return</span><span style="color:#E6EDF3"> &#x3C;</span><span style="color:#7EE787">div</span><span style="color:#E6EDF3">></span><span style="color:#FF7B72">{</span><span style="color:#E6EDF3">user?.name</span><span style="color:#FF7B72">}</span><span style="color:#E6EDF3">&#x3C;/</span><span style="color:#7EE787">div</span><span style="color:#E6EDF3">>;</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">// Component only re-renders when todos change</span></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> TodoList</span><span style="color:#E6EDF3">() {</span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#79C0FF"> todos</span><span style="color:#FF7B72"> =</span><span style="color:#D2A8FF"> useStore</span><span style="color:#E6EDF3">((</span><span style="color:#FFA657">state</span><span style="color:#E6EDF3">) </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> state.filteredTodos);</span></span>
+<span class="line"><span style="color:#FF7B72">  return</span><span style="color:#E6EDF3"> todos.</span><span style="color:#D2A8FF">map</span><span style="color:#E6EDF3">(</span><span style="color:#FFA657">todo</span><span style="color:#FF7B72"> =></span><span style="color:#E6EDF3"> &#x3C;</span><span style="color:#7EE787">TodoItem</span><span style="color:#79C0FF"> key</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">todo.id</span><span style="color:#FF7B72">}</span><span style="color:#79C0FF"> todo</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">todo</span><span style="color:#FF7B72">}</span><span style="color:#E6EDF3"> />);</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span></code></pre>
+<h2 id="rendering-optimization-rendering-optimization">Rendering Optimization {#rendering-optimization}</h2>
+<h3 id="1-virtualization-for-long-lists">1. Virtualization for Long Lists</h3>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="jsx"><code><span class="line"><span style="color:#FF7B72">import</span><span style="color:#E6EDF3"> { FixedSizeList } </span><span style="color:#FF7B72">from</span><span style="color:#A5D6FF"> 'react-window'</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">// ❌ Bad: Renders all 10,000 items</span></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> BadList</span><span style="color:#E6EDF3">({ </span><span style="color:#FFA657">items</span><span style="color:#E6EDF3"> }) {</span></span>
+<span class="line"><span style="color:#FF7B72">  return</span><span style="color:#E6EDF3"> (</span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;</span><span style="color:#7EE787">div</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#FF7B72">      {</span><span style="color:#E6EDF3">items.</span><span style="color:#D2A8FF">map</span><span style="color:#E6EDF3">((</span><span style="color:#FFA657">item</span><span style="color:#E6EDF3">) </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> (</span></span>
+<span class="line"><span style="color:#E6EDF3">        &#x3C;</span><span style="color:#7EE787">div</span><span style="color:#79C0FF"> key</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">item.id</span><span style="color:#FF7B72">}</span><span style="color:#79C0FF"> style</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">{ height: </span><span style="color:#79C0FF">50</span><span style="color:#E6EDF3"> }</span><span style="color:#FF7B72">}</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#FF7B72">          {</span><span style="color:#E6EDF3">item.name</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#E6EDF3">        &#x3C;/</span><span style="color:#7EE787">div</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">      ))</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;/</span><span style="color:#7EE787">div</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">  );</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">// ✅ Good: Only renders visible items</span></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> VirtualizedList</span><span style="color:#E6EDF3">({ </span><span style="color:#FFA657">items</span><span style="color:#E6EDF3"> }) {</span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#D2A8FF"> Row</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> ({ </span><span style="color:#FFA657">index</span><span style="color:#E6EDF3">, </span><span style="color:#FFA657">style</span><span style="color:#E6EDF3"> }) </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> (</span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;</span><span style="color:#7EE787">div</span><span style="color:#79C0FF"> style</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">style</span><span style="color:#FF7B72">}</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#FF7B72">      {</span><span style="color:#E6EDF3">items[index].name</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;/</span><span style="color:#7EE787">div</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">  );</span></span>
+<span class="line"><span style="color:#E6EDF3">  </span></span>
+<span class="line"><span style="color:#FF7B72">  return</span><span style="color:#E6EDF3"> (</span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;</span><span style="color:#7EE787">FixedSizeList</span></span>
+<span class="line"><span style="color:#79C0FF">      height</span><span style="color:#FF7B72">={</span><span style="color:#79C0FF">600</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#79C0FF">      itemCount</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">items.</span><span style="color:#79C0FF">length</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#79C0FF">      itemSize</span><span style="color:#FF7B72">={</span><span style="color:#79C0FF">50</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#79C0FF">      width</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">"100%"</span></span>
+<span class="line"><span style="color:#E6EDF3">    ></span></span>
+<span class="line"><span style="color:#FF7B72">      {</span><span style="color:#E6EDF3">Row</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;/</span><span style="color:#7EE787">FixedSizeList</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">  );</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">// ✅ Variable size items</span></span>
+<span class="line"><span style="color:#FF7B72">import</span><span style="color:#E6EDF3"> { VariableSizeList } </span><span style="color:#FF7B72">from</span><span style="color:#A5D6FF"> 'react-window'</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> VariableSizeVirtualList</span><span style="color:#E6EDF3">({ </span><span style="color:#FFA657">items</span><span style="color:#E6EDF3"> }) {</span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#D2A8FF"> getItemSize</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> (</span><span style="color:#FFA657">index</span><span style="color:#E6EDF3">) </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#8B949E">    // Dynamic height based on content</span></span>
+<span class="line"><span style="color:#FF7B72">    return</span><span style="color:#E6EDF3"> items[index].isExpanded </span><span style="color:#FF7B72">?</span><span style="color:#79C0FF"> 120</span><span style="color:#FF7B72"> :</span><span style="color:#79C0FF"> 50</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#E6EDF3">  };</span></span>
+<span class="line"><span style="color:#E6EDF3">  </span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#D2A8FF"> Row</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> ({ </span><span style="color:#FFA657">index</span><span style="color:#E6EDF3">, </span><span style="color:#FFA657">style</span><span style="color:#E6EDF3"> }) </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> (</span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;</span><span style="color:#7EE787">div</span><span style="color:#79C0FF"> style</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">style</span><span style="color:#FF7B72">}</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">      &#x3C;</span><span style="color:#7EE787">ItemCard</span><span style="color:#79C0FF"> item</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">items[index]</span><span style="color:#FF7B72">}</span><span style="color:#E6EDF3"> /></span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;/</span><span style="color:#7EE787">div</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">  );</span></span>
+<span class="line"><span style="color:#E6EDF3">  </span></span>
+<span class="line"><span style="color:#FF7B72">  return</span><span style="color:#E6EDF3"> (</span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;</span><span style="color:#7EE787">VariableSizeList</span></span>
+<span class="line"><span style="color:#79C0FF">      height</span><span style="color:#FF7B72">={</span><span style="color:#79C0FF">600</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#79C0FF">      itemCount</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">items.</span><span style="color:#79C0FF">length</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#79C0FF">      itemSize</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">getItemSize</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#79C0FF">      width</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">"100%"</span></span>
+<span class="line"><span style="color:#E6EDF3">    ></span></span>
+<span class="line"><span style="color:#FF7B72">      {</span><span style="color:#E6EDF3">Row</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;/</span><span style="color:#7EE787">VariableSizeList</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">  );</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span></code></pre>
+<h3 id="2-react-window-with-autosizer">2. React Window with AutoSizer</h3>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="jsx"><code><span class="line"><span style="color:#FF7B72">import</span><span style="color:#E6EDF3"> { FixedSizeList } </span><span style="color:#FF7B72">from</span><span style="color:#A5D6FF"> 'react-window'</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">import</span><span style="color:#E6EDF3"> AutoSizer </span><span style="color:#FF7B72">from</span><span style="color:#A5D6FF"> 'react-virtualized-auto-sizer'</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> ResponsiveVirtualList</span><span style="color:#E6EDF3">({ </span><span style="color:#FFA657">items</span><span style="color:#E6EDF3"> }) {</span></span>
+<span class="line"><span style="color:#FF7B72">  return</span><span style="color:#E6EDF3"> (</span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;</span><span style="color:#7EE787">AutoSizer</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#FF7B72">      {</span><span style="color:#E6EDF3">({ </span><span style="color:#FFA657">height</span><span style="color:#E6EDF3">, </span><span style="color:#FFA657">width</span><span style="color:#E6EDF3"> }) </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> (</span></span>
+<span class="line"><span style="color:#E6EDF3">        &#x3C;</span><span style="color:#7EE787">FixedSizeList</span></span>
+<span class="line"><span style="color:#79C0FF">          height</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">height</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#79C0FF">          itemCount</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">items.</span><span style="color:#79C0FF">length</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#79C0FF">          itemSize</span><span style="color:#FF7B72">={</span><span style="color:#79C0FF">50</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#79C0FF">          width</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">width</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#E6EDF3">        ></span></span>
+<span class="line"><span style="color:#FF7B72">          {</span><span style="color:#E6EDF3">({ </span><span style="color:#FFA657">index</span><span style="color:#E6EDF3">, </span><span style="color:#FFA657">style</span><span style="color:#E6EDF3"> }) </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> (</span></span>
+<span class="line"><span style="color:#E6EDF3">            &#x3C;</span><span style="color:#7EE787">div</span><span style="color:#79C0FF"> style</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">style</span><span style="color:#FF7B72">}</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#FF7B72">              {</span><span style="color:#E6EDF3">items[index].name</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#E6EDF3">            &#x3C;/</span><span style="color:#7EE787">div</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">          )</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#E6EDF3">        &#x3C;/</span><span style="color:#7EE787">FixedSizeList</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">      )</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;/</span><span style="color:#7EE787">AutoSizer</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">  );</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span></code></pre>
+<h3 id="3-windowing-with-infinite-scroll">3. Windowing with Infinite Scroll</h3>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="jsx"><code><span class="line"><span style="color:#FF7B72">import</span><span style="color:#E6EDF3"> { useInfiniteQuery } </span><span style="color:#FF7B72">from</span><span style="color:#A5D6FF"> '@tanstack/react-query'</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">import</span><span style="color:#E6EDF3"> { FixedSizeList } </span><span style="color:#FF7B72">from</span><span style="color:#A5D6FF"> 'react-window'</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">import</span><span style="color:#E6EDF3"> InfiniteLoader </span><span style="color:#FF7B72">from</span><span style="color:#A5D6FF"> 'react-window-infinite-loader'</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> InfiniteVirtualList</span><span style="color:#E6EDF3">() {</span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#79C0FF">    data</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#79C0FF">    fetchNextPage</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#79C0FF">    hasNextPage</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#79C0FF">    isFetchingNextPage</span></span>
+<span class="line"><span style="color:#E6EDF3">  } </span><span style="color:#FF7B72">=</span><span style="color:#D2A8FF"> useInfiniteQuery</span><span style="color:#E6EDF3">({</span></span>
+<span class="line"><span style="color:#E6EDF3">    queryKey: [</span><span style="color:#A5D6FF">'items'</span><span style="color:#E6EDF3">],</span></span>
+<span class="line"><span style="color:#D2A8FF">    queryFn</span><span style="color:#E6EDF3">: ({ </span><span style="color:#FFA657">pageParam</span><span style="color:#FF7B72"> =</span><span style="color:#79C0FF"> 0</span><span style="color:#E6EDF3"> }) </span><span style="color:#FF7B72">=></span><span style="color:#D2A8FF"> fetchItems</span><span style="color:#E6EDF3">(pageParam),</span></span>
+<span class="line"><span style="color:#D2A8FF">    getNextPageParam</span><span style="color:#E6EDF3">: (</span><span style="color:#FFA657">lastPage</span><span style="color:#E6EDF3">) </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> lastPage.nextCursor</span></span>
+<span class="line"><span style="color:#E6EDF3">  });</span></span>
+<span class="line"><span style="color:#E6EDF3">  </span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#79C0FF"> items</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> data?.pages.</span><span style="color:#D2A8FF">flatMap</span><span style="color:#E6EDF3">(</span><span style="color:#FFA657">page</span><span style="color:#FF7B72"> =></span><span style="color:#E6EDF3"> page.items) </span><span style="color:#FF7B72">??</span><span style="color:#E6EDF3"> [];</span></span>
+<span class="line"><span style="color:#E6EDF3">  </span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#79C0FF"> loadMoreItems</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> isFetchingNextPage</span></span>
+<span class="line"><span style="color:#FF7B72">    ?</span><span style="color:#E6EDF3"> () </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> {}</span></span>
+<span class="line"><span style="color:#FF7B72">    :</span><span style="color:#E6EDF3"> () </span><span style="color:#FF7B72">=></span><span style="color:#D2A8FF"> fetchNextPage</span><span style="color:#E6EDF3">();</span></span>
+<span class="line"><span style="color:#E6EDF3">  </span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#D2A8FF"> isItemLoaded</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> (</span><span style="color:#FFA657">index</span><span style="color:#E6EDF3">) </span><span style="color:#FF7B72">=></span><span style="color:#FF7B72"> !</span><span style="color:#E6EDF3">hasNextPage </span><span style="color:#FF7B72">||</span><span style="color:#E6EDF3"> index </span><span style="color:#FF7B72">&#x3C;</span><span style="color:#E6EDF3"> items.</span><span style="color:#79C0FF">length</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#E6EDF3">  </span></span>
+<span class="line"><span style="color:#FF7B72">  return</span><span style="color:#E6EDF3"> (</span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;</span><span style="color:#7EE787">InfiniteLoader</span></span>
+<span class="line"><span style="color:#79C0FF">      isItemLoaded</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">isItemLoaded</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#79C0FF">      itemCount</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">hasNextPage </span><span style="color:#FF7B72">?</span><span style="color:#E6EDF3"> items.</span><span style="color:#79C0FF">length</span><span style="color:#FF7B72"> +</span><span style="color:#79C0FF"> 1</span><span style="color:#FF7B72"> :</span><span style="color:#E6EDF3"> items.</span><span style="color:#79C0FF">length</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#79C0FF">      loadMoreItems</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">loadMoreItems</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#E6EDF3">    ></span></span>
+<span class="line"><span style="color:#FF7B72">      {</span><span style="color:#E6EDF3">({ </span><span style="color:#FFA657">onItemsRendered</span><span style="color:#E6EDF3">, </span><span style="color:#FFA657">ref</span><span style="color:#E6EDF3"> }) </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> (</span></span>
+<span class="line"><span style="color:#E6EDF3">        &#x3C;</span><span style="color:#7EE787">FixedSizeList</span></span>
+<span class="line"><span style="color:#79C0FF">          height</span><span style="color:#FF7B72">={</span><span style="color:#79C0FF">600</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#79C0FF">          itemCount</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">items.</span><span style="color:#79C0FF">length</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#79C0FF">          itemSize</span><span style="color:#FF7B72">={</span><span style="color:#79C0FF">50</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#79C0FF">          onItemsRendered</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">onItemsRendered</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#79C0FF">          ref</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">ref</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#79C0FF">          width</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">"100%"</span></span>
+<span class="line"><span style="color:#E6EDF3">        ></span></span>
+<span class="line"><span style="color:#FF7B72">          {</span><span style="color:#E6EDF3">({ </span><span style="color:#FFA657">index</span><span style="color:#E6EDF3">, </span><span style="color:#FFA657">style</span><span style="color:#E6EDF3"> }) </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> (</span></span>
+<span class="line"><span style="color:#E6EDF3">            &#x3C;</span><span style="color:#7EE787">div</span><span style="color:#79C0FF"> style</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">style</span><span style="color:#FF7B72">}</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#FF7B72">              {</span><span style="color:#E6EDF3">items[index]?.name </span><span style="color:#FF7B72">??</span><span style="color:#A5D6FF"> 'Loading...'</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#E6EDF3">            &#x3C;/</span><span style="color:#7EE787">div</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">          )</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#E6EDF3">        &#x3C;/</span><span style="color:#7EE787">FixedSizeList</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">      )</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;/</span><span style="color:#7EE787">InfiniteLoader</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">  );</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span></code></pre>
+<h2 id="bundle-size-optimization-bundle-size">Bundle Size Optimization {#bundle-size}</h2>
+<h3 id="1-analyzing-bundle-size">1. Analyzing Bundle Size</h3>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#8B949E"># Install bundle analyzer</span></span>
+<span class="line"><span style="color:#FFA657">npm</span><span style="color:#A5D6FF"> install</span><span style="color:#79C0FF"> --save-dev</span><span style="color:#A5D6FF"> webpack-bundle-analyzer</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E"># Add to package.json</span></span>
+<span class="line"><span style="color:#FFA657">"scripts"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> {</span></span>
+<span class="line"><span style="color:#FFA657">  "analyze"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> "ANALYZE=true npm run build"</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E"># Create custom webpack config (Create React App)</span></span>
+<span class="line"><span style="color:#FFA657">npm</span><span style="color:#A5D6FF"> install</span><span style="color:#79C0FF"> --save-dev</span><span style="color:#A5D6FF"> @craco/craco</span></span>
+<span class="line"></span></code></pre>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="javascript"><code><span class="line"><span style="color:#8B949E">// craco.config.js</span></span>
+<span class="line"><span style="color:#FF7B72">const</span><span style="color:#E6EDF3"> { </span><span style="color:#79C0FF">BundleAnalyzerPlugin</span><span style="color:#E6EDF3"> } </span><span style="color:#FF7B72">=</span><span style="color:#D2A8FF"> require</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">'webpack-bundle-analyzer'</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79C0FF">module</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">exports</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">  webpack: {</span></span>
+<span class="line"><span style="color:#E6EDF3">    plugins: [</span></span>
+<span class="line"><span style="color:#FF7B72">      ...</span><span style="color:#E6EDF3">(process.env.</span><span style="color:#79C0FF">ANALYZE</span><span style="color:#FF7B72"> ===</span><span style="color:#A5D6FF"> 'true'</span></span>
+<span class="line"><span style="color:#FF7B72">        ?</span><span style="color:#E6EDF3"> [</span><span style="color:#FF7B72">new</span><span style="color:#D2A8FF"> BundleAnalyzerPlugin</span><span style="color:#E6EDF3">()]</span></span>
+<span class="line"><span style="color:#FF7B72">        :</span><span style="color:#E6EDF3"> [])</span></span>
+<span class="line"><span style="color:#E6EDF3">    ]</span></span>
+<span class="line"><span style="color:#E6EDF3">  }</span></span>
+<span class="line"><span style="color:#E6EDF3">};</span></span>
+<span class="line"></span></code></pre>
+<h3 id="2-tree-shaking">2. Tree Shaking</h3>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="jsx"><code><span class="line"><span style="color:#8B949E">// ❌ Bad: Imports entire library</span></span>
+<span class="line"><span style="color:#FF7B72">import</span><span style="color:#E6EDF3"> _ </span><span style="color:#FF7B72">from</span><span style="color:#A5D6FF"> 'lodash'</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">import</span><span style="color:#E6EDF3"> { format } </span><span style="color:#FF7B72">from</span><span style="color:#A5D6FF"> 'date-fns'</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">// ✅ Good: Import only what you need</span></span>
+<span class="line"><span style="color:#FF7B72">import</span><span style="color:#E6EDF3"> debounce </span><span style="color:#FF7B72">from</span><span style="color:#A5D6FF"> 'lodash/debounce'</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">import</span><span style="color:#E6EDF3"> map </span><span style="color:#FF7B72">from</span><span style="color:#A5D6FF"> 'lodash/map'</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">import</span><span style="color:#E6EDF3"> format </span><span style="color:#FF7B72">from</span><span style="color:#A5D6FF"> 'date-fns/format'</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">// ✅ Better: Use tree-shakeable libraries</span></span>
+<span class="line"><span style="color:#FF7B72">import</span><span style="color:#E6EDF3"> { debounce, map } </span><span style="color:#FF7B72">from</span><span style="color:#A5D6FF"> 'lodash-es'</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"></span></code></pre>
+<h3 id="3-dynamic-imports-for-heavy-libraries">3. Dynamic Imports for Heavy Libraries</h3>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="jsx"><code><span class="line"><span style="color:#8B949E">// Lazy load heavy chart library</span></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> ChartComponent</span><span style="color:#E6EDF3">({ </span><span style="color:#FFA657">data</span><span style="color:#E6EDF3"> }) {</span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#E6EDF3"> [</span><span style="color:#79C0FF">Chart</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">setChart</span><span style="color:#E6EDF3">] </span><span style="color:#FF7B72">=</span><span style="color:#D2A8FF"> useState</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">null</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">  </span></span>
+<span class="line"><span style="color:#D2A8FF">  useEffect</span><span style="color:#E6EDF3">(() </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#FF7B72">    import</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">'recharts'</span><span style="color:#E6EDF3">).</span><span style="color:#D2A8FF">then</span><span style="color:#E6EDF3">((</span><span style="color:#FFA657">module</span><span style="color:#E6EDF3">) </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#D2A8FF">      setChart</span><span style="color:#E6EDF3">(() </span><span style="color:#FF7B72">=></span><span style="color:#79C0FF"> module</span><span style="color:#E6EDF3">.LineChart);</span></span>
+<span class="line"><span style="color:#E6EDF3">    });</span></span>
+<span class="line"><span style="color:#E6EDF3">  }, []);</span></span>
+<span class="line"><span style="color:#E6EDF3">  </span></span>
+<span class="line"><span style="color:#FF7B72">  if</span><span style="color:#E6EDF3"> (</span><span style="color:#FF7B72">!</span><span style="color:#E6EDF3">Chart) </span><span style="color:#FF7B72">return</span><span style="color:#E6EDF3"> &#x3C;</span><span style="color:#7EE787">ChartSkeleton</span><span style="color:#E6EDF3"> />;</span></span>
+<span class="line"><span style="color:#E6EDF3">  </span></span>
+<span class="line"><span style="color:#FF7B72">  return</span><span style="color:#E6EDF3"> &#x3C;</span><span style="color:#7EE787">Chart</span><span style="color:#79C0FF"> data</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">data</span><span style="color:#FF7B72">}</span><span style="color:#E6EDF3"> />;</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">// Or use lazy</span></span>
+<span class="line"><span style="color:#FF7B72">const</span><span style="color:#79C0FF"> Chart</span><span style="color:#FF7B72"> =</span><span style="color:#D2A8FF"> lazy</span><span style="color:#E6EDF3">(() </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> </span></span>
+<span class="line"><span style="color:#FF7B72">  import</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">'recharts'</span><span style="color:#E6EDF3">).</span><span style="color:#D2A8FF">then</span><span style="color:#E6EDF3">(</span><span style="color:#FFA657">module</span><span style="color:#FF7B72"> =></span><span style="color:#E6EDF3"> ({</span></span>
+<span class="line"><span style="color:#E6EDF3">    default: </span><span style="color:#79C0FF">module</span><span style="color:#E6EDF3">.LineChart</span></span>
+<span class="line"><span style="color:#E6EDF3">  }))</span></span>
+<span class="line"><span style="color:#E6EDF3">);</span></span>
+<span class="line"></span></code></pre>
+<h2 id="advanced-patterns-advanced-patterns">Advanced Patterns {#advanced-patterns}</h2>
+<h3 id="1-concurrent-rendering-react-18">1. Concurrent Rendering (React 18)</h3>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="jsx"><code><span class="line"><span style="color:#FF7B72">import</span><span style="color:#E6EDF3"> { startTransition } </span><span style="color:#FF7B72">from</span><span style="color:#A5D6FF"> 'react'</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> SearchComponent</span><span style="color:#E6EDF3">() {</span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#E6EDF3"> [</span><span style="color:#79C0FF">query</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">setQuery</span><span style="color:#E6EDF3">] </span><span style="color:#FF7B72">=</span><span style="color:#D2A8FF"> useState</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">''</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#E6EDF3"> [</span><span style="color:#79C0FF">results</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">setResults</span><span style="color:#E6EDF3">] </span><span style="color:#FF7B72">=</span><span style="color:#D2A8FF"> useState</span><span style="color:#E6EDF3">([]);</span></span>
+<span class="line"><span style="color:#E6EDF3">  </span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#D2A8FF"> handleSearch</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> (</span><span style="color:#FFA657">value</span><span style="color:#E6EDF3">) </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#8B949E">    // High priority: Update input immediately</span></span>
+<span class="line"><span style="color:#D2A8FF">    setQuery</span><span style="color:#E6EDF3">(value);</span></span>
+<span class="line"><span style="color:#E6EDF3">    </span></span>
+<span class="line"><span style="color:#8B949E">    // Low priority: Update results (can be interrupted)</span></span>
+<span class="line"><span style="color:#D2A8FF">    startTransition</span><span style="color:#E6EDF3">(() </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#FF7B72">      const</span><span style="color:#79C0FF"> filtered</span><span style="color:#FF7B72"> =</span><span style="color:#D2A8FF"> expensiveFilter</span><span style="color:#E6EDF3">(items, value);</span></span>
+<span class="line"><span style="color:#D2A8FF">      setResults</span><span style="color:#E6EDF3">(filtered);</span></span>
+<span class="line"><span style="color:#E6EDF3">    });</span></span>
+<span class="line"><span style="color:#E6EDF3">  };</span></span>
+<span class="line"><span style="color:#E6EDF3">  </span></span>
+<span class="line"><span style="color:#FF7B72">  return</span><span style="color:#E6EDF3"> (</span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;></span></span>
+<span class="line"><span style="color:#E6EDF3">      &#x3C;</span><span style="color:#7EE787">input</span><span style="color:#E6EDF3"> </span></span>
+<span class="line"><span style="color:#79C0FF">        value</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">query</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#79C0FF">        onChange</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">(</span><span style="color:#FFA657">e</span><span style="color:#E6EDF3">) </span><span style="color:#FF7B72">=></span><span style="color:#D2A8FF"> handleSearch</span><span style="color:#E6EDF3">(e.target.value)</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#E6EDF3">      /></span></span>
+<span class="line"><span style="color:#E6EDF3">      &#x3C;</span><span style="color:#7EE787">ResultsList</span><span style="color:#79C0FF"> results</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">results</span><span style="color:#FF7B72">}</span><span style="color:#E6EDF3"> /></span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;/></span></span>
+<span class="line"><span style="color:#E6EDF3">  );</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span></code></pre>
+<h3 id="2-usedeferredvalue">2. useDeferredValue</h3>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="jsx"><code><span class="line"><span style="color:#FF7B72">import</span><span style="color:#E6EDF3"> { useDeferredValue, useMemo } </span><span style="color:#FF7B72">from</span><span style="color:#A5D6FF"> 'react'</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> ProductSearch</span><span style="color:#E6EDF3">() {</span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#E6EDF3"> [</span><span style="color:#79C0FF">query</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">setQuery</span><span style="color:#E6EDF3">] </span><span style="color:#FF7B72">=</span><span style="color:#D2A8FF"> useState</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">''</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#79C0FF"> deferredQuery</span><span style="color:#FF7B72"> =</span><span style="color:#D2A8FF"> useDeferredValue</span><span style="color:#E6EDF3">(query);</span></span>
+<span class="line"><span style="color:#E6EDF3">  </span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#79C0FF"> results</span><span style="color:#FF7B72"> =</span><span style="color:#D2A8FF"> useMemo</span><span style="color:#E6EDF3">(() </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#8B949E">    // Expensive search operation</span></span>
+<span class="line"><span style="color:#FF7B72">    return</span><span style="color:#D2A8FF"> searchProducts</span><span style="color:#E6EDF3">(deferredQuery);</span></span>
+<span class="line"><span style="color:#E6EDF3">  }, [deferredQuery]);</span></span>
+<span class="line"><span style="color:#E6EDF3">  </span></span>
+<span class="line"><span style="color:#FF7B72">  return</span><span style="color:#E6EDF3"> (</span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;></span></span>
+<span class="line"><span style="color:#E6EDF3">      &#x3C;</span><span style="color:#7EE787">input</span></span>
+<span class="line"><span style="color:#79C0FF">        value</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">query</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#79C0FF">        onChange</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">(</span><span style="color:#FFA657">e</span><span style="color:#E6EDF3">) </span><span style="color:#FF7B72">=></span><span style="color:#D2A8FF"> setQuery</span><span style="color:#E6EDF3">(e.target.value)</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#79C0FF">        placeholder</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">"Search products..."</span></span>
+<span class="line"><span style="color:#E6EDF3">      /></span></span>
+<span class="line"><span style="color:#FF7B72">      {</span><span style="color:#E6EDF3">query </span><span style="color:#FF7B72">!==</span><span style="color:#E6EDF3"> deferredQuery </span><span style="color:#FF7B72">&#x26;&#x26;</span><span style="color:#E6EDF3"> &#x3C;</span><span style="color:#7EE787">LoadingSpinner</span><span style="color:#E6EDF3"> /></span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#E6EDF3">      &#x3C;</span><span style="color:#7EE787">ProductList</span><span style="color:#79C0FF"> products</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">results</span><span style="color:#FF7B72">}</span><span style="color:#E6EDF3"> /></span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;/></span></span>
+<span class="line"><span style="color:#E6EDF3">  );</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span></code></pre>
+<h3 id="3-web-workers-for-heavy-computations">3. Web Workers for Heavy Computations</h3>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="javascript"><code><span class="line"><span style="color:#8B949E">// worker.js</span></span>
+<span class="line"><span style="color:#E6EDF3">self.</span><span style="color:#D2A8FF">addEventListener</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">'message'</span><span style="color:#E6EDF3">, (</span><span style="color:#FFA657">e</span><span style="color:#E6EDF3">) </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#E6EDF3"> { </span><span style="color:#79C0FF">data</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">type</span><span style="color:#E6EDF3"> } </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> e.data;</span></span>
+<span class="line"><span style="color:#E6EDF3">  </span></span>
+<span class="line"><span style="color:#FF7B72">  if</span><span style="color:#E6EDF3"> (type </span><span style="color:#FF7B72">===</span><span style="color:#A5D6FF"> 'PROCESS_DATA'</span><span style="color:#E6EDF3">) {</span></span>
+<span class="line"><span style="color:#FF7B72">    const</span><span style="color:#79C0FF"> result</span><span style="color:#FF7B72"> =</span><span style="color:#D2A8FF"> heavyComputation</span><span style="color:#E6EDF3">(data);</span></span>
+<span class="line"><span style="color:#E6EDF3">    self.</span><span style="color:#D2A8FF">postMessage</span><span style="color:#E6EDF3">({ type: </span><span style="color:#A5D6FF">'RESULT'</span><span style="color:#E6EDF3">, result });</span></span>
+<span class="line"><span style="color:#E6EDF3">  }</span></span>
+<span class="line"><span style="color:#E6EDF3">});</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> heavyComputation</span><span style="color:#E6EDF3">(</span><span style="color:#FFA657">data</span><span style="color:#E6EDF3">) {</span></span>
+<span class="line"><span style="color:#8B949E">  // Complex calculations</span></span>
+<span class="line"><span style="color:#FF7B72">  return</span><span style="color:#E6EDF3"> data.</span><span style="color:#D2A8FF">map</span><span style="color:#E6EDF3">(</span><span style="color:#FFA657">item</span><span style="color:#FF7B72"> =></span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#8B949E">    // Heavy processing</span></span>
+<span class="line"><span style="color:#FF7B72">    return</span><span style="color:#D2A8FF"> processItem</span><span style="color:#E6EDF3">(item);</span></span>
+<span class="line"><span style="color:#E6EDF3">  });</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span></code></pre>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="jsx"><code><span class="line"><span style="color:#8B949E">// useWorker.js</span></span>
+<span class="line"><span style="color:#FF7B72">import</span><span style="color:#E6EDF3"> { useEffect, useRef, useState } </span><span style="color:#FF7B72">from</span><span style="color:#A5D6FF"> 'react'</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> useWorker</span><span style="color:#E6EDF3">(</span><span style="color:#FFA657">workerPath</span><span style="color:#E6EDF3">) {</span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#79C0FF"> workerRef</span><span style="color:#FF7B72"> =</span><span style="color:#D2A8FF"> useRef</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">null</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#E6EDF3"> [</span><span style="color:#79C0FF">result</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">setResult</span><span style="color:#E6EDF3">] </span><span style="color:#FF7B72">=</span><span style="color:#D2A8FF"> useState</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">null</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#E6EDF3"> [</span><span style="color:#79C0FF">isProcessing</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">setIsProcessing</span><span style="color:#E6EDF3">] </span><span style="color:#FF7B72">=</span><span style="color:#D2A8FF"> useState</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">false</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">  </span></span>
+<span class="line"><span style="color:#D2A8FF">  useEffect</span><span style="color:#E6EDF3">(() </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">    workerRef.current </span><span style="color:#FF7B72">=</span><span style="color:#FF7B72"> new</span><span style="color:#D2A8FF"> Worker</span><span style="color:#E6EDF3">(workerPath);</span></span>
+<span class="line"><span style="color:#E6EDF3">    </span></span>
+<span class="line"><span style="color:#E6EDF3">    workerRef.current.</span><span style="color:#D2A8FF">onmessage</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> (</span><span style="color:#FFA657">e</span><span style="color:#E6EDF3">) </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#FF7B72">      if</span><span style="color:#E6EDF3"> (e.data.type </span><span style="color:#FF7B72">===</span><span style="color:#A5D6FF"> 'RESULT'</span><span style="color:#E6EDF3">) {</span></span>
+<span class="line"><span style="color:#D2A8FF">        setResult</span><span style="color:#E6EDF3">(e.data.result);</span></span>
+<span class="line"><span style="color:#D2A8FF">        setIsProcessing</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">false</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">      }</span></span>
+<span class="line"><span style="color:#E6EDF3">    };</span></span>
+<span class="line"><span style="color:#E6EDF3">    </span></span>
+<span class="line"><span style="color:#FF7B72">    return</span><span style="color:#E6EDF3"> () </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> workerRef.current?.</span><span style="color:#D2A8FF">terminate</span><span style="color:#E6EDF3">();</span></span>
+<span class="line"><span style="color:#E6EDF3">  }, [workerPath]);</span></span>
+<span class="line"><span style="color:#E6EDF3">  </span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#D2A8FF"> process</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> (</span><span style="color:#FFA657">data</span><span style="color:#E6EDF3">) </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#D2A8FF">    setIsProcessing</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">true</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">    workerRef.current?.</span><span style="color:#D2A8FF">postMessage</span><span style="color:#E6EDF3">({</span></span>
+<span class="line"><span style="color:#E6EDF3">      type: </span><span style="color:#A5D6FF">'PROCESS_DATA'</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">      data</span></span>
+<span class="line"><span style="color:#E6EDF3">    });</span></span>
+<span class="line"><span style="color:#E6EDF3">  };</span></span>
+<span class="line"><span style="color:#E6EDF3">  </span></span>
+<span class="line"><span style="color:#FF7B72">  return</span><span style="color:#E6EDF3"> { result, isProcessing, process };</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">// Usage</span></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> DataProcessor</span><span style="color:#E6EDF3">() {</span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#E6EDF3"> { </span><span style="color:#79C0FF">result</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">isProcessing</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">process</span><span style="color:#E6EDF3"> } </span><span style="color:#FF7B72">=</span><span style="color:#D2A8FF"> useWorker</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">'/worker.js'</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">  </span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#D2A8FF"> handleProcess</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> () </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#D2A8FF">    process</span><span style="color:#E6EDF3">(largeDataset);</span></span>
+<span class="line"><span style="color:#E6EDF3">  };</span></span>
+<span class="line"><span style="color:#E6EDF3">  </span></span>
+<span class="line"><span style="color:#FF7B72">  return</span><span style="color:#E6EDF3"> (</span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;</span><span style="color:#7EE787">div</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">      &#x3C;</span><span style="color:#7EE787">button</span><span style="color:#79C0FF"> onClick</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">handleProcess</span><span style="color:#FF7B72">}</span><span style="color:#79C0FF"> disabled</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">isProcessing</span><span style="color:#FF7B72">}</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">        Process Data</span></span>
+<span class="line"><span style="color:#E6EDF3">      &#x3C;/</span><span style="color:#7EE787">button</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#FF7B72">      {</span><span style="color:#E6EDF3">isProcessing </span><span style="color:#FF7B72">&#x26;&#x26;</span><span style="color:#E6EDF3"> &#x3C;</span><span style="color:#7EE787">LoadingSpinner</span><span style="color:#E6EDF3"> /></span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#FF7B72">      {</span><span style="color:#E6EDF3">result </span><span style="color:#FF7B72">&#x26;&#x26;</span><span style="color:#E6EDF3"> &#x3C;</span><span style="color:#7EE787">Results</span><span style="color:#79C0FF"> data</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">result</span><span style="color:#FF7B72">}</span><span style="color:#E6EDF3"> /></span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;/</span><span style="color:#7EE787">div</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">  );</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span></code></pre>
+<h2 id="real-world-case-studies-case-studies">Real-World Case Studies {#case-studies}</h2>
+<h3 id="case-study-1-optimizing-a-dashboard">Case Study 1: Optimizing a Dashboard</h3>
+<p><strong>Before:</strong></p>
+<ul>
+<li>Initial load: 8.2s</li>
+<li>Time to Interactive: 12.5s</li>
+<li>Bundle size: 2.8MB</li>
+<li>Lighthouse score: 42/100</li>
+</ul>
+<p><strong>Optimizations Applied:</strong></p>
+<ol>
+<li>✅ Route-based code splitting</li>
+<li>✅ Virtualized data tables</li>
+<li>✅ Memoized expensive charts</li>
+<li>✅ Lazy loaded modals and dialogs</li>
+<li>✅ Optimized context providers</li>
+<li>✅ Tree-shaken lodash imports</li>
+</ol>
+<p><strong>After:</strong></p>
+<ul>
+<li>Initial load: 2.1s (74% improvement)</li>
+<li>Time to Interactive: 3.8s (70% improvement)</li>
+<li>Bundle size: 890KB (68% reduction)</li>
+<li>Lighthouse score: 94/100</li>
+</ul>
+<h3 id="case-study-2-e-commerce-product-list">Case Study 2: E-Commerce Product List</h3>
+<p><strong>Challenge:</strong> Render 10,000 products with filtering</p>
+<p><strong>Solution:</strong></p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="jsx"><code><span class="line"><span style="color:#FF7B72">import</span><span style="color:#E6EDF3"> { FixedSizeGrid } </span><span style="color:#FF7B72">from</span><span style="color:#A5D6FF"> 'react-window'</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> ProductGrid</span><span style="color:#E6EDF3">({ </span><span style="color:#FFA657">products</span><span style="color:#E6EDF3"> }) {</span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#E6EDF3"> [</span><span style="color:#79C0FF">filters</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">setFilters</span><span style="color:#E6EDF3">] </span><span style="color:#FF7B72">=</span><span style="color:#D2A8FF"> useState</span><span style="color:#E6EDF3">({});</span></span>
+<span class="line"><span style="color:#E6EDF3">  </span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#79C0FF"> filteredProducts</span><span style="color:#FF7B72"> =</span><span style="color:#D2A8FF"> useMemo</span><span style="color:#E6EDF3">(() </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#FF7B72">    return</span><span style="color:#E6EDF3"> products.</span><span style="color:#D2A8FF">filter</span><span style="color:#E6EDF3">(</span><span style="color:#FFA657">product</span><span style="color:#FF7B72"> =></span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#FF7B72">      return</span><span style="color:#E6EDF3"> Object.</span><span style="color:#D2A8FF">entries</span><span style="color:#E6EDF3">(filters).</span><span style="color:#D2A8FF">every</span><span style="color:#E6EDF3">(([</span><span style="color:#FFA657">key</span><span style="color:#E6EDF3">, </span><span style="color:#FFA657">value</span><span style="color:#E6EDF3">]) </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#FF7B72">        return</span><span style="color:#E6EDF3"> product[key] </span><span style="color:#FF7B72">===</span><span style="color:#E6EDF3"> value;</span></span>
+<span class="line"><span style="color:#E6EDF3">      });</span></span>
+<span class="line"><span style="color:#E6EDF3">    });</span></span>
+<span class="line"><span style="color:#E6EDF3">  }, [products, filters]);</span></span>
+<span class="line"><span style="color:#E6EDF3">  </span></span>
+<span class="line"><span style="color:#FF7B72">  const</span><span style="color:#D2A8FF"> Cell</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> ({ </span><span style="color:#FFA657">columnIndex</span><span style="color:#E6EDF3">, </span><span style="color:#FFA657">rowIndex</span><span style="color:#E6EDF3">, </span><span style="color:#FFA657">style</span><span style="color:#E6EDF3"> }) </span><span style="color:#FF7B72">=></span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#FF7B72">    const</span><span style="color:#79C0FF"> index</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> rowIndex </span><span style="color:#FF7B72">*</span><span style="color:#79C0FF"> 4</span><span style="color:#FF7B72"> +</span><span style="color:#E6EDF3"> columnIndex;</span></span>
+<span class="line"><span style="color:#FF7B72">    const</span><span style="color:#79C0FF"> product</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> filteredProducts[index];</span></span>
+<span class="line"><span style="color:#E6EDF3">    </span></span>
+<span class="line"><span style="color:#FF7B72">    if</span><span style="color:#E6EDF3"> (</span><span style="color:#FF7B72">!</span><span style="color:#E6EDF3">product) </span><span style="color:#FF7B72">return</span><span style="color:#79C0FF"> null</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#E6EDF3">    </span></span>
+<span class="line"><span style="color:#FF7B72">    return</span><span style="color:#E6EDF3"> (</span></span>
+<span class="line"><span style="color:#E6EDF3">      &#x3C;</span><span style="color:#7EE787">div</span><span style="color:#79C0FF"> style</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">style</span><span style="color:#FF7B72">}</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">        &#x3C;</span><span style="color:#7EE787">ProductCard</span><span style="color:#79C0FF"> product</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">product</span><span style="color:#FF7B72">}</span><span style="color:#E6EDF3"> /></span></span>
+<span class="line"><span style="color:#E6EDF3">      &#x3C;/</span><span style="color:#7EE787">div</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">    );</span></span>
+<span class="line"><span style="color:#E6EDF3">  };</span></span>
+<span class="line"><span style="color:#E6EDF3">  </span></span>
+<span class="line"><span style="color:#FF7B72">  return</span><span style="color:#E6EDF3"> (</span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;</span><span style="color:#7EE787">FixedSizeGrid</span></span>
+<span class="line"><span style="color:#79C0FF">      columnCount</span><span style="color:#FF7B72">={</span><span style="color:#79C0FF">4</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#79C0FF">      columnWidth</span><span style="color:#FF7B72">={</span><span style="color:#79C0FF">250</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#79C0FF">      height</span><span style="color:#FF7B72">={</span><span style="color:#79C0FF">800</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#79C0FF">      rowCount</span><span style="color:#FF7B72">={</span><span style="color:#E6EDF3">Math.</span><span style="color:#D2A8FF">ceil</span><span style="color:#E6EDF3">(filteredProducts.</span><span style="color:#79C0FF">length</span><span style="color:#FF7B72"> /</span><span style="color:#79C0FF"> 4</span><span style="color:#E6EDF3">)</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#79C0FF">      rowHeight</span><span style="color:#FF7B72">={</span><span style="color:#79C0FF">350</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#79C0FF">      width</span><span style="color:#FF7B72">={</span><span style="color:#79C0FF">1040</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#E6EDF3">    ></span></span>
+<span class="line"><span style="color:#FF7B72">      {</span><span style="color:#E6EDF3">Cell</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;/</span><span style="color:#7EE787">FixedSizeGrid</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">  );</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span></code></pre>
+<p><strong>Results:</strong></p>
+<ul>
+<li>Smooth 60fps scrolling</li>
+<li>Initial render: 150ms (vs 3.2s before)</li>
+<li>Memory usage: 45MB (vs 380MB before)</li>
+</ul>
+<h2 id="performance-checklist">Performance Checklist</h2>
+<h3 id="development">Development:</h3>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled> Use React DevTools Profiler</li>
+<li class="task-list-item"><input type="checkbox" disabled> Implement useMemo for expensive calculations</li>
+<li class="task-list-item"><input type="checkbox" disabled> Use useCallback for event handlers</li>
+<li class="task-list-item"><input type="checkbox" disabled> Wrap components with React.memo</li>
+<li class="task-list-item"><input type="checkbox" disabled> Colocate state as close as possible</li>
+<li class="task-list-item"><input type="checkbox" disabled> Implement code splitting for routes</li>
+<li class="task-list-item"><input type="checkbox" disabled> Lazy load heavy components</li>
+<li class="task-list-item"><input type="checkbox" disabled> Virtualize long lists</li>
+</ul>
+<h3 id="build">Build:</h3>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled> Analyze bundle size</li>
+<li class="task-list-item"><input type="checkbox" disabled> Remove unused dependencies</li>
+<li class="task-list-item"><input type="checkbox" disabled> Tree-shake libraries</li>
+<li class="task-list-item"><input type="checkbox" disabled> Enable production mode</li>
+<li class="task-list-item"><input type="checkbox" disabled> Minify and compress assets</li>
+<li class="task-list-item"><input type="checkbox" disabled> Use CDN for static assets</li>
+<li class="task-list-item"><input type="checkbox" disabled> Implement caching strategies</li>
+</ul>
+<h3 id="runtime">Runtime:</h3>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled> Debounce/throttle frequent operations</li>
+<li class="task-list-item"><input type="checkbox" disabled> Use Web Workers for heavy computations</li>
+<li class="task-list-item"><input type="checkbox" disabled> Implement proper loading states</li>
+<li class="task-list-item"><input type="checkbox" disabled> Optimize images (WebP, lazy loading)</li>
+<li class="task-list-item"><input type="checkbox" disabled> Monitor Core Web Vitals</li>
+<li class="task-list-item"><input type="checkbox" disabled> Use service workers for offline support</li>
+</ul>
+<h2 id="conclusion">Conclusion</h2>
+<p>React performance optimization is a continuous process. Key takeaways:</p>
+<ol>
+<li><strong>Measure First</strong> - Use profiling tools before optimizing</li>
+<li><strong>Start Simple</strong> - Basic optimizations have the biggest impact</li>
+<li><strong>Avoid Premature Optimization</strong> - Focus on bottlenecks</li>
+<li><strong>Test Real Scenarios</strong> - Optimize for actual user behavior</li>
+<li><strong>Monitor Production</strong> - Track metrics over time</li>
+</ol>
+<p>Remember: <strong>A fast React app is a successful React app</strong>.</p>
+<h2 id="resources">Resources</h2>
+<ul>
+<li><a href="https://react.dev/learn/render-and-commit">React Performance Documentation</a></li>
+<li><a href="https://web.dev/performance/">Web.dev Performance</a></li>
+<li><a href="https://react-window.vercel.app/">React Window Documentation</a></li>
+<li><a href="https://github.com/webpack-contrib/webpack-bundle-analyzer">Bundle Analyzer</a></li>
+</ul>
+<hr>
+<p><em>What React performance techniques have worked best for you? Share your experiences!</em></p> </div> </article> </div> <div class="back-link" data-astro-cid-rkg3zjxi><a href="/ai-news/" data-astro-cid-rkg3zjxi>← Back to AI News</a></div>  </main> <footer class="site-footer container"> <p>© 2025 AREZKI El Mehdi • <a href="https://github.com/earezki">GitHub</a> • <a href="/rss.xml">RSS</a></p> </footer>  <script>
+      // Read/Unread article tracking
+      (function() {
+        const STORAGE_KEY = 'readArticles';
+        
+        function getReadArticles() {
+          try {
+            const data = localStorage.getItem(STORAGE_KEY);
+            return data ? JSON.parse(data) : [];
+          } catch (e) {
+            return [];
+          }
+        }
+        
+        function markArticleAsRead(url) {
+          try {
+            const readArticles = getReadArticles();
+            if (!readArticles.includes(url)) {
+              readArticles.push(url);
+              localStorage.setItem(STORAGE_KEY, JSON.stringify(readArticles));
+            }
+          } catch (e) {
+            console.error('Failed to mark article as read:', e);
+          }
+        }
+        
+        function isArticleRead(url) {
+          const readArticles = getReadArticles();
+          return readArticles.includes(url);
+        }
+        
+        // Update post cards on list pages
+        function updatePostCards() {
+          const postCards = document.querySelectorAll('.post-card[data-article-url]');
+          postCards.forEach(function(card) {
+            const url = card.getAttribute('data-article-url');
+            if (url) {
+              if (isArticleRead(url)) {
+                card.classList.add('read');
+                card.classList.remove('unread');
+              } else {
+                card.classList.add('unread');
+                card.classList.remove('read');
+              }
+            }
+          });
+        }
+        
+        // Mark current article as read (on article pages)
+        function markCurrentArticleAsRead() {
+          const isArticlePage = document.querySelector('.post-body');
+          if (isArticlePage) {
+            const currentPath = window.location.pathname;
+            markArticleAsRead(currentPath);
+          }
+        }
+        
+        // Initialize function
+        function init() {
+          updatePostCards();
+          markCurrentArticleAsRead();
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', init);
+        
+        // Handle back/forward navigation (bfcache)
+        window.addEventListener('pageshow', function(event) {
+          // If page is loaded from cache, update the cards
+          if (event.persisted) {
+            init();
+          }
+        });
+      })();
+    </script> </body> </html> 

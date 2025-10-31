@@ -1,0 +1,896 @@
+<!DOCTYPE html><html lang="en" data-theme="dark"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Kubernetes Deployment Best Practices: Production-Ready Guide • Dev|Journal</title><meta name="description" content="Kubernetes Deployment Best Practices: Production-Ready Guide Deploying applications to Kubernetes is more than just writing a Deployment YAML. This…"><meta name="keywords" content="software architecture, backend development, microservices, Java, Python, Spring Boot, technical blog"><meta name="author" content="El Mehdi Arezki"><!-- Open Graph / Facebook --><meta property="og:type" content="website"><meta property="og:url" content="https://earezki.com/ai-news/2025-11-01-kubernetes-deployment-best-practices/"><meta property="og:title" content="Kubernetes Deployment Best Practices: Production-Ready Guide • Dev|Journal"><meta property="og:site_name" content="Dev|Journal"><meta property="og:description" content="Kubernetes Deployment Best Practices: Production-Ready Guide Deploying applications to Kubernetes is more than just writing a Deployment YAML. This…"><meta property="og:image" content="https://earezki.com/assets/og-image-default.jpg"><!-- Twitter --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:url" content="https://earezki.com/ai-news/2025-11-01-kubernetes-deployment-best-practices/"><meta name="twitter:title" content="Kubernetes Deployment Best Practices: Production-Ready Guide • Dev|Journal"><meta name="twitter:description" content="Kubernetes Deployment Best Practices: Production-Ready Guide Deploying applications to Kubernetes is more than just writing a Deployment YAML. This…"><meta name="twitter:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:creator" content="@earezki"><link rel="canonical" href="https://earezki.com/ai-news/2025-11-01-kubernetes-deployment-best-practices/"><link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"><script async src="https://www.googletagmanager.com/gtag/js?id=UA-161447264-1"></script><script defer src="https://cloud.umami.is/script.js" data-website-id="4a26531d-1053-4f79-97a6-06a1366aff91"></script><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Kubernetes Deployment Best Practices: Production-Ready Guide","datePublished":"2025-11-01T12:00:00.000Z","dateModified":"2025-11-01T12:00:00.000Z","author":{"@type":"Person","name":"AREZKI El Mehdi"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://earezki.com/ai-news/2025-11-01-kubernetes-deployment-best-practices/"},"description":"Kubernetes Deployment Best Practices: Production-Ready Guide Deploying applications to Kubernetes is more than just writing a Deployment YAML. This…"}</script><link rel="stylesheet" href="/_astro/_slug_.CDWqF8AB.css">
+<style>.post-layout[data-astro-cid-rkg3zjxi]{display:grid;grid-template-columns:260px 1fr;gap:2.5rem}.sidebar-left[data-astro-cid-rkg3zjxi]{position:relative}@media (max-width: 1080px){.post-layout[data-astro-cid-rkg3zjxi]{grid-template-columns:1fr}}.ai-disclaimer-article[data-astro-cid-rkg3zjxi]{display:flex;gap:.75rem;padding:.9rem 1.1rem;margin:0 auto 2rem;max-width:780px;background:linear-gradient(135deg,#667eea1a,#764ba21a,#f093fb1a);border:2px solid transparent;border-radius:var(--radius-md);position:relative;background-clip:padding-box;font-size:.85rem}.ai-disclaimer-article[data-astro-cid-rkg3zjxi]:before{content:"";position:absolute;inset:-2px;border-radius:var(--radius-md);padding:2px;background:var(--ai-gradient-border);background-size:200% 200%;animation:gradient-rotate 3s linear infinite;-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask-composite:exclude;pointer-events:none}html[data-theme=dark] .ai-disclaimer-article[data-astro-cid-rkg3zjxi]{background:linear-gradient(135deg,#667eea26,#764ba226,#f093fb26)}.ai-disclaimer-article[data-astro-cid-rkg3zjxi] svg[data-astro-cid-rkg3zjxi]{margin-top:.15rem}.ai-disclaimer-article[data-astro-cid-rkg3zjxi] strong[data-astro-cid-rkg3zjxi]{color:var(--color-text);display:block;margin-bottom:.15rem}.ai-disclaimer-article[data-astro-cid-rkg3zjxi] div[data-astro-cid-rkg3zjxi]{line-height:1.5;color:var(--color-text-alt)}
+.toc[data-astro-cid-xvrfupwn]{position:sticky;top:90px;max-height:calc(100vh - 120px);overflow:auto;padding:1rem 1rem 1.2rem;background:var(--color-bg-alt);border:1px solid var(--color-border);border-radius:var(--radius-md);font-size:.8rem;line-height:1.3}.toc-title[data-astro-cid-xvrfupwn]{font-weight:600;font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.6rem;color:var(--color-text-alt)}.toc[data-astro-cid-xvrfupwn] ul[data-astro-cid-xvrfupwn]{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.35rem}.toc[data-astro-cid-xvrfupwn] a[data-astro-cid-xvrfupwn]{text-decoration:none;color:var(--color-text-alt)}.toc[data-astro-cid-xvrfupwn] a[data-astro-cid-xvrfupwn]:hover{color:var(--color-accent)}.toc[data-astro-cid-xvrfupwn] li[data-astro-cid-xvrfupwn][class*=d-3]{margin-left:.75rem}.toc[data-astro-cid-xvrfupwn] li[data-astro-cid-xvrfupwn][class*=d-4]{margin-left:1.4rem}@media (max-width: 1080px){.toc[data-astro-cid-xvrfupwn]{display:none}}
+</style><script type="module" src="/_astro/hoisted.CwSnpN4J.js"></script></head> <body> <div id="readingProgress" style="position:fixed;left:0;top:0;height:3px;background:linear-gradient(90deg,#2563eb,#9333ea);width:0;z-index:999;transition:width .15s ease;"></div>  <header class="site-header container"> <div class="logo-wrap"> <a class="logo" href="/">Dev|Journal</a> </div> <nav class="main-nav"> <a href="/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px;"> <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path> <polyline points="9 22 9 12 15 12 15 22"></polyline> </svg>
+Home
+</a> <a href="/ai-news/" class="ai-news-link"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px;"> <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h-9.5a.5.5 0 0 0-.5.5.5.5 0 0 1-1 0 .5.5 0 0 0-.5-.5H1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"></path> <path d="M7 15v4a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-4"></path> </svg>
+AI News
+</a> <a href="/tags/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px;"> <path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2z"></path> <circle cx="7" cy="7" r="1.5"></circle> </svg>
+Tags
+</a> <a href="/about/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px;"> <circle cx="12" cy="12" r="10"></circle> <path d="M12 16v-4"></path> <path d="M12 8h.01"></path> </svg>
+About
+</a> <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode"> <span class="theme-icon">☾</span> <span class="theme-text">dark</span> </button> </nav> </header> <main class="container content-area">  <div class="ai-disclaimer-article" data-astro-cid-rkg3zjxi> <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;" data-astro-cid-rkg3zjxi> <circle cx="12" cy="12" r="10" data-astro-cid-rkg3zjxi></circle> <line x1="12" y1="8" x2="12" y2="12" data-astro-cid-rkg3zjxi></line> <line x1="12" y1="16" x2="12.01" y2="16" data-astro-cid-rkg3zjxi></line> </svg> <div data-astro-cid-rkg3zjxi> <strong data-astro-cid-rkg3zjxi>AI-Generated Content:</strong> This article was created with AI assistance. Please verify important information and check original references.
+</div> </div> <div class="post-layout" data-astro-cid-rkg3zjxi> <aside class="sidebar-left" data-astro-cid-rkg3zjxi> <nav class="toc" aria-label="Table of Contents" data-astro-cid-xvrfupwn> <div class="toc-title" data-astro-cid-xvrfupwn>On this page</div> <ul data-astro-cid-xvrfupwn> <li class="d-2" data-astro-cid-xvrfupwn><a href="#table-of-contents" data-astro-cid-xvrfupwn>Table of Contents</a></li><li class="d-2" data-astro-cid-xvrfupwn><a href="#deployment-fundamentals-fundamentals" data-astro-cid-xvrfupwn>Deployment Fundamentals {#fundamentals}</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#basic-deployment-structure" data-astro-cid-xvrfupwn>Basic Deployment Structure</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#key-components-explained" data-astro-cid-xvrfupwn>Key Components Explained</a></li><li class="d-2" data-astro-cid-xvrfupwn><a href="#resource-management-resources" data-astro-cid-xvrfupwn>Resource Management {#resources}</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#1-resource-requests-and-limits" data-astro-cid-xvrfupwn>1. Resource Requests and Limits</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#2-quality-of-service-qos-classes" data-astro-cid-xvrfupwn>2. Quality of Service (QoS) Classes</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#3-resourcequota-and-limitrange" data-astro-cid-xvrfupwn>3. ResourceQuota and LimitRange</a></li><li class="d-2" data-astro-cid-xvrfupwn><a href="#health-checks-and-probes-health-checks" data-astro-cid-xvrfupwn>Health Checks and Probes {#health-checks}</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#1-liveness-probe" data-astro-cid-xvrfupwn>1. Liveness Probe</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#2-readiness-probe" data-astro-cid-xvrfupwn>2. Readiness Probe</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#3-startup-probe-for-slow-starting-apps" data-astro-cid-xvrfupwn>3. Startup Probe (for slow-starting apps)</a></li><li class="d-2" data-astro-cid-xvrfupwn><a href="#deployment-strategies-deployment-strategies" data-astro-cid-xvrfupwn>Deployment Strategies {#deployment-strategies}</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#1-rolling-update-default" data-astro-cid-xvrfupwn>1. Rolling Update (Default)</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#2-blue-green-deployment" data-astro-cid-xvrfupwn>2. Blue-Green Deployment</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#3-canary-deployment" data-astro-cid-xvrfupwn>3. Canary Deployment</a></li><li class="d-2" data-astro-cid-xvrfupwn><a href="#configuration-management-configuration" data-astro-cid-xvrfupwn>Configuration Management {#configuration}</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#1-configmaps" data-astro-cid-xvrfupwn>1. ConfigMaps</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#2-secrets" data-astro-cid-xvrfupwn>2. Secrets</a></li><li class="d-2" data-astro-cid-xvrfupwn><a href="#scaling-and-autoscaling-scaling" data-astro-cid-xvrfupwn>Scaling and Autoscaling {#scaling}</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#1-horizontal-pod-autoscaler-hpa" data-astro-cid-xvrfupwn>1. Horizontal Pod Autoscaler (HPA)</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#2-vertical-pod-autoscaler-vpa" data-astro-cid-xvrfupwn>2. Vertical Pod Autoscaler (VPA)</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#3-custom-metrics-keda" data-astro-cid-xvrfupwn>3. Custom Metrics (KEDA)</a></li><li class="d-2" data-astro-cid-xvrfupwn><a href="#security-best-practices-security" data-astro-cid-xvrfupwn>Security Best Practices {#security}</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#1-pod-security-standards" data-astro-cid-xvrfupwn>1. Pod Security Standards</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#2-security-context" data-astro-cid-xvrfupwn>2. Security Context</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#3-network-policies" data-astro-cid-xvrfupwn>3. Network Policies</a></li><li class="d-2" data-astro-cid-xvrfupwn><a href="#monitoring-and-logging-monitoring" data-astro-cid-xvrfupwn>Monitoring and Logging {#monitoring}</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#1-prometheus-monitoring" data-astro-cid-xvrfupwn>1. Prometheus Monitoring</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#2-servicemonitor-prometheus-operator" data-astro-cid-xvrfupwn>2. ServiceMonitor (Prometheus Operator)</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#3-logging-with-fluentd" data-astro-cid-xvrfupwn>3. Logging with Fluentd</a></li><li class="d-2" data-astro-cid-xvrfupwn><a href="#production-checklist-checklist" data-astro-cid-xvrfupwn>Production Checklist {#checklist}</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#pre-deployment" data-astro-cid-xvrfupwn>Pre-Deployment:</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#during-deployment" data-astro-cid-xvrfupwn>During Deployment:</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#post-deployment" data-astro-cid-xvrfupwn>Post-Deployment:</a></li><li class="d-2" data-astro-cid-xvrfupwn><a href="#conclusion" data-astro-cid-xvrfupwn>Conclusion</a></li><li class="d-2" data-astro-cid-xvrfupwn><a href="#resources" data-astro-cid-xvrfupwn>Resources</a></li> </ul> </nav>  </aside> <article class="post" data-astro-cid-rkg3zjxi> <header class="post-header" data-astro-cid-rkg3zjxi> <h1 data-astro-cid-rkg3zjxi>Kubernetes Deployment Best Practices: Production-Ready Guide</h1> <div class="meta" data-astro-cid-rkg3zjxi> <time datetime="2025-11-01T12:00:00.000Z" data-astro-cid-rkg3zjxi>Sat Nov 01 2025</time> <span data-astro-cid-rkg3zjxi>• 8 min read</span> </div> <div class="tag-row" data-astro-cid-rkg3zjxi><span class="tag" data-astro-cid-rkg3zjxi>Kubernetes</span><span class="tag" data-astro-cid-rkg3zjxi>DevOps</span><span class="tag" data-astro-cid-rkg3zjxi>Cloud Native</span></div> </header> <div class="post-body prose" data-astro-cid-rkg3zjxi> <h1 id="kubernetes-deployment-best-practices-production-ready-guide">Kubernetes Deployment Best Practices: Production-Ready Guide</h1>
+<p>Deploying applications to Kubernetes is more than just writing a Deployment YAML. This comprehensive guide covers everything you need to know to run production-grade applications on Kubernetes successfully.</p>
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol>
+<li><a href="#fundamentals">Deployment Fundamentals</a></li>
+<li><a href="#resources">Resource Management</a></li>
+<li><a href="#health-checks">Health Checks and Probes</a></li>
+<li><a href="#deployment-strategies">Deployment Strategies</a></li>
+<li><a href="#configuration">Configuration Management</a></li>
+<li><a href="#scaling">Scaling and Autoscaling</a></li>
+<li><a href="#security">Security Best Practices</a></li>
+<li><a href="#monitoring">Monitoring and Logging</a></li>
+<li><a href="#checklist">Production Checklist</a></li>
+</ol>
+<h2 id="deployment-fundamentals-fundamentals">Deployment Fundamentals {#fundamentals}</h2>
+<h3 id="basic-deployment-structure">Basic Deployment Structure</h3>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apps/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Deployment</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">production</span></span>
+<span class="line"><span style="color:#7EE787">  labels</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    app</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp</span></span>
+<span class="line"><span style="color:#7EE787">    version</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">v1.0.0</span></span>
+<span class="line"><span style="color:#7EE787">    environment</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">production</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  replicas</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">3</span></span>
+<span class="line"><span style="color:#7EE787">  revisionHistoryLimit</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">10</span></span>
+<span class="line"><span style="color:#7EE787">  selector</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    matchLabels</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      app</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp</span></span>
+<span class="line"><span style="color:#7EE787">  template</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      labels</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        app</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp</span></span>
+<span class="line"><span style="color:#7EE787">        version</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">v1.0.0</span></span>
+<span class="line"><span style="color:#7EE787">    spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      containers</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp</span></span>
+<span class="line"><span style="color:#7EE787">        image</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myregistry.com/myapp:1.0.0</span></span>
+<span class="line"><span style="color:#7EE787">        imagePullPolicy</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">IfNotPresent</span></span>
+<span class="line"><span style="color:#7EE787">        ports</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">containerPort</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">8080</span></span>
+<span class="line"><span style="color:#7EE787">          name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">http</span></span>
+<span class="line"><span style="color:#7EE787">          protocol</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">TCP</span></span>
+<span class="line"></span></code></pre>
+<h3 id="key-components-explained">Key Components Explained</h3>
+<p><strong>Deployment Spec:</strong></p>
+<ul>
+<li><code>replicas</code>: Number of pod instances</li>
+<li><code>revisionHistoryLimit</code>: Number of old ReplicaSets to retain</li>
+<li><code>selector</code>: Identifies pods managed by this deployment</li>
+<li><code>template</code>: Pod template specification</li>
+</ul>
+<h2 id="resource-management-resources">Resource Management {#resources}</h2>
+<h3 id="1-resource-requests-and-limits">1. Resource Requests and Limits</h3>
+<p><strong>Critical for production stability:</strong></p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apps/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Deployment</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  template</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      containers</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp</span></span>
+<span class="line"><span style="color:#7EE787">        image</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp:1.0.0</span></span>
+<span class="line"><span style="color:#7EE787">        resources</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          requests</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            memory</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"256Mi"</span></span>
+<span class="line"><span style="color:#7EE787">            cpu</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"250m"</span></span>
+<span class="line"><span style="color:#7EE787">          limits</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            memory</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"512Mi"</span></span>
+<span class="line"><span style="color:#7EE787">            cpu</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"500m"</span></span>
+<span class="line"></span></code></pre>
+<p><strong>Understanding Resources:</strong></p>
+<ul>
+<li><strong>Requests</strong>: Guaranteed resources (used for scheduling)</li>
+<li><strong>Limits</strong>: Maximum resources (hard caps)</li>
+<li><strong>CPU</strong>: Measured in millicores (m)</li>
+<li><strong>Memory</strong>: Measured in bytes (Mi, Gi)</li>
+</ul>
+<p><strong>Best Practices:</strong></p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#8B949E"># Good: Requests = Limits for critical workloads (Guaranteed QoS)</span></span>
+<span class="line"><span style="color:#7EE787">resources</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  requests</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    memory</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"1Gi"</span></span>
+<span class="line"><span style="color:#7EE787">    cpu</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"1000m"</span></span>
+<span class="line"><span style="color:#7EE787">  limits</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    memory</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"1Gi"</span></span>
+<span class="line"><span style="color:#7EE787">    cpu</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"1000m"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E"># Good: Slightly higher limits for burstable workloads</span></span>
+<span class="line"><span style="color:#7EE787">resources</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  requests</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    memory</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"512Mi"</span></span>
+<span class="line"><span style="color:#7EE787">    cpu</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"500m"</span></span>
+<span class="line"><span style="color:#7EE787">  limits</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    memory</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"1Gi"</span></span>
+<span class="line"><span style="color:#7EE787">    cpu</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"1000m"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E"># Bad: No limits (risk of resource exhaustion)</span></span>
+<span class="line"><span style="color:#7EE787">resources</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  requests</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    memory</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"256Mi"</span></span>
+<span class="line"><span style="color:#7EE787">    cpu</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"250m"</span></span>
+<span class="line"><span style="color:#8B949E">  # No limits defined!</span></span>
+<span class="line"></span></code></pre>
+<h3 id="2-quality-of-service-qos-classes">2. Quality of Service (QoS) Classes</h3>
+<p><strong>Guaranteed:</strong></p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#8B949E"># Highest priority, won't be evicted</span></span>
+<span class="line"><span style="color:#7EE787">resources</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  requests</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    memory</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"1Gi"</span></span>
+<span class="line"><span style="color:#7EE787">    cpu</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"1"</span></span>
+<span class="line"><span style="color:#7EE787">  limits</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    memory</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"1Gi"</span></span>
+<span class="line"><span style="color:#7EE787">    cpu</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"1"</span></span>
+<span class="line"></span></code></pre>
+<p><strong>Burstable:</strong></p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#8B949E"># Medium priority, can use extra resources</span></span>
+<span class="line"><span style="color:#7EE787">resources</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  requests</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    memory</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"512Mi"</span></span>
+<span class="line"><span style="color:#7EE787">    cpu</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"500m"</span></span>
+<span class="line"><span style="color:#7EE787">  limits</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    memory</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"2Gi"</span></span>
+<span class="line"><span style="color:#7EE787">    cpu</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"2"</span></span>
+<span class="line"></span></code></pre>
+<p><strong>BestEffort:</strong></p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#8B949E"># Lowest priority, first to be evicted</span></span>
+<span class="line"><span style="color:#8B949E"># No resources specified</span></span>
+<span class="line"></span></code></pre>
+<h3 id="3-resourcequota-and-limitrange">3. ResourceQuota and LimitRange</h3>
+<p><strong>Namespace ResourceQuota:</strong></p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ResourceQuota</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">production-quota</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">production</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  hard</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    requests.cpu</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"100"</span></span>
+<span class="line"><span style="color:#7EE787">    requests.memory</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"200Gi"</span></span>
+<span class="line"><span style="color:#7EE787">    limits.cpu</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"200"</span></span>
+<span class="line"><span style="color:#7EE787">    limits.memory</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"400Gi"</span></span>
+<span class="line"><span style="color:#7EE787">    pods</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"50"</span></span>
+<span class="line"><span style="color:#7EE787">    services</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"20"</span></span>
+<span class="line"></span></code></pre>
+<p><strong>LimitRange for defaults:</strong></p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">LimitRange</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">default-limits</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">production</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  limits</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">default</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      memory</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"512Mi"</span></span>
+<span class="line"><span style="color:#7EE787">      cpu</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"500m"</span></span>
+<span class="line"><span style="color:#7EE787">    defaultRequest</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      memory</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"256Mi"</span></span>
+<span class="line"><span style="color:#7EE787">      cpu</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"250m"</span></span>
+<span class="line"><span style="color:#7EE787">    type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Container</span></span>
+<span class="line"></span></code></pre>
+<h2 id="health-checks-and-probes-health-checks">Health Checks and Probes {#health-checks}</h2>
+<h3 id="1-liveness-probe">1. Liveness Probe</h3>
+<p>Determines if container is running. Restarts on failure.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  containers</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp</span></span>
+<span class="line"><span style="color:#7EE787">    image</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp:1.0.0</span></span>
+<span class="line"><span style="color:#7EE787">    livenessProbe</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      httpGet</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        path</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/actuator/health/liveness</span></span>
+<span class="line"><span style="color:#7EE787">        port</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">8080</span></span>
+<span class="line"><span style="color:#7EE787">        scheme</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">HTTP</span></span>
+<span class="line"><span style="color:#7EE787">      initialDelaySeconds</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">60</span></span>
+<span class="line"><span style="color:#7EE787">      periodSeconds</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">10</span></span>
+<span class="line"><span style="color:#7EE787">      timeoutSeconds</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">5</span></span>
+<span class="line"><span style="color:#7EE787">      successThreshold</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#7EE787">      failureThreshold</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">3</span></span>
+<span class="line"></span></code></pre>
+<p><strong>Alternative Probe Types:</strong></p>
+<p><strong>Exec Probe:</strong></p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">livenessProbe</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  exec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    command</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#A5D6FF">/bin/sh</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#A5D6FF">-c</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#A5D6FF">"pgrep java || exit 1"</span></span>
+<span class="line"><span style="color:#7EE787">  initialDelaySeconds</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">30</span></span>
+<span class="line"><span style="color:#7EE787">  periodSeconds</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">10</span></span>
+<span class="line"></span></code></pre>
+<p><strong>TCP Socket Probe:</strong></p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">livenessProbe</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  tcpSocket</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    port</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">8080</span></span>
+<span class="line"><span style="color:#7EE787">  initialDelaySeconds</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">15</span></span>
+<span class="line"><span style="color:#7EE787">  periodSeconds</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">10</span></span>
+<span class="line"></span></code></pre>
+<p><strong>gRPC Probe (Kubernetes 1.24+):</strong></p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">livenessProbe</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  grpc</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    port</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">9090</span></span>
+<span class="line"><span style="color:#7EE787">  initialDelaySeconds</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">30</span></span>
+<span class="line"></span></code></pre>
+<h3 id="2-readiness-probe">2. Readiness Probe</h3>
+<p>Determines if container can accept traffic.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  containers</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp</span></span>
+<span class="line"><span style="color:#7EE787">    readinessProbe</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      httpGet</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        path</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/actuator/health/readiness</span></span>
+<span class="line"><span style="color:#7EE787">        port</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">8080</span></span>
+<span class="line"><span style="color:#7EE787">      initialDelaySeconds</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">30</span></span>
+<span class="line"><span style="color:#7EE787">      periodSeconds</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">5</span></span>
+<span class="line"><span style="color:#7EE787">      timeoutSeconds</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">3</span></span>
+<span class="line"><span style="color:#7EE787">      successThreshold</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#7EE787">      failureThreshold</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">3</span></span>
+<span class="line"></span></code></pre>
+<h3 id="3-startup-probe-for-slow-starting-apps">3. Startup Probe (for slow-starting apps)</h3>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  containers</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp</span></span>
+<span class="line"><span style="color:#7EE787">    startupProbe</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      httpGet</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        path</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/actuator/health/startup</span></span>
+<span class="line"><span style="color:#7EE787">        port</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">8080</span></span>
+<span class="line"><span style="color:#7EE787">      initialDelaySeconds</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">0</span></span>
+<span class="line"><span style="color:#7EE787">      periodSeconds</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">10</span></span>
+<span class="line"><span style="color:#7EE787">      failureThreshold</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">30</span><span style="color:#8B949E">  # Allow up to 5 minutes for startup</span></span>
+<span class="line"><span style="color:#7EE787">      timeoutSeconds</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">5</span></span>
+<span class="line"></span></code></pre>
+<p><strong>Complete Health Check Example:</strong></p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apps/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Deployment</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  template</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      containers</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp</span></span>
+<span class="line"><span style="color:#7EE787">        image</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp:1.0.0</span></span>
+<span class="line"><span style="color:#7EE787">        ports</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">containerPort</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">8080</span></span>
+<span class="line"><span style="color:#E6EDF3">        </span></span>
+<span class="line"><span style="color:#8B949E">        # Startup probe - gives app time to start</span></span>
+<span class="line"><span style="color:#7EE787">        startupProbe</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          httpGet</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            path</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/health/startup</span></span>
+<span class="line"><span style="color:#7EE787">            port</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">8080</span></span>
+<span class="line"><span style="color:#7EE787">          failureThreshold</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">30</span></span>
+<span class="line"><span style="color:#7EE787">          periodSeconds</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">10</span></span>
+<span class="line"><span style="color:#E6EDF3">        </span></span>
+<span class="line"><span style="color:#8B949E">        # Readiness probe - determines traffic eligibility</span></span>
+<span class="line"><span style="color:#7EE787">        readinessProbe</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          httpGet</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            path</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/health/ready</span></span>
+<span class="line"><span style="color:#7EE787">            port</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">8080</span></span>
+<span class="line"><span style="color:#7EE787">          initialDelaySeconds</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">10</span></span>
+<span class="line"><span style="color:#7EE787">          periodSeconds</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">5</span></span>
+<span class="line"><span style="color:#7EE787">          failureThreshold</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">3</span></span>
+<span class="line"><span style="color:#E6EDF3">        </span></span>
+<span class="line"><span style="color:#8B949E">        # Liveness probe - restarts if unhealthy</span></span>
+<span class="line"><span style="color:#7EE787">        livenessProbe</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          httpGet</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            path</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/health/live</span></span>
+<span class="line"><span style="color:#7EE787">            port</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">8080</span></span>
+<span class="line"><span style="color:#7EE787">          initialDelaySeconds</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">60</span></span>
+<span class="line"><span style="color:#7EE787">          periodSeconds</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">10</span></span>
+<span class="line"><span style="color:#7EE787">          failureThreshold</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">3</span></span>
+<span class="line"></span></code></pre>
+<h2 id="deployment-strategies-deployment-strategies">Deployment Strategies {#deployment-strategies}</h2>
+<h3 id="1-rolling-update-default">1. Rolling Update (Default)</h3>
+<p>Gradually replaces old pods with new ones.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apps/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Deployment</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  replicas</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">10</span></span>
+<span class="line"><span style="color:#7EE787">  strategy</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">RollingUpdate</span></span>
+<span class="line"><span style="color:#7EE787">    rollingUpdate</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      maxUnavailable</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span><span style="color:#8B949E">      # Max pods unavailable during update</span></span>
+<span class="line"><span style="color:#7EE787">      maxSurge</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">2</span><span style="color:#8B949E">            # Max extra pods during update</span></span>
+<span class="line"><span style="color:#7EE787">  template</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      containers</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp</span></span>
+<span class="line"><span style="color:#7EE787">        image</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp:2.0.0</span></span>
+<span class="line"></span></code></pre>
+<p><strong>Characteristics:</strong></p>
+<ul>
+<li>✅ Zero downtime</li>
+<li>✅ Gradual rollout</li>
+<li>⚠️ Both versions run simultaneously</li>
+<li>⚠️ Slower deployment</li>
+</ul>
+<h3 id="2-blue-green-deployment">2. Blue-Green Deployment</h3>
+<p>Run new version alongside old, switch traffic when ready.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#8B949E"># Blue deployment (current)</span></span>
+<span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apps/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Deployment</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp-blue</span></span>
+<span class="line"><span style="color:#7EE787">  labels</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    app</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp</span></span>
+<span class="line"><span style="color:#7EE787">    version</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">blue</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  replicas</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">3</span></span>
+<span class="line"><span style="color:#7EE787">  selector</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    matchLabels</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      app</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp</span></span>
+<span class="line"><span style="color:#7EE787">      version</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">blue</span></span>
+<span class="line"><span style="color:#7EE787">  template</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      labels</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        app</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp</span></span>
+<span class="line"><span style="color:#7EE787">        version</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">blue</span></span>
+<span class="line"><span style="color:#7EE787">    spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      containers</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp</span></span>
+<span class="line"><span style="color:#7EE787">        image</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp:1.0.0</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79C0FF">---</span></span>
+<span class="line"><span style="color:#8B949E"># Green deployment (new)</span></span>
+<span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apps/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Deployment</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp-green</span></span>
+<span class="line"><span style="color:#7EE787">  labels</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    app</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp</span></span>
+<span class="line"><span style="color:#7EE787">    version</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">green</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  replicas</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">3</span></span>
+<span class="line"><span style="color:#7EE787">  selector</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    matchLabels</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      app</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp</span></span>
+<span class="line"><span style="color:#7EE787">      version</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">green</span></span>
+<span class="line"><span style="color:#7EE787">  template</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      labels</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        app</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp</span></span>
+<span class="line"><span style="color:#7EE787">        version</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">green</span></span>
+<span class="line"><span style="color:#7EE787">    spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      containers</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp</span></span>
+<span class="line"><span style="color:#7EE787">        image</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp:2.0.0</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79C0FF">---</span></span>
+<span class="line"><span style="color:#8B949E"># Service (switch selector to green when ready)</span></span>
+<span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Service</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  selector</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    app</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp</span></span>
+<span class="line"><span style="color:#7EE787">    version</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">blue</span><span style="color:#8B949E">    # Change to 'green' when ready to switch</span></span>
+<span class="line"><span style="color:#7EE787">  ports</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">port</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">80</span></span>
+<span class="line"><span style="color:#7EE787">    targetPort</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">8080</span></span>
+<span class="line"></span></code></pre>
+<p><strong>Characteristics:</strong></p>
+<ul>
+<li>✅ Instant rollback</li>
+<li>✅ Full testing before switch</li>
+<li>⚠️ Requires 2x resources</li>
+<li>⚠️ Database migrations complex</li>
+</ul>
+<h3 id="3-canary-deployment">3. Canary Deployment</h3>
+<p>Gradually shift traffic to new version.</p>
+<p><strong>Using Istio:</strong></p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">networking.istio.io/v1beta1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">VirtualService</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  hosts</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">myapp</span></span>
+<span class="line"><span style="color:#7EE787">  http</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">match</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">headers</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        user-type</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          exact</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">beta-tester</span></span>
+<span class="line"><span style="color:#7EE787">    route</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">destination</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        host</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp</span></span>
+<span class="line"><span style="color:#7EE787">        subset</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">v2</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">route</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">destination</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        host</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp</span></span>
+<span class="line"><span style="color:#7EE787">        subset</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">v1</span></span>
+<span class="line"><span style="color:#7EE787">      weight</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">90</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">destination</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        host</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp</span></span>
+<span class="line"><span style="color:#7EE787">        subset</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">v2</span></span>
+<span class="line"><span style="color:#7EE787">      weight</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">10</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79C0FF">---</span></span>
+<span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">networking.istio.io/v1beta1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">DestinationRule</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  host</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp</span></span>
+<span class="line"><span style="color:#7EE787">  subsets</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">v1</span></span>
+<span class="line"><span style="color:#7EE787">    labels</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      version</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">v1</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">v2</span></span>
+<span class="line"><span style="color:#7EE787">    labels</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      version</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">v2</span></span>
+<span class="line"></span></code></pre>
+<p><strong>Using Argo Rollouts:</strong></p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">argoproj.io/v1alpha1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Rollout</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  replicas</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">10</span></span>
+<span class="line"><span style="color:#7EE787">  strategy</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    canary</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      steps</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">setWeight</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">10</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">pause</span><span style="color:#E6EDF3">: {</span><span style="color:#7EE787">duration</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">5m</span><span style="color:#E6EDF3">}</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">setWeight</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">25</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">pause</span><span style="color:#E6EDF3">: {</span><span style="color:#7EE787">duration</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">5m</span><span style="color:#E6EDF3">}</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">setWeight</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">50</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">pause</span><span style="color:#E6EDF3">: {</span><span style="color:#7EE787">duration</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">5m</span><span style="color:#E6EDF3">}</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">setWeight</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">75</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">pause</span><span style="color:#E6EDF3">: {</span><span style="color:#7EE787">duration</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">5m</span><span style="color:#E6EDF3">}</span></span>
+<span class="line"><span style="color:#7EE787">  template</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      containers</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp</span></span>
+<span class="line"><span style="color:#7EE787">        image</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp:2.0.0</span></span>
+<span class="line"></span></code></pre>
+<h2 id="configuration-management-configuration">Configuration Management {#configuration}</h2>
+<h3 id="1-configmaps">1. ConfigMaps</h3>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ConfigMap</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp-config</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">production</span></span>
+<span class="line"><span style="color:#7EE787">data</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  application.yaml</span><span style="color:#E6EDF3">: </span><span style="color:#FF7B72">|</span></span>
+<span class="line"><span style="color:#A5D6FF">    server:</span></span>
+<span class="line"><span style="color:#A5D6FF">      port: 8080</span></span>
+<span class="line"><span style="color:#A5D6FF">    spring:</span></span>
+<span class="line"><span style="color:#A5D6FF">      datasource:</span></span>
+<span class="line"><span style="color:#A5D6FF">        url: jdbc:postgresql://db:5432/mydb</span></span>
+<span class="line"><span style="color:#7EE787">  log-level</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"INFO"</span></span>
+<span class="line"><span style="color:#7EE787">  cache-size</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"1000"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79C0FF">---</span></span>
+<span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apps/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Deployment</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  template</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      containers</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp</span></span>
+<span class="line"><span style="color:#7EE787">        image</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp:1.0.0</span></span>
+<span class="line"><span style="color:#7EE787">        env</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">LOG_LEVEL</span></span>
+<span class="line"><span style="color:#7EE787">          valueFrom</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            configMapKeyRef</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">              name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp-config</span></span>
+<span class="line"><span style="color:#7EE787">              key</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">log-level</span></span>
+<span class="line"><span style="color:#7EE787">        volumeMounts</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">config</span></span>
+<span class="line"><span style="color:#7EE787">          mountPath</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/config</span></span>
+<span class="line"><span style="color:#7EE787">      volumes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">config</span></span>
+<span class="line"><span style="color:#7EE787">        configMap</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp-config</span></span>
+<span class="line"></span></code></pre>
+<h3 id="2-secrets">2. Secrets</h3>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Secret</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp-secrets</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">production</span></span>
+<span class="line"><span style="color:#7EE787">type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Opaque</span></span>
+<span class="line"><span style="color:#7EE787">stringData</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  database-password</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"supersecret"</span></span>
+<span class="line"><span style="color:#7EE787">  api-key</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"abc123def456"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79C0FF">---</span></span>
+<span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apps/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Deployment</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  template</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      containers</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp</span></span>
+<span class="line"><span style="color:#7EE787">        env</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">DB_PASSWORD</span></span>
+<span class="line"><span style="color:#7EE787">          valueFrom</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            secretKeyRef</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">              name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp-secrets</span></span>
+<span class="line"><span style="color:#7EE787">              key</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">database-password</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">API_KEY</span></span>
+<span class="line"><span style="color:#7EE787">          valueFrom</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            secretKeyRef</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">              name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp-secrets</span></span>
+<span class="line"><span style="color:#7EE787">              key</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">api-key</span></span>
+<span class="line"></span></code></pre>
+<p><strong>Best Practice: Use External Secrets Operator</strong></p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">external-secrets.io/v1beta1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ExternalSecret</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp-secrets</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  refreshInterval</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">1h</span></span>
+<span class="line"><span style="color:#7EE787">  secretStoreRef</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aws-secrets-manager</span></span>
+<span class="line"><span style="color:#7EE787">    kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">SecretStore</span></span>
+<span class="line"><span style="color:#7EE787">  target</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp-secrets</span></span>
+<span class="line"><span style="color:#7EE787">  data</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">secretKey</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">database-password</span></span>
+<span class="line"><span style="color:#7EE787">    remoteRef</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      key</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">prod/myapp/db</span></span>
+<span class="line"><span style="color:#7EE787">      property</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">password</span></span>
+<span class="line"></span></code></pre>
+<h2 id="scaling-and-autoscaling-scaling">Scaling and Autoscaling {#scaling}</h2>
+<h3 id="1-horizontal-pod-autoscaler-hpa">1. Horizontal Pod Autoscaler (HPA)</h3>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">autoscaling/v2</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">HorizontalPodAutoscaler</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp-hpa</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  scaleTargetRef</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apps/v1</span></span>
+<span class="line"><span style="color:#7EE787">    kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Deployment</span></span>
+<span class="line"><span style="color:#7EE787">    name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp</span></span>
+<span class="line"><span style="color:#7EE787">  minReplicas</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">3</span></span>
+<span class="line"><span style="color:#7EE787">  maxReplicas</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">50</span></span>
+<span class="line"><span style="color:#7EE787">  metrics</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Resource</span></span>
+<span class="line"><span style="color:#7EE787">    resource</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">cpu</span></span>
+<span class="line"><span style="color:#7EE787">      target</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Utilization</span></span>
+<span class="line"><span style="color:#7EE787">        averageUtilization</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">70</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Resource</span></span>
+<span class="line"><span style="color:#7EE787">    resource</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">memory</span></span>
+<span class="line"><span style="color:#7EE787">      target</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Utilization</span></span>
+<span class="line"><span style="color:#7EE787">        averageUtilization</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">80</span></span>
+<span class="line"><span style="color:#7EE787">  behavior</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    scaleDown</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      stabilizationWindowSeconds</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">300</span></span>
+<span class="line"><span style="color:#7EE787">      policies</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Percent</span></span>
+<span class="line"><span style="color:#7EE787">        value</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">50</span></span>
+<span class="line"><span style="color:#7EE787">        periodSeconds</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">60</span></span>
+<span class="line"><span style="color:#7EE787">    scaleUp</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      stabilizationWindowSeconds</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">0</span></span>
+<span class="line"><span style="color:#7EE787">      policies</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Percent</span></span>
+<span class="line"><span style="color:#7EE787">        value</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">100</span></span>
+<span class="line"><span style="color:#7EE787">        periodSeconds</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">15</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Pods</span></span>
+<span class="line"><span style="color:#7EE787">        value</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">4</span></span>
+<span class="line"><span style="color:#7EE787">        periodSeconds</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">15</span></span>
+<span class="line"><span style="color:#7EE787">      selectPolicy</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Max</span></span>
+<span class="line"></span></code></pre>
+<h3 id="2-vertical-pod-autoscaler-vpa">2. Vertical Pod Autoscaler (VPA)</h3>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">autoscaling.k8s.io/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">VerticalPodAutoscaler</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp-vpa</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  targetRef</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apps/v1</span></span>
+<span class="line"><span style="color:#7EE787">    kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Deployment</span></span>
+<span class="line"><span style="color:#7EE787">    name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp</span></span>
+<span class="line"><span style="color:#7EE787">  updatePolicy</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    updateMode</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"Auto"</span></span>
+<span class="line"><span style="color:#7EE787">  resourcePolicy</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    containerPolicies</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">containerName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp</span></span>
+<span class="line"><span style="color:#7EE787">      minAllowed</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        cpu</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"250m"</span></span>
+<span class="line"><span style="color:#7EE787">        memory</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"256Mi"</span></span>
+<span class="line"><span style="color:#7EE787">      maxAllowed</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        cpu</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"2"</span></span>
+<span class="line"><span style="color:#7EE787">        memory</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"4Gi"</span></span>
+<span class="line"></span></code></pre>
+<h3 id="3-custom-metrics-keda">3. Custom Metrics (KEDA)</h3>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">keda.sh/v1alpha1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ScaledObject</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp-scaler</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  scaleTargetRef</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp</span></span>
+<span class="line"><span style="color:#7EE787">  minReplicaCount</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">2</span></span>
+<span class="line"><span style="color:#7EE787">  maxReplicaCount</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">100</span></span>
+<span class="line"><span style="color:#7EE787">  triggers</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">rabbitmq</span></span>
+<span class="line"><span style="color:#7EE787">    metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      queueName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">tasks</span></span>
+<span class="line"><span style="color:#7EE787">      queueLength</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"10"</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">prometheus</span></span>
+<span class="line"><span style="color:#7EE787">    metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      serverAddress</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">http://prometheus:9090</span></span>
+<span class="line"><span style="color:#7EE787">      metricName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">http_requests_total</span></span>
+<span class="line"><span style="color:#7EE787">      threshold</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">'100'</span></span>
+<span class="line"><span style="color:#7EE787">      query</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">sum(rate(http_requests_total[1m]))</span></span>
+<span class="line"></span></code></pre>
+<h2 id="security-best-practices-security">Security Best Practices {#security}</h2>
+<h3 id="1-pod-security-standards">1. Pod Security Standards</h3>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Namespace</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">production</span></span>
+<span class="line"><span style="color:#7EE787">  labels</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    pod-security.kubernetes.io/enforce</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">restricted</span></span>
+<span class="line"><span style="color:#7EE787">    pod-security.kubernetes.io/audit</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">restricted</span></span>
+<span class="line"><span style="color:#7EE787">    pod-security.kubernetes.io/warn</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">restricted</span></span>
+<span class="line"></span></code></pre>
+<h3 id="2-security-context">2. Security Context</h3>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apps/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Deployment</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  template</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      securityContext</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        runAsNonRoot</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#7EE787">        runAsUser</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1000</span></span>
+<span class="line"><span style="color:#7EE787">        fsGroup</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">2000</span></span>
+<span class="line"><span style="color:#7EE787">        seccompProfile</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">RuntimeDefault</span></span>
+<span class="line"><span style="color:#7EE787">      containers</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp</span></span>
+<span class="line"><span style="color:#7EE787">        image</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp:1.0.0</span></span>
+<span class="line"><span style="color:#7EE787">        securityContext</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          allowPrivilegeEscalation</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">false</span></span>
+<span class="line"><span style="color:#7EE787">          readOnlyRootFilesystem</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#7EE787">          runAsNonRoot</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#7EE787">          runAsUser</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1000</span></span>
+<span class="line"><span style="color:#7EE787">          capabilities</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            drop</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">            - </span><span style="color:#A5D6FF">ALL</span></span>
+<span class="line"></span></code></pre>
+<h3 id="3-network-policies">3. Network Policies</h3>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">networking.k8s.io/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">NetworkPolicy</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp-network-policy</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  podSelector</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    matchLabels</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      app</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp</span></span>
+<span class="line"><span style="color:#7EE787">  policyTypes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">Ingress</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">Egress</span></span>
+<span class="line"><span style="color:#7EE787">  ingress</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">from</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">podSelector</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        matchLabels</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          role</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">frontend</span></span>
+<span class="line"><span style="color:#7EE787">    ports</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">protocol</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">TCP</span></span>
+<span class="line"><span style="color:#7EE787">      port</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">8080</span></span>
+<span class="line"><span style="color:#7EE787">  egress</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">to</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">podSelector</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        matchLabels</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          role</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">database</span></span>
+<span class="line"><span style="color:#7EE787">    ports</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">protocol</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">TCP</span></span>
+<span class="line"><span style="color:#7EE787">      port</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">5432</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">to</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">namespaceSelector</span><span style="color:#E6EDF3">: {}</span></span>
+<span class="line"><span style="color:#7EE787">    ports</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">protocol</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">TCP</span></span>
+<span class="line"><span style="color:#7EE787">      port</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">53</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">protocol</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">UDP</span></span>
+<span class="line"><span style="color:#7EE787">      port</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">53</span></span>
+<span class="line"></span></code></pre>
+<h2 id="monitoring-and-logging-monitoring">Monitoring and Logging {#monitoring}</h2>
+<h3 id="1-prometheus-monitoring">1. Prometheus Monitoring</h3>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Service</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp</span></span>
+<span class="line"><span style="color:#7EE787">  labels</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    app</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp</span></span>
+<span class="line"><span style="color:#7EE787">  annotations</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    prometheus.io/scrape</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"true"</span></span>
+<span class="line"><span style="color:#7EE787">    prometheus.io/port</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"8080"</span></span>
+<span class="line"><span style="color:#7EE787">    prometheus.io/path</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"/actuator/prometheus"</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  selector</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    app</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp</span></span>
+<span class="line"><span style="color:#7EE787">  ports</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">port</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">80</span></span>
+<span class="line"><span style="color:#7EE787">    targetPort</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">8080</span></span>
+<span class="line"></span></code></pre>
+<h3 id="2-servicemonitor-prometheus-operator">2. ServiceMonitor (Prometheus Operator)</h3>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">monitoring.coreos.com/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ServiceMonitor</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp</span></span>
+<span class="line"><span style="color:#7EE787">  labels</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    app</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  selector</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    matchLabels</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      app</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">myapp</span></span>
+<span class="line"><span style="color:#7EE787">  endpoints</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">port</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">http</span></span>
+<span class="line"><span style="color:#7EE787">    path</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/actuator/prometheus</span></span>
+<span class="line"><span style="color:#7EE787">    interval</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">30s</span></span>
+<span class="line"></span></code></pre>
+<h3 id="3-logging-with-fluentd">3. Logging with Fluentd</h3>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ConfigMap</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">fluentd-config</span></span>
+<span class="line"><span style="color:#7EE787">data</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  fluent.conf</span><span style="color:#E6EDF3">: </span><span style="color:#FF7B72">|</span></span>
+<span class="line"><span style="color:#A5D6FF">    &#x3C;source></span></span>
+<span class="line"><span style="color:#A5D6FF">      @type tail</span></span>
+<span class="line"><span style="color:#A5D6FF">      path /var/log/containers/*.log</span></span>
+<span class="line"><span style="color:#A5D6FF">      pos_file /var/log/fluentd-containers.log.pos</span></span>
+<span class="line"><span style="color:#A5D6FF">      tag kubernetes.*</span></span>
+<span class="line"><span style="color:#A5D6FF">      &#x3C;parse></span></span>
+<span class="line"><span style="color:#A5D6FF">        @type json</span></span>
+<span class="line"><span style="color:#A5D6FF">        time_format %Y-%m-%dT%H:%M:%S.%NZ</span></span>
+<span class="line"><span style="color:#A5D6FF">      &#x3C;/parse></span></span>
+<span class="line"><span style="color:#A5D6FF">    &#x3C;/source></span></span>
+<span class="line"><span style="color:#A5D6FF">    </span></span>
+<span class="line"><span style="color:#A5D6FF">    &#x3C;filter kubernetes.**></span></span>
+<span class="line"><span style="color:#A5D6FF">      @type kubernetes_metadata</span></span>
+<span class="line"><span style="color:#A5D6FF">    &#x3C;/filter></span></span>
+<span class="line"><span style="color:#A5D6FF">    </span></span>
+<span class="line"><span style="color:#A5D6FF">    &#x3C;match kubernetes.**></span></span>
+<span class="line"><span style="color:#A5D6FF">      @type elasticsearch</span></span>
+<span class="line"><span style="color:#A5D6FF">      host elasticsearch</span></span>
+<span class="line"><span style="color:#A5D6FF">      port 9200</span></span>
+<span class="line"><span style="color:#A5D6FF">      logstash_format true</span></span>
+<span class="line"><span style="color:#A5D6FF">    &#x3C;/match></span></span>
+<span class="line"></span></code></pre>
+<h2 id="production-checklist-checklist">Production Checklist {#checklist}</h2>
+<h3 id="pre-deployment">Pre-Deployment:</h3>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled> Resource requests and limits defined</li>
+<li class="task-list-item"><input type="checkbox" disabled> Health probes configured (liveness, readiness, startup)</li>
+<li class="task-list-item"><input type="checkbox" disabled> Security context applied</li>
+<li class="task-list-item"><input type="checkbox" disabled> Network policies in place</li>
+<li class="task-list-item"><input type="checkbox" disabled> Secrets externalized</li>
+<li class="task-list-item"><input type="checkbox" disabled> Monitoring and logging configured</li>
+<li class="task-list-item"><input type="checkbox" disabled> HPA configured for scaling</li>
+<li class="task-list-item"><input type="checkbox" disabled> PodDisruptionBudget defined</li>
+<li class="task-list-item"><input type="checkbox" disabled> Multi-zone deployment</li>
+<li class="task-list-item"><input type="checkbox" disabled> Backup strategy defined</li>
+</ul>
+<h3 id="during-deployment">During Deployment:</h3>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled> Use rolling update strategy</li>
+<li class="task-list-item"><input type="checkbox" disabled> Monitor error rates</li>
+<li class="task-list-item"><input type="checkbox" disabled> Watch resource usage</li>
+<li class="task-list-item"><input type="checkbox" disabled> Check logs for errors</li>
+<li class="task-list-item"><input type="checkbox" disabled> Verify health probes passing</li>
+</ul>
+<h3 id="post-deployment">Post-Deployment:</h3>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled> Run smoke tests</li>
+<li class="task-list-item"><input type="checkbox" disabled> Verify metrics collection</li>
+<li class="task-list-item"><input type="checkbox" disabled> Check log aggregation</li>
+<li class="task-list-item"><input type="checkbox" disabled> Test rollback procedure</li>
+<li class="task-list-item"><input type="checkbox" disabled> Document deployment</li>
+<li class="task-list-item"><input type="checkbox" disabled> Update runbooks</li>
+</ul>
+<h2 id="conclusion">Conclusion</h2>
+<p>Successful Kubernetes deployments require attention to:</p>
+<ol>
+<li><strong>Resource Management</strong> - Right-size your applications</li>
+<li><strong>Health Checks</strong> - Ensure reliability</li>
+<li><strong>Security</strong> - Follow least privilege principle</li>
+<li><strong>Observability</strong> - Monitor everything</li>
+<li><strong>Scalability</strong> - Plan for growth</li>
+</ol>
+<p>Remember: Start simple, iterate based on actual needs and metrics.</p>
+<h2 id="resources">Resources</h2>
+<ul>
+<li><a href="https://kubernetes.io/docs/concepts/configuration/overview/">Kubernetes Best Practices</a></li>
+<li><a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/">Deployment Strategies</a></li>
+<li><a href="https://kubernetes.io/docs/concepts/security/pod-security-standards/">Pod Security Standards</a></li>
+<li><a href="https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/">Resource Management</a></li>
+</ul>
+<hr>
+<p><em>What Kubernetes practices have helped your team the most? Share your experiences!</em></p> </div> </article> </div> <div class="back-link" data-astro-cid-rkg3zjxi><a href="/ai-news/" data-astro-cid-rkg3zjxi>← Back to AI News</a></div>  </main> <footer class="site-footer container"> <p>© 2025 AREZKI El Mehdi • <a href="https://github.com/earezki">GitHub</a> • <a href="/rss.xml">RSS</a></p> </footer>  <script>
+      // Read/Unread article tracking
+      (function() {
+        const STORAGE_KEY = 'readArticles';
+        
+        function getReadArticles() {
+          try {
+            const data = localStorage.getItem(STORAGE_KEY);
+            return data ? JSON.parse(data) : [];
+          } catch (e) {
+            return [];
+          }
+        }
+        
+        function markArticleAsRead(url) {
+          try {
+            const readArticles = getReadArticles();
+            if (!readArticles.includes(url)) {
+              readArticles.push(url);
+              localStorage.setItem(STORAGE_KEY, JSON.stringify(readArticles));
+            }
+          } catch (e) {
+            console.error('Failed to mark article as read:', e);
+          }
+        }
+        
+        function isArticleRead(url) {
+          const readArticles = getReadArticles();
+          return readArticles.includes(url);
+        }
+        
+        // Update post cards on list pages
+        function updatePostCards() {
+          const postCards = document.querySelectorAll('.post-card[data-article-url]');
+          postCards.forEach(function(card) {
+            const url = card.getAttribute('data-article-url');
+            if (url) {
+              if (isArticleRead(url)) {
+                card.classList.add('read');
+                card.classList.remove('unread');
+              } else {
+                card.classList.add('unread');
+                card.classList.remove('read');
+              }
+            }
+          });
+        }
+        
+        // Mark current article as read (on article pages)
+        function markCurrentArticleAsRead() {
+          const isArticlePage = document.querySelector('.post-body');
+          if (isArticlePage) {
+            const currentPath = window.location.pathname;
+            markArticleAsRead(currentPath);
+          }
+        }
+        
+        // Initialize function
+        function init() {
+          updatePostCards();
+          markCurrentArticleAsRead();
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', init);
+        
+        // Handle back/forward navigation (bfcache)
+        window.addEventListener('pageshow', function(event) {
+          // If page is loaded from cache, update the cards
+          if (event.persisted) {
+            init();
+          }
+        });
+      })();
+    </script> </body> </html> 
