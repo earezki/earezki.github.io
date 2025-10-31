@@ -1,17 +1,44 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
 import PostCard from '../components/PostCard.astro';
 import SearchBox from '../components/SearchBox.astro';
 import readingTime from '../utils/readingTime';
 import { SITE } from '../config/site';
 
-const all = (await getCollection('posts'))
-  .map(p => ({ ...p, readingTime: readingTime(p.body) }))
-  .sort((a,b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
-const posts = all.slice(0, SITE.postsPerPage);
-const totalPages = Math.ceil(all.length / SITE.postsPerPage);
+// Fetch and sort all posts by publication date (newest first)
+const allPosts = (await getCollection('posts'))
+  .map((post: CollectionEntry<'posts'>) => ({ 
+    ...post, 
+    readingTime: readingTime(post.body) 
+  }))
+  .sort((a: any, b: any) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+
+// Paginate posts for first page
+const posts = allPosts.slice(0, SITE.postsPerPage);
+const totalPages = Math.ceil(allPosts.length / SITE.postsPerPage);
+
+// Structured data for SEO (JSON-LD)
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Dev|Journal',
+  url: 'https://earezki.com/',
+  author: {
+    '@type': 'Person',
+    name: 'El Mehdi Arezki',
+    url: 'https://earezki.com/about',
+    jobTitle: 'Lead Software Engineer',
+    sameAs: [
+      'https://github.com/earezki',
+      'https://www.linkedin.com/in/mehdi-arezki'
+    ]
+  },
+  description: 'Technical blog covering software architecture, backend development, and engineering best practices'
+};
 ---
+
 <BaseLayout 
   title="Dev|Journal - Software Architecture, Backend Development & Technical Insights" 
   description="Technical blog by El Mehdi Arezki - Lead Software Engineer. In-depth articles on software architecture, microservices, domain-driven design, Java, Python, and cloud-native development."
@@ -19,41 +46,50 @@ const totalPages = Math.ceil(all.length / SITE.postsPerPage);
   author="El Mehdi Arezki"
   canonical="/" 
   image="/assets/og-image-default.jpg"
-  structuredData={{
-    '@context': 'https://schema.org',
-    '@type': 'WebSite',
-    name: 'Dev|Journal',
-    url: 'https://earezki.com/',
-    author: {
-      '@type': 'Person',
-      name: 'El Mehdi Arezki',
-      url: 'https://earezki.com/about',
-      jobTitle: 'Lead Software Engineer',
-      sameAs: [
-        'https://github.com/earezki',
-        'https://www.linkedin.com/in/mehdi-arezki'
-      ]
-    },
-    description: 'Technical blog covering software architecture, backend development, and engineering best practices'
-  }}>
+  structuredData={structuredData}
+>
+  <!-- Screen reader only heading for accessibility -->
+  <h1 class="sr-only">
+    Dev|Journal - Software Architecture & Backend Development Blog
+  </h1>
   
-  <h1 class="sr-only">Dev|Journal - Software Architecture & Backend Development Blog</h1>
-  
+  <!-- Search functionality -->
   <SearchBox containerId="home" />
   
-  <section class="posts-grid">
-    {posts.map(p => <PostCard post={p} />)}
+  <!-- Posts grid -->
+  <section class="posts-grid" aria-label="Blog posts">
+    {posts.map((post: any) => <PostCard post={post} />)}
   </section>
   
+  <!-- Pagination -->
   {totalPages > 1 && (
     <nav class="pagination" aria-label="Pagination">
-      <a href="/page/2/" class="next">Older →</a>
+      <a href="/page/2/" rel="next">
+        Older →
+      </a>
     </nav>
   )}
 </BaseLayout>
 
 <style>
-  .pagination { display:flex; justify-content:flex-end; margin:2.5rem 0 1rem; font-size:.9rem; }
-  .pagination a { padding:.55rem 1rem; background:var(--color-bg-alt); border:1px solid var(--color-border); border-radius: var(--radius-pill); }
-  .pagination a:hover { background:var(--color-accent); color:#fff; border-color:var(--color-accent); }
+  .pagination { 
+    display: flex; 
+    justify-content: flex-end; 
+    margin: 2.5rem 0 1rem; 
+    font-size: 0.9rem; 
+  }
+  
+  .pagination a { 
+    padding: 0.55rem 1rem; 
+    background: var(--color-bg-alt); 
+    border: 1px solid var(--color-border); 
+    border-radius: var(--radius-pill);
+    transition: background var(--transition), color var(--transition), border-color var(--transition);
+  }
+  
+  .pagination a:hover { 
+    background: var(--color-accent); 
+    color: #fff; 
+    border-color: var(--color-accent); 
+  }
 </style>

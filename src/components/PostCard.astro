@@ -1,38 +1,94 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+
 interface Props { 
-  post: (CollectionEntry<'posts'> | CollectionEntry<'ainews'>) & { readingTime: { text: string } };
+  post: (CollectionEntry<'posts'> | CollectionEntry<'ainews'>) & { 
+    readingTime: { text: string } 
+  };
   collection?: 'posts' | 'ainews';
 }
+
 const { post, collection = 'posts' } = Astro.props;
+
+// Construct URL based on collection type
 const url = collection === 'ainews' ? `/ai-news/${post.slug}/` : `/${post.slug}/`;
+
+// Format date consistently (ISO 8601 format)
 const date = post.data.pubDate.toISOString().split('T')[0];
-// crude excerpt (first 30 words)
-const excerpt = post.body.split(/\s+/).slice(0, 30).join(' ') + '…';
-const hasAINewsTag = post.data.categories?.some(c => c.toLowerCase() === 'ai news');
+
+// Generate excerpt from body content (first 30 words with ellipsis)
+const excerpt = post.body
+  .split(/\s+/)
+  .slice(0, 30)
+  .join(' ') + '…';
+
+// Check if post has AI News tag
+const hasAINewsTag = post.data.categories?.some(
+  (category: string) => category.toLowerCase() === 'ai news'
+);
 ---
+
 <article class="post-card" data-article-url={url}>
-  <div class="read-indicator">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Read status indicator -->
+  <div class="read-indicator" aria-hidden="true">
+    <svg 
+      width="18" 
+      height="18" 
+      viewBox="0 0 24 24" 
+      fill="none" 
+      stroke="currentColor" 
+      stroke-width="3" 
+      stroke-linecap="round" 
+      stroke-linejoin="round"
+    >
       <polyline points="20 6 9 17 4 12"></polyline>
     </svg>
   </div>
+
+  <!-- Post metadata -->
   <div class="meta-row">
-    <time datetime={post.data.pubDate.toISOString()}>{date}</time>
+    <time datetime={post.data.pubDate.toISOString()}>
+      {date}
+    </time>
     <span>{post.readingTime.text}</span>
   </div>
-  <h3><a href={url} class="card-link">{post.data.title}</a></h3>
-  {post.data.categories && <div class="tag-row">{post.data.categories.map(c => {
-    const isAINews = c.toLowerCase() === 'ai news';
-    const tagClass = `tag ${isAINews ? 'ai-news-tag' : ''}`;
-    if (collection === 'ainews' && isAINews) {
-      return <a class={tagClass} href="/ai-news/">{c}</a>;
-    } else if (collection === 'ainews') {
-      return <span class={tagClass}>{c}</span>;
-    } else {
-      return <span class={tagClass}>{c}</span>;
-    }
-  })}</div>}
-  <a class="stretched-link" href={url} aria-label={post.data.title}></a>
+
+  <!-- Post title -->
+  <h3>
+    <a href={url} class="card-link">
+      {post.data.title}
+    </a>
+  </h3>
+
+  <!-- Categories/Tags -->
+  {post.data.categories && (
+    <div class="tag-row">
+      {post.data.categories.map((category: string) => {
+        const isAINews = category.toLowerCase() === 'ai news';
+        const tagClass = `tag ${isAINews ? 'ai-news-tag' : ''}`;
+        
+        // AI News posts: make AI News tag clickable, others static
+        if (collection === 'ainews' && isAINews) {
+          return (
+            <a class={tagClass} href="/ai-news/">
+              {category}
+            </a>
+          );
+        }
+        
+        return <span class={tagClass}>{category}</span>;
+      })}
+    </div>
+  )}
+
+  <!-- Stretched link for entire card clickability -->
+  <a 
+    class="stretched-link" 
+    href={url} 
+    aria-label={`Read article: ${post.data.title}`}
+  >
+  </a>
+
+  <!-- Post excerpt -->
   <p class="excerpt">{excerpt}</p>
 </article>

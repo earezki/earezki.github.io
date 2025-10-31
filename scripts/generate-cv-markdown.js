@@ -5,12 +5,38 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Function to strip HTML tags and clean markdown
+/**
+ * CV Markdown Generator
+ * 
+ * Converts HTML CV content to clean, readable markdown format
+ * suitable for text-based viewing and PDF generation.
+ * 
+ * Features:
+ * - Strips HTML tags while preserving content structure
+ * - Converts tech badges and skill tags to inline text
+ * - Wraps long lines at 80 characters for readability
+ * - Adds reference links to online CV
+ */
+
+/**
+ * Maximum line width for text wrapping
+ * @constant {number}
+ */
+const MAX_LINE_WIDTH = 80;
+
+/**
+ * Strips HTML tags and converts structured content to markdown
+ * Handles special cases like tech badges and skill sections
+ * 
+ * @param {string} content - HTML content to clean
+ * @returns {string} Cleaned markdown content
+ */
 function stripHtml(content) {
   let cleaned = content
     // Remove HTML comments
     .replace(/<!--[\s\S]*?-->/g, '')
-    // Handle tech-stack and tech-badges divs - convert to inline badges
+    
+    // Handle tech-stack divs - convert to inline badge list
     .replace(/<div class="tech-stack">([\s\S]*?)<\/div>/g, (match, badges) => {
       const badgeList = badges
         .match(/<span class="tech-badge[^"]*">([^<]+)<\/span>/g)
@@ -19,11 +45,10 @@ function stripHtml(content) {
         .join(' • ') || '';
       return badgeList ? `\n**Technologies:** ${badgeList}\n` : '';
     })
-    // Handle skill-tag sections similarly
+    
+    // Handle skill-tag sections - convert to inline list
     .replace(/<div class="skills-section">([\s\S]*?)<\/div>/g, (match, content) => {
-      // Extract category name
       const category = content.match(/<h4>(.*?)<\/h4>/)?.[1] || '';
-      // Extract skill tags
       const skills = content
         .match(/<span class="skill-tag[^"]*">([^<]+)<\/span>/g)
         ?.map(skill => skill.replace(/<[^>]+>/g, '').trim())
@@ -31,44 +56,52 @@ function stripHtml(content) {
         .join(' • ') || '';
       return category && skills ? `\n**${category}:** ${skills}\n` : '';
     })
-    // Remove remaining div tags but keep content
+    
+    // Remove all remaining HTML tags
     .replace(/<div[^>]*>/g, '')
     .replace(/<\/div>/g, '')
-    // Remove span tags but keep content
     .replace(/<span[^>]*>/g, '')
     .replace(/<\/span>/g, '')
-    // Remove other common HTML tags but keep content
     .replace(/<[^>]+>/g, '')
-    // Clean up multiple blank lines
+    
+    // Clean up whitespace
     .replace(/\n\s*\n\s*\n/g, '\n\n')
-    // Trim lines
     .split('\n')
     .map(line => line.trim())
     .join('\n')
-    // Clean up multiple blank lines again
     .replace(/\n\n\n+/g, '\n\n');
   
   return cleaned;
 }
 
-// Function to wrap long lines at 80 characters
-function wrapLines(content, maxWidth = 80) {
+/**
+ * Wraps long lines at specified width while preserving structure
+ * Handles special cases like headers, links, and lists
+ * 
+ * @param {string} content - Content to wrap
+ * @param {number} maxWidth - Maximum line width (default: 80)
+ * @returns {string} Content with wrapped lines
+ */
+function wrapLines(content, maxWidth = MAX_LINE_WIDTH) {
   const lines = content.split('\n');
   const wrapped = [];
   
   for (const line of lines) {
-    // Don't wrap headers, links, or short lines
-    if (line.startsWith('#') || line.startsWith('**') || line.includes('http') || line.length <= maxWidth) {
+    // Don't wrap headers, bold text, links, or short lines
+    if (line.startsWith('#') || 
+        line.startsWith('**') || 
+        line.includes('http') || 
+        line.length <= maxWidth) {
       wrapped.push(line);
       continue;
     }
     
-    // Don't wrap bullet points or numbered lists
+    // Handle bullet points and numbered lists
     if (line.match(/^[\s]*[-*•]\s/) || line.match(/^[\s]*\d+\.\s/)) {
       if (line.length <= maxWidth) {
         wrapped.push(line);
       } else {
-        // Wrap long bullet points preserving indentation
+        // Wrap long list items while preserving indentation
         const indent = line.match(/^[\s]*/)[0];
         const bulletMatch = line.match(/^[\s]*([-*•]|\d+\.)\s/);
         const bullet = bulletMatch ? bulletMatch[0] : '';

@@ -63,8 +63,12 @@ language: "fr"
 ## 📊 Statistiques GitHub
 
 <div align="center" class="github-stats-container">
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=earezki&layout=compact&theme=transparent&hide_border=true&langs_count=8" alt="Top Languages" height="180" />
-  <img src="https://github-readme-stats.vercel.app/api?username=earezki&show_icons=true&theme=transparent&hide_border=true&include_all_commits=true&count_private=true" alt="GitHub Stats" height="180" />
+  <a href="https://github.com/earezki" target="_blank" rel="noopener noreferrer">
+    <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=earezki&layout=compact&theme=transparent&hide_border=true&langs_count=8&cache_seconds=86400" alt="Top Languages" height="180" loading="lazy" />
+  </a>
+  <a href="https://github.com/earezki" target="_blank" rel="noopener noreferrer">
+    <img src="https://github-readme-stats.vercel.app/api?username=earezki&show_icons=true&theme=transparent&hide_border=true&include_all_commits=true&count_private=true&cache_seconds=86400" alt="GitHub Stats" height="180" loading="lazy" />
+  </a>
 </div>
 
 ---

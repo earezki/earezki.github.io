@@ -1,0 +1,136 @@
+/* ==========================================================================
+   Layout Components
+   Site structure: container, header, navigation
+   ========================================================================== */
+
+/* Container */
+.container { 
+  width: 100%; 
+  max-width: 1040px; 
+  margin: 0 auto; 
+  padding: 0 1.25rem; 
+}
+
+/* Site Header */
+.site-header { 
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between; 
+  padding: 1.1rem 0 0.9rem; 
+  position: sticky; 
+  top: 0; 
+  backdrop-filter: blur(12px); 
+  background: rgba(255, 255, 255, 0.7); 
+  border-bottom: 1px solid var(--color-border); 
+  z-index: 10; 
+}
+
+html[data-theme="dark"] .site-header { 
+  background: rgba(15, 18, 22, 0.75); 
+}
+
+/* Logo */
+.logo { 
+  font-size: 1.15rem; 
+  font-weight: 600; 
+  letter-spacing: 0.5px;
+  background: linear-gradient(90deg, #667eea, #764ba2, #f093fb, #4facfe);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: logo-shimmer 3s ease-in-out infinite;
+  transition: transform 0.3s ease;
+}
+
+.logo:hover {
+  transform: scale(1.05);
+}
+
+html[data-theme="dark"] .logo {
+  background: linear-gradient(90deg, #60a5fa, #818cf8, #c084fc, #f0abfc);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@keyframes logo-shimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Main Navigation */
+.main-nav { 
+  display: flex; 
+  gap: 0.9rem; 
+  align-items: center; 
+  flex-wrap: wrap; 
+}
+
+.main-nav a { 
+  font-size: 0.9rem; 
+  padding: 0.45rem 0.85rem; 
+  border-radius: var(--radius-pill); 
+  background: transparent; 
+  color: var(--color-text-alt); 
+  display: inline-flex; 
+  align-items: center;
+  transition: background var(--transition), color var(--transition);
+}
+
+.main-nav a:hover { 
+  background: var(--color-bg-alt); 
+  color: var(--color-text); 
+}
+
+html[data-theme="dark"] .main-nav a:hover { 
+  background: #222a33; 
+}
+
+.main-nav a svg { 
+  flex-shrink: 0; 
+}
+
+/* Theme Toggle Button */
+.theme-toggle { 
+  cursor: pointer; 
+  border: 1px solid var(--color-border); 
+  background: var(--color-bg-alt); 
+  color: var(--color-text-alt); 
+  border-radius: var(--radius-pill); 
+  padding: 0.45rem 0.75rem; 
+  font-size: 0.85rem; 
+  transition: background var(--transition), color var(--transition); 
+  display: inline-flex; 
+  align-items: center; 
+  gap: 0.4rem; 
+}
+
+.theme-toggle:hover { 
+  background: var(--color-accent); 
+  color: #fff; 
+  border-color: var(--color-accent); 
+}
+
+.theme-toggle .theme-icon { 
+  font-size: 1rem; 
+  line-height: 1; 
+}
+
+.theme-toggle .theme-text { 
+  font-size: 0.85rem; 
+  text-transform: lowercase; 
+}
+
+/* Content Area */
+.content-area { 
+  padding: 2rem 0 3.5rem; 
+}
+
+/* Posts Grid */
+.posts-grid { 
+  display: grid; 
+  gap: 1.4rem; 
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+}

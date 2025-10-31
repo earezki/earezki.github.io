@@ -1,0 +1,78 @@
+/* ==========================================================================
+   Utility Classes
+   Reusable helper classes and utilities
+   ========================================================================== */
+
+/* GitHub Stats Container */
+.github-stats-container {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+html[data-theme="light"] .github-stats-container {
+  background: rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.github-stats-container a {
+  display: inline-block;
+  transition: transform var(--transition), opacity var(--transition);
+}
+
+.github-stats-container a:hover {
+  transform: translateY(-4px);
+  opacity: 0.85;
+}
+
+.github-stats-container img {
+  border-radius: 8px;
+  transition: box-shadow var(--transition);
+}
+
+.github-stats-container a:hover img {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* Screen reader only - for SEO H1 */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 680px) {
+  .post-header h1 { 
+    font-size: 1.65rem; 
+  }
+  
+  .posts-grid { 
+    grid-template-columns: 1fr; 
+  }
+  
+  /* Better tag rendering on mobile */
+  .tag {
+    font-size: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    letter-spacing: 0.05em;
+  }
+  
+  .tag-row {
+    gap: 0.6rem;
+    row-gap: 0.6rem;
+  }
+}
