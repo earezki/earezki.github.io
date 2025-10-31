@@ -3,13 +3,28 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import { getCollection } from 'astro:content';
 const posts = await getCollection('posts');
 const ainewsPosts = await getCollection('ainews');
+
+// Combine tags from both collections
 const tagMap = new Map<string, number>();
+
+// Add tags from posts
 for (const p of posts) {
   (p.data.categories || []).forEach(c => {
     const k = c.trim();
     tagMap.set(k, (tagMap.get(k) || 0) + 1);
   });
 }
+
+// Add tags from AI News (excluding "AI News" itself)
+for (const p of ainewsPosts) {
+  (p.data.categories || []).forEach(c => {
+    const k = c.trim();
+    if (k.toLowerCase() !== 'ai news') {
+      tagMap.set(k, (tagMap.get(k) || 0) + 1);
+    }
+  });
+}
+
 const tags = Array.from(tagMap.entries()).sort((a,b) => a[0].localeCompare(b[0]));
 ---
 <BaseLayout title="Tags" description="Browse posts by category/tag">

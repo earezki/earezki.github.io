@@ -1,0 +1,245 @@
+---
+/**
+ * Series Navigation Component
+ * Displays all posts in a series with navigation
+ */
+interface Props {
+  series: {
+    name: string;
+    slug: string;
+  };
+  posts: any[];
+  currentSlug: string;
+}
+
+const { series, posts, currentSlug } = Astro.props;
+
+if (posts.length <= 1) return null;
+
+const currentIndex = posts.findIndex(p => p.slug === currentSlug);
+const prevPost = currentIndex > 0 ? posts[currentIndex - 1] : null;
+const nextPost = currentIndex < posts.length - 1 ? posts[currentIndex + 1] : null;
+---
+
+<section class="series-navigation">
+  <div class="series-header">
+    <span class="series-badge">📚 Series</span>
+    <h3>{series.name}</h3>
+    <p class="series-progress">Part {currentIndex + 1} of {posts.length}</p>
+  </div>
+  
+  <div class="series-list">
+    {posts.map((post, index) => {
+      const isCurrent = post.slug === currentSlug;
+      const isCompleted = index < currentIndex;
+      
+      return (
+        <div class={`series-item ${isCurrent ? 'current' : ''} ${isCompleted ? 'completed' : ''}`}>
+          <span class="series-number">{index + 1}</span>
+          {isCurrent ? (
+            <span class="series-title current-title">{post.data.title}</span>
+          ) : (
+            <a href={`/${post.slug}/`} class="series-title">
+              {post.data.title}
+            </a>
+          )}
+          {isCompleted && <span class="check-icon" title="Completed">✓</span>}
+        </div>
+      );
+    })}
+  </div>
+  
+  {(prevPost || nextPost) && (
+    <div class="series-nav-buttons">
+      {prevPost && (
+        <a href={`/${prevPost.slug}/`} class="series-nav-btn prev">
+          <span class="nav-label">← Previous</span>
+          <span class="nav-title">{prevPost.data.title}</span>
+        </a>
+      )}
+      {nextPost && (
+        <a href={`/${nextPost.slug}/`} class="series-nav-btn next">
+          <span class="nav-label">Next →</span>
+          <span class="nav-title">{nextPost.data.title}</span>
+        </a>
+      )}
+    </div>
+  )}
+</section>
+
+<style>
+  .series-navigation {
+    margin: 2rem 0 3rem;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.05), rgba(99, 102, 241, 0.05));
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+  }
+  
+  html[data-theme="dark"] .series-navigation {
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(99, 102, 241, 0.1));
+  }
+  
+  .series-header {
+    margin-bottom: 1.25rem;
+  }
+  
+  .series-badge {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-accent);
+    background: rgba(37, 99, 235, 0.1);
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--radius-pill);
+    margin-bottom: 0.5rem;
+  }
+  
+  .series-header h3 {
+    margin: 0.5rem 0 0.25rem;
+    font-size: 1.25rem;
+    color: var(--color-text);
+  }
+  
+  .series-progress {
+    font-size: 0.85rem;
+    color: var(--color-text-alt);
+    margin: 0;
+  }
+  
+  .series-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin: 1.5rem 0;
+  }
+  
+  .series-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    transition: all var(--transition);
+  }
+  
+  .series-item:hover {
+    border-color: var(--color-accent);
+  }
+  
+  .series-item.current {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+  
+  .series-item.completed {
+    opacity: 0.7;
+  }
+  
+  .series-number {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-bg-alt);
+    color: var(--color-text-alt);
+    border-radius: 50%;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+  
+  .series-item.current .series-number {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+  }
+  
+  .series-title {
+    flex: 1;
+    font-size: 0.95rem;
+    color: var(--color-text);
+    text-decoration: none;
+    transition: color var(--transition);
+  }
+  
+  .series-title:hover {
+    color: var(--color-accent);
+  }
+  
+  .series-item.current .current-title {
+    color: white;
+    font-weight: 600;
+  }
+  
+  .check-icon {
+    flex-shrink: 0;
+    color: #10b981;
+    font-size: 1.1rem;
+  }
+  
+  .series-nav-buttons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border);
+  }
+  
+  .series-nav-btn {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 1rem;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    transition: all var(--transition);
+  }
+  
+  .series-nav-btn:hover {
+    border-color: var(--color-accent);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .series-nav-btn.next {
+    text-align: right;
+  }
+  
+  .nav-label {
+    font-size: 0.75rem;
+    color: var(--color-text-alt);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  
+  .nav-title {
+    font-size: 0.9rem;
+    color: var(--color-text);
+    font-weight: 500;
+  }
+  
+  .series-nav-btn:hover .nav-title {
+    color: var(--color-accent);
+  }
+  
+  @media (max-width: 680px) {
+    .series-navigation {
+      padding: 1rem;
+    }
+    
+    .series-nav-buttons {
+      grid-template-columns: 1fr;
+    }
+    
+    .series-nav-btn.next {
+      text-align: left;
+    }
+  }
+</style>

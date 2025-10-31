@@ -4,8 +4,20 @@ import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
   const posts = await getCollection('posts');
+  const ainews = await getCollection('ainews');
   const set = new Set<string>();
+  
+  // Collect tags from posts
   posts.forEach(p => (p.data.categories || []).forEach(c => set.add((c || '').toString().trim())));
+  
+  // Collect tags from AI News (excluding "AI News" itself)
+  ainews.forEach(p => (p.data.categories || []).forEach(c => {
+    const tag = (c || '').toString().trim();
+    if (tag.toLowerCase() !== 'ai news') {
+      set.add(tag);
+    }
+  }));
+  
   return Array.from(set).map(label => {
     const slug = label.toLowerCase().replace(/\s+/g,'-');
     return { params: { tag: slug }, props: { slug, label } };
@@ -13,13 +25,37 @@ export async function getStaticPaths() {
 }
 
 const { slug, label } = Astro.props;
-const all = await getCollection('posts');
-const filtered = all.filter(p => (p.data.categories || []).some(c => (c || '').toString().toLowerCase().replace(/\s+/g,'-') === slug));
+const allPosts = await getCollection('posts');
+const allAinews = await getCollection('ainews');
+
+// Filter from both collections
+const filteredPosts = allPosts.filter(p => 
+  (p.data.categories || []).some(c => 
+    (c || '').toString().toLowerCase().replace(/\s+/g,'-') === slug
+  )
+);
+
+const filteredAinews = allAinews.filter(p => 
+  (p.data.categories || []).some(c => 
+    (c || '').toString().toLowerCase().replace(/\s+/g,'-') === slug
+  )
+);
+
+// Combine and sort by date
+const allFiltered = [
+  ...filteredPosts.map(p => ({ ...p, type: 'post', url: `/${p.slug}/` })),
+  ...filteredAinews.map(p => ({ ...p, type: 'ainews', url: `/ai-news/${p.slug}/` }))
+].sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
 ---
 <BaseLayout title={`Tag: ${label}`}>
   <h1>Tag: {label}</h1>
   <ul style="list-style:none; padding:0;">
-    {filtered.map(p => <li style="margin:.6rem 0;"><a href={`/${p.slug}/`}>{p.data.title}</a></li>)}
+    {allFiltered.map(p => (
+      <li style="margin:.6rem 0;">
+        <a href={p.url}>{p.data.title}</a>
+        {p.type === 'ainews' && <span class="tag ai-news-tag" style="margin-left: 0.5rem; font-size: 0.7rem;">AI News</span>}
+      </li>
+    ))}
   </ul>
   <p style="margin-top:2rem;"><a href="/tags/">← All tags</a></p>
 </BaseLayout>

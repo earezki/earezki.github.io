@@ -53,6 +53,33 @@ const structuredData = {
     Dev|Journal - Software Architecture & Backend Development Blog
   </h1>
   
+  <!-- Featured Topics Section -->
+  <section class="featured-topics" aria-label="Featured topics">
+    <h2>Explore Topics</h2>
+    <div class="topic-cards">
+      <a href="/tags/solid/" class="topic-card">
+        <span class="topic-icon">🎯</span>
+        <h3>SOLID Principles</h3>
+        <p>Learn object-oriented design principles for better code</p>
+      </a>
+      <a href="/tags/software-architecture/" class="topic-card">
+        <span class="topic-icon">🏗️</span>
+        <h3>Software Architecture</h3>
+        <p>Patterns and practices for scalable systems</p>
+      </a>
+      <a href="/tags/domain-driven-design/" class="topic-card">
+        <span class="topic-icon">📐</span>
+        <h3>Domain-Driven Design</h3>
+        <p>Build software that reflects your business domain</p>
+      </a>
+      <a href="/ai-news/" class="topic-card ai-topic">
+        <span class="topic-icon">🤖</span>
+        <h3>AI News</h3>
+        <p>Latest developments in artificial intelligence</p>
+      </a>
+    </div>
+  </section>
+  
   <!-- Search functionality -->
   <SearchBox containerId="home" />
   
@@ -72,6 +99,72 @@ const structuredData = {
 </BaseLayout>
 
 <style>
+  .featured-topics {
+    margin: 0 0 3rem;
+  }
+  
+  .featured-topics h2 {
+    font-size: 1.75rem;
+    margin: 0 0 1.5rem;
+    color: var(--color-text);
+  }
+  
+  .topic-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+  }
+  
+  .topic-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1.5rem;
+    background: var(--color-bg-alt);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: all var(--transition);
+  }
+  
+  .topic-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--color-accent);
+  }
+  
+  .topic-card.ai-topic {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
+  }
+  
+  html[data-theme="dark"] .topic-card.ai-topic {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+  }
+  
+  .topic-icon {
+    font-size: 2rem;
+    line-height: 1;
+  }
+  
+  .topic-card h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+  
+  .topic-card:hover h3 {
+    color: var(--color-accent);
+  }
+  
+  .topic-card p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--color-text-alt);
+    line-height: 1.4;
+  }
+  
   .pagination { 
     display: flex; 
     justify-content: flex-end; 
@@ -91,5 +184,11 @@ const structuredData = {
     background: var(--color-accent); 
     color: #fff; 
     border-color: var(--color-accent); 
+  }
+  
+  @media (max-width: 680px) {
+    .topic-cards {
+      grid-template-columns: 1fr;
+    }
   }
 </style>

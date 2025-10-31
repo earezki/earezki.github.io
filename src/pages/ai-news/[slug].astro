@@ -4,6 +4,9 @@ import { getCollection } from 'astro:content';
 import readingTime from '../../utils/readingTime';
 import { plainExcerpt } from '../../utils/excerpt';
 import TableOfContents from '../../components/TableOfContents.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import RelatedPosts from '../../components/RelatedPosts.astro';
+import { findRelatedPosts, generateBreadcrumbs } from '../../utils/relatedContent';
 
 export async function getStaticPaths() {
   const posts = await getCollection('ainews');
@@ -11,12 +14,22 @@ export async function getStaticPaths() {
 }
 
 const { slug } = Astro.params;
-const posts = await getCollection('ainews');
-const post = posts.find(p => p.slug === slug);
+const ainews = await getCollection('ainews');
+const posts = await getCollection('posts');
+const post = ainews.find(p => p.slug === slug);
 if (!post) throw new Error(`AI News post not found for slug: ${slug}`);
+
+// Calculate post metadata
 const stats = readingTime(post.body);
 const excerpt = plainExcerpt(post.body, 30, 160);
 const canonical = `/ai-news/${post.slug}/`;
+
+// Generate breadcrumbs
+const breadcrumbs = generateBreadcrumbs(canonical, post.data.title);
+
+// Find related content (cross-collection)
+const relatedPosts = findRelatedPosts(post, posts, ainews, 3);
+
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'Article',
@@ -36,6 +49,7 @@ const structuredData = {
 const { Content } = await post.render();
 ---
 <BaseLayout title={post.data.title} description={excerpt} canonical={canonical} structuredData={structuredData}>
+  <Breadcrumbs breadcrumbs={breadcrumbs} />
   <div class="ai-disclaimer-article">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;">
       <circle cx="12" cy="12" r="10"></circle>
@@ -58,18 +72,18 @@ const { Content } = await post.render();
           <time datetime={post.data.pubDate.toISOString()}>{post.data.pubDate.toDateString()}</time>
           <span>• {stats.text}</span>
         </div>
-        {post.data.categories && <div class="tag-row">{post.data.categories.map(c => {
+        {post.data.categories && <div class="tag-row">{post.data.categories.map((c: string) => {
+          const slugTag = c.toLowerCase().replace(/\s+/g,'-');
           const isAINews = c.toLowerCase() === 'ai news';
-          if (isAINews) {
-            return <a class="tag ai-news-tag" href="/ai-news/">{c}</a>;
-          } else {
-            return <span class="tag">{c}</span>;
-          }
+          return <a class={`tag ${isAINews ? 'ai-news-tag' : ''}`} href={`/tags/${encodeURIComponent(slugTag)}/`}>{c}</a>;
         })}</div>}
       </header>
       <div class="post-body prose">
         <Content />
       </div>
+      
+      {/* Related Posts */}
+      <RelatedPosts posts={relatedPosts} />
     </article>
   </div>
   <div class="back-link"><a href="/ai-news/">← Back to AI News</a></div>
