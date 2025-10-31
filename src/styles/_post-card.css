@@ -15,10 +15,10 @@
   position: relative; 
   overflow: hidden; 
   box-shadow: var(--shadow-sm); 
-  transition: box-shadow var(--transition), 
-              transform var(--transition), 
-              border-color var(--transition), 
-              background var(--transition), 
+  transition: box-shadow 0.3s cubic-bezier(0.4, 0.0, 0.2, 1), 
+              transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1), 
+              border-color 0.3s cubic-bezier(0.4, 0.0, 0.2, 1), 
+              background 0.3s cubic-bezier(0.4, 0.0, 0.2, 1), 
               opacity var(--transition); 
 }
 
@@ -29,27 +29,69 @@
   z-index: 5; 
 }
 
+/* Gradient border effect on hover */
+.post-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-md);
+  padding: 1px;
+  background: linear-gradient(135deg, 
+    rgba(99, 102, 241, 0.3),
+    rgba(168, 85, 247, 0.3),
+    rgba(59, 130, 246, 0.3));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
 /* Hover effect gradient overlay */
 .post-card:before { 
   content: ""; 
   position: absolute; 
   inset: 0; 
-  background: linear-gradient(125deg, 
-    rgba(37, 99, 235, 0.08), 
-    rgba(99, 102, 241, 0.05) 35%, 
-    transparent 72%); 
+  background: linear-gradient(135deg, 
+    rgba(99, 102, 241, 0.06) 0%,
+    rgba(168, 85, 247, 0.04) 50%, 
+    rgba(59, 130, 246, 0.05) 100%); 
   opacity: 0; 
-  transition: opacity var(--transition); 
+  transition: opacity 0.4s cubic-bezier(0.4, 0.0, 0.2, 1); 
+  border-radius: var(--radius-md);
+}
+
+html[data-theme="dark"] .post-card:before {
+  background: linear-gradient(135deg, 
+    rgba(99, 102, 241, 0.1) 0%,
+    rgba(168, 85, 247, 0.08) 50%, 
+    rgba(59, 130, 246, 0.09) 100%);
 }
 
 .post-card:hover { 
-  box-shadow: var(--shadow-md); 
-  transform: translateY(-3px); 
-  border-color: var(--color-accent); 
+  box-shadow: 0 8px 24px -4px rgba(99, 102, 241, 0.15),
+              0 4px 16px -2px rgba(168, 85, 247, 0.1); 
+  transform: translateY(-5px) scale(1.01); 
+  border-color: rgba(99, 102, 241, 0.4); 
+}
+
+html[data-theme="dark"] .post-card:hover {
+  box-shadow: 0 8px 24px -4px rgba(99, 102, 241, 0.25),
+              0 4px 16px -2px rgba(168, 85, 247, 0.2);
 }
 
 .post-card:hover:before { 
   opacity: 1; 
+}
+
+.post-card:hover::after {
+  opacity: 1;
+}
+
+/* Active state for click feedback */
+.post-card:active {
+  transform: translateY(-3px) scale(0.99);
 }
 
 /* Read article state - grayed out */
@@ -142,6 +184,22 @@ html[data-theme="dark"] .post-card.read {
   background: var(--color-tag-bg); 
   color: var(--color-tag-text); 
   border-radius: var(--radius-pill); 
+  transition: transform 0.2s cubic-bezier(0.4, 0.0, 0.2, 1),
+              box-shadow 0.2s cubic-bezier(0.4, 0.0, 0.2, 1),
+              background 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+  display: inline-block;
+  position: relative;
+}
+
+.tag:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.15);
+  background: var(--color-accent);
+  color: #fff;
+}
+
+.tag:active {
+  transform: translateY(0) scale(1);
 }
 
 /* Article/Post Page Styles */

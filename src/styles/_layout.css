@@ -9,6 +9,13 @@
   max-width: 1040px; 
   margin: 0 auto; 
   padding: 0 1.25rem; 
+  background: transparent;
+}
+
+/* Content Area */
+.content-area { 
+  padding: 2rem 0 3.5rem; 
+  background: transparent;
 }
 
 /* Site Header */
@@ -16,17 +23,46 @@
   display: flex; 
   align-items: center; 
   justify-content: space-between; 
-  padding: 1.1rem 0 0.9rem; 
+  padding: 1.1rem 1.5rem 0.9rem; 
   position: sticky; 
-  top: 0; 
-  backdrop-filter: blur(12px); 
+  top: 12px;
+  margin: 12px auto;
+  max-width: 1040px;
+  width: calc(100% - 2.5rem);
+  backdrop-filter: blur(16px) saturate(180%); 
   background: rgba(255, 255, 255, 0.7); 
-  border-bottom: 1px solid var(--color-border); 
+  border: 1px solid rgba(226, 232, 240, 0.6);
+  border-radius: 16px;
   z-index: 10; 
+  transition: background 0.3s ease, 
+              box-shadow 0.3s ease,
+              border-color 0.3s ease,
+              transform 0.3s ease;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.08),
+              0 1px 0 rgba(99, 102, 241, 0.03);
+}
+
+.site-header.scrolled {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: rgba(226, 232, 240, 0.8);
+  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.12),
+              0 4px 12px rgba(99, 102, 241, 0.08);
+  transform: translateY(-2px);
 }
 
 html[data-theme="dark"] .site-header { 
-  background: rgba(15, 18, 22, 0.75); 
+  background: rgba(15, 18, 22, 0.7); 
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.12),
+              0 1px 0 rgba(99, 102, 241, 0.05);
+}
+
+html[data-theme="dark"] .site-header.scrolled {
+  background: rgba(15, 18, 22, 0.85);
+  border-color: rgba(99, 102, 241, 0.3);
+  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.2),
+              0 4px 12px rgba(99, 102, 241, 0.15);
+  transform: translateY(-2px);
 }
 
 /* Logo */
@@ -76,12 +112,32 @@ html[data-theme="dark"] .logo {
   color: var(--color-text-alt); 
   display: inline-flex; 
   align-items: center;
-  transition: background var(--transition), color var(--transition);
+  transition: background 0.3s cubic-bezier(0.4, 0.0, 0.2, 1), 
+              color 0.3s cubic-bezier(0.4, 0.0, 0.2, 1),
+              transform 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+  position: relative;
+}
+
+.main-nav a::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(135deg, 
+    rgba(99, 102, 241, 0.1),
+    rgba(168, 85, 247, 0.1));
+  opacity: 0;
+  transition: opacity 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
 }
 
 .main-nav a:hover { 
   background: var(--color-bg-alt); 
   color: var(--color-text); 
+  transform: translateY(-2px);
+}
+
+.main-nav a:hover::before {
+  opacity: 1;
 }
 
 html[data-theme="dark"] .main-nav a:hover { 
@@ -101,21 +157,53 @@ html[data-theme="dark"] .main-nav a:hover {
   border-radius: var(--radius-pill); 
   padding: 0.45rem 0.75rem; 
   font-size: 0.85rem; 
-  transition: background var(--transition), color var(--transition); 
+  transition: background 0.3s cubic-bezier(0.4, 0.0, 0.2, 1), 
+              color 0.3s cubic-bezier(0.4, 0.0, 0.2, 1), 
+              border-color 0.3s cubic-bezier(0.4, 0.0, 0.2, 1),
+              transform 0.2s cubic-bezier(0.4, 0.0, 0.2, 1); 
   display: inline-flex; 
   align-items: center; 
   gap: 0.4rem; 
+  position: relative;
+  overflow: hidden;
+}
+
+.theme-toggle::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, 
+    rgba(99, 102, 241, 0.2),
+    rgba(168, 85, 247, 0.2));
+  opacity: 0;
+  transition: opacity 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
 }
 
 .theme-toggle:hover { 
   background: var(--color-accent); 
   color: #fff; 
   border-color: var(--color-accent); 
+  transform: scale(1.05);
+}
+
+.theme-toggle:hover::before {
+  opacity: 1;
+}
+
+.theme-toggle:active {
+  transform: scale(0.98);
 }
 
 .theme-toggle .theme-icon { 
   font-size: 1rem; 
   line-height: 1; 
+  transition: transform 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
+  position: relative;
+  z-index: 1;
+}
+
+.theme-toggle:hover .theme-icon {
+  transform: rotate(180deg);
 }
 
 .theme-toggle .theme-text { 
@@ -123,10 +211,7 @@ html[data-theme="dark"] .main-nav a:hover {
   text-transform: lowercase; 
 }
 
-/* Content Area */
-.content-area { 
-  padding: 2rem 0 3.5rem; 
-}
+/* Content Area - duplicate removed, defined earlier */
 
 /* Posts Grid */
 .posts-grid { 
