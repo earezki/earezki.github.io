@@ -12,12 +12,33 @@ const all = (await getCollection('posts'))
 const posts = all.slice(0, SITE.postsPerPage);
 const totalPages = Math.ceil(all.length / SITE.postsPerPage);
 ---
-<BaseLayout title="Dev|Journal" description="Blogging about interests." canonical="/" structuredData={{
-  '@context': 'https://schema.org',
-  '@type': 'WebSite',
-  name: 'Dev|Journal',
-  url: 'https://earezki.com/'
-}}>
+<BaseLayout 
+  title="Dev|Journal - Software Architecture, Backend Development & Technical Insights" 
+  description="Technical blog by El Mehdi Arezki - Lead Software Engineer. In-depth articles on software architecture, microservices, domain-driven design, Java, Python, and cloud-native development."
+  keywords="software architecture, backend development, microservices, domain-driven design, DDD, Java, Python, Spring Boot, Kubernetes, cloud native, technical blog"
+  author="El Mehdi Arezki"
+  canonical="/" 
+  image="/assets/og-image-default.jpg"
+  structuredData={{
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Dev|Journal',
+    url: 'https://earezki.com/',
+    author: {
+      '@type': 'Person',
+      name: 'El Mehdi Arezki',
+      url: 'https://earezki.com/about',
+      jobTitle: 'Lead Software Engineer',
+      sameAs: [
+        'https://github.com/earezki',
+        'https://www.linkedin.com/in/mehdi-arezki'
+      ]
+    },
+    description: 'Technical blog covering software architecture, backend development, and engineering best practices'
+  }}>
+  
+  <h1 class="sr-only">Dev|Journal - Software Architecture & Backend Development Blog</h1>
+  
   <SearchBox containerId="home" />
   
   <section class="posts-grid">

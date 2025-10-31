@@ -1,6 +1,7 @@
 ---
 title: Anemic vs Rich Domain Models
 pubDate: '2020-03-24 05:49:46 +0100'
+description: 'Understand the difference between Anemic and Rich Domain Models in Domain-Driven Design. Learn which approach to choose for better code organization and business logic encapsulation.'
 categories:
   - Software design
   - Domain driven design

@@ -1,6 +1,7 @@
 ---
 title: Technical debt
 pubDate: '2021-01-02 05:49:46 +0100'
+description: 'Understanding technical debt in software development. Learn how to identify, manage, and pay down technical debt while maintaining agile development velocity.'
 categories:
   - Software design
 ---

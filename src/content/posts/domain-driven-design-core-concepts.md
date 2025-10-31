@@ -1,6 +1,7 @@
 ---
 title: Domain Driven Design Core Concepts
 pubDate: '2020-03-23 05:49:46 +0100'
+description: 'Master the core concepts of Domain Driven Design (DDD). Learn about entities, value objects, aggregates, repositories, and how to apply DDD in complex business domains.'
 categories:
   - Software design
   - Domain driven design

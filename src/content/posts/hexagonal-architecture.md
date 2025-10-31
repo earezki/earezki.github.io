@@ -1,6 +1,7 @@
 ---
 title: Hexagonal Architecture
 pubDate: '2020-03-29 05:49:46 +0100'
+description: 'Deep dive into Hexagonal Architecture (Ports and Adapters pattern). Learn how to build loosely coupled, testable applications with clear separation of concerns and domain isolation.'
 categories:
   - Software design
   - Software architecture

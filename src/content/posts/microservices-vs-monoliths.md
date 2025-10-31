@@ -1,6 +1,7 @@
 ---
 title: Microservices vs Monoliths
 pubDate: '2020-09-12 05:49:46 +0100'
+description: 'Comprehensive comparison of microservices and monolithic architectures. Learn when to use each approach, their benefits, trade-offs, and best practices for modern software development.'
 categories:
   - Software design
   - Software architecture
