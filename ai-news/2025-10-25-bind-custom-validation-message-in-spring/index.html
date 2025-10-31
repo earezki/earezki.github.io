@@ -1,16 +1,30 @@
-<!DOCTYPE html><html lang="en" data-theme="dark"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Custom Validation Message Binding in Spring Boot: A Comprehensive Guide • Dev|Journal</title><meta name="description" content="Main Heading Custom validation messages in Spring Boot enhance user feedback by externalizing error messages from code, improving maintainability, and…"><meta name="keywords" content="software architecture, backend development, microservices, Java, Python, Spring Boot, technical blog"><meta name="author" content="El Mehdi Arezki"><!-- Open Graph / Facebook --><meta property="og:type" content="website"><meta property="og:url" content="https://earezki.com/ai-news/2025-10-25-bind-custom-validation-message-in-spring/"><meta property="og:title" content="Custom Validation Message Binding in Spring Boot: A Comprehensive Guide • Dev|Journal"><meta property="og:site_name" content="Dev|Journal"><meta property="og:description" content="Main Heading Custom validation messages in Spring Boot enhance user feedback by externalizing error messages from code, improving maintainability, and…"><meta property="og:image" content="https://earezki.com/assets/og-image-default.jpg"><!-- Twitter --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:url" content="https://earezki.com/ai-news/2025-10-25-bind-custom-validation-message-in-spring/"><meta name="twitter:title" content="Custom Validation Message Binding in Spring Boot: A Comprehensive Guide • Dev|Journal"><meta name="twitter:description" content="Main Heading Custom validation messages in Spring Boot enhance user feedback by externalizing error messages from code, improving maintainability, and…"><meta name="twitter:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:creator" content="@earezki"><link rel="canonical" href="https://earezki.com/ai-news/2025-10-25-bind-custom-validation-message-in-spring/"><link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"><script async src="https://www.googletagmanager.com/gtag/js?id=UA-161447264-1"></script><script defer src="https://cloud.umami.is/script.js" data-website-id="4a26531d-1053-4f79-97a6-06a1366aff91"></script><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Custom Validation Message Binding in Spring Boot: A Comprehensive Guide","datePublished":"2025-10-25T00:00:00.000Z","dateModified":"2025-10-25T00:00:00.000Z","author":{"@type":"Person","name":"AREZKI El Mehdi"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://earezki.com/ai-news/2025-10-25-bind-custom-validation-message-in-spring/"},"description":"Main Heading Custom validation messages in Spring Boot enhance user feedback by externalizing error messages from code, improving maintainability, and…"}</script><link rel="stylesheet" href="/_astro/_slug_.CDWqF8AB.css">
-<style>.post-layout[data-astro-cid-rkg3zjxi]{display:grid;grid-template-columns:260px 1fr;gap:2.5rem}.sidebar-left[data-astro-cid-rkg3zjxi]{position:relative}@media (max-width: 1080px){.post-layout[data-astro-cid-rkg3zjxi]{grid-template-columns:1fr}}.ai-disclaimer-article[data-astro-cid-rkg3zjxi]{display:flex;gap:.75rem;padding:.9rem 1.1rem;margin:0 auto 2rem;max-width:780px;background:linear-gradient(135deg,#667eea1a,#764ba21a,#f093fb1a);border:2px solid transparent;border-radius:var(--radius-md);position:relative;background-clip:padding-box;font-size:.85rem}.ai-disclaimer-article[data-astro-cid-rkg3zjxi]:before{content:"";position:absolute;inset:-2px;border-radius:var(--radius-md);padding:2px;background:var(--ai-gradient-border);background-size:200% 200%;animation:gradient-rotate 3s linear infinite;-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask-composite:exclude;pointer-events:none}html[data-theme=dark] .ai-disclaimer-article[data-astro-cid-rkg3zjxi]{background:linear-gradient(135deg,#667eea26,#764ba226,#f093fb26)}.ai-disclaimer-article[data-astro-cid-rkg3zjxi] svg[data-astro-cid-rkg3zjxi]{margin-top:.15rem}.ai-disclaimer-article[data-astro-cid-rkg3zjxi] strong[data-astro-cid-rkg3zjxi]{color:var(--color-text);display:block;margin-bottom:.15rem}.ai-disclaimer-article[data-astro-cid-rkg3zjxi] div[data-astro-cid-rkg3zjxi]{line-height:1.5;color:var(--color-text-alt)}
-.toc[data-astro-cid-xvrfupwn]{position:sticky;top:90px;max-height:calc(100vh - 120px);overflow:auto;padding:1rem 1rem 1.2rem;background:var(--color-bg-alt);border:1px solid var(--color-border);border-radius:var(--radius-md);font-size:.8rem;line-height:1.3}.toc-title[data-astro-cid-xvrfupwn]{font-weight:600;font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.6rem;color:var(--color-text-alt)}.toc[data-astro-cid-xvrfupwn] ul[data-astro-cid-xvrfupwn]{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.35rem}.toc[data-astro-cid-xvrfupwn] a[data-astro-cid-xvrfupwn]{text-decoration:none;color:var(--color-text-alt)}.toc[data-astro-cid-xvrfupwn] a[data-astro-cid-xvrfupwn]:hover{color:var(--color-accent)}.toc[data-astro-cid-xvrfupwn] li[data-astro-cid-xvrfupwn][class*=d-3]{margin-left:.75rem}.toc[data-astro-cid-xvrfupwn] li[data-astro-cid-xvrfupwn][class*=d-4]{margin-left:1.4rem}@media (max-width: 1080px){.toc[data-astro-cid-xvrfupwn]{display:none}}
-</style><script type="module" src="/_astro/hoisted.CwSnpN4J.js"></script></head> <body> <div id="readingProgress" style="position:fixed;left:0;top:0;height:3px;background:linear-gradient(90deg,#2563eb,#9333ea);width:0;z-index:999;transition:width .15s ease;"></div>  <header class="site-header container"> <div class="logo-wrap"> <a class="logo" href="/">Dev|Journal</a> </div> <nav class="main-nav"> <a href="/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px;"> <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path> <polyline points="9 22 9 12 15 12 15 22"></polyline> </svg>
+<!DOCTYPE html><html lang="en" data-theme="dark"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><!-- Primary Meta Tags --><title>Custom Validation Message Binding in Spring Boot: A Comprehensive Guide • Dev|Journal</title><meta name="description" content="Main Heading Custom validation messages in Spring Boot enhance user feedback by externalizing error messages from code, improving maintainability, and…"><meta name="keywords" content="software architecture, backend development, microservices, Java, Python, Spring Boot, technical blog"><meta name="author" content="El Mehdi Arezki"><!-- Open Graph / Facebook --><meta property="og:type" content="website"><meta property="og:url" content="https://earezki.com/ai-news/2025-10-25-bind-custom-validation-message-in-spring/"><meta property="og:title" content="Custom Validation Message Binding in Spring Boot: A Comprehensive Guide • Dev|Journal"><meta property="og:site_name" content="Dev|Journal"><meta property="og:description" content="Main Heading Custom validation messages in Spring Boot enhance user feedback by externalizing error messages from code, improving maintainability, and…"><meta property="og:image" content="https://earezki.com/assets/og-image-default.jpg"><!-- Twitter --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:url" content="https://earezki.com/ai-news/2025-10-25-bind-custom-validation-message-in-spring/"><meta name="twitter:title" content="Custom Validation Message Binding in Spring Boot: A Comprehensive Guide • Dev|Journal"><meta name="twitter:description" content="Main Heading Custom validation messages in Spring Boot enhance user feedback by externalizing error messages from code, improving maintainability, and…"><meta name="twitter:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:creator" content="@earezki"><!-- Canonical and Indexing --><link rel="canonical" href="https://earezki.com/ai-news/2025-10-25-bind-custom-validation-message-in-spring/"><!-- Favicons --><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/x-icon" href="/favicon.ico"><!-- RSS Feed --><link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"><!-- Analytics: Google Analytics (Legacy UA) --><script async src="https://www.googletagmanager.com/gtag/js?id=UA-161447264-1"></script><script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);} 
+      gtag('js', new Date()); 
+      gtag('config', 'UA-161447264-1');
+    </script><!-- Analytics: Umami --><script defer src="https://cloud.umami.is/script.js" data-website-id="4a26531d-1053-4f79-97a6-06a1366aff91"></script><!-- Theme Persistence (runs before page render to prevent flash) --><script>
+      (function() {
+        const theme = localStorage.getItem('theme');
+        if (theme) { 
+          document.documentElement.setAttribute('data-theme', theme); 
+        }
+      })();
+    </script><!-- Structured Data (JSON-LD) --><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Custom Validation Message Binding in Spring Boot: A Comprehensive Guide","datePublished":"2025-10-25T00:00:00.000Z","dateModified":"2025-10-25T00:00:00.000Z","author":{"@type":"Person","name":"AREZKI El Mehdi"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://earezki.com/ai-news/2025-10-25-bind-custom-validation-message-in-spring/"},"description":"Main Heading Custom validation messages in Spring Boot enhance user feedback by externalizing error messages from code, improving maintainability, and…"}</script><link rel="stylesheet" href="/_astro/_slug_.s4HJyrFw.css">
+<style>.toc[data-astro-cid-xvrfupwn]{position:sticky;top:90px;max-height:calc(100vh - 120px);overflow:auto;padding:1rem 1rem 1.2rem;background:var(--color-bg-alt);border:1px solid var(--color-border);border-radius:var(--radius-md);font-size:.8rem;line-height:1.3}.toc-title[data-astro-cid-xvrfupwn]{font-weight:600;font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.6rem;color:var(--color-text-alt)}.toc[data-astro-cid-xvrfupwn] ul[data-astro-cid-xvrfupwn]{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.35rem}.toc[data-astro-cid-xvrfupwn] a[data-astro-cid-xvrfupwn]{text-decoration:none;color:var(--color-text-alt);transition:color var(--transition)}.toc[data-astro-cid-xvrfupwn] a[data-astro-cid-xvrfupwn]:hover{color:var(--color-accent)}.toc[data-astro-cid-xvrfupwn] li[data-astro-cid-xvrfupwn][class*=d-3]{margin-left:.75rem}.toc[data-astro-cid-xvrfupwn] li[data-astro-cid-xvrfupwn][class*=d-4]{margin-left:1.4rem}@media (max-width: 1080px){.toc[data-astro-cid-xvrfupwn]{display:none}}.breadcrumbs[data-astro-cid-ilhxcym7]{margin:0 0 1.5rem;font-size:.85rem}.breadcrumbs[data-astro-cid-ilhxcym7] ol[data-astro-cid-ilhxcym7]{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;align-items:center;gap:.5rem}.breadcrumbs[data-astro-cid-ilhxcym7] li[data-astro-cid-ilhxcym7]{display:flex;align-items:center;gap:.5rem}.breadcrumbs[data-astro-cid-ilhxcym7] a[data-astro-cid-ilhxcym7]{color:var(--color-text-alt);text-decoration:none;transition:color var(--transition)}.breadcrumbs[data-astro-cid-ilhxcym7] a[data-astro-cid-ilhxcym7]:hover{color:var(--color-accent);text-decoration:underline}.breadcrumbs[data-astro-cid-ilhxcym7] .separator[data-astro-cid-ilhxcym7]{color:var(--color-text-alt);opacity:.5;user-select:none}.breadcrumbs[data-astro-cid-ilhxcym7] .current[data-astro-cid-ilhxcym7]{color:var(--color-text);font-weight:500}.related-posts[data-astro-cid-dpgbfi7r]{margin:3rem 0;padding-top:2rem;border-top:2px solid var(--color-border)}.related-posts[data-astro-cid-dpgbfi7r] h2[data-astro-cid-dpgbfi7r]{font-size:1.5rem;margin:0 0 1.5rem;color:var(--color-text)}.related-posts-grid[data-astro-cid-dpgbfi7r]{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem}.related-post-card[data-astro-cid-dpgbfi7r]{background:var(--color-bg-alt);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;transition:all var(--transition)}.related-post-card[data-astro-cid-dpgbfi7r]:hover{border-color:var(--color-accent);transform:translateY(-2px);box-shadow:var(--shadow-md)}.related-post-link[data-astro-cid-dpgbfi7r]{text-decoration:none;color:inherit;display:block}.related-post-card[data-astro-cid-dpgbfi7r] h3[data-astro-cid-dpgbfi7r]{margin:0 0 .75rem;font-size:1.1rem;font-weight:600;color:var(--color-text);line-height:1.3}.related-post-link[data-astro-cid-dpgbfi7r]:hover h3[data-astro-cid-dpgbfi7r]{color:var(--color-accent)}.related-excerpt[data-astro-cid-dpgbfi7r]{font-size:.85rem;color:var(--color-text-alt);line-height:1.5;margin:0 0 .75rem}.related-meta[data-astro-cid-dpgbfi7r]{font-size:.75rem;color:var(--color-text-alt);display:flex;gap:.5rem;align-items:center}@media (max-width: 680px){.related-posts-grid[data-astro-cid-dpgbfi7r]{grid-template-columns:1fr}}
+.post-layout[data-astro-cid-rkg3zjxi]{display:grid;grid-template-columns:260px 1fr;gap:2.5rem}.sidebar-left[data-astro-cid-rkg3zjxi]{position:relative}@media (max-width: 1080px){.post-layout[data-astro-cid-rkg3zjxi]{grid-template-columns:1fr}}.ai-disclaimer-article[data-astro-cid-rkg3zjxi]{display:flex;gap:.75rem;padding:.9rem 1.1rem;margin:0 auto 2rem;max-width:780px;background:linear-gradient(135deg,#667eea1a,#764ba21a,#f093fb1a);border:2px solid transparent;border-radius:var(--radius-md);position:relative;background-clip:padding-box;font-size:.85rem}.ai-disclaimer-article[data-astro-cid-rkg3zjxi]:before{content:"";position:absolute;inset:-2px;border-radius:var(--radius-md);padding:2px;background:var(--ai-gradient-border);background-size:200% 200%;animation:gradient-rotate 3s linear infinite;-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask-composite:exclude;pointer-events:none}html[data-theme=dark] .ai-disclaimer-article[data-astro-cid-rkg3zjxi]{background:linear-gradient(135deg,#667eea26,#764ba226,#f093fb26)}.ai-disclaimer-article[data-astro-cid-rkg3zjxi] svg[data-astro-cid-rkg3zjxi]{margin-top:.15rem}.ai-disclaimer-article[data-astro-cid-rkg3zjxi] strong[data-astro-cid-rkg3zjxi]{color:var(--color-text);display:block;margin-bottom:.15rem}.ai-disclaimer-article[data-astro-cid-rkg3zjxi] div[data-astro-cid-rkg3zjxi]{line-height:1.5;color:var(--color-text-alt)}
+</style><script type="module" src="/_astro/hoisted.2U5tn40l.js"></script></head> <body> <div id="readingProgress" role="progressbar" aria-label="Reading progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="position:fixed;left:0;top:0;height:3px;background:linear-gradient(90deg,#2563eb,#9333ea);width:0;z-index:999;transition:width .15s ease;"></div>  <!-- Site Header --> <header class="site-header container"> <div class="logo-wrap"> <a class="logo" href="/" aria-label="Dev|Journal Home">
+Dev|Journal
+</a> </div> <nav class="main-nav" aria-label="Main navigation"> <a href="/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path> <polyline points="9 22 9 12 15 12 15 22"></polyline> </svg>
 Home
-</a> <a href="/ai-news/" class="ai-news-link"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px;"> <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h-9.5a.5.5 0 0 0-.5.5.5.5 0 0 1-1 0 .5.5 0 0 0-.5-.5H1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"></path> <path d="M7 15v4a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-4"></path> </svg>
+</a> <a href="/ai-news/" class="ai-news-link"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h-9.5a.5.5 0 0 0-.5.5.5.5 0 0 1-1 0 .5.5 0 0 0-.5-.5H1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"></path> <path d="M7 15v4a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-4"></path> </svg>
 AI News
-</a> <a href="/tags/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px;"> <path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2z"></path> <circle cx="7" cy="7" r="1.5"></circle> </svg>
+</a> <a href="/tags/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2z"></path> <circle cx="7" cy="7" r="1.5"></circle> </svg>
 Tags
-</a> <a href="/about/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px;"> <circle cx="12" cy="12" r="10"></circle> <path d="M12 16v-4"></path> <path d="M12 8h.01"></path> </svg>
+</a> <a href="/about/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <circle cx="12" cy="12" r="10"></circle> <path d="M12 16v-4"></path> <path d="M12 8h.01"></path> </svg>
 About
-</a> <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode"> <span class="theme-icon">☾</span> <span class="theme-text">dark</span> </button> </nav> </header> <main class="container content-area">  <div class="ai-disclaimer-article" data-astro-cid-rkg3zjxi> <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;" data-astro-cid-rkg3zjxi> <circle cx="12" cy="12" r="10" data-astro-cid-rkg3zjxi></circle> <line x1="12" y1="8" x2="12" y2="12" data-astro-cid-rkg3zjxi></line> <line x1="12" y1="16" x2="12.01" y2="16" data-astro-cid-rkg3zjxi></line> </svg> <div data-astro-cid-rkg3zjxi> <strong data-astro-cid-rkg3zjxi>AI-Generated Content:</strong> This article was created with AI assistance. Please verify important information and check original references.
-</div> </div> <div class="post-layout" data-astro-cid-rkg3zjxi> <aside class="sidebar-left" data-astro-cid-rkg3zjxi> <nav class="toc" aria-label="Table of Contents" data-astro-cid-xvrfupwn> <div class="toc-title" data-astro-cid-xvrfupwn>On this page</div> <ul data-astro-cid-xvrfupwn> <li class="d-2" data-astro-cid-xvrfupwn><a href="#main-heading" data-astro-cid-xvrfupwn>Main Heading</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#1-key-concepts-and-benefits" data-astro-cid-xvrfupwn>1. Key Concepts and Benefits</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#2-implementation-steps" data-astro-cid-xvrfupwn>2. Implementation Steps</a></li><li class="d-4" data-astro-cid-xvrfupwn><a href="#21-add-validation-dependency" data-astro-cid-xvrfupwn>2.1. Add Validation Dependency</a></li><li class="d-4" data-astro-cid-xvrfupwn><a href="#22-annotate-dto-with-message-keys" data-astro-cid-xvrfupwn>2.2. Annotate DTO with Message Keys</a></li><li class="d-4" data-astro-cid-xvrfupwn><a href="#23-create-validationmessagesproperties" data-astro-cid-xvrfupwn>2.3. Create `ValidationMessages.properties`</a></li><li class="d-4" data-astro-cid-xvrfupwn><a href="#24-configure-messagesource-for-internationalization" data-astro-cid-xvrfupwn>2.4. Configure MessageSource for Internationalization</a></li><li class="d-4" data-astro-cid-xvrfupwn><a href="#25-handle-validation-errors-in-controllers" data-astro-cid-xvrfupwn>2.5. Handle Validation Errors in Controllers</a></li><li class="d-2" data-astro-cid-xvrfupwn><a href="#working-example" data-astro-cid-xvrfupwn>Working Example</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#dto-with-validation-annotations" data-astro-cid-xvrfupwn>DTO with Validation Annotations</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#validation-messages-file" data-astro-cid-xvrfupwn>Validation Messages File</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#controller-with-error-handling" data-astro-cid-xvrfupwn>Controller with Error Handling</a></li><li class="d-2" data-astro-cid-xvrfupwn><a href="#recommendations" data-astro-cid-xvrfupwn>Recommendations</a></li><li class="d-2" data-astro-cid-xvrfupwn><a href="#potential-pitfalls" data-astro-cid-xvrfupwn>Potential Pitfalls</a></li><li class="d-2" data-astro-cid-xvrfupwn><a href="#reference" data-astro-cid-xvrfupwn>Reference</a></li> </ul> </nav>  </aside> <article class="post" data-astro-cid-rkg3zjxi> <header class="post-header" data-astro-cid-rkg3zjxi> <h1 data-astro-cid-rkg3zjxi>Custom Validation Message Binding in Spring Boot: A Comprehensive Guide</h1> <div class="meta" data-astro-cid-rkg3zjxi> <time datetime="2025-10-25T00:00:00.000Z" data-astro-cid-rkg3zjxi>Sat Oct 25 2025</time> <span data-astro-cid-rkg3zjxi>• 3 min read</span> </div> <div class="tag-row" data-astro-cid-rkg3zjxi><a class="tag ai-news-tag" href="/ai-news/" data-astro-cid-rkg3zjxi>AI News</a><span class="tag" data-astro-cid-rkg3zjxi>Spring Boot</span><span class="tag" data-astro-cid-rkg3zjxi>Bean Validation</span></div> </header> <div class="post-body prose" data-astro-cid-rkg3zjxi> <h2 id="main-heading">Main Heading</h2>
+</a> <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode"> <span class="theme-icon" aria-hidden="true">☾</span> <span class="theme-text">dark</span> </button> </nav> </header> <!-- Main Content --> <main class="container content-area">  <nav class="breadcrumbs" aria-label="Breadcrumb" data-astro-cid-ilhxcym7> <ol data-astro-cid-ilhxcym7> <li data-astro-cid-ilhxcym7>  <a href="/" data-astro-cid-ilhxcym7>Home</a> <span class="separator" aria-hidden="true" data-astro-cid-ilhxcym7>/</span>  </li><li data-astro-cid-ilhxcym7>  <a href="/ai-news/" data-astro-cid-ilhxcym7>Ai News</a> <span class="separator" aria-hidden="true" data-astro-cid-ilhxcym7>/</span>  </li><li data-astro-cid-ilhxcym7> <span class="current" aria-current="page" data-astro-cid-ilhxcym7>Custom Validation Message Binding in Spring Boot: A Comprehensive Guide</span> </li> </ol> </nav>  <div class="ai-disclaimer-article" data-astro-cid-rkg3zjxi> <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;" data-astro-cid-rkg3zjxi> <circle cx="12" cy="12" r="10" data-astro-cid-rkg3zjxi></circle> <line x1="12" y1="8" x2="12" y2="12" data-astro-cid-rkg3zjxi></line> <line x1="12" y1="16" x2="12.01" y2="16" data-astro-cid-rkg3zjxi></line> </svg> <div data-astro-cid-rkg3zjxi> <strong data-astro-cid-rkg3zjxi>AI-Generated Content:</strong> This article was created with AI assistance. Please verify important information and check original references.
+</div> </div> <div class="post-layout" data-astro-cid-rkg3zjxi> <aside class="sidebar-left" data-astro-cid-rkg3zjxi> <nav class="toc" aria-label="Table of Contents" data-astro-cid-xvrfupwn> <div class="toc-title" data-astro-cid-xvrfupwn>On this page</div> <ul data-astro-cid-xvrfupwn> <li class="d-2" data-astro-cid-xvrfupwn> <a href="#main-heading" data-astro-cid-xvrfupwn> Main Heading </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#1-key-concepts-and-benefits" data-astro-cid-xvrfupwn> 1. Key Concepts and Benefits </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#2-implementation-steps" data-astro-cid-xvrfupwn> 2. Implementation Steps </a> </li><li class="d-4" data-astro-cid-xvrfupwn> <a href="#21-add-validation-dependency" data-astro-cid-xvrfupwn> 2.1. Add Validation Dependency </a> </li><li class="d-4" data-astro-cid-xvrfupwn> <a href="#22-annotate-dto-with-message-keys" data-astro-cid-xvrfupwn> 2.2. Annotate DTO with Message Keys </a> </li><li class="d-4" data-astro-cid-xvrfupwn> <a href="#23-create-validationmessagesproperties" data-astro-cid-xvrfupwn> 2.3. Create `ValidationMessages.properties` </a> </li><li class="d-4" data-astro-cid-xvrfupwn> <a href="#24-configure-messagesource-for-internationalization" data-astro-cid-xvrfupwn> 2.4. Configure MessageSource for Internationalization </a> </li><li class="d-4" data-astro-cid-xvrfupwn> <a href="#25-handle-validation-errors-in-controllers" data-astro-cid-xvrfupwn> 2.5. Handle Validation Errors in Controllers </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#working-example" data-astro-cid-xvrfupwn> Working Example </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#dto-with-validation-annotations" data-astro-cid-xvrfupwn> DTO with Validation Annotations </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#validation-messages-file" data-astro-cid-xvrfupwn> Validation Messages File </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#controller-with-error-handling" data-astro-cid-xvrfupwn> Controller with Error Handling </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#recommendations" data-astro-cid-xvrfupwn> Recommendations </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#potential-pitfalls" data-astro-cid-xvrfupwn> Potential Pitfalls </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#reference" data-astro-cid-xvrfupwn> Reference </a> </li> </ul> </nav>  </aside> <article class="post" data-astro-cid-rkg3zjxi> <header class="post-header" data-astro-cid-rkg3zjxi> <h1 data-astro-cid-rkg3zjxi>Custom Validation Message Binding in Spring Boot: A Comprehensive Guide</h1> <div class="meta" data-astro-cid-rkg3zjxi> <time datetime="2025-10-25T00:00:00.000Z" data-astro-cid-rkg3zjxi>Sat Oct 25 2025</time> <span data-astro-cid-rkg3zjxi>• 3 min read</span> </div> <div class="tag-row" data-astro-cid-rkg3zjxi><a class="tag ai-news-tag" href="/tags/ai-news/" data-astro-cid-rkg3zjxi>AI News</a><a class="tag " href="/tags/spring-boot/" data-astro-cid-rkg3zjxi>Spring Boot</a><a class="tag " href="/tags/bean-validation/" data-astro-cid-rkg3zjxi>Bean Validation</a></div> </header> <div class="post-body prose" data-astro-cid-rkg3zjxi> <h2 id="main-heading">Main Heading</h2>
 <p>Custom validation messages in Spring Boot enhance user feedback by externalizing error messages from code, improving maintainability, and supporting localization. This guide outlines the process of configuring validation, annotating DTOs, and handling errors effectively.</p>
 <h3 id="1-key-concepts-and-benefits">1. Key Concepts and Benefits</h3>
 <ul>
@@ -28,27 +42,27 @@ About
 <h4 id="21-add-validation-dependency">2.1. Add Validation Dependency</h4>
 <ul>
 <li><strong>Maven Configuration</strong>:
-<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="xml"><code><span class="line"><span style="color:#E6EDF3">&#x3C;</span><span style="color:#7EE787">dependency</span><span style="color:#E6EDF3">></span></span>
-<span class="line"><span style="color:#E6EDF3">    &#x3C;</span><span style="color:#7EE787">groupId</span><span style="color:#E6EDF3">>org.springframework.boot&#x3C;/</span><span style="color:#7EE787">groupId</span><span style="color:#E6EDF3">></span></span>
-<span class="line"><span style="color:#E6EDF3">    &#x3C;</span><span style="color:#7EE787">artifactId</span><span style="color:#E6EDF3">>spring-boot-starter-validation&#x3C;/</span><span style="color:#7EE787">artifactId</span><span style="color:#E6EDF3">></span></span>
-<span class="line"><span style="color:#E6EDF3">&#x3C;/</span><span style="color:#7EE787">dependency</span><span style="color:#E6EDF3">></span></span>
-<span class="line"></span></code></pre>
+<pre class="language-xml" data-language="xml"><code is:raw="" class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&#x3C;</span>dependency</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&#x3C;</span>groupId</span><span class="token punctuation">></span></span>org.springframework.boot<span class="token tag"><span class="token tag"><span class="token punctuation">&#x3C;/</span>groupId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&#x3C;</span>artifactId</span><span class="token punctuation">></span></span>spring-boot-starter-validation<span class="token tag"><span class="token tag"><span class="token punctuation">&#x3C;/</span>artifactId</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&#x3C;/</span>dependency</span><span class="token punctuation">></span></span>
+</code></pre>
 </li>
 <li><strong>Purpose</strong>: Enables Bean Validation (Hibernate Validator) for annotations like <code>@NotBlank</code>.</li>
 </ul>
 <h4 id="22-annotate-dto-with-message-keys">2.2. Annotate DTO with Message Keys</h4>
 <ul>
 <li><strong>Example DTO</strong>:
-<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#FF7B72">public</span><span style="color:#FF7B72"> class</span><span style="color:#FFA657"> UserDTO</span><span style="color:#E6EDF3"> {</span></span>
-<span class="line"><span style="color:#E6EDF3">    @</span><span style="color:#FF7B72">NotBlank</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">message</span><span style="color:#FF7B72"> =</span><span style="color:#A5D6FF"> "{user.name.notblank}"</span><span style="color:#E6EDF3">)</span></span>
-<span class="line"><span style="color:#FF7B72">    private</span><span style="color:#E6EDF3"> String</span><span style="color:#E6EDF3"> name;</span></span>
-<span class="line"><span style="color:#E6EDF3">    @</span><span style="color:#FF7B72">Email</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">message</span><span style="color:#FF7B72"> =</span><span style="color:#A5D6FF"> "{user.email.invalid}"</span><span style="color:#E6EDF3">)</span></span>
-<span class="line"><span style="color:#FF7B72">    private</span><span style="color:#E6EDF3"> String</span><span style="color:#E6EDF3"> email;</span></span>
-<span class="line"><span style="color:#E6EDF3">    @</span><span style="color:#FF7B72">Min</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">value</span><span style="color:#FF7B72"> =</span><span style="color:#79C0FF"> 18</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">message</span><span style="color:#FF7B72"> =</span><span style="color:#A5D6FF"> "{user.age.min}"</span><span style="color:#E6EDF3">)</span></span>
-<span class="line"><span style="color:#FF7B72">    private</span><span style="color:#FF7B72"> int</span><span style="color:#E6EDF3"> age;</span></span>
-<span class="line"><span style="color:#8B949E">    // Getters and setters</span></span>
-<span class="line"><span style="color:#E6EDF3">}</span></span>
-<span class="line"></span></code></pre>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">UserDTO</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@NotBlank</span><span class="token punctuation">(</span>message <span class="token operator">=</span> <span class="token string">"{user.name.notblank}"</span><span class="token punctuation">)</span>
+    <span class="token keyword">private</span> <span class="token class-name">String</span> name<span class="token punctuation">;</span>
+    <span class="token annotation punctuation">@Email</span><span class="token punctuation">(</span>message <span class="token operator">=</span> <span class="token string">"{user.email.invalid}"</span><span class="token punctuation">)</span>
+    <span class="token keyword">private</span> <span class="token class-name">String</span> email<span class="token punctuation">;</span>
+    <span class="token annotation punctuation">@Min</span><span class="token punctuation">(</span>value <span class="token operator">=</span> <span class="token number">18</span><span class="token punctuation">,</span> message <span class="token operator">=</span> <span class="token string">"{user.age.min}"</span><span class="token punctuation">)</span>
+    <span class="token keyword">private</span> <span class="token keyword">int</span> age<span class="token punctuation">;</span>
+    <span class="token comment">// Getters and setters</span>
+<span class="token punctuation">}</span>
+</code></pre>
 </li>
 <li><strong>Explanation</strong>:
 <ul>
@@ -60,33 +74,33 @@ About
 <h4 id="23-create-validationmessagesproperties">2.3. Create <code>ValidationMessages.properties</code></h4>
 <ul>
 <li><strong>File Structure</strong>:
-<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plaintext"><code><span class="line"><span>our-project/</span></span>
-<span class="line"><span>└── src/</span></span>
-<span class="line"><span>    └── main/</span></span>
-<span class="line"><span>        └── resources/</span></span>
-<span class="line"><span>            └── ValidationMessages.properties</span></span>
-<span class="line"><span></span></span></code></pre>
+<pre class="language-plaintext" data-language="plaintext"><code is:raw="" class="language-plaintext">our-project/
+└── src/
+    └── main/
+        └── resources/
+            └── ValidationMessages.properties
+</code></pre>
 </li>
 <li><strong>Content Example</strong>:
-<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plaintext"><code><span class="line"><span>user.name.notblank=Name must not be blank.</span></span>
-<span class="line"><span>user.email.invalid=Please provide a valid email address.</span></span>
-<span class="line"><span>user.age.min=Age must be at least 18.</span></span>
-<span class="line"><span></span></span></code></pre>
+<pre class="language-plaintext" data-language="plaintext"><code is:raw="" class="language-plaintext">user.name.notblank=Name must not be blank.
+user.email.invalid=Please provide a valid email address.
+user.age.min=Age must be at least 18.
+</code></pre>
 </li>
 <li><strong>Purpose</strong>: Maps message keys to human-readable error messages.</li>
 </ul>
 <h4 id="24-configure-messagesource-for-internationalization">2.4. Configure MessageSource for Internationalization</h4>
 <ul>
 <li><strong>Bean Configuration</strong>:
-<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#E6EDF3">@</span><span style="color:#FF7B72">Bean</span></span>
-<span class="line"><span style="color:#FF7B72">public</span><span style="color:#E6EDF3"> MessageSource </span><span style="color:#D2A8FF">messageSource</span><span style="color:#E6EDF3">() {</span></span>
-<span class="line"><span style="color:#E6EDF3">    ResourceBundleMessageSource</span><span style="color:#E6EDF3"> source</span><span style="color:#FF7B72"> =</span><span style="color:#FF7B72"> new</span><span style="color:#D2A8FF"> ResourceBundleMessageSource</span><span style="color:#E6EDF3">();</span></span>
-<span class="line"><span style="color:#E6EDF3">    source.</span><span style="color:#D2A8FF">setBasename</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"ValidationMessages"</span><span style="color:#E6EDF3">);</span></span>
-<span class="line"><span style="color:#E6EDF3">    source.</span><span style="color:#D2A8FF">setDefaultEncoding</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"UTF-8"</span><span style="color:#E6EDF3">);</span></span>
-<span class="line"><span style="color:#E6EDF3">    source.</span><span style="color:#D2A8FF">setUseCodeAsDefaultMessage</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">true</span><span style="color:#E6EDF3">);</span></span>
-<span class="line"><span style="color:#FF7B72">    return</span><span style="color:#E6EDF3"> source;</span></span>
-<span class="line"><span style="color:#E6EDF3">}</span></span>
-<span class="line"></span></code></pre>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token annotation punctuation">@Bean</span>
+<span class="token keyword">public</span> <span class="token class-name">MessageSource</span> <span class="token function">messageSource</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token class-name">ResourceBundleMessageSource</span> source <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ResourceBundleMessageSource</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    source<span class="token punctuation">.</span><span class="token function">setBasename</span><span class="token punctuation">(</span><span class="token string">"ValidationMessages"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    source<span class="token punctuation">.</span><span class="token function">setDefaultEncoding</span><span class="token punctuation">(</span><span class="token string">"UTF-8"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    source<span class="token punctuation">.</span><span class="token function">setUseCodeAsDefaultMessage</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> source<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
 </li>
 <li><strong>Key Properties</strong>:
 <ul>
@@ -99,64 +113,64 @@ About
 <h4 id="25-handle-validation-errors-in-controllers">2.5. Handle Validation Errors in Controllers</h4>
 <ul>
 <li><strong>Controller Example</strong>:
-<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#E6EDF3">@</span><span style="color:#FF7B72">PostMapping</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"/register"</span><span style="color:#E6EDF3">)</span></span>
-<span class="line"><span style="color:#FF7B72">public</span><span style="color:#E6EDF3"> ResponseEntity</span><span style="color:#FF7B72">&#x3C;?></span><span style="color:#D2A8FF"> registerUser</span><span style="color:#E6EDF3">(@</span><span style="color:#FF7B72">Valid</span><span style="color:#E6EDF3"> @</span><span style="color:#FF7B72">RequestBody</span><span style="color:#E6EDF3"> UserDTO userDTO, BindingResult result) {</span></span>
-<span class="line"><span style="color:#FF7B72">    if</span><span style="color:#E6EDF3"> (result.</span><span style="color:#D2A8FF">hasErrors</span><span style="color:#E6EDF3">()) {</span></span>
-<span class="line"><span style="color:#E6EDF3">        List</span><span style="color:#FFA657">&#x3C;</span><span style="color:#FF7B72">String</span><span style="color:#FFA657">> </span><span style="color:#E6EDF3">errors</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> result.</span><span style="color:#D2A8FF">getFieldErrors</span><span style="color:#E6EDF3">()</span></span>
-<span class="line"><span style="color:#E6EDF3">            .</span><span style="color:#D2A8FF">stream</span><span style="color:#E6EDF3">()</span></span>
-<span class="line"><span style="color:#E6EDF3">            .</span><span style="color:#D2A8FF">map</span><span style="color:#E6EDF3">(FieldError</span><span style="color:#FF7B72">::</span><span style="color:#E6EDF3">getDefaultMessage)</span></span>
-<span class="line"><span style="color:#E6EDF3">            .</span><span style="color:#D2A8FF">collect</span><span style="color:#E6EDF3">(Collectors.</span><span style="color:#D2A8FF">toList</span><span style="color:#E6EDF3">());</span></span>
-<span class="line"><span style="color:#FF7B72">        return</span><span style="color:#E6EDF3"> ResponseEntity.</span><span style="color:#D2A8FF">badRequest</span><span style="color:#E6EDF3">().</span><span style="color:#D2A8FF">body</span><span style="color:#E6EDF3">(errors);</span></span>
-<span class="line"><span style="color:#E6EDF3">    }</span></span>
-<span class="line"><span style="color:#FF7B72">    return</span><span style="color:#E6EDF3"> ResponseEntity.</span><span style="color:#D2A8FF">ok</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"User registered successfully"</span><span style="color:#E6EDF3">);</span></span>
-<span class="line"><span style="color:#E6EDF3">}</span></span>
-<span class="line"></span></code></pre>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token annotation punctuation">@PostMapping</span><span class="token punctuation">(</span><span class="token string">"/register"</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token class-name">ResponseEntity</span><span class="token generics"><span class="token punctuation">&#x3C;</span><span class="token operator">?</span><span class="token punctuation">></span></span> <span class="token function">registerUser</span><span class="token punctuation">(</span><span class="token annotation punctuation">@Valid</span> <span class="token annotation punctuation">@RequestBody</span> <span class="token class-name">UserDTO</span> userDTO<span class="token punctuation">,</span> <span class="token class-name">BindingResult</span> result<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>result<span class="token punctuation">.</span><span class="token function">hasErrors</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&#x3C;</span><span class="token class-name">String</span><span class="token punctuation">></span></span> errors <span class="token operator">=</span> result<span class="token punctuation">.</span><span class="token function">getFieldErrors</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token class-name">FieldError</span><span class="token operator">::</span><span class="token function">getDefaultMessage</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">collect</span><span class="token punctuation">(</span><span class="token class-name">Collectors</span><span class="token punctuation">.</span><span class="token function">toList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token class-name">ResponseEntity</span><span class="token punctuation">.</span><span class="token function">badRequest</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">body</span><span class="token punctuation">(</span>errors<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> <span class="token class-name">ResponseEntity</span><span class="token punctuation">.</span><span class="token function">ok</span><span class="token punctuation">(</span><span class="token string">"User registered successfully"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
 </li>
 <li><strong>Error Response Example</strong>:
-<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">[</span></span>
-<span class="line"><span style="color:#A5D6FF">  "Name must not be blank."</span><span style="color:#E6EDF3">,</span></span>
-<span class="line"><span style="color:#A5D6FF">  "Please provide a valid email address."</span><span style="color:#E6EDF3">,</span></span>
-<span class="line"><span style="color:#A5D6FF">  "Age must be at least 18."</span></span>
-<span class="line"><span style="color:#E6EDF3">]</span></span>
-<span class="line"></span></code></pre>
+<pre class="language-json" data-language="json"><code is:raw="" class="language-json"><span class="token punctuation">[</span>
+  <span class="token string">"Name must not be blank."</span><span class="token punctuation">,</span>
+  <span class="token string">"Please provide a valid email address."</span><span class="token punctuation">,</span>
+  <span class="token string">"Age must be at least 18."</span>
+<span class="token punctuation">]</span>
+</code></pre>
 </li>
 <li><strong>Purpose</strong>: Captures and returns validation errors using <code>BindingResult</code>.</li>
 </ul>
 <hr>
 <h2 id="working-example">Working Example</h2>
 <h3 id="dto-with-validation-annotations">DTO with Validation Annotations</h3>
-<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#FF7B72">public</span><span style="color:#FF7B72"> class</span><span style="color:#FFA657"> UserDTO</span><span style="color:#E6EDF3"> {</span></span>
-<span class="line"><span style="color:#E6EDF3">    @</span><span style="color:#FF7B72">NotBlank</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">message</span><span style="color:#FF7B72"> =</span><span style="color:#A5D6FF"> "{user.name.notblank}"</span><span style="color:#E6EDF3">)</span></span>
-<span class="line"><span style="color:#FF7B72">    private</span><span style="color:#E6EDF3"> String</span><span style="color:#E6EDF3"> name;</span></span>
-<span class="line"><span style="color:#E6EDF3">    @</span><span style="color:#FF7B72">Email</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">message</span><span style="color:#FF7B72"> =</span><span style="color:#A5D6FF"> "{user.email.invalid}"</span><span style="color:#E6EDF3">)</span></span>
-<span class="line"><span style="color:#FF7B72">    private</span><span style="color:#E6EDF3"> String</span><span style="color:#E6EDF3"> email;</span></span>
-<span class="line"><span style="color:#E6EDF3">    @</span><span style="color:#FF7B72">Min</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">value</span><span style="color:#FF7B72"> =</span><span style="color:#79C0FF"> 18</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">message</span><span style="color:#FF7B72"> =</span><span style="color:#A5D6FF"> "{user.age.min}"</span><span style="color:#E6EDF3">)</span></span>
-<span class="line"><span style="color:#FF7B72">    private</span><span style="color:#FF7B72"> int</span><span style="color:#E6EDF3"> age;</span></span>
-<span class="line"><span style="color:#8B949E">    // Getters and setters</span></span>
-<span class="line"><span style="color:#E6EDF3">}</span></span>
-<span class="line"></span></code></pre>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">UserDTO</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@NotBlank</span><span class="token punctuation">(</span>message <span class="token operator">=</span> <span class="token string">"{user.name.notblank}"</span><span class="token punctuation">)</span>
+    <span class="token keyword">private</span> <span class="token class-name">String</span> name<span class="token punctuation">;</span>
+    <span class="token annotation punctuation">@Email</span><span class="token punctuation">(</span>message <span class="token operator">=</span> <span class="token string">"{user.email.invalid}"</span><span class="token punctuation">)</span>
+    <span class="token keyword">private</span> <span class="token class-name">String</span> email<span class="token punctuation">;</span>
+    <span class="token annotation punctuation">@Min</span><span class="token punctuation">(</span>value <span class="token operator">=</span> <span class="token number">18</span><span class="token punctuation">,</span> message <span class="token operator">=</span> <span class="token string">"{user.age.min}"</span><span class="token punctuation">)</span>
+    <span class="token keyword">private</span> <span class="token keyword">int</span> age<span class="token punctuation">;</span>
+    <span class="token comment">// Getters and setters</span>
+<span class="token punctuation">}</span>
+</code></pre>
 <h3 id="validation-messages-file">Validation Messages File</h3>
-<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="properties"><code><span class="line"><span style="color:#8B949E"># src/main/resources/ValidationMessages.properties</span></span>
-<span class="line"><span style="color:#FF7B72">user.name.notblank</span><span style="color:#E6EDF3">=Name must not be blank.</span></span>
-<span class="line"><span style="color:#FF7B72">user.email.invalid</span><span style="color:#E6EDF3">=Please provide a valid email address.</span></span>
-<span class="line"><span style="color:#FF7B72">user.age.min</span><span style="color:#E6EDF3">=Age must be at least 18.</span></span>
-<span class="line"></span></code></pre>
+<pre class="language-properties" data-language="properties"><code is:raw="" class="language-properties"><span class="token comment"># src/main/resources/ValidationMessages.properties</span>
+<span class="token key attr-name">user.name.notblank</span><span class="token punctuation">=</span><span class="token value attr-value">Name must not be blank.</span>
+<span class="token key attr-name">user.email.invalid</span><span class="token punctuation">=</span><span class="token value attr-value">Please provide a valid email address.</span>
+<span class="token key attr-name">user.age.min</span><span class="token punctuation">=</span><span class="token value attr-value">Age must be at least 18.</span>
+</code></pre>
 <h3 id="controller-with-error-handling">Controller with Error Handling</h3>
-<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#E6EDF3">@</span><span style="color:#FF7B72">RestController</span></span>
-<span class="line"><span style="color:#FF7B72">public</span><span style="color:#FF7B72"> class</span><span style="color:#FFA657"> UserController</span><span style="color:#E6EDF3"> {</span></span>
-<span class="line"><span style="color:#E6EDF3">    @</span><span style="color:#FF7B72">PostMapping</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"/register"</span><span style="color:#E6EDF3">)</span></span>
-<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#E6EDF3"> ResponseEntity&#x3C;</span><span style="color:#FF7B72">?</span><span style="color:#E6EDF3">> </span><span style="color:#D2A8FF">registerUser</span><span style="color:#E6EDF3">(@</span><span style="color:#FF7B72">Valid</span><span style="color:#E6EDF3"> @</span><span style="color:#FF7B72">RequestBody</span><span style="color:#E6EDF3"> UserDTO </span><span style="color:#FFA657">userDTO</span><span style="color:#E6EDF3">, BindingResult </span><span style="color:#FFA657">result</span><span style="color:#E6EDF3">) {</span></span>
-<span class="line"><span style="color:#FF7B72">        if</span><span style="color:#E6EDF3"> (result.</span><span style="color:#D2A8FF">hasErrors</span><span style="color:#E6EDF3">()) {</span></span>
-<span class="line"><span style="color:#E6EDF3">            List</span><span style="color:#FFA657">&#x3C;</span><span style="color:#FF7B72">String</span><span style="color:#FFA657">> </span><span style="color:#E6EDF3">errors</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> result.</span><span style="color:#D2A8FF">getFieldErrors</span><span style="color:#E6EDF3">()</span></span>
-<span class="line"><span style="color:#E6EDF3">                .</span><span style="color:#D2A8FF">stream</span><span style="color:#E6EDF3">()</span></span>
-<span class="line"><span style="color:#E6EDF3">                .</span><span style="color:#D2A8FF">map</span><span style="color:#E6EDF3">(FieldError</span><span style="color:#FF7B72">::</span><span style="color:#E6EDF3">getDefaultMessage)</span></span>
-<span class="line"><span style="color:#E6EDF3">                .</span><span style="color:#D2A8FF">collect</span><span style="color:#E6EDF3">(Collectors.</span><span style="color:#D2A8FF">toList</span><span style="color:#E6EDF3">());</span></span>
-<span class="line"><span style="color:#FF7B72">            return</span><span style="color:#E6EDF3"> ResponseEntity.</span><span style="color:#D2A8FF">badRequest</span><span style="color:#E6EDF3">().</span><span style="color:#D2A8FF">body</span><span style="color:#E6EDF3">(errors);</span></span>
-<span class="line"><span style="color:#E6EDF3">        }</span></span>
-<span class="line"><span style="color:#FF7B72">        return</span><span style="color:#E6EDF3"> ResponseEntity.</span><span style="color:#D2A8FF">ok</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"User registered successfully"</span><span style="color:#E6EDF3">);</span></span>
-<span class="line"><span style="color:#E6EDF3">    }</span></span>
-<span class="line"><span style="color:#E6EDF3">}</span></span>
-<span class="line"></span></code></pre>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token annotation punctuation">@RestController</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">UserController</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@PostMapping</span><span class="token punctuation">(</span><span class="token string">"/register"</span><span class="token punctuation">)</span>
+    <span class="token keyword">public</span> <span class="token class-name">ResponseEntity</span><span class="token generics"><span class="token punctuation">&#x3C;</span><span class="token operator">?</span><span class="token punctuation">></span></span> <span class="token function">registerUser</span><span class="token punctuation">(</span><span class="token annotation punctuation">@Valid</span> <span class="token annotation punctuation">@RequestBody</span> <span class="token class-name">UserDTO</span> userDTO<span class="token punctuation">,</span> <span class="token class-name">BindingResult</span> result<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>result<span class="token punctuation">.</span><span class="token function">hasErrors</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&#x3C;</span><span class="token class-name">String</span><span class="token punctuation">></span></span> errors <span class="token operator">=</span> result<span class="token punctuation">.</span><span class="token function">getFieldErrors</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token class-name">FieldError</span><span class="token operator">::</span><span class="token function">getDefaultMessage</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">collect</span><span class="token punctuation">(</span><span class="token class-name">Collectors</span><span class="token punctuation">.</span><span class="token function">toList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span> <span class="token class-name">ResponseEntity</span><span class="token punctuation">.</span><span class="token function">badRequest</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">body</span><span class="token punctuation">(</span>errors<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> <span class="token class-name">ResponseEntity</span><span class="token punctuation">.</span><span class="token function">ok</span><span class="token punctuation">(</span><span class="token string">"User registered successfully"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
 <hr>
 <h2 id="recommendations">Recommendations</h2>
 <ul>
@@ -176,20 +190,34 @@ About
 </ul>
 <hr>
 <h2 id="reference">Reference</h2>
-<p><a href="https://www.baeldung.com/java-spring-bind-custom-validation-message">Bind Custom Validation Message in Spring | Baeldung</a></p> </div> </article> </div> <div class="back-link" data-astro-cid-rkg3zjxi><a href="/ai-news/" data-astro-cid-rkg3zjxi>← Back to AI News</a></div>  </main> <footer class="site-footer container"> <p>© 2025 AREZKI El Mehdi • <a href="https://github.com/earezki">GitHub</a> • <a href="/rss.xml">RSS</a></p> </footer>  <script>
-      // Read/Unread article tracking
+<p><a href="https://www.baeldung.com/java-spring-bind-custom-validation-message">Bind Custom Validation Message in Spring | Baeldung</a></p> </div>  <section class="related-posts" data-astro-cid-dpgbfi7r> <h2 data-astro-cid-dpgbfi7r>Related Posts</h2> <div class="related-posts-grid" data-astro-cid-dpgbfi7r> <article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/ai-news/2025-10-25-order-of-configuration-in-spring-boot/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>Order of Configuration in Spring Boot: Managing Initialization Sequence with Annotations</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>Main Heading Overview of Configuration Ordering in Spring Boot Spring Boot applications often rely on multiple…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2025-10-25T00:00:00.000Z" data-astro-cid-dpgbfi7r> Oct 25, 2025 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>4 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/ai-news/2025-10-20-article-a-plan-do-check-act-framework-for-ai-code-generation/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>A Plan-Do-Check-Act Framework for AI Code Generation</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>Summary: A Structured Approach to AI Code Generation with PDCA This article introduces a Plan-Do-Check-Act (PDCA)…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2025-10-20T00:00:00.000Z" data-astro-cid-dpgbfi7r> Oct 20, 2025 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>4 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/ai-news/2025-10-20-disaggregated-scheduled-fabric-scaling-metas-ai-journey/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>Disaggregated Scheduled Fabric (DSF): Scaling Meta’s AI Infrastructure</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>Summary: Meta&#39;s Disaggregated Scheduled Fabric (DSF) for Scalable AI Training Meta has developed Disaggregated…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2025-10-20T00:00:00.000Z" data-astro-cid-dpgbfi7r> Oct 20, 2025 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>4 min read</span> </div> </a> </article> </div> </section>  </article> </div> <div class="back-link" data-astro-cid-rkg3zjxi><a href="/ai-news/" data-astro-cid-rkg3zjxi>← Back to AI News</a></div>  </main> <!-- Site Footer --> <footer class="site-footer container"> <p>
+© 2025 AREZKI El Mehdi •
+<a href="https://github.com/earezki">GitHub</a> •
+<a href="/rss.xml">RSS</a> •
+<a href="/sitemap-index.xml">Sitemap</a> </p> </footer> <!-- Theme Toggle Script -->  <!-- Article Read/Unread Tracking --> <script>
+      /**
+       * Tracks which articles have been read using localStorage
+       * Updates post card styling on list pages
+       */
       (function() {
         const STORAGE_KEY = 'readArticles';
         
+        /**
+         * Gets list of read article URLs from localStorage
+         */
         function getReadArticles() {
           try {
             const data = localStorage.getItem(STORAGE_KEY);
             return data ? JSON.parse(data) : [];
           } catch (e) {
+            console.error('Failed to get read articles:', e);
             return [];
           }
         }
         
+        /**
+         * Marks an article URL as read
+         */
         function markArticleAsRead(url) {
           try {
             const readArticles = getReadArticles();
@@ -202,29 +230,37 @@ About
           }
         }
         
+        /**
+         * Checks if an article has been read
+         */
         function isArticleRead(url) {
           const readArticles = getReadArticles();
           return readArticles.includes(url);
         }
         
-        // Update post cards on list pages
+        /**
+         * Updates post card styling on list pages based on read status
+         */
         function updatePostCards() {
           const postCards = document.querySelectorAll('.post-card[data-article-url]');
+          
           postCards.forEach(function(card) {
             const url = card.getAttribute('data-article-url');
-            if (url) {
-              if (isArticleRead(url)) {
-                card.classList.add('read');
-                card.classList.remove('unread');
-              } else {
-                card.classList.add('unread');
-                card.classList.remove('read');
-              }
+            if (!url) return;
+            
+            if (isArticleRead(url)) {
+              card.classList.add('read');
+              card.classList.remove('unread');
+            } else {
+              card.classList.add('unread');
+              card.classList.remove('read');
             }
           });
         }
         
-        // Mark current article as read (on article pages)
+        /**
+         * Marks current article as read (on article detail pages)
+         */
         function markCurrentArticleAsRead() {
           const isArticlePage = document.querySelector('.post-body');
           if (isArticlePage) {
@@ -233,7 +269,9 @@ About
           }
         }
         
-        // Initialize function
+        /**
+         * Initialize tracking system
+         */
         function init() {
           updatePostCards();
           markCurrentArticleAsRead();
@@ -244,10 +282,116 @@ About
         
         // Handle back/forward navigation (bfcache)
         window.addEventListener('pageshow', function(event) {
-          // If page is loaded from cache, update the cards
           if (event.persisted) {
             init();
           }
         });
+      })();
+    </script> <!-- Code Copy Functionality --> <script>
+      /**
+       * Adds copy buttons to all code blocks
+       */
+      (function() {
+        /**
+         * Creates a copy button element
+         */
+        function createCopyButton() {
+          const button = document.createElement('button');
+          button.className = 'copy-code-button';
+          button.setAttribute('aria-label', 'Copy code to clipboard');
+          button.innerHTML = `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span>Copy</span>
+          `;
+          return button;
+        }
+        
+        /**
+         * Creates a success checkmark icon
+         */
+        function createCheckIcon() {
+          return `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span>Copied!</span>
+          `;
+        }
+        
+        /**
+         * Copies text to clipboard
+         */
+        async function copyToClipboard(text) {
+          try {
+            await navigator.clipboard.writeText(text);
+            return true;
+          } catch (err) {
+            // Fallback for older browsers
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-999999px';
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+              document.execCommand('copy');
+              document.body.removeChild(textArea);
+              return true;
+            } catch (e) {
+              document.body.removeChild(textArea);
+              return false;
+            }
+          }
+        }
+        
+        /**
+         * Handles copy button click
+         */
+        async function handleCopyClick(button, codeBlock) {
+          const code = codeBlock.textContent || '';
+          const success = await copyToClipboard(code);
+          
+          if (success) {
+            const originalHTML = button.innerHTML;
+            button.classList.add('copied');
+            button.innerHTML = createCheckIcon();
+            
+            setTimeout(function() {
+              button.classList.remove('copied');
+              button.innerHTML = originalHTML;
+            }, 2000);
+          }
+        }
+        
+        /**
+         * Adds copy buttons to all code blocks
+         */
+        function addCopyButtons() {
+          const codeBlocks = document.querySelectorAll('.post-body pre');
+          
+          codeBlocks.forEach(function(pre) {
+            // Skip if button already exists
+            if (pre.querySelector('.copy-code-button')) {
+              return;
+            }
+            
+            const button = createCopyButton();
+            const codeBlock = pre.querySelector('code');
+            
+            if (codeBlock) {
+              button.addEventListener('click', function() {
+                handleCopyClick(button, codeBlock);
+              });
+              
+              pre.appendChild(button);
+            }
+          });
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', addCopyButtons);
       })();
     </script> </body> </html> 

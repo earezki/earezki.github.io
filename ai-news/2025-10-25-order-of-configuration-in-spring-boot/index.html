@@ -1,16 +1,30 @@
-<!DOCTYPE html><html lang="en" data-theme="dark"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Order of Configuration in Spring Boot: Managing Initialization Sequence with Annotations • Dev|Journal</title><meta name="description" content="Main Heading Overview of Configuration Ordering in Spring Boot Spring Boot applications often rely on multiple configuration classes to define beans,…"><meta name="keywords" content="software architecture, backend development, microservices, Java, Python, Spring Boot, technical blog"><meta name="author" content="El Mehdi Arezki"><!-- Open Graph / Facebook --><meta property="og:type" content="website"><meta property="og:url" content="https://earezki.com/ai-news/2025-10-25-order-of-configuration-in-spring-boot/"><meta property="og:title" content="Order of Configuration in Spring Boot: Managing Initialization Sequence with Annotations • Dev|Journal"><meta property="og:site_name" content="Dev|Journal"><meta property="og:description" content="Main Heading Overview of Configuration Ordering in Spring Boot Spring Boot applications often rely on multiple configuration classes to define beans,…"><meta property="og:image" content="https://earezki.com/assets/og-image-default.jpg"><!-- Twitter --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:url" content="https://earezki.com/ai-news/2025-10-25-order-of-configuration-in-spring-boot/"><meta name="twitter:title" content="Order of Configuration in Spring Boot: Managing Initialization Sequence with Annotations • Dev|Journal"><meta name="twitter:description" content="Main Heading Overview of Configuration Ordering in Spring Boot Spring Boot applications often rely on multiple configuration classes to define beans,…"><meta name="twitter:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:creator" content="@earezki"><link rel="canonical" href="https://earezki.com/ai-news/2025-10-25-order-of-configuration-in-spring-boot/"><link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"><script async src="https://www.googletagmanager.com/gtag/js?id=UA-161447264-1"></script><script defer src="https://cloud.umami.is/script.js" data-website-id="4a26531d-1053-4f79-97a6-06a1366aff91"></script><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Order of Configuration in Spring Boot: Managing Initialization Sequence with Annotations","datePublished":"2025-10-25T00:00:00.000Z","dateModified":"2025-10-25T00:00:00.000Z","author":{"@type":"Person","name":"AREZKI El Mehdi"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://earezki.com/ai-news/2025-10-25-order-of-configuration-in-spring-boot/"},"description":"Main Heading Overview of Configuration Ordering in Spring Boot Spring Boot applications often rely on multiple configuration classes to define beans,…"}</script><link rel="stylesheet" href="/_astro/_slug_.CDWqF8AB.css">
-<style>.post-layout[data-astro-cid-rkg3zjxi]{display:grid;grid-template-columns:260px 1fr;gap:2.5rem}.sidebar-left[data-astro-cid-rkg3zjxi]{position:relative}@media (max-width: 1080px){.post-layout[data-astro-cid-rkg3zjxi]{grid-template-columns:1fr}}.ai-disclaimer-article[data-astro-cid-rkg3zjxi]{display:flex;gap:.75rem;padding:.9rem 1.1rem;margin:0 auto 2rem;max-width:780px;background:linear-gradient(135deg,#667eea1a,#764ba21a,#f093fb1a);border:2px solid transparent;border-radius:var(--radius-md);position:relative;background-clip:padding-box;font-size:.85rem}.ai-disclaimer-article[data-astro-cid-rkg3zjxi]:before{content:"";position:absolute;inset:-2px;border-radius:var(--radius-md);padding:2px;background:var(--ai-gradient-border);background-size:200% 200%;animation:gradient-rotate 3s linear infinite;-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask-composite:exclude;pointer-events:none}html[data-theme=dark] .ai-disclaimer-article[data-astro-cid-rkg3zjxi]{background:linear-gradient(135deg,#667eea26,#764ba226,#f093fb26)}.ai-disclaimer-article[data-astro-cid-rkg3zjxi] svg[data-astro-cid-rkg3zjxi]{margin-top:.15rem}.ai-disclaimer-article[data-astro-cid-rkg3zjxi] strong[data-astro-cid-rkg3zjxi]{color:var(--color-text);display:block;margin-bottom:.15rem}.ai-disclaimer-article[data-astro-cid-rkg3zjxi] div[data-astro-cid-rkg3zjxi]{line-height:1.5;color:var(--color-text-alt)}
-.toc[data-astro-cid-xvrfupwn]{position:sticky;top:90px;max-height:calc(100vh - 120px);overflow:auto;padding:1rem 1rem 1.2rem;background:var(--color-bg-alt);border:1px solid var(--color-border);border-radius:var(--radius-md);font-size:.8rem;line-height:1.3}.toc-title[data-astro-cid-xvrfupwn]{font-weight:600;font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.6rem;color:var(--color-text-alt)}.toc[data-astro-cid-xvrfupwn] ul[data-astro-cid-xvrfupwn]{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.35rem}.toc[data-astro-cid-xvrfupwn] a[data-astro-cid-xvrfupwn]{text-decoration:none;color:var(--color-text-alt)}.toc[data-astro-cid-xvrfupwn] a[data-astro-cid-xvrfupwn]:hover{color:var(--color-accent)}.toc[data-astro-cid-xvrfupwn] li[data-astro-cid-xvrfupwn][class*=d-3]{margin-left:.75rem}.toc[data-astro-cid-xvrfupwn] li[data-astro-cid-xvrfupwn][class*=d-4]{margin-left:1.4rem}@media (max-width: 1080px){.toc[data-astro-cid-xvrfupwn]{display:none}}
-</style><script type="module" src="/_astro/hoisted.CwSnpN4J.js"></script></head> <body> <div id="readingProgress" style="position:fixed;left:0;top:0;height:3px;background:linear-gradient(90deg,#2563eb,#9333ea);width:0;z-index:999;transition:width .15s ease;"></div>  <header class="site-header container"> <div class="logo-wrap"> <a class="logo" href="/">Dev|Journal</a> </div> <nav class="main-nav"> <a href="/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px;"> <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path> <polyline points="9 22 9 12 15 12 15 22"></polyline> </svg>
+<!DOCTYPE html><html lang="en" data-theme="dark"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><!-- Primary Meta Tags --><title>Order of Configuration in Spring Boot: Managing Initialization Sequence with Annotations • Dev|Journal</title><meta name="description" content="Main Heading Overview of Configuration Ordering in Spring Boot Spring Boot applications often rely on multiple configuration classes to define beans,…"><meta name="keywords" content="software architecture, backend development, microservices, Java, Python, Spring Boot, technical blog"><meta name="author" content="El Mehdi Arezki"><!-- Open Graph / Facebook --><meta property="og:type" content="website"><meta property="og:url" content="https://earezki.com/ai-news/2025-10-25-order-of-configuration-in-spring-boot/"><meta property="og:title" content="Order of Configuration in Spring Boot: Managing Initialization Sequence with Annotations • Dev|Journal"><meta property="og:site_name" content="Dev|Journal"><meta property="og:description" content="Main Heading Overview of Configuration Ordering in Spring Boot Spring Boot applications often rely on multiple configuration classes to define beans,…"><meta property="og:image" content="https://earezki.com/assets/og-image-default.jpg"><!-- Twitter --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:url" content="https://earezki.com/ai-news/2025-10-25-order-of-configuration-in-spring-boot/"><meta name="twitter:title" content="Order of Configuration in Spring Boot: Managing Initialization Sequence with Annotations • Dev|Journal"><meta name="twitter:description" content="Main Heading Overview of Configuration Ordering in Spring Boot Spring Boot applications often rely on multiple configuration classes to define beans,…"><meta name="twitter:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:creator" content="@earezki"><!-- Canonical and Indexing --><link rel="canonical" href="https://earezki.com/ai-news/2025-10-25-order-of-configuration-in-spring-boot/"><!-- Favicons --><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/x-icon" href="/favicon.ico"><!-- RSS Feed --><link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"><!-- Analytics: Google Analytics (Legacy UA) --><script async src="https://www.googletagmanager.com/gtag/js?id=UA-161447264-1"></script><script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);} 
+      gtag('js', new Date()); 
+      gtag('config', 'UA-161447264-1');
+    </script><!-- Analytics: Umami --><script defer src="https://cloud.umami.is/script.js" data-website-id="4a26531d-1053-4f79-97a6-06a1366aff91"></script><!-- Theme Persistence (runs before page render to prevent flash) --><script>
+      (function() {
+        const theme = localStorage.getItem('theme');
+        if (theme) { 
+          document.documentElement.setAttribute('data-theme', theme); 
+        }
+      })();
+    </script><!-- Structured Data (JSON-LD) --><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Order of Configuration in Spring Boot: Managing Initialization Sequence with Annotations","datePublished":"2025-10-25T00:00:00.000Z","dateModified":"2025-10-25T00:00:00.000Z","author":{"@type":"Person","name":"AREZKI El Mehdi"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://earezki.com/ai-news/2025-10-25-order-of-configuration-in-spring-boot/"},"description":"Main Heading Overview of Configuration Ordering in Spring Boot Spring Boot applications often rely on multiple configuration classes to define beans,…"}</script><link rel="stylesheet" href="/_astro/_slug_.s4HJyrFw.css">
+<style>.toc[data-astro-cid-xvrfupwn]{position:sticky;top:90px;max-height:calc(100vh - 120px);overflow:auto;padding:1rem 1rem 1.2rem;background:var(--color-bg-alt);border:1px solid var(--color-border);border-radius:var(--radius-md);font-size:.8rem;line-height:1.3}.toc-title[data-astro-cid-xvrfupwn]{font-weight:600;font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.6rem;color:var(--color-text-alt)}.toc[data-astro-cid-xvrfupwn] ul[data-astro-cid-xvrfupwn]{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.35rem}.toc[data-astro-cid-xvrfupwn] a[data-astro-cid-xvrfupwn]{text-decoration:none;color:var(--color-text-alt);transition:color var(--transition)}.toc[data-astro-cid-xvrfupwn] a[data-astro-cid-xvrfupwn]:hover{color:var(--color-accent)}.toc[data-astro-cid-xvrfupwn] li[data-astro-cid-xvrfupwn][class*=d-3]{margin-left:.75rem}.toc[data-astro-cid-xvrfupwn] li[data-astro-cid-xvrfupwn][class*=d-4]{margin-left:1.4rem}@media (max-width: 1080px){.toc[data-astro-cid-xvrfupwn]{display:none}}.breadcrumbs[data-astro-cid-ilhxcym7]{margin:0 0 1.5rem;font-size:.85rem}.breadcrumbs[data-astro-cid-ilhxcym7] ol[data-astro-cid-ilhxcym7]{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;align-items:center;gap:.5rem}.breadcrumbs[data-astro-cid-ilhxcym7] li[data-astro-cid-ilhxcym7]{display:flex;align-items:center;gap:.5rem}.breadcrumbs[data-astro-cid-ilhxcym7] a[data-astro-cid-ilhxcym7]{color:var(--color-text-alt);text-decoration:none;transition:color var(--transition)}.breadcrumbs[data-astro-cid-ilhxcym7] a[data-astro-cid-ilhxcym7]:hover{color:var(--color-accent);text-decoration:underline}.breadcrumbs[data-astro-cid-ilhxcym7] .separator[data-astro-cid-ilhxcym7]{color:var(--color-text-alt);opacity:.5;user-select:none}.breadcrumbs[data-astro-cid-ilhxcym7] .current[data-astro-cid-ilhxcym7]{color:var(--color-text);font-weight:500}.related-posts[data-astro-cid-dpgbfi7r]{margin:3rem 0;padding-top:2rem;border-top:2px solid var(--color-border)}.related-posts[data-astro-cid-dpgbfi7r] h2[data-astro-cid-dpgbfi7r]{font-size:1.5rem;margin:0 0 1.5rem;color:var(--color-text)}.related-posts-grid[data-astro-cid-dpgbfi7r]{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem}.related-post-card[data-astro-cid-dpgbfi7r]{background:var(--color-bg-alt);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;transition:all var(--transition)}.related-post-card[data-astro-cid-dpgbfi7r]:hover{border-color:var(--color-accent);transform:translateY(-2px);box-shadow:var(--shadow-md)}.related-post-link[data-astro-cid-dpgbfi7r]{text-decoration:none;color:inherit;display:block}.related-post-card[data-astro-cid-dpgbfi7r] h3[data-astro-cid-dpgbfi7r]{margin:0 0 .75rem;font-size:1.1rem;font-weight:600;color:var(--color-text);line-height:1.3}.related-post-link[data-astro-cid-dpgbfi7r]:hover h3[data-astro-cid-dpgbfi7r]{color:var(--color-accent)}.related-excerpt[data-astro-cid-dpgbfi7r]{font-size:.85rem;color:var(--color-text-alt);line-height:1.5;margin:0 0 .75rem}.related-meta[data-astro-cid-dpgbfi7r]{font-size:.75rem;color:var(--color-text-alt);display:flex;gap:.5rem;align-items:center}@media (max-width: 680px){.related-posts-grid[data-astro-cid-dpgbfi7r]{grid-template-columns:1fr}}
+.post-layout[data-astro-cid-rkg3zjxi]{display:grid;grid-template-columns:260px 1fr;gap:2.5rem}.sidebar-left[data-astro-cid-rkg3zjxi]{position:relative}@media (max-width: 1080px){.post-layout[data-astro-cid-rkg3zjxi]{grid-template-columns:1fr}}.ai-disclaimer-article[data-astro-cid-rkg3zjxi]{display:flex;gap:.75rem;padding:.9rem 1.1rem;margin:0 auto 2rem;max-width:780px;background:linear-gradient(135deg,#667eea1a,#764ba21a,#f093fb1a);border:2px solid transparent;border-radius:var(--radius-md);position:relative;background-clip:padding-box;font-size:.85rem}.ai-disclaimer-article[data-astro-cid-rkg3zjxi]:before{content:"";position:absolute;inset:-2px;border-radius:var(--radius-md);padding:2px;background:var(--ai-gradient-border);background-size:200% 200%;animation:gradient-rotate 3s linear infinite;-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask-composite:exclude;pointer-events:none}html[data-theme=dark] .ai-disclaimer-article[data-astro-cid-rkg3zjxi]{background:linear-gradient(135deg,#667eea26,#764ba226,#f093fb26)}.ai-disclaimer-article[data-astro-cid-rkg3zjxi] svg[data-astro-cid-rkg3zjxi]{margin-top:.15rem}.ai-disclaimer-article[data-astro-cid-rkg3zjxi] strong[data-astro-cid-rkg3zjxi]{color:var(--color-text);display:block;margin-bottom:.15rem}.ai-disclaimer-article[data-astro-cid-rkg3zjxi] div[data-astro-cid-rkg3zjxi]{line-height:1.5;color:var(--color-text-alt)}
+</style><script type="module" src="/_astro/hoisted.2U5tn40l.js"></script></head> <body> <div id="readingProgress" role="progressbar" aria-label="Reading progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="position:fixed;left:0;top:0;height:3px;background:linear-gradient(90deg,#2563eb,#9333ea);width:0;z-index:999;transition:width .15s ease;"></div>  <!-- Site Header --> <header class="site-header container"> <div class="logo-wrap"> <a class="logo" href="/" aria-label="Dev|Journal Home">
+Dev|Journal
+</a> </div> <nav class="main-nav" aria-label="Main navigation"> <a href="/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path> <polyline points="9 22 9 12 15 12 15 22"></polyline> </svg>
 Home
-</a> <a href="/ai-news/" class="ai-news-link"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px;"> <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h-9.5a.5.5 0 0 0-.5.5.5.5 0 0 1-1 0 .5.5 0 0 0-.5-.5H1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"></path> <path d="M7 15v4a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-4"></path> </svg>
+</a> <a href="/ai-news/" class="ai-news-link"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h-9.5a.5.5 0 0 0-.5.5.5.5 0 0 1-1 0 .5.5 0 0 0-.5-.5H1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"></path> <path d="M7 15v4a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-4"></path> </svg>
 AI News
-</a> <a href="/tags/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px;"> <path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2z"></path> <circle cx="7" cy="7" r="1.5"></circle> </svg>
+</a> <a href="/tags/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2z"></path> <circle cx="7" cy="7" r="1.5"></circle> </svg>
 Tags
-</a> <a href="/about/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px;"> <circle cx="12" cy="12" r="10"></circle> <path d="M12 16v-4"></path> <path d="M12 8h.01"></path> </svg>
+</a> <a href="/about/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <circle cx="12" cy="12" r="10"></circle> <path d="M12 16v-4"></path> <path d="M12 8h.01"></path> </svg>
 About
-</a> <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode"> <span class="theme-icon">☾</span> <span class="theme-text">dark</span> </button> </nav> </header> <main class="container content-area">  <div class="ai-disclaimer-article" data-astro-cid-rkg3zjxi> <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;" data-astro-cid-rkg3zjxi> <circle cx="12" cy="12" r="10" data-astro-cid-rkg3zjxi></circle> <line x1="12" y1="8" x2="12" y2="12" data-astro-cid-rkg3zjxi></line> <line x1="12" y1="16" x2="12.01" y2="16" data-astro-cid-rkg3zjxi></line> </svg> <div data-astro-cid-rkg3zjxi> <strong data-astro-cid-rkg3zjxi>AI-Generated Content:</strong> This article was created with AI assistance. Please verify important information and check original references.
-</div> </div> <div class="post-layout" data-astro-cid-rkg3zjxi> <aside class="sidebar-left" data-astro-cid-rkg3zjxi> <nav class="toc" aria-label="Table of Contents" data-astro-cid-xvrfupwn> <div class="toc-title" data-astro-cid-xvrfupwn>On this page</div> <ul data-astro-cid-xvrfupwn> <li class="d-2" data-astro-cid-xvrfupwn><a href="#main-heading" data-astro-cid-xvrfupwn>Main Heading</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#overview-of-configuration-ordering-in-spring-boot" data-astro-cid-xvrfupwn>Overview of Configuration Ordering in Spring Boot</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#understanding-configuration-classes" data-astro-cid-xvrfupwn>Understanding Configuration Classes</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#default-behavior-of-configuration-ordering" data-astro-cid-xvrfupwn>Default Behavior of Configuration Ordering</a></li><li class="d-4" data-astro-cid-xvrfupwn><a href="#example-without-explicit-order" data-astro-cid-xvrfupwn>Example Without Explicit Order</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#controlling-order-using-order-annotation" data-astro-cid-xvrfupwn>Controlling Order Using `@Order` Annotation</a></li><li class="d-4" data-astro-cid-xvrfupwn><a href="#example-with-order" data-astro-cid-xvrfupwn>Example with `@Order`</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#managing-dependencies-using-dependson" data-astro-cid-xvrfupwn>Managing Dependencies Using `@DependsOn`</a></li><li class="d-4" data-astro-cid-xvrfupwn><a href="#example-with-dependson" data-astro-cid-xvrfupwn>Example with `@DependsOn`</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#auto-configuration-order-in-spring-boot" data-astro-cid-xvrfupwn>Auto-Configuration Order in Spring Boot</a></li><li class="d-4" data-astro-cid-xvrfupwn><a href="#example-with-auto-configuration-annotations" data-astro-cid-xvrfupwn>Example with Auto-Configuration Annotations</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#conclusion" data-astro-cid-xvrfupwn>Conclusion</a></li><li class="d-2" data-astro-cid-xvrfupwn><a href="#working-example" data-astro-cid-xvrfupwn>Working Example</a></li><li class="d-2" data-astro-cid-xvrfupwn><a href="#recommendations" data-astro-cid-xvrfupwn>Recommendations</a></li> </ul> </nav>  </aside> <article class="post" data-astro-cid-rkg3zjxi> <header class="post-header" data-astro-cid-rkg3zjxi> <h1 data-astro-cid-rkg3zjxi>Order of Configuration in Spring Boot: Managing Initialization Sequence with Annotations</h1> <div class="meta" data-astro-cid-rkg3zjxi> <time datetime="2025-10-25T00:00:00.000Z" data-astro-cid-rkg3zjxi>Sat Oct 25 2025</time> <span data-astro-cid-rkg3zjxi>• 4 min read</span> </div> <div class="tag-row" data-astro-cid-rkg3zjxi><a class="tag ai-news-tag" href="/ai-news/" data-astro-cid-rkg3zjxi>AI News</a><span class="tag" data-astro-cid-rkg3zjxi>Spring Boot</span><span class="tag" data-astro-cid-rkg3zjxi>Java Frameworks</span></div> </header> <div class="post-body prose" data-astro-cid-rkg3zjxi> <h2 id="main-heading">Main Heading</h2>
+</a> <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode"> <span class="theme-icon" aria-hidden="true">☾</span> <span class="theme-text">dark</span> </button> </nav> </header> <!-- Main Content --> <main class="container content-area">  <nav class="breadcrumbs" aria-label="Breadcrumb" data-astro-cid-ilhxcym7> <ol data-astro-cid-ilhxcym7> <li data-astro-cid-ilhxcym7>  <a href="/" data-astro-cid-ilhxcym7>Home</a> <span class="separator" aria-hidden="true" data-astro-cid-ilhxcym7>/</span>  </li><li data-astro-cid-ilhxcym7>  <a href="/ai-news/" data-astro-cid-ilhxcym7>Ai News</a> <span class="separator" aria-hidden="true" data-astro-cid-ilhxcym7>/</span>  </li><li data-astro-cid-ilhxcym7> <span class="current" aria-current="page" data-astro-cid-ilhxcym7>Order of Configuration in Spring Boot: Managing Initialization Sequence with Annotations</span> </li> </ol> </nav>  <div class="ai-disclaimer-article" data-astro-cid-rkg3zjxi> <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;" data-astro-cid-rkg3zjxi> <circle cx="12" cy="12" r="10" data-astro-cid-rkg3zjxi></circle> <line x1="12" y1="8" x2="12" y2="12" data-astro-cid-rkg3zjxi></line> <line x1="12" y1="16" x2="12.01" y2="16" data-astro-cid-rkg3zjxi></line> </svg> <div data-astro-cid-rkg3zjxi> <strong data-astro-cid-rkg3zjxi>AI-Generated Content:</strong> This article was created with AI assistance. Please verify important information and check original references.
+</div> </div> <div class="post-layout" data-astro-cid-rkg3zjxi> <aside class="sidebar-left" data-astro-cid-rkg3zjxi> <nav class="toc" aria-label="Table of Contents" data-astro-cid-xvrfupwn> <div class="toc-title" data-astro-cid-xvrfupwn>On this page</div> <ul data-astro-cid-xvrfupwn> <li class="d-2" data-astro-cid-xvrfupwn> <a href="#main-heading" data-astro-cid-xvrfupwn> Main Heading </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#overview-of-configuration-ordering-in-spring-boot" data-astro-cid-xvrfupwn> Overview of Configuration Ordering in Spring Boot </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#understanding-configuration-classes" data-astro-cid-xvrfupwn> Understanding Configuration Classes </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#default-behavior-of-configuration-ordering" data-astro-cid-xvrfupwn> Default Behavior of Configuration Ordering </a> </li><li class="d-4" data-astro-cid-xvrfupwn> <a href="#example-without-explicit-order" data-astro-cid-xvrfupwn> Example Without Explicit Order </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#controlling-order-using-order-annotation" data-astro-cid-xvrfupwn> Controlling Order Using `@Order` Annotation </a> </li><li class="d-4" data-astro-cid-xvrfupwn> <a href="#example-with-order" data-astro-cid-xvrfupwn> Example with `@Order` </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#managing-dependencies-using-dependson" data-astro-cid-xvrfupwn> Managing Dependencies Using `@DependsOn` </a> </li><li class="d-4" data-astro-cid-xvrfupwn> <a href="#example-with-dependson" data-astro-cid-xvrfupwn> Example with `@DependsOn` </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#auto-configuration-order-in-spring-boot" data-astro-cid-xvrfupwn> Auto-Configuration Order in Spring Boot </a> </li><li class="d-4" data-astro-cid-xvrfupwn> <a href="#example-with-auto-configuration-annotations" data-astro-cid-xvrfupwn> Example with Auto-Configuration Annotations </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#conclusion" data-astro-cid-xvrfupwn> Conclusion </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#working-example" data-astro-cid-xvrfupwn> Working Example </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#recommendations" data-astro-cid-xvrfupwn> Recommendations </a> </li> </ul> </nav>  </aside> <article class="post" data-astro-cid-rkg3zjxi> <header class="post-header" data-astro-cid-rkg3zjxi> <h1 data-astro-cid-rkg3zjxi>Order of Configuration in Spring Boot: Managing Initialization Sequence with Annotations</h1> <div class="meta" data-astro-cid-rkg3zjxi> <time datetime="2025-10-25T00:00:00.000Z" data-astro-cid-rkg3zjxi>Sat Oct 25 2025</time> <span data-astro-cid-rkg3zjxi>• 4 min read</span> </div> <div class="tag-row" data-astro-cid-rkg3zjxi><a class="tag ai-news-tag" href="/tags/ai-news/" data-astro-cid-rkg3zjxi>AI News</a><a class="tag " href="/tags/spring-boot/" data-astro-cid-rkg3zjxi>Spring Boot</a><a class="tag " href="/tags/java-frameworks/" data-astro-cid-rkg3zjxi>Java Frameworks</a></div> </header> <div class="post-body prose" data-astro-cid-rkg3zjxi> <h2 id="main-heading">Main Heading</h2>
 <h3 id="overview-of-configuration-ordering-in-spring-boot">Overview of Configuration Ordering in Spring Boot</h3>
 <p>Spring Boot applications often rely on multiple configuration classes to define beans, properties, and integrations. While Spring automatically detects and processes these configurations, it <strong>does not guarantee the order</strong> in which they are loaded. This can lead to issues in scenarios where configurations depend on each other (e.g., a data configuration needing to initialize before a service configuration). To address this, Spring provides annotations like <code>@Order</code>, <code>@AutoConfigureOrder</code>, <code>@AutoConfigureAfter</code>, and <code>@AutoConfigureBefore</code> to control the sequence of configuration processing.</p>
 <hr>
@@ -25,107 +39,107 @@ About
 <h3 id="default-behavior-of-configuration-ordering">Default Behavior of Configuration Ordering</h3>
 <p>By default, Spring Boot <strong>does not enforce a specific order</strong> for configuration classes. It scans and loads them as found in the classpath. This behavior is acceptable for independent configurations but can cause issues when dependencies exist.</p>
 <h4 id="example-without-explicit-order">Example Without Explicit Order</h4>
-<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#E6EDF3">@</span><span style="color:#FF7B72">Configuration</span></span>
-<span class="line"><span style="color:#FF7B72">public</span><span style="color:#FF7B72"> class</span><span style="color:#FFA657"> ConfigA</span><span style="color:#E6EDF3"> {</span></span>
-<span class="line"><span style="color:#E6EDF3">    @</span><span style="color:#FF7B72">Bean</span></span>
-<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#E6EDF3"> String </span><span style="color:#D2A8FF">beanA</span><span style="color:#E6EDF3">() {</span></span>
-<span class="line"><span style="color:#FF7B72">        return</span><span style="color:#A5D6FF"> "Bean A"</span><span style="color:#E6EDF3">;</span></span>
-<span class="line"><span style="color:#E6EDF3">    }</span></span>
-<span class="line"><span style="color:#E6EDF3">}</span></span>
-<span class="line"></span></code></pre>
-<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#E6EDF3">@</span><span style="color:#FF7B72">Configuration</span></span>
-<span class="line"><span style="color:#FF7B72">public</span><span style="color:#FF7B72"> class</span><span style="color:#FFA657"> ConfigB</span><span style="color:#E6EDF3"> {</span></span>
-<span class="line"><span style="color:#E6EDF3">    @</span><span style="color:#FF7B72">Bean</span></span>
-<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#E6EDF3"> String </span><span style="color:#D2A8FF">beanB</span><span style="color:#E6EDF3">() {</span></span>
-<span class="line"><span style="color:#FF7B72">        return</span><span style="color:#A5D6FF"> "Bean B"</span><span style="color:#E6EDF3">;</span></span>
-<span class="line"><span style="color:#E6EDF3">    }</span></span>
-<span class="line"><span style="color:#E6EDF3">}</span></span>
-<span class="line"></span></code></pre>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token annotation punctuation">@Configuration</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ConfigA</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Bean</span>
+    <span class="token keyword">public</span> <span class="token class-name">String</span> <span class="token function">beanA</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token string">"Bean A"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token annotation punctuation">@Configuration</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ConfigB</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Bean</span>
+    <span class="token keyword">public</span> <span class="token class-name">String</span> <span class="token function">beanB</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token string">"Bean B"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
 <p><strong>Test Validation</strong>:</p>
-<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#E6EDF3">@</span><span style="color:#FF7B72">SpringBootTest</span></span>
-<span class="line"><span style="color:#FF7B72">class</span><span style="color:#FFA657"> DefaultConfigOrderUnitTest</span><span style="color:#E6EDF3"> {</span></span>
-<span class="line"><span style="color:#E6EDF3">    @</span><span style="color:#FF7B72">Autowired</span></span>
-<span class="line"><span style="color:#FF7B72">    private</span><span style="color:#E6EDF3"> ApplicationContext</span><span style="color:#E6EDF3"> context;</span></span>
-<span class="line"></span>
-<span class="line"><span style="color:#E6EDF3">    @</span><span style="color:#FF7B72">Test</span></span>
-<span class="line"><span style="color:#FF7B72">    void</span><span style="color:#D2A8FF"> givenConfigsWithoutOrder_whenLoaded_thenBeansExistRegardlessOfOrder</span><span style="color:#E6EDF3">() {</span></span>
-<span class="line"><span style="color:#D2A8FF">        assertThat</span><span style="color:#E6EDF3">(context.</span><span style="color:#D2A8FF">getBean</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"beanA"</span><span style="color:#E6EDF3">)).</span><span style="color:#D2A8FF">isEqualTo</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"Bean A"</span><span style="color:#E6EDF3">);</span></span>
-<span class="line"><span style="color:#D2A8FF">        assertThat</span><span style="color:#E6EDF3">(context.</span><span style="color:#D2A8FF">getBean</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"beanB"</span><span style="color:#E6EDF3">)).</span><span style="color:#D2A8FF">isEqualTo</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"Bean B"</span><span style="color:#E6EDF3">);</span></span>
-<span class="line"><span style="color:#E6EDF3">    }</span></span>
-<span class="line"><span style="color:#E6EDF3">}</span></span>
-<span class="line"></span></code></pre>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token annotation punctuation">@SpringBootTest</span>
+<span class="token keyword">class</span> <span class="token class-name">DefaultConfigOrderUnitTest</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Autowired</span>
+    <span class="token keyword">private</span> <span class="token class-name">ApplicationContext</span> context<span class="token punctuation">;</span>
+
+    <span class="token annotation punctuation">@Test</span>
+    <span class="token keyword">void</span> <span class="token function">givenConfigsWithoutOrder_whenLoaded_thenBeansExistRegardlessOfOrder</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">assertThat</span><span class="token punctuation">(</span>context<span class="token punctuation">.</span><span class="token function">getBean</span><span class="token punctuation">(</span><span class="token string">"beanA"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">isEqualTo</span><span class="token punctuation">(</span><span class="token string">"Bean A"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">assertThat</span><span class="token punctuation">(</span>context<span class="token punctuation">.</span><span class="token function">getBean</span><span class="token punctuation">(</span><span class="token string">"beanB"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">isEqualTo</span><span class="token punctuation">(</span><span class="token string">"Bean B"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
 <p><strong>Impact</strong>: Both beans are registered, but their order is not guaranteed. This is acceptable for independent configurations.</p>
 <hr>
 <h3 id="controlling-order-using-order-annotation">Controlling Order Using <code>@Order</code> Annotation</h3>
 <p>Use <code>@Order</code> to enforce a predictable loading sequence for configuration classes, especially when one configuration depends on another.</p>
 <h4 id="example-with-order">Example with <code>@Order</code></h4>
-<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#E6EDF3">@</span><span style="color:#FF7B72">Configuration</span></span>
-<span class="line"><span style="color:#E6EDF3">@</span><span style="color:#FF7B72">Order</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">1</span><span style="color:#E6EDF3">)</span></span>
-<span class="line"><span style="color:#FF7B72">public</span><span style="color:#FF7B72"> class</span><span style="color:#FFA657"> ConfigOne</span><span style="color:#E6EDF3"> {</span></span>
-<span class="line"><span style="color:#E6EDF3">    @</span><span style="color:#FF7B72">Bean</span></span>
-<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#E6EDF3"> String </span><span style="color:#D2A8FF">configOneBean</span><span style="color:#E6EDF3">() {</span></span>
-<span class="line"><span style="color:#FF7B72">        return</span><span style="color:#A5D6FF"> "ConfigOneBean"</span><span style="color:#E6EDF3">;</span></span>
-<span class="line"><span style="color:#E6EDF3">    }</span></span>
-<span class="line"><span style="color:#E6EDF3">}</span></span>
-<span class="line"></span></code></pre>
-<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#E6EDF3">@</span><span style="color:#FF7B72">Configuration</span></span>
-<span class="line"><span style="color:#E6EDF3">@</span><span style="color:#FF7B72">Order</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">2</span><span style="color:#E6EDF3">)</span></span>
-<span class="line"><span style="color:#FF7B72">public</span><span style="color:#FF7B72"> class</span><span style="color:#FFA657"> ConfigTwo</span><span style="color:#E6EDF3"> {</span></span>
-<span class="line"><span style="color:#E6EDF3">    @</span><span style="color:#FF7B72">Bean</span></span>
-<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#E6EDF3"> String </span><span style="color:#D2A8FF">configTwoBean</span><span style="color:#E6EDF3">() {</span></span>
-<span class="line"><span style="color:#FF7B72">        return</span><span style="color:#A5D6FF"> "ConfigTwoBean"</span><span style="color:#E6EDF3">;</span></span>
-<span class="line"><span style="color:#E6EDF3">    }</span></span>
-<span class="line"><span style="color:#E6EDF3">}</span></span>
-<span class="line"></span></code></pre>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token annotation punctuation">@Configuration</span>
+<span class="token annotation punctuation">@Order</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ConfigOne</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Bean</span>
+    <span class="token keyword">public</span> <span class="token class-name">String</span> <span class="token function">configOneBean</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token string">"ConfigOneBean"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token annotation punctuation">@Configuration</span>
+<span class="token annotation punctuation">@Order</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ConfigTwo</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Bean</span>
+    <span class="token keyword">public</span> <span class="token class-name">String</span> <span class="token function">configTwoBean</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token string">"ConfigTwoBean"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
 <p><strong>Test Validation</strong>:</p>
-<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#E6EDF3">@</span><span style="color:#FF7B72">SpringBootTest</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">classes</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> {ConfigTwo.class, ConfigOne.class})</span></span>
-<span class="line"><span style="color:#FF7B72">class</span><span style="color:#FFA657"> OrderedConfigUnitTest</span><span style="color:#E6EDF3"> {</span></span>
-<span class="line"><span style="color:#E6EDF3">    @</span><span style="color:#FF7B72">Autowired</span></span>
-<span class="line"><span style="color:#FF7B72">    private</span><span style="color:#E6EDF3"> ApplicationContext</span><span style="color:#E6EDF3"> context;</span></span>
-<span class="line"></span>
-<span class="line"><span style="color:#E6EDF3">    @</span><span style="color:#FF7B72">Test</span></span>
-<span class="line"><span style="color:#FF7B72">    void</span><span style="color:#D2A8FF"> givenOrderedConfigs_whenLoaded_thenOrderIsRespected</span><span style="color:#E6EDF3">() {</span></span>
-<span class="line"><span style="color:#E6EDF3">        String</span><span style="color:#E6EDF3"> beanOne</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> context.</span><span style="color:#D2A8FF">getBean</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"configOneBean"</span><span style="color:#E6EDF3">, String.class);</span></span>
-<span class="line"><span style="color:#E6EDF3">        String</span><span style="color:#E6EDF3"> beanTwo</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> context.</span><span style="color:#D2A8FF">getBean</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"configTwoBean"</span><span style="color:#E6EDF3">, String.class);</span></span>
-<span class="line"><span style="color:#D2A8FF">        assertThat</span><span style="color:#E6EDF3">(beanOne).</span><span style="color:#D2A8FF">isEqualTo</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"ConfigOneBean"</span><span style="color:#E6EDF3">);</span></span>
-<span class="line"><span style="color:#D2A8FF">        assertThat</span><span style="color:#E6EDF3">(beanTwo).</span><span style="color:#D2A8FF">isEqualTo</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"ConfigTwoBean"</span><span style="color:#E6EDF3">);</span></span>
-<span class="line"><span style="color:#E6EDF3">    }</span></span>
-<span class="line"><span style="color:#E6EDF3">}</span></span>
-<span class="line"></span></code></pre>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token annotation punctuation">@SpringBootTest</span><span class="token punctuation">(</span>classes <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token class-name">ConfigTwo</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">,</span> <span class="token class-name">ConfigOne</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">class</span> <span class="token class-name">OrderedConfigUnitTest</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Autowired</span>
+    <span class="token keyword">private</span> <span class="token class-name">ApplicationContext</span> context<span class="token punctuation">;</span>
+
+    <span class="token annotation punctuation">@Test</span>
+    <span class="token keyword">void</span> <span class="token function">givenOrderedConfigs_whenLoaded_thenOrderIsRespected</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">String</span> beanOne <span class="token operator">=</span> context<span class="token punctuation">.</span><span class="token function">getBean</span><span class="token punctuation">(</span><span class="token string">"configOneBean"</span><span class="token punctuation">,</span> <span class="token class-name">String</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">String</span> beanTwo <span class="token operator">=</span> context<span class="token punctuation">.</span><span class="token function">getBean</span><span class="token punctuation">(</span><span class="token string">"configTwoBean"</span><span class="token punctuation">,</span> <span class="token class-name">String</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">assertThat</span><span class="token punctuation">(</span>beanOne<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">isEqualTo</span><span class="token punctuation">(</span><span class="token string">"ConfigOneBean"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">assertThat</span><span class="token punctuation">(</span>beanTwo<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">isEqualTo</span><span class="token punctuation">(</span><span class="token string">"ConfigTwoBean"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
 <p><strong>Impact</strong>: <code>ConfigOne</code> loads before <code>ConfigTwo</code> due to the <code>@Order</code> annotation, ensuring dependencies are resolved correctly.</p>
 <hr>
 <h3 id="managing-dependencies-using-dependson">Managing Dependencies Using <code>@DependsOn</code></h3>
 <p>Use <code>@DependsOn</code> to enforce bean-level initialization order, ensuring one bean is fully initialized before another.</p>
 <h4 id="example-with-dependson">Example with <code>@DependsOn</code></h4>
-<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#E6EDF3">@</span><span style="color:#FF7B72">Configuration</span></span>
-<span class="line"><span style="color:#FF7B72">public</span><span style="color:#FF7B72"> class</span><span style="color:#FFA657"> DependsConfig</span><span style="color:#E6EDF3"> {</span></span>
-<span class="line"><span style="color:#E6EDF3">    @</span><span style="color:#FF7B72">Bean</span></span>
-<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#E6EDF3"> String </span><span style="color:#D2A8FF">firstBean</span><span style="color:#E6EDF3">() {</span></span>
-<span class="line"><span style="color:#FF7B72">        return</span><span style="color:#A5D6FF"> "FirstBean"</span><span style="color:#E6EDF3">;</span></span>
-<span class="line"><span style="color:#E6EDF3">    }</span></span>
-<span class="line"></span>
-<span class="line"><span style="color:#E6EDF3">    @</span><span style="color:#FF7B72">Bean</span></span>
-<span class="line"><span style="color:#E6EDF3">    @</span><span style="color:#FF7B72">DependsOn</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"firstBean"</span><span style="color:#E6EDF3">)</span></span>
-<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#E6EDF3"> String </span><span style="color:#D2A8FF">secondBean</span><span style="color:#E6EDF3">() {</span></span>
-<span class="line"><span style="color:#FF7B72">        return</span><span style="color:#A5D6FF"> "SecondBeanAfterFirst"</span><span style="color:#E6EDF3">;</span></span>
-<span class="line"><span style="color:#E6EDF3">    }</span></span>
-<span class="line"><span style="color:#E6EDF3">}</span></span>
-<span class="line"></span></code></pre>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token annotation punctuation">@Configuration</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">DependsConfig</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Bean</span>
+    <span class="token keyword">public</span> <span class="token class-name">String</span> <span class="token function">firstBean</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token string">"FirstBean"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Bean</span>
+    <span class="token annotation punctuation">@DependsOn</span><span class="token punctuation">(</span><span class="token string">"firstBean"</span><span class="token punctuation">)</span>
+    <span class="token keyword">public</span> <span class="token class-name">String</span> <span class="token function">secondBean</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token string">"SecondBeanAfterFirst"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
 <p><strong>Test Validation</strong>:</p>
-<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#E6EDF3">@</span><span style="color:#FF7B72">SpringBootTest</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">classes</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> DependsConfig.class)</span></span>
-<span class="line"><span style="color:#FF7B72">class</span><span style="color:#FFA657"> DependsConfigUnitTest</span><span style="color:#E6EDF3"> {</span></span>
-<span class="line"><span style="color:#E6EDF3">    @</span><span style="color:#FF7B72">Autowired</span></span>
-<span class="line"><span style="color:#FF7B72">    private</span><span style="color:#E6EDF3"> ApplicationContext</span><span style="color:#E6EDF3"> context;</span></span>
-<span class="line"></span>
-<span class="line"><span style="color:#E6EDF3">    @</span><span style="color:#FF7B72">Test</span></span>
-<span class="line"><span style="color:#FF7B72">    void</span><span style="color:#D2A8FF"> givenDependsOnBeans_whenLoaded_thenOrderIsMaintained</span><span style="color:#E6EDF3">() {</span></span>
-<span class="line"><span style="color:#E6EDF3">        String</span><span style="color:#E6EDF3"> first</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> context.</span><span style="color:#D2A8FF">getBean</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"firstBean"</span><span style="color:#E6EDF3">, String.class);</span></span>
-<span class="line"><span style="color:#E6EDF3">        String</span><span style="color:#E6EDF3"> second</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> context.</span><span style="color:#D2A8FF">getBean</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"secondBean"</span><span style="color:#E6EDF3">, String.class);</span></span>
-<span class="line"><span style="color:#D2A8FF">        assertThat</span><span style="color:#E6EDF3">(first).</span><span style="color:#D2A8FF">isEqualTo</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"FirstBean"</span><span style="color:#E6EDF3">);</span></span>
-<span class="line"><span style="color:#D2A8FF">        assertThat</span><span style="color:#E6EDF3">(second).</span><span style="color:#D2A8FF">isEqualTo</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"SecondBeanAfterFirst"</span><span style="color:#E6EDF3">);</span></span>
-<span class="line"><span style="color:#E6EDF3">    }</span></span>
-<span class="line"><span style="color:#E6EDF3">}</span></span>
-<span class="line"></span></code></pre>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token annotation punctuation">@SpringBootTest</span><span class="token punctuation">(</span>classes <span class="token operator">=</span> <span class="token class-name">DependsConfig</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span>
+<span class="token keyword">class</span> <span class="token class-name">DependsConfigUnitTest</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Autowired</span>
+    <span class="token keyword">private</span> <span class="token class-name">ApplicationContext</span> context<span class="token punctuation">;</span>
+
+    <span class="token annotation punctuation">@Test</span>
+    <span class="token keyword">void</span> <span class="token function">givenDependsOnBeans_whenLoaded_thenOrderIsMaintained</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">String</span> first <span class="token operator">=</span> context<span class="token punctuation">.</span><span class="token function">getBean</span><span class="token punctuation">(</span><span class="token string">"firstBean"</span><span class="token punctuation">,</span> <span class="token class-name">String</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">String</span> second <span class="token operator">=</span> context<span class="token punctuation">.</span><span class="token function">getBean</span><span class="token punctuation">(</span><span class="token string">"secondBean"</span><span class="token punctuation">,</span> <span class="token class-name">String</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">assertThat</span><span class="token punctuation">(</span>first<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">isEqualTo</span><span class="token punctuation">(</span><span class="token string">"FirstBean"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">assertThat</span><span class="token punctuation">(</span>second<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">isEqualTo</span><span class="token punctuation">(</span><span class="token string">"SecondBeanAfterFirst"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
 <p><strong>Impact</strong>: <code>secondBean</code> is initialized only after <code>firstBean</code> is fully created, ensuring dependency resolution.</p>
 <hr>
 <h3 id="auto-configuration-order-in-spring-boot">Auto-Configuration Order in Spring Boot</h3>
@@ -136,39 +150,39 @@ About
 <li><code>@AutoConfigureBefore</code>: Ensures a class loads before another.</li>
 </ul>
 <h4 id="example-with-auto-configuration-annotations">Example with Auto-Configuration Annotations</h4>
-<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#E6EDF3">@</span><span style="color:#FF7B72">Configuration</span></span>
-<span class="line"><span style="color:#E6EDF3">@</span><span style="color:#FF7B72">AutoConfigureOrder</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">1</span><span style="color:#E6EDF3">)</span></span>
-<span class="line"><span style="color:#FF7B72">public</span><span style="color:#FF7B72"> class</span><span style="color:#FFA657"> FirstAutoConfig</span><span style="color:#E6EDF3"> {</span></span>
-<span class="line"><span style="color:#E6EDF3">    @</span><span style="color:#FF7B72">Bean</span></span>
-<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#E6EDF3"> String </span><span style="color:#D2A8FF">autoBeanOne</span><span style="color:#E6EDF3">() {</span></span>
-<span class="line"><span style="color:#FF7B72">        return</span><span style="color:#A5D6FF"> "AutoBeanOne"</span><span style="color:#E6EDF3">;</span></span>
-<span class="line"><span style="color:#E6EDF3">    }</span></span>
-<span class="line"><span style="color:#E6EDF3">}</span></span>
-<span class="line"></span></code></pre>
-<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#E6EDF3">@</span><span style="color:#FF7B72">Configuration</span></span>
-<span class="line"><span style="color:#E6EDF3">@</span><span style="color:#FF7B72">AutoConfigureAfter</span><span style="color:#E6EDF3">(FirstAutoConfig.class)</span></span>
-<span class="line"><span style="color:#FF7B72">public</span><span style="color:#FF7B72"> class</span><span style="color:#FFA657"> SecondAutoConfig</span><span style="color:#E6EDF3"> {</span></span>
-<span class="line"><span style="color:#E6EDF3">    @</span><span style="color:#FF7B72">Bean</span></span>
-<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#E6EDF3"> String </span><span style="color:#D2A8FF">autoBeanTwo</span><span style="color:#E6EDF3">() {</span></span>
-<span class="line"><span style="color:#FF7B72">        return</span><span style="color:#A5D6FF"> "AutoBeanTwoAfterOne"</span><span style="color:#E6EDF3">;</span></span>
-<span class="line"><span style="color:#E6EDF3">    }</span></span>
-<span class="line"><span style="color:#E6EDF3">}</span></span>
-<span class="line"></span></code></pre>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token annotation punctuation">@Configuration</span>
+<span class="token annotation punctuation">@AutoConfigureOrder</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">FirstAutoConfig</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Bean</span>
+    <span class="token keyword">public</span> <span class="token class-name">String</span> <span class="token function">autoBeanOne</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token string">"AutoBeanOne"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token annotation punctuation">@Configuration</span>
+<span class="token annotation punctuation">@AutoConfigureAfter</span><span class="token punctuation">(</span><span class="token class-name">FirstAutoConfig</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">SecondAutoConfig</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Bean</span>
+    <span class="token keyword">public</span> <span class="token class-name">String</span> <span class="token function">autoBeanTwo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token string">"AutoBeanTwoAfterOne"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
 <p><strong>Test Validation</strong>:</p>
-<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#E6EDF3">@</span><span style="color:#FF7B72">SpringBootTest</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">classes</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> {SecondAutoConfig.class, FirstAutoConfig.class})</span></span>
-<span class="line"><span style="color:#FF7B72">class</span><span style="color:#FFA657"> AutoConfigOrderUnitTest</span><span style="color:#E6EDF3"> {</span></span>
-<span class="line"><span style="color:#E6EDF3">    @</span><span style="color:#FF7B72">Autowired</span></span>
-<span class="line"><span style="color:#FF7B72">    private</span><span style="color:#E6EDF3"> ApplicationContext</span><span style="color:#E6EDF3"> context;</span></span>
-<span class="line"></span>
-<span class="line"><span style="color:#E6EDF3">    @</span><span style="color:#FF7B72">Test</span></span>
-<span class="line"><span style="color:#FF7B72">    void</span><span style="color:#D2A8FF"> givenAutoConfigs_whenLoaded_thenOrderFollowsAnnotations</span><span style="color:#E6EDF3">() {</span></span>
-<span class="line"><span style="color:#E6EDF3">        String</span><span style="color:#E6EDF3"> beanOne</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> context.</span><span style="color:#D2A8FF">getBean</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"autoBeanOne"</span><span style="color:#E6EDF3">, String.class);</span></span>
-<span class="line"><span style="color:#E6EDF3">        String</span><span style="color:#E6EDF3"> beanTwo</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> context.</span><span style="color:#D2A8FF">getBean</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"autoBeanTwo"</span><span style="color:#E6EDF3">, String.class);</span></span>
-<span class="line"><span style="color:#D2A8FF">        assertThat</span><span style="color:#E6EDF3">(beanOne).</span><span style="color:#D2A8FF">isEqualTo</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"AutoBeanOne"</span><span style="color:#E6EDF3">);</span></span>
-<span class="line"><span style="color:#D2A8FF">        assertThat</span><span style="color:#E6EDF3">(beanTwo).</span><span style="color:#D2A8FF">isEqualTo</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"AutoBeanTwoAfterOne"</span><span style="color:#E6EDF3">);</span></span>
-<span class="line"><span style="color:#E6EDF3">    }</span></span>
-<span class="line"><span style="color:#E6EDF3">}</span></span>
-<span class="line"></span></code></pre>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token annotation punctuation">@SpringBootTest</span><span class="token punctuation">(</span>classes <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token class-name">SecondAutoConfig</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">,</span> <span class="token class-name">FirstAutoConfig</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">class</span> <span class="token class-name">AutoConfigOrderUnitTest</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Autowired</span>
+    <span class="token keyword">private</span> <span class="token class-name">ApplicationContext</span> context<span class="token punctuation">;</span>
+
+    <span class="token annotation punctuation">@Test</span>
+    <span class="token keyword">void</span> <span class="token function">givenAutoConfigs_whenLoaded_thenOrderFollowsAnnotations</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">String</span> beanOne <span class="token operator">=</span> context<span class="token punctuation">.</span><span class="token function">getBean</span><span class="token punctuation">(</span><span class="token string">"autoBeanOne"</span><span class="token punctuation">,</span> <span class="token class-name">String</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">String</span> beanTwo <span class="token operator">=</span> context<span class="token punctuation">.</span><span class="token function">getBean</span><span class="token punctuation">(</span><span class="token string">"autoBeanTwo"</span><span class="token punctuation">,</span> <span class="token class-name">String</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">assertThat</span><span class="token punctuation">(</span>beanOne<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">isEqualTo</span><span class="token punctuation">(</span><span class="token string">"AutoBeanOne"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">assertThat</span><span class="token punctuation">(</span>beanTwo<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">isEqualTo</span><span class="token punctuation">(</span><span class="token string">"AutoBeanTwoAfterOne"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
 <p><strong>Impact</strong>: Auto-configuration order is explicitly controlled by annotations, ensuring predictable application setup.</p>
 <hr>
 <h3 id="conclusion">Conclusion</h3>
@@ -182,24 +196,24 @@ About
 <p>For more details, refer to the <a href="https://www.baeldung.com/spring-boot-configuration-order">original article</a>.</p>
 <hr>
 <h2 id="working-example">Working Example</h2>
-<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#E6EDF3">@</span><span style="color:#FF7B72">Configuration</span></span>
-<span class="line"><span style="color:#E6EDF3">@</span><span style="color:#FF7B72">Order</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">1</span><span style="color:#E6EDF3">)</span></span>
-<span class="line"><span style="color:#FF7B72">public</span><span style="color:#FF7B72"> class</span><span style="color:#FFA657"> ConfigOne</span><span style="color:#E6EDF3"> {</span></span>
-<span class="line"><span style="color:#E6EDF3">    @</span><span style="color:#FF7B72">Bean</span></span>
-<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#E6EDF3"> String </span><span style="color:#D2A8FF">configOneBean</span><span style="color:#E6EDF3">() {</span></span>
-<span class="line"><span style="color:#FF7B72">        return</span><span style="color:#A5D6FF"> "ConfigOneBean"</span><span style="color:#E6EDF3">;</span></span>
-<span class="line"><span style="color:#E6EDF3">    }</span></span>
-<span class="line"><span style="color:#E6EDF3">}</span></span>
-<span class="line"></span>
-<span class="line"><span style="color:#E6EDF3">@</span><span style="color:#FF7B72">Configuration</span></span>
-<span class="line"><span style="color:#E6EDF3">@</span><span style="color:#FF7B72">Order</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">2</span><span style="color:#E6EDF3">)</span></span>
-<span class="line"><span style="color:#FF7B72">public</span><span style="color:#FF7B72"> class</span><span style="color:#FFA657"> ConfigTwo</span><span style="color:#E6EDF3"> {</span></span>
-<span class="line"><span style="color:#E6EDF3">    @</span><span style="color:#FF7B72">Bean</span></span>
-<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#E6EDF3"> String </span><span style="color:#D2A8FF">configTwoBean</span><span style="color:#E6EDF3">() {</span></span>
-<span class="line"><span style="color:#FF7B72">        return</span><span style="color:#A5D6FF"> "ConfigTwoBean"</span><span style="color:#E6EDF3">;</span></span>
-<span class="line"><span style="color:#E6EDF3">    }</span></span>
-<span class="line"><span style="color:#E6EDF3">}</span></span>
-<span class="line"></span></code></pre>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token annotation punctuation">@Configuration</span>
+<span class="token annotation punctuation">@Order</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ConfigOne</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Bean</span>
+    <span class="token keyword">public</span> <span class="token class-name">String</span> <span class="token function">configOneBean</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token string">"ConfigOneBean"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token annotation punctuation">@Configuration</span>
+<span class="token annotation punctuation">@Order</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ConfigTwo</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Bean</span>
+    <span class="token keyword">public</span> <span class="token class-name">String</span> <span class="token function">configTwoBean</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token string">"ConfigTwoBean"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
 <hr>
 <h2 id="recommendations">Recommendations</h2>
 <ul>
@@ -213,20 +227,34 @@ About
 <ul>
 <li>Misusing <code>@Order</code> can lead to brittle code if dependencies change.</li>
 <li>Incorrect auto-configuration ordering may override user-defined configurations, leading to unexpected behavior. Always verify the order of auto-configuration classes.</li>
-</ul> </div> </article> </div> <div class="back-link" data-astro-cid-rkg3zjxi><a href="/ai-news/" data-astro-cid-rkg3zjxi>← Back to AI News</a></div>  </main> <footer class="site-footer container"> <p>© 2025 AREZKI El Mehdi • <a href="https://github.com/earezki">GitHub</a> • <a href="/rss.xml">RSS</a></p> </footer>  <script>
-      // Read/Unread article tracking
+</ul> </div>  <section class="related-posts" data-astro-cid-dpgbfi7r> <h2 data-astro-cid-dpgbfi7r>Related Posts</h2> <div class="related-posts-grid" data-astro-cid-dpgbfi7r> <article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/ai-news/2025-10-25-bind-custom-validation-message-in-spring/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>Custom Validation Message Binding in Spring Boot: A Comprehensive Guide</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>Main Heading Custom validation messages in Spring Boot enhance user feedback by externalizing error messages from code,…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2025-10-25T00:00:00.000Z" data-astro-cid-dpgbfi7r> Oct 25, 2025 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>3 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/ai-news/2025-10-20-article-a-plan-do-check-act-framework-for-ai-code-generation/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>A Plan-Do-Check-Act Framework for AI Code Generation</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>Summary: A Structured Approach to AI Code Generation with PDCA This article introduces a Plan-Do-Check-Act (PDCA)…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2025-10-20T00:00:00.000Z" data-astro-cid-dpgbfi7r> Oct 20, 2025 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>4 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/ai-news/2025-10-20-disaggregated-scheduled-fabric-scaling-metas-ai-journey/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>Disaggregated Scheduled Fabric (DSF): Scaling Meta’s AI Infrastructure</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>Summary: Meta&#39;s Disaggregated Scheduled Fabric (DSF) for Scalable AI Training Meta has developed Disaggregated…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2025-10-20T00:00:00.000Z" data-astro-cid-dpgbfi7r> Oct 20, 2025 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>4 min read</span> </div> </a> </article> </div> </section>  </article> </div> <div class="back-link" data-astro-cid-rkg3zjxi><a href="/ai-news/" data-astro-cid-rkg3zjxi>← Back to AI News</a></div>  </main> <!-- Site Footer --> <footer class="site-footer container"> <p>
+© 2025 AREZKI El Mehdi •
+<a href="https://github.com/earezki">GitHub</a> •
+<a href="/rss.xml">RSS</a> •
+<a href="/sitemap-index.xml">Sitemap</a> </p> </footer> <!-- Theme Toggle Script -->  <!-- Article Read/Unread Tracking --> <script>
+      /**
+       * Tracks which articles have been read using localStorage
+       * Updates post card styling on list pages
+       */
       (function() {
         const STORAGE_KEY = 'readArticles';
         
+        /**
+         * Gets list of read article URLs from localStorage
+         */
         function getReadArticles() {
           try {
             const data = localStorage.getItem(STORAGE_KEY);
             return data ? JSON.parse(data) : [];
           } catch (e) {
+            console.error('Failed to get read articles:', e);
             return [];
           }
         }
         
+        /**
+         * Marks an article URL as read
+         */
         function markArticleAsRead(url) {
           try {
             const readArticles = getReadArticles();
@@ -239,29 +267,37 @@ About
           }
         }
         
+        /**
+         * Checks if an article has been read
+         */
         function isArticleRead(url) {
           const readArticles = getReadArticles();
           return readArticles.includes(url);
         }
         
-        // Update post cards on list pages
+        /**
+         * Updates post card styling on list pages based on read status
+         */
         function updatePostCards() {
           const postCards = document.querySelectorAll('.post-card[data-article-url]');
+          
           postCards.forEach(function(card) {
             const url = card.getAttribute('data-article-url');
-            if (url) {
-              if (isArticleRead(url)) {
-                card.classList.add('read');
-                card.classList.remove('unread');
-              } else {
-                card.classList.add('unread');
-                card.classList.remove('read');
-              }
+            if (!url) return;
+            
+            if (isArticleRead(url)) {
+              card.classList.add('read');
+              card.classList.remove('unread');
+            } else {
+              card.classList.add('unread');
+              card.classList.remove('read');
             }
           });
         }
         
-        // Mark current article as read (on article pages)
+        /**
+         * Marks current article as read (on article detail pages)
+         */
         function markCurrentArticleAsRead() {
           const isArticlePage = document.querySelector('.post-body');
           if (isArticlePage) {
@@ -270,7 +306,9 @@ About
           }
         }
         
-        // Initialize function
+        /**
+         * Initialize tracking system
+         */
         function init() {
           updatePostCards();
           markCurrentArticleAsRead();
@@ -281,10 +319,116 @@ About
         
         // Handle back/forward navigation (bfcache)
         window.addEventListener('pageshow', function(event) {
-          // If page is loaded from cache, update the cards
           if (event.persisted) {
             init();
           }
         });
+      })();
+    </script> <!-- Code Copy Functionality --> <script>
+      /**
+       * Adds copy buttons to all code blocks
+       */
+      (function() {
+        /**
+         * Creates a copy button element
+         */
+        function createCopyButton() {
+          const button = document.createElement('button');
+          button.className = 'copy-code-button';
+          button.setAttribute('aria-label', 'Copy code to clipboard');
+          button.innerHTML = `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span>Copy</span>
+          `;
+          return button;
+        }
+        
+        /**
+         * Creates a success checkmark icon
+         */
+        function createCheckIcon() {
+          return `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span>Copied!</span>
+          `;
+        }
+        
+        /**
+         * Copies text to clipboard
+         */
+        async function copyToClipboard(text) {
+          try {
+            await navigator.clipboard.writeText(text);
+            return true;
+          } catch (err) {
+            // Fallback for older browsers
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-999999px';
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+              document.execCommand('copy');
+              document.body.removeChild(textArea);
+              return true;
+            } catch (e) {
+              document.body.removeChild(textArea);
+              return false;
+            }
+          }
+        }
+        
+        /**
+         * Handles copy button click
+         */
+        async function handleCopyClick(button, codeBlock) {
+          const code = codeBlock.textContent || '';
+          const success = await copyToClipboard(code);
+          
+          if (success) {
+            const originalHTML = button.innerHTML;
+            button.classList.add('copied');
+            button.innerHTML = createCheckIcon();
+            
+            setTimeout(function() {
+              button.classList.remove('copied');
+              button.innerHTML = originalHTML;
+            }, 2000);
+          }
+        }
+        
+        /**
+         * Adds copy buttons to all code blocks
+         */
+        function addCopyButtons() {
+          const codeBlocks = document.querySelectorAll('.post-body pre');
+          
+          codeBlocks.forEach(function(pre) {
+            // Skip if button already exists
+            if (pre.querySelector('.copy-code-button')) {
+              return;
+            }
+            
+            const button = createCopyButton();
+            const codeBlock = pre.querySelector('code');
+            
+            if (codeBlock) {
+              button.addEventListener('click', function() {
+                handleCopyClick(button, codeBlock);
+              });
+              
+              pre.appendChild(button);
+            }
+          });
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', addCopyButtons);
       })();
     </script> </body> </html> 

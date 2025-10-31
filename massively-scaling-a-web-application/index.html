@@ -1,15 +1,29 @@
-<!DOCTYPE html><html lang="en" data-theme="dark"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Massively scaling a web application • Dev|Journal</title><meta name="description" content="As user demands grow, scaling becomes critical. Whether it’s handling a surge in traffic, managing increasing amounts of data, or ensuring high availability,…"><meta name="keywords" content="Software design, System design"><meta name="author" content="El Mehdi Arezki"><!-- Open Graph / Facebook --><meta property="og:type" content="website"><meta property="og:url" content="https://earezki.com/massively-scaling-a-web-application/"><meta property="og:title" content="Massively scaling a web application • Dev|Journal"><meta property="og:site_name" content="Dev|Journal"><meta property="og:description" content="As user demands grow, scaling becomes critical. Whether it’s handling a surge in traffic, managing increasing amounts of data, or ensuring high availability,…"><meta property="og:image" content="https://earezki.com/assets/og-image-default.jpg"><!-- Twitter --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:url" content="https://earezki.com/massively-scaling-a-web-application/"><meta name="twitter:title" content="Massively scaling a web application • Dev|Journal"><meta name="twitter:description" content="As user demands grow, scaling becomes critical. Whether it’s handling a surge in traffic, managing increasing amounts of data, or ensuring high availability,…"><meta name="twitter:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:creator" content="@earezki"><link rel="canonical" href="https://earezki.com/massively-scaling-a-web-application/"><link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"><script async src="https://www.googletagmanager.com/gtag/js?id=UA-161447264-1"></script><script defer src="https://cloud.umami.is/script.js" data-website-id="4a26531d-1053-4f79-97a6-06a1366aff91"></script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Massively scaling a web application","description":"As user demands grow, scaling becomes critical. Whether it’s handling a surge in traffic, managing increasing amounts of data, or ensuring high availability,…","image":"https://earezki.com/assets/og-image-default.jpg","datePublished":"2024-11-23T23:00:46.000Z","dateModified":"2024-11-23T23:00:46.000Z","author":{"@type":"Person","name":"El Mehdi Arezki","url":"https://earezki.com/about","jobTitle":"Lead Software Engineer","sameAs":["https://github.com/earezki","https://www.linkedin.com/in/mehdi-arezki"]},"publisher":{"@type":"Organization","name":"Dev|Journal","url":"https://earezki.com","logo":{"@type":"ImageObject","url":"https://earezki.com/assets/logo.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://earezki.com/massively-scaling-a-web-application/"}}</script><link rel="stylesheet" href="/_astro/_slug_.CDWqF8AB.css">
-<style>.post-layout[data-astro-cid-yvbahnfj]{display:grid;grid-template-columns:260px 1fr;gap:2.5rem}.sidebar-left[data-astro-cid-yvbahnfj]{position:relative}@media (max-width: 1080px){.post-layout[data-astro-cid-yvbahnfj]{grid-template-columns:1fr}}
-.toc[data-astro-cid-xvrfupwn]{position:sticky;top:90px;max-height:calc(100vh - 120px);overflow:auto;padding:1rem 1rem 1.2rem;background:var(--color-bg-alt);border:1px solid var(--color-border);border-radius:var(--radius-md);font-size:.8rem;line-height:1.3}.toc-title[data-astro-cid-xvrfupwn]{font-weight:600;font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.6rem;color:var(--color-text-alt)}.toc[data-astro-cid-xvrfupwn] ul[data-astro-cid-xvrfupwn]{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.35rem}.toc[data-astro-cid-xvrfupwn] a[data-astro-cid-xvrfupwn]{text-decoration:none;color:var(--color-text-alt)}.toc[data-astro-cid-xvrfupwn] a[data-astro-cid-xvrfupwn]:hover{color:var(--color-accent)}.toc[data-astro-cid-xvrfupwn] li[data-astro-cid-xvrfupwn][class*=d-3]{margin-left:.75rem}.toc[data-astro-cid-xvrfupwn] li[data-astro-cid-xvrfupwn][class*=d-4]{margin-left:1.4rem}@media (max-width: 1080px){.toc[data-astro-cid-xvrfupwn]{display:none}}
-</style><script type="module" src="/_astro/hoisted.CwSnpN4J.js"></script></head> <body> <div id="readingProgress" style="position:fixed;left:0;top:0;height:3px;background:linear-gradient(90deg,#2563eb,#9333ea);width:0;z-index:999;transition:width .15s ease;"></div>  <header class="site-header container"> <div class="logo-wrap"> <a class="logo" href="/">Dev|Journal</a> </div> <nav class="main-nav"> <a href="/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px;"> <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path> <polyline points="9 22 9 12 15 12 15 22"></polyline> </svg>
+<!DOCTYPE html><html lang="en" data-theme="dark"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><!-- Primary Meta Tags --><title>Massively scaling a web application • Dev|Journal</title><meta name="description" content="As user demands grow, scaling becomes critical. Whether it’s handling a surge in traffic, managing increasing amounts of data, or ensuring high availability,…"><meta name="keywords" content="Software design, System design"><meta name="author" content="El Mehdi Arezki"><!-- Open Graph / Facebook --><meta property="og:type" content="website"><meta property="og:url" content="https://earezki.com/massively-scaling-a-web-application/"><meta property="og:title" content="Massively scaling a web application • Dev|Journal"><meta property="og:site_name" content="Dev|Journal"><meta property="og:description" content="As user demands grow, scaling becomes critical. Whether it’s handling a surge in traffic, managing increasing amounts of data, or ensuring high availability,…"><meta property="og:image" content="https://earezki.com/assets/og-image-default.jpg"><!-- Twitter --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:url" content="https://earezki.com/massively-scaling-a-web-application/"><meta name="twitter:title" content="Massively scaling a web application • Dev|Journal"><meta name="twitter:description" content="As user demands grow, scaling becomes critical. Whether it’s handling a surge in traffic, managing increasing amounts of data, or ensuring high availability,…"><meta name="twitter:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:creator" content="@earezki"><!-- Canonical and Indexing --><link rel="canonical" href="https://earezki.com/massively-scaling-a-web-application/"><!-- Favicons --><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/x-icon" href="/favicon.ico"><!-- RSS Feed --><link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"><!-- Analytics: Google Analytics (Legacy UA) --><script async src="https://www.googletagmanager.com/gtag/js?id=UA-161447264-1"></script><script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);} 
+      gtag('js', new Date()); 
+      gtag('config', 'UA-161447264-1');
+    </script><!-- Analytics: Umami --><script defer src="https://cloud.umami.is/script.js" data-website-id="4a26531d-1053-4f79-97a6-06a1366aff91"></script><!-- Theme Persistence (runs before page render to prevent flash) --><script>
+      (function() {
+        const theme = localStorage.getItem('theme');
+        if (theme) { 
+          document.documentElement.setAttribute('data-theme', theme); 
+        }
+      })();
+    </script><!-- Structured Data (JSON-LD) --><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Massively scaling a web application","description":"As user demands grow, scaling becomes critical. Whether it’s handling a surge in traffic, managing increasing amounts of data, or ensuring high availability,…","image":"https://earezki.com/assets/og-image-default.jpg","datePublished":"2024-11-23T23:00:46.000Z","dateModified":"2024-11-23T23:00:46.000Z","author":{"@type":"Person","name":"El Mehdi Arezki","url":"https://earezki.com/about","jobTitle":"Lead Software Engineer","sameAs":["https://github.com/earezki","https://www.linkedin.com/in/mehdi-arezki"]},"publisher":{"@type":"Organization","name":"Dev|Journal","url":"https://earezki.com","logo":{"@type":"ImageObject","url":"https://earezki.com/assets/logo.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://earezki.com/massively-scaling-a-web-application/"}}</script><link rel="stylesheet" href="/_astro/_slug_.s4HJyrFw.css">
+<style>.toc[data-astro-cid-xvrfupwn]{position:sticky;top:90px;max-height:calc(100vh - 120px);overflow:auto;padding:1rem 1rem 1.2rem;background:var(--color-bg-alt);border:1px solid var(--color-border);border-radius:var(--radius-md);font-size:.8rem;line-height:1.3}.toc-title[data-astro-cid-xvrfupwn]{font-weight:600;font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.6rem;color:var(--color-text-alt)}.toc[data-astro-cid-xvrfupwn] ul[data-astro-cid-xvrfupwn]{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.35rem}.toc[data-astro-cid-xvrfupwn] a[data-astro-cid-xvrfupwn]{text-decoration:none;color:var(--color-text-alt);transition:color var(--transition)}.toc[data-astro-cid-xvrfupwn] a[data-astro-cid-xvrfupwn]:hover{color:var(--color-accent)}.toc[data-astro-cid-xvrfupwn] li[data-astro-cid-xvrfupwn][class*=d-3]{margin-left:.75rem}.toc[data-astro-cid-xvrfupwn] li[data-astro-cid-xvrfupwn][class*=d-4]{margin-left:1.4rem}@media (max-width: 1080px){.toc[data-astro-cid-xvrfupwn]{display:none}}.breadcrumbs[data-astro-cid-ilhxcym7]{margin:0 0 1.5rem;font-size:.85rem}.breadcrumbs[data-astro-cid-ilhxcym7] ol[data-astro-cid-ilhxcym7]{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;align-items:center;gap:.5rem}.breadcrumbs[data-astro-cid-ilhxcym7] li[data-astro-cid-ilhxcym7]{display:flex;align-items:center;gap:.5rem}.breadcrumbs[data-astro-cid-ilhxcym7] a[data-astro-cid-ilhxcym7]{color:var(--color-text-alt);text-decoration:none;transition:color var(--transition)}.breadcrumbs[data-astro-cid-ilhxcym7] a[data-astro-cid-ilhxcym7]:hover{color:var(--color-accent);text-decoration:underline}.breadcrumbs[data-astro-cid-ilhxcym7] .separator[data-astro-cid-ilhxcym7]{color:var(--color-text-alt);opacity:.5;user-select:none}.breadcrumbs[data-astro-cid-ilhxcym7] .current[data-astro-cid-ilhxcym7]{color:var(--color-text);font-weight:500}.related-posts[data-astro-cid-dpgbfi7r]{margin:3rem 0;padding-top:2rem;border-top:2px solid var(--color-border)}.related-posts[data-astro-cid-dpgbfi7r] h2[data-astro-cid-dpgbfi7r]{font-size:1.5rem;margin:0 0 1.5rem;color:var(--color-text)}.related-posts-grid[data-astro-cid-dpgbfi7r]{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem}.related-post-card[data-astro-cid-dpgbfi7r]{background:var(--color-bg-alt);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;transition:all var(--transition)}.related-post-card[data-astro-cid-dpgbfi7r]:hover{border-color:var(--color-accent);transform:translateY(-2px);box-shadow:var(--shadow-md)}.related-post-link[data-astro-cid-dpgbfi7r]{text-decoration:none;color:inherit;display:block}.related-post-card[data-astro-cid-dpgbfi7r] h3[data-astro-cid-dpgbfi7r]{margin:0 0 .75rem;font-size:1.1rem;font-weight:600;color:var(--color-text);line-height:1.3}.related-post-link[data-astro-cid-dpgbfi7r]:hover h3[data-astro-cid-dpgbfi7r]{color:var(--color-accent)}.related-excerpt[data-astro-cid-dpgbfi7r]{font-size:.85rem;color:var(--color-text-alt);line-height:1.5;margin:0 0 .75rem}.related-meta[data-astro-cid-dpgbfi7r]{font-size:.75rem;color:var(--color-text-alt);display:flex;gap:.5rem;align-items:center}@media (max-width: 680px){.related-posts-grid[data-astro-cid-dpgbfi7r]{grid-template-columns:1fr}}
+.series-navigation[data-astro-cid-2hl7stop]{margin:2rem 0 3rem;padding:1.5rem;background:linear-gradient(135deg,#2563eb0d,#6366f10d);border:1px solid var(--color-border);border-radius:var(--radius-md)}html[data-theme=dark] .series-navigation[data-astro-cid-2hl7stop]{background:linear-gradient(135deg,#2563eb1a,#6366f11a)}.series-header[data-astro-cid-2hl7stop]{margin-bottom:1.25rem}.series-badge[data-astro-cid-2hl7stop]{display:inline-block;font-size:.75rem;font-weight:600;color:var(--color-accent);background:#2563eb1a;padding:.25rem .75rem;border-radius:var(--radius-pill);margin-bottom:.5rem}.series-header[data-astro-cid-2hl7stop] h3[data-astro-cid-2hl7stop]{margin:.5rem 0 .25rem;font-size:1.25rem;color:var(--color-text)}.series-progress[data-astro-cid-2hl7stop]{font-size:.85rem;color:var(--color-text-alt);margin:0}.series-list[data-astro-cid-2hl7stop]{display:flex;flex-direction:column;gap:.75rem;margin:1.5rem 0}.series-item[data-astro-cid-2hl7stop]{display:flex;align-items:center;gap:.75rem;padding:.75rem;background:var(--color-bg);border:1px solid var(--color-border);border-radius:var(--radius-sm);transition:all var(--transition)}.series-item[data-astro-cid-2hl7stop]:hover{border-color:var(--color-accent)}.series-item[data-astro-cid-2hl7stop].current{background:var(--color-accent);border-color:var(--color-accent)}.series-item[data-astro-cid-2hl7stop].completed{opacity:.7}.series-number[data-astro-cid-2hl7stop]{flex-shrink:0;width:28px;height:28px;display:flex;align-items:center;justify-content:center;background:var(--color-bg-alt);color:var(--color-text-alt);border-radius:50%;font-size:.85rem;font-weight:600}.series-item[data-astro-cid-2hl7stop].current .series-number[data-astro-cid-2hl7stop]{background:#fff3;color:#fff}.series-title[data-astro-cid-2hl7stop]{flex:1;font-size:.95rem;color:var(--color-text);text-decoration:none;transition:color var(--transition)}.series-title[data-astro-cid-2hl7stop]:hover{color:var(--color-accent)}.series-item[data-astro-cid-2hl7stop].current .current-title[data-astro-cid-2hl7stop]{color:#fff;font-weight:600}.check-icon[data-astro-cid-2hl7stop]{flex-shrink:0;color:#10b981;font-size:1.1rem}.series-nav-buttons[data-astro-cid-2hl7stop]{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--color-border)}.series-nav-btn[data-astro-cid-2hl7stop]{display:flex;flex-direction:column;gap:.25rem;padding:1rem;background:var(--color-bg);border:1px solid var(--color-border);border-radius:var(--radius-sm);text-decoration:none;transition:all var(--transition)}.series-nav-btn[data-astro-cid-2hl7stop]:hover{border-color:var(--color-accent);transform:translateY(-2px);box-shadow:var(--shadow-sm)}.series-nav-btn[data-astro-cid-2hl7stop].next{text-align:right}.nav-label[data-astro-cid-2hl7stop]{font-size:.75rem;color:var(--color-text-alt);font-weight:600;text-transform:uppercase;letter-spacing:.05em}.nav-title[data-astro-cid-2hl7stop]{font-size:.9rem;color:var(--color-text);font-weight:500}.series-nav-btn[data-astro-cid-2hl7stop]:hover .nav-title[data-astro-cid-2hl7stop]{color:var(--color-accent)}@media (max-width: 680px){.series-navigation[data-astro-cid-2hl7stop]{padding:1rem}.series-nav-buttons[data-astro-cid-2hl7stop]{grid-template-columns:1fr}.series-nav-btn[data-astro-cid-2hl7stop].next{text-align:left}}.post-layout[data-astro-cid-yvbahnfj]{display:grid;grid-template-columns:260px 1fr;gap:2.5rem}.sidebar-left[data-astro-cid-yvbahnfj]{position:relative}@media (max-width: 1080px){.post-layout[data-astro-cid-yvbahnfj]{grid-template-columns:1fr}}
+</style><script type="module" src="/_astro/hoisted.2U5tn40l.js"></script></head> <body> <div id="readingProgress" role="progressbar" aria-label="Reading progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="position:fixed;left:0;top:0;height:3px;background:linear-gradient(90deg,#2563eb,#9333ea);width:0;z-index:999;transition:width .15s ease;"></div>  <!-- Site Header --> <header class="site-header container"> <div class="logo-wrap"> <a class="logo" href="/" aria-label="Dev|Journal Home">
+Dev|Journal
+</a> </div> <nav class="main-nav" aria-label="Main navigation"> <a href="/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path> <polyline points="9 22 9 12 15 12 15 22"></polyline> </svg>
 Home
-</a> <a href="/ai-news/" class="ai-news-link"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px;"> <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h-9.5a.5.5 0 0 0-.5.5.5.5 0 0 1-1 0 .5.5 0 0 0-.5-.5H1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"></path> <path d="M7 15v4a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-4"></path> </svg>
+</a> <a href="/ai-news/" class="ai-news-link"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h-9.5a.5.5 0 0 0-.5.5.5.5 0 0 1-1 0 .5.5 0 0 0-.5-.5H1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"></path> <path d="M7 15v4a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-4"></path> </svg>
 AI News
-</a> <a href="/tags/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px;"> <path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2z"></path> <circle cx="7" cy="7" r="1.5"></circle> </svg>
+</a> <a href="/tags/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2z"></path> <circle cx="7" cy="7" r="1.5"></circle> </svg>
 Tags
-</a> <a href="/about/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px;"> <circle cx="12" cy="12" r="10"></circle> <path d="M12 16v-4"></path> <path d="M12 8h.01"></path> </svg>
+</a> <a href="/about/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <circle cx="12" cy="12" r="10"></circle> <path d="M12 16v-4"></path> <path d="M12 8h.01"></path> </svg>
 About
-</a> <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode"> <span class="theme-icon">☾</span> <span class="theme-text">dark</span> </button> </nav> </header> <main class="container content-area">  <div class="post-layout" data-astro-cid-yvbahnfj> <aside class="sidebar-left" data-astro-cid-yvbahnfj> <nav class="toc" aria-label="Table of Contents" data-astro-cid-xvrfupwn> <div class="toc-title" data-astro-cid-xvrfupwn>On this page</div> <ul data-astro-cid-xvrfupwn> <li class="d-3" data-astro-cid-xvrfupwn><a href="#single-server-setup" data-astro-cid-xvrfupwn>Single server setup</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#vertical-scaling" data-astro-cid-xvrfupwn>Vertical scaling</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#horizontal-scaling" data-astro-cid-xvrfupwn>Horizontal scaling</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#stateful-vs-stateless-applications" data-astro-cid-xvrfupwn>Stateful vs stateless applications</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#load-balancer" data-astro-cid-xvrfupwn>Load balancer</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#choice-of-database" data-astro-cid-xvrfupwn>Choice of database</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#database-replication" data-astro-cid-xvrfupwn>Database replication</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#database-sharding" data-astro-cid-xvrfupwn>Database sharding</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#caching" data-astro-cid-xvrfupwn>Caching</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#cdn" data-astro-cid-xvrfupwn>CDN</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#multi-region-deployment" data-astro-cid-xvrfupwn>Multi-region deployment</a></li> </ul> </nav>  </aside> <article class="post" data-astro-cid-yvbahnfj> <header class="post-header" data-astro-cid-yvbahnfj> <h1 data-astro-cid-yvbahnfj>Massively scaling a web application</h1> <div class="meta" data-astro-cid-yvbahnfj> <time datetime="2024-11-23T23:00:46.000Z" data-astro-cid-yvbahnfj>Sat Nov 23 2024</time> <span data-astro-cid-yvbahnfj>• 15 min read</span> </div> <div class="tag-row" data-astro-cid-yvbahnfj><a class="tag " href="/tags/software-design/" data-astro-cid-yvbahnfj>Software design</a><a class="tag " href="/tags/system-design/" data-astro-cid-yvbahnfj>System design</a></div> </header> <div class="post-body prose" data-astro-cid-yvbahnfj> <p>As user demands grow, scaling becomes critical. Whether it’s handling a surge in traffic, managing increasing amounts of data, or ensuring high availability, scaling ensures that an application remains responsive and reliable under varying workloads. The process involves strategically optimizing and expanding the infrastructure to meet the demands. This can be done vertically by enhancing the capabilities of existing servers or horizontally by adding more machines or nodes to distribute the load.</p>
+</a> <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode"> <span class="theme-icon" aria-hidden="true">☾</span> <span class="theme-text">dark</span> </button> </nav> </header> <!-- Main Content --> <main class="container content-area">  <nav class="breadcrumbs" aria-label="Breadcrumb" data-astro-cid-ilhxcym7> <ol data-astro-cid-ilhxcym7> <li data-astro-cid-ilhxcym7>  <a href="/" data-astro-cid-ilhxcym7>Home</a> <span class="separator" aria-hidden="true" data-astro-cid-ilhxcym7>/</span>  </li><li data-astro-cid-ilhxcym7> <span class="current" aria-current="page" data-astro-cid-ilhxcym7>Massively scaling a web application</span> </li> </ol> </nav>  <div class="post-layout" data-astro-cid-yvbahnfj> <aside class="sidebar-left" data-astro-cid-yvbahnfj> <nav class="toc" aria-label="Table of Contents" data-astro-cid-xvrfupwn> <div class="toc-title" data-astro-cid-xvrfupwn>On this page</div> <ul data-astro-cid-xvrfupwn> <li class="d-3" data-astro-cid-xvrfupwn> <a href="#single-server-setup" data-astro-cid-xvrfupwn> Single server setup </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#vertical-scaling" data-astro-cid-xvrfupwn> Vertical scaling </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#horizontal-scaling" data-astro-cid-xvrfupwn> Horizontal scaling </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#stateful-vs-stateless-applications" data-astro-cid-xvrfupwn> Stateful vs stateless applications </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#load-balancer" data-astro-cid-xvrfupwn> Load balancer </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#choice-of-database" data-astro-cid-xvrfupwn> Choice of database </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#database-replication" data-astro-cid-xvrfupwn> Database replication </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#database-sharding" data-astro-cid-xvrfupwn> Database sharding </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#caching" data-astro-cid-xvrfupwn> Caching </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#cdn" data-astro-cid-xvrfupwn> CDN </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#multi-region-deployment" data-astro-cid-xvrfupwn> Multi-region deployment </a> </li> </ul> </nav>  </aside> <article class="post" data-astro-cid-yvbahnfj> <header class="post-header" data-astro-cid-yvbahnfj> <h1 data-astro-cid-yvbahnfj>Massively scaling a web application</h1> <div class="meta" data-astro-cid-yvbahnfj> <time datetime="2024-11-23T23:00:46.000Z" data-astro-cid-yvbahnfj>Sat Nov 23 2024</time> <span data-astro-cid-yvbahnfj>• 15 min read</span> </div> <div class="tag-row" data-astro-cid-yvbahnfj><a class="tag " href="/tags/software-design/" data-astro-cid-yvbahnfj>Software design</a><a class="tag " href="/tags/system-design/" data-astro-cid-yvbahnfj>System design</a></div> </header> <div class="post-body prose" data-astro-cid-yvbahnfj> <p>As user demands grow, scaling becomes critical. Whether it’s handling a surge in traffic, managing increasing amounts of data, or ensuring high availability, scaling ensures that an application remains responsive and reliable under varying workloads. The process involves strategically optimizing and expanding the infrastructure to meet the demands. This can be done vertically by enhancing the capabilities of existing servers or horizontally by adding more machines or nodes to distribute the load.</p>
 <p>In this article, we’ll explore the core principles of application scaling, the strategies available, and some of the trade-offs involved. We’ll explore into technical considerations like managing databases, caching, and load balancing, while also addressing common challenges like cost, latency, and architectural complexity.</p>
 <h3 id="single-server-setup">Single server setup</h3>
 <p>A single server setup is an attractive option for software development due to its cost efficiency, as it avoids the expense of multiple physical or cloud servers, and its simplified management with centralized configuration reducing complexity.
@@ -79,20 +93,34 @@ Horizontal scaling is also well-suited for modern cloud architectures that lever
 <p><strong>Multi-region deployment</strong> refers to deploying an application across multiple geographic regions to improve performance, reliability and scalability. This strategy enables faster response times for users by serving content from the nearest location and enhances fault tolerance by reducing the risk of service outages due to regional failures, such as natural disasters or localized infrastructure problems.</p>
 <p>Multi-region deployment improves <strong>latency</strong> because users are directed to the nearest server. It also enhances <strong>availability</strong> and <strong>resilience</strong>, if one region experiences downtime, traffic can be rerouted to other regions, ensuring continuous operation.</p>
 <p>However, implementing a multi-region architecture is <strong>complex</strong>. Synchronizing data across regions is challenging, as maintaining consistency often involves trade-offs between performance and strict ACID properties, also, it can cause potential latency for synchronization tasks, such as replicating databases, which can slow down write-heavy applications, moreover, compliance regulations might restrict certain data from being transferred between regions.</p>
-<p><img src="/assets/scaling_software.jpg" alt="Scaling software" title="Scaling software"></p> </div> </article> </div> <div class="back-link" data-astro-cid-yvbahnfj><a href="/" data-astro-cid-yvbahnfj>← Back to home</a></div>  </main> <footer class="site-footer container"> <p>© 2025 AREZKI El Mehdi • <a href="https://github.com/earezki">GitHub</a> • <a href="/rss.xml">RSS</a></p> </footer>  <script>
-      // Read/Unread article tracking
+<p><img src="/assets/scaling_software.jpg" alt="Scaling software" title="Scaling software"></p> </div>    <section class="related-posts" data-astro-cid-dpgbfi7r> <h2 data-astro-cid-dpgbfi7r>Related Posts</h2> <div class="related-posts-grid" data-astro-cid-dpgbfi7r> <article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/anemic-vs-rich-domain-models/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>Anemic vs Rich Domain Models</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>An **Anemic Domain Model** is a model that is focused on the state of the object. This is not what…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2020-03-24T04:49:46.000Z" data-astro-cid-dpgbfi7r> Mar 24, 2020 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>1 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/dependency-inversion-principle/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>D from SOLID</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>Dependency Inversion Principle (DIP) in Software Design Introduction The Dependency Inversion Principle (DIP) is one of…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2024-07-24T23:00:46.000Z" data-astro-cid-dpgbfi7r> Jul 24, 2024 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>4 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/domain-driven-design-core-concepts/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>Domain Driven Design Core Concepts</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>In this blog I&amp;#39;m sharing my understandings on the core concepts of Domain Driven Design. **Domain Driven Design**…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2020-03-23T04:49:46.000Z" data-astro-cid-dpgbfi7r> Mar 23, 2020 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>4 min read</span> </div> </a> </article> </div> </section>  </article> </div> <div class="back-link" data-astro-cid-yvbahnfj><a href="/" data-astro-cid-yvbahnfj>← Back to home</a></div>  </main> <!-- Site Footer --> <footer class="site-footer container"> <p>
+© 2025 AREZKI El Mehdi •
+<a href="https://github.com/earezki">GitHub</a> •
+<a href="/rss.xml">RSS</a> •
+<a href="/sitemap-index.xml">Sitemap</a> </p> </footer> <!-- Theme Toggle Script -->  <!-- Article Read/Unread Tracking --> <script>
+      /**
+       * Tracks which articles have been read using localStorage
+       * Updates post card styling on list pages
+       */
       (function() {
         const STORAGE_KEY = 'readArticles';
         
+        /**
+         * Gets list of read article URLs from localStorage
+         */
         function getReadArticles() {
           try {
             const data = localStorage.getItem(STORAGE_KEY);
             return data ? JSON.parse(data) : [];
           } catch (e) {
+            console.error('Failed to get read articles:', e);
             return [];
           }
         }
         
+        /**
+         * Marks an article URL as read
+         */
         function markArticleAsRead(url) {
           try {
             const readArticles = getReadArticles();
@@ -105,29 +133,37 @@ Horizontal scaling is also well-suited for modern cloud architectures that lever
           }
         }
         
+        /**
+         * Checks if an article has been read
+         */
         function isArticleRead(url) {
           const readArticles = getReadArticles();
           return readArticles.includes(url);
         }
         
-        // Update post cards on list pages
+        /**
+         * Updates post card styling on list pages based on read status
+         */
         function updatePostCards() {
           const postCards = document.querySelectorAll('.post-card[data-article-url]');
+          
           postCards.forEach(function(card) {
             const url = card.getAttribute('data-article-url');
-            if (url) {
-              if (isArticleRead(url)) {
-                card.classList.add('read');
-                card.classList.remove('unread');
-              } else {
-                card.classList.add('unread');
-                card.classList.remove('read');
-              }
+            if (!url) return;
+            
+            if (isArticleRead(url)) {
+              card.classList.add('read');
+              card.classList.remove('unread');
+            } else {
+              card.classList.add('unread');
+              card.classList.remove('read');
             }
           });
         }
         
-        // Mark current article as read (on article pages)
+        /**
+         * Marks current article as read (on article detail pages)
+         */
         function markCurrentArticleAsRead() {
           const isArticlePage = document.querySelector('.post-body');
           if (isArticlePage) {
@@ -136,7 +172,9 @@ Horizontal scaling is also well-suited for modern cloud architectures that lever
           }
         }
         
-        // Initialize function
+        /**
+         * Initialize tracking system
+         */
         function init() {
           updatePostCards();
           markCurrentArticleAsRead();
@@ -147,10 +185,116 @@ Horizontal scaling is also well-suited for modern cloud architectures that lever
         
         // Handle back/forward navigation (bfcache)
         window.addEventListener('pageshow', function(event) {
-          // If page is loaded from cache, update the cards
           if (event.persisted) {
             init();
           }
         });
+      })();
+    </script> <!-- Code Copy Functionality --> <script>
+      /**
+       * Adds copy buttons to all code blocks
+       */
+      (function() {
+        /**
+         * Creates a copy button element
+         */
+        function createCopyButton() {
+          const button = document.createElement('button');
+          button.className = 'copy-code-button';
+          button.setAttribute('aria-label', 'Copy code to clipboard');
+          button.innerHTML = `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span>Copy</span>
+          `;
+          return button;
+        }
+        
+        /**
+         * Creates a success checkmark icon
+         */
+        function createCheckIcon() {
+          return `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span>Copied!</span>
+          `;
+        }
+        
+        /**
+         * Copies text to clipboard
+         */
+        async function copyToClipboard(text) {
+          try {
+            await navigator.clipboard.writeText(text);
+            return true;
+          } catch (err) {
+            // Fallback for older browsers
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-999999px';
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+              document.execCommand('copy');
+              document.body.removeChild(textArea);
+              return true;
+            } catch (e) {
+              document.body.removeChild(textArea);
+              return false;
+            }
+          }
+        }
+        
+        /**
+         * Handles copy button click
+         */
+        async function handleCopyClick(button, codeBlock) {
+          const code = codeBlock.textContent || '';
+          const success = await copyToClipboard(code);
+          
+          if (success) {
+            const originalHTML = button.innerHTML;
+            button.classList.add('copied');
+            button.innerHTML = createCheckIcon();
+            
+            setTimeout(function() {
+              button.classList.remove('copied');
+              button.innerHTML = originalHTML;
+            }, 2000);
+          }
+        }
+        
+        /**
+         * Adds copy buttons to all code blocks
+         */
+        function addCopyButtons() {
+          const codeBlocks = document.querySelectorAll('.post-body pre');
+          
+          codeBlocks.forEach(function(pre) {
+            // Skip if button already exists
+            if (pre.querySelector('.copy-code-button')) {
+              return;
+            }
+            
+            const button = createCopyButton();
+            const codeBlock = pre.querySelector('code');
+            
+            if (codeBlock) {
+              button.addEventListener('click', function() {
+                handleCopyClick(button, codeBlock);
+              });
+              
+              pre.appendChild(button);
+            }
+          });
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', addCopyButtons);
       })();
     </script> </body> </html> 

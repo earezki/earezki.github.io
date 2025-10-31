@@ -1,15 +1,29 @@
-<!DOCTYPE html><html lang="en" data-theme="dark"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>D from SOLID • Dev|Journal</title><meta name="description" content="Dependency Inversion Principle (DIP) in Software Design Introduction The Dependency Inversion Principle (DIP) is one of the five SOLID principles of…"><meta name="keywords" content="Software design, SOLID"><meta name="author" content="El Mehdi Arezki"><!-- Open Graph / Facebook --><meta property="og:type" content="website"><meta property="og:url" content="https://earezki.com/dependency-inversion-principle/"><meta property="og:title" content="D from SOLID • Dev|Journal"><meta property="og:site_name" content="Dev|Journal"><meta property="og:description" content="Dependency Inversion Principle (DIP) in Software Design Introduction The Dependency Inversion Principle (DIP) is one of the five SOLID principles of…"><meta property="og:image" content="https://earezki.com/assets/og-image-default.jpg"><!-- Twitter --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:url" content="https://earezki.com/dependency-inversion-principle/"><meta name="twitter:title" content="D from SOLID • Dev|Journal"><meta name="twitter:description" content="Dependency Inversion Principle (DIP) in Software Design Introduction The Dependency Inversion Principle (DIP) is one of the five SOLID principles of…"><meta name="twitter:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:creator" content="@earezki"><link rel="canonical" href="https://earezki.com/dependency-inversion-principle/"><link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"><script async src="https://www.googletagmanager.com/gtag/js?id=UA-161447264-1"></script><script defer src="https://cloud.umami.is/script.js" data-website-id="4a26531d-1053-4f79-97a6-06a1366aff91"></script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"D from SOLID","description":"Dependency Inversion Principle (DIP) in Software Design Introduction The Dependency Inversion Principle (DIP) is one of the five SOLID principles of…","image":"https://earezki.com/assets/og-image-default.jpg","datePublished":"2024-07-24T23:00:46.000Z","dateModified":"2024-07-24T23:00:46.000Z","author":{"@type":"Person","name":"El Mehdi Arezki","url":"https://earezki.com/about","jobTitle":"Lead Software Engineer","sameAs":["https://github.com/earezki","https://www.linkedin.com/in/mehdi-arezki"]},"publisher":{"@type":"Organization","name":"Dev|Journal","url":"https://earezki.com","logo":{"@type":"ImageObject","url":"https://earezki.com/assets/logo.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://earezki.com/dependency-inversion-principle/"}}</script><link rel="stylesheet" href="/_astro/_slug_.CDWqF8AB.css">
-<style>.post-layout[data-astro-cid-yvbahnfj]{display:grid;grid-template-columns:260px 1fr;gap:2.5rem}.sidebar-left[data-astro-cid-yvbahnfj]{position:relative}@media (max-width: 1080px){.post-layout[data-astro-cid-yvbahnfj]{grid-template-columns:1fr}}
-.toc[data-astro-cid-xvrfupwn]{position:sticky;top:90px;max-height:calc(100vh - 120px);overflow:auto;padding:1rem 1rem 1.2rem;background:var(--color-bg-alt);border:1px solid var(--color-border);border-radius:var(--radius-md);font-size:.8rem;line-height:1.3}.toc-title[data-astro-cid-xvrfupwn]{font-weight:600;font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.6rem;color:var(--color-text-alt)}.toc[data-astro-cid-xvrfupwn] ul[data-astro-cid-xvrfupwn]{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.35rem}.toc[data-astro-cid-xvrfupwn] a[data-astro-cid-xvrfupwn]{text-decoration:none;color:var(--color-text-alt)}.toc[data-astro-cid-xvrfupwn] a[data-astro-cid-xvrfupwn]:hover{color:var(--color-accent)}.toc[data-astro-cid-xvrfupwn] li[data-astro-cid-xvrfupwn][class*=d-3]{margin-left:.75rem}.toc[data-astro-cid-xvrfupwn] li[data-astro-cid-xvrfupwn][class*=d-4]{margin-left:1.4rem}@media (max-width: 1080px){.toc[data-astro-cid-xvrfupwn]{display:none}}
-</style><script type="module" src="/_astro/hoisted.CwSnpN4J.js"></script></head> <body> <div id="readingProgress" style="position:fixed;left:0;top:0;height:3px;background:linear-gradient(90deg,#2563eb,#9333ea);width:0;z-index:999;transition:width .15s ease;"></div>  <header class="site-header container"> <div class="logo-wrap"> <a class="logo" href="/">Dev|Journal</a> </div> <nav class="main-nav"> <a href="/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px;"> <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path> <polyline points="9 22 9 12 15 12 15 22"></polyline> </svg>
+<!DOCTYPE html><html lang="en" data-theme="dark"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><!-- Primary Meta Tags --><title>D from SOLID • Dev|Journal</title><meta name="description" content="Dependency Inversion Principle (DIP) in Software Design Introduction The Dependency Inversion Principle (DIP) is one of the five SOLID principles of…"><meta name="keywords" content="Software design, SOLID"><meta name="author" content="El Mehdi Arezki"><!-- Open Graph / Facebook --><meta property="og:type" content="website"><meta property="og:url" content="https://earezki.com/dependency-inversion-principle/"><meta property="og:title" content="D from SOLID • Dev|Journal"><meta property="og:site_name" content="Dev|Journal"><meta property="og:description" content="Dependency Inversion Principle (DIP) in Software Design Introduction The Dependency Inversion Principle (DIP) is one of the five SOLID principles of…"><meta property="og:image" content="https://earezki.com/assets/og-image-default.jpg"><!-- Twitter --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:url" content="https://earezki.com/dependency-inversion-principle/"><meta name="twitter:title" content="D from SOLID • Dev|Journal"><meta name="twitter:description" content="Dependency Inversion Principle (DIP) in Software Design Introduction The Dependency Inversion Principle (DIP) is one of the five SOLID principles of…"><meta name="twitter:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:creator" content="@earezki"><!-- Canonical and Indexing --><link rel="canonical" href="https://earezki.com/dependency-inversion-principle/"><!-- Favicons --><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/x-icon" href="/favicon.ico"><!-- RSS Feed --><link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"><!-- Analytics: Google Analytics (Legacy UA) --><script async src="https://www.googletagmanager.com/gtag/js?id=UA-161447264-1"></script><script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);} 
+      gtag('js', new Date()); 
+      gtag('config', 'UA-161447264-1');
+    </script><!-- Analytics: Umami --><script defer src="https://cloud.umami.is/script.js" data-website-id="4a26531d-1053-4f79-97a6-06a1366aff91"></script><!-- Theme Persistence (runs before page render to prevent flash) --><script>
+      (function() {
+        const theme = localStorage.getItem('theme');
+        if (theme) { 
+          document.documentElement.setAttribute('data-theme', theme); 
+        }
+      })();
+    </script><!-- Structured Data (JSON-LD) --><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"D from SOLID","description":"Dependency Inversion Principle (DIP) in Software Design Introduction The Dependency Inversion Principle (DIP) is one of the five SOLID principles of…","image":"https://earezki.com/assets/og-image-default.jpg","datePublished":"2024-07-24T23:00:46.000Z","dateModified":"2024-07-24T23:00:46.000Z","author":{"@type":"Person","name":"El Mehdi Arezki","url":"https://earezki.com/about","jobTitle":"Lead Software Engineer","sameAs":["https://github.com/earezki","https://www.linkedin.com/in/mehdi-arezki"]},"publisher":{"@type":"Organization","name":"Dev|Journal","url":"https://earezki.com","logo":{"@type":"ImageObject","url":"https://earezki.com/assets/logo.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://earezki.com/dependency-inversion-principle/"}}</script><link rel="stylesheet" href="/_astro/_slug_.s4HJyrFw.css">
+<style>.toc[data-astro-cid-xvrfupwn]{position:sticky;top:90px;max-height:calc(100vh - 120px);overflow:auto;padding:1rem 1rem 1.2rem;background:var(--color-bg-alt);border:1px solid var(--color-border);border-radius:var(--radius-md);font-size:.8rem;line-height:1.3}.toc-title[data-astro-cid-xvrfupwn]{font-weight:600;font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.6rem;color:var(--color-text-alt)}.toc[data-astro-cid-xvrfupwn] ul[data-astro-cid-xvrfupwn]{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.35rem}.toc[data-astro-cid-xvrfupwn] a[data-astro-cid-xvrfupwn]{text-decoration:none;color:var(--color-text-alt);transition:color var(--transition)}.toc[data-astro-cid-xvrfupwn] a[data-astro-cid-xvrfupwn]:hover{color:var(--color-accent)}.toc[data-astro-cid-xvrfupwn] li[data-astro-cid-xvrfupwn][class*=d-3]{margin-left:.75rem}.toc[data-astro-cid-xvrfupwn] li[data-astro-cid-xvrfupwn][class*=d-4]{margin-left:1.4rem}@media (max-width: 1080px){.toc[data-astro-cid-xvrfupwn]{display:none}}.breadcrumbs[data-astro-cid-ilhxcym7]{margin:0 0 1.5rem;font-size:.85rem}.breadcrumbs[data-astro-cid-ilhxcym7] ol[data-astro-cid-ilhxcym7]{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;align-items:center;gap:.5rem}.breadcrumbs[data-astro-cid-ilhxcym7] li[data-astro-cid-ilhxcym7]{display:flex;align-items:center;gap:.5rem}.breadcrumbs[data-astro-cid-ilhxcym7] a[data-astro-cid-ilhxcym7]{color:var(--color-text-alt);text-decoration:none;transition:color var(--transition)}.breadcrumbs[data-astro-cid-ilhxcym7] a[data-astro-cid-ilhxcym7]:hover{color:var(--color-accent);text-decoration:underline}.breadcrumbs[data-astro-cid-ilhxcym7] .separator[data-astro-cid-ilhxcym7]{color:var(--color-text-alt);opacity:.5;user-select:none}.breadcrumbs[data-astro-cid-ilhxcym7] .current[data-astro-cid-ilhxcym7]{color:var(--color-text);font-weight:500}.related-posts[data-astro-cid-dpgbfi7r]{margin:3rem 0;padding-top:2rem;border-top:2px solid var(--color-border)}.related-posts[data-astro-cid-dpgbfi7r] h2[data-astro-cid-dpgbfi7r]{font-size:1.5rem;margin:0 0 1.5rem;color:var(--color-text)}.related-posts-grid[data-astro-cid-dpgbfi7r]{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem}.related-post-card[data-astro-cid-dpgbfi7r]{background:var(--color-bg-alt);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;transition:all var(--transition)}.related-post-card[data-astro-cid-dpgbfi7r]:hover{border-color:var(--color-accent);transform:translateY(-2px);box-shadow:var(--shadow-md)}.related-post-link[data-astro-cid-dpgbfi7r]{text-decoration:none;color:inherit;display:block}.related-post-card[data-astro-cid-dpgbfi7r] h3[data-astro-cid-dpgbfi7r]{margin:0 0 .75rem;font-size:1.1rem;font-weight:600;color:var(--color-text);line-height:1.3}.related-post-link[data-astro-cid-dpgbfi7r]:hover h3[data-astro-cid-dpgbfi7r]{color:var(--color-accent)}.related-excerpt[data-astro-cid-dpgbfi7r]{font-size:.85rem;color:var(--color-text-alt);line-height:1.5;margin:0 0 .75rem}.related-meta[data-astro-cid-dpgbfi7r]{font-size:.75rem;color:var(--color-text-alt);display:flex;gap:.5rem;align-items:center}@media (max-width: 680px){.related-posts-grid[data-astro-cid-dpgbfi7r]{grid-template-columns:1fr}}
+.series-navigation[data-astro-cid-2hl7stop]{margin:2rem 0 3rem;padding:1.5rem;background:linear-gradient(135deg,#2563eb0d,#6366f10d);border:1px solid var(--color-border);border-radius:var(--radius-md)}html[data-theme=dark] .series-navigation[data-astro-cid-2hl7stop]{background:linear-gradient(135deg,#2563eb1a,#6366f11a)}.series-header[data-astro-cid-2hl7stop]{margin-bottom:1.25rem}.series-badge[data-astro-cid-2hl7stop]{display:inline-block;font-size:.75rem;font-weight:600;color:var(--color-accent);background:#2563eb1a;padding:.25rem .75rem;border-radius:var(--radius-pill);margin-bottom:.5rem}.series-header[data-astro-cid-2hl7stop] h3[data-astro-cid-2hl7stop]{margin:.5rem 0 .25rem;font-size:1.25rem;color:var(--color-text)}.series-progress[data-astro-cid-2hl7stop]{font-size:.85rem;color:var(--color-text-alt);margin:0}.series-list[data-astro-cid-2hl7stop]{display:flex;flex-direction:column;gap:.75rem;margin:1.5rem 0}.series-item[data-astro-cid-2hl7stop]{display:flex;align-items:center;gap:.75rem;padding:.75rem;background:var(--color-bg);border:1px solid var(--color-border);border-radius:var(--radius-sm);transition:all var(--transition)}.series-item[data-astro-cid-2hl7stop]:hover{border-color:var(--color-accent)}.series-item[data-astro-cid-2hl7stop].current{background:var(--color-accent);border-color:var(--color-accent)}.series-item[data-astro-cid-2hl7stop].completed{opacity:.7}.series-number[data-astro-cid-2hl7stop]{flex-shrink:0;width:28px;height:28px;display:flex;align-items:center;justify-content:center;background:var(--color-bg-alt);color:var(--color-text-alt);border-radius:50%;font-size:.85rem;font-weight:600}.series-item[data-astro-cid-2hl7stop].current .series-number[data-astro-cid-2hl7stop]{background:#fff3;color:#fff}.series-title[data-astro-cid-2hl7stop]{flex:1;font-size:.95rem;color:var(--color-text);text-decoration:none;transition:color var(--transition)}.series-title[data-astro-cid-2hl7stop]:hover{color:var(--color-accent)}.series-item[data-astro-cid-2hl7stop].current .current-title[data-astro-cid-2hl7stop]{color:#fff;font-weight:600}.check-icon[data-astro-cid-2hl7stop]{flex-shrink:0;color:#10b981;font-size:1.1rem}.series-nav-buttons[data-astro-cid-2hl7stop]{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--color-border)}.series-nav-btn[data-astro-cid-2hl7stop]{display:flex;flex-direction:column;gap:.25rem;padding:1rem;background:var(--color-bg);border:1px solid var(--color-border);border-radius:var(--radius-sm);text-decoration:none;transition:all var(--transition)}.series-nav-btn[data-astro-cid-2hl7stop]:hover{border-color:var(--color-accent);transform:translateY(-2px);box-shadow:var(--shadow-sm)}.series-nav-btn[data-astro-cid-2hl7stop].next{text-align:right}.nav-label[data-astro-cid-2hl7stop]{font-size:.75rem;color:var(--color-text-alt);font-weight:600;text-transform:uppercase;letter-spacing:.05em}.nav-title[data-astro-cid-2hl7stop]{font-size:.9rem;color:var(--color-text);font-weight:500}.series-nav-btn[data-astro-cid-2hl7stop]:hover .nav-title[data-astro-cid-2hl7stop]{color:var(--color-accent)}@media (max-width: 680px){.series-navigation[data-astro-cid-2hl7stop]{padding:1rem}.series-nav-buttons[data-astro-cid-2hl7stop]{grid-template-columns:1fr}.series-nav-btn[data-astro-cid-2hl7stop].next{text-align:left}}.post-layout[data-astro-cid-yvbahnfj]{display:grid;grid-template-columns:260px 1fr;gap:2.5rem}.sidebar-left[data-astro-cid-yvbahnfj]{position:relative}@media (max-width: 1080px){.post-layout[data-astro-cid-yvbahnfj]{grid-template-columns:1fr}}
+</style><script type="module" src="/_astro/hoisted.2U5tn40l.js"></script></head> <body> <div id="readingProgress" role="progressbar" aria-label="Reading progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="position:fixed;left:0;top:0;height:3px;background:linear-gradient(90deg,#2563eb,#9333ea);width:0;z-index:999;transition:width .15s ease;"></div>  <!-- Site Header --> <header class="site-header container"> <div class="logo-wrap"> <a class="logo" href="/" aria-label="Dev|Journal Home">
+Dev|Journal
+</a> </div> <nav class="main-nav" aria-label="Main navigation"> <a href="/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path> <polyline points="9 22 9 12 15 12 15 22"></polyline> </svg>
 Home
-</a> <a href="/ai-news/" class="ai-news-link"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px;"> <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h-9.5a.5.5 0 0 0-.5.5.5.5 0 0 1-1 0 .5.5 0 0 0-.5-.5H1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"></path> <path d="M7 15v4a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-4"></path> </svg>
+</a> <a href="/ai-news/" class="ai-news-link"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h-9.5a.5.5 0 0 0-.5.5.5.5 0 0 1-1 0 .5.5 0 0 0-.5-.5H1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"></path> <path d="M7 15v4a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-4"></path> </svg>
 AI News
-</a> <a href="/tags/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px;"> <path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2z"></path> <circle cx="7" cy="7" r="1.5"></circle> </svg>
+</a> <a href="/tags/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2z"></path> <circle cx="7" cy="7" r="1.5"></circle> </svg>
 Tags
-</a> <a href="/about/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px;"> <circle cx="12" cy="12" r="10"></circle> <path d="M12 16v-4"></path> <path d="M12 8h.01"></path> </svg>
+</a> <a href="/about/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <circle cx="12" cy="12" r="10"></circle> <path d="M12 16v-4"></path> <path d="M12 8h.01"></path> </svg>
 About
-</a> <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode"> <span class="theme-icon">☾</span> <span class="theme-text">dark</span> </button> </nav> </header> <main class="container content-area">  <div class="post-layout" data-astro-cid-yvbahnfj> <aside class="sidebar-left" data-astro-cid-yvbahnfj> <nav class="toc" aria-label="Table of Contents" data-astro-cid-xvrfupwn> <div class="toc-title" data-astro-cid-xvrfupwn>On this page</div> <ul data-astro-cid-xvrfupwn> <li class="d-2" data-astro-cid-xvrfupwn><a href="#introduction" data-astro-cid-xvrfupwn>Introduction</a></li><li class="d-2" data-astro-cid-xvrfupwn><a href="#why-dip-matters" data-astro-cid-xvrfupwn>Why DIP Matters</a></li><li class="d-2" data-astro-cid-xvrfupwn><a href="#applying-dip-in-java" data-astro-cid-xvrfupwn>Applying DIP in Java</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#example-before-applying-dip" data-astro-cid-xvrfupwn>Example: Before Applying DIP</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#example-after-applying-dip" data-astro-cid-xvrfupwn>Example: After Applying DIP</a></li><li class="d-4" data-astro-cid-xvrfupwn><a href="#step-1-create-an-abstraction" data-astro-cid-xvrfupwn>Step 1: Create an Abstraction</a></li><li class="d-4" data-astro-cid-xvrfupwn><a href="#step-2-implement-the-abstraction" data-astro-cid-xvrfupwn>Step 2: Implement the Abstraction</a></li><li class="d-4" data-astro-cid-xvrfupwn><a href="#step-3-depend-on-the-abstraction" data-astro-cid-xvrfupwn>Step 3: Depend on the Abstraction</a></li><li class="d-4" data-astro-cid-xvrfupwn><a href="#step-4-use-dependency-injection" data-astro-cid-xvrfupwn>Step 4: Use Dependency Injection</a></li><li class="d-2" data-astro-cid-xvrfupwn><a href="#benefits-of-applying-dip" data-astro-cid-xvrfupwn>Benefits of Applying DIP</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#1-decoupling-and-flexibility" data-astro-cid-xvrfupwn>1. **Decoupling and Flexibility**</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#2-enhanced-testability" data-astro-cid-xvrfupwn>2. **Enhanced Testability**</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#3-improved-maintainability" data-astro-cid-xvrfupwn>3. **Improved Maintainability**</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#4-scalability" data-astro-cid-xvrfupwn>4. **Scalability**</a></li><li class="d-2" data-astro-cid-xvrfupwn><a href="#real-world-examples-of-dip" data-astro-cid-xvrfupwn>Real-World Examples of DIP</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#1-java-logging-framework-slf4j" data-astro-cid-xvrfupwn>1. **Java Logging Framework (SLF4J)**</a></li><li class="d-4" data-astro-cid-xvrfupwn><a href="#slf4j-abstraction" data-astro-cid-xvrfupwn>SLF4J Abstraction</a></li><li class="d-3" data-astro-cid-xvrfupwn><a href="#2-spring-framework" data-astro-cid-xvrfupwn>2. **Spring Framework**</a></li><li class="d-4" data-astro-cid-xvrfupwn><a href="#spring-example" data-astro-cid-xvrfupwn>Spring Example</a></li><li class="d-2" data-astro-cid-xvrfupwn><a href="#conclusion" data-astro-cid-xvrfupwn>Conclusion</a></li> </ul> </nav>  </aside> <article class="post" data-astro-cid-yvbahnfj> <header class="post-header" data-astro-cid-yvbahnfj> <h1 data-astro-cid-yvbahnfj>D from SOLID</h1> <div class="meta" data-astro-cid-yvbahnfj> <time datetime="2024-07-24T23:00:46.000Z" data-astro-cid-yvbahnfj>Wed Jul 24 2024</time> <span data-astro-cid-yvbahnfj>• 4 min read</span> </div> <div class="tag-row" data-astro-cid-yvbahnfj><a class="tag " href="/tags/software-design/" data-astro-cid-yvbahnfj>Software design</a><a class="tag " href="/tags/solid/" data-astro-cid-yvbahnfj>SOLID</a></div> </header> <div class="post-body prose" data-astro-cid-yvbahnfj> <h1 id="dependency-inversion-principle-dip-in-software-design">Dependency Inversion Principle (DIP) in Software Design</h1>
+</a> <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode"> <span class="theme-icon" aria-hidden="true">☾</span> <span class="theme-text">dark</span> </button> </nav> </header> <!-- Main Content --> <main class="container content-area">  <nav class="breadcrumbs" aria-label="Breadcrumb" data-astro-cid-ilhxcym7> <ol data-astro-cid-ilhxcym7> <li data-astro-cid-ilhxcym7>  <a href="/" data-astro-cid-ilhxcym7>Home</a> <span class="separator" aria-hidden="true" data-astro-cid-ilhxcym7>/</span>  </li><li data-astro-cid-ilhxcym7> <span class="current" aria-current="page" data-astro-cid-ilhxcym7>D from SOLID</span> </li> </ol> </nav>  <div class="post-layout" data-astro-cid-yvbahnfj> <aside class="sidebar-left" data-astro-cid-yvbahnfj> <nav class="toc" aria-label="Table of Contents" data-astro-cid-xvrfupwn> <div class="toc-title" data-astro-cid-xvrfupwn>On this page</div> <ul data-astro-cid-xvrfupwn> <li class="d-2" data-astro-cid-xvrfupwn> <a href="#introduction" data-astro-cid-xvrfupwn> Introduction </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#why-dip-matters" data-astro-cid-xvrfupwn> Why DIP Matters </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#applying-dip-in-java" data-astro-cid-xvrfupwn> Applying DIP in Java </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#example-before-applying-dip" data-astro-cid-xvrfupwn> Example: Before Applying DIP </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#example-after-applying-dip" data-astro-cid-xvrfupwn> Example: After Applying DIP </a> </li><li class="d-4" data-astro-cid-xvrfupwn> <a href="#step-1-create-an-abstraction" data-astro-cid-xvrfupwn> Step 1: Create an Abstraction </a> </li><li class="d-4" data-astro-cid-xvrfupwn> <a href="#step-2-implement-the-abstraction" data-astro-cid-xvrfupwn> Step 2: Implement the Abstraction </a> </li><li class="d-4" data-astro-cid-xvrfupwn> <a href="#step-3-depend-on-the-abstraction" data-astro-cid-xvrfupwn> Step 3: Depend on the Abstraction </a> </li><li class="d-4" data-astro-cid-xvrfupwn> <a href="#step-4-use-dependency-injection" data-astro-cid-xvrfupwn> Step 4: Use Dependency Injection </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#benefits-of-applying-dip" data-astro-cid-xvrfupwn> Benefits of Applying DIP </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#1-decoupling-and-flexibility" data-astro-cid-xvrfupwn> 1. **Decoupling and Flexibility** </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#2-enhanced-testability" data-astro-cid-xvrfupwn> 2. **Enhanced Testability** </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#3-improved-maintainability" data-astro-cid-xvrfupwn> 3. **Improved Maintainability** </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#4-scalability" data-astro-cid-xvrfupwn> 4. **Scalability** </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#real-world-examples-of-dip" data-astro-cid-xvrfupwn> Real-World Examples of DIP </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#1-java-logging-framework-slf4j" data-astro-cid-xvrfupwn> 1. **Java Logging Framework (SLF4J)** </a> </li><li class="d-4" data-astro-cid-xvrfupwn> <a href="#slf4j-abstraction" data-astro-cid-xvrfupwn> SLF4J Abstraction </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#2-spring-framework" data-astro-cid-xvrfupwn> 2. **Spring Framework** </a> </li><li class="d-4" data-astro-cid-xvrfupwn> <a href="#spring-example" data-astro-cid-xvrfupwn> Spring Example </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#conclusion" data-astro-cid-xvrfupwn> Conclusion </a> </li> </ul> </nav>  </aside> <article class="post" data-astro-cid-yvbahnfj> <header class="post-header" data-astro-cid-yvbahnfj> <h1 data-astro-cid-yvbahnfj>D from SOLID</h1> <div class="meta" data-astro-cid-yvbahnfj> <time datetime="2024-07-24T23:00:46.000Z" data-astro-cid-yvbahnfj>Wed Jul 24 2024</time> <span data-astro-cid-yvbahnfj>• 4 min read</span> </div> <div class="tag-row" data-astro-cid-yvbahnfj><a class="tag " href="/tags/software-design/" data-astro-cid-yvbahnfj>Software design</a><a class="tag " href="/tags/solid/" data-astro-cid-yvbahnfj>SOLID</a></div> </header> <div class="post-body prose" data-astro-cid-yvbahnfj> <h1 id="dependency-inversion-principle-dip-in-software-design">Dependency Inversion Principle (DIP) in Software Design</h1>
 <h2 id="introduction">Introduction</h2>
 <p>The Dependency Inversion Principle (DIP) is one of the five SOLID principles of object-oriented design. It is fundamental to creating flexible and maintainable software systems. DIP states that:</p>
 <ol>
@@ -28,104 +42,104 @@ About
 <p>Let’s explore how to apply the Dependency Inversion Principle in Java with practical examples.</p>
 <h3 id="example-before-applying-dip">Example: Before Applying DIP</h3>
 <p>Consider a scenario where we have a <code>LightBulb</code> class and a <code>Switch</code> class. The <code>Switch</code> class controls the <code>LightBulb</code>.</p>
-<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#FF7B72">public</span><span style="color:#FF7B72"> class</span><span style="color:#FFA657"> LightBulb</span><span style="color:#E6EDF3"> {</span></span>
-<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#FF7B72"> void</span><span style="color:#D2A8FF"> turnOn</span><span style="color:#E6EDF3">() {</span></span>
-<span class="line"><span style="color:#E6EDF3">        System.out.</span><span style="color:#D2A8FF">println</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"LightBulb turned on"</span><span style="color:#E6EDF3">);</span></span>
-<span class="line"><span style="color:#E6EDF3">    }</span></span>
-<span class="line"></span>
-<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#FF7B72"> void</span><span style="color:#D2A8FF"> turnOff</span><span style="color:#E6EDF3">() {</span></span>
-<span class="line"><span style="color:#E6EDF3">        System.out.</span><span style="color:#D2A8FF">println</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"LightBulb turned off"</span><span style="color:#E6EDF3">);</span></span>
-<span class="line"><span style="color:#E6EDF3">    }</span></span>
-<span class="line"><span style="color:#E6EDF3">}</span></span>
-<span class="line"></span>
-<span class="line"><span style="color:#FF7B72">public</span><span style="color:#FF7B72"> class</span><span style="color:#FFA657"> Switch</span><span style="color:#E6EDF3"> {</span></span>
-<span class="line"><span style="color:#FF7B72">    private</span><span style="color:#E6EDF3"> LightBulb</span><span style="color:#E6EDF3"> lightBulb;</span></span>
-<span class="line"></span>
-<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#D2A8FF"> Switch</span><span style="color:#E6EDF3">() {</span></span>
-<span class="line"><span style="color:#79C0FF">        this</span><span style="color:#E6EDF3">.lightBulb </span><span style="color:#FF7B72">=</span><span style="color:#FF7B72"> new</span><span style="color:#D2A8FF"> LightBulb</span><span style="color:#E6EDF3">();</span></span>
-<span class="line"><span style="color:#E6EDF3">    }</span></span>
-<span class="line"></span>
-<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#FF7B72"> void</span><span style="color:#D2A8FF"> operate</span><span style="color:#E6EDF3">(</span><span style="color:#FF7B72">boolean</span><span style="color:#FFA657"> on</span><span style="color:#E6EDF3">) {</span></span>
-<span class="line"><span style="color:#FF7B72">        if</span><span style="color:#E6EDF3"> (on) {</span></span>
-<span class="line"><span style="color:#E6EDF3">            lightBulb.</span><span style="color:#D2A8FF">turnOn</span><span style="color:#E6EDF3">();</span></span>
-<span class="line"><span style="color:#E6EDF3">        } </span><span style="color:#FF7B72">else</span><span style="color:#E6EDF3"> {</span></span>
-<span class="line"><span style="color:#E6EDF3">            lightBulb.</span><span style="color:#D2A8FF">turnOff</span><span style="color:#E6EDF3">();</span></span>
-<span class="line"><span style="color:#E6EDF3">        }</span></span>
-<span class="line"><span style="color:#E6EDF3">    }</span></span>
-<span class="line"><span style="color:#E6EDF3">}</span></span>
-<span class="line"></span></code></pre>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">LightBulb</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">turnOn</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"LightBulb turned on"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">turnOff</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"LightBulb turned off"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Switch</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token class-name">LightBulb</span> lightBulb<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token class-name">Switch</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>lightBulb <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">LightBulb</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">operate</span><span class="token punctuation">(</span><span class="token keyword">boolean</span> on<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>on<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            lightBulb<span class="token punctuation">.</span><span class="token function">turnOn</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            lightBulb<span class="token punctuation">.</span><span class="token function">turnOff</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
 <p>In this example, <code>Switch</code> directly depends on the concrete class <code>LightBulb</code>. This violates DIP because changes in <code>LightBulb</code> might require changes in <code>Switch</code>.</p>
 <h3 id="example-after-applying-dip">Example: After Applying DIP</h3>
 <p>To apply DIP, we need to introduce an abstraction for the <code>LightBulb</code>.</p>
 <h4 id="step-1-create-an-abstraction">Step 1: Create an Abstraction</h4>
-<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#FF7B72">public</span><span style="color:#FF7B72"> interface</span><span style="color:#FFA657"> Switchable</span><span style="color:#E6EDF3"> {</span></span>
-<span class="line"><span style="color:#FF7B72">    void</span><span style="color:#D2A8FF"> turnOn</span><span style="color:#E6EDF3">();</span></span>
-<span class="line"><span style="color:#FF7B72">    void</span><span style="color:#D2A8FF"> turnOff</span><span style="color:#E6EDF3">();</span></span>
-<span class="line"><span style="color:#E6EDF3">}</span></span>
-<span class="line"></span></code></pre>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">Switchable</span> <span class="token punctuation">{</span>
+    <span class="token keyword">void</span> <span class="token function">turnOn</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">void</span> <span class="token function">turnOff</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
 <h4 id="step-2-implement-the-abstraction">Step 2: Implement the Abstraction</h4>
-<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#FF7B72">public</span><span style="color:#FF7B72"> class</span><span style="color:#FFA657"> LightBulb</span><span style="color:#FF7B72"> implements</span><span style="color:#79C0FF"> Switchable</span><span style="color:#E6EDF3"> {</span></span>
-<span class="line"><span style="color:#E6EDF3">    @</span><span style="color:#FF7B72">Override</span></span>
-<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#FF7B72"> void</span><span style="color:#D2A8FF"> turnOn</span><span style="color:#E6EDF3">() {</span></span>
-<span class="line"><span style="color:#E6EDF3">        System.out.</span><span style="color:#D2A8FF">println</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"LightBulb turned on"</span><span style="color:#E6EDF3">);</span></span>
-<span class="line"><span style="color:#E6EDF3">    }</span></span>
-<span class="line"></span>
-<span class="line"><span style="color:#E6EDF3">    @</span><span style="color:#FF7B72">Override</span></span>
-<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#FF7B72"> void</span><span style="color:#D2A8FF"> turnOff</span><span style="color:#E6EDF3">() {</span></span>
-<span class="line"><span style="color:#E6EDF3">        System.out.</span><span style="color:#D2A8FF">println</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"LightBulb turned off"</span><span style="color:#E6EDF3">);</span></span>
-<span class="line"><span style="color:#E6EDF3">    }</span></span>
-<span class="line"><span style="color:#E6EDF3">}</span></span>
-<span class="line"></span></code></pre>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">LightBulb</span> <span class="token keyword">implements</span> <span class="token class-name">Switchable</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">turnOn</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"LightBulb turned on"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">turnOff</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"LightBulb turned off"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
 <h4 id="step-3-depend-on-the-abstraction">Step 3: Depend on the Abstraction</h4>
-<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#FF7B72">public</span><span style="color:#FF7B72"> class</span><span style="color:#FFA657"> Switch</span><span style="color:#E6EDF3"> {</span></span>
-<span class="line"><span style="color:#FF7B72">    private</span><span style="color:#E6EDF3"> Switchable</span><span style="color:#E6EDF3"> switchableDevice;</span></span>
-<span class="line"></span>
-<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#D2A8FF"> Switch</span><span style="color:#E6EDF3">(Switchable </span><span style="color:#FFA657">switchableDevice</span><span style="color:#E6EDF3">) {</span></span>
-<span class="line"><span style="color:#79C0FF">        this</span><span style="color:#E6EDF3">.switchableDevice </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> switchableDevice;</span></span>
-<span class="line"><span style="color:#E6EDF3">    }</span></span>
-<span class="line"></span>
-<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#FF7B72"> void</span><span style="color:#D2A8FF"> operate</span><span style="color:#E6EDF3">(</span><span style="color:#FF7B72">boolean</span><span style="color:#FFA657"> on</span><span style="color:#E6EDF3">) {</span></span>
-<span class="line"><span style="color:#FF7B72">        if</span><span style="color:#E6EDF3"> (on) {</span></span>
-<span class="line"><span style="color:#E6EDF3">            switchableDevice.</span><span style="color:#D2A8FF">turnOn</span><span style="color:#E6EDF3">();</span></span>
-<span class="line"><span style="color:#E6EDF3">        } </span><span style="color:#FF7B72">else</span><span style="color:#E6EDF3"> {</span></span>
-<span class="line"><span style="color:#E6EDF3">            switchableDevice.</span><span style="color:#D2A8FF">turnOff</span><span style="color:#E6EDF3">();</span></span>
-<span class="line"><span style="color:#E6EDF3">        }</span></span>
-<span class="line"><span style="color:#E6EDF3">    }</span></span>
-<span class="line"><span style="color:#E6EDF3">}</span></span>
-<span class="line"></span></code></pre>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Switch</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token class-name">Switchable</span> switchableDevice<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token class-name">Switch</span><span class="token punctuation">(</span><span class="token class-name">Switchable</span> switchableDevice<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>switchableDevice <span class="token operator">=</span> switchableDevice<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">operate</span><span class="token punctuation">(</span><span class="token keyword">boolean</span> on<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>on<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            switchableDevice<span class="token punctuation">.</span><span class="token function">turnOn</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            switchableDevice<span class="token punctuation">.</span><span class="token function">turnOff</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
 <h4 id="step-4-use-dependency-injection">Step 4: Use Dependency Injection</h4>
-<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#FF7B72">public</span><span style="color:#FF7B72"> class</span><span style="color:#FFA657"> Main</span><span style="color:#E6EDF3"> {</span></span>
-<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#FF7B72"> static</span><span style="color:#FF7B72"> void</span><span style="color:#D2A8FF"> main</span><span style="color:#E6EDF3">(</span><span style="color:#FF7B72">String</span><span style="color:#E6EDF3">[] </span><span style="color:#FFA657">args</span><span style="color:#E6EDF3">) {</span></span>
-<span class="line"><span style="color:#E6EDF3">        Switchable</span><span style="color:#E6EDF3"> lightBulb</span><span style="color:#FF7B72"> =</span><span style="color:#FF7B72"> new</span><span style="color:#D2A8FF"> LightBulb</span><span style="color:#E6EDF3">();</span></span>
-<span class="line"><span style="color:#E6EDF3">        Switch</span><span style="color:#E6EDF3"> lightSwitch</span><span style="color:#FF7B72"> =</span><span style="color:#FF7B72"> new</span><span style="color:#D2A8FF"> Switch</span><span style="color:#E6EDF3">(lightBulb);</span></span>
-<span class="line"><span style="color:#E6EDF3">        </span></span>
-<span class="line"><span style="color:#E6EDF3">        lightSwitch.</span><span style="color:#D2A8FF">operate</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">true</span><span style="color:#E6EDF3">);  </span><span style="color:#8B949E">// Output: LightBulb turned on</span></span>
-<span class="line"><span style="color:#E6EDF3">        lightSwitch.</span><span style="color:#D2A8FF">operate</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">false</span><span style="color:#E6EDF3">); </span><span style="color:#8B949E">// Output: LightBulb turned off</span></span>
-<span class="line"><span style="color:#E6EDF3">    }</span></span>
-<span class="line"><span style="color:#E6EDF3">}</span></span>
-<span class="line"></span></code></pre>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Main</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">Switchable</span> lightBulb <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">LightBulb</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">Switch</span> lightSwitch <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Switch</span><span class="token punctuation">(</span>lightBulb<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        lightSwitch<span class="token punctuation">.</span><span class="token function">operate</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// Output: LightBulb turned on</span>
+        lightSwitch<span class="token punctuation">.</span><span class="token function">operate</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Output: LightBulb turned off</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
 <p>In this refactored example, <code>Switch</code> depends on the <code>Switchable</code> interface rather than the concrete <code>LightBulb</code> class. This adheres to DIP and makes <code>Switch</code> more flexible and easier to maintain.</p>
 <h2 id="benefits-of-applying-dip">Benefits of Applying DIP</h2>
 <h3 id="1-decoupling-and-flexibility">1. <strong>Decoupling and Flexibility</strong></h3>
 <p>By depending on abstractions, high-level modules are decoupled from low-level modules. This means you can change the implementation of <code>Switchable</code> without affecting the <code>Switch</code> class.</p>
 <h3 id="2-enhanced-testability">2. <strong>Enhanced Testability</strong></h3>
 <p>Abstractions make it easier to substitute real implementations with mock objects during testing. This improves the ability to write unit tests.</p>
-<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#FF7B72">import</span><span style="color:#FF7B72"> static</span><span style="color:#E6EDF3"> org.mockito.Mockito.</span><span style="color:#79C0FF">*</span><span style="color:#E6EDF3">;</span></span>
-<span class="line"></span>
-<span class="line"><span style="color:#FF7B72">public</span><span style="color:#FF7B72"> class</span><span style="color:#FFA657"> SwitchTest</span><span style="color:#E6EDF3"> {</span></span>
-<span class="line"><span style="color:#E6EDF3">    @</span><span style="color:#FF7B72">Test</span></span>
-<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#FF7B72"> void</span><span style="color:#D2A8FF"> testSwitchOperate</span><span style="color:#E6EDF3">() {</span></span>
-<span class="line"><span style="color:#E6EDF3">        Switchable</span><span style="color:#E6EDF3"> mockDevice</span><span style="color:#FF7B72"> =</span><span style="color:#D2A8FF"> mock</span><span style="color:#E6EDF3">(Switchable.class);</span></span>
-<span class="line"><span style="color:#E6EDF3">        Switch</span><span style="color:#E6EDF3"> lightSwitch</span><span style="color:#FF7B72"> =</span><span style="color:#FF7B72"> new</span><span style="color:#D2A8FF"> Switch</span><span style="color:#E6EDF3">(mockDevice);</span></span>
-<span class="line"></span>
-<span class="line"><span style="color:#E6EDF3">        lightSwitch.</span><span style="color:#D2A8FF">operate</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">true</span><span style="color:#E6EDF3">);</span></span>
-<span class="line"><span style="color:#D2A8FF">        verify</span><span style="color:#E6EDF3">(mockDevice).</span><span style="color:#D2A8FF">turnOn</span><span style="color:#E6EDF3">();</span></span>
-<span class="line"></span>
-<span class="line"><span style="color:#E6EDF3">        lightSwitch.</span><span style="color:#D2A8FF">operate</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">false</span><span style="color:#E6EDF3">);</span></span>
-<span class="line"><span style="color:#D2A8FF">        verify</span><span style="color:#E6EDF3">(mockDevice).</span><span style="color:#D2A8FF">turnOff</span><span style="color:#E6EDF3">();</span></span>
-<span class="line"><span style="color:#E6EDF3">    }</span></span>
-<span class="line"><span style="color:#E6EDF3">}</span></span>
-<span class="line"></span></code></pre>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token keyword">import</span> <span class="token keyword">static</span> <span class="token import static"><span class="token namespace">org<span class="token punctuation">.</span>mockito<span class="token punctuation">.</span></span><span class="token class-name">Mockito</span><span class="token punctuation">.</span><span class="token operator">*</span></span><span class="token punctuation">;</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">SwitchTest</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Test</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">testSwitchOperate</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">Switchable</span> mockDevice <span class="token operator">=</span> <span class="token function">mock</span><span class="token punctuation">(</span><span class="token class-name">Switchable</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">Switch</span> lightSwitch <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Switch</span><span class="token punctuation">(</span>mockDevice<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        lightSwitch<span class="token punctuation">.</span><span class="token function">operate</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">verify</span><span class="token punctuation">(</span>mockDevice<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">turnOn</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        lightSwitch<span class="token punctuation">.</span><span class="token function">operate</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">verify</span><span class="token punctuation">(</span>mockDevice<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">turnOff</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
 <h3 id="3-improved-maintainability">3. <strong>Improved Maintainability</strong></h3>
 <p>With DIP, changes in low-level modules (e.g., <code>LightBulb</code>) do not propagate to high-level modules (e.g., <code>Switch</code>). This separation makes maintenance and upgrades easier.</p>
 <h3 id="4-scalability">4. <strong>Scalability</strong></h3>
@@ -134,63 +148,77 @@ About
 <h3 id="1-java-logging-framework-slf4j">1. <strong>Java Logging Framework (SLF4J)</strong></h3>
 <p>The Simple Logging Facade for Java (SLF4J) is a good example of DIP. It provides an abstraction for various logging frameworks like Log4j, Logback, and java.util.logging.</p>
 <h4 id="slf4j-abstraction">SLF4J Abstraction</h4>
-<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#FF7B72">import</span><span style="color:#E6EDF3"> org.slf4j.Logger;</span></span>
-<span class="line"><span style="color:#FF7B72">import</span><span style="color:#E6EDF3"> org.slf4j.LoggerFactory;</span></span>
-<span class="line"></span>
-<span class="line"><span style="color:#FF7B72">public</span><span style="color:#FF7B72"> class</span><span style="color:#FFA657"> MyClass</span><span style="color:#E6EDF3"> {</span></span>
-<span class="line"><span style="color:#FF7B72">    private</span><span style="color:#FF7B72"> static</span><span style="color:#FF7B72"> final</span><span style="color:#E6EDF3"> Logger</span><span style="color:#E6EDF3"> logger</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> LoggerFactory.</span><span style="color:#D2A8FF">getLogger</span><span style="color:#E6EDF3">(MyClass.class);</span></span>
-<span class="line"></span>
-<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#FF7B72"> void</span><span style="color:#D2A8FF"> doSomething</span><span style="color:#E6EDF3">() {</span></span>
-<span class="line"><span style="color:#E6EDF3">        logger.</span><span style="color:#D2A8FF">info</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"Doing something"</span><span style="color:#E6EDF3">);</span></span>
-<span class="line"><span style="color:#E6EDF3">    }</span></span>
-<span class="line"><span style="color:#E6EDF3">}</span></span>
-<span class="line"></span></code></pre>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token keyword">import</span> <span class="token import"><span class="token namespace">org<span class="token punctuation">.</span>slf4j<span class="token punctuation">.</span></span><span class="token class-name">Logger</span></span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token import"><span class="token namespace">org<span class="token punctuation">.</span>slf4j<span class="token punctuation">.</span></span><span class="token class-name">LoggerFactory</span></span><span class="token punctuation">;</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MyClass</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token class-name">Logger</span> logger <span class="token operator">=</span> <span class="token class-name">LoggerFactory</span><span class="token punctuation">.</span><span class="token function">getLogger</span><span class="token punctuation">(</span><span class="token class-name">MyClass</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">doSomething</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        logger<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"Doing something"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
 <p>In this example, <code>MyClass</code> depends on the <code>Logger</code> interface from SLF4J rather than a specific logging framework. This allows for flexibility in choosing or changing the logging implementation.</p>
 <h3 id="2-spring-framework">2. <strong>Spring Framework</strong></h3>
 <p>The Spring Framework heavily relies on DIP through dependency injection. Beans in Spring are injected into each other based on their interfaces rather than their concrete classes.</p>
 <h4 id="spring-example">Spring Example</h4>
-<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#FF7B72">public</span><span style="color:#FF7B72"> interface</span><span style="color:#FFA657"> GreetingService</span><span style="color:#E6EDF3"> {</span></span>
-<span class="line"><span style="color:#E6EDF3">    String </span><span style="color:#D2A8FF">greet</span><span style="color:#E6EDF3">();</span></span>
-<span class="line"><span style="color:#E6EDF3">}</span></span>
-<span class="line"></span>
-<span class="line"><span style="color:#FF7B72">public</span><span style="color:#FF7B72"> class</span><span style="color:#FFA657"> MorningGreetingService</span><span style="color:#FF7B72"> implements</span><span style="color:#79C0FF"> GreetingService</span><span style="color:#E6EDF3"> {</span></span>
-<span class="line"><span style="color:#E6EDF3">    @</span><span style="color:#FF7B72">Override</span></span>
-<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#E6EDF3"> String </span><span style="color:#D2A8FF">greet</span><span style="color:#E6EDF3">() {</span></span>
-<span class="line"><span style="color:#FF7B72">        return</span><span style="color:#A5D6FF"> "Good Morning!"</span><span style="color:#E6EDF3">;</span></span>
-<span class="line"><span style="color:#E6EDF3">    }</span></span>
-<span class="line"><span style="color:#E6EDF3">}</span></span>
-<span class="line"></span>
-<span class="line"><span style="color:#E6EDF3">@</span><span style="color:#FF7B72">Service</span></span>
-<span class="line"><span style="color:#FF7B72">public</span><span style="color:#FF7B72"> class</span><span style="color:#FFA657"> MyService</span><span style="color:#E6EDF3"> {</span></span>
-<span class="line"><span style="color:#FF7B72">    private</span><span style="color:#FF7B72"> final</span><span style="color:#E6EDF3"> GreetingService</span><span style="color:#E6EDF3"> greetingService;</span></span>
-<span class="line"></span>
-<span class="line"><span style="color:#E6EDF3">    @</span><span style="color:#FF7B72">Autowired</span></span>
-<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#D2A8FF"> MyService</span><span style="color:#E6EDF3">(GreetingService </span><span style="color:#FFA657">greetingService</span><span style="color:#E6EDF3">) {</span></span>
-<span class="line"><span style="color:#79C0FF">        this</span><span style="color:#E6EDF3">.greetingService </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> greetingService;</span></span>
-<span class="line"><span style="color:#E6EDF3">    }</span></span>
-<span class="line"></span>
-<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#FF7B72"> void</span><span style="color:#D2A8FF"> sayGreeting</span><span style="color:#E6EDF3">() {</span></span>
-<span class="line"><span style="color:#E6EDF3">        System.out.</span><span style="color:#D2A8FF">println</span><span style="color:#E6EDF3">(greetingService.</span><span style="color:#D2A8FF">greet</span><span style="color:#E6EDF3">());</span></span>
-<span class="line"><span style="color:#E6EDF3">    }</span></span>
-<span class="line"><span style="color:#E6EDF3">}</span></span>
-<span class="line"></span></code></pre>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">GreetingService</span> <span class="token punctuation">{</span>
+    <span class="token class-name">String</span> <span class="token function">greet</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MorningGreetingService</span> <span class="token keyword">implements</span> <span class="token class-name">GreetingService</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token class-name">String</span> <span class="token function">greet</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token string">"Good Morning!"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token annotation punctuation">@Service</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MyService</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">GreetingService</span> greetingService<span class="token punctuation">;</span>
+
+    <span class="token annotation punctuation">@Autowired</span>
+    <span class="token keyword">public</span> <span class="token class-name">MyService</span><span class="token punctuation">(</span><span class="token class-name">GreetingService</span> greetingService<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>greetingService <span class="token operator">=</span> greetingService<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">sayGreeting</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>greetingService<span class="token punctuation">.</span><span class="token function">greet</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
 <p>In this example, <code>MyService</code> depends on the <code>GreetingService</code> interface. The actual implementation is injected by the Spring container, adhering to DIP.</p>
 <h2 id="conclusion">Conclusion</h2>
 <p>The Dependency Inversion Principle is a cornerstone of good software design. By ensuring that high-level modules depend on abstractions rather than concrete implementations, DIP promotes decoupling, maintainability, testability, and scalability. Applying DIP in Java involves identifying and creating appropriate abstractions, then using dependency injection to manage dependencies.</p>
-<p>By following DIP, developers can build more robust, flexible, and maintainable systems, capable of adapting to changing requirements and technologies with minimal friction.</p> </div> </article> </div> <div class="back-link" data-astro-cid-yvbahnfj><a href="/" data-astro-cid-yvbahnfj>← Back to home</a></div>  </main> <footer class="site-footer container"> <p>© 2025 AREZKI El Mehdi • <a href="https://github.com/earezki">GitHub</a> • <a href="/rss.xml">RSS</a></p> </footer>  <script>
-      // Read/Unread article tracking
+<p>By following DIP, developers can build more robust, flexible, and maintainable systems, capable of adapting to changing requirements and technologies with minimal friction.</p> </div>  <section class="series-navigation" data-astro-cid-2hl7stop> <div class="series-header" data-astro-cid-2hl7stop> <span class="series-badge" data-astro-cid-2hl7stop>📚 Series</span> <h3 data-astro-cid-2hl7stop>SOLID Principles</h3> <p class="series-progress" data-astro-cid-2hl7stop>Part 5 of 6</p> </div> <div class="series-list" data-astro-cid-2hl7stop> <div class="series-item  completed" data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>1</span> <a href="/single-responsibility-principle/" class="series-title" data-astro-cid-2hl7stop> S from SOLID </a> <span class="check-icon" title="Completed" data-astro-cid-2hl7stop>✓</span> </div><div class="series-item  completed" data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>2</span> <a href="/open-closed-principle/" class="series-title" data-astro-cid-2hl7stop> O from SOLID </a> <span class="check-icon" title="Completed" data-astro-cid-2hl7stop>✓</span> </div><div class="series-item  completed" data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>3</span> <a href="/liskov-substitution-principle/" class="series-title" data-astro-cid-2hl7stop> L from SOLID </a> <span class="check-icon" title="Completed" data-astro-cid-2hl7stop>✓</span> </div><div class="series-item  completed" data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>4</span> <a href="/interface-segregation-principle/" class="series-title" data-astro-cid-2hl7stop> I from SOLID </a> <span class="check-icon" title="Completed" data-astro-cid-2hl7stop>✓</span> </div><div class="series-item current " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>5</span> <span class="series-title current-title" data-astro-cid-2hl7stop>D from SOLID</span>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>6</span> <a href="/solid-principles/" class="series-title" data-astro-cid-2hl7stop> SOLID </a>  </div> </div> <div class="series-nav-buttons" data-astro-cid-2hl7stop> <a href="/interface-segregation-principle/" class="series-nav-btn prev" data-astro-cid-2hl7stop> <span class="nav-label" data-astro-cid-2hl7stop>← Previous</span> <span class="nav-title" data-astro-cid-2hl7stop>I from SOLID</span> </a> <a href="/solid-principles/" class="series-nav-btn next" data-astro-cid-2hl7stop> <span class="nav-label" data-astro-cid-2hl7stop>Next →</span> <span class="nav-title" data-astro-cid-2hl7stop>SOLID</span> </a> </div> </section>   <section class="related-posts" data-astro-cid-dpgbfi7r> <h2 data-astro-cid-dpgbfi7r>Related Posts</h2> <div class="related-posts-grid" data-astro-cid-dpgbfi7r> <article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/interface-segregation-principle/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>I from SOLID</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>Interface Segregation Principle (ISP) in Java Introduction The Interface Segregation Principle (ISP) is one of the five…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2024-07-10T23:00:46.000Z" data-astro-cid-dpgbfi7r> Jul 10, 2024 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>4 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/liskov-substitution-principle/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>L from SOLID</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>The Liskov Substitution Principle (LSP) in Object-Oriented Design Introduction The Liskov Substitution Principle (LSP)…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2024-06-19T23:00:46.000Z" data-astro-cid-dpgbfi7r> Jun 19, 2024 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>4 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/open-closed-principle/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>O from SOLID</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>Open/Closed Principle (OCP) in Software Design Introduction The Open/Closed Principle (OCP) is the second SOLID…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2024-06-09T23:00:46.000Z" data-astro-cid-dpgbfi7r> Jun 9, 2024 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>3 min read</span> </div> </a> </article> </div> </section>  </article> </div> <div class="back-link" data-astro-cid-yvbahnfj><a href="/" data-astro-cid-yvbahnfj>← Back to home</a></div>  </main> <!-- Site Footer --> <footer class="site-footer container"> <p>
+© 2025 AREZKI El Mehdi •
+<a href="https://github.com/earezki">GitHub</a> •
+<a href="/rss.xml">RSS</a> •
+<a href="/sitemap-index.xml">Sitemap</a> </p> </footer> <!-- Theme Toggle Script -->  <!-- Article Read/Unread Tracking --> <script>
+      /**
+       * Tracks which articles have been read using localStorage
+       * Updates post card styling on list pages
+       */
       (function() {
         const STORAGE_KEY = 'readArticles';
         
+        /**
+         * Gets list of read article URLs from localStorage
+         */
         function getReadArticles() {
           try {
             const data = localStorage.getItem(STORAGE_KEY);
             return data ? JSON.parse(data) : [];
           } catch (e) {
+            console.error('Failed to get read articles:', e);
             return [];
           }
         }
         
+        /**
+         * Marks an article URL as read
+         */
         function markArticleAsRead(url) {
           try {
             const readArticles = getReadArticles();
@@ -203,29 +231,37 @@ About
           }
         }
         
+        /**
+         * Checks if an article has been read
+         */
         function isArticleRead(url) {
           const readArticles = getReadArticles();
           return readArticles.includes(url);
         }
         
-        // Update post cards on list pages
+        /**
+         * Updates post card styling on list pages based on read status
+         */
         function updatePostCards() {
           const postCards = document.querySelectorAll('.post-card[data-article-url]');
+          
           postCards.forEach(function(card) {
             const url = card.getAttribute('data-article-url');
-            if (url) {
-              if (isArticleRead(url)) {
-                card.classList.add('read');
-                card.classList.remove('unread');
-              } else {
-                card.classList.add('unread');
-                card.classList.remove('read');
-              }
+            if (!url) return;
+            
+            if (isArticleRead(url)) {
+              card.classList.add('read');
+              card.classList.remove('unread');
+            } else {
+              card.classList.add('unread');
+              card.classList.remove('read');
             }
           });
         }
         
-        // Mark current article as read (on article pages)
+        /**
+         * Marks current article as read (on article detail pages)
+         */
         function markCurrentArticleAsRead() {
           const isArticlePage = document.querySelector('.post-body');
           if (isArticlePage) {
@@ -234,7 +270,9 @@ About
           }
         }
         
-        // Initialize function
+        /**
+         * Initialize tracking system
+         */
         function init() {
           updatePostCards();
           markCurrentArticleAsRead();
@@ -245,10 +283,116 @@ About
         
         // Handle back/forward navigation (bfcache)
         window.addEventListener('pageshow', function(event) {
-          // If page is loaded from cache, update the cards
           if (event.persisted) {
             init();
           }
         });
+      })();
+    </script> <!-- Code Copy Functionality --> <script>
+      /**
+       * Adds copy buttons to all code blocks
+       */
+      (function() {
+        /**
+         * Creates a copy button element
+         */
+        function createCopyButton() {
+          const button = document.createElement('button');
+          button.className = 'copy-code-button';
+          button.setAttribute('aria-label', 'Copy code to clipboard');
+          button.innerHTML = `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span>Copy</span>
+          `;
+          return button;
+        }
+        
+        /**
+         * Creates a success checkmark icon
+         */
+        function createCheckIcon() {
+          return `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span>Copied!</span>
+          `;
+        }
+        
+        /**
+         * Copies text to clipboard
+         */
+        async function copyToClipboard(text) {
+          try {
+            await navigator.clipboard.writeText(text);
+            return true;
+          } catch (err) {
+            // Fallback for older browsers
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-999999px';
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+              document.execCommand('copy');
+              document.body.removeChild(textArea);
+              return true;
+            } catch (e) {
+              document.body.removeChild(textArea);
+              return false;
+            }
+          }
+        }
+        
+        /**
+         * Handles copy button click
+         */
+        async function handleCopyClick(button, codeBlock) {
+          const code = codeBlock.textContent || '';
+          const success = await copyToClipboard(code);
+          
+          if (success) {
+            const originalHTML = button.innerHTML;
+            button.classList.add('copied');
+            button.innerHTML = createCheckIcon();
+            
+            setTimeout(function() {
+              button.classList.remove('copied');
+              button.innerHTML = originalHTML;
+            }, 2000);
+          }
+        }
+        
+        /**
+         * Adds copy buttons to all code blocks
+         */
+        function addCopyButtons() {
+          const codeBlocks = document.querySelectorAll('.post-body pre');
+          
+          codeBlocks.forEach(function(pre) {
+            // Skip if button already exists
+            if (pre.querySelector('.copy-code-button')) {
+              return;
+            }
+            
+            const button = createCopyButton();
+            const codeBlock = pre.querySelector('code');
+            
+            if (codeBlock) {
+              button.addEventListener('click', function() {
+                handleCopyClick(button, codeBlock);
+              });
+              
+              pre.appendChild(button);
+            }
+          });
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', addCopyButtons);
       })();
     </script> </body> </html> 
