@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en" data-theme="dark"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><!-- Primary Meta Tags --><title>D from SOLID • Dev|Journal</title><meta name="description" content="Dependency Inversion Principle (DIP) in Software Design Introduction The Dependency Inversion Principle (DIP) is one of the five SOLID principles of…"><meta name="keywords" content="Software design, SOLID"><meta name="author" content="El Mehdi Arezki"><!-- Open Graph / Facebook --><meta property="og:type" content="website"><meta property="og:url" content="https://earezki.com/dependency-inversion-principle/"><meta property="og:title" content="D from SOLID • Dev|Journal"><meta property="og:site_name" content="Dev|Journal"><meta property="og:description" content="Dependency Inversion Principle (DIP) in Software Design Introduction The Dependency Inversion Principle (DIP) is one of the five SOLID principles of…"><meta property="og:image" content="https://earezki.com/assets/og-image-default.jpg"><!-- Twitter --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:url" content="https://earezki.com/dependency-inversion-principle/"><meta name="twitter:title" content="D from SOLID • Dev|Journal"><meta name="twitter:description" content="Dependency Inversion Principle (DIP) in Software Design Introduction The Dependency Inversion Principle (DIP) is one of the five SOLID principles of…"><meta name="twitter:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:creator" content="@earezki"><!-- Canonical and Indexing --><link rel="canonical" href="https://earezki.com/dependency-inversion-principle/"><!-- Favicons --><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/x-icon" href="/favicon.ico"><!-- RSS Feed --><link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"><!-- Analytics: Google Analytics (Legacy UA) --><script async src="https://www.googletagmanager.com/gtag/js?id=UA-161447264-1"></script><script>
+<!DOCTYPE html><html lang="en" data-theme="dark"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><!-- Primary Meta Tags --><title>D (Dependency Inversion) from SOLID • Dev|Journal</title><meta name="description" content="The Dependency Inversion Principle: Stop Depending on Details What Is Dependency Inversion, Really? Let me ask you a question: when you plug your phone into a…"><meta name="keywords" content="Software architecture, Software design, SOLID"><meta name="author" content="El Mehdi Arezki"><!-- Open Graph / Facebook --><meta property="og:type" content="website"><meta property="og:url" content="https://earezki.com/dependency-inversion-principle/"><meta property="og:title" content="D (Dependency Inversion) from SOLID • Dev|Journal"><meta property="og:site_name" content="Dev|Journal"><meta property="og:description" content="The Dependency Inversion Principle: Stop Depending on Details What Is Dependency Inversion, Really? Let me ask you a question: when you plug your phone into a…"><meta property="og:image" content="https://earezki.com/assets/og-image-default.jpg"><!-- Twitter --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:url" content="https://earezki.com/dependency-inversion-principle/"><meta name="twitter:title" content="D (Dependency Inversion) from SOLID • Dev|Journal"><meta name="twitter:description" content="The Dependency Inversion Principle: Stop Depending on Details What Is Dependency Inversion, Really? Let me ask you a question: when you plug your phone into a…"><meta name="twitter:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:creator" content="@earezki"><!-- Canonical and Indexing --><link rel="canonical" href="https://earezki.com/dependency-inversion-principle/"><!-- Favicons --><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/x-icon" href="/favicon.ico"><!-- RSS Feed --><link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"><!-- Analytics: Google Analytics (Legacy UA) --><script async src="https://www.googletagmanager.com/gtag/js?id=UA-161447264-1"></script><script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);} 
       gtag('js', new Date()); 
@@ -10,7 +10,7 @@
           document.documentElement.setAttribute('data-theme', theme); 
         }
       })();
-    </script><!-- Structured Data (JSON-LD) --><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"D from SOLID","description":"Dependency Inversion Principle (DIP) in Software Design Introduction The Dependency Inversion Principle (DIP) is one of the five SOLID principles of…","image":"https://earezki.com/assets/og-image-default.jpg","datePublished":"2024-07-24T23:00:46.000Z","dateModified":"2024-07-24T23:00:46.000Z","author":{"@type":"Person","name":"El Mehdi Arezki","url":"https://earezki.com/about","jobTitle":"Lead Software Engineer","sameAs":["https://github.com/earezki","https://www.linkedin.com/in/mehdi-arezki"]},"publisher":{"@type":"Organization","name":"Dev|Journal","url":"https://earezki.com","logo":{"@type":"ImageObject","url":"https://earezki.com/assets/logo.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://earezki.com/dependency-inversion-principle/"}}</script><link rel="stylesheet" href="/_astro/_slug_.C8vOLobN.css">
+    </script><!-- Structured Data (JSON-LD) --><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"D (Dependency Inversion) from SOLID","description":"The Dependency Inversion Principle: Stop Depending on Details What Is Dependency Inversion, Really? Let me ask you a question: when you plug your phone into a…","image":"https://earezki.com/assets/og-image-default.jpg","datePublished":"2024-06-21T23:00:46.000Z","dateModified":"2024-06-21T23:00:46.000Z","author":{"@type":"Person","name":"El Mehdi Arezki","url":"https://earezki.com/about","jobTitle":"Lead Software Engineer","sameAs":["https://github.com/earezki","https://www.linkedin.com/in/mehdi-arezki"]},"publisher":{"@type":"Organization","name":"Dev|Journal","url":"https://earezki.com","logo":{"@type":"ImageObject","url":"https://earezki.com/assets/logo.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://earezki.com/dependency-inversion-principle/"}}</script><link rel="stylesheet" href="/_astro/_slug_.C8vOLobN.css">
 <style>.toc[data-astro-cid-xvrfupwn]{position:sticky;top:90px;max-height:calc(100vh - 120px);overflow:auto;padding:1rem 1rem 1.2rem;background:var(--color-bg-alt);border:1px solid var(--color-border);border-radius:var(--radius-md);font-size:.8rem;line-height:1.3}.toc-title[data-astro-cid-xvrfupwn]{font-weight:600;font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.6rem;color:var(--color-text-alt)}.toc[data-astro-cid-xvrfupwn] ul[data-astro-cid-xvrfupwn]{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.35rem}.toc[data-astro-cid-xvrfupwn] a[data-astro-cid-xvrfupwn]{text-decoration:none;color:var(--color-text-alt);transition:color var(--transition)}.toc[data-astro-cid-xvrfupwn] a[data-astro-cid-xvrfupwn]:hover{color:var(--color-accent)}.toc[data-astro-cid-xvrfupwn] li[data-astro-cid-xvrfupwn][class*=d-3]{margin-left:.75rem}.toc[data-astro-cid-xvrfupwn] li[data-astro-cid-xvrfupwn][class*=d-4]{margin-left:1.4rem}@media (max-width: 1080px){.toc[data-astro-cid-xvrfupwn]{display:none}}.breadcrumbs[data-astro-cid-ilhxcym7]{margin:0 0 1.5rem;font-size:.85rem}.breadcrumbs[data-astro-cid-ilhxcym7] ol[data-astro-cid-ilhxcym7]{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;align-items:center;gap:.5rem}.breadcrumbs[data-astro-cid-ilhxcym7] li[data-astro-cid-ilhxcym7]{display:flex;align-items:center;gap:.5rem}.breadcrumbs[data-astro-cid-ilhxcym7] a[data-astro-cid-ilhxcym7]{color:var(--color-text-alt);text-decoration:none;transition:color var(--transition)}.breadcrumbs[data-astro-cid-ilhxcym7] a[data-astro-cid-ilhxcym7]:hover{color:var(--color-accent);text-decoration:underline}.breadcrumbs[data-astro-cid-ilhxcym7] .separator[data-astro-cid-ilhxcym7]{color:var(--color-text-alt);opacity:.5;user-select:none}.breadcrumbs[data-astro-cid-ilhxcym7] .current[data-astro-cid-ilhxcym7]{color:var(--color-text);font-weight:500}.related-posts[data-astro-cid-dpgbfi7r]{margin:3rem 0;padding-top:2rem;border-top:2px solid var(--color-border)}.related-posts[data-astro-cid-dpgbfi7r] h2[data-astro-cid-dpgbfi7r]{font-size:1.5rem;margin:0 0 1.5rem;color:var(--color-text)}.related-posts-grid[data-astro-cid-dpgbfi7r]{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem}.related-post-card[data-astro-cid-dpgbfi7r]{background:var(--color-bg-alt);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;transition:all var(--transition)}.related-post-card[data-astro-cid-dpgbfi7r]:hover{border-color:var(--color-accent);transform:translateY(-2px);box-shadow:var(--shadow-md)}.related-post-link[data-astro-cid-dpgbfi7r]{text-decoration:none;color:inherit;display:block}.related-post-card[data-astro-cid-dpgbfi7r] h3[data-astro-cid-dpgbfi7r]{margin:0 0 .75rem;font-size:1.1rem;font-weight:600;color:var(--color-text);line-height:1.3}.related-post-link[data-astro-cid-dpgbfi7r]:hover h3[data-astro-cid-dpgbfi7r]{color:var(--color-accent)}.related-excerpt[data-astro-cid-dpgbfi7r]{font-size:.85rem;color:var(--color-text-alt);line-height:1.5;margin:0 0 .75rem}.related-meta[data-astro-cid-dpgbfi7r]{font-size:.75rem;color:var(--color-text-alt);display:flex;gap:.5rem;align-items:center}@media (max-width: 680px){.related-posts-grid[data-astro-cid-dpgbfi7r]{grid-template-columns:1fr}}
 .series-navigation[data-astro-cid-2hl7stop]{margin:2rem 0 3rem;padding:1.5rem;background:linear-gradient(135deg,#2563eb0d,#6366f10d);border:1px solid var(--color-border);border-radius:var(--radius-md)}html[data-theme=dark] .series-navigation[data-astro-cid-2hl7stop]{background:linear-gradient(135deg,#2563eb1a,#6366f11a)}.series-header[data-astro-cid-2hl7stop]{margin-bottom:1.25rem}.series-badge[data-astro-cid-2hl7stop]{display:inline-block;font-size:.75rem;font-weight:600;color:var(--color-accent);background:#2563eb1a;padding:.25rem .75rem;border-radius:var(--radius-pill);margin-bottom:.5rem}.series-header[data-astro-cid-2hl7stop] h3[data-astro-cid-2hl7stop]{margin:.5rem 0 .25rem;font-size:1.25rem;color:var(--color-text)}.series-progress[data-astro-cid-2hl7stop]{font-size:.85rem;color:var(--color-text-alt);margin:0}.series-list[data-astro-cid-2hl7stop]{display:flex;flex-direction:column;gap:.75rem;margin:1.5rem 0}.series-item[data-astro-cid-2hl7stop]{display:flex;align-items:center;gap:.75rem;padding:.75rem;background:var(--color-bg);border:1px solid var(--color-border);border-radius:var(--radius-sm);transition:all var(--transition)}.series-item[data-astro-cid-2hl7stop]:hover{border-color:var(--color-accent)}.series-item[data-astro-cid-2hl7stop].current{background:var(--color-accent);border-color:var(--color-accent)}.series-item[data-astro-cid-2hl7stop].completed{opacity:.7}.series-number[data-astro-cid-2hl7stop]{flex-shrink:0;width:28px;height:28px;display:flex;align-items:center;justify-content:center;background:var(--color-bg-alt);color:var(--color-text-alt);border-radius:50%;font-size:.85rem;font-weight:600}.series-item[data-astro-cid-2hl7stop].current .series-number[data-astro-cid-2hl7stop]{background:#fff3;color:#fff}.series-title[data-astro-cid-2hl7stop]{flex:1;font-size:.95rem;color:var(--color-text);text-decoration:none;transition:color var(--transition)}.series-title[data-astro-cid-2hl7stop]:hover{color:var(--color-accent)}.series-item[data-astro-cid-2hl7stop].current .current-title[data-astro-cid-2hl7stop]{color:#fff;font-weight:600}.check-icon[data-astro-cid-2hl7stop]{flex-shrink:0;color:#10b981;font-size:1.1rem}.series-nav-buttons[data-astro-cid-2hl7stop]{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--color-border)}.series-nav-btn[data-astro-cid-2hl7stop]{display:flex;flex-direction:column;gap:.25rem;padding:1rem;background:var(--color-bg);border:1px solid var(--color-border);border-radius:var(--radius-sm);text-decoration:none;transition:all var(--transition)}.series-nav-btn[data-astro-cid-2hl7stop]:hover{border-color:var(--color-accent);transform:translateY(-2px);box-shadow:var(--shadow-sm)}.series-nav-btn[data-astro-cid-2hl7stop].next{text-align:right}.nav-label[data-astro-cid-2hl7stop]{font-size:.75rem;color:var(--color-text-alt);font-weight:600;text-transform:uppercase;letter-spacing:.05em}.nav-title[data-astro-cid-2hl7stop]{font-size:.9rem;color:var(--color-text);font-weight:500}.series-nav-btn[data-astro-cid-2hl7stop]:hover .nav-title[data-astro-cid-2hl7stop]{color:var(--color-accent)}@media (max-width: 680px){.series-navigation[data-astro-cid-2hl7stop]{padding:1rem}.series-nav-buttons[data-astro-cid-2hl7stop]{grid-template-columns:1fr}.series-nav-btn[data-astro-cid-2hl7stop].next{text-align:left}}.post-layout[data-astro-cid-yvbahnfj]{display:grid;grid-template-columns:260px 1fr;gap:2.5rem}.sidebar-left[data-astro-cid-yvbahnfj]{position:relative}@media (max-width: 1080px){.post-layout[data-astro-cid-yvbahnfj]{grid-template-columns:1fr}}
 </style><script type="module" src="/_astro/hoisted.2U5tn40l.js"></script></head> <body> <div id="readingProgress" role="progressbar" aria-label="Reading progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="position:fixed;left:0;top:0;height:3px;background:linear-gradient(90deg,#2563eb,#9333ea);width:0;z-index:999;transition:width .15s ease;"></div>  <!-- Site Header --> <header class="site-header container"> <div class="logo-wrap"> <a class="logo" href="/" aria-label="Dev|Journal Home">
@@ -23,175 +23,860 @@ AI News
 Tags
 </a> <a href="/about/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <circle cx="12" cy="12" r="10"></circle> <path d="M12 16v-4"></path> <path d="M12 8h.01"></path> </svg>
 About
-</a> <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode"> <span class="theme-icon" aria-hidden="true">☾</span> <span class="theme-text">dark</span> </button> </nav> </header> <!-- Main Content --> <main class="container content-area">  <nav class="breadcrumbs" aria-label="Breadcrumb" data-astro-cid-ilhxcym7> <ol data-astro-cid-ilhxcym7> <li data-astro-cid-ilhxcym7>  <a href="/" data-astro-cid-ilhxcym7>Home</a> <span class="separator" aria-hidden="true" data-astro-cid-ilhxcym7>/</span>  </li><li data-astro-cid-ilhxcym7> <span class="current" aria-current="page" data-astro-cid-ilhxcym7>D from SOLID</span> </li> </ol> </nav>  <div class="post-layout" data-astro-cid-yvbahnfj> <aside class="sidebar-left" data-astro-cid-yvbahnfj> <nav class="toc" aria-label="Table of Contents" data-astro-cid-xvrfupwn> <div class="toc-title" data-astro-cid-xvrfupwn>On this page</div> <ul data-astro-cid-xvrfupwn> <li class="d-2" data-astro-cid-xvrfupwn> <a href="#introduction" data-astro-cid-xvrfupwn> Introduction </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#why-dip-matters" data-astro-cid-xvrfupwn> Why DIP Matters </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#applying-dip-in-java" data-astro-cid-xvrfupwn> Applying DIP in Java </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#example-before-applying-dip" data-astro-cid-xvrfupwn> Example: Before Applying DIP </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#example-after-applying-dip" data-astro-cid-xvrfupwn> Example: After Applying DIP </a> </li><li class="d-4" data-astro-cid-xvrfupwn> <a href="#step-1-create-an-abstraction" data-astro-cid-xvrfupwn> Step 1: Create an Abstraction </a> </li><li class="d-4" data-astro-cid-xvrfupwn> <a href="#step-2-implement-the-abstraction" data-astro-cid-xvrfupwn> Step 2: Implement the Abstraction </a> </li><li class="d-4" data-astro-cid-xvrfupwn> <a href="#step-3-depend-on-the-abstraction" data-astro-cid-xvrfupwn> Step 3: Depend on the Abstraction </a> </li><li class="d-4" data-astro-cid-xvrfupwn> <a href="#step-4-use-dependency-injection" data-astro-cid-xvrfupwn> Step 4: Use Dependency Injection </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#benefits-of-applying-dip" data-astro-cid-xvrfupwn> Benefits of Applying DIP </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#1-decoupling-and-flexibility" data-astro-cid-xvrfupwn> 1. **Decoupling and Flexibility** </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#2-enhanced-testability" data-astro-cid-xvrfupwn> 2. **Enhanced Testability** </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#3-improved-maintainability" data-astro-cid-xvrfupwn> 3. **Improved Maintainability** </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#4-scalability" data-astro-cid-xvrfupwn> 4. **Scalability** </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#real-world-examples-of-dip" data-astro-cid-xvrfupwn> Real-World Examples of DIP </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#1-java-logging-framework-slf4j" data-astro-cid-xvrfupwn> 1. **Java Logging Framework (SLF4J)** </a> </li><li class="d-4" data-astro-cid-xvrfupwn> <a href="#slf4j-abstraction" data-astro-cid-xvrfupwn> SLF4J Abstraction </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#2-spring-framework" data-astro-cid-xvrfupwn> 2. **Spring Framework** </a> </li><li class="d-4" data-astro-cid-xvrfupwn> <a href="#spring-example" data-astro-cid-xvrfupwn> Spring Example </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#conclusion" data-astro-cid-xvrfupwn> Conclusion </a> </li> </ul> </nav>  </aside> <article class="post" data-astro-cid-yvbahnfj> <header class="post-header" data-astro-cid-yvbahnfj> <h1 data-astro-cid-yvbahnfj>D from SOLID</h1> <div class="meta" data-astro-cid-yvbahnfj> <time datetime="2024-07-24T23:00:46.000Z" data-astro-cid-yvbahnfj>Wed Jul 24 2024</time> <span data-astro-cid-yvbahnfj>• 4 min read</span> </div> <div class="tag-row" data-astro-cid-yvbahnfj><a class="post-tag " href="/tags/software-design/" data-astro-cid-yvbahnfj>Software design</a><a class="post-tag " href="/tags/solid/" data-astro-cid-yvbahnfj>SOLID</a></div> </header> <div class="post-body prose" data-astro-cid-yvbahnfj> <h1 id="dependency-inversion-principle-dip-in-software-design">Dependency Inversion Principle (DIP) in Software Design</h1>
-<h2 id="introduction">Introduction</h2>
-<p>The Dependency Inversion Principle (DIP) is one of the five SOLID principles of object-oriented design. It is fundamental to creating flexible and maintainable software systems. DIP states that:</p>
-<ol>
-<li>High-level modules should not depend on low-level modules. Both should depend on abstractions.</li>
-<li>Abstractions should not depend on details. Details should depend on abstractions.</li>
-</ol>
-<p>In simpler terms, the principle encourages dependency on interfaces or abstract classes rather than concrete implementations. This decouples the high-level logic of the application from the low-level details, making the system more modular and easier to maintain.</p>
-<h2 id="why-dip-matters">Why DIP Matters</h2>
+</a> <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode"> <span class="theme-icon" aria-hidden="true">☾</span> <span class="theme-text">dark</span> </button> </nav> </header> <!-- Main Content --> <main class="container content-area">  <nav class="breadcrumbs" aria-label="Breadcrumb" data-astro-cid-ilhxcym7> <ol data-astro-cid-ilhxcym7> <li data-astro-cid-ilhxcym7>  <a href="/" data-astro-cid-ilhxcym7>Home</a> <span class="separator" aria-hidden="true" data-astro-cid-ilhxcym7>/</span>  </li><li data-astro-cid-ilhxcym7> <span class="current" aria-current="page" data-astro-cid-ilhxcym7>D (Dependency Inversion) from SOLID</span> </li> </ol> </nav>  <div class="post-layout" data-astro-cid-yvbahnfj> <aside class="sidebar-left" data-astro-cid-yvbahnfj> <nav class="toc" aria-label="Table of Contents" data-astro-cid-xvrfupwn> <div class="toc-title" data-astro-cid-xvrfupwn>On this page</div> <ul data-astro-cid-xvrfupwn> <li class="d-2" data-astro-cid-xvrfupwn> <a href="#what-is-dependency-inversion-really" data-astro-cid-xvrfupwn> What Is Dependency Inversion, Really? </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#why-should-you-care-about-dip" data-astro-cid-xvrfupwn> Why Should You Care About DIP? </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#1-makes-code-testable" data-astro-cid-xvrfupwn> 1. **Makes Code Testable** </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#2-enables-flexibility" data-astro-cid-xvrfupwn> 2. **Enables Flexibility** </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#3-reduces-coupling" data-astro-cid-xvrfupwn> 3. **Reduces Coupling** </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#4-improves-maintainability" data-astro-cid-xvrfupwn> 4. **Improves Maintainability** </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#5-enables-parallel-development" data-astro-cid-xvrfupwn> 5. **Enables Parallel Development** </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#a-simple-example-email-notifications" data-astro-cid-xvrfupwn> A Simple Example: Email Notifications </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#the-wrong-way-direct-dependencies" data-astro-cid-xvrfupwn> The Wrong Way: Direct Dependencies </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#the-right-way-depend-on-abstractions" data-astro-cid-xvrfupwn> The Right Way: Depend on Abstractions </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#a-real-world-example-notification-system" data-astro-cid-xvrfupwn> A Real-World Example: Notification System </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#the-wrong-way-hardcoded-dependencies" data-astro-cid-xvrfupwn> The Wrong Way: Hardcoded Dependencies </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#the-right-way-abstraction-and-strategy-pattern" data-astro-cid-xvrfupwn> The Right Way: Abstraction and Strategy Pattern </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#dip-and-dependency-injection-frameworks" data-astro-cid-xvrfupwn> DIP and Dependency Injection Frameworks </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#the-dependency-inversion-vs-dependency-injection" data-astro-cid-xvrfupwn> The Dependency Inversion vs Dependency Injection </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#common-dip-violations-and-fixes" data-astro-cid-xvrfupwn> Common DIP Violations and Fixes </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#violation-1-new-keyword-everywhere" data-astro-cid-xvrfupwn> Violation 1: New Keyword Everywhere </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#violation-2-static-method-dependencies" data-astro-cid-xvrfupwn> Violation 2: Static Method Dependencies </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#violation-3-leaky-abstractions" data-astro-cid-xvrfupwn> Violation 3: Leaky Abstractions </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#practical-tips-for-applying-dip" data-astro-cid-xvrfupwn> Practical Tips for Applying DIP </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#1-extract-interfaces-from-concrete-classes" data-astro-cid-xvrfupwn> 1. **Extract Interfaces from Concrete Classes** </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#2-use-constructor-injection" data-astro-cid-xvrfupwn> 2. **Use Constructor Injection** </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#3-program-to-interfaces-not-implementations" data-astro-cid-xvrfupwn> 3. **Program to Interfaces, Not Implementations** </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#4-keep-abstractions-focused" data-astro-cid-xvrfupwn> 4. **Keep Abstractions Focused** </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#5-test-through-abstractions" data-astro-cid-xvrfupwn> 5. **Test Through Abstractions** </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#when-to-violate-dip" data-astro-cid-xvrfupwn> When to Violate DIP </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#case-1-stable-dependencies" data-astro-cid-xvrfupwn> Case 1: Stable Dependencies </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#case-2-simple-utility-classes" data-astro-cid-xvrfupwn> Case 2: Simple Utility Classes </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#case-3-value-objects" data-astro-cid-xvrfupwn> Case 3: Value Objects </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#dip-and-other-solid-principles" data-astro-cid-xvrfupwn> DIP and Other SOLID Principles </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#conclusion" data-astro-cid-xvrfupwn> Conclusion </a> </li> </ul> </nav>  </aside> <article class="post" data-astro-cid-yvbahnfj> <header class="post-header" data-astro-cid-yvbahnfj> <h1 data-astro-cid-yvbahnfj>D (Dependency Inversion) from SOLID</h1> <div class="meta" data-astro-cid-yvbahnfj> <time datetime="2024-06-21T23:00:46.000Z" data-astro-cid-yvbahnfj>Fri Jun 21 2024</time> <span data-astro-cid-yvbahnfj>• 14 min read</span> </div> <div class="tag-row" data-astro-cid-yvbahnfj><a class="post-tag " href="/tags/software-architecture/" data-astro-cid-yvbahnfj>Software architecture</a><a class="post-tag " href="/tags/software-design/" data-astro-cid-yvbahnfj>Software design</a><a class="post-tag " href="/tags/solid/" data-astro-cid-yvbahnfj>SOLID</a></div> </header> <div class="post-body prose" data-astro-cid-yvbahnfj> <h1 id="the-dependency-inversion-principle-stop-depending-on-details">The Dependency Inversion Principle: Stop Depending on Details</h1>
+<h2 id="what-is-dependency-inversion-really">What Is Dependency Inversion, Really?</h2>
+<p>Let me ask you a question: when you plug your phone into a charger, does your phone know whether it’s connected to a wall adapter, a laptop USB port, or a portable battery pack? Nope. Your phone just knows it’s receiving power through a USB port. It doesn’t care about the specifics of where that power comes from.</p>
+<p>That’s Dependency Inversion Principle (DIP) in a nutshell.</p>
+<p>The formal definition is: <strong>High-level modules should not depend on low-level modules. Both should depend on abstractions. Furthermore, abstractions should not depend on details. Details should depend on abstractions.</strong></p>
+<p>In plain English: Your important business logic shouldn’t be tightly coupled to nitty-gritty implementation details. Instead, both should communicate through interfaces or abstract contracts. This way, you can swap out the details without touching your core logic.</p>
+<p>Here’s the mind-bending part: it’s called “inversion” because we’re inverting the traditional dependency structure. Normally, high-level code depends directly on low-level code (business logic → database implementation). With DIP, we flip it: both depend on abstractions (business logic → interface ← database implementation).</p>
+<h2 id="why-should-you-care-about-dip">Why Should You Care About DIP?</h2>
+<p>Let me tell you a war story. I once worked on an e-commerce system where the business logic was directly using MySQL-specific queries. Everything worked great—until the client decided they wanted to switch to PostgreSQL for better performance.</p>
+<p>We had to rewrite hundreds of classes. The business logic, the inventory management, the order processing—everything had MySQL queries embedded in it. It took three months and introduced dozens of bugs.</p>
+<p>Know what the worst part was? The actual database switch took two hours. The other three months were spent untangling business logic from database details.</p>
+<p>That’s what happens when you violate DIP. Here’s why it matters:</p>
+<h3 id="1-makes-code-testable">1. <strong>Makes Code Testable</strong></h3>
+<p>You can test business logic without needing a real database, email server, or payment gateway.</p>
+<h3 id="2-enables-flexibility">2. <strong>Enables Flexibility</strong></h3>
+<p>Swap implementations without touching core logic. Move from MySQL to MongoDB? Easy. Switch email providers? No problem.</p>
+<h3 id="3-reduces-coupling">3. <strong>Reduces Coupling</strong></h3>
+<p>High-level code doesn’t need to know about low-level implementation details.</p>
+<h3 id="4-improves-maintainability">4. <strong>Improves Maintainability</strong></h3>
+<p>Changes to implementation details don’t ripple through your entire codebase.</p>
+<h3 id="5-enables-parallel-development">5. <strong>Enables Parallel Development</strong></h3>
+<p>Teams can work on interfaces first, then implementations separately.</p>
+<h2 id="a-simple-example-email-notifications">A Simple Example: Email Notifications</h2>
+<h3 id="the-wrong-way-direct-dependencies">The Wrong Way: Direct Dependencies</h3>
+<p>Let’s start with a common scenario—sending email notifications:</p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">OrderService</span> <span class="token punctuation">{</span>
+    
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">placeOrder</span><span class="token punctuation">(</span><span class="token class-name">Order</span> order<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// Validate order</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>order<span class="token punctuation">.</span><span class="token function">getTotal</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&#x3C;=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">IllegalArgumentException</span><span class="token punctuation">(</span><span class="token string">"Invalid order total"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token comment">// Save to database - TIGHTLY COUPLED!</span>
+        <span class="token class-name">MySQLDatabase</span> database <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">MySQLDatabase</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        database<span class="token punctuation">.</span><span class="token function">connect</span><span class="token punctuation">(</span><span class="token string">"jdbc:mysql://localhost:3306/shop"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        database<span class="token punctuation">.</span><span class="token function">execute</span><span class="token punctuation">(</span><span class="token string">"INSERT INTO orders VALUES ("</span> <span class="token operator">+</span> 
+            order<span class="token punctuation">.</span><span class="token function">getId</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">", '"</span> <span class="token operator">+</span> 
+            order<span class="token punctuation">.</span><span class="token function">getCustomerEmail</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">"', "</span> <span class="token operator">+</span> 
+            order<span class="token punctuation">.</span><span class="token function">getTotal</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">")"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        database<span class="token punctuation">.</span><span class="token function">disconnect</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// Send email - TIGHTLY COUPLED!</span>
+        <span class="token class-name">SmtpEmailSender</span> emailSender <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">SmtpEmailSender</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        emailSender<span class="token punctuation">.</span><span class="token function">setHost</span><span class="token punctuation">(</span><span class="token string">"smtp.gmail.com"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        emailSender<span class="token punctuation">.</span><span class="token function">setPort</span><span class="token punctuation">(</span><span class="token number">587</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        emailSender<span class="token punctuation">.</span><span class="token function">setUsername</span><span class="token punctuation">(</span><span class="token string">"noreply@myshop.com"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        emailSender<span class="token punctuation">.</span><span class="token function">setPassword</span><span class="token punctuation">(</span><span class="token string">"supersecret"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        emailSender<span class="token punctuation">.</span><span class="token function">connect</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        emailSender<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span>
+            order<span class="token punctuation">.</span><span class="token function">getCustomerEmail</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+            <span class="token string">"Order Confirmation"</span><span class="token punctuation">,</span>
+            <span class="token string">"Your order #"</span> <span class="token operator">+</span> order<span class="token punctuation">.</span><span class="token function">getId</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">" has been placed"</span>
+        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+        emailSender<span class="token punctuation">.</span><span class="token function">disconnect</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// Log the order - TIGHTLY COUPLED!</span>
+        <span class="token class-name">FileLogger</span> logger <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">FileLogger</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        logger<span class="token punctuation">.</span><span class="token function">setFilePath</span><span class="token punctuation">(</span><span class="token string">"/var/log/orders.log"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        logger<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span><span class="token string">"Order placed: "</span> <span class="token operator">+</span> order<span class="token punctuation">.</span><span class="token function">getId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        logger<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Look at all those concrete dependencies! <code>OrderService</code> knows:</p>
 <ul>
-<li><strong>Decoupling</strong>: By relying on abstractions, different parts of a system can change independently, leading to a more flexible architecture.</li>
-<li><strong>Maintainability</strong>: Changes in one part of the system are less likely to impact other parts, reducing the risk of bugs.</li>
-<li><strong>Testability</strong>: Abstracting dependencies makes it easier to mock or stub components, facilitating unit testing.</li>
-<li><strong>Scalability</strong>: As the application grows, maintaining a loosely coupled architecture becomes crucial for scalability.</li>
+<li>The specific database (MySQL)</li>
+<li>How to connect to it</li>
+<li>The email protocol (SMTP)</li>
+<li>Email server configuration</li>
+<li>How logging works</li>
+<li>Where log files are stored</li>
 </ul>
-<h2 id="applying-dip-in-java">Applying DIP in Java</h2>
-<p>Let’s explore how to apply the Dependency Inversion Principle in Java with practical examples.</p>
-<h3 id="example-before-applying-dip">Example: Before Applying DIP</h3>
-<p>Consider a scenario where we have a <code>LightBulb</code> class and a <code>Switch</code> class. The <code>Switch</code> class controls the <code>LightBulb</code>.</p>
-<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">LightBulb</span> <span class="token punctuation">{</span>
-    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">turnOn</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"LightBulb turned on"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-
-    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">turnOff</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"LightBulb turned off"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
+<p>Want to test this? Good luck! You need a real MySQL database, an SMTP server, and file system access. Want to switch to PostgreSQL? You’re rewriting <code>OrderService</code>. Want to use SendGrid instead of SMTP? More rewrites.</p>
+<p>This is a nightmare.</p>
+<h3 id="the-right-way-depend-on-abstractions">The Right Way: Depend on Abstractions</h3>
+<p>Let’s invert those dependencies:</p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token comment">// Define abstractions (interfaces) for what we need</span>
+<span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">OrderRepository</span> <span class="token punctuation">{</span>
+    <span class="token keyword">void</span> <span class="token function">save</span><span class="token punctuation">(</span><span class="token class-name">Order</span> order<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name">Order</span> <span class="token function">findById</span><span class="token punctuation">(</span><span class="token class-name">Long</span> id<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 
-<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Switch</span> <span class="token punctuation">{</span>
-    <span class="token keyword">private</span> <span class="token class-name">LightBulb</span> lightBulb<span class="token punctuation">;</span>
+<span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">NotificationService</span> <span class="token punctuation">{</span>
+    <span class="token keyword">void</span> <span class="token function">sendOrderConfirmation</span><span class="token punctuation">(</span><span class="token class-name">Order</span> order<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 
-    <span class="token keyword">public</span> <span class="token class-name">Switch</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">this</span><span class="token punctuation">.</span>lightBulb <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">LightBulb</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">Logger</span> <span class="token punctuation">{</span>
+    <span class="token keyword">void</span> <span class="token function">log</span><span class="token punctuation">(</span><span class="token class-name">String</span> message<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Now our OrderService depends on abstractions</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">OrderService</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">OrderRepository</span> orderRepository<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">NotificationService</span> notificationService<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">Logger</span> logger<span class="token punctuation">;</span>
+
+    <span class="token comment">// Dependencies injected through constructor</span>
+    <span class="token keyword">public</span> <span class="token class-name">OrderService</span><span class="token punctuation">(</span>
+        <span class="token class-name">OrderRepository</span> orderRepository<span class="token punctuation">,</span>
+        <span class="token class-name">NotificationService</span> notificationService<span class="token punctuation">,</span>
+        <span class="token class-name">Logger</span> logger
+    <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>orderRepository <span class="token operator">=</span> orderRepository<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>notificationService <span class="token operator">=</span> notificationService<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>logger <span class="token operator">=</span> logger<span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
 
-    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">operate</span><span class="token punctuation">(</span><span class="token keyword">boolean</span> on<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">if</span> <span class="token punctuation">(</span>on<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-            lightBulb<span class="token punctuation">.</span><span class="token function">turnOn</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
-            lightBulb<span class="token punctuation">.</span><span class="token function">turnOff</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">placeOrder</span><span class="token punctuation">(</span><span class="token class-name">Order</span> order<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// Validate order</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>order<span class="token punctuation">.</span><span class="token function">getTotal</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&#x3C;=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">IllegalArgumentException</span><span class="token punctuation">(</span><span class="token string">"Invalid order total"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token comment">// Save to database - using abstraction!</span>
+        orderRepository<span class="token punctuation">.</span><span class="token function">save</span><span class="token punctuation">(</span>order<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// Send notification - using abstraction!</span>
+        notificationService<span class="token punctuation">.</span><span class="token function">sendOrderConfirmation</span><span class="token punctuation">(</span>order<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// Log the order - using abstraction!</span>
+        logger<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"Order placed: "</span> <span class="token operator">+</span> order<span class="token punctuation">.</span><span class="token function">getId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Now <code>OrderService</code> doesn’t know or care about:</p>
+<ul>
+<li>Which database is used</li>
+<li>How emails are sent</li>
+<li>Where logs are written</li>
+</ul>
+<p>It just depends on interfaces. Clean, simple, flexible.</p>
+<p>Now let’s implement those interfaces:</p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token comment">// MySQL implementation</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MySQLOrderRepository</span> <span class="token keyword">implements</span> <span class="token class-name">OrderRepository</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">DataSource</span> dataSource<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token class-name">MySQLOrderRepository</span><span class="token punctuation">(</span><span class="token class-name">DataSource</span> dataSource<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>dataSource <span class="token operator">=</span> dataSource<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">save</span><span class="token punctuation">(</span><span class="token class-name">Order</span> order<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">try</span> <span class="token punctuation">(</span><span class="token class-name">Connection</span> conn <span class="token operator">=</span> dataSource<span class="token punctuation">.</span><span class="token function">getConnection</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+             <span class="token class-name">PreparedStatement</span> stmt <span class="token operator">=</span> conn<span class="token punctuation">.</span><span class="token function">prepareStatement</span><span class="token punctuation">(</span>
+                 <span class="token string">"INSERT INTO orders (id, customer_email, total) VALUES (?, ?, ?)"</span>
+             <span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            
+            stmt<span class="token punctuation">.</span><span class="token function">setLong</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> order<span class="token punctuation">.</span><span class="token function">getId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            stmt<span class="token punctuation">.</span><span class="token function">setString</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> order<span class="token punctuation">.</span><span class="token function">getCustomerEmail</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            stmt<span class="token punctuation">.</span><span class="token function">setDouble</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> order<span class="token punctuation">.</span><span class="token function">getTotal</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            stmt<span class="token punctuation">.</span><span class="token function">executeUpdate</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">SQLException</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">DataAccessException</span><span class="token punctuation">(</span><span class="token string">"Failed to save order"</span><span class="token punctuation">,</span> e<span class="token punctuation">)</span><span class="token punctuation">;</span>
         <span class="token punctuation">}</span>
     <span class="token punctuation">}</span>
-<span class="token punctuation">}</span>
-</code></pre>
-<p>In this example, <code>Switch</code> directly depends on the concrete class <code>LightBulb</code>. This violates DIP because changes in <code>LightBulb</code> might require changes in <code>Switch</code>.</p>
-<h3 id="example-after-applying-dip">Example: After Applying DIP</h3>
-<p>To apply DIP, we need to introduce an abstraction for the <code>LightBulb</code>.</p>
-<h4 id="step-1-create-an-abstraction">Step 1: Create an Abstraction</h4>
-<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">Switchable</span> <span class="token punctuation">{</span>
-    <span class="token keyword">void</span> <span class="token function">turnOn</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">void</span> <span class="token function">turnOff</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-</code></pre>
-<h4 id="step-2-implement-the-abstraction">Step 2: Implement the Abstraction</h4>
-<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">LightBulb</span> <span class="token keyword">implements</span> <span class="token class-name">Switchable</span> <span class="token punctuation">{</span>
+
     <span class="token annotation punctuation">@Override</span>
-    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">turnOn</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"LightBulb turned on"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">public</span> <span class="token class-name">Order</span> <span class="token function">findById</span><span class="token punctuation">(</span><span class="token class-name">Long</span> id<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// Implementation...</span>
+        <span class="token keyword">return</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Email notification implementation</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">EmailNotificationService</span> <span class="token keyword">implements</span> <span class="token class-name">NotificationService</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">EmailSender</span> emailSender<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token class-name">EmailNotificationService</span><span class="token punctuation">(</span><span class="token class-name">EmailSender</span> emailSender<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>emailSender <span class="token operator">=</span> emailSender<span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
 
     <span class="token annotation punctuation">@Override</span>
-    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">turnOff</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"LightBulb turned off"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-<span class="token punctuation">}</span>
-</code></pre>
-<h4 id="step-3-depend-on-the-abstraction">Step 3: Depend on the Abstraction</h4>
-<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Switch</span> <span class="token punctuation">{</span>
-    <span class="token keyword">private</span> <span class="token class-name">Switchable</span> switchableDevice<span class="token punctuation">;</span>
-
-    <span class="token keyword">public</span> <span class="token class-name">Switch</span><span class="token punctuation">(</span><span class="token class-name">Switchable</span> switchableDevice<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">this</span><span class="token punctuation">.</span>switchableDevice <span class="token operator">=</span> switchableDevice<span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-
-    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">operate</span><span class="token punctuation">(</span><span class="token keyword">boolean</span> on<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">if</span> <span class="token punctuation">(</span>on<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-            switchableDevice<span class="token punctuation">.</span><span class="token function">turnOn</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
-            switchableDevice<span class="token punctuation">.</span><span class="token function">turnOff</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span>
-    <span class="token punctuation">}</span>
-<span class="token punctuation">}</span>
-</code></pre>
-<h4 id="step-4-use-dependency-injection">Step 4: Use Dependency Injection</h4>
-<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Main</span> <span class="token punctuation">{</span>
-    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token class-name">Switchable</span> lightBulb <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">LightBulb</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token class-name">Switch</span> lightSwitch <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Switch</span><span class="token punctuation">(</span>lightBulb<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">sendOrderConfirmation</span><span class="token punctuation">(</span><span class="token class-name">Order</span> order<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">String</span> subject <span class="token operator">=</span> <span class="token string">"Order Confirmation #"</span> <span class="token operator">+</span> order<span class="token punctuation">.</span><span class="token function">getId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">String</span> body <span class="token operator">=</span> <span class="token function">buildEmailBody</span><span class="token punctuation">(</span>order<span class="token punctuation">)</span><span class="token punctuation">;</span>
         
-        lightSwitch<span class="token punctuation">.</span><span class="token function">operate</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// Output: LightBulb turned on</span>
-        lightSwitch<span class="token punctuation">.</span><span class="token function">operate</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Output: LightBulb turned off</span>
+        emailSender<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span>
+            order<span class="token punctuation">.</span><span class="token function">getCustomerEmail</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+            subject<span class="token punctuation">,</span>
+            body
+        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">private</span> <span class="token class-name">String</span> <span class="token function">buildEmailBody</span><span class="token punctuation">(</span><span class="token class-name">Order</span> order<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token string">"Thank you for your order!\n\n"</span> <span class="token operator">+</span>
+               <span class="token string">"Order ID: "</span> <span class="token operator">+</span> order<span class="token punctuation">.</span><span class="token function">getId</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">"\n"</span> <span class="token operator">+</span>
+               <span class="token string">"Total: $"</span> <span class="token operator">+</span> order<span class="token punctuation">.</span><span class="token function">getTotal</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
-</code></pre>
-<p>In this refactored example, <code>Switch</code> depends on the <code>Switchable</code> interface rather than the concrete <code>LightBulb</code> class. This adheres to DIP and makes <code>Switch</code> more flexible and easier to maintain.</p>
-<h2 id="benefits-of-applying-dip">Benefits of Applying DIP</h2>
-<h3 id="1-decoupling-and-flexibility">1. <strong>Decoupling and Flexibility</strong></h3>
-<p>By depending on abstractions, high-level modules are decoupled from low-level modules. This means you can change the implementation of <code>Switchable</code> without affecting the <code>Switch</code> class.</p>
-<h3 id="2-enhanced-testability">2. <strong>Enhanced Testability</strong></h3>
-<p>Abstractions make it easier to substitute real implementations with mock objects during testing. This improves the ability to write unit tests.</p>
-<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token keyword">import</span> <span class="token keyword">static</span> <span class="token import static"><span class="token namespace">org<span class="token punctuation">.</span>mockito<span class="token punctuation">.</span></span><span class="token class-name">Mockito</span><span class="token punctuation">.</span><span class="token operator">*</span></span><span class="token punctuation">;</span>
 
-<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">SwitchTest</span> <span class="token punctuation">{</span>
-    <span class="token annotation punctuation">@Test</span>
-    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">testSwitchOperate</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token class-name">Switchable</span> mockDevice <span class="token operator">=</span> <span class="token function">mock</span><span class="token punctuation">(</span><span class="token class-name">Switchable</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token class-name">Switch</span> lightSwitch <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Switch</span><span class="token punctuation">(</span>mockDevice<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// File-based logger implementation</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">FileLogger</span> <span class="token keyword">implements</span> <span class="token class-name">Logger</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">String</span> logFilePath<span class="token punctuation">;</span>
 
-        lightSwitch<span class="token punctuation">.</span><span class="token function">operate</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token function">verify</span><span class="token punctuation">(</span>mockDevice<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">turnOn</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-        lightSwitch<span class="token punctuation">.</span><span class="token function">operate</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token function">verify</span><span class="token punctuation">(</span>mockDevice<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">turnOff</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">public</span> <span class="token class-name">FileLogger</span><span class="token punctuation">(</span><span class="token class-name">String</span> logFilePath<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>logFilePath <span class="token operator">=</span> logFilePath<span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
-<span class="token punctuation">}</span>
-</code></pre>
-<h3 id="3-improved-maintainability">3. <strong>Improved Maintainability</strong></h3>
-<p>With DIP, changes in low-level modules (e.g., <code>LightBulb</code>) do not propagate to high-level modules (e.g., <code>Switch</code>). This separation makes maintenance and upgrades easier.</p>
-<h3 id="4-scalability">4. <strong>Scalability</strong></h3>
-<p>As the system grows, adhering to DIP ensures that the codebase remains manageable. You can introduce new <code>Switchable</code> devices without modifying the <code>Switch</code> class.</p>
-<h2 id="real-world-examples-of-dip">Real-World Examples of DIP</h2>
-<h3 id="1-java-logging-framework-slf4j">1. <strong>Java Logging Framework (SLF4J)</strong></h3>
-<p>The Simple Logging Facade for Java (SLF4J) is a good example of DIP. It provides an abstraction for various logging frameworks like Log4j, Logback, and java.util.logging.</p>
-<h4 id="slf4j-abstraction">SLF4J Abstraction</h4>
-<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token keyword">import</span> <span class="token import"><span class="token namespace">org<span class="token punctuation">.</span>slf4j<span class="token punctuation">.</span></span><span class="token class-name">Logger</span></span><span class="token punctuation">;</span>
-<span class="token keyword">import</span> <span class="token import"><span class="token namespace">org<span class="token punctuation">.</span>slf4j<span class="token punctuation">.</span></span><span class="token class-name">LoggerFactory</span></span><span class="token punctuation">;</span>
 
-<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MyClass</span> <span class="token punctuation">{</span>
-    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token class-name">Logger</span> logger <span class="token operator">=</span> <span class="token class-name">LoggerFactory</span><span class="token punctuation">.</span><span class="token function">getLogger</span><span class="token punctuation">(</span><span class="token class-name">MyClass</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">doSomething</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        logger<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"Doing something"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-<span class="token punctuation">}</span>
-</code></pre>
-<p>In this example, <code>MyClass</code> depends on the <code>Logger</code> interface from SLF4J rather than a specific logging framework. This allows for flexibility in choosing or changing the logging implementation.</p>
-<h3 id="2-spring-framework">2. <strong>Spring Framework</strong></h3>
-<p>The Spring Framework heavily relies on DIP through dependency injection. Beans in Spring are injected into each other based on their interfaces rather than their concrete classes.</p>
-<h4 id="spring-example">Spring Example</h4>
-<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">GreetingService</span> <span class="token punctuation">{</span>
-    <span class="token class-name">String</span> <span class="token function">greet</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-
-<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MorningGreetingService</span> <span class="token keyword">implements</span> <span class="token class-name">GreetingService</span> <span class="token punctuation">{</span>
     <span class="token annotation punctuation">@Override</span>
-    <span class="token keyword">public</span> <span class="token class-name">String</span> <span class="token function">greet</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">return</span> <span class="token string">"Good Morning!"</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-<span class="token punctuation">}</span>
-
-<span class="token annotation punctuation">@Service</span>
-<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MyService</span> <span class="token punctuation">{</span>
-    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">GreetingService</span> greetingService<span class="token punctuation">;</span>
-
-    <span class="token annotation punctuation">@Autowired</span>
-    <span class="token keyword">public</span> <span class="token class-name">MyService</span><span class="token punctuation">(</span><span class="token class-name">GreetingService</span> greetingService<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">this</span><span class="token punctuation">.</span>greetingService <span class="token operator">=</span> greetingService<span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-
-    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">sayGreeting</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>greetingService<span class="token punctuation">.</span><span class="token function">greet</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">log</span><span class="token punctuation">(</span><span class="token class-name">String</span> message<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">try</span> <span class="token punctuation">(</span><span class="token class-name">FileWriter</span> writer <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">FileWriter</span><span class="token punctuation">(</span>logFilePath<span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token class-name">String</span> timestamp <span class="token operator">=</span> <span class="token class-name">LocalDateTime</span><span class="token punctuation">.</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            writer<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span><span class="token string">"["</span> <span class="token operator">+</span> timestamp <span class="token operator">+</span> <span class="token string">"] "</span> <span class="token operator">+</span> message <span class="token operator">+</span> <span class="token string">"\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">IOException</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">// Handle error</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>err<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Failed to write log: "</span> <span class="token operator">+</span> e<span class="token punctuation">.</span><span class="token function">getMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 </code></pre>
-<p>In this example, <code>MyService</code> depends on the <code>GreetingService</code> interface. The actual implementation is injected by the Spring container, adhering to DIP.</p>
+<p>Now look what we can do:</p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token comment">// Production configuration</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ProductionConfig</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token class-name">OrderService</span> <span class="token function">createOrderService</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">DataSource</span> dataSource <span class="token operator">=</span> <span class="token function">createProductionDataSource</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">OrderRepository</span> orderRepository <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">MySQLOrderRepository</span><span class="token punctuation">(</span>dataSource<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token class-name">EmailSender</span> emailSender <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">SmtpEmailSender</span><span class="token punctuation">(</span><span class="token comment">/* config */</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">NotificationService</span> notificationService <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">EmailNotificationService</span><span class="token punctuation">(</span>emailSender<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token class-name">Logger</span> logger <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">FileLogger</span><span class="token punctuation">(</span><span class="token string">"/var/log/orders.log"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">OrderService</span><span class="token punctuation">(</span>orderRepository<span class="token punctuation">,</span> notificationService<span class="token punctuation">,</span> logger<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Test configuration</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">TestConfig</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token class-name">OrderService</span> <span class="token function">createOrderService</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">OrderRepository</span> orderRepository <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">InMemoryOrderRepository</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">NotificationService</span> notificationService <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">MockNotificationService</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">Logger</span> logger <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ConsoleLogger</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">OrderService</span><span class="token punctuation">(</span>orderRepository<span class="token punctuation">,</span> notificationService<span class="token punctuation">,</span> logger<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Want to switch to PostgreSQL? Just change one line:</span>
+<span class="token class-name">OrderRepository</span> orderRepository <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">PostgreSQLOrderRepository</span><span class="token punctuation">(</span>dataSource<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Want to use SendGrid for emails? Easy:</span>
+<span class="token class-name">EmailSender</span> emailSender <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">SendGridEmailSender</span><span class="token punctuation">(</span>apiKey<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">NotificationService</span> notificationService <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">EmailNotificationService</span><span class="token punctuation">(</span>emailSender<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Want to log to a centralized logging service? Simple:</span>
+<span class="token class-name">Logger</span> logger <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">CloudLogger</span><span class="token punctuation">(</span>loggingServiceUrl<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>See the power? We can swap any implementation without touching <code>OrderService</code>.</p>
+<h2 id="a-real-world-example-notification-system">A Real-World Example: Notification System</h2>
+<p>Let me show you a more complex example—a notification system that can send messages via email, SMS, push notifications, or Slack.</p>
+<h3 id="the-wrong-way-hardcoded-dependencies">The Wrong Way: Hardcoded Dependencies</h3>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">UserNotifier</span> <span class="token punctuation">{</span>
+    
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">notifyUser</span><span class="token punctuation">(</span><span class="token class-name">User</span> user<span class="token punctuation">,</span> <span class="token class-name">String</span> message<span class="token punctuation">,</span> <span class="token class-name">String</span> type<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>type<span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span><span class="token string">"email"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">// Email logic embedded here</span>
+            <span class="token class-name">SmtpClient</span> smtp <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">SmtpClient</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            smtp<span class="token punctuation">.</span><span class="token function">connect</span><span class="token punctuation">(</span><span class="token string">"smtp.gmail.com"</span><span class="token punctuation">,</span> <span class="token number">587</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            smtp<span class="token punctuation">.</span><span class="token function">authenticate</span><span class="token punctuation">(</span><span class="token string">"user@example.com"</span><span class="token punctuation">,</span> <span class="token string">"password"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            smtp<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span>user<span class="token punctuation">.</span><span class="token function">getEmail</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"Notification"</span><span class="token punctuation">,</span> message<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            smtp<span class="token punctuation">.</span><span class="token function">disconnect</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>type<span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span><span class="token string">"sms"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">// SMS logic embedded here</span>
+            <span class="token class-name">TwilioClient</span> twilio <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">TwilioClient</span><span class="token punctuation">(</span><span class="token string">"account_sid"</span><span class="token punctuation">,</span> <span class="token string">"auth_token"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            twilio<span class="token punctuation">.</span><span class="token function">sendSms</span><span class="token punctuation">(</span>user<span class="token punctuation">.</span><span class="token function">getPhoneNumber</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> message<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>type<span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span><span class="token string">"push"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">// Push notification logic embedded here</span>
+            <span class="token class-name">FirebaseClient</span> firebase <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">FirebaseClient</span><span class="token punctuation">(</span><span class="token string">"api_key"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            firebase<span class="token punctuation">.</span><span class="token function">sendPushNotification</span><span class="token punctuation">(</span>user<span class="token punctuation">.</span><span class="token function">getDeviceToken</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> message<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>type<span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span><span class="token string">"slack"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">// Slack logic embedded here</span>
+            <span class="token class-name">SlackClient</span> slack <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">SlackClient</span><span class="token punctuation">(</span><span class="token string">"webhook_url"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            slack<span class="token punctuation">.</span><span class="token function">postMessage</span><span class="token punctuation">(</span>user<span class="token punctuation">.</span><span class="token function">getSlackUsername</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> message<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>This is terrible:</p>
+<ul>
+<li>Adding a new notification type requires changing <code>UserNotifier</code></li>
+<li>Testing requires all external services</li>
+<li>Configuration is hardcoded</li>
+<li>It violates Open/Closed Principle too!</li>
+</ul>
+<h3 id="the-right-way-abstraction-and-strategy-pattern">The Right Way: Abstraction and Strategy Pattern</h3>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token comment">// Define the abstraction</span>
+<span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">NotificationChannel</span> <span class="token punctuation">{</span>
+    <span class="token keyword">void</span> <span class="token function">send</span><span class="token punctuation">(</span><span class="token class-name">User</span> user<span class="token punctuation">,</span> <span class="token class-name">String</span> message<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name">String</span> <span class="token function">getChannelName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">boolean</span> <span class="token function">supports</span><span class="token punctuation">(</span><span class="token class-name">User</span> user<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Email implementation</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">EmailNotificationChannel</span> <span class="token keyword">implements</span> <span class="token class-name">NotificationChannel</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">EmailService</span> emailService<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token class-name">EmailNotificationChannel</span><span class="token punctuation">(</span><span class="token class-name">EmailService</span> emailService<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>emailService <span class="token operator">=</span> emailService<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">send</span><span class="token punctuation">(</span><span class="token class-name">User</span> user<span class="token punctuation">,</span> <span class="token class-name">String</span> message<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">supports</span><span class="token punctuation">(</span>user<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">IllegalArgumentException</span><span class="token punctuation">(</span><span class="token string">"User has no email address"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token class-name">String</span> subject <span class="token operator">=</span> <span class="token string">"Notification from "</span> <span class="token operator">+</span> <span class="token class-name">System</span><span class="token punctuation">.</span><span class="token function">getProperty</span><span class="token punctuation">(</span><span class="token string">"app.name"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        emailService<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span>user<span class="token punctuation">.</span><span class="token function">getEmail</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> subject<span class="token punctuation">,</span> message<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token class-name">String</span> <span class="token function">getChannelName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token string">"EMAIL"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">supports</span><span class="token punctuation">(</span><span class="token class-name">User</span> user<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> user<span class="token punctuation">.</span><span class="token function">getEmail</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token keyword">null</span> <span class="token operator">&#x26;&#x26;</span> <span class="token operator">!</span>user<span class="token punctuation">.</span><span class="token function">getEmail</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// SMS implementation</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">SmsNotificationChannel</span> <span class="token keyword">implements</span> <span class="token class-name">NotificationChannel</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">SmsService</span> smsService<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token class-name">SmsNotificationChannel</span><span class="token punctuation">(</span><span class="token class-name">SmsService</span> smsService<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>smsService <span class="token operator">=</span> smsService<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">send</span><span class="token punctuation">(</span><span class="token class-name">User</span> user<span class="token punctuation">,</span> <span class="token class-name">String</span> message<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">supports</span><span class="token punctuation">(</span>user<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">IllegalArgumentException</span><span class="token punctuation">(</span><span class="token string">"User has no phone number"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        smsService<span class="token punctuation">.</span><span class="token function">sendSms</span><span class="token punctuation">(</span>user<span class="token punctuation">.</span><span class="token function">getPhoneNumber</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> message<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token class-name">String</span> <span class="token function">getChannelName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token string">"SMS"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">supports</span><span class="token punctuation">(</span><span class="token class-name">User</span> user<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> user<span class="token punctuation">.</span><span class="token function">getPhoneNumber</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token keyword">null</span> <span class="token operator">&#x26;&#x26;</span> <span class="token operator">!</span>user<span class="token punctuation">.</span><span class="token function">getPhoneNumber</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Push notification implementation</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">PushNotificationChannel</span> <span class="token keyword">implements</span> <span class="token class-name">NotificationChannel</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">PushNotificationService</span> pushService<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token class-name">PushNotificationChannel</span><span class="token punctuation">(</span><span class="token class-name">PushNotificationService</span> pushService<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>pushService <span class="token operator">=</span> pushService<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">send</span><span class="token punctuation">(</span><span class="token class-name">User</span> user<span class="token punctuation">,</span> <span class="token class-name">String</span> message<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">supports</span><span class="token punctuation">(</span>user<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">IllegalArgumentException</span><span class="token punctuation">(</span><span class="token string">"User has no device token"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        pushService<span class="token punctuation">.</span><span class="token function">sendPush</span><span class="token punctuation">(</span>user<span class="token punctuation">.</span><span class="token function">getDeviceToken</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"Notification"</span><span class="token punctuation">,</span> message<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token class-name">String</span> <span class="token function">getChannelName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token string">"PUSH"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">supports</span><span class="token punctuation">(</span><span class="token class-name">User</span> user<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> user<span class="token punctuation">.</span><span class="token function">getDeviceToken</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token keyword">null</span> <span class="token operator">&#x26;&#x26;</span> <span class="token operator">!</span>user<span class="token punctuation">.</span><span class="token function">getDeviceToken</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Slack implementation</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">SlackNotificationChannel</span> <span class="token keyword">implements</span> <span class="token class-name">NotificationChannel</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">SlackService</span> slackService<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token class-name">SlackNotificationChannel</span><span class="token punctuation">(</span><span class="token class-name">SlackService</span> slackService<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>slackService <span class="token operator">=</span> slackService<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">send</span><span class="token punctuation">(</span><span class="token class-name">User</span> user<span class="token punctuation">,</span> <span class="token class-name">String</span> message<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">supports</span><span class="token punctuation">(</span>user<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">IllegalArgumentException</span><span class="token punctuation">(</span><span class="token string">"User has no Slack username"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        slackService<span class="token punctuation">.</span><span class="token function">postMessage</span><span class="token punctuation">(</span>user<span class="token punctuation">.</span><span class="token function">getSlackUsername</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> message<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token class-name">String</span> <span class="token function">getChannelName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token string">"SLACK"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">supports</span><span class="token punctuation">(</span><span class="token class-name">User</span> user<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> user<span class="token punctuation">.</span><span class="token function">getSlackUsername</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token keyword">null</span> <span class="token operator">&#x26;&#x26;</span> <span class="token operator">!</span>user<span class="token punctuation">.</span><span class="token function">getSlackUsername</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// High-level notification service</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">UserNotificationService</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&#x3C;</span><span class="token class-name">NotificationChannel</span><span class="token punctuation">></span></span> channels<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">NotificationPreferenceRepository</span> preferenceRepository<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token class-name">UserNotificationService</span><span class="token punctuation">(</span>
+        <span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&#x3C;</span><span class="token class-name">NotificationChannel</span><span class="token punctuation">></span></span> channels<span class="token punctuation">,</span>
+        <span class="token class-name">NotificationPreferenceRepository</span> preferenceRepository
+    <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>channels <span class="token operator">=</span> channels<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>preferenceRepository <span class="token operator">=</span> preferenceRepository<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">notifyUser</span><span class="token punctuation">(</span><span class="token class-name">User</span> user<span class="token punctuation">,</span> <span class="token class-name">String</span> message<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">NotificationPreference</span> preference <span class="token operator">=</span> preferenceRepository<span class="token punctuation">.</span><span class="token function">findByUser</span><span class="token punctuation">(</span>user<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name">String</span> preferredChannel <span class="token operator">:</span> preference<span class="token punctuation">.</span><span class="token function">getPreferredChannels</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            channels<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>channel <span class="token operator">-></span> channel<span class="token punctuation">.</span><span class="token function">getChannelName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>preferredChannel<span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>channel <span class="token operator">-></span> channel<span class="token punctuation">.</span><span class="token function">supports</span><span class="token punctuation">(</span>user<span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">findFirst</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">ifPresent</span><span class="token punctuation">(</span>channel <span class="token operator">-></span> <span class="token punctuation">{</span>
+                    <span class="token keyword">try</span> <span class="token punctuation">{</span>
+                        channel<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span>user<span class="token punctuation">,</span> message<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                        <span class="token comment">// Log error and try next channel</span>
+                        <span class="token class-name">System</span><span class="token punctuation">.</span>err<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Failed to send via "</span> <span class="token operator">+</span> channel<span class="token punctuation">.</span><span class="token function">getChannelName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span>
+                <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">notifyUserViaChannel</span><span class="token punctuation">(</span><span class="token class-name">User</span> user<span class="token punctuation">,</span> <span class="token class-name">String</span> message<span class="token punctuation">,</span> <span class="token class-name">String</span> channelName<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        channels<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>channel <span class="token operator">-></span> channel<span class="token punctuation">.</span><span class="token function">getChannelName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>channelName<span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>channel <span class="token operator">-></span> channel<span class="token punctuation">.</span><span class="token function">supports</span><span class="token punctuation">(</span>user<span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">findFirst</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">ifPresent</span><span class="token punctuation">(</span>channel <span class="token operator">-></span> channel<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span>user<span class="token punctuation">,</span> message<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&#x3C;</span><span class="token class-name">String</span><span class="token punctuation">></span></span> <span class="token function">getAvailableChannels</span><span class="token punctuation">(</span><span class="token class-name">User</span> user<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> channels<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>channel <span class="token operator">-></span> channel<span class="token punctuation">.</span><span class="token function">supports</span><span class="token punctuation">(</span>user<span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token class-name">NotificationChannel</span><span class="token operator">::</span><span class="token function">getChannelName</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">collect</span><span class="token punctuation">(</span><span class="token class-name">Collectors</span><span class="token punctuation">.</span><span class="token function">toList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Now look at the flexibility:</p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token comment">// Production setup</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">NotificationConfig</span> <span class="token punctuation">{</span>
+    
+    <span class="token keyword">public</span> <span class="token class-name">UserNotificationService</span> <span class="token function">createNotificationService</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&#x3C;</span><span class="token class-name">NotificationChannel</span><span class="token punctuation">></span></span> channels <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token generics"><span class="token punctuation">&#x3C;</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token comment">// Email channel</span>
+        <span class="token class-name">EmailService</span> emailService <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">SmtpEmailService</span><span class="token punctuation">(</span><span class="token comment">/* config */</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        channels<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">EmailNotificationChannel</span><span class="token punctuation">(</span>emailService<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token comment">// SMS channel</span>
+        <span class="token class-name">SmsService</span> smsService <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">TwilioSmsService</span><span class="token punctuation">(</span><span class="token comment">/* config */</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        channels<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">SmsNotificationChannel</span><span class="token punctuation">(</span>smsService<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token comment">// Push notification channel</span>
+        <span class="token class-name">PushNotificationService</span> pushService <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">FirebasePushService</span><span class="token punctuation">(</span><span class="token comment">/* config */</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        channels<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">PushNotificationChannel</span><span class="token punctuation">(</span>pushService<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token comment">// Slack channel</span>
+        <span class="token class-name">SlackService</span> slackService <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">SlackWebhookService</span><span class="token punctuation">(</span><span class="token comment">/* config */</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        channels<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">SlackNotificationChannel</span><span class="token punctuation">(</span>slackService<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token class-name">NotificationPreferenceRepository</span> preferenceRepository <span class="token operator">=</span> 
+            <span class="token keyword">new</span> <span class="token class-name">DatabaseNotificationPreferenceRepository</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">UserNotificationService</span><span class="token punctuation">(</span>channels<span class="token punctuation">,</span> preferenceRepository<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Test setup - no external services needed!</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">TestNotificationConfig</span> <span class="token punctuation">{</span>
+    
+    <span class="token keyword">public</span> <span class="token class-name">UserNotificationService</span> <span class="token function">createNotificationService</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&#x3C;</span><span class="token class-name">NotificationChannel</span><span class="token punctuation">></span></span> channels <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token generics"><span class="token punctuation">&#x3C;</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token comment">// Mock implementations</span>
+        channels<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">EmailNotificationChannel</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">MockEmailService</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        channels<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">SmsNotificationChannel</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">MockSmsService</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token class-name">NotificationPreferenceRepository</span> preferenceRepository <span class="token operator">=</span> 
+            <span class="token keyword">new</span> <span class="token class-name">InMemoryNotificationPreferenceRepository</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">UserNotificationService</span><span class="token punctuation">(</span>channels<span class="token punctuation">,</span> preferenceRepository<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Want to add a new channel? Just implement the interface!</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">WhatsAppNotificationChannel</span> <span class="token keyword">implements</span> <span class="token class-name">NotificationChannel</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">WhatsAppService</span> whatsAppService<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token class-name">WhatsAppNotificationChannel</span><span class="token punctuation">(</span><span class="token class-name">WhatsAppService</span> whatsAppService<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>whatsAppService <span class="token operator">=</span> whatsAppService<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">send</span><span class="token punctuation">(</span><span class="token class-name">User</span> user<span class="token punctuation">,</span> <span class="token class-name">String</span> message<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        whatsAppService<span class="token punctuation">.</span><span class="token function">sendMessage</span><span class="token punctuation">(</span>user<span class="token punctuation">.</span><span class="token function">getWhatsAppNumber</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> message<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token class-name">String</span> <span class="token function">getChannelName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token string">"WHATSAPP"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">supports</span><span class="token punctuation">(</span><span class="token class-name">User</span> user<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> user<span class="token punctuation">.</span><span class="token function">getWhatsAppNumber</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Add to configuration:</span>
+channels<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">WhatsAppNotificationChannel</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">WhatsAppApiService</span><span class="token punctuation">(</span>config<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p><code>UserNotificationService</code> never changes! We just add implementations.</p>
+<h2 id="dip-and-dependency-injection-frameworks">DIP and Dependency Injection Frameworks</h2>
+<p>DIP works beautifully with dependency injection frameworks like Spring:</p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token annotation punctuation">@Service</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">OrderService</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">OrderRepository</span> orderRepository<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">NotificationService</span> notificationService<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">PaymentGateway</span> paymentGateway<span class="token punctuation">;</span>
+
+    <span class="token comment">// Spring automatically injects dependencies</span>
+    <span class="token annotation punctuation">@Autowired</span>
+    <span class="token keyword">public</span> <span class="token class-name">OrderService</span><span class="token punctuation">(</span>
+        <span class="token class-name">OrderRepository</span> orderRepository<span class="token punctuation">,</span>
+        <span class="token class-name">NotificationService</span> notificationService<span class="token punctuation">,</span>
+        <span class="token class-name">PaymentGateway</span> paymentGateway
+    <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>orderRepository <span class="token operator">=</span> orderRepository<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>notificationService <span class="token operator">=</span> notificationService<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>paymentGateway <span class="token operator">=</span> paymentGateway<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">placeOrder</span><span class="token punctuation">(</span><span class="token class-name">Order</span> order<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// High-level business logic</span>
+        paymentGateway<span class="token punctuation">.</span><span class="token function">charge</span><span class="token punctuation">(</span>order<span class="token punctuation">.</span><span class="token function">getPaymentDetails</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> order<span class="token punctuation">.</span><span class="token function">getTotal</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        orderRepository<span class="token punctuation">.</span><span class="token function">save</span><span class="token punctuation">(</span>order<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        notificationService<span class="token punctuation">.</span><span class="token function">sendOrderConfirmation</span><span class="token punctuation">(</span>order<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Configuration</span>
+<span class="token annotation punctuation">@Configuration</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">AppConfig</span> <span class="token punctuation">{</span>
+    
+    <span class="token annotation punctuation">@Bean</span>
+    <span class="token keyword">public</span> <span class="token class-name">OrderRepository</span> <span class="token function">orderRepository</span><span class="token punctuation">(</span><span class="token class-name">DataSource</span> dataSource<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">JpaOrderRepository</span><span class="token punctuation">(</span>dataSource<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Bean</span>
+    <span class="token keyword">public</span> <span class="token class-name">NotificationService</span> <span class="token function">notificationService</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">EmailNotificationService</span><span class="token punctuation">(</span><span class="token function">emailSender</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Bean</span>
+    <span class="token keyword">public</span> <span class="token class-name">PaymentGateway</span> <span class="token function">paymentGateway</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">StripePaymentGateway</span><span class="token punctuation">(</span>stripeApiKey<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Test configuration</span>
+<span class="token annotation punctuation">@TestConfiguration</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">TestConfig</span> <span class="token punctuation">{</span>
+    
+    <span class="token annotation punctuation">@Bean</span>
+    <span class="token annotation punctuation">@Primary</span>  <span class="token comment">// Override production beans in tests</span>
+    <span class="token keyword">public</span> <span class="token class-name">OrderRepository</span> <span class="token function">orderRepository</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">InMemoryOrderRepository</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Bean</span>
+    <span class="token annotation punctuation">@Primary</span>
+    <span class="token keyword">public</span> <span class="token class-name">NotificationService</span> <span class="token function">notificationService</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">MockNotificationService</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Bean</span>
+    <span class="token annotation punctuation">@Primary</span>
+    <span class="token keyword">public</span> <span class="token class-name">PaymentGateway</span> <span class="token function">paymentGateway</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">MockPaymentGateway</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Testing becomes trivial:</p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token annotation punctuation">@SpringBootTest</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">OrderServiceTest</span> <span class="token punctuation">{</span>
+    
+    <span class="token annotation punctuation">@Autowired</span>
+    <span class="token keyword">private</span> <span class="token class-name">OrderService</span> orderService<span class="token punctuation">;</span>
+    
+    <span class="token annotation punctuation">@Autowired</span>
+    <span class="token keyword">private</span> <span class="token class-name">MockNotificationService</span> notificationService<span class="token punctuation">;</span>
+    
+    <span class="token annotation punctuation">@Test</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">testPlaceOrder</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">Order</span> order <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Order</span><span class="token punctuation">(</span><span class="token comment">/* ... */</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        orderService<span class="token punctuation">.</span><span class="token function">placeOrder</span><span class="token punctuation">(</span>order<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token comment">// Verify notification was sent</span>
+        <span class="token function">assertTrue</span><span class="token punctuation">(</span>notificationService<span class="token punctuation">.</span><span class="token function">wasNotificationSent</span><span class="token punctuation">(</span>order<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="the-dependency-inversion-vs-dependency-injection">The Dependency Inversion vs Dependency Injection</h2>
+<p>People often confuse these:</p>
+<ul>
+<li><strong>Dependency Inversion Principle (DIP)</strong>: A design principle about depending on abstractions, not concrete implementations</li>
+<li><strong>Dependency Injection (DI)</strong>: A technique for providing dependencies from the outside</li>
+</ul>
+<p>DI is one way to achieve DIP, but not the only way:</p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token comment">// Dependency Injection (constructor injection)</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">OrderService</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">OrderRepository</span> repository<span class="token punctuation">;</span>
+    
+    <span class="token keyword">public</span> <span class="token class-name">OrderService</span><span class="token punctuation">(</span><span class="token class-name">OrderRepository</span> repository<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>repository <span class="token operator">=</span> repository<span class="token punctuation">;</span>  <span class="token comment">// Injected from outside</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Service Locator (another way to achieve DIP)</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">OrderService</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">OrderRepository</span> repository<span class="token punctuation">;</span>
+    
+    <span class="token keyword">public</span> <span class="token class-name">OrderService</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>repository <span class="token operator">=</span> <span class="token class-name">ServiceLocator</span><span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token class-name">OrderRepository</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Factory (yet another way)</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">OrderService</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">OrderRepository</span> repository<span class="token punctuation">;</span>
+    
+    <span class="token keyword">public</span> <span class="token class-name">OrderService</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>repository <span class="token operator">=</span> <span class="token class-name">RepositoryFactory</span><span class="token punctuation">.</span><span class="token function">createOrderRepository</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Constructor injection (DI) is usually the best approach—it’s explicit, testable, and makes dependencies obvious.</p>
+<h2 id="common-dip-violations-and-fixes">Common DIP Violations and Fixes</h2>
+<h3 id="violation-1-new-keyword-everywhere">Violation 1: New Keyword Everywhere</h3>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token comment">// WRONG - Creating concrete dependencies</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ReportGenerator</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">generateReport</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">DatabaseConnection</span> db <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">MySQLConnection</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// Concrete!</span>
+        <span class="token class-name">PdfGenerator</span> pdf <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ApachePdfGenerator</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment">// Concrete!</span>
+        <span class="token class-name">EmailSender</span> email <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">SmtpEmailSender</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>       <span class="token comment">// Concrete!</span>
+        
+        <span class="token comment">// Use them...</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// RIGHT - Depend on abstractions</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ReportGenerator</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">DatabaseConnection</span> db<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">PdfGenerator</span> pdf<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">EmailSender</span> email<span class="token punctuation">;</span>
+    
+    <span class="token keyword">public</span> <span class="token class-name">ReportGenerator</span><span class="token punctuation">(</span><span class="token class-name">DatabaseConnection</span> db<span class="token punctuation">,</span> <span class="token class-name">PdfGenerator</span> pdf<span class="token punctuation">,</span> <span class="token class-name">EmailSender</span> email<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>db <span class="token operator">=</span> db<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>pdf <span class="token operator">=</span> pdf<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>email <span class="token operator">=</span> email<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="violation-2-static-method-dependencies">Violation 2: Static Method Dependencies</h3>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token comment">// WRONG - Static coupling</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">OrderProcessor</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">process</span><span class="token punctuation">(</span><span class="token class-name">Order</span> order<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">MySQLDatabase</span><span class="token punctuation">.</span><span class="token function">save</span><span class="token punctuation">(</span>order<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// Static coupling!</span>
+        <span class="token class-name">SmtpEmail</span><span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span>order<span class="token punctuation">.</span><span class="token function">getCustomerEmail</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"Order confirmed"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// Static!</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// RIGHT - Injectable dependencies</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">OrderProcessor</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">OrderRepository</span> repository<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">EmailService</span> emailService<span class="token punctuation">;</span>
+    
+    <span class="token keyword">public</span> <span class="token class-name">OrderProcessor</span><span class="token punctuation">(</span><span class="token class-name">OrderRepository</span> repository<span class="token punctuation">,</span> <span class="token class-name">EmailService</span> emailService<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>repository <span class="token operator">=</span> repository<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>emailService <span class="token operator">=</span> emailService<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">process</span><span class="token punctuation">(</span><span class="token class-name">Order</span> order<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        repository<span class="token punctuation">.</span><span class="token function">save</span><span class="token punctuation">(</span>order<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        emailService<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span>order<span class="token punctuation">.</span><span class="token function">getCustomerEmail</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"Order confirmed"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="violation-3-leaky-abstractions">Violation 3: Leaky Abstractions</h3>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token comment">// WRONG - Abstraction exposes implementation details</span>
+<span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">UserRepository</span> <span class="token punctuation">{</span>
+    <span class="token keyword">void</span> <span class="token function">saveToMongoDB</span><span class="token punctuation">(</span><span class="token class-name">User</span> user<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// MongoDB leaks through!</span>
+    <span class="token class-name">User</span> <span class="token function">findByMongoId</span><span class="token punctuation">(</span><span class="token class-name">String</span> id<span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">// MongoDB leaks through!</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// RIGHT - Pure abstraction</span>
+<span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">UserRepository</span> <span class="token punctuation">{</span>
+    <span class="token keyword">void</span> <span class="token function">save</span><span class="token punctuation">(</span><span class="token class-name">User</span> user<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name">Optional</span><span class="token generics"><span class="token punctuation">&#x3C;</span><span class="token class-name">User</span><span class="token punctuation">></span></span> <span class="token function">findById</span><span class="token punctuation">(</span><span class="token class-name">String</span> id<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="practical-tips-for-applying-dip">Practical Tips for Applying DIP</h2>
+<h3 id="1-extract-interfaces-from-concrete-classes">1. <strong>Extract Interfaces from Concrete Classes</strong></h3>
+<p>Start with what you have and extract interfaces:</p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token comment">// Before</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">FileStorage</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">save</span><span class="token punctuation">(</span><span class="token class-name">String</span> filename<span class="token punctuation">,</span> <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> data<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment">/* ... */</span> <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// After - extract interface</span>
+<span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">Storage</span> <span class="token punctuation">{</span>
+    <span class="token keyword">void</span> <span class="token function">save</span><span class="token punctuation">(</span><span class="token class-name">String</span> filename<span class="token punctuation">,</span> <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">FileStorage</span> <span class="token keyword">implements</span> <span class="token class-name">Storage</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">save</span><span class="token punctuation">(</span><span class="token class-name">String</span> filename<span class="token punctuation">,</span> <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> data<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment">/* ... */</span> <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Now you can add implementations</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">CloudStorage</span> <span class="token keyword">implements</span> <span class="token class-name">Storage</span> <span class="token punctuation">{</span> <span class="token comment">/* ... */</span> <span class="token punctuation">}</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">DatabaseStorage</span> <span class="token keyword">implements</span> <span class="token class-name">Storage</span> <span class="token punctuation">{</span> <span class="token comment">/* ... */</span> <span class="token punctuation">}</span>
+</code></pre>
+<h3 id="2-use-constructor-injection">2. <strong>Use Constructor Injection</strong></h3>
+<p>Make dependencies explicit:</p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token comment">// Good</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">UserService</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">UserRepository</span> repository<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">EmailService</span> emailService<span class="token punctuation">;</span>
+    
+    <span class="token keyword">public</span> <span class="token class-name">UserService</span><span class="token punctuation">(</span><span class="token class-name">UserRepository</span> repository<span class="token punctuation">,</span> <span class="token class-name">EmailService</span> emailService<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>repository <span class="token operator">=</span> repository<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>emailService <span class="token operator">=</span> emailService<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="3-program-to-interfaces-not-implementations">3. <strong>Program to Interfaces, Not Implementations</strong></h3>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token comment">// Bad</span>
+<span class="token class-name">MySQLUserRepository</span> repository <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">MySQLUserRepository</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Good</span>
+<span class="token class-name">UserRepository</span> repository <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">MySQLUserRepository</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h3 id="4-keep-abstractions-focused">4. <strong>Keep Abstractions Focused</strong></h3>
+<p>Don’t let implementation details leak into interfaces:</p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token comment">// Bad - leaky abstraction</span>
+<span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">DataStore</span> <span class="token punctuation">{</span>
+    <span class="token class-name">ResultSet</span> <span class="token function">executeQuery</span><span class="token punctuation">(</span><span class="token class-name">String</span> sql<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// SQL leaks through!</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Good - clean abstraction</span>
+<span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">DataStore</span> <span class="token punctuation">{</span>
+    <span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&#x3C;</span><span class="token class-name">User</span><span class="token punctuation">></span></span> <span class="token function">findUsers</span><span class="token punctuation">(</span><span class="token class-name">UserCriteria</span> criteria<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="5-test-through-abstractions">5. <strong>Test Through Abstractions</strong></h3>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token annotation punctuation">@Test</span>
+<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">testOrderService</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// Use test doubles (mocks/stubs)</span>
+    <span class="token class-name">OrderRepository</span> mockRepository <span class="token operator">=</span> <span class="token function">mock</span><span class="token punctuation">(</span><span class="token class-name">OrderRepository</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name">NotificationService</span> mockNotification <span class="token operator">=</span> <span class="token function">mock</span><span class="token punctuation">(</span><span class="token class-name">NotificationService</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    <span class="token class-name">OrderService</span> service <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">OrderService</span><span class="token punctuation">(</span>mockRepository<span class="token punctuation">,</span> mockNotification<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    <span class="token comment">// Test without real dependencies</span>
+    service<span class="token punctuation">.</span><span class="token function">placeOrder</span><span class="token punctuation">(</span>testOrder<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    <span class="token function">verify</span><span class="token punctuation">(</span>mockRepository<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">save</span><span class="token punctuation">(</span>testOrder<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">verify</span><span class="token punctuation">(</span>mockNotification<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">sendOrderConfirmation</span><span class="token punctuation">(</span>testOrder<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="when-to-violate-dip">When to Violate DIP</h2>
+<h3 id="case-1-stable-dependencies">Case 1: Stable Dependencies</h3>
+<p>It’s OK to depend directly on very stable libraries:</p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token comment">// OK - String is stable</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">UserService</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token class-name">String</span> <span class="token function">formatUserName</span><span class="token punctuation">(</span><span class="token class-name">User</span> user<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> user<span class="token punctuation">.</span><span class="token function">getFirstName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">" "</span> <span class="token operator">+</span> user<span class="token punctuation">.</span><span class="token function">getLastName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// OK - Java collections are stable</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">OrderService</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&#x3C;</span><span class="token class-name">Order</span><span class="token punctuation">></span></span> <span class="token function">getOrders</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token generics"><span class="token punctuation">&#x3C;</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="case-2-simple-utility-classes">Case 2: Simple Utility Classes</h3>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token comment">// OK for simple utilities</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">PriceCalculator</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">double</span> <span class="token function">calculate</span><span class="token punctuation">(</span><span class="token keyword">double</span> price<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> price <span class="token operator">*</span> <span class="token class-name">Math</span><span class="token punctuation">.</span><span class="token function">pow</span><span class="token punctuation">(</span><span class="token number">1.1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// Math is fine</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="case-3-value-objects">Case 3: Value Objects</h3>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token comment">// OK - value objects don't need abstraction</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">OrderService</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token class-name">Order</span> <span class="token function">createOrder</span><span class="token punctuation">(</span><span class="token class-name">Money</span> price<span class="token punctuation">,</span> <span class="token class-name">Customer</span> customer<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Order</span><span class="token punctuation">(</span>price<span class="token punctuation">,</span> customer<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="dip-and-other-solid-principles">DIP and Other SOLID Principles</h2>
+<p>DIP works with the other principles:</p>
+<ul>
+<li><strong>Single Responsibility</strong>: Each abstraction has one reason to change</li>
+<li><strong>Open/Closed</strong>: Add new implementations without changing high-level code</li>
+<li><strong>Liskov Substitution</strong>: Implementations must be proper substitutes</li>
+<li><strong>Interface Segregation</strong>: Keep abstractions focused</li>
+</ul>
+<p>Together, they create maintainable systems.</p>
 <h2 id="conclusion">Conclusion</h2>
-<p>The Dependency Inversion Principle is a cornerstone of good software design. By ensuring that high-level modules depend on abstractions rather than concrete implementations, DIP promotes decoupling, maintainability, testability, and scalability. Applying DIP in Java involves identifying and creating appropriate abstractions, then using dependency injection to manage dependencies.</p>
-<p>By following DIP, developers can build more robust, flexible, and maintainable systems, capable of adapting to changing requirements and technologies with minimal friction.</p> </div>  <section class="series-navigation" data-astro-cid-2hl7stop> <div class="series-header" data-astro-cid-2hl7stop> <span class="series-badge" data-astro-cid-2hl7stop>📚 Series</span> <h3 data-astro-cid-2hl7stop>SOLID Principles</h3> <p class="series-progress" data-astro-cid-2hl7stop>Part 5 of 6</p> </div> <div class="series-list" data-astro-cid-2hl7stop> <div class="series-item  completed" data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>1</span> <a href="/single-responsibility-principle/" class="series-title" data-astro-cid-2hl7stop> S from SOLID </a> <span class="check-icon" title="Completed" data-astro-cid-2hl7stop>✓</span> </div><div class="series-item  completed" data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>2</span> <a href="/open-closed-principle/" class="series-title" data-astro-cid-2hl7stop> O from SOLID </a> <span class="check-icon" title="Completed" data-astro-cid-2hl7stop>✓</span> </div><div class="series-item  completed" data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>3</span> <a href="/liskov-substitution-principle/" class="series-title" data-astro-cid-2hl7stop> L from SOLID </a> <span class="check-icon" title="Completed" data-astro-cid-2hl7stop>✓</span> </div><div class="series-item  completed" data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>4</span> <a href="/interface-segregation-principle/" class="series-title" data-astro-cid-2hl7stop> I from SOLID </a> <span class="check-icon" title="Completed" data-astro-cid-2hl7stop>✓</span> </div><div class="series-item current " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>5</span> <span class="series-title current-title" data-astro-cid-2hl7stop>D from SOLID</span>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>6</span> <a href="/solid-principles/" class="series-title" data-astro-cid-2hl7stop> SOLID </a>  </div> </div> <div class="series-nav-buttons" data-astro-cid-2hl7stop> <a href="/interface-segregation-principle/" class="series-nav-btn prev" data-astro-cid-2hl7stop> <span class="nav-label" data-astro-cid-2hl7stop>← Previous</span> <span class="nav-title" data-astro-cid-2hl7stop>I from SOLID</span> </a> <a href="/solid-principles/" class="series-nav-btn next" data-astro-cid-2hl7stop> <span class="nav-label" data-astro-cid-2hl7stop>Next →</span> <span class="nav-title" data-astro-cid-2hl7stop>SOLID</span> </a> </div> </section>   <section class="related-posts" data-astro-cid-dpgbfi7r> <h2 data-astro-cid-dpgbfi7r>Related Posts</h2> <div class="related-posts-grid" data-astro-cid-dpgbfi7r> <article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/interface-segregation-principle/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>I from SOLID</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>Interface Segregation Principle (ISP) in Java Introduction The Interface Segregation Principle (ISP) is one of the five…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2024-07-10T23:00:46.000Z" data-astro-cid-dpgbfi7r> Jul 10, 2024 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>4 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/liskov-substitution-principle/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>L from SOLID</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>The Liskov Substitution Principle (LSP) in Object-Oriented Design Introduction The Liskov Substitution Principle (LSP)…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2024-06-19T23:00:46.000Z" data-astro-cid-dpgbfi7r> Jun 19, 2024 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>4 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/open-closed-principle/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>O from SOLID</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>Open/Closed Principle (OCP) in Software Design Introduction The Open/Closed Principle (OCP) is the second SOLID…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2024-06-09T23:00:46.000Z" data-astro-cid-dpgbfi7r> Jun 9, 2024 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>3 min read</span> </div> </a> </article> </div> </section>  </article> </div> <div class="back-link" data-astro-cid-yvbahnfj><a href="/" data-astro-cid-yvbahnfj>← Back to home</a></div>  </main> <!-- Site Footer --> <footer class="site-footer container"> <p>
+<p>The Dependency Inversion Principle is about controlling which direction dependencies flow. Instead of high-level business logic depending on low-level implementation details, both depend on abstractions.</p>
+<p>Think of abstractions as contracts. Your business logic says “I need something that can store orders” (the contract). You can then plug in any implementation that fulfills that contract—MySQL, PostgreSQL, MongoDB, an in-memory store for testing, whatever.</p>
+<p>When you follow DIP:</p>
+<ul>
+<li>Your code becomes testable without external dependencies</li>
+<li>You can swap implementations easily</li>
+<li>Changes to details don’t affect business logic</li>
+<li>Your architecture becomes flexible and maintainable</li>
+</ul>
+<p>When you violate DIP:</p>
+<ul>
+<li>Your business logic is tightly coupled to implementation details</li>
+<li>Testing requires full infrastructure</li>
+<li>Changing implementations requires rewriting business logic</li>
+<li>Your architecture becomes rigid and fragile</li>
+</ul>
+<p>Remember: <strong>Depend on abstractions, not concretions.</strong> Your business logic is precious—don’t pollute it with implementation details. Let the details depend on the abstractions, not the other way around.</p>
+<p>The key insight: It’s not just about creating interfaces—it’s about inverting the traditional dependency flow so that details (low-level modules) depend on business rules (high-level modules) through shared abstractions. That’s the “inversion” in Dependency Inversion Principle.</p> </div>  <section class="series-navigation" data-astro-cid-2hl7stop> <div class="series-header" data-astro-cid-2hl7stop> <span class="series-badge" data-astro-cid-2hl7stop>📚 Series</span> <h3 data-astro-cid-2hl7stop>SOLID Principles</h3> <p class="series-progress" data-astro-cid-2hl7stop>Part 5 of 6</p> </div> <div class="series-list" data-astro-cid-2hl7stop> <div class="series-item  completed" data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>1</span> <a href="/single-responsibility-principle/" class="series-title" data-astro-cid-2hl7stop> S (Single Responsibility) from SOLID </a> <span class="check-icon" title="Completed" data-astro-cid-2hl7stop>✓</span> </div><div class="series-item  completed" data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>2</span> <a href="/open-closed-principle/" class="series-title" data-astro-cid-2hl7stop> O (Open/Closed) from SOLID </a> <span class="check-icon" title="Completed" data-astro-cid-2hl7stop>✓</span> </div><div class="series-item  completed" data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>3</span> <a href="/liskov-substitution-principle/" class="series-title" data-astro-cid-2hl7stop> L (Liskov Substitution) from SOLID </a> <span class="check-icon" title="Completed" data-astro-cid-2hl7stop>✓</span> </div><div class="series-item  completed" data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>4</span> <a href="/interface-segregation-principle/" class="series-title" data-astro-cid-2hl7stop> I (Interface Segregation) from SOLID </a> <span class="check-icon" title="Completed" data-astro-cid-2hl7stop>✓</span> </div><div class="series-item current " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>5</span> <span class="series-title current-title" data-astro-cid-2hl7stop>D (Dependency Inversion) from SOLID</span>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>6</span> <a href="/solid-principles/" class="series-title" data-astro-cid-2hl7stop> SOLID </a>  </div> </div> <div class="series-nav-buttons" data-astro-cid-2hl7stop> <a href="/interface-segregation-principle/" class="series-nav-btn prev" data-astro-cid-2hl7stop> <span class="nav-label" data-astro-cid-2hl7stop>← Previous</span> <span class="nav-title" data-astro-cid-2hl7stop>I (Interface Segregation) from SOLID</span> </a> <a href="/solid-principles/" class="series-nav-btn next" data-astro-cid-2hl7stop> <span class="nav-label" data-astro-cid-2hl7stop>Next →</span> <span class="nav-title" data-astro-cid-2hl7stop>SOLID</span> </a> </div> </section>   <section class="related-posts" data-astro-cid-dpgbfi7r> <h2 data-astro-cid-dpgbfi7r>Related Posts</h2> <div class="related-posts-grid" data-astro-cid-dpgbfi7r> <article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/interface-segregation-principle/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>I (Interface Segregation) from SOLID</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>The Interface Segregation Principle: Why Your Interfaces Are Probably Too Fat What Is Interface Segregation, Really?…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2024-06-20T23:00:46.000Z" data-astro-cid-dpgbfi7r> Jun 20, 2024 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>17 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/liskov-substitution-principle/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>L (Liskov Substitution) from SOLID</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>The Liskov Substitution Principle: Why Your Inheritance Might Be Lying to You What Is Liskov Substitution, Really? Let…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2024-06-19T23:00:46.000Z" data-astro-cid-dpgbfi7r> Jun 19, 2024 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>17 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/open-closed-principle/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>O (Open/Closed) from SOLID</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>The Open/Closed Principle: How to Add Features Without Breaking Everything What Does &quot;Open/Closed&quot; Even Mean? Here&#39;s a…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2024-06-09T23:00:46.000Z" data-astro-cid-dpgbfi7r> Jun 9, 2024 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>15 min read</span> </div> </a> </article> </div> </section>  </article> </div> <div class="back-link" data-astro-cid-yvbahnfj><a href="/" data-astro-cid-yvbahnfj>← Back to home</a></div>  </main> <!-- Site Footer --> <footer class="site-footer container"> <p>
 © 2025 AREZKI El Mehdi •
 <a href="https://github.com/earezki">GitHub</a> •
 <a href="/rss.xml">RSS</a> •
