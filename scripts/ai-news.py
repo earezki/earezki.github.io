@@ -9,6 +9,7 @@ from trafilatura import fetch_url, extract
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import PromptTemplate
+from fuzzywuzzy import fuzz
 
 load_dotenv()
 
@@ -174,6 +175,15 @@ def process_entry(entry, chain):
     if os.path.exists(filename):
         print("Already processed, skipping")
         return False
+    
+    # Check for similar articles already in the directory (fuzzy matching)
+    existing_files = [f for f in os.listdir(OUTPUT_DIR) if f.endswith('.md')]
+    for existing_file in existing_files:
+        existing_title = existing_file.replace('.md', '').split('-', 3)[-1]  # Extract title from filename
+        similarity = fuzz.ratio(entry['title'].lower(), existing_title.lower())
+        if similarity >= 75:  # Threshold for similarity
+            print(f"Similar article already exists (similarity: {similarity}%): {existing_file}")
+            return False
 
     downloaded = fetch_url(entry['link'])
     if not downloaded:
@@ -364,7 +374,7 @@ def main():
         except Exception as e:
             print(f"Error processing {entry['title']}: {e}")
 
-    end_of_week = True#date.today().weekday() == 6  # Sunday
+    end_of_week = date.today().weekday() == 6  # Sunday
     if end_of_week:
         print("End of week detected, summarizing weekly articles!")
         summarize_weekly_articles()
