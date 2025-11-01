@@ -67,7 +67,7 @@ def create_prompt():
         categories: ["AI News", "Topic1", "Topic2"]
         ---
 
-        ## Main Heading
+        ## Main Heading (essence of the article)
 
         Content with proper Markdown formatting...
 
@@ -203,6 +203,133 @@ def deploy_changes():
     os.system("git push origin master")
     print("Deployed successfully")
 
+def recent_articles():
+    import re
+
+    date_re = re.compile(r'^(\d{4}-\d{2}-\d{2})')
+    cutoff = date.today() - timedelta(days=7)
+    recent_files = []
+    for file in os.listdir(OUTPUT_DIR):
+        if not file.endswith('.md'):
+            continue
+        m = date_re.match(file) 
+        if not m:
+            # skip files without a leading date in the expected format
+            continue
+        try:
+            file_date = date.fromisoformat(m.group(1))
+        except ValueError:
+            # skip invalid dates
+            continue
+        if file_date >= cutoff:
+            recent_files.append(file)
+
+    return recent_files
+
+def summarize_weekly_articles():
+    """Create a consolidated weekly summary of all articles from the past week"""
+    weekly_articles = recent_articles()
+    
+    if not weekly_articles:
+        print("No articles found for this week")
+        return
+    
+    # Parse all articles and extract metadata + content
+    parsed_articles = []
+    for article_file in weekly_articles:
+        article_path = os.path.join(OUTPUT_DIR, article_file)
+        with open(article_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+            
+            # Extract YAML frontmatter
+            frontmatter_match = re.match(r'^---\s*\n(.*?)\n---\s*\n(.*)$', content, re.DOTALL)
+            if not frontmatter_match:
+                print(f"Skipping {article_file}: no valid frontmatter")
+                continue
+            
+            frontmatter_text = frontmatter_match.group(1)
+            body = frontmatter_match.group(2).strip()
+            
+            # Parse frontmatter fields
+            title_match = re.search(r'title:\s*["\']?(.*?)["\']?\s*$', frontmatter_text, re.MULTILINE)
+            pubdate_match = re.search(r'pubDate:\s*(\d{4}-\d{2}-\d{2})', frontmatter_text)
+            desc_match = re.search(r'description:\s*["\']?(.*?)["\']?\s*$', frontmatter_text, re.MULTILINE)
+            
+            title = title_match.group(1).strip('"\'') if title_match else article_file
+            pubdate_str = pubdate_match.group(1) if pubdate_match else date.today().isoformat()
+            description = desc_match.group(1).strip('"\'') if desc_match else ""
+            
+            # Get first 20 words of description for summary
+            desc_words = description.split()[:20]
+            short_desc = ' '.join(desc_words) + ('...' if len(description.split()) > 20 else '')
+            
+            parsed_articles.append({
+                'title': title,
+                'pubDate': datetime.strptime(pubdate_str, '%Y-%m-%d').date(),
+                'description': description,
+                'short_desc': short_desc,
+                'body': body,
+                'filename': article_file
+            })
+    
+    if not parsed_articles:
+        print("No valid articles to summarize")
+        return
+    
+    parsed_articles.sort(key=lambda x: x['pubDate'], reverse=True)
+    
+    earliest_date = parsed_articles[-1]['pubDate']
+    latest_date = parsed_articles[0]['pubDate']
+    week_range = f"{earliest_date.strftime('%b %d')} - {latest_date.strftime('%b %d, %Y')}"
+    
+    all_short_descs = ' | '.join([art['short_desc'] for art in parsed_articles])
+    
+    summary_filename = f"{OUTPUT_DIR}/weekly-summary-{latest_date.isoformat()}.md"
+    
+    with open(summary_filename, 'w', encoding='utf-8') as f:
+        # Headers
+        f.write("---\n")
+        f.write(f'title: "AI News Weekly Summary: {week_range}"\n')
+        f.write(f"pubDate: {latest_date.isoformat()}\n")
+        f.write(f'description: "{all_short_descs[:300]}..."\n')
+        f.write('categories: ["AI News", "Weekly Summary"]\n')
+        f.write("---\n\n")
+        
+        # Write introduction with article index
+        f.write(f"## Weekly Summary: {week_range}\n\n")
+        f.write(f"This week's highlights include {len(parsed_articles)} articles covering:\n\n")
+        
+        for i, article in enumerate(parsed_articles, 1):
+            # Create anchor link from title
+            anchor = article['title'].lower().replace(' ', '-').replace(':', '').replace(',', '')
+            anchor = re.sub(r'[^a-z0-9-]', '', anchor)
+            f.write(f"{i}. [{article['title']}](#{anchor})\n")
+        
+        f.write("\n---\n\n")
+        
+        # Write each article with its content
+        for i, article in enumerate(parsed_articles, 1):
+            anchor = article['title'].lower().replace(' ', '-').replace(':', '').replace(',', '')
+            anchor = re.sub(r'[^a-z0-9-]', '', anchor)
+            
+            f.write(f'<a id="{anchor}"></a>\n\n')
+            f.write(f"## {i}. {article['title']}\n\n")
+            f.write(f"*Published: {article['pubDate'].strftime('%B %d, %Y')}*\n\n")
+            
+            f.write(article['body'])
+            f.write("\n\n")
+            
+            # Add separator between articles (except for the last one)
+            if i < len(parsed_articles):
+                f.write("---\n\n")
+        
+        f.write("\n---\n\n")
+        f.write("*End of Weekly Summary*\n\n")
+        f.write("[↑ Back to top](#weekly-summary-" + week_range.lower().replace(' ', '-').replace(',', '') + ")\n")
+    
+    print(f"Weekly summary created: {summary_filename}")
+    print(f" - {len(parsed_articles)} articles")
+    print(f" - Date range: {week_range}")
 
 def main():
     print(f"=== AI Articles Script: {datetime.now().isoformat()} ===")
@@ -236,6 +363,11 @@ def main():
                     break
         except Exception as e:
             print(f"Error processing {entry['title']}: {e}")
+
+    end_of_week = True#date.today().weekday() == 6  # Sunday
+    if end_of_week:
+        print("End of week detected, summarizing weekly articles!")
+        summarize_weekly_articles()
 
     if processed_count > 0:
         deploy_changes()
