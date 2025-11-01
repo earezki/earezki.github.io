@@ -29,10 +29,10 @@ const tags = Array.from(tagMap.entries()).sort((a,b) => a[0].localeCompare(b[0])
 ---
 <BaseLayout title="Tags" description="Browse posts by category/tag">
   <h1>Tags</h1>
-  <ul style="list-style:none; padding:0; display:flex; flex-wrap:wrap; gap:.6rem;">
-    <li><a class="tag ai-news-tag" href="/ai-news/">AI News <span style="opacity:.6;">({ainewsPosts.length})</span></a></li>
-    {tags.map(([name,count]) => (
-      <li><a class="tag" href={`/tags/${encodeURIComponent(name.toLowerCase().replace(/\s+/g,'-'))}/`}>{name} <span style="opacity:.6;">({count})</span></a></li>
+  <ul style="list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 0.75rem;">
+    <li><a class="post-tag ai-news-tag" href="/ai-news/">AI News <span style="opacity:.6;">({ainewsPosts.length})</span></a></li>
+    {tags.map(([name, count]) => (
+      <li><a class="post-tag" href={`/tags/${encodeURIComponent(name.toLowerCase().replace(/\s+/g,'-'))}/`}>{name} <span style="opacity:.6;">({count})</span></a></li>
     ))}
   </ul>
 </BaseLayout>

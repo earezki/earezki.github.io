@@ -65,7 +65,7 @@ const hasAINewsTag = post.data.categories?.some(
     <div class="tag-row">
       {post.data.categories.map((category: string) => {
         const isAINews = category.toLowerCase() === 'ai news';
-        const tagClass = `tag ${isAINews ? 'ai-news-tag' : ''}`;
+        const tagClass = `post-tag ${isAINews ? 'ai-news-tag' : ''}`;
         
         // AI News posts: make AI News tag clickable, others static
         if (collection === 'ainews' && isAINews) {
