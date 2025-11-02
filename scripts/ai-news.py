@@ -279,7 +279,6 @@ def summarize_weekly_articles():
                 'pubDate': datetime.strptime(pubdate_str, '%Y-%m-%d').date(),
                 'description': description,
                 'short_desc': short_desc,
-                'body': body,
                 'filename': article_file
             })
     
@@ -316,23 +315,7 @@ def summarize_weekly_articles():
             anchor = re.sub(r'[^a-z0-9-]', '', anchor)
             f.write(f"{i}. [{article['title']}](#{anchor})\n")
         
-        f.write("\n---\n\n")
-        
-        # Write each article with its content
-        for i, article in enumerate(parsed_articles, 1):
-            anchor = article['title'].lower().replace(' ', '-').replace(':', '').replace(',', '')
-            anchor = re.sub(r'[^a-z0-9-]', '', anchor)
-            
-            f.write(f'<a id="{anchor}"></a>\n\n')
-            f.write(f"## {i}. {article['title']}\n\n")
-            f.write(f"*Published: {article['pubDate'].strftime('%B %d, %Y')}*\n\n")
-            
-            f.write(article['body'])
-            f.write("\n\n")
-            
-            # Add separator between articles (except for the last one)
-            if i < len(parsed_articles):
-                f.write("---\n\n")
+        f.write("\n---\n\n")            
         
         f.write("\n---\n\n")
         f.write("*End of Weekly Summary*\n\n")
