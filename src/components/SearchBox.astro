@@ -1,14 +1,9 @@
 ---
-interface Props {
-  /** Unique identifier for this search instance */
-  containerId: string;
-}
-
-const { containerId } = Astro.props;
+// Redesigned search with vibration effect and enhanced UX
 ---
 
 <div class="search-container">
-  <div class="search-box">
+  <div class="search-box" id="search-box">
     <!-- Search icon -->
     <svg 
       width="18" 
@@ -29,16 +24,17 @@ const { containerId } = Astro.props;
     <!-- Search input -->
     <input 
       type="text" 
-      id={`search-input-${containerId}`}
-      placeholder="Search articles..." 
+      id="search-input"
+      placeholder="Search ..." 
       class="search-input"
       autocomplete="off"
       aria-label="Search articles"
+      minlength="3"
     />
 
     <!-- Clear button -->
     <button 
-      id={`clear-search-${containerId}`} 
+      id="clear-search" 
       class="clear-button" 
       style="display: none;"
       aria-label="Clear search"
@@ -59,9 +55,9 @@ const { containerId } = Astro.props;
     </button>
   </div>
 
-  <!-- Search results summary -->
+  <!-- Search results dropdown -->
   <div 
-    id={`search-results-${containerId}`} 
+    id="search-results" 
     class="search-results"
     role="status"
     aria-live="polite"
@@ -69,14 +65,26 @@ const { containerId } = Astro.props;
   </div>
 </div>
 
-<style>
+<style is:global>
   .search-container {
-    margin-bottom: 2rem;
+    margin: 0;
+    position: relative;
   }
   
   .search-box {
     position: relative;
     max-width: 600px;
+  }
+  
+  /* Subtle pulse animation on click */
+  @keyframes subtlePulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+  }
+  
+  .search-box.vibrating {
+    animation: subtlePulse 0.2s ease-in-out;
   }
   
   .search-icon {
@@ -86,6 +94,7 @@ const { containerId } = Astro.props;
     transform: translateY(-50%);
     color: var(--color-text-alt);
     pointer-events: none;
+    transition: color 0.2s ease;
   }
   
   .search-input {
@@ -96,13 +105,18 @@ const { containerId } = Astro.props;
     border-radius: var(--radius-md);
     background: var(--color-bg-alt);
     color: var(--color-text);
-    transition: border-color var(--transition), box-shadow var(--transition);
+    transition: all 0.2s ease;
   }
   
   .search-input:focus {
     outline: none;
     border-color: var(--color-accent);
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1), 0 4px 12px rgba(0, 0, 0, 0.08);
+    transform: translateY(-1px);
+  }
+  
+  .search-input:focus ~ .search-icon {
+    color: var(--color-accent);
   }
   
   .search-input::placeholder {
@@ -123,26 +137,321 @@ const { containerId } = Astro.props;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    transition: background var(--transition), color var(--transition);
+    transition: all 0.2s ease;
+    opacity: 0.7;
   }
   
   .clear-button:hover {
-    background: var(--color-bg);
-    color: var(--color-text);
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
   }
   
+  .clear-button:active {
+    transform: translateY(-50%) scale(0.95);
+  }
+  
+  /* Dropdown Results Container */
   .search-results {
-    margin-top: 0.5rem;
-    font-size: 0.85rem;
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    left: 0;
+    right: 0;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    max-height: 500px;
+    overflow-y: auto;
+    padding: 0.5rem;
+    box-shadow: 
+      0 8px 24px -4px rgba(99, 102, 241, 0.12),
+      0 4px 16px -2px rgba(168, 85, 247, 0.08);
+    z-index: 1000;
+    display: none;
+    animation: slideDown 0.25s cubic-bezier(0.4, 0.0, 0.2, 1);
+  }
+  
+  html[data-theme="dark"] .search-results {
+    box-shadow: 
+      0 8px 24px -4px rgba(99, 102, 241, 0.2),
+      0 4px 16px -2px rgba(168, 85, 247, 0.15);
+  }
+  
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-12px) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+  
+  /* Custom Scrollbar */
+  .search-results::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .search-results::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 0 12px 12px 0;
+  }
+  
+  .search-results::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 4px;
+    transition: background 0.2s ease;
+  }
+  
+  .search-results::-webkit-scrollbar-thumb:hover {
+    background: var(--color-text-alt);
+  }
+  
+  /* Search Result Card */
+  .search-result-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.15rem;
+    text-decoration: none;
+    color: var(--color-text);
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    margin-bottom: 0.5rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+  }
+  
+  /* Gradient border effect on hover */
+  .search-result-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-md);
+    padding: 1px;
+    background: linear-gradient(135deg, 
+      rgba(99, 102, 241, 0.3),
+      rgba(168, 85, 247, 0.3),
+      rgba(59, 130, 246, 0.3));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
+  }
+  
+  /* Hover gradient overlay */
+  .search-result-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, 
+      rgba(99, 102, 241, 0.06) 0%,
+      rgba(168, 85, 247, 0.04) 50%, 
+      rgba(59, 130, 246, 0.05) 100%);
+    opacity: 0;
+    transition: opacity 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
+    border-radius: var(--radius-md);
+  }
+  
+  html[data-theme="dark"] .search-result-card::before {
+    background: linear-gradient(135deg, 
+      rgba(99, 102, 241, 0.1) 0%,
+      rgba(168, 85, 247, 0.08) 50%, 
+      rgba(59, 130, 246, 0.09) 100%);
+  }
+  
+  .search-result-card:hover {
+    box-shadow: 0 8px 24px -4px rgba(99, 102, 241, 0.15),
+                0 4px 16px -2px rgba(168, 85, 247, 0.1);
+    transform: translateY(-3px) scale(1.01);
+    border-color: rgba(99, 102, 241, 0.4);
+  }
+  
+  html[data-theme="dark"] .search-result-card:hover {
+    box-shadow: 0 8px 24px -4px rgba(99, 102, 241, 0.25),
+                0 4px 16px -2px rgba(168, 85, 247, 0.2);
+  }
+  
+  .search-result-card:hover::before,
+  .search-result-card:hover::after {
+    opacity: 1;
+  }
+  
+  .search-result-card:active {
+    transform: translateY(-1px) scale(0.99);
+  }
+  
+  .search-result-card:last-child {
+    margin-bottom: 0;
+  }
+  
+  /* Card Content */
+  .search-result-content {
+    flex: 1;
+    min-width: 0;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .search-result-date {
+    font-size: 0.65rem;
     color: var(--color-text-alt);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.4rem;
+  }
+  
+  .search-result-title {
+    font-weight: 600;
+    font-size: 0.95rem;
+    line-height: 1.3;
+    color: var(--color-text);
+    margin: 0 0 0.35rem 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .search-result-card:hover .search-result-title {
+    color: var(--color-accent);
+  }
+  
+  .search-result-excerpt {
+    font-size: 0.78rem;
+    color: var(--color-text-alt);
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  /* Card Actions */
+  .search-result-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .search-result-icon {
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-alt);
+    transition: all 0.2s ease;
+  }
+  
+  .search-result-icon.read-indicator {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    border-color: #059669;
+    color: white;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+  }
+  
+  .search-result-icon.go-icon {
+    background: linear-gradient(135deg, 
+      rgba(99, 102, 241, 0.1) 0%, 
+      rgba(168, 85, 247, 0.1) 100%);
+    border-color: rgba(99, 102, 241, 0.3);
+    color: var(--color-accent);
+  }
+  
+  .search-result-card:hover .search-result-icon.go-icon {
+    background: linear-gradient(135deg, 
+      var(--color-accent) 0%, 
+      #7c3aed 100%);
+    color: white;
+    transform: translateX(3px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+  }
+  
+  /* No results state */
+  .search-no-results {
+    text-align: center;
+    padding: 2rem 1rem;
+    color: var(--color-text-alt);
+    font-size: 0.9rem;
+  }
+  
+  .search-no-results svg {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 1rem;
+    opacity: 0.3;
+  }
+  
+  /* More results indicator */
+  .search-more-results {
+    text-align: center;
+    padding: 0.875rem 1rem;
+    color: var(--color-text-alt);
+    font-size: 0.85rem;
+    font-weight: 500;
+    background: linear-gradient(135deg, 
+      rgba(99, 102, 241, 0.05) 0%,
+      rgba(168, 85, 247, 0.03) 100%);
+    border-top: 1px solid var(--color-border);
+    border-radius: 0 0 12px 12px;
+    margin: 0.5rem -0.5rem -0.5rem -0.5rem;
+    letter-spacing: 0.02em;
+  }
+  
+  .search-more-results strong {
+    color: var(--color-accent);
+    font-weight: 600;
+  }
+  
+  /* Mobile Responsiveness */
+  @media (max-width: 768px) {
+    .search-results {
+      max-height: 400px;
+      padding: 0.4rem;
+    }
+    
+    .search-result-card {
+      padding: 0.875rem 1rem;
+      gap: 0.75rem;
+    }
+    
+    .search-result-title {
+      font-size: 0.9rem;
+    }
+    
+    .search-result-excerpt {
+      font-size: 0.75rem;
+    }
+    
+    .search-result-icon {
+      width: 24px;
+      height: 24px;
+    }
   }
 </style>
 
 <script>
   /**
-   * Enhanced client-side search functionality
-   * Uses pre-generated search index for searching across ALL articles
-   * Searches title, excerpt, categories from both posts and AI news collections
+   * Client-side search functionality with:
+   * - Vibration effect on click
+   * - 3 character minimum
+   * - Top 6 results cap
+   * - Card layout with date, title, excerpt
+   * - Read indicator (checkmark icon)
+   * - Go/navigate icon (chevron-right)
    */
   
   // Search index cache
@@ -155,7 +464,6 @@ const { containerId } = Astro.props;
   async function loadSearchIndex(): Promise<any[]> {
     if (searchIndex) return searchIndex;
     if (isLoadingIndex) {
-      // Wait for existing load to complete
       await new Promise(resolve => setTimeout(resolve, 100));
       return loadSearchIndex();
     }
@@ -165,7 +473,6 @@ const { containerId } = Astro.props;
       const response = await fetch('/search.json');
       if (!response.ok) throw new Error('Failed to load search index');
       searchIndex = await response.json();
-      console.log(`[Search] Loaded ${searchIndex!.length} articles`);
       return searchIndex!;
     } catch (error) {
       console.error('[Search] Failed to load search index:', error);
@@ -176,115 +483,264 @@ const { containerId } = Astro.props;
   }
   
   /**
-   * Initialize search functionality for all search boxes
+   * Check if article has been read
+   */
+  function isArticleRead(url: string): boolean {
+    try {
+      const readArticles = JSON.parse(localStorage.getItem('readArticles') || '[]');
+      return readArticles.includes(url);
+    } catch {
+      return false;
+    }
+  }
+  
+  /**
+   * Initialize search functionality
    */
   document.addEventListener('DOMContentLoaded', async function() {
-    const searchContainers = document.querySelectorAll('.search-container');
+    const searchBox = document.getElementById('search-box') as HTMLElement;
+    const searchInput = document.getElementById('search-input') as HTMLInputElement;
+    const clearButton = document.getElementById('clear-search') as HTMLButtonElement;
+    const searchResults = document.getElementById('search-results') as HTMLElement;
+    const searchContainer = document.querySelector('.search-container');
+    
+    if (!searchInput || !searchResults || !searchBox) return;
     
     // Pre-load search index
     await loadSearchIndex();
     
-    searchContainers.forEach(function(container) {
-      const searchInput = container.querySelector('.search-input') as HTMLInputElement;
-      const clearButton = container.querySelector('.clear-button') as HTMLButtonElement;
-      const searchResults = container.querySelector('.search-results') as HTMLElement;
-      const postsGrid = document.querySelector('.posts-grid');
-      
-      if (!searchInput || !postsGrid) return;
-      
-      let allPostElements: Map<string, HTMLElement> = new Map();
-      
-      /**
-       * Map post elements by URL for fast lookup
-       */
-      function mapPostElements() {
-        if (!postsGrid) return;
-        const postCards = postsGrid.querySelectorAll('.post-card');
-        postCards.forEach(function(card: Element) {
-          const linkElement = card.querySelector('h3 a') as HTMLAnchorElement;
-          if (linkElement) {
-            const url = linkElement.getAttribute('href');
-            if (url) {
-              allPostElements.set(url, card as HTMLElement);
-            }
-          }
-        });
+    // Cache to prevent unnecessary re-renders
+    let lastQuery = '';
+    let lastResultsHash = '';
+    
+    // Vibration effect on focus
+    searchInput.addEventListener('focus', function() {
+      searchBox.classList.add('vibrating');
+      setTimeout(() => {
+        searchBox.classList.remove('vibrating');
+      }, 200);
+    });
+    
+    /**
+     * Search with 3-character minimum, 6-result cap, and keyword support
+     * Example: "pyth llm" finds articles matching both "python" AND "llm"
+     */
+    async function performSearch(query: string) {
+      // Hide results if less than 3 characters
+      if (!query.trim() || query.trim().length < 3) {
+        searchResults.style.display = 'none';
+        if (clearButton) clearButton.style.display = query.length > 0 ? 'flex' : 'none';
+        lastQuery = '';
+        lastResultsHash = '';
+        return;
       }
       
-      /**
-       * Search through index and filter visible posts
-       */
-      async function performSearch(query: string) {
-        if (!query.trim()) {
-          // Reset: show all posts
-          allPostElements.forEach(element => {
-            element.style.display = '';
-          });
-          if (searchResults) searchResults.textContent = '';
-          if (clearButton) clearButton.style.display = 'none';
-          return;
-        }
+      // Skip if query hasn't changed
+      if (query === lastQuery) {
+        return;
+      }
+      lastQuery = query;
+      
+      if (clearButton) clearButton.style.display = 'flex';
+      
+      const index = await loadSearchIndex();
+      
+      // Split query into keywords and normalize
+      const keywords = query.toLowerCase()
+        .split(/\s+/)
+        .filter(k => k.length >= 2); // Ignore single-char keywords
+      
+      // Score each article based on keyword matches
+      const scoredArticles = index.map((article: any) => {
+        const titleLower = article.title.toLowerCase();
+        const excerptLower = article.excerpt.toLowerCase();
+        const categoriesLower = article.categories.map((c: string) => c.toLowerCase()).join(' ');
+        const combinedText = `${titleLower} ${excerptLower} ${categoriesLower}`;
         
-        if (clearButton) clearButton.style.display = 'flex';
+        let score = 0;
+        let matchedKeywords = 0;
         
-        const index = await loadSearchIndex();
-        const lowerQuery = query.toLowerCase();
-        
-        // Search through index
-        const matchingSlugs = new Set<string>();
-        index.forEach((article: any) => {
-          const titleMatch = article.title.toLowerCase().includes(lowerQuery);
-          const excerptMatch = article.excerpt.toLowerCase().includes(lowerQuery);
-          const categoryMatch = article.categories.some((cat: string) => 
-            cat.toLowerCase().includes(lowerQuery)
-          );
+        keywords.forEach(keyword => {
+          // Check title (highest weight)
+          if (titleLower.includes(keyword)) {
+            score += 10;
+            matchedKeywords++;
+          }
           
-          if (titleMatch || excerptMatch || categoryMatch) {
-            matchingSlugs.add(article.url);
+          // Check categories (medium weight)
+          if (categoriesLower.includes(keyword)) {
+            score += 5;
+            matchedKeywords++;
+          }
+          
+          // Check excerpt (lower weight)
+          if (excerptLower.includes(keyword)) {
+            score += 2;
+            matchedKeywords++;
           }
         });
         
-        // Update visibility
-        let visibleCount = 0;
-        allPostElements.forEach((element, url) => {
-          if (matchingSlugs.has(url)) {
-            element.style.display = '';
-            visibleCount++;
-          } else {
-            element.style.display = 'none';
-          }
-        });
-        
-        // Update results message
-        if (searchResults) {
-          if (visibleCount === 0) {
-            searchResults.textContent = 'No articles found matching your search.';
-          } else if (visibleCount === 1) {
-            searchResults.textContent = '1 article found';
-          } else {
-            searchResults.textContent = `${visibleCount} articles found`;
-          }
+        // Only include if ALL keywords match (AND logic)
+        if (matchedKeywords >= keywords.length) {
+          return { article, score, matchedKeywords };
         }
+        return null;
+      }).filter(Boolean) as Array<{ article: any; score: number; matchedKeywords: number }>;
+      
+      // Sort by score (highest first)
+      const sorted = scoredArticles
+        .sort((a, b) => b.score - a.score)
+        .map(item => item.article);
+      
+      // Create hash of results to detect changes
+      const resultsHash = sorted.slice(0, 6).map(a => a.url).join('|');
+      
+      // Only update if results have changed
+      if (resultsHash !== lastResultsHash) {
+        lastResultsHash = resultsHash;
+        displaySearchResults(sorted);
+      }
+    }
+    
+    /**
+     * Display search results with new card design and "more results" indicator
+     * Only called when results actually change to prevent blinking
+     */
+    function displaySearchResults(articles: any[]) {
+      searchResults.innerHTML = '';
+      
+      if (articles.length === 0) {
+        searchResults.innerHTML = `
+          <div class="search-no-results">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <div>No results found. Try different keywords.</div>
+          </div>
+        `;
+        searchResults.style.display = 'block';
+        return;
       }
       
-      // Initialize
-      mapPostElements();
+      const totalResults = articles.length;
+      const displayedArticles = articles.slice(0, 6);
       
-      // Event listeners with debouncing for performance
-      let searchTimeout: number;
-      searchInput.addEventListener('input', function(e) {
-        clearTimeout(searchTimeout);
-        searchTimeout = window.setTimeout(() => {
-          performSearch((e.target as HTMLInputElement).value);
-        }, 150); // 150ms debounce
+      displayedArticles.forEach(function(article, index) {
+        // Format date
+        const date = new Date(article.pubDate);
+        const formattedDate = date.toLocaleDateString('en-US', { 
+          year: 'numeric', 
+          month: 'short', 
+          day: 'numeric' 
+        });
+        
+        // Truncate excerpt to ~10 words
+        const words = (article.excerpt || '').split(' ');
+        const truncatedExcerpt = words.slice(0, 10).join(' ') + (words.length > 10 ? '...' : '');
+        
+        // Check if article is read
+        const isRead = isArticleRead(article.url);
+        
+        // Create card element
+        const card = document.createElement('a');
+        card.href = article.url;
+        card.className = 'search-result-card';
+        
+        // Content section
+        const content = document.createElement('div');
+        content.className = 'search-result-content';
+        
+        const dateEl = document.createElement('div');
+        dateEl.className = 'search-result-date';
+        dateEl.textContent = formattedDate;
+        
+        const titleEl = document.createElement('h3');
+        titleEl.className = 'search-result-title';
+        titleEl.textContent = article.title;
+        
+        const excerptEl = document.createElement('p');
+        excerptEl.className = 'search-result-excerpt';
+        excerptEl.textContent = truncatedExcerpt;
+        
+        content.appendChild(dateEl);
+        content.appendChild(titleEl);
+        content.appendChild(excerptEl);
+        
+        // Actions section (icons)
+        const actions = document.createElement('div');
+        actions.className = 'search-result-actions';
+        
+        // Read indicator (checkmark)
+        if (isRead) {
+          const readIcon = document.createElement('div');
+          readIcon.className = 'search-result-icon read-indicator';
+          readIcon.title = 'Already read';
+          readIcon.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          `;
+          actions.appendChild(readIcon);
+        }
+        
+        // Go/navigate icon (chevron-right)
+        const goIcon = document.createElement('div');
+        goIcon.className = 'search-result-icon go-icon';
+        goIcon.title = 'Read article';
+        goIcon.innerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        `;
+        actions.appendChild(goIcon);
+        
+        card.appendChild(content);
+        card.appendChild(actions);
+        searchResults.appendChild(card);
       });
       
-      if (clearButton) {
-        clearButton.addEventListener('click', function() {
-          searchInput.value = '';
-          performSearch('');
-          searchInput.focus();
-        });
+      // Add "more results" indicator if results are capped
+      if (totalResults > 6) {
+        const moreResults = document.createElement('div');
+        moreResults.className = 'search-more-results';
+        const remaining = totalResults - 6;
+        moreResults.innerHTML = `<strong>+${remaining}</strong> more result${remaining !== 1 ? 's' : ''} not shown`;
+        searchResults.appendChild(moreResults);
+      }
+      
+      searchResults.style.display = 'block';
+    }
+    
+    // Input event with debouncing
+    let searchTimeout: number;
+    searchInput.addEventListener('input', function(e) {
+      clearTimeout(searchTimeout);
+      searchTimeout = window.setTimeout(() => {
+        performSearch((e.target as HTMLInputElement).value);
+      }, 150);
+    });
+    
+    // Clear search
+    if (clearButton) {
+      clearButton.addEventListener('click', function() {
+        searchInput.value = '';
+        searchResults.style.display = 'none';
+        clearButton.style.display = 'none';
+        searchInput.focus();
+      });
+    }
+    
+    // Close results when clicking outside
+    document.addEventListener('click', function(e) {
+      if (searchContainer && !searchContainer.contains(e.target as Node)) {
+        searchResults.style.display = 'none';
+      }
+    });
+    
+    // Reopen results on focus with existing query
+    searchInput.addEventListener('focus', function() {
+      if (searchInput.value.trim().length >= 3) {
+        performSearch(searchInput.value);
       }
     });
   });

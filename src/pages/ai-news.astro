@@ -1,7 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PostCard from '../components/PostCard.astro';
-import SearchBox from '../components/SearchBox.astro';
 import { SITE } from '../config/site';
 import { getPaginatedAinews } from '../utils/dataCache';
 
@@ -21,8 +20,6 @@ const { posts, totalPages } = pagination;
       <strong>AI-Generated Content:</strong> Articles in this section are created with AI assistance. Please verify important information and check original references before relying on the content.
     </div>
   </div>
-
-  <SearchBox containerId="ai-news" />
 
   <section class="posts-grid">
     {posts.length > 0 ? (
