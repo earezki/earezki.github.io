@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en" data-theme="dark"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><!-- Primary Meta Tags --><title>Anemic vs Rich Domain Models • Dev|Journal</title><meta name="description" content="An **Anemic Domain Model** is a model that is focused on the state of the object. This is not what is advised while using **Domain Driven Design** ( **DDD** )…"><meta name="keywords" content="Software design, Domain driven design"><meta name="author" content="El Mehdi Arezki"><!-- Open Graph / Facebook --><meta property="og:type" content="website"><meta property="og:url" content="https://earezki.com/anemic-vs-rich-domain-models/"><meta property="og:title" content="Anemic vs Rich Domain Models • Dev|Journal"><meta property="og:site_name" content="Dev|Journal"><meta property="og:description" content="An **Anemic Domain Model** is a model that is focused on the state of the object. This is not what is advised while using **Domain Driven Design** ( **DDD** )…"><meta property="og:image" content="https://earezki.com/assets/og-image-default.jpg"><!-- Twitter --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:url" content="https://earezki.com/anemic-vs-rich-domain-models/"><meta name="twitter:title" content="Anemic vs Rich Domain Models • Dev|Journal"><meta name="twitter:description" content="An **Anemic Domain Model** is a model that is focused on the state of the object. This is not what is advised while using **Domain Driven Design** ( **DDD** )…"><meta name="twitter:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:creator" content="@earezki"><!-- Canonical and Indexing --><link rel="canonical" href="https://earezki.com/anemic-vs-rich-domain-models/"><!-- Favicons --><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/x-icon" href="/favicon.ico"><!-- RSS Feed --><link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"><!-- Analytics: Google Analytics (Legacy UA) --><script async src="https://www.googletagmanager.com/gtag/js?id=UA-161447264-1"></script><script>
+<!DOCTYPE html><html lang="en" data-theme="dark"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><!-- Primary Meta Tags --><title>Anemic vs Rich Domain Models • Dev|Journal</title><meta name="description" content="This short article contrasts two approaches to modeling your domain: the Anemic Domain Model and the Rich Domain Model. Both are common in real systems; the…"><meta name="keywords" content="Software architecture, Software design, Domain driven design"><meta name="author" content="El Mehdi Arezki"><!-- Open Graph / Facebook --><meta property="og:type" content="website"><meta property="og:url" content="https://earezki.com/anemic-vs-rich-domain-models/"><meta property="og:title" content="Anemic vs Rich Domain Models • Dev|Journal"><meta property="og:site_name" content="Dev|Journal"><meta property="og:description" content="This short article contrasts two approaches to modeling your domain: the Anemic Domain Model and the Rich Domain Model. Both are common in real systems; the…"><meta property="og:image" content="https://earezki.com/assets/og-image-default.jpg"><!-- Twitter --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:url" content="https://earezki.com/anemic-vs-rich-domain-models/"><meta name="twitter:title" content="Anemic vs Rich Domain Models • Dev|Journal"><meta name="twitter:description" content="This short article contrasts two approaches to modeling your domain: the Anemic Domain Model and the Rich Domain Model. Both are common in real systems; the…"><meta name="twitter:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:creator" content="@earezki"><!-- Canonical and Indexing --><link rel="canonical" href="https://earezki.com/anemic-vs-rich-domain-models/"><!-- Favicons --><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/x-icon" href="/favicon.ico"><!-- RSS Feed --><link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"><!-- Analytics: Google Analytics (Legacy UA) --><script async src="https://www.googletagmanager.com/gtag/js?id=UA-161447264-1"></script><script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);} 
       gtag('js', new Date()); 
@@ -10,7 +10,7 @@
           document.documentElement.setAttribute('data-theme', theme); 
         }
       })();
-    </script><!-- Structured Data (JSON-LD) --><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Anemic vs Rich Domain Models","description":"An **Anemic Domain Model** is a model that is focused on the state of the object. This is not what is advised while using **Domain Driven Design** ( **DDD** )…","image":"https://earezki.com/assets/og-image-default.jpg","datePublished":"2020-03-24T04:49:46.000Z","dateModified":"2020-03-24T04:49:46.000Z","author":{"@type":"Person","name":"El Mehdi Arezki","url":"https://earezki.com/about","jobTitle":"Lead Software Engineer","sameAs":["https://github.com/earezki","https://www.linkedin.com/in/mehdi-arezki"]},"publisher":{"@type":"Organization","name":"Dev|Journal","url":"https://earezki.com","logo":{"@type":"ImageObject","url":"https://earezki.com/assets/logo.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://earezki.com/anemic-vs-rich-domain-models/"}}</script><link rel="stylesheet" href="/_astro/_slug_.CkZMBqUs.css">
+    </script><!-- Structured Data (JSON-LD) --><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Anemic vs Rich Domain Models","description":"This short article contrasts two approaches to modeling your domain: the Anemic Domain Model and the Rich Domain Model. Both are common in real systems; the…","image":"https://earezki.com/assets/og-image-default.jpg","datePublished":"2020-03-24T04:49:46.000Z","dateModified":"2020-03-24T04:49:46.000Z","author":{"@type":"Person","name":"El Mehdi Arezki","url":"https://earezki.com/about","jobTitle":"Lead Software Engineer","sameAs":["https://github.com/earezki","https://www.linkedin.com/in/mehdi-arezki"]},"publisher":{"@type":"Organization","name":"Dev|Journal","url":"https://earezki.com","logo":{"@type":"ImageObject","url":"https://earezki.com/assets/logo.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://earezki.com/anemic-vs-rich-domain-models/"}}</script><link rel="stylesheet" href="/_astro/_slug_.Br3Nim2p.css">
 <style>.toc[data-astro-cid-xvrfupwn]{position:sticky;top:90px;max-height:calc(100vh - 120px);overflow:auto;padding:1rem 1rem 1.2rem;background:var(--color-bg-alt);border:1px solid var(--color-border);border-radius:var(--radius-md);font-size:.8rem;line-height:1.3}.toc-title[data-astro-cid-xvrfupwn]{font-weight:600;font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.6rem;color:var(--color-text-alt)}.toc[data-astro-cid-xvrfupwn] ul[data-astro-cid-xvrfupwn]{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.35rem}.toc[data-astro-cid-xvrfupwn] a[data-astro-cid-xvrfupwn]{text-decoration:none;color:var(--color-text-alt);transition:color var(--transition)}.toc[data-astro-cid-xvrfupwn] a[data-astro-cid-xvrfupwn]:hover{color:var(--color-accent)}.toc[data-astro-cid-xvrfupwn] li[data-astro-cid-xvrfupwn][class*=d-3]{margin-left:.75rem}.toc[data-astro-cid-xvrfupwn] li[data-astro-cid-xvrfupwn][class*=d-4]{margin-left:1.4rem}@media (max-width: 1080px){.toc[data-astro-cid-xvrfupwn]{display:none}}.breadcrumbs[data-astro-cid-ilhxcym7]{margin:0 0 1.5rem;font-size:.85rem}.breadcrumbs[data-astro-cid-ilhxcym7] ol[data-astro-cid-ilhxcym7]{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;align-items:center;gap:.5rem}.breadcrumbs[data-astro-cid-ilhxcym7] li[data-astro-cid-ilhxcym7]{display:flex;align-items:center;gap:.5rem}.breadcrumbs[data-astro-cid-ilhxcym7] a[data-astro-cid-ilhxcym7]{color:var(--color-text-alt);text-decoration:none;transition:color var(--transition)}.breadcrumbs[data-astro-cid-ilhxcym7] a[data-astro-cid-ilhxcym7]:hover{color:var(--color-accent);text-decoration:underline}.breadcrumbs[data-astro-cid-ilhxcym7] .separator[data-astro-cid-ilhxcym7]{color:var(--color-text-alt);opacity:.5;user-select:none}.breadcrumbs[data-astro-cid-ilhxcym7] .current[data-astro-cid-ilhxcym7]{color:var(--color-text);font-weight:500}.related-posts[data-astro-cid-dpgbfi7r]{margin:3rem 0;padding-top:2rem;border-top:2px solid var(--color-border)}.related-posts[data-astro-cid-dpgbfi7r] h2[data-astro-cid-dpgbfi7r]{font-size:1.5rem;margin:0 0 1.5rem;color:var(--color-text)}.related-posts-grid[data-astro-cid-dpgbfi7r]{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem}.related-post-card[data-astro-cid-dpgbfi7r]{background:var(--color-bg-alt);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;transition:all var(--transition)}.related-post-card[data-astro-cid-dpgbfi7r]:hover{border-color:var(--color-accent);transform:translateY(-2px);box-shadow:var(--shadow-md)}.related-post-link[data-astro-cid-dpgbfi7r]{text-decoration:none;color:inherit;display:block}.related-post-card[data-astro-cid-dpgbfi7r] h3[data-astro-cid-dpgbfi7r]{margin:0 0 .75rem;font-size:1.1rem;font-weight:600;color:var(--color-text);line-height:1.3}.related-post-link[data-astro-cid-dpgbfi7r]:hover h3[data-astro-cid-dpgbfi7r]{color:var(--color-accent)}.related-excerpt[data-astro-cid-dpgbfi7r]{font-size:.85rem;color:var(--color-text-alt);line-height:1.5;margin:0 0 .75rem}.related-meta[data-astro-cid-dpgbfi7r]{font-size:.75rem;color:var(--color-text-alt);display:flex;gap:.5rem;align-items:center}@media (max-width: 680px){.related-posts-grid[data-astro-cid-dpgbfi7r]{grid-template-columns:1fr}}
 .series-navigation[data-astro-cid-2hl7stop]{margin:2rem 0 3rem;padding:1.5rem;background:linear-gradient(135deg,#2563eb0d,#6366f10d);border:1px solid var(--color-border);border-radius:var(--radius-md)}html[data-theme=dark] .series-navigation[data-astro-cid-2hl7stop]{background:linear-gradient(135deg,#2563eb1a,#6366f11a)}.series-header[data-astro-cid-2hl7stop]{margin-bottom:1.25rem}.series-badge[data-astro-cid-2hl7stop]{display:inline-block;font-size:.75rem;font-weight:600;color:var(--color-accent);background:#2563eb1a;padding:.25rem .75rem;border-radius:var(--radius-pill);margin-bottom:.5rem}.series-header[data-astro-cid-2hl7stop] h3[data-astro-cid-2hl7stop]{margin:.5rem 0 .25rem;font-size:1.25rem;color:var(--color-text)}.series-progress[data-astro-cid-2hl7stop]{font-size:.85rem;color:var(--color-text-alt);margin:0}.series-list[data-astro-cid-2hl7stop]{display:flex;flex-direction:column;gap:.75rem;margin:1.5rem 0}.series-item[data-astro-cid-2hl7stop]{display:flex;align-items:center;gap:.75rem;padding:.75rem;background:var(--color-bg);border:1px solid var(--color-border);border-radius:var(--radius-sm);transition:all var(--transition)}.series-item[data-astro-cid-2hl7stop]:hover{border-color:var(--color-accent)}.series-item[data-astro-cid-2hl7stop].current{background:var(--color-accent);border-color:var(--color-accent)}.series-item[data-astro-cid-2hl7stop].completed{opacity:.7}.series-number[data-astro-cid-2hl7stop]{flex-shrink:0;width:28px;height:28px;display:flex;align-items:center;justify-content:center;background:var(--color-bg-alt);color:var(--color-text-alt);border-radius:50%;font-size:.85rem;font-weight:600}.series-item[data-astro-cid-2hl7stop].current .series-number[data-astro-cid-2hl7stop]{background:#fff3;color:#fff}.series-title[data-astro-cid-2hl7stop]{flex:1;font-size:.95rem;color:var(--color-text);text-decoration:none;transition:color var(--transition)}.series-title[data-astro-cid-2hl7stop]:hover{color:var(--color-accent)}.series-item[data-astro-cid-2hl7stop].current .current-title[data-astro-cid-2hl7stop]{color:#fff;font-weight:600}.check-icon[data-astro-cid-2hl7stop]{flex-shrink:0;color:#10b981;font-size:1.1rem}.series-nav-buttons[data-astro-cid-2hl7stop]{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--color-border)}.series-nav-btn[data-astro-cid-2hl7stop]{display:flex;flex-direction:column;gap:.25rem;padding:1rem;background:var(--color-bg);border:1px solid var(--color-border);border-radius:var(--radius-sm);text-decoration:none;transition:all var(--transition)}.series-nav-btn[data-astro-cid-2hl7stop]:hover{border-color:var(--color-accent);transform:translateY(-2px);box-shadow:var(--shadow-sm)}.series-nav-btn[data-astro-cid-2hl7stop].next{text-align:right}.nav-label[data-astro-cid-2hl7stop]{font-size:.75rem;color:var(--color-text-alt);font-weight:600;text-transform:uppercase;letter-spacing:.05em}.nav-title[data-astro-cid-2hl7stop]{font-size:.9rem;color:var(--color-text);font-weight:500}.series-nav-btn[data-astro-cid-2hl7stop]:hover .nav-title[data-astro-cid-2hl7stop]{color:var(--color-accent)}@media (max-width: 680px){.series-navigation[data-astro-cid-2hl7stop]{padding:1rem}.series-nav-buttons[data-astro-cid-2hl7stop]{grid-template-columns:1fr}.series-nav-btn[data-astro-cid-2hl7stop].next{text-align:left}}.post-layout[data-astro-cid-yvbahnfj]{display:grid;grid-template-columns:260px 1fr;gap:2.5rem}.sidebar-left[data-astro-cid-yvbahnfj]{position:relative}@media (max-width: 1080px){.post-layout[data-astro-cid-yvbahnfj]{grid-template-columns:1fr}}
 </style><script type="module" src="/_astro/hoisted.wYJRanuh.js"></script></head> <body> <div id="readingProgress" role="progressbar" aria-label="Reading progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="position:fixed;left:0;top:0;height:3px;background:linear-gradient(90deg,#2563eb,#9333ea);width:0;z-index:999;transition:width .15s ease;"></div>  <!-- Site Header --> <header class="site-header container"> <div class="logo-wrap"> <a class="logo" href="/" aria-label="Dev|Journal Home">
@@ -21,16 +21,144 @@ Home
 AI News
 </a> <a href="/about/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <circle cx="12" cy="12" r="10"></circle> <path d="M12 16v-4"></path> <path d="M12 8h.01"></path> </svg>
 About
-</a> <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode"> <span class="theme-icon" aria-hidden="true">☾</span> </button> </nav> </header> <!-- Main Content --> <main class="container content-area">  <nav class="breadcrumbs" aria-label="Breadcrumb" data-astro-cid-ilhxcym7> <ol data-astro-cid-ilhxcym7> <li data-astro-cid-ilhxcym7>  <a href="/" data-astro-cid-ilhxcym7>Home</a> <span class="separator" aria-hidden="true" data-astro-cid-ilhxcym7>/</span>  </li><li data-astro-cid-ilhxcym7> <span class="current" aria-current="page" data-astro-cid-ilhxcym7>Anemic vs Rich Domain Models</span> </li> </ol> </nav>  <div class="post-layout" data-astro-cid-yvbahnfj> <aside class="sidebar-left" data-astro-cid-yvbahnfj>  </aside> <article class="post" data-astro-cid-yvbahnfj> <header class="post-header" data-astro-cid-yvbahnfj> <h1 data-astro-cid-yvbahnfj>Anemic vs Rich Domain Models</h1> <div class="meta" data-astro-cid-yvbahnfj> <time datetime="2020-03-24T04:49:46.000Z" data-astro-cid-yvbahnfj>Tue Mar 24 2020</time> <span data-astro-cid-yvbahnfj>• 1 min read</span> </div> <div class="tag-row" data-astro-cid-yvbahnfj><a class="post-tag " href="/tags/software-design/" data-astro-cid-yvbahnfj>Software design</a><a class="post-tag " href="/tags/domain-driven-design/" data-astro-cid-yvbahnfj>Domain driven design</a></div> </header> <div class="post-body prose" data-astro-cid-yvbahnfj> <p><img src="/assets/anemic_domain_model.jpg" alt="technical debt" title="technical debt"></p>
-<p>An  <strong>Anemic Domain Model</strong>  is a model that is focused on the state of the object. This is not what is advised while using <a href="/domain-driven-design-core-concepts/"><strong>Domain Driven Design</strong></a> ( <strong>DDD</strong> ) to develop a software.
-Usually, it’s a <a href="/tell-dont-ask-getters-are-evil/">bag of getters and setters with logic on top of services</a>.
-There is nothing wrong with an  <strong>Anemic Domain Model</strong>  if what we’re developing is a  <strong>CRUD</strong>  application.</p>
-<blockquote>
-<p>The basic symptom of an Anemic Domain Model is that at first blush it looks like the real thing. There are objects, many named after the nouns in the domain space, and these objects are connected with the rich relationships and structure that true domain models have. The catch comes when you look at the behavior, and you realize that there is hardly any behavior on these objects, making them little more than bags of getters and setters. Indeed often these models come with design rules that say that you are not to put any domain logic in the the domain objects. Instead there are a set of service objects which capture all the domain logic, carrying out all the computation and updating the model objects with the results. These services live on top of the domain model and use the domain model for data.</p>
-</blockquote>
-<p>— <strong>Martin Fowler: <a href="https://www.martinfowler.com/bliki/AnemicDomainModel.html">Anemic Domain Model</a></strong></p>
-<p>When using  <strong>DDD</strong> , we aim to have  <strong>Rich Domain Models</strong>  which represents the behavior of the domain.</p>
-<p>Strive for  <strong>Rich Domain Models</strong>!</p> </div>  <section class="series-navigation" data-astro-cid-2hl7stop> <div class="series-header" data-astro-cid-2hl7stop> <span class="series-badge" data-astro-cid-2hl7stop>📚 Series</span> <h3 data-astro-cid-2hl7stop>Domain-Driven Design</h3> <p class="series-progress" data-astro-cid-2hl7stop>Part 2 of 2</p> </div> <div class="series-list" data-astro-cid-2hl7stop> <div class="series-item  completed" data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>1</span> <a href="/domain-driven-design-core-concepts/" class="series-title" data-astro-cid-2hl7stop> Domain Driven Design Core Concepts </a> <span class="check-icon" title="Completed" data-astro-cid-2hl7stop>✓</span> </div><div class="series-item current " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>2</span> <span class="series-title current-title" data-astro-cid-2hl7stop>Anemic vs Rich Domain Models</span>  </div> </div> <div class="series-nav-buttons" data-astro-cid-2hl7stop> <a href="/domain-driven-design-core-concepts/" class="series-nav-btn prev" data-astro-cid-2hl7stop> <span class="nav-label" data-astro-cid-2hl7stop>← Previous</span> <span class="nav-title" data-astro-cid-2hl7stop>Domain Driven Design Core Concepts</span> </a>  </div> </section>   <section class="related-posts" data-astro-cid-dpgbfi7r> <h2 data-astro-cid-dpgbfi7r>Related Posts</h2> <div class="related-posts-grid" data-astro-cid-dpgbfi7r> <article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/domain-driven-design-core-concepts/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>Domain Driven Design Core Concepts</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>In this blog I&amp;#39;m sharing my understandings on the core concepts of Domain Driven Design. **Domain Driven Design**…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2020-03-23T04:49:46.000Z" data-astro-cid-dpgbfi7r> Mar 23, 2020 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>4 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/massively-scaling-a-web-application/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>Massively scaling a web application</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>As user demands grow, scaling becomes critical. Whether it’s handling a surge in traffic, managing increasing amounts…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2024-11-23T23:00:46.000Z" data-astro-cid-dpgbfi7r> Nov 23, 2024 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>15 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/solid-principles/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>SOLID</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r></p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2024-07-24T23:00:46.000Z" data-astro-cid-dpgbfi7r> Jul 24, 2024 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>1 min read</span> </div> </a> </article> </div> </section>  </article> </div> <div class="back-link" data-astro-cid-yvbahnfj><a href="/" data-astro-cid-yvbahnfj>← Back to home</a></div>  </main> <!-- Site Footer --> <footer class="site-footer container"> <p>
+</a> <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode"> <span class="theme-icon" aria-hidden="true">☾</span> </button> </nav> </header> <!-- Main Content --> <main class="container content-area">  <nav class="breadcrumbs" aria-label="Breadcrumb" data-astro-cid-ilhxcym7> <ol data-astro-cid-ilhxcym7> <li data-astro-cid-ilhxcym7>  <a href="/" data-astro-cid-ilhxcym7>Home</a> <span class="separator" aria-hidden="true" data-astro-cid-ilhxcym7>/</span>  </li><li data-astro-cid-ilhxcym7> <span class="current" aria-current="page" data-astro-cid-ilhxcym7>Anemic vs Rich Domain Models</span> </li> </ol> </nav>  <div class="post-layout" data-astro-cid-yvbahnfj> <aside class="sidebar-left" data-astro-cid-yvbahnfj>  </aside> <article class="post" data-astro-cid-yvbahnfj> <header class="post-header" data-astro-cid-yvbahnfj> <h1 data-astro-cid-yvbahnfj>Anemic vs Rich Domain Models</h1> <div class="meta" data-astro-cid-yvbahnfj> <time datetime="2020-03-24T04:49:46.000Z" data-astro-cid-yvbahnfj>Tue Mar 24 2020</time> <span data-astro-cid-yvbahnfj>• 5 min read</span> </div> <div class="tag-row" data-astro-cid-yvbahnfj><a class="post-tag " href="/tags/software-architecture/" data-astro-cid-yvbahnfj>Software architecture</a><a class="post-tag " href="/tags/software-design/" data-astro-cid-yvbahnfj>Software design</a><a class="post-tag " href="/tags/domain-driven-design/" data-astro-cid-yvbahnfj>Domain driven design</a></div> </header> <div class="post-body prose" data-astro-cid-yvbahnfj> <p><img src="/assets/anemic_domain_model.jpg" alt="technical debt" title="technical debt"></p>
+<p>This short article contrasts two approaches to modeling your domain: the Anemic Domain Model and the Rich Domain Model. Both are common in real systems; the right choice depends on your domain complexity, team skills and long-term maintenance goals.</p>
+<p>Summary first:</p>
+<ul>
+<li>Anemic Domain Model: objects hold data (getters/setters) and domain logic lives in separate service classes. Easy to start, works well for CRUD-focused apps, but tends to scatter invariants and make reasoning about object state harder.</li>
+<li>Rich Domain Model: objects encapsulate both state and behavior. Business invariants and operations live on the domain objects themselves (or on small, focused domain services). Better for complex domains where behavior matters.</li>
+</ul>
+<p>Why this matters:</p>
+<ul>
+<li>Maintaining invariants and reasoning about system behavior is easier when the model owns the rules that affect its state.</li>
+<li>Tests can be more focused: rich models let you unit-test behavior on the domain object without stubbing orchestration services.</li>
+<li>Overusing rich models in a trivial CRUD app, however, adds unnecessary indirection and can slow development.</li>
+</ul>
+<h2 id="definitions">Definitions</h2>
+<p>Anemic Domain Model
+: A model where domain objects are thin data holders, essentially POJOs/DTOs with getters and setters. Business logic and rules are implemented in separate service classes that orchestrate changes to those objects.</p>
+<p>Rich Domain Model
+: A model where domain objects encapsulate behavior and enforce their own invariants. Objects expose intention-revealing methods (e.g. order.addItem(…), account.withdraw(amount)) that internally validate and mutate state.</p>
+<h2 id="technical-trade-offs">Technical trade-offs</h2>
+<p>When to prefer anemic models</p>
+<ul>
+<li>Simple CRUD apps where the domain is not complex and business rules are minimal.</li>
+<li>When you have a thin API façade over a database (e.g. internal admin tools) and behavior is mostly just persistence and mapping.</li>
+<li>When teams are small and prefer simple DTOs that can be easily serialized and mapped.</li>
+</ul>
+<p>When to prefer rich models</p>
+<ul>
+<li>Complex domains with many invariants, workflows, and business rules.</li>
+<li>When you want behavior to be discoverable, testable, and colocated with the data it operates on.</li>
+<li>When you need stronger encapsulation to prevent accidental invariant violation across multiple services.</li>
+</ul>
+<h2 id="key-design-concepts-for-rich-models">Key design concepts for rich models</h2>
+<ul>
+<li>
+<p>Aggregates and aggregate roots: define transactional boundaries and encapsulate invariants. Only the aggregate root is accessible from outside; internal objects are modified through root methods. Example: an Order aggregate with OrderLines; callers interact with Order.addLine(…) not by mutating lines directly.</p>
+</li>
+<li>
+<p>Invariants: rules that must hold true for an aggregate. Prefer enforcing them inside the aggregate root so every state change goes through a validating path.</p>
+</li>
+<li>
+<p>Domain services: operations that do not naturally belong to a single entity. Keep them thin and focused; prefer methods on entities when behavior can be modeled there.</p>
+</li>
+<li>
+<p>Value objects: immutable small objects (e.g. Money, Email, Address) that encapsulate domain concepts and avoid primitive obsession.</p>
+</li>
+</ul>
+<h2 id="example">Example:</h2>
+<p>Here are the same two approaches written in Java so you can see how they map to a statically typed, object-oriented language.</p>
+<p>Anemic approach:</p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token comment">// simple data holder</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">AccountDto</span> <span class="token punctuation">{</span>
+  <span class="token keyword">private</span> <span class="token keyword">long</span> id<span class="token punctuation">;</span>
+  <span class="token keyword">private</span> <span class="token class-name"><span class="token namespace">java<span class="token punctuation">.</span>math<span class="token punctuation">.</span></span>BigDecimal</span> balance<span class="token punctuation">;</span>
+
+  <span class="token comment">// getters / setters omitted for brevity</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// service that performs business logic outside the DTO</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">AccountService</span> <span class="token punctuation">{</span>
+  <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">AccountRepository</span> repo<span class="token punctuation">;</span>
+
+  <span class="token keyword">public</span> <span class="token class-name">AccountService</span><span class="token punctuation">(</span><span class="token class-name">AccountRepository</span> repo<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>repo <span class="token operator">=</span> repo<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">withdraw</span><span class="token punctuation">(</span><span class="token keyword">long</span> accountId<span class="token punctuation">,</span> <span class="token class-name">BigDecimal</span> amount<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token class-name">AccountDto</span> a <span class="token operator">=</span> repo<span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span>accountId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>a<span class="token punctuation">.</span><span class="token function">getBalance</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">compareTo</span><span class="token punctuation">(</span>amount<span class="token punctuation">)</span> <span class="token operator">&#x3C;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">IllegalStateException</span><span class="token punctuation">(</span><span class="token string">"Insufficient funds"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    a<span class="token punctuation">.</span><span class="token function">setBalance</span><span class="token punctuation">(</span>a<span class="token punctuation">.</span><span class="token function">getBalance</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">subtract</span><span class="token punctuation">(</span>amount<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    repo<span class="token punctuation">.</span><span class="token function">save</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Rich approach:</p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token comment">// small value object for money</span>
+<span class="token keyword">public</span> <span class="token keyword">final</span> <span class="token keyword">class</span> <span class="token class-name">Money</span> <span class="token punctuation">{</span>
+  <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">BigDecimal</span> value<span class="token punctuation">;</span>
+
+  <span class="token keyword">public</span> <span class="token class-name">Money</span><span class="token punctuation">(</span><span class="token class-name">BigDecimal</span> value<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">this</span><span class="token punctuation">.</span>value <span class="token operator">=</span> value<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+  <span class="token keyword">public</span> <span class="token class-name">Money</span> <span class="token function">minus</span><span class="token punctuation">(</span><span class="token class-name">Money</span> other<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Money</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>value<span class="token punctuation">.</span><span class="token function">subtract</span><span class="token punctuation">(</span>other<span class="token punctuation">.</span>value<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+  <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">lessThan</span><span class="token punctuation">(</span><span class="token class-name">Money</span> other<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>value<span class="token punctuation">.</span><span class="token function">compareTo</span><span class="token punctuation">(</span>other<span class="token punctuation">.</span>value<span class="token punctuation">)</span> <span class="token operator">&#x3C;</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+  <span class="token comment">// equals/hashCode/toString omitted</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// aggregate root encapsulating behavior</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Account</span> <span class="token punctuation">{</span>
+  <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token keyword">long</span> id<span class="token punctuation">;</span>
+  <span class="token keyword">private</span> <span class="token class-name">Money</span> balance<span class="token punctuation">;</span>
+
+  <span class="token keyword">public</span> <span class="token class-name">Account</span><span class="token punctuation">(</span><span class="token keyword">long</span> id<span class="token punctuation">,</span> <span class="token class-name">Money</span> balance<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>id <span class="token operator">=</span> id<span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>balance <span class="token operator">=</span> balance<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">withdraw</span><span class="token punctuation">(</span><span class="token class-name">Money</span> amount<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>balance<span class="token punctuation">.</span><span class="token function">lessThan</span><span class="token punctuation">(</span>amount<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">InsufficientFundsException</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>balance <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>balance<span class="token punctuation">.</span><span class="token function">minus</span><span class="token punctuation">(</span>amount<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment">// getters for id/balance and other behavior omitted</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// repository usage remains straightforward</span>
+<span class="token class-name">Account</span> account <span class="token operator">=</span> repo<span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span>accountId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+account<span class="token punctuation">.</span><span class="token function">withdraw</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Money</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">BigDecimal</span><span class="token punctuation">(</span><span class="token string">"12.34"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+repo<span class="token punctuation">.</span><span class="token function">save</span><span class="token punctuation">(</span>account<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>The rich approach places the rule (“don’t allow withdrawing more than the balance”) inside the Account aggregate. That keeps the invariant close to the data it protects and makes it harder for callers to bypass the rule.</p>
+<h2 id="testing-implications">Testing implications</h2>
+<ul>
+<li>Rich models: unit tests exercise domain objects directly. No need for large setup of orchestration services when verifying a single business rule.</li>
+<li>Anemic models: business rules reside in services, so tests often exercise the services and require stubbing repositories. This can be fine but may lead to brittle integration-style tests if boundaries are unclear.</li>
+</ul>
+<h2 id="migration-guidance-from-anemic--rich">Migration guidance (from anemic → rich)</h2>
+<ol>
+<li>Identify aggregates and their invariants: scan where services mutate related data together. Those are good candidates to become aggregate roots.</li>
+<li>Introduce intention-revealing methods on the aggregate root and move validation logic inside.</li>
+<li>Keep repository boundaries: the repository should still only load and save aggregates; avoid cross-aggregate direct mutations.</li>
+<li>Replace call sites incrementally: change one caller to use the new aggregate API, run tests, and iterate.</li>
+</ol>
+<h2 id="practical-tips">Practical tips</h2>
+<ul>
+<li>Prefer small, focused domain services rather than large god services. If a service has many unrelated responsibilities, it’s probably doing orchestration that belongs in aggregates.</li>
+<li>Use value objects (Money, Quantity, Email) to encode domain constraints and make validation explicit.</li>
+<li>Resist the urge to put orchestration logic inside entities; entities should not be responsible for application concerns like scheduling or I/O, those belong to application services.</li>
+</ul>
+<h2 id="conclusion">Conclusion</h2>
+<p>The Anemic Domain Model is common and pragmatic for CRUD-focused systems, while Rich Domain Models provide stronger encapsulation and clearer invariants for complex domains. The right approach depends on your application’s complexity and the development trade-offs you want to accept.</p>
+<p>When in doubt, start pragmatic: use anemic models for small CRUD services and introduce rich behavior gradually around the aggregates that actually need it.</p>
+<h2 id="further-reading">Further reading</h2>
+<ul>
+<li>Martin Fowler’s Anemic Domain Model: <a href="https://www.martinfowler.com/bliki/AnemicDomainModel.html">https://www.martinfowler.com/bliki/AnemicDomainModel.html</a></li>
+<li>Evans, Eric’s Domain-Driven Design: Tackling Complexity in the Heart of Software</li>
+</ul> </div>  <section class="series-navigation" data-astro-cid-2hl7stop> <div class="series-header" data-astro-cid-2hl7stop> <span class="series-badge" data-astro-cid-2hl7stop>📚 Series</span> <h3 data-astro-cid-2hl7stop>Domain-Driven Design</h3> <p class="series-progress" data-astro-cid-2hl7stop>Part 2 of 2</p> </div> <div class="series-list" data-astro-cid-2hl7stop> <div class="series-item  completed" data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>1</span> <a href="/domain-driven-design-core-concepts/" class="series-title" data-astro-cid-2hl7stop> Domain Driven Design Core Concepts </a> <span class="check-icon" title="Completed" data-astro-cid-2hl7stop>✓</span> </div><div class="series-item current " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>2</span> <span class="series-title current-title" data-astro-cid-2hl7stop>Anemic vs Rich Domain Models</span>  </div> </div> <div class="series-nav-buttons" data-astro-cid-2hl7stop> <a href="/domain-driven-design-core-concepts/" class="series-nav-btn prev" data-astro-cid-2hl7stop> <span class="nav-label" data-astro-cid-2hl7stop>← Previous</span> <span class="nav-title" data-astro-cid-2hl7stop>Domain Driven Design Core Concepts</span> </a>  </div> </section>   <section class="related-posts" data-astro-cid-dpgbfi7r> <h2 data-astro-cid-dpgbfi7r>Related Posts</h2> <div class="related-posts-grid" data-astro-cid-dpgbfi7r> <article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/solid-principles/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>SOLID</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r></p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2024-07-24T23:00:46.000Z" data-astro-cid-dpgbfi7r> Jul 24, 2024 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>1 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/dependency-inversion-principle/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>D (Dependency Inversion) from SOLID</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>The Dependency Inversion Principle: Stop Depending on Details What Is Dependency Inversion, Really? Let me ask you a…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2024-06-21T23:00:46.000Z" data-astro-cid-dpgbfi7r> Jun 21, 2024 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>14 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/interface-segregation-principle/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>I (Interface Segregation) from SOLID</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>The Interface Segregation Principle: Why Your Interfaces Are Probably Too Fat What Is Interface Segregation, Really?…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2024-06-20T23:00:46.000Z" data-astro-cid-dpgbfi7r> Jun 20, 2024 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>17 min read</span> </div> </a> </article> </div> </section>  </article> </div> <div class="back-link" data-astro-cid-yvbahnfj><a href="/" data-astro-cid-yvbahnfj>← Back to home</a></div>  </main> <!-- Site Footer --> <footer class="site-footer container"> <p>
 © 2025 AREZKI El Mehdi •
 <a href="https://github.com/earezki">GitHub</a> •
 <a href="/rss.xml">RSS</a> •
@@ -118,6 +246,26 @@ There is nothing wrong with an  <strong>Anemic Domain Model</strong>  if what we
           markCurrentArticleAsRead();
         }
         
+        /**
+         * Clears a single article from read list
+         */
+        function clearReadArticle(url) {
+          try {
+            const readArticles = getReadArticles();
+            const index = readArticles.indexOf(url);
+            if (index !== -1) {
+              readArticles.splice(index, 1);
+              localStorage.setItem(STORAGE_KEY, JSON.stringify(readArticles));
+              updatePostCards();
+            }
+          } catch (e) {
+            console.error('Failed to clear read article:', e);
+          }
+        }
+        
+        // Expose helper for external use
+        window.clearReadArticle = clearReadArticle;
+        
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', init);
         
@@ -125,6 +273,39 @@ There is nothing wrong with an  <strong>Anemic Domain Model</strong>  if what we
         window.addEventListener('pageshow', function(event) {
           if (event.persisted) {
             init();
+          }
+        });
+      })();
+    </script> <!-- Clear Read Article Handler --> <script>
+      /**
+       * Delegated click handler for clear read buttons
+       */
+      (function() {
+        document.addEventListener('click', function(event) {
+          // Find if click target is or is inside a clear-read-btn
+          var target = event.target;
+          var button = null;
+          
+          // Traverse up to find the button
+          while (target && target !== document) {
+            if (target.classList && target.classList.contains('clear-read-btn')) {
+              button = target;
+              break;
+            }
+            target = target.parentNode;
+          }
+          
+          if (!button) return;
+          
+          event.preventDefault();
+          event.stopPropagation();
+          
+          var articleUrl = button.getAttribute('data-article-url');
+          if (!articleUrl) return;
+          
+          // Call the exposed helper
+          if (window.clearReadArticle) {
+            window.clearReadArticle(articleUrl);
           }
         });
       })();
