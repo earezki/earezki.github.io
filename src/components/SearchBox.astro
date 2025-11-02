@@ -138,56 +138,87 @@ const { containerId } = Astro.props;
   }
 </style>
 
-<script is:inline>
+<script>
   /**
-   * Client-side search functionality for filtering articles
-   * Searches across title, excerpt, and tags
+   * Enhanced client-side search functionality
+   * Uses pre-generated search index for searching across ALL articles
+   * Searches title, excerpt, categories from both posts and AI news collections
    */
-  document.addEventListener('DOMContentLoaded', function() {
+  
+  // Search index cache
+  let searchIndex: any[] | null = null;
+  let isLoadingIndex = false;
+  
+  /**
+   * Load search index from API endpoint
+   */
+  async function loadSearchIndex(): Promise<any[]> {
+    if (searchIndex) return searchIndex;
+    if (isLoadingIndex) {
+      // Wait for existing load to complete
+      await new Promise(resolve => setTimeout(resolve, 100));
+      return loadSearchIndex();
+    }
+    
+    isLoadingIndex = true;
+    try {
+      const response = await fetch('/search.json');
+      if (!response.ok) throw new Error('Failed to load search index');
+      searchIndex = await response.json();
+      console.log(`[Search] Loaded ${searchIndex!.length} articles`);
+      return searchIndex!;
+    } catch (error) {
+      console.error('[Search] Failed to load search index:', error);
+      return [];
+    } finally {
+      isLoadingIndex = false;
+    }
+  }
+  
+  /**
+   * Initialize search functionality for all search boxes
+   */
+  document.addEventListener('DOMContentLoaded', async function() {
     const searchContainers = document.querySelectorAll('.search-container');
     
+    // Pre-load search index
+    await loadSearchIndex();
+    
     searchContainers.forEach(function(container) {
-      const searchInput = container.querySelector('.search-input');
-      const clearButton = container.querySelector('.clear-button');
-      const searchResults = container.querySelector('.search-results');
+      const searchInput = container.querySelector('.search-input') as HTMLInputElement;
+      const clearButton = container.querySelector('.clear-button') as HTMLButtonElement;
+      const searchResults = container.querySelector('.search-results') as HTMLElement;
       const postsGrid = document.querySelector('.posts-grid');
       
       if (!searchInput || !postsGrid) return;
       
-      let allPosts = [];
+      let allPostElements: Map<string, HTMLElement> = new Map();
       
       /**
-       * Extract searchable data from post cards
+       * Map post elements by URL for fast lookup
        */
-      function extractPostData() {
+      function mapPostElements() {
+        if (!postsGrid) return;
         const postCards = postsGrid.querySelectorAll('.post-card');
-        allPosts = Array.from(postCards).map(function(card) {
-          const titleElement = card.querySelector('h3 a');
-          const excerptElement = card.querySelector('.excerpt');
-          const tagElements = card.querySelectorAll('.tag');
-          
-          return {
-            element: card,
-            title: titleElement ? titleElement.textContent.trim() : '',
-            excerpt: excerptElement ? excerptElement.textContent.trim() : '',
-            tags: Array.from(tagElements)
-              .map(function(tag) { 
-                return tag.textContent.trim(); 
-              })
-              .join(' ')
-          };
+        postCards.forEach(function(card: Element) {
+          const linkElement = card.querySelector('h3 a') as HTMLAnchorElement;
+          if (linkElement) {
+            const url = linkElement.getAttribute('href');
+            if (url) {
+              allPostElements.set(url, card as HTMLElement);
+            }
+          }
         });
       }
       
       /**
-       * Filter posts based on search query
-       * @param {string} query - Search query string
+       * Search through index and filter visible posts
        */
-      function searchPosts(query) {
-        // Reset view if no query
-        if (!query) {
-          allPosts.forEach(function(post) {
-            post.element.style.display = '';
+      async function performSearch(query: string) {
+        if (!query.trim()) {
+          // Reset: show all posts
+          allPostElements.forEach(element => {
+            element.style.display = '';
           });
           if (searchResults) searchResults.textContent = '';
           if (clearButton) clearButton.style.display = 'none';
@@ -196,20 +227,31 @@ const { containerId } = Astro.props;
         
         if (clearButton) clearButton.style.display = 'flex';
         
+        const index = await loadSearchIndex();
         const lowerQuery = query.toLowerCase();
-        let visibleCount = 0;
         
-        // Filter posts based on query match
-        allPosts.forEach(function(post) {
-          const titleMatch = post.title.toLowerCase().includes(lowerQuery);
-          const excerptMatch = post.excerpt.toLowerCase().includes(lowerQuery);
-          const tagMatch = post.tags.toLowerCase().includes(lowerQuery);
+        // Search through index
+        const matchingSlugs = new Set<string>();
+        index.forEach((article: any) => {
+          const titleMatch = article.title.toLowerCase().includes(lowerQuery);
+          const excerptMatch = article.excerpt.toLowerCase().includes(lowerQuery);
+          const categoryMatch = article.categories.some((cat: string) => 
+            cat.toLowerCase().includes(lowerQuery)
+          );
           
-          if (titleMatch || excerptMatch || tagMatch) {
-            post.element.style.display = '';
+          if (titleMatch || excerptMatch || categoryMatch) {
+            matchingSlugs.add(article.url);
+          }
+        });
+        
+        // Update visibility
+        let visibleCount = 0;
+        allPostElements.forEach((element, url) => {
+          if (matchingSlugs.has(url)) {
+            element.style.display = '';
             visibleCount++;
           } else {
-            post.element.style.display = 'none';
+            element.style.display = 'none';
           }
         });
         
@@ -220,23 +262,27 @@ const { containerId } = Astro.props;
           } else if (visibleCount === 1) {
             searchResults.textContent = '1 article found';
           } else {
-            searchResults.textContent = visibleCount + ' articles found';
+            searchResults.textContent = `${visibleCount} articles found`;
           }
         }
       }
       
       // Initialize
-      extractPostData();
+      mapPostElements();
       
-      // Event listeners
+      // Event listeners with debouncing for performance
+      let searchTimeout: number;
       searchInput.addEventListener('input', function(e) {
-        searchPosts(e.target.value);
+        clearTimeout(searchTimeout);
+        searchTimeout = window.setTimeout(() => {
+          performSearch((e.target as HTMLInputElement).value);
+        }, 150); // 150ms debounce
       });
       
       if (clearButton) {
         clearButton.addEventListener('click', function() {
           searchInput.value = '';
-          searchPosts('');
+          performSearch('');
           searchInput.focus();
         });
       }

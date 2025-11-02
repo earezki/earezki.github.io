@@ -1,23 +1,21 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { getCollection } from 'astro:content';
 import PostCard from '../../components/PostCard.astro';
 import SearchBox from '../../components/SearchBox.astro';
-import readingTime from '../../utils/readingTime';
 import { SITE } from '../../config/site';
+import { getPaginatedPosts } from '../../utils/dataCache';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('posts');
-  const totalPages = Math.ceil(posts.length / SITE.postsPerPage);
-  return Array.from({length: totalPages}, (_,i) => ({ params: { page: String(i+1) }, props: { page: i+1, totalPages } }));
+  const { totalPages } = await getPaginatedPosts(1, SITE.postsPerPage);
+  return Array.from({ length: totalPages }, (_, i) => ({ 
+    params: { page: String(i + 1) }, 
+    props: { page: i + 1, totalPages } 
+  }));
 }
 
 const { page, totalPages } = Astro.props as { page: number; totalPages: number };
-const all = (await getCollection('posts'))
-  .map(p => ({ ...p, readingTime: readingTime(p.body) }))
-  .sort((a,b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
-const start = (page - 1) * SITE.postsPerPage;
-const posts = all.slice(start, start + SITE.postsPerPage);
+const pagination = await getPaginatedPosts(page, SITE.postsPerPage);
+const { posts } = pagination;
 ---
 <BaseLayout title={`Page ${page}`} canonical={`/page/${page}/`} description={`Blog page ${page} of ${totalPages}`}>
   <h1 style="margin-top:0;">Posts – Page {page}</h1>

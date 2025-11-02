@@ -1,66 +1,84 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { getCollection } from 'astro:content';
-import readingTime from '../../utils/readingTime';
-import { plainExcerpt } from '../../utils/excerpt';
 import TableOfContents from '../../components/TableOfContents.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import RelatedPosts from '../../components/RelatedPosts.astro';
-import { findRelatedPosts, generateBreadcrumbs } from '../../utils/relatedContent';
+import { getAllAinews, getAllProcessedContent, findAinewsBySlug } from '../../utils/dataCache';
+import { RelatedPostsFinder, generateBreadcrumbs } from '../../utils/relatedContentOptimized';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('ainews');
+  const posts = await getAllAinews();
   return posts.map(post => ({ params: { slug: post.slug } }));
 }
 
 const { slug } = Astro.params;
-const ainews = await getCollection('ainews');
-const posts = await getCollection('posts');
-const post = ainews.find(p => p.slug === slug);
+const post = await findAinewsBySlug(slug!);
 if (!post) throw new Error(`AI News post not found for slug: ${slug}`);
 
-// Calculate post metadata
-const stats = readingTime(post.body);
-const excerpt = plainExcerpt(post.body, 30, 160);
-const canonical = `/ai-news/${post.slug}/`;
+// Get raw post for rendering
+const ainews = await getAllAinews();
+const rawPost = ainews.find(p => p.slug === slug);
+if (!rawPost) throw new Error(`Raw AI news post not found for slug: ${slug}`);
+
+// Use precomputed metadata
+const stats = post.readingTime;
+const excerpt = post.excerpt;
+const canonical = post.urlPath;
+const postImage = `https://earezki.com/assets/og-image-default.jpg`;
+const postKeywords = 'AI News, Technology';
 
 // Generate breadcrumbs
 const breadcrumbs = generateBreadcrumbs(canonical, post.data.title);
 
-// Find related content (cross-collection)
-const relatedPosts = findRelatedPosts(post, posts, ainews, 3);
+// Initialize optimized related posts finder with all content
+const allContent = await getAllProcessedContent();
+const relatedFinder = new RelatedPostsFinder(allContent);
+
+// Find related content using optimized algorithm
+const relatedPosts = relatedFinder.findRelated(post, 3);
 
 const structuredData = {
   '@context': 'https://schema.org',
-  '@type': 'Article',
+  '@type': 'BlogPosting',
   headline: post.data.title,
+  description: excerpt,
+  image: postImage,
   datePublished: post.data.pubDate.toISOString(),
   dateModified: post.data.pubDate.toISOString(),
   author: {
     '@type': 'Person',
-    name: 'AREZKI El Mehdi'
+    name: 'El Mehdi Arezki',
+    url: 'https://earezki.com/about',
+    jobTitle: 'Lead Software Engineer',
+    sameAs: [
+      'https://github.com/earezki',
+      'https://www.linkedin.com/in/mehdi-arezki'
+    ]
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Dev|Journal',
+    url: 'https://earezki.com',
+    logo: {
+      '@type': 'ImageObject',
+      url: 'https://earezki.com/assets/logo.png'
+    }
   },
   mainEntityOfPage: {
     '@type': 'WebPage',
     '@id': 'https://earezki.com' + canonical
-  },
-  description: excerpt
+  }
 };
-const { Content } = await post.render();
+const { Content } = await rawPost.render();
 ---
-<BaseLayout title={post.data.title} description={excerpt} canonical={canonical} structuredData={structuredData}>
+<BaseLayout 
+  title={post.data.title} 
+  description={excerpt} 
+  keywords={postKeywords}
+  canonical={canonical} 
+  image={postImage}
+  structuredData={structuredData}>
   <Breadcrumbs breadcrumbs={breadcrumbs} />
-  <div class="ai-disclaimer-article">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;">
-      <circle cx="12" cy="12" r="10"></circle>
-      <line x1="12" y1="8" x2="12" y2="12"></line>
-      <line x1="12" y1="16" x2="12.01" y2="16"></line>
-    </svg>
-    <div>
-      <strong>AI-Generated Content:</strong> This article was created with AI assistance. Please verify important information and check original references.
-    </div>
-  </div>
-  
   <div class="post-layout">
     <aside class="sidebar-left">
       <TableOfContents markdown={post.body} />
@@ -93,53 +111,4 @@ const { Content } = await post.render();
   .post-layout { display:grid; grid-template-columns: 260px 1fr; gap:2.5rem; }
   .sidebar-left { position:relative; }
   @media (max-width: 1080px) { .post-layout { grid-template-columns: 1fr; } }
-  
-  .ai-disclaimer-article {
-    display: flex;
-    gap: 0.75rem;
-    padding: 0.9rem 1.1rem;
-    margin: 0 auto 2rem;
-    max-width: 780px;
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1), rgba(240, 147, 251, 0.1));
-    border: 2px solid transparent;
-    border-radius: var(--radius-md);
-    position: relative;
-    background-clip: padding-box;
-    font-size: 0.85rem;
-  }
-  
-  .ai-disclaimer-article::before {
-    content: '';
-    position: absolute;
-    inset: -2px;
-    border-radius: var(--radius-md);
-    padding: 2px;
-    background: var(--ai-gradient-border);
-    background-size: 200% 200%;
-    animation: gradient-rotate 3s linear infinite;
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    mask-composite: exclude;
-    pointer-events: none;
-  }
-  
-  html[data-theme="dark"] .ai-disclaimer-article {
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15), rgba(240, 147, 251, 0.15));
-  }
-  
-  .ai-disclaimer-article svg {
-    margin-top: 0.15rem;
-  }
-  
-  .ai-disclaimer-article strong {
-    color: var(--color-text);
-    display: block;
-    margin-bottom: 0.15rem;
-  }
-  
-  .ai-disclaimer-article div {
-    line-height: 1.5;
-    color: var(--color-text-alt);
-  }
 </style>

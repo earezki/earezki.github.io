@@ -1,23 +1,13 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { getCollection } from 'astro:content';
-import type { CollectionEntry } from 'astro:content';
 import PostCard from '../components/PostCard.astro';
 import SearchBox from '../components/SearchBox.astro';
-import readingTime from '../utils/readingTime';
 import { SITE } from '../config/site';
+import { getPaginatedPosts } from '../utils/dataCache';
 
-// Fetch and sort all posts by publication date (newest first)
-const allPosts = (await getCollection('posts'))
-  .map((post: CollectionEntry<'posts'>) => ({ 
-    ...post, 
-    readingTime: readingTime(post.body) 
-  }))
-  .sort((a: any, b: any) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
-
-// Paginate posts for first page
-const posts = allPosts.slice(0, SITE.postsPerPage);
-const totalPages = Math.ceil(allPosts.length / SITE.postsPerPage);
+// Fetch first page of posts using cached data
+const pagination = await getPaginatedPosts(1, SITE.postsPerPage);
+const { posts, totalPages } = pagination;
 
 // Structured data for SEO (JSON-LD)
 const structuredData = {
@@ -85,7 +75,7 @@ const structuredData = {
   
   <!-- Posts grid -->
   <section class="posts-grid" aria-label="Blog posts">
-    {posts.map((post: any) => <PostCard post={post} />)}
+    {posts.map((post) => <PostCard post={post} />)}
   </section>
   
   <!-- Pagination -->

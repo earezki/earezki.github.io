@@ -1,39 +1,44 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { getCollection } from 'astro:content';
-import readingTime from '../utils/readingTime';
-import { plainExcerpt } from '../utils/excerpt';
 import TableOfContents from '../components/TableOfContents.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import RelatedPosts from '../components/RelatedPosts.astro';
 import SeriesNavigation from '../components/SeriesNavigation.astro';
-import { findRelatedPosts, detectSeries, findSeriesPosts, generateBreadcrumbs } from '../utils/relatedContent';
+import { getAllPosts, getAllProcessedContent, findPostBySlug } from '../utils/dataCache';
+import { RelatedPostsFinder, generateBreadcrumbs } from '../utils/relatedContentOptimized';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('posts');
+  const posts = await getAllPosts();
   return posts.map(post => ({ params: { slug: post.slug } }));
 }
 
 const { slug } = Astro.params;
-const posts = await getCollection('posts');
-const ainews = await getCollection('ainews');
-const post = posts.find(p => p.slug === slug);
+const post = await findPostBySlug(slug!);
 if (!post) throw new Error(`Post not found for slug: ${slug}`);
 
-// Calculate post metadata
-const stats = readingTime(post.body);
-const excerpt = plainExcerpt(post.body, 30, 160);
-const canonical = `/${post.slug}/`;
+// Get raw post for rendering
+const posts = await getAllPosts();
+const rawPost = posts.find(p => p.slug === slug);
+if (!rawPost) throw new Error(`Raw post not found for slug: ${slug}`);
+
+// Use precomputed metadata
+const stats = post.readingTime;
+const excerpt = post.excerpt;
+const canonical = post.urlPath;
 const postImage = `https://earezki.com/assets/og-image-default.jpg`;
 const postKeywords = post.data.categories?.join(', ') || 'software architecture, backend development';
 
 // Generate breadcrumbs
 const breadcrumbs = generateBreadcrumbs(canonical, post.data.title);
 
-// Find related content (cross-collection)
-const relatedPosts = findRelatedPosts(post, posts, ainews, 3);
-const series = detectSeries(post);
-const seriesPosts = series ? findSeriesPosts(post, posts) : [];
+// Initialize optimized related posts finder with all content
+const allContent = await getAllProcessedContent();
+const relatedFinder = new RelatedPostsFinder(allContent);
+
+// Find related content using optimized algorithm
+const relatedPosts = relatedFinder.findRelated(post, 3);
+const series = relatedFinder.detectSeries(post);
+const seriesPosts = series ? relatedFinder.findSeriesPosts(post) : [];
 
 const structuredData = {
   '@context': 'https://schema.org',
@@ -67,7 +72,7 @@ const structuredData = {
     '@id': 'https://earezki.com' + canonical
   }
 };
-const { Content } = await post.render();
+const { Content } = await rawPost.render();
 ---
 <BaseLayout 
   title={post.data.title} 

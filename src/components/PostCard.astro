@@ -1,26 +1,21 @@
 ---
-import type { CollectionEntry } from 'astro:content';
+import type { ProcessedPost } from '../utils/dataCache';
 
 interface Props { 
-  post: (CollectionEntry<'posts'> | CollectionEntry<'ainews'>) & { 
-    readingTime: { text: string } 
-  };
+  post: ProcessedPost;
   collection?: 'posts' | 'ainews';
 }
 
-const { post, collection = 'posts' } = Astro.props;
+const { post, collection } = Astro.props;
 
-// Construct URL based on collection type
-const url = collection === 'ainews' ? `/ai-news/${post.slug}/` : `/${post.slug}/`;
+// Use precomputed URL from ProcessedPost
+const url = post.urlPath;
 
 // Format date consistently (ISO 8601 format)
 const date = post.data.pubDate.toISOString().split('T')[0];
 
-// Generate excerpt from body content (first 30 words with ellipsis)
-const excerpt = post.body
-  .split(/\s+/)
-  .slice(0, 30)
-  .join(' ') + '…';
+// Use precomputed excerpt from ProcessedPost
+const excerpt = post.excerpt;
 
 // Check if post has AI News tag
 const hasAINewsTag = post.data.categories?.some(

@@ -1,17 +1,12 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { getCollection } from 'astro:content';
 import PostCard from '../components/PostCard.astro';
 import SearchBox from '../components/SearchBox.astro';
-import readingTime from '../utils/readingTime';
 import { SITE } from '../config/site';
+import { getPaginatedAinews } from '../utils/dataCache';
 
-const all = (await getCollection('ainews'))
-  .map(p => ({ ...p, readingTime: readingTime(p.body) }))
-  .sort((a,b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
-
-const posts = all.slice(0, SITE.postsPerPage);
-const totalPages = Math.ceil(all.length / SITE.postsPerPage);
+const pagination = await getPaginatedAinews(1, SITE.postsPerPage);
+const { posts, totalPages } = pagination;
 ---
 <BaseLayout title="AI News • Dev|Journal" description="Latest news and developments in AI and machine learning." canonical="/ai-news/">
   <h1 style="margin-bottom:1rem;">AI News</h1>
