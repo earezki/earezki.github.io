@@ -39,7 +39,7 @@ const nextPost = currentIndex < posts.length - 1 ? posts[currentIndex + 1] : nul
           {isCurrent ? (
             <span class="series-title current-title">{post.data.title}</span>
           ) : (
-            <a href={`/${post.slug}/`} class="series-title">
+            <a href={post.urlPath} class="series-title">
               {post.data.title}
             </a>
           )}
@@ -52,13 +52,13 @@ const nextPost = currentIndex < posts.length - 1 ? posts[currentIndex + 1] : nul
   {(prevPost || nextPost) && (
     <div class="series-nav-buttons">
       {prevPost && (
-        <a href={`/${prevPost.slug}/`} class="series-nav-btn prev">
+        <a href={prevPost.urlPath} class="series-nav-btn prev">
           <span class="nav-label">← Previous</span>
           <span class="nav-title">{prevPost.data.title}</span>
         </a>
       )}
       {nextPost && (
-        <a href={`/${nextPost.slug}/`} class="series-nav-btn next">
+        <a href={nextPost.urlPath} class="series-nav-btn next">
           <span class="nav-label">Next →</span>
           <span class="nav-title">{nextPost.data.title}</span>
         </a>

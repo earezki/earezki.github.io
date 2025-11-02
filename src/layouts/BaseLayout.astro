@@ -384,6 +384,53 @@ const canonicalUrl = canonical
       })();
     </script>
     
+    <!-- External Links: Open in New Tab -->
+    <script is:inline>
+      /**
+       * Makes all external links open in new tab
+       * Detects links not pointing to the current domain
+       */
+      (function() {
+        function makeExternalLinksOpenInNewTab() {
+          const domain = window.location.hostname;
+          const links = document.querySelectorAll('a[href]');
+          
+          links.forEach(function(link) {
+            const href = link.getAttribute('href');
+            if (!href) return;
+            
+            // Skip if already has target attribute (respect manual settings)
+            if (link.hasAttribute('target')) return;
+            
+            // Check if it's an external link (starts with http/https and not current domain)
+            const isExternal = (href.startsWith('http://') || href.startsWith('https://')) 
+              && !href.includes(domain);
+            
+            if (isExternal) {
+              link.setAttribute('target', '_blank');
+              link.setAttribute('rel', 'noopener noreferrer');
+            }
+          });
+        }
+        
+        // Run on page load
+        document.addEventListener('DOMContentLoaded', makeExternalLinksOpenInNewTab);
+        
+        // Re-run on dynamic content changes (e.g., SPA navigation)
+        if (window.MutationObserver) {
+          const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+              if (mutation.addedNodes.length) {
+                makeExternalLinksOpenInNewTab();
+              }
+            });
+          });
+          
+          observer.observe(document.body, { childList: true, subtree: true });
+        }
+      })();
+    </script>
+    
     <!-- Code Copy Functionality -->
     <script is:inline>
       /**
