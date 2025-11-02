@@ -10,7 +10,7 @@
           document.documentElement.setAttribute('data-theme', theme); 
         }
       })();
-    </script><!-- Structured Data (JSON-LD) --><link rel="stylesheet" href="/_astro/_slug_.Br3Nim2p.css">
+    </script><!-- Structured Data (JSON-LD) --><link rel="stylesheet" href="/_astro/_slug_.C0oFdSD2.css">
 <style>.ai-disclaimer[data-astro-cid-uacjmzd3]{display:flex;gap:.75rem;padding:1rem 1.25rem;margin-bottom:2rem;background:linear-gradient(135deg,#667eea1a,#764ba21a,#f093fb1a);border:2px solid transparent;border-radius:var(--radius-md);position:relative;background-clip:padding-box}.ai-disclaimer[data-astro-cid-uacjmzd3]:before{content:"";position:absolute;inset:-2px;border-radius:var(--radius-md);padding:2px;background:var(--ai-gradient-border);background-size:200% 200%;animation:gradient-rotate 3s linear infinite;-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask-composite:exclude;pointer-events:none}html[data-theme=dark] .ai-disclaimer[data-astro-cid-uacjmzd3]{background:linear-gradient(135deg,#667eea26,#764ba226,#f093fb26)}.ai-disclaimer[data-astro-cid-uacjmzd3] svg[data-astro-cid-uacjmzd3]{margin-top:.15rem}.ai-disclaimer[data-astro-cid-uacjmzd3] strong[data-astro-cid-uacjmzd3]{color:var(--color-text);display:block;margin-bottom:.25rem}.ai-disclaimer[data-astro-cid-uacjmzd3] div[data-astro-cid-uacjmzd3]{font-size:.9rem;line-height:1.5;color:var(--color-text-alt)}.pagination[data-astro-cid-uacjmzd3]{display:flex;justify-content:space-between;margin:2.5rem 0 1rem;font-size:.9rem}.pagination[data-astro-cid-uacjmzd3] a[data-astro-cid-uacjmzd3]{padding:.55rem 1rem;background:var(--color-bg-alt);border:1px solid var(--color-border);border-radius:var(--radius-pill)}.pagination[data-astro-cid-uacjmzd3] a[data-astro-cid-uacjmzd3]:hover{background:var(--color-accent);color:#fff;border-color:var(--color-accent)}
 </style><script type="module" src="/_astro/hoisted.wYJRanuh.js"></script></head> <body> <div id="readingProgress" role="progressbar" aria-label="Reading progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="position:fixed;left:0;top:0;height:3px;background:linear-gradient(90deg,#2563eb,#9333ea);width:0;z-index:999;transition:width .15s ease;"></div>  <!-- Site Header --> <header class="site-header container"> <div class="logo-wrap"> <a class="logo" href="/" aria-label="Dev|Journal Home">
 Dev|Journal
@@ -171,6 +171,50 @@ About
             window.clearReadArticle(articleUrl);
           }
         });
+      })();
+    </script> <!-- External Links: Open in New Tab --> <script>
+      /**
+       * Makes all external links open in new tab
+       * Detects links not pointing to the current domain
+       */
+      (function() {
+        function makeExternalLinksOpenInNewTab() {
+          const domain = window.location.hostname;
+          const links = document.querySelectorAll('a[href]');
+          
+          links.forEach(function(link) {
+            const href = link.getAttribute('href');
+            if (!href) return;
+            
+            // Skip if already has target attribute (respect manual settings)
+            if (link.hasAttribute('target')) return;
+            
+            // Check if it's an external link (starts with http/https and not current domain)
+            const isExternal = (href.startsWith('http://') || href.startsWith('https://')) 
+              && !href.includes(domain);
+            
+            if (isExternal) {
+              link.setAttribute('target', '_blank');
+              link.setAttribute('rel', 'noopener noreferrer');
+            }
+          });
+        }
+        
+        // Run on page load
+        document.addEventListener('DOMContentLoaded', makeExternalLinksOpenInNewTab);
+        
+        // Re-run on dynamic content changes (e.g., SPA navigation)
+        if (window.MutationObserver) {
+          const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+              if (mutation.addedNodes.length) {
+                makeExternalLinksOpenInNewTab();
+              }
+            });
+          });
+          
+          observer.observe(document.body, { childList: true, subtree: true });
+        }
       })();
     </script> <!-- Code Copy Functionality --> <script>
       /**
