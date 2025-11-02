@@ -5,7 +5,7 @@ description: "A tutorial on building an agentic data and infrastructure strategy
 categories: ["AI News", "Agentic AI", "AI Infrastructure", "Artificial Intelligence", "Tutorials"]
 ---
 
-## Main Heading (essence of the article)
+## Designing an Autonomous Multi-Agent Data Infrastructure System with Lightweight Qwen Models
 
 This article provides a step-by-step guide to creating an autonomous, multi-agent system for managing data pipelines and infrastructure using the lightweight Qwen2.5-0.5B-Instruct model. The system includes specialized agents for data ingestion, quality analysis, and infrastructure optimization, orchestrated into a unified workflow for efficient, self-sustaining operations.
 

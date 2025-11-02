@@ -5,7 +5,7 @@ description: "The PyTorch Foundation introduces Ray and PyTorch Monarch at its 2
 categories: ["AI News", "AI", "ML & Data Engineering", "PyTorch", "Artificial Intelligence"]
 ---
 
-## Main Heading
+## PyTorch Foundation Expands Open AI Infrastructure with Ray and Monarch
 
 At the 2025 PyTorch Conference, the PyTorch Foundation unveiled significant advancements in open-source AI infrastructure, emphasizing scalability, transparency, and reproducibility. Key highlights included the integration of Ray, a distributed computing framework, and the introduction of PyTorch Monarch, a tool for simplifying distributed AI workloads. The event also spotlighted collaborative efforts by institutions like Stanford and AI2 to enhance reproducibility in foundation model development.
 

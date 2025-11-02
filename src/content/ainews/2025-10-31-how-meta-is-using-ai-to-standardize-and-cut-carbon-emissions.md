@@ -6,7 +6,7 @@ categories: ["AI News", "Climate Change", "Green Software", "Machine Learning", 
 
 ---
 
-## Main Heading
+## Meta's AI-Driven Approach to Standardizing and Reducing Carbon Emissions in IT Hardware Supply Chains
 
 Meta has pioneered an AI-based system to standardize and improve the accuracy of Scope 3 carbon emissions estimates across its IT hardware supply chain. This initiative combines machine learning (ML) and generative AI to address inconsistencies in emissions data, enabling more precise decarbonization planning and procurement strategies. The approach was presented at the 2025 Open Compute Project summit and aligns with Meta’s net-zero roadmap by 2030.
 

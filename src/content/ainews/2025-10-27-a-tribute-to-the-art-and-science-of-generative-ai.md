@@ -5,7 +5,7 @@ description: "IBM researcher and artist Mauro Martino discusses his latest sculp
 categories: ["AI News", "Art", "Technology"]
 ---
 
-## Main Heading
+## Mauro Martino's AI-Powered Sculpture: Exploring the Intersection of Art and Artificial Intelligence
 
 ### IBM Researcher Mauro Martino Creates 'Atomic Reverberations,' a Sculpture Exploring AI Innovation
 

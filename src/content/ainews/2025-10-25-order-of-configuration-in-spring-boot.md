@@ -5,7 +5,7 @@ description: "Explore how Spring Boot processes configuration classes and the an
 categories: ["AI News", "Spring Boot", "Java Frameworks"]
 ---
 
-## Main Heading
+## Order of Configuration in Spring Boot: Managing Initialization Sequence with Annotations
 
 ### Overview of Configuration Ordering in Spring Boot
 

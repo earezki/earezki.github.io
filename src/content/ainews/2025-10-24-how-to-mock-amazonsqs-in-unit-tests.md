@@ -5,7 +5,7 @@ description: "A comprehensive guide to mocking Amazon SQS in unit tests using de
 categories: ["AI News", "Cloud", "Testing"]
 ---
 
-## Main Heading
+## How to Mock Amazon SQS in Unit Tests with Dependency Injection and Mockito
 
 This article explains how to mock Amazon SQS (Simple Queue Service) in unit tests using dependency injection and Mockito. The approach ensures tests are fast, deterministic, and do not require real AWS credentials, while verifying that code constructs the correct requests without interacting with actual SQS endpoints.
 

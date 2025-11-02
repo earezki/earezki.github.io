@@ -5,7 +5,7 @@ description: "A comprehensive guide to retrieving the hostname and port from HTT
 categories: ["AI News", "Java Web", "Web Development"]
 ---
 
-## Main Heading
+## Extracting Hostname and Port from HTTP Requests in Java
 
 This article explores multiple methods to extract the hostname and port from HTTP or HTTPS requests in Java, addressing use cases such as generating URLs, debugging, and handling reverse proxies. The solutions range from standard Java Servlet APIs to Spring-specific utilities and proxy header configurations.
 

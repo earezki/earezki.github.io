@@ -5,7 +5,7 @@ description: "A comprehensive summary of the latest developments in the Java eco
 categories: ["AI News", "Java News"]
 ---
 
-## Main Heading
+## Java Ecosystem Update: October 13th, 2025 - OpenJDK, Jakarta EE 12, Spring 7.0 RC1 & More
 
 This summary details the key updates across various components of the Java ecosystem as of October 13th, 2025.  Significant advancements were made in OpenJDK, Jakarta EE 12, Spring Framework, Payara Platform, WildFly, Micrometer, Project Reactor, and Testcontainers, encompassing new releases, release candidates, and feature enhancements.
 

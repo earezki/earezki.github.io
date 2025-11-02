@@ -5,7 +5,7 @@ description: "Cybersecurity researchers uncovered 10 typosquatted npm packages t
 categories: ["AI News", "Cyber Security", "Software Vulnerability"]
 ---
 
-## Main Heading (essence of the article)
+## 10 Malicious npm Packages Caught Stealing Developer Credentials Across Operating Systems
 
 Cybersecurity researchers identified 10 malicious npm packages uploaded on July 4, 2025, that exploit typosquatting and obfuscation to steal developer credentials across Windows, macOS, and Linux systems. These packages mimic popular libraries like `discord.js` and `typescript` to trick users into installing malware that exfiltrates sensitive data.
 

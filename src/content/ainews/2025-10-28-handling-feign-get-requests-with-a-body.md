@@ -5,7 +5,7 @@ description: "Learn how to send Feign GET requests with a body in an HTTP-compli
 categories: ["AI News", "HTTP Client-Side", "Spring Cloud"]
 ---
 
-## Main Heading
+## Handling Feign GET Requests With a Body: A Comprehensive Guide
 
 This article explains how to handle the challenge of sending GET requests with a body using Spring Cloud OpenFeign, which strictly adheres to HTTP/1.1 standards. While GET requests are typically expected to lack a body, some APIs or legacy systems may still require this. The solution involves using `@SpringQueryMap` to serialize request parameters into URL query strings instead of a body.
 

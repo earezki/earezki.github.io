@@ -5,7 +5,7 @@ description: "Learn how Jersey makes enabling and customizing server-side loggin
 categories: ["AI News", "Logging", "Jersey"]
 ---
 
-## Main Heading
+## Guide to Jersey Logging on Server | Baeldung
 
 This article provides a comprehensive guide to enabling, configuring, and customizing logging in a **Jersey server application** using **SLF4J** as the logging backend. It covers both built-in logging features and advanced custom logging via JAX-RS filters, along with integration testing strategies to validate logging behavior.
 

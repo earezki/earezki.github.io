@@ -5,7 +5,7 @@ description: "A Halloween-themed web project combining CSS, SVGs, and JavaScript
 categories: ["AI News", "webdev", "frontend", "design"]
 ---
 
-## Main Heading (essence of the article)
+## My Spooky Cozy Haven: A Halloween Web Project Using CSS, SVGs, and Interactivity
 
 Angelo Silva's "My Spooky Cozy Haven" is a Halloween-themed web project created for the DEV Community's Frontend Challenge. It combines CSS, SVGs, and JavaScript to deliver an interactive, responsive, and visually engaging experience, showcasing how creativity and technical skills can merge to build immersive web scenes.
 

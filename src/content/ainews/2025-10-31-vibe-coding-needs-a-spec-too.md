@@ -6,7 +6,7 @@ categories: ["AI News", "Software Development", "AI Tools"]
 
 ---
 
-## Main Heading (essence of the article)
+## AWS Introduces Kiro: An AI IDE for Spec-Driven Development
 
 AWS has introduced **Kiro**, an AI-integrated IDE designed to revolutionize software development through **spec-driven development**. By combining natural language specifications with advanced AI agents, Kiro enables developers to create, refine, and execute code more efficiently, particularly for complex systems. This approach emphasizes structured collaboration between developers and AI, aiming to reduce errors, improve code quality, and enhance scalability.
 

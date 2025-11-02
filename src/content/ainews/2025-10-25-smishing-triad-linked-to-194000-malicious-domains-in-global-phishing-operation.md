@@ -6,7 +6,7 @@ categories: ["AI News", "Cyber Security", "Phishing", "Malware"]
 
 ---
 
-## Main Heading (essence of the article)
+## Global Smishing Campaign Linked to 194,000 Malicious Domains and Over $1 Billion in Fraud
 
 A large-scale smishing campaign attributed to the China-linked **Smishing Triad** has leveraged over **194,000 malicious domains** since January 2024, targeting users worldwide with fraudulent messages impersonating services like toll violations, package deliveries, and government agencies. The operation, hosted on U.S. cloud infrastructure despite domain registration in Hong Kong, has generated **over $1 billion in fraud** over three years and evolved into a decentralized **phishing-as-a-service (PhaaS)** ecosystem.
 

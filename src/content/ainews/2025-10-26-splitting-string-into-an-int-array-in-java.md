@@ -5,7 +5,7 @@ description: "A comprehensive guide on splitting strings of numbers into integer
 categories: ["AI News", "Java Array", "Regex", "String Conversions"]
 ---
 
-## Main Heading
+## Converting Comma-Separated Strings to Int Arrays in Java
 
 This article explains how to convert strings containing numeric values separated by delimiters (e.g., commas, semicolons, or pipes) into `int` arrays in Java. The process involves splitting the string, trimming whitespace, and parsing each element to an integer. This technique is essential for processing user input, file data, or datasets requiring arithmetic operations.
 

@@ -5,7 +5,7 @@ description: "Learn how to query LocalDateTime fields using LocalDate values in 
 categories: ["AI News", "Java Dates", "JPA"]
 ---
 
-## Main Heading
+## Querying JPA LocalDateTime Fields with LocalDate Values
 
 This article addresses the challenge of querying a `LocalDateTime` field in JPA using a `LocalDate` value. When comparing a `LocalDateTime` (e.g., `2025-10-12T14:30:45`) with a `LocalDate` (e.g., `2025-10-12`), direct equality fails due to the time component. The article outlines multiple approaches to resolve this, including range queries, JPQL functions, and dynamic criteria-based queries.
 

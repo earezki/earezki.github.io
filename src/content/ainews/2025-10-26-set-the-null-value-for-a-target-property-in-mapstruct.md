@@ -5,7 +5,7 @@ description: "Explore techniques to consistently set a specific object field to 
 categories: ["AI News", "Java", "MapStruct"]
 ---
 
-## Main Heading
+## Set the Null Value for a Target Property in MapStruct | Baeldung
 
 This article explains multiple strategies to ensure a specific property is always set to `null` during object mapping using **MapStruct**, a code generation library for Java. The focus is on scenarios where fields like `reviewedBy` in an entity should be explicitly reset to `null` when updating from a DTO. The approaches include using expressions, custom methods, `@AfterMapping`, and handling polymorphic types with `@SubclassMapping`.
 

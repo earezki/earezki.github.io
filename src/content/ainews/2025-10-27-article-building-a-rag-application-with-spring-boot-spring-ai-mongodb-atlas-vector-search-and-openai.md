@@ -5,7 +5,7 @@ description: "This article details the implementation of a Retrieval-Augmented G
 categories: ["AI News", "Retrieval-Augmented Generation", "Spring", "MongoDB", "Java", "Artificial Intelligence", "Database"]
 ---
 
-## Main Heading
+## Building a RAG Application with Spring Boot, Spring AI, MongoDB Atlas Vector Search, and OpenAI
 
 This article provides a comprehensive guide to building a Retrieval-Augmented Generation (RAG) application using a modern technology stack, specifically Spring Boot, Spring AI, MongoDB Atlas Vector Search, and OpenAI. The project, named LyricMind, demonstrates how to combine the strengths of generative AI models with structured knowledge bases to create powerful and contextually relevant applications. The article details the architecture, implementation of key components, and the overall process of building a RAG system for music recommendation, showcasing its adaptability to various domains.
 

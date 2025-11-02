@@ -6,7 +6,7 @@ categories: ["AI News", "Cybersecurity", "IoT Security"]
 
 ---
 
-## Main Heading (essence of the article)
+## Experts Report Sharp Increase in Automated Botnet Attacks Targeting PHP Servers and IoT Devices
 
 Cybersecurity experts warn of a significant rise in automated botnet attacks targeting PHP servers, IoT devices, and cloud infrastructure, leveraging known vulnerabilities and misconfigurations to execute large-scale DDoS attacks and credential theft campaigns. These attacks exploit outdated software, debug tools, and insecure configurations, with botnets like Mirai and TurboMirai capable of generating over 20 terabits per second (Tbps) of traffic.
 

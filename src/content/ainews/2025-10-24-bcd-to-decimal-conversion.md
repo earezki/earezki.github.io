@@ -5,7 +5,7 @@ description: "This article explains Binary Coded Decimal (BCD) format, its appli
 categories: ["AI News", "Algorithms", "Java Programming"]
 ---
 
-## Main Heading
+## BCD to Decimal Conversion in Java: Techniques and Examples
 
 ### BCD to Decimal Conversion in Java: Techniques and Examples
 

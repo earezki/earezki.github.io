@@ -5,7 +5,7 @@ description: "Sally O'Malley explains the unique observability challenges of Lar
 categories: ["AI News", "Observability", "LLM", "Kubernetes", "Monitoring"]
 ---
 
-## Main Heading: Observability in the Age of AI: Addressing the Unique Challenges of LLMs
+## Why Observability Matters for AI Applications: A Deep Dive into LLM Monitoring: Observability in the Age of AI: Addressing the Unique Challenges of LLMs
 
 This presentation by Sally O'Malley from Red Hat delves into the critical importance of observability for modern AI applications, particularly Large Language Models (LLMs).  It highlights the unique challenges LLMs present compared to traditional applications and provides a practical, hands-on guide to building an open-source observability stack.  The talk emphasizes the need for monitoring performance, cost, and quality to ensure the reliability and effectiveness of AI-powered workloads.
 

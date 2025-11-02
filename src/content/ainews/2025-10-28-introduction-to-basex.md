@@ -5,7 +5,7 @@ description: "A comprehensive guide to BaseX, a lightweight XML database for sto
 categories: ["AI News", "XML", "Database"]
 ---
 
-## Main Heading
+## Introduction to BaseX XML Database and Its Features
 
 BaseX is a lightweight, high-performance XML database designed for storing, querying, and modifying large volumes of XML data using XQuery and XPath. It supports multiple interfaces, including a command-line interface (CLI), GUI, and HTTP APIs, enabling both local and remote access. This summary details its core features, setup, and usage patterns.
 

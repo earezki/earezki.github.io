@@ -5,7 +5,7 @@ description: "Explore three methods to compute the difference between two angles
 categories: ["AI News", "Algorithms", "Java Programming"]
 ---
 
-## Main Heading
+## Calculating Angle Differences in Java: Methods and Implementations
 
 This article explains how to calculate the difference between two angles in Java using three distinct approaches: **absolute difference**, **shortest difference**, and **sign-preserving shortest difference**. These methods address the circular nature of angles (e.g., 350° and 10° are 20° apart in the shortest direction) and are essential for applications in geometry, robotics, and game development.
 

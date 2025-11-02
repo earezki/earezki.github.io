@@ -5,7 +5,7 @@ description: "Liquid AI introduces LFM2-ColBERT-350M, a 350M-parameter late inte
 categories: ["AI News", "AI Shorts", "Applications", "Artificial Intelligence", "Editors Pick", "Language Model", "Large Language Model", "Machine Learning", "New Releases", "Open Source", "Small Language Model", "Staff", "Tech News", "Technology"]
 ---
 
-## Main Heading (essence of the article)
+## Liquid AI Releases LFM2-ColBERT-350M: A Compact Late Interaction Model for Multilingual Cross-Lingual Retrieval
 
 Liquid AI has launched **LFM2-ColBERT-350M**, a compact late interaction retriever designed for multilingual and cross-lingual retrieval tasks. This model enables document indexing in one language while supporting queries in multiple languages, achieving high accuracy and inference speeds comparable to models 2.3 times smaller.
 

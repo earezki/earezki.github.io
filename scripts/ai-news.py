@@ -68,7 +68,7 @@ def create_prompt():
         categories: ["AI News", "Topic1", "Topic2"]
         ---
 
-        ## Main Heading (essence of the article)
+        ## Your Generated Main Heading
 
         Content with proper Markdown formatting...
 
@@ -95,6 +95,7 @@ def create_prompt():
         - Categories must be a JSON array format
 
         **Content Rules:**
+        - Extract Main Heading from the content
         - Use only provided context
         - Ignore irrelevant content
         - Professional, neutral tone

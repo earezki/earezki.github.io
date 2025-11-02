@@ -5,7 +5,7 @@ description: "This article outlines three critical questions teams should answer
 categories: ["AI News", "Architecture & Design", "Software Architecture", "Minimum Viable Architecture"]
 ---
 
-## Main Heading
+## Three Questions That Help You Build a Better Software Architecture
 
 This article from InfoQ discusses three crucial questions that guide the architectural decisions for a Minimum Viable Architecture (MVA) when developing a Minimum Viable Product (MVP). The author argues that addressing these questions in a specific order – business viability, performance/scalability, and maintainability/supportability – is key to successful MVP development and a sustainable MVA. The article emphasizes the importance of empiricism, iterative development, and making informed trade-offs.
 

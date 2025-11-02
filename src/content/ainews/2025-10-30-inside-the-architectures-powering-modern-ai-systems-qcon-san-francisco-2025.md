@@ -5,7 +5,7 @@ description: "QCon San Francisco 2025 focuses on real-world AI architecture chal
 categories: ["AI News", "AI Architecture", "Platform Engineering", "Generative AI", "Scalability"]
 ---
 
-## Main Heading
+## Inside the Architectures Powering Modern AI Systems: QCon San Francisco 2025
 
 QCon San Francisco 2025 (November 17–21, 2025) addresses the critical need for validated AI infrastructure patterns as organizations scale AI adoption. The conference emphasizes practical implementation over theoretical discussions, offering lessons from industry leaders on building reliable AI systems, agentic architectures, and scalable platforms. Early bird registration closes on November 11, 2025.
 
