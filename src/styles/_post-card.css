@@ -137,6 +137,43 @@ html[data-theme="dark"] .post-card.read {
   display: flex; 
 }
 
+/* Clear read button - hidden by default, appears on hover */
+.post-card .read-indicator .clear-read-btn {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 50%;
+  background: #ef4444;
+  color: white;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  z-index: 11;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.post-card.read .read-indicator:hover .clear-read-btn {
+  display: flex;
+}
+
+.post-card .clear-read-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 3px 12px rgba(239, 68, 68, 0.5);
+}
+
+.post-card .clear-read-btn:active {
+  transform: scale(0.95);
+}
+
+.post-card .clear-read-btn svg {
+  stroke: white;
+}
+
 /* Post card content */
 .post-card h3 { 
   margin: 0; 

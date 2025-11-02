@@ -316,6 +316,26 @@ const canonicalUrl = canonical
           markCurrentArticleAsRead();
         }
         
+        /**
+         * Clears a single article from read list
+         */
+        function clearReadArticle(url) {
+          try {
+            const readArticles = getReadArticles();
+            const index = readArticles.indexOf(url);
+            if (index !== -1) {
+              readArticles.splice(index, 1);
+              localStorage.setItem(STORAGE_KEY, JSON.stringify(readArticles));
+              updatePostCards();
+            }
+          } catch (e) {
+            console.error('Failed to clear read article:', e);
+          }
+        }
+        
+        // Expose helper for external use
+        window.clearReadArticle = clearReadArticle;
+        
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', init);
         
@@ -323,6 +343,42 @@ const canonicalUrl = canonical
         window.addEventListener('pageshow', function(event) {
           if (event.persisted) {
             init();
+          }
+        });
+      })();
+    </script>
+    
+    <!-- Clear Read Article Handler -->
+    <script is:inline>
+      /**
+       * Delegated click handler for clear read buttons
+       */
+      (function() {
+        document.addEventListener('click', function(event) {
+          // Find if click target is or is inside a clear-read-btn
+          var target = event.target;
+          var button = null;
+          
+          // Traverse up to find the button
+          while (target && target !== document) {
+            if (target.classList && target.classList.contains('clear-read-btn')) {
+              button = target;
+              break;
+            }
+            target = target.parentNode;
+          }
+          
+          if (!button) return;
+          
+          event.preventDefault();
+          event.stopPropagation();
+          
+          var articleUrl = button.getAttribute('data-article-url');
+          if (!articleUrl) return;
+          
+          // Call the exposed helper
+          if (window.clearReadArticle) {
+            window.clearReadArticle(articleUrl);
           }
         });
       })();
