@@ -80,7 +80,9 @@ const hasAINewsTag = post.data.categories?.some(
   <!-- Categories/Tags -->
   {post.data.categories && (
     <div class="tag-row">
-      {post.data.categories.map((category: string) => {
+      {post.data.categories
+        .filter((category: string) => category.toLowerCase() !== 'ai assisted')
+        .map((category: string) => {
         const isAINews = category.toLowerCase() === 'ai news';
         const tagClass = `post-tag ${isAINews ? 'ai-news-tag' : ''}`;
         
