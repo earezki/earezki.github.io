@@ -2,7 +2,7 @@
 // Redesigned search with vibration effect and enhanced UX
 ---
 
-<div class="search-container">
+<div class="header-search">
   <div class="search-box" id="search-box">
     <!-- Search icon -->
     <svg 
@@ -66,14 +66,24 @@
 </div>
 
 <style is:global>
-  .search-container {
+  .header-search {
     margin: 0;
     position: relative;
+    transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+    width: 100%;
   }
   
   .search-box {
     position: relative;
     max-width: 600px;
+    transition: max-width 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+    width: 100%;
+  }
+  
+  /* Expanded state when search is active */
+  .header-search.search-active .search-box {
+    max-width: none !important;
+    width: 100%;
   }
   
   /* Subtle pulse animation on click */
@@ -446,9 +456,12 @@
 <script>
   /**
    * Client-side search functionality with:
+   * - IndexedDB caching for instant subsequent loads
+   * - ETag-based cache invalidation for GitHub Pages
    * - Vibration effect on click
    * - 3 character minimum
    * - Top 6 results cap
+   * - Result caching to prevent unnecessary re-renders
    * - Card layout with date, title, excerpt
    * - Read indicator (checkmark icon)
    * - Go/navigate icon (chevron-right)
@@ -458,24 +471,180 @@
   let searchIndex: any[] | null = null;
   let isLoadingIndex = false;
   
+  // IndexedDB configuration
+  const DB_NAME = 'earezki-search-db';
+  const DB_VERSION = 1;
+  const STORE_NAME = 'search-index';
+  const INDEX_KEY = 'search-data';
+  const VERSION_KEY = 'index-version';
+  
   /**
-   * Load search index from API endpoint
+   * Initialize IndexedDB
+   */
+  function initDB(): Promise<IDBDatabase> {
+    return new Promise((resolve, reject) => {
+      const request = indexedDB.open(DB_NAME, DB_VERSION);
+
+      request.onerror = () => reject(request.error);
+      request.onsuccess = () => resolve(request.result);
+
+      request.onupgradeneeded = (event) => {
+        const db = (event.target as IDBOpenDBRequest).result;
+        if (!db.objectStoreNames.contains(STORE_NAME)) {
+          db.createObjectStore(STORE_NAME);
+        }
+      };
+    });
+  }
+
+  /**
+   * Get cached index and version from IndexedDB
+   */
+  async function getCachedIndex(): Promise<{ data: any[] | null; version: string | null }> {
+    try {
+      const db = await initDB();
+      const tx = db.transaction(STORE_NAME, 'readonly');
+      const store = tx.objectStore(STORE_NAME);
+
+      return new Promise((resolve) => {
+        const dataRequest = store.get(INDEX_KEY);
+        const versionRequest = store.get(VERSION_KEY);
+
+        let completed = 0;
+        let data: any[] | null = null;
+        let version: string | null = null;
+
+        dataRequest.onsuccess = () => {
+          data = dataRequest.result || null;
+          if (++completed === 2) resolve({ data, version });
+        };
+
+        versionRequest.onsuccess = () => {
+          version = versionRequest.result || null;
+          if (++completed === 2) resolve({ data, version });
+        };
+
+        dataRequest.onerror = versionRequest.onerror = () => {
+          resolve({ data: null, version: null });
+        };
+      });
+    } catch (error) {
+      console.warn('[Search] IndexedDB access failed, falling back to fetch:', error);
+      return { data: null, version: null };
+    }
+  }
+
+  /**
+   * Store index and version in IndexedDB
+   */
+  async function cacheIndex(data: any[], version: string): Promise<void> {
+    try {
+      const db = await initDB();
+      const tx = db.transaction(STORE_NAME, 'readwrite');
+      const store = tx.objectStore(STORE_NAME);
+
+      store.put(data, INDEX_KEY);
+      store.put(version, VERSION_KEY);
+
+      return new Promise((resolve, reject) => {
+        tx.oncomplete = () => resolve();
+        tx.onerror = () => reject(tx.error);
+      });
+    } catch (error) {
+      console.warn('[Search] Failed to cache index:', error);
+      // Silently fail - search will still work via memory cache
+    }
+  }
+
+  /**
+   * Get version/ETag from search.json headers
+   * GitHub Pages sets Last-Modified and ETag headers automatically
+   */
+  async function getRemoteVersion(): Promise<string | null> {
+    try {
+      const response = await fetch('/search.json', { method: 'HEAD' });
+      // Use ETag if available, otherwise Last-Modified
+      return response.headers.get('ETag') || response.headers.get('Last-Modified');
+    } catch (error) {
+      console.warn('[Search] Failed to fetch headers:', error);
+      return null;
+    }
+  }
+
+  /**
+   * Load search index with IndexedDB caching and auto-invalidation
+   * Strategy:
+   * 1. Check remote version (HEAD request - fast, headers only)
+   * 2. Compare with cached version in IndexedDB
+   * 3. If versions match, use cache (instant!)
+   * 4. If mismatch or no cache, fetch fresh and update IndexedDB
+   * 5. Graceful fallback chain: IndexedDB → Fetch → Stale Cache → Empty
    */
   async function loadSearchIndex(): Promise<any[]> {
+    // Return in-memory cache if available
     if (searchIndex) return searchIndex;
+
     if (isLoadingIndex) {
       await new Promise(resolve => setTimeout(resolve, 100));
       return loadSearchIndex();
     }
-    
+
     isLoadingIndex = true;
+
     try {
+      // 1. Check remote version first (HEAD request is fast, ~50-100ms)
+      const remoteVersion = await getRemoteVersion();
+
+      // 2. Try to get cached version from IndexedDB
+      const { data: cachedData, version: cachedVersion } = await getCachedIndex();
+
+      // 3. If versions match, use cache (instant load!)
+      if (
+        cachedData &&
+        cachedVersion &&
+        remoteVersion &&
+        cachedVersion === remoteVersion
+      ) {
+        console.log('[Search] Using cached index (up-to-date, version:', cachedVersion.slice(0, 20) + '...)');
+        searchIndex = cachedData;
+        return cachedData;
+      }
+
+      // 4. Versions don't match or no cache - fetch fresh
+      console.log('[Search] Fetching fresh search index');
       const response = await fetch('/search.json');
-      if (!response.ok) throw new Error('Failed to load search index');
-      searchIndex = await response.json();
-      return searchIndex!;
+
+      if (!response.ok) {
+        // If fetch fails but we have cached data, use it (graceful degradation)
+        if (cachedData) {
+          console.warn('[Search] Fetch failed, using stale cache as fallback');
+          searchIndex = cachedData;
+          return cachedData;
+        }
+        throw new Error(`Failed to fetch search index: ${response.status}`);
+      }
+
+      const data = await response.json();
+      searchIndex = data;
+
+      // 5. Update cache with new data and version
+      if (remoteVersion) {
+        await cacheIndex(data, remoteVersion);
+        console.log('[Search] Index cached successfully (version:', remoteVersion.slice(0, 20) + '...)');
+      }
+
+      return data;
     } catch (error) {
       console.error('[Search] Failed to load search index:', error);
+
+      // Last resort: try to return cached data even if stale
+      const { data: cachedData } = await getCachedIndex();
+      if (cachedData) {
+        console.warn('[Search] Using stale cache due to fetch error');
+        searchIndex = cachedData;
+        return cachedData;
+      }
+
       return [];
     } finally {
       isLoadingIndex = false;
@@ -484,14 +653,30 @@
   
   /**
    * Check if article has been read
+   * Memoized for performance with repeated checks
    */
+  const readStatusCache = new Map<string, boolean>();
+  
   function isArticleRead(url: string): boolean {
+    if (readStatusCache.has(url)) {
+      return readStatusCache.get(url)!;
+    }
+    
     try {
       const readArticles = JSON.parse(localStorage.getItem('readArticles') || '[]');
-      return readArticles.includes(url);
+      const isRead = readArticles.includes(url);
+      readStatusCache.set(url, isRead);
+      return isRead;
     } catch {
       return false;
     }
+  }
+  
+  /**
+   * Clear read status cache when localStorage changes
+   */
+  function clearReadStatusCache(): void {
+    readStatusCache.clear();
   }
   
   /**
@@ -502,7 +687,8 @@
     const searchInput = document.getElementById('search-input') as HTMLInputElement;
     const clearButton = document.getElementById('clear-search') as HTMLButtonElement;
     const searchResults = document.getElementById('search-results') as HTMLElement;
-    const searchContainer = document.querySelector('.search-container');
+    const headerSearch = document.querySelector('.header-search') as HTMLElement;
+    const siteHeader = document.querySelector('.site-header') as HTMLElement;
     
     if (!searchInput || !searchResults || !searchBox) return;
     
@@ -513,12 +699,38 @@
     let lastQuery = '';
     let lastResultsHash = '';
     
-    // Vibration effect on focus
+    // Vibration effect and search mode activation on focus
     searchInput.addEventListener('focus', function() {
       searchBox.classList.add('vibrating');
       setTimeout(() => {
         searchBox.classList.remove('vibrating');
       }, 200);
+      
+      // Activate search mode
+      if (siteHeader) {
+        siteHeader.classList.add('search-active');
+      }
+      if (headerSearch) {
+        headerSearch.classList.add('search-active');
+      }
+      
+      // Reopen results if there's existing query with 3+ characters
+      if (searchInput.value.trim().length >= 3) {
+        performSearch(searchInput.value);
+      }
+    });
+    
+    // Hide nav when search is active, show when not
+    searchInput.addEventListener('blur', function() {
+      // Delay to allow clicks on search results to register
+      setTimeout(() => {
+        if (siteHeader) {
+          siteHeader.classList.remove('search-active');
+        }
+        if (headerSearch) {
+          headerSearch.classList.remove('search-active');
+        }
+      }, 100);
     });
     
     /**
@@ -535,8 +747,8 @@
         return;
       }
       
-      // Skip if query hasn't changed
-      if (query === lastQuery) {
+      // Skip if query hasn't changed AND results are already visible
+      if (query === lastQuery && searchResults.style.display === 'block') {
         return;
       }
       lastQuery = query;
@@ -595,8 +807,8 @@
       // Create hash of results to detect changes
       const resultsHash = sorted.slice(0, 6).map(a => a.url).join('|');
       
-      // Only update if results have changed
-      if (resultsHash !== lastResultsHash) {
+      // Update display if results changed OR if results are currently hidden (refocus scenario)
+      if (resultsHash !== lastResultsHash || searchResults.style.display !== 'block') {
         lastResultsHash = resultsHash;
         displaySearchResults(sorted);
       }
@@ -726,21 +938,26 @@
         searchInput.value = '';
         searchResults.style.display = 'none';
         clearButton.style.display = 'none';
+        if (siteHeader) {
+          siteHeader.classList.remove('search-active');
+        }
+        if (headerSearch) {
+          headerSearch.classList.remove('search-active');
+        }
         searchInput.focus();
       });
     }
     
-    // Close results when clicking outside
+    // Close results and collapse search when clicking outside
     document.addEventListener('click', function(e) {
-      if (searchContainer && !searchContainer.contains(e.target as Node)) {
+      if (headerSearch && !headerSearch.contains(e.target as Node)) {
         searchResults.style.display = 'none';
-      }
-    });
-    
-    // Reopen results on focus with existing query
-    searchInput.addEventListener('focus', function() {
-      if (searchInput.value.trim().length >= 3) {
-        performSearch(searchInput.value);
+        if (siteHeader) {
+          siteHeader.classList.remove('search-active');
+        }
+        if (headerSearch) {
+          headerSearch.classList.remove('search-active');
+        }
       }
     });
   });

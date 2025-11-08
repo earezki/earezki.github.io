@@ -29,10 +29,17 @@ Minimal checks for PRs
 - No recomputation of readingTime or excerpts in pages/components.
 - Types must use ProcessedPost (no any).
 
+Performance optimizations
+- Heavy operations indexed at build time in `dataCache.ts`.
+- Client-side search: IndexedDB for caching (not querying), JavaScript for filtering.
+- Use Set for O(1) lookups instead of Array.includes() for large collections.
+- Result caching to prevent unnecessary re-renders.
+- Debouncing for user input (150ms standard).
+
 If something breaks
 - Revert changes and run `npm run build` locally to reproduce. Check `.astro` cache and `src/utils/dataCache.ts` exports.
 
+Other conventions
 - cv-\*.(pdf|md|html) are generated during build time.
-- For performance reasons, prefer heavy operations to be indexed during build time.
 - Always add professional subtle animations.
-- SEO optimations are important.
+- SEO optimizations are important.

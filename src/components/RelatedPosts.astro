@@ -2,12 +2,12 @@
 /**
  * Related Posts Component
  * Displays related posts based on shared categories
+ * Uses precomputed values from ProcessedPost for optimal performance
  */
-import { plainExcerpt } from '../utils/excerpt';
-import readingTime from '../utils/readingTime';
+import type { ProcessedPost } from '../utils/dataCache';
 
 interface Props {
-  posts: any[];
+  posts: ProcessedPost[];
   title?: string;
 }
 
@@ -20,9 +20,13 @@ if (posts.length === 0) return null;
   <h2>{title}</h2>
   <div class="related-posts-grid">
     {posts.map(post => {
-      const stats = readingTime(post.body);
-      const excerpt = plainExcerpt(post.body, 20, 120);
-      const postUrl = post.urlPath || `/${post.slug}/`;
+      // Use precomputed values from ProcessedPost - no recomputation needed
+      const stats = post.readingTime;
+      // Truncate excerpt to ~120 chars if needed
+      const excerpt = post.excerpt.length > 120 
+        ? post.excerpt.slice(0, 120).replace(/\s+\S*$/, '') + '…'
+        : post.excerpt;
+      const postUrl = post.urlPath;
       
       return (
         <article class="related-post-card">

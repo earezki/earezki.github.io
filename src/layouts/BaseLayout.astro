@@ -146,9 +146,7 @@ const canonicalUrl = canonical
       </div>
       
       <!-- Search Box in Header -->
-      <div class="header-search">
-        <SearchBox />
-      </div>
+      <SearchBox />
       
       <nav class="main-nav" aria-label="Main navigation">
         <a href="/">
@@ -247,6 +245,7 @@ const canonicalUrl = canonical
       /**
        * Tracks which articles have been read using localStorage
        * Updates post card styling on list pages
+       * Optimized with Set for O(1) lookups instead of O(n)
        */
       (function() {
         const STORAGE_KEY = 'readArticles';
@@ -289,21 +288,23 @@ const canonicalUrl = canonical
         
         /**
          * Updates post card styling on list pages based on read status
+         * Optimized: Parse localStorage once and use Set for O(1) lookups
          */
         function updatePostCards() {
+          // Parse localStorage once and convert to Set for O(1) lookups
+          const readArticles = new Set(getReadArticles());
           const postCards = document.querySelectorAll('.post-card[data-article-url]');
           
           postCards.forEach(function(card) {
             const url = card.getAttribute('data-article-url');
             if (!url) return;
             
-            if (isArticleRead(url)) {
-              card.classList.add('read');
-              card.classList.remove('unread');
-            } else {
-              card.classList.add('unread');
-              card.classList.remove('read');
-            }
+            // Use Set.has() - O(1) instead of Array.includes() - O(n)
+            const isRead = readArticles.has(url);
+            
+            // Use classList.toggle for cleaner, more efficient updates
+            card.classList.toggle('read', isRead);
+            card.classList.toggle('unread', !isRead);
           });
         }
         
@@ -328,14 +329,16 @@ const canonicalUrl = canonical
         
         /**
          * Clears a single article from read list
+         * Uses Set for efficient removal
          */
         function clearReadArticle(url) {
           try {
             const readArticles = getReadArticles();
-            const index = readArticles.indexOf(url);
-            if (index !== -1) {
-              readArticles.splice(index, 1);
-              localStorage.setItem(STORAGE_KEY, JSON.stringify(readArticles));
+            const readSet = new Set(readArticles);
+            
+            if (readSet.has(url)) {
+              readSet.delete(url);
+              localStorage.setItem(STORAGE_KEY, JSON.stringify(Array.from(readSet)));
               updatePostCards();
             }
           } catch (e) {

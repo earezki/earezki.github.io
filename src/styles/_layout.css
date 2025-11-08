@@ -48,14 +48,13 @@
   justify-self: center;
   width: 100%;
   max-width: 400px;
+  transition: max-width 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
 }
 
-.header-search .search-container {
-  margin-bottom: 0;
-}
-
-.header-search .search-box {
+.header-search.search-active {
   max-width: none;
+  justify-self: stretch;
+  width: 100%;
 }
 
 .header-search .search-results {
@@ -71,6 +70,48 @@
   overflow-y: auto;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
   z-index: 1000;
+}
+
+/* When search is active, expand it to the right and hide nav buttons */
+.site-header.search-active {
+  grid-template-columns: auto 1fr auto;
+}
+
+.site-header.search-active .header-search {
+  max-width: none;
+  grid-column: 2 / 3;
+}
+
+.site-header.search-active .main-nav {
+  display: none;
+  animation: fadeOutSlideRight 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
+}
+
+/* Show nav buttons with animation when search is not active */
+.site-header .main-nav {
+  animation: fadeInSlideLeft 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+@keyframes fadeOutSlideRight {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+}
+
+@keyframes fadeInSlideLeft {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 @media (max-width: 768px) {
