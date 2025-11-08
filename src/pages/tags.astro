@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { getAllTags, getProcessedAinews } from '../utils/dataCache';
+import { slugify } from '../utils/slugify';
 
 const tagMap = await getAllTags();
 const ainewsPosts = await getProcessedAinews();
@@ -12,7 +13,7 @@ const tags = Array.from(tagMap.entries()).sort((a,b) => a[0].localeCompare(b[0])
   <ul style="list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 0.75rem;">
     <li><a class="post-tag ai-news-tag" href="/ai-news/">AI News <span style="opacity:.6;">({ainewsPosts.length})</span></a></li>
     {tags.map(([name, count]) => (
-      <li><a class="post-tag" href={`/tags/${encodeURIComponent(name.toLowerCase().replace(/\s+/g,'-'))}/`}>{name} <span style="opacity:.6;">({count})</span></a></li>
+      <li><a class="post-tag" href={`/tags/${slugify(name)}/`}>{name} <span style="opacity:.6;">({count})</span></a></li>
     ))}
   </ul>
 </BaseLayout>

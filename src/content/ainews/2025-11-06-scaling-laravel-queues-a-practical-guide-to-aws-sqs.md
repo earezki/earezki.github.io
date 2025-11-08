@@ -49,7 +49,7 @@ Before configuring Laravel, set up AWS infrastructure:
 Update Laravel’s environment and configuration files to use SQS:
 
 #### `.env` File Changes
-```env
+```text
 QUEUE_CONNECTION=sqs
 AWS_ACCESS_KEY_ID="your_iam_access_key"
 AWS_SECRET_ACCESS_KEY="your_iam_secret_key"
@@ -103,7 +103,7 @@ For further reference: [Scaling Laravel Queues with AWS SQS](https://dev.to/sopn
 ## Working Example (Code-Related)
 
 ### `.env` Configuration Example
-```env
+```text
 QUEUE_CONNECTION=sqs
 AWS_ACCESS_KEY_ID=AKIAXXXXXXXXXXXXXXXX
 AWS_SECRET_ACCESS_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

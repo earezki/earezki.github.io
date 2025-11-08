@@ -31,7 +31,7 @@ This article details the creation of **Dev Assist**, a Laravel-based AI agent in
   composer require neuron-core/neuron-ai
   ```
 - Configure `.env` with Gemini credentials:
-  ```env
+    ```text
   NEURON_PROVIDER=gemini
   GEMINI_API_KEY=your_gemini_api_key
   GEMINI_MODEL=gemini-2.5-flash

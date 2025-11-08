@@ -72,7 +72,7 @@ This article provides a step-by-step guide to mastering Docker on Azure, coverin
   └── Dockerfile
   ```  
 - **Dockerfile**:  
-  ```Dockerfile
+  ```dockerfile
   FROM python:3.9-slim
   WORKDIR /app
   COPY requirements.txt .
@@ -140,7 +140,7 @@ This article provides a step-by-step guide to mastering Docker on Azure, coverin
 **Purpose**: Optimize image security and size.  
 **Example**:  
 - **Multi-Stage Build**:  
-  ```Dockerfile
+  ```dockerfile
   # Build stage
   FROM python:3.9-slim as builder
   RUN pip install --user -r requirements.txt
@@ -152,7 +152,7 @@ This article provides a step-by-step guide to mastering Docker on Azure, coverin
   CMD ["python", "app.py"]
   ```  
 - **Health Checks**:  
-  ```Dockerfile
+  ```dockerfile
   HEALTHCHECK --interval=30s CMD curl -f http://localhost:5000/ || exit 1
   ```  
   **Impact**: Reduces image size and enhances security.

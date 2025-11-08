@@ -5,6 +5,7 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import RelatedPosts from '../../components/RelatedPosts.astro';
 import { getAllAinews, getAllProcessedContent, findAinewsBySlug } from '../../utils/dataCache';
 import { RelatedPostsFinder, generateBreadcrumbs } from '../../utils/relatedContentOptimized';
+import { slugify } from '../../utils/slugify';
 
 export async function getStaticPaths() {
   const posts = await getAllAinews();
@@ -91,9 +92,9 @@ const { Content } = await rawPost.render();
           <span>• {stats.text}</span>
         </div>
         {post.data.categories && <div class="tag-row">{post.data.categories.map((c: string) => {
-          const slugTag = c.toLowerCase().replace(/\s+/g,'-');
+          const slugTag = slugify(c);
           const isAINews = c.toLowerCase() === 'ai news';
-          return <a class={`post-tag ${isAINews ? 'ai-news-tag' : ''}`} href={`/tags/${encodeURIComponent(slugTag)}/`}>{c}</a>;
+          return <a class={`post-tag ${isAINews ? 'ai-news-tag' : ''}`} href={`/tags/${slugTag}/`}>{c}</a>;
         })}</div>}
       </header>
       <div class="post-body prose">

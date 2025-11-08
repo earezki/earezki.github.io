@@ -6,6 +6,7 @@ import RelatedPosts from '../components/RelatedPosts.astro';
 import SeriesNavigation from '../components/SeriesNavigation.astro';
 import { getAllPosts, getAllProcessedContent, findPostBySlug } from '../utils/dataCache';
 import { RelatedPostsFinder, generateBreadcrumbs } from '../utils/relatedContentOptimized';
+import { slugify } from '../utils/slugify';
 
 export async function getStaticPaths() {
   const posts = await getAllPosts();
@@ -99,9 +100,9 @@ const { Content } = await rawPost.render();
         {post.data.categories && <div class="tag-row">{post.data.categories
           .filter((c: string) => c.toLowerCase() !== 'ai assisted')
           .map((c: string) => {
-          const slugTag = c.toLowerCase().replace(/\s+/g,'-');
+          const slugTag = slugify(c);
           const isAINews = c.toLowerCase() === 'ai news';
-          return <a class={`post-tag ${isAINews ? 'ai-news-tag' : ''}`} href={`/tags/${encodeURIComponent(slugTag)}/`}>{c}</a>;
+          return <a class={`post-tag ${isAINews ? 'ai-news-tag' : ''}`} href={`/tags/${slugTag}/`}>{c}</a>;
         })}</div>}
       </header>
       {hasAIAssisted && (

@@ -42,7 +42,7 @@ This article explains how to implement secure authentication for a GraphQL API u
    git clone https://github.com/StacklokLabs/apollo-mcp-auth-demo
    ```
 2. Configure `.env` with Okta domain, issuer, audience, and scopes:
-   ```env
+   ```text
    OKTA_DOMAIN=integrator-3683736.okta.com
    OKTA_ISSUER=https://integrator-3683736.okta.com/oauth2/auswdh3wurjeJ62La697
    OKTA_AUDIENCE=backend

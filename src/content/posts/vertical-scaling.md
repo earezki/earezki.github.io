@@ -21,7 +21,7 @@ Key areas to optimize
 - CPU: identify hot paths to parallelize and tune thread pools; ensure affinity/NUMA is considered on multi-socket boxes.
 
 Example: PostgreSQL tune for a large instance
-```conf
+```text
 # postgresql.conf (excerpt)
 shared_buffers = '25GB'
 work_mem = '64MB'

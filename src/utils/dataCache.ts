@@ -11,6 +11,7 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
 import readingTime, { type ReadingTimeResult } from './readingTime.js';
 import { plainExcerpt } from './excerpt.js';
+import { slugify } from './slugify.js';
 
 /**
  * Extended post with precomputed metadata
@@ -201,7 +202,9 @@ export async function getAllTags(): Promise<Map<string, number>> {
   for (const content of allContent) {
     const categories = content.data.categories || [];
     for (const category of categories) {
-      const tag = category.trim();
+      const tag = (category || '').toString().trim();
+      // Skip empty/blank category entries which would generate invalid routes
+      if (!tag) continue;
       // Don't count "AI News" as a separate tag since it has its own section
       if (tag.toLowerCase() !== 'ai news') {
         tagMap.set(tag, (tagMap.get(tag) || 0) + 1);
@@ -219,13 +222,11 @@ export async function getAllTags(): Promise<Map<string, number>> {
  */
 export async function getPostsByTag(tag: string): Promise<ProcessedPost[]> {
   const allContent = await getAllProcessedContent();
-  const normalizedTag = tag.toLowerCase().replace(/\s+/g, '-');
-  
+  const normalizedTag = slugify(tag);
+
   return allContent.filter(post => {
     const categories = post.data.categories || [];
-    return categories.some((cat: string) => 
-      cat.toLowerCase().replace(/\s+/g, '-') === normalizedTag
-    );
+    return categories.some((cat: string) => slugify(cat) === normalizedTag);
   });
 }
 

@@ -101,9 +101,10 @@ const canonicalUrl = canonical
     <!-- Analytics: Google Analytics (Legacy UA) - Deferred to not block rendering -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-161447264-1"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);} 
-      gtag('js', new Date()); 
+      // Keep types happy in the Astro TypeScript analysis by casting window to any
+      (window as any).dataLayer = (window as any).dataLayer || [];
+      function gtag(...args: any[]) { (window as any).dataLayer.push(args); }
+      gtag('js', new Date());
       gtag('config', 'UA-161447264-1');
     </script>
     

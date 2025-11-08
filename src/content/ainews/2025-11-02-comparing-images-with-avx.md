@@ -32,7 +32,7 @@ The algorithm processes images in **RGBA8 format** (3 color channels + 1 alpha c
 - Load image data into registers (`xmm1`, `xmm2`) using `vmovdqu8`.
 - Replace transparent pixels (alpha = 0) with white using mask registers (`k6`, `k7`) and `vpcmpequb` for comparison, followed by `vmovdqu8` to apply the replacement.
 
-```assembly
+```text
 kxor k6, k6, k6
 vpcmpequb k6 {k4}, xmm1, xmm0  ; Compare alpha channel to 0
 kshiftlb k6, k6, 1             ; Propagate mask to RGB channels
@@ -43,7 +43,7 @@ vmovdqu8 xmm1 {k7}, xmm31      ; Replace masked pixels with white
 - Convert bytes to 32-bit integers with `vpmovzxbd`, then to floats using `vcvtudq2ps`.
 - Normalize alpha values from `0-255` to `0.0-1.0` using `vmulps` with a scaling factor.
 
-```assembly
+```text
 vpmovzxbd zmm1, xmm1
 vcvtudq2ps zmm1, zmm1
 vmulps zmm1 {k4}, zmm1, zmm3  ; Scale alpha to [0.0, 1.0]
@@ -53,7 +53,7 @@ vmulps zmm1 {k4}, zmm1, zmm3  ; Scale alpha to [0.0, 1.0]
 - Blend RGB channels with white using alpha via `(RGB - 255.0) * A + 255.0`.
 - Convert RGB to YIQ using precomputed matrices (`zmm7`, `zmm8`, `zmm9`) and `vmulps`.
 
-```assembly
+```text
 vmulps zmm10, zmm1, zmm7  ; Y component
 vmulps zmm11, zmm1, zmm8  ; I component
 vmulps zmm12, zmm1, zmm9  ; Q component
@@ -63,7 +63,7 @@ vmulps zmm12, zmm1, zmm9  ; Q component
 - Compute the difference between base and comparison image YIQ values.
 - Square the differences and multiply by a delta coefficient (`zmm29`).
 
-```assembly
+```text
 vsubps zmm16, zmm16, zmm26  ; YIQ difference
 vmulps zmm16, zmm16, zmm16  ; Square the differences
 vmulps zmm16, zmm16, zmm29  ; Multiply by delta coefficient
@@ -73,7 +73,7 @@ vmulps zmm16, zmm16, zmm29  ; Multiply by delta coefficient
 - Aggregate YIQ channel differences into a single value using `vaddps`.
 - Compare against a threshold (`xmm28`) and count differing pixels with `popcnt`.
 
-```assembly
+```text
 vcmpgtps k6, xmm16, xmm28
 kmov eax, k6
 popcnt eax, eax            ; Count differing pixels
@@ -83,7 +83,7 @@ popcnt eax, eax            ; Count differing pixels
 
 ### Working Example (AVX512 Assembly)
 
-```assembly
+```text
 section .data
     ; Precomputed YIQ conversion matrix
     zmm7: dd 0.299, 0.587, 0.114, 0.0, 0.0, 0.0, 0.0, 0.0, ...

@@ -1,14 +1,25 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getAllTags, getPostsByTag } from '../../utils/dataCache';
+import { slugify } from '../../utils/slugify';
 
 export async function getStaticPaths() {
   const tagMap = await getAllTags();
   
-  return Array.from(tagMap.entries()).map(([label, count]) => {
-    const slug = label.toLowerCase().replace(/\s+/g,'-');
-    return { params: { tag: slug }, props: { slug, label, count } };
-  });
+  // Build paths but skip any tags that slugify to an empty string
+  const paths = [] as Array<any>;
+  for (const [label, count] of Array.from(tagMap.entries())) {
+    const slug = slugify(label);
+    if (!slug) {
+      // If a label produces an empty slug, skip it — this avoids "Missing parameter: tag"
+      // Optional: uncomment the console.log for debugging during builds
+      // console.warn('[tags] skipping empty slug for label:', JSON.stringify(label));
+      continue;
+    }
+    paths.push({ params: { tag: slug }, props: { slug, label, count } });
+  }
+
+  return paths;
 }
 
 const { slug, label, count } = Astro.props;
