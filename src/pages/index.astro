@@ -45,27 +45,60 @@ const structuredData = {
   <!-- Featured Topics Section -->
   <section class="featured-topics fade-in-up" aria-label="Featured topics">
     <h2>Explore Topics</h2>
-    <div class="topic-cards stagger-children">
-      <a href="/tags/solid/" class="topic-card">
-        <span class="topic-icon">🎯</span>
-        <h3>SOLID Principles</h3>
-        <p>Learn object-oriented design principles for better code</p>
-      </a>
-      <a href="/tags/software-architecture/" class="topic-card">
-        <span class="topic-icon">🏗️</span>
-        <h3>Software Architecture</h3>
-        <p>Patterns and practices for scalable systems</p>
-      </a>
-      <a href="/tags/domain-driven-design/" class="topic-card">
-        <span class="topic-icon">📐</span>
-        <h3>Domain-Driven Design</h3>
-        <p>Build software that reflects your business domain</p>
-      </a>
-      <a href="/ai-news/" class="topic-card ai-topic">
-        <span class="topic-icon">🤖</span>
-        <h3>AI News</h3>
-        <p>Latest developments in artificial intelligence</p>
-      </a>
+    <div class="topic-cards-scroll">
+      <div class="topic-cards">
+        <a href="/tags/solid/" class="topic-card">
+          <span class="topic-icon">🎯</span>
+          <h3>SOLID Principles</h3>
+          <p>Learn object-oriented design principles for better code</p>
+        </a>
+        <a href="/tags/software-architecture/" class="topic-card">
+          <span class="topic-icon">🏗️</span>
+          <h3>Software Architecture</h3>
+          <p>Patterns and practices for scalable systems</p>
+        </a>
+        <a href="/tags/domain-driven-design/" class="topic-card">
+          <span class="topic-icon">📐</span>
+          <h3>Domain-Driven Design</h3>
+          <p>Build software that reflects your business domain</p>
+        </a>
+        <a href="/tags/algorithms/" class="topic-card">
+          <span class="topic-icon">🔀</span>
+          <h3>Algorithms</h3>
+          <p>Master core algorithm patterns and data structures</p>
+        </a>
+        <a href="/ai-news/" class="topic-card ai-topic">
+          <span class="topic-icon">🤖</span>
+          <h3>AI News</h3>
+          <p>Latest developments in artificial intelligence</p>
+        </a>
+        <!-- Duplicated for continuous scroll -->
+        <a href="/tags/solid/" class="topic-card">
+          <span class="topic-icon">🎯</span>
+          <h3>SOLID Principles</h3>
+          <p>Learn object-oriented design principles for better code</p>
+        </a>
+        <a href="/tags/software-architecture/" class="topic-card">
+          <span class="topic-icon">🏗️</span>
+          <h3>Software Architecture</h3>
+          <p>Patterns and practices for scalable systems</p>
+        </a>
+        <a href="/tags/domain-driven-design/" class="topic-card">
+          <span class="topic-icon">📐</span>
+          <h3>Domain-Driven Design</h3>
+          <p>Build software that reflects your business domain</p>
+        </a>
+        <a href="/tags/algorithms/" class="topic-card">
+          <span class="topic-icon">🔀</span>
+          <h3>Algorithms</h3>
+          <p>Master core algorithm patterns and data structures</p>
+        </a>
+        <a href="/ai-news/" class="topic-card ai-topic">
+          <span class="topic-icon">🤖</span>
+          <h3>AI News</h3>
+          <p>Latest developments in artificial intelligence</p>
+        </a>
+      </div>
     </div>
   </section>
   
@@ -84,6 +117,68 @@ const structuredData = {
   )}
 </BaseLayout>
 
+<script>
+  const topicCardsScroll = document.querySelector('.topic-cards-scroll') as HTMLElement;
+  const topicCards = document.querySelector('.topic-cards') as HTMLElement;
+  const allCards = document.querySelectorAll('.topic-card') as NodeListOf<HTMLElement>;
+  
+  if (topicCardsScroll && topicCards) {
+    let isDown = false;
+    let startX = 0;
+    let scrollLeft = 0;
+    let hasDragged = false;
+    
+    topicCardsScroll.addEventListener('mousedown', (e: MouseEvent) => {
+      isDown = true;
+      hasDragged = false;
+      topicCardsScroll.style.cursor = 'grabbing';
+      startX = e.pageX - topicCardsScroll.offsetLeft;
+      scrollLeft = topicCardsScroll.scrollLeft;
+      topicCards.style.animationPlayState = 'paused';
+    });
+    
+    topicCardsScroll.addEventListener('mouseleave', () => {
+      isDown = false;
+      topicCardsScroll.style.cursor = 'grab';
+      topicCards.style.animationPlayState = 'running';
+      allCards.forEach(card => card.classList.remove('dragging'));
+    });
+    
+    topicCardsScroll.addEventListener('mouseup', () => {
+      isDown = false;
+      topicCardsScroll.style.cursor = 'grab';
+      topicCards.style.animationPlayState = 'running';
+      allCards.forEach(card => card.classList.remove('dragging'));
+    });
+    
+    topicCardsScroll.addEventListener('mousemove', (e: MouseEvent) => {
+      if (!isDown) return;
+      e.preventDefault();
+      
+      const x = e.pageX - topicCardsScroll.offsetLeft;
+      const walk = (x - startX) * 2; // Multiply for faster scrolling
+      
+      // If moved more than 5px, mark as dragged and disable card pointer events
+      if (Math.abs(walk) > 5 && !hasDragged) {
+        hasDragged = true;
+        allCards.forEach(card => card.classList.add('dragging'));
+      }
+      
+      topicCardsScroll.scrollLeft = scrollLeft - walk;
+    });
+    
+    // Prevent click navigation if we dragged
+    allCards.forEach(card => {
+      card.addEventListener('click', (e: MouseEvent) => {
+        if (hasDragged) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      });
+    });
+  }
+</script>
+
 <style>
   .featured-topics {
     margin: 0 0 3rem;
@@ -95,11 +190,50 @@ const structuredData = {
     color: var(--color-text);
   }
   
+  .topic-cards-scroll {
+    position: relative;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-top: 0.75rem;
+    cursor: grab;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+    mask-image: linear-gradient(90deg, 
+      transparent 0%, 
+      black 5%, 
+      black 95%, 
+      transparent 100%);
+    -webkit-mask-image: linear-gradient(90deg, 
+      transparent 0%, 
+      black 5%, 
+      black 95%, 
+      transparent 100%);
+  }
+  
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .topic-cards-scroll::-webkit-scrollbar {
+    display: none;
+  }
+  
   .topic-cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    display: flex;
     gap: 1.25rem;
+    animation: scroll 25s linear infinite;
+    will-change: transform;
     margin-bottom: 2rem;
+  }
+  
+  @keyframes scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(calc(-50% - 0.625rem));
+    }
+  }
+  
+  .topic-cards:hover {
+    animation-play-state: paused;
   }
   
   .topic-card {
@@ -114,6 +248,13 @@ const structuredData = {
     transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
     position: relative;
     overflow: hidden;
+    flex-shrink: 0;
+    min-width: 240px;
+    pointer-events: auto;
+  }
+  
+  .topic-card.dragging {
+    pointer-events: none;
   }
   
   /* Gradient background overlay for all topic cards */
@@ -157,7 +298,7 @@ const structuredData = {
   }
   
   .topic-card:hover {
-    transform: translateY(-6px) scale(1.02);
+    transform: translateY(-6px);
     box-shadow: 0 12px 32px -8px rgba(99, 102, 241, 0.2),
                 0 6px 20px -4px rgba(168, 85, 247, 0.15);
     border-color: rgba(99, 102, 241, 0.3);
@@ -177,7 +318,7 @@ const structuredData = {
   }
   
   .topic-card:active {
-    transform: translateY(-4px) scale(1);
+    transform: translateY(-4px);
   }
   
   .topic-card.ai-topic {
