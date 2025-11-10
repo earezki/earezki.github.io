@@ -1,0 +1,306 @@
+<!DOCTYPE html><html lang="en" data-theme="dark"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Architecture Should Model the Real World: Lessons from Software Failures and Resilience Strategies • Dev|Journal</title><meta name="description" content="Architecture Should Model the Real World: A Conversation with Randy Shoup This podcast delves into the principles of resilient software architecture,…"><meta name="keywords" content="AI News, Technology"><meta name="author" content="El Mehdi Arezki"><meta property="og:type" content="website"><meta property="og:url" content="https://earezki.com/ai-news/2025-11-10-podcast-architecture-should-model-the-world-as-it-really-is-a-conversation-with-randy-shoup/"><meta property="og:title" content="Architecture Should Model the Real World: Lessons from Software Failures and Resilience Strategies • Dev|Journal"><meta property="og:site_name" content="Dev|Journal"><meta property="og:description" content="Architecture Should Model the Real World: A Conversation with Randy Shoup This podcast delves into the principles of resilient software architecture,…"><meta property="og:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:url" content="https://earezki.com/ai-news/2025-11-10-podcast-architecture-should-model-the-world-as-it-really-is-a-conversation-with-randy-shoup/"><meta name="twitter:title" content="Architecture Should Model the Real World: Lessons from Software Failures and Resilience Strategies • Dev|Journal"><meta name="twitter:description" content="Architecture Should Model the Real World: A Conversation with Randy Shoup This podcast delves into the principles of resilient software architecture,…"><meta name="twitter:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:creator" content="@earezki"><link rel="canonical" href="https://earezki.com/ai-news/2025-11-10-podcast-architecture-should-model-the-world-as-it-really-is-a-conversation-with-randy-shoup/"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/x-icon" href="/favicon.ico"><link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"><link rel="dns-prefetch" href="https://www.googletagmanager.com"><link rel="dns-prefetch" href="https://www.google-analytics.com"><link rel="dns-prefetch" href="https://cloud.umami.is"><link rel="preconnect" href="https://www.googletagmanager.com" crossorigin><!-- Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=UA-161447264-1"></script><script defer src="https://cloud.umami.is/script.js" data-website-id="4a26531d-1053-4f79-97a6-06a1366aff91"></script><!-- Theme persistence before render --><script>
+      (function() {
+        const theme = localStorage.getItem('theme');
+        if (theme) document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Architecture Should Model the Real World: Lessons from Software Failures and Resilience Strategies","description":"Architecture Should Model the Real World: A Conversation with Randy Shoup This podcast delves into the principles of resilient software architecture,…","image":"https://earezki.com/assets/og-image-default.jpg","datePublished":"2025-11-10T00:00:00.000Z","dateModified":"2025-11-10T00:00:00.000Z","author":{"@type":"Person","name":"El Mehdi Arezki","url":"https://earezki.com/about","jobTitle":"Lead Software Engineer","sameAs":["https://github.com/earezki","https://www.linkedin.com/in/mehdi-arezki"]},"publisher":{"@type":"Organization","name":"Dev|Journal","url":"https://earezki.com","logo":{"@type":"ImageObject","url":"https://earezki.com/assets/logo.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://earezki.com/ai-news/2025-11-10-podcast-architecture-should-model-the-world-as-it-really-is-a-conversation-with-randy-shoup/"}}</script><link rel="stylesheet" href="/_astro/_slug_.DyQaSGDN.css">
+<style>.toc[data-astro-cid-xvrfupwn]{position:sticky;top:90px;max-height:calc(100vh - 120px);overflow:auto;padding:1rem 1rem 1.2rem;background:var(--color-bg-alt);border:1px solid var(--color-border);border-radius:var(--radius-md);font-size:.8rem;line-height:1.3}.toc-title[data-astro-cid-xvrfupwn]{font-weight:600;font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.6rem;color:var(--color-text-alt)}.toc[data-astro-cid-xvrfupwn] ul[data-astro-cid-xvrfupwn]{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.35rem}.toc[data-astro-cid-xvrfupwn] a[data-astro-cid-xvrfupwn]{text-decoration:none;color:var(--color-text-alt);transition:color var(--transition)}.toc[data-astro-cid-xvrfupwn] a[data-astro-cid-xvrfupwn]:hover{color:var(--color-accent)}.toc[data-astro-cid-xvrfupwn] li[data-astro-cid-xvrfupwn][class*=d-3]{margin-left:.75rem}.toc[data-astro-cid-xvrfupwn] li[data-astro-cid-xvrfupwn][class*=d-4]{margin-left:1.4rem}@media (max-width: 1080px){.toc[data-astro-cid-xvrfupwn]{display:none}}.breadcrumbs[data-astro-cid-ilhxcym7]{margin:0 0 1.5rem;font-size:.85rem}.breadcrumbs[data-astro-cid-ilhxcym7] ol[data-astro-cid-ilhxcym7]{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;align-items:center;gap:.5rem}.breadcrumbs[data-astro-cid-ilhxcym7] li[data-astro-cid-ilhxcym7]{display:flex;align-items:center;gap:.5rem}.breadcrumbs[data-astro-cid-ilhxcym7] a[data-astro-cid-ilhxcym7]{color:var(--color-text-alt);text-decoration:none;transition:color var(--transition)}.breadcrumbs[data-astro-cid-ilhxcym7] a[data-astro-cid-ilhxcym7]:hover{color:var(--color-accent);text-decoration:underline}.breadcrumbs[data-astro-cid-ilhxcym7] .separator[data-astro-cid-ilhxcym7]{color:var(--color-text-alt);opacity:.5;user-select:none}.breadcrumbs[data-astro-cid-ilhxcym7] .current[data-astro-cid-ilhxcym7]{color:var(--color-text);font-weight:500}.related-posts[data-astro-cid-dpgbfi7r]{margin:3rem 0;padding-top:2rem;border-top:2px solid var(--color-border)}.related-posts[data-astro-cid-dpgbfi7r] h2[data-astro-cid-dpgbfi7r]{font-size:1.5rem;margin:0 0 1.5rem;color:var(--color-text)}.related-posts-grid[data-astro-cid-dpgbfi7r]{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem}.related-post-card[data-astro-cid-dpgbfi7r]{background:var(--color-bg-alt);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;transition:all var(--transition)}.related-post-card[data-astro-cid-dpgbfi7r]:hover{border-color:var(--color-accent);transform:translateY(-2px);box-shadow:var(--shadow-md)}.related-post-link[data-astro-cid-dpgbfi7r]{text-decoration:none;color:inherit;display:block}.related-post-card[data-astro-cid-dpgbfi7r] h3[data-astro-cid-dpgbfi7r]{margin:0 0 .75rem;font-size:1.1rem;font-weight:600;color:var(--color-text);line-height:1.3}.related-post-link[data-astro-cid-dpgbfi7r]:hover h3[data-astro-cid-dpgbfi7r]{color:var(--color-accent)}.related-excerpt[data-astro-cid-dpgbfi7r]{font-size:.85rem;color:var(--color-text-alt);line-height:1.5;margin:0 0 .75rem}.related-meta[data-astro-cid-dpgbfi7r]{font-size:.75rem;color:var(--color-text-alt);display:flex;gap:.5rem;align-items:center}@media (max-width: 680px){.related-posts-grid[data-astro-cid-dpgbfi7r]{grid-template-columns:1fr}}
+.post-layout[data-astro-cid-rkg3zjxi]{display:grid;grid-template-columns:260px 1fr;gap:2.5rem}.sidebar-left[data-astro-cid-rkg3zjxi]{position:relative}@media (max-width: 1080px){.post-layout[data-astro-cid-rkg3zjxi]{grid-template-columns:1fr}}
+</style><script type="module" src="/_astro/hoisted.BNOEVMwr.js"></script></head> <body> <div id="readingProgress" role="progressbar" aria-label="Reading progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="position:fixed;left:0;top:0;height:3px;background:linear-gradient(90deg,#2563eb,#9333ea);width:0;z-index:999;transition:width .15s ease;"></div>  <!-- Site Header --> <header class="site-header container"> <div class="logo-wrap"> <a class="logo" href="/" aria-label="Dev|Journal Home">
+Dev|Journal
+</a> </div> <!-- Search Box in Header --> <div class="header-search"> <div class="search-box" id="search-box"> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon" aria-hidden="true"> <circle cx="11" cy="11" r="8"></circle> <path d="m21 21-4.35-4.35"></path> </svg> <input type="text" id="search-input" placeholder="Search ..." class="search-input" autocomplete="off" aria-label="Search articles" minlength="3"> <button id="clear-search" class="clear-button" style="display: none;" aria-label="Clear search"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <line x1="18" y1="6" x2="6" y2="18"></line> <line x1="6" y1="6" x2="18" y2="18"></line> </svg> </button> </div> <div id="search-results" class="search-results" role="status" aria-live="polite"></div> </div>  <nav class="main-nav" aria-label="Main navigation"> <a href="/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path> <polyline points="9 22 9 12 15 12 15 22"></polyline> </svg>
+Home
+</a> <a href="/ai-news/" class="ai-news-link"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h-9.5a.5.5 0 0 0-.5.5.5.5 0 0 1-1 0 .5.5 0 0 0-.5-.5H1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"></path> <path d="M7 15v4a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-4"></path> </svg>
+AI News
+</a> <a href="/about/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <circle cx="12" cy="12" r="10"></circle> <path d="M12 16v-4"></path> <path d="M12 8h.01"></path> </svg>
+About
+</a> <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode"> <span class="theme-icon" aria-hidden="true">☾</span> </button> </nav> </header> <!-- Main Content --> <main class="container content-area">  <nav class="breadcrumbs" aria-label="Breadcrumb" data-astro-cid-ilhxcym7> <ol data-astro-cid-ilhxcym7> <li data-astro-cid-ilhxcym7>  <a href="/" data-astro-cid-ilhxcym7>Home</a> <span class="separator" aria-hidden="true" data-astro-cid-ilhxcym7>/</span>  </li><li data-astro-cid-ilhxcym7>  <a href="/ai-news/" data-astro-cid-ilhxcym7>Ai News</a> <span class="separator" aria-hidden="true" data-astro-cid-ilhxcym7>/</span>  </li><li data-astro-cid-ilhxcym7> <span class="current" aria-current="page" data-astro-cid-ilhxcym7>Architecture Should Model the Real World: Lessons from Software Failures and Resilience Strategies</span> </li> </ol> </nav>  <div class="post-layout" data-astro-cid-rkg3zjxi> <aside class="sidebar-left" data-astro-cid-rkg3zjxi> <nav class="toc" aria-label="Table of Contents" data-astro-cid-xvrfupwn> <div class="toc-title" data-astro-cid-xvrfupwn>On this page</div> <ul data-astro-cid-xvrfupwn> <li class="d-2" data-astro-cid-xvrfupwn> <a href="#architecture-should-model-the-real-world-a-conversation-with-randy-shoup" data-astro-cid-xvrfupwn> Architecture Should Model the Real World: A Conversation with Randy Shoup </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#key-themes-and-insights" data-astro-cid-xvrfupwn> Key Themes and Insights </a> </li><li class="d-4" data-astro-cid-xvrfupwn> <a href="#1-learning-from-failure-beyond-proximate-causes" data-astro-cid-xvrfupwn> 1. **Learning from Failure: Beyond Proximate Causes** </a> </li><li class="d-4" data-astro-cid-xvrfupwn> <a href="#2-cultural-shifts-in-resilience-engineering" data-astro-cid-xvrfupwn> 2. **Cultural Shifts in Resilience Engineering** </a> </li><li class="d-4" data-astro-cid-xvrfupwn> <a href="#3-modeling-asynchronous-realities-with-events-and-workflows" data-astro-cid-xvrfupwn> 3. **Modeling Asynchronous Realities with Events and Workflows** </a> </li><li class="d-4" data-astro-cid-xvrfupwn> <a href="#4-real-world-examples-the-google-app-engine-outage" data-astro-cid-xvrfupwn> 4. **Real-World Examples: The Google App Engine Outage** </a> </li><li class="d-4" data-astro-cid-xvrfupwn> <a href="#5-exposing-transient-states-for-resilience" data-astro-cid-xvrfupwn> 5. **Exposing Transient States for Resilience** </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#working-example-code-related" data-astro-cid-xvrfupwn> Working Example (Code-Related) </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#recommendations" data-astro-cid-xvrfupwn> Recommendations </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#references" data-astro-cid-xvrfupwn> References </a> </li> </ul> </nav>  </aside> <article class="post" data-astro-cid-rkg3zjxi> <header class="post-header" data-astro-cid-rkg3zjxi> <h1 data-astro-cid-rkg3zjxi>Architecture Should Model the Real World: Lessons from Software Failures and Resilience Strategies</h1> <div class="meta" data-astro-cid-rkg3zjxi> <time datetime="2025-11-10T00:00:00.000Z" data-astro-cid-rkg3zjxi>Mon Nov 10 2025</time> <span data-astro-cid-rkg3zjxi>• 3 min read</span> </div> <div class="tag-row" data-astro-cid-rkg3zjxi><a class="post-tag ai-news-tag" href="/tags/ai-news/" data-astro-cid-rkg3zjxi>AI News</a><a class="post-tag " href="/tags/software-architecture/" data-astro-cid-rkg3zjxi>Software Architecture</a><a class="post-tag " href="/tags/resilience-engineering/" data-astro-cid-rkg3zjxi>Resilience Engineering</a></div> </header> <div class="post-body prose" data-astro-cid-rkg3zjxi> <h2 id="architecture-should-model-the-real-world-a-conversation-with-randy-shoup">Architecture Should Model the Real World: A Conversation with Randy Shoup</h2>
+<p>This podcast delves into the principles of resilient software architecture, emphasizing the importance of learning from failure, fostering a blameless culture, and modeling systems after real-world asynchronous dynamics. Randy Shoup, a seasoned architect, shares insights from his career, including the 2012 Google App Engine outage, to highlight how failures can drive systemic improvements.</p>
+<hr>
+<h3 id="key-themes-and-insights">Key Themes and Insights</h3>
+<h4 id="1-learning-from-failure-beyond-proximate-causes">1. <strong>Learning from Failure: Beyond Proximate Causes</strong></h4>
+<ul>
+<li><strong>Nature and Purpose</strong>: Software failures are inevitable, but their value lies in extracting root causes rather than assigning blame.</li>
+<li><strong>Five-Step Framework for Post-Mortems</strong>:
+<ol>
+<li><strong>Detect</strong>: How failures were identified.</li>
+<li><strong>Diagnose</strong>: Understanding the underlying causes.</li>
+<li><strong>Mitigate</strong>: Actions to prevent escalation.</li>
+<li><strong>Remediate</strong>: Solving the core issue.</li>
+<li><strong>Prevent</strong>: Systemic changes to avoid recurrence.</li>
+</ol>
+</li>
+<li><strong>Impact</strong>: This approach avoids “CYA” (cover your back) behavior and fosters a culture of transparency. For example, the Google App Engine outage revealed cascading resource contention issues, leading to a 10x improvement in reliability over six months.</li>
+</ul>
+<h4 id="2-cultural-shifts-in-resilience-engineering">2. <strong>Cultural Shifts in Resilience Engineering</strong></h4>
+<ul>
+<li><strong>Blameless Culture</strong>:
+<ul>
+<li><strong>Nature</strong>: Post-mortems must be free of blame to encourage honest reflection.</li>
+<li><strong>Example</strong>: During the App Engine outage, teams openly admitted shortcomings (e.g., insufficient resource allocation), leading to collaborative problem-solving.</li>
+</ul>
+</li>
+<li><strong>Impact</strong>: Cultivating trust and shared ownership reduces silos and improves system reliability. Teams became more proactive in identifying risks, such as “spidey-sense” warnings about underperforming services.</li>
+</ul>
+<h4 id="3-modeling-asynchronous-realities-with-events-and-workflows">3. <strong>Modeling Asynchronous Realities with Events and Workflows</strong></h4>
+<ul>
+<li><strong>Nature</strong>: Real-world systems are inherently asynchronous, with transient states where failures often occur.</li>
+<li><strong>Key Concepts</strong>:
+<ul>
+<li><strong>Events</strong>: Capture state changes (e.g., “item.new” or “bid.placed”) to trigger actions across systems.</li>
+<li><strong>Workflows/Sagas</strong>: Manage multi-step processes (e.g., order placement) with retries, compensation, and state tracking.</li>
+</ul>
+</li>
+<li><strong>Impact</strong>:
+<ul>
+<li><strong>Example</strong>: eBay’s event-driven architecture allowed 10+ services to react to item additions without transactional locks, improving scalability.</li>
+<li><strong>Temporal Framework</strong>: A recommended tool for workflow orchestration, used by companies like Snapchat and Coinbase to model complex, resilient processes.</li>
+</ul>
+</li>
+</ul>
+<h4 id="4-real-world-examples-the-google-app-engine-outage">4. <strong>Real-World Examples: The Google App Engine Outage</strong></h4>
+<ul>
+<li><strong>Event</strong>: An eight-hour global outage in 2012 due to cascading resource contention (e.g., Snapchat’s excessive resource usage).</li>
+<li><strong>Response</strong>:
+<ul>
+<li><strong>Root Cause</strong>: Architectural limitations in serving large applications from a single data center.</li>
+<li><strong>Improvements</strong>:
+<ul>
+<li>Redesigned to distribute traffic across multiple data centers.</li>
+<li>Prioritized 50% of the team for six months to address reliability issues.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Outcome</strong>: A 10x reduction in reliability issues and a cultural shift toward proactive resilience planning.</li>
+</ul>
+<h4 id="5-exposing-transient-states-for-resilience">5. <strong>Exposing Transient States for Resilience</strong></h4>
+<ul>
+<li><strong>Nature</strong>: Transient states (e.g., “order processing,” “inventory reserved”) are critical for diagnosing failures and enabling recovery.</li>
+<li><strong>Example</strong>:
+<ul>
+<li><strong>E-commerce</strong>: Users can track orders through states like “shipping” or “delivered,” allowing visibility into potential delays or errors.</li>
+<li><strong>Workflows</strong>: Sagas explicitly model steps (e.g., charge payment, reserve inventory) with fallback mechanisms if any step fails.</li>
+</ul>
+</li>
+<li><strong>Impact</strong>: Exposing these states reduces cognitive load for developers and improves user trust.</li>
+</ul>
+<hr>
+<h3 id="working-example-code-related">Working Example (Code-Related)</h3>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token comment"># Example of a simple saga workflow using Temporal (pseudo-code)</span>
+<span class="token keyword">from</span> temporalio <span class="token keyword">import</span> workflow
+
+<span class="token decorator annotation punctuation">@workflow<span class="token punctuation">.</span>defn</span>
+<span class="token keyword">async</span> <span class="token keyword">def</span> <span class="token function">order_placement_saga</span><span class="token punctuation">(</span>order_id<span class="token punctuation">:</span> <span class="token builtin">str</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">try</span><span class="token punctuation">:</span>
+        <span class="token keyword">await</span> workflow<span class="token punctuation">.</span>execute_activity<span class="token punctuation">(</span><span class="token string">"reserve_inventory"</span><span class="token punctuation">,</span> order_id<span class="token punctuation">)</span>
+        <span class="token keyword">await</span> workflow<span class="token punctuation">.</span>execute_activity<span class="token punctuation">(</span><span class="token string">"charge_payment"</span><span class="token punctuation">,</span> order_id<span class="token punctuation">)</span>
+        <span class="token keyword">await</span> workflow<span class="token punctuation">.</span>execute_activity<span class="token punctuation">(</span><span class="token string">"ship_order"</span><span class="token punctuation">,</span> order_id<span class="token punctuation">)</span>
+    <span class="token keyword">except</span> Exception <span class="token keyword">as</span> e<span class="token punctuation">:</span>
+        <span class="token keyword">await</span> workflow<span class="token punctuation">.</span>execute_activity<span class="token punctuation">(</span><span class="token string">"compensate_failure"</span><span class="token punctuation">,</span> order_id<span class="token punctuation">,</span> e<span class="token punctuation">)</span>
+        <span class="token keyword">raise</span>
+</code></pre>
+<p><strong>Explanation</strong>: This saga workflow models order placement as a sequence of steps. If any step (e.g., inventory reservation) fails, the system triggers a compensation mechanism (e.g., refunding payment) and rethrows the error for further handling.</p>
+<hr>
+<h3 id="recommendations">Recommendations</h3>
+<ul>
+<li><strong>Adopt Blameless Post-Mortems</strong>: Focus on systemic improvements rather than individual accountability.</li>
+<li><strong>Use Events/Workflows for Asynchronous Systems</strong>: Model real-world asynchrony with tools like Temporal to handle failures gracefully.</li>
+<li><strong>Prioritize Reliability</strong>: Allocate resources to reliability improvements, even during high-pressure development phases.</li>
+<li><strong>Expose Transient States</strong>: Provide users and developers visibility into system states (e.g., order tracking) to manage expectations and diagnose issues.</li>
+<li><strong>Foster Cross-Functional Collaboration</strong>: Break down silos between SREs, developers, and product teams to align on shared goals.</li>
+</ul>
+<hr>
+<h3 id="references">References</h3>
+<ul>
+<li><a href="https://www.infoq.com/podcasts/architecture-should-model-world/">Podcast Transcript</a></li>
+</ul> </div>  <section class="related-posts" data-astro-cid-dpgbfi7r> <h2 data-astro-cid-dpgbfi7r>Related Posts</h2> <div class="related-posts-grid" data-astro-cid-dpgbfi7r> <article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/ai-news/2025-11-03-article-empowering-teams-decentralizing-architectural-decision-making/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>Empowering Teams: Decentralizing Architectural Decision-Making</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>Empowering Teams: Decentralizing Architectural Decision-Making This article details a company’s journey to decentralize…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2025-11-03T00:00:00.000Z" data-astro-cid-dpgbfi7r> Nov 3, 2025 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>4 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/ai-news/2025-10-24-presentation-the-ideal-micro-frontends-platform/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>The Ideal Micro-Frontends Platform</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>The Ideal Micro-Frontends Platform: Understanding the Core Concepts of Micro-Frontends Luca Mezzalira&#39;s presentation…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2025-10-24T00:00:00.000Z" data-astro-cid-dpgbfi7r> Oct 24, 2025 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>3 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/ai-news/2025-10-21-article-three-questions-that-help-you-build-a-better-software-architecture/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>Three Questions That Help You Build a Better Software Architecture</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>Three Questions That Help You Build a Better Software Architecture This article from InfoQ discusses three crucial…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2025-10-21T00:00:00.000Z" data-astro-cid-dpgbfi7r> Oct 21, 2025 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>3 min read</span> </div> </a> </article> </div> </section>  </article> </div> <div class="back-link" data-astro-cid-rkg3zjxi><a href="/ai-news/" data-astro-cid-rkg3zjxi>← Back to AI News</a></div>  </main> <!-- Site Footer --> <footer class="site-footer container"> <p>
+© 2025 AREZKI El Mehdi •
+<a href="https://github.com/earezki">GitHub</a> •
+<a href="/rss.xml">RSS</a> •
+<a href="/tags/">Tags</a> •
+<a href="/sitemap-index.xml">Sitemap</a> </p> </footer> <!-- Theme Toggle -->  <!-- Article read/unread tracking --> <script>
+      (function() {
+        const KEY = 'readArticles';
+        
+        function getRead() {
+          try {
+            const d = localStorage.getItem(KEY);
+            return d ? JSON.parse(d) : [];
+          } catch (e) {
+            return [];
+          }
+        }
+        
+        function markRead(url) {
+          try {
+            const read = getRead();
+            if (!read.includes(url)) {
+              read.push(url);
+              localStorage.setItem(KEY, JSON.stringify(read));
+            }
+          } catch (e) {}
+        }
+        
+        function updateCards() {
+          const read = new Set(getRead());
+          const cards = document.querySelectorAll('.post-card[data-article-url]');
+          cards.forEach(function(card) {
+            const url = card.getAttribute('data-article-url');
+            if (!url) return;
+            const isRead = read.has(url);
+            card.classList.toggle('read', isRead);
+            card.classList.toggle('unread', !isRead);
+          });
+        }
+        
+        function markCurrent() {
+          if (document.querySelector('.post-body')) {
+            markRead(window.location.pathname);
+          }
+        }
+        
+        function init() {
+          updateCards();
+          markCurrent();
+        }
+        
+        function clearRead(url) {
+          try {
+            const read = new Set(getRead());
+            if (read.has(url)) {
+              read.delete(url);
+              localStorage.setItem(KEY, JSON.stringify(Array.from(read)));
+              updateCards();
+            }
+          } catch (e) {}
+        }
+        
+        window.clearReadArticle = clearRead;
+        document.addEventListener('DOMContentLoaded', init);
+        window.addEventListener('pageshow', function(e) {
+          if (e.persisted) init();
+        });
+      })();
+    </script> <!-- Clear read button handler --> <script>
+      (function() {
+        document.addEventListener('click', function(e) {
+          var tgt = e.target, btn = null;
+          while (tgt && tgt !== document) {
+            if (tgt.classList && tgt.classList.contains('clear-read-btn')) {
+              btn = tgt;
+              break;
+            }
+            tgt = tgt.parentNode;
+          }
+          if (!btn) return;
+          e.preventDefault();
+          e.stopPropagation();
+          var url = btn.getAttribute('data-article-url');
+          if (url && window.clearReadArticle) window.clearReadArticle(url);
+        });
+      })();
+    </script> <!-- External links open in new tab --> <script>
+      (function() {
+        function makeExternal() {
+          const domain = window.location.hostname;
+          const links = document.querySelectorAll('a[href]');
+          links.forEach(function(link) {
+            const href = link.getAttribute('href');
+            if (!href || link.hasAttribute('target')) return;
+            const isExt = (href.startsWith('http://') || href.startsWith('https://')) && !href.includes(domain);
+            if (isExt) {
+              link.setAttribute('target', '_blank');
+              link.setAttribute('rel', 'noopener noreferrer');
+            }
+          });
+        }
+        document.addEventListener('DOMContentLoaded', makeExternal);
+        if (window.MutationObserver) {
+          const obs = new MutationObserver(function(muts) {
+            muts.forEach(function(mut) {
+              if (mut.addedNodes.length) makeExternal();
+            });
+          });
+          obs.observe(document.body, { childList: true, subtree: true });
+        }
+      })();
+    </script> <!-- Code copy buttons --> <script>
+      (function() {
+        function createBtn() {
+          const btn = document.createElement('button');
+          btn.className = 'copy-code-button';
+          btn.setAttribute('aria-label', 'Copy code to clipboard');
+          btn.innerHTML = `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span>Copy</span>
+          `;
+          return btn;
+        }
+        
+        function checkIcon() {
+          return `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span>Copied!</span>
+          `;
+        }
+        
+        async function copyText(txt) {
+          try {
+            await navigator.clipboard.writeText(txt);
+            return true;
+          } catch (err) {
+            const ta = document.createElement('textarea');
+            ta.value = txt;
+            ta.style.position = 'fixed';
+            ta.style.left = '-999999px';
+            document.body.appendChild(ta);
+            ta.select();
+            try {
+              document.execCommand('copy');
+              document.body.removeChild(ta);
+              return true;
+            } catch (e) {
+              document.body.removeChild(ta);
+              return false;
+            }
+          }
+        }
+        
+        async function handleCopy(btn, code) {
+          const txt = code.textContent || '';
+          const ok = await copyText(txt);
+          if (ok) {
+            const orig = btn.innerHTML;
+            btn.classList.add('copied');
+            btn.innerHTML = checkIcon();
+            setTimeout(function() {
+              btn.classList.remove('copied');
+              btn.innerHTML = orig;
+            }, 2000);
+          }
+        }
+        
+        function addBtns() {
+          const blocks = document.querySelectorAll('.post-body pre');
+          blocks.forEach(function(pre) {
+            if (pre.querySelector('.copy-code-button')) return;
+            const btn = createBtn();
+            const code = pre.querySelector('code');
+            if (code) {
+              btn.addEventListener('click', function() {
+                handleCopy(btn, code);
+              });
+              pre.appendChild(btn);
+            }
+          });
+        }
+        
+        document.addEventListener('DOMContentLoaded', addBtns);
+      })();
+    </script> </body> </html> 

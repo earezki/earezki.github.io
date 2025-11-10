@@ -1,0 +1,328 @@
+<!DOCTYPE html><html lang="en" data-theme="dark"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Why I Built the 🕍 Cathedral Roo Architect Mode: A Technical Vision for Open-Source Game Development • Dev|Journal</title><meta name="description" content="Why I Built the 🕍 Cathedral Roo Architect Mode: A Technical Vision for Open-Source Game Development This article outlines the creation of **Cathedral Roo…"><meta name="keywords" content="AI News, Technology"><meta name="author" content="El Mehdi Arezki"><meta property="og:type" content="website"><meta property="og:url" content="https://earezki.com/ai-news/2025-11-10-why-i-built-the-cathedral-roo-architect-mode/"><meta property="og:title" content="Why I Built the 🕍 Cathedral Roo Architect Mode: A Technical Vision for Open-Source Game Development • Dev|Journal"><meta property="og:site_name" content="Dev|Journal"><meta property="og:description" content="Why I Built the 🕍 Cathedral Roo Architect Mode: A Technical Vision for Open-Source Game Development This article outlines the creation of **Cathedral Roo…"><meta property="og:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:url" content="https://earezki.com/ai-news/2025-11-10-why-i-built-the-cathedral-roo-architect-mode/"><meta name="twitter:title" content="Why I Built the 🕍 Cathedral Roo Architect Mode: A Technical Vision for Open-Source Game Development • Dev|Journal"><meta name="twitter:description" content="Why I Built the 🕍 Cathedral Roo Architect Mode: A Technical Vision for Open-Source Game Development This article outlines the creation of **Cathedral Roo…"><meta name="twitter:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:creator" content="@earezki"><link rel="canonical" href="https://earezki.com/ai-news/2025-11-10-why-i-built-the-cathedral-roo-architect-mode/"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/x-icon" href="/favicon.ico"><link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"><link rel="dns-prefetch" href="https://www.googletagmanager.com"><link rel="dns-prefetch" href="https://www.google-analytics.com"><link rel="dns-prefetch" href="https://cloud.umami.is"><link rel="preconnect" href="https://www.googletagmanager.com" crossorigin><!-- Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=UA-161447264-1"></script><script defer src="https://cloud.umami.is/script.js" data-website-id="4a26531d-1053-4f79-97a6-06a1366aff91"></script><!-- Theme persistence before render --><script>
+      (function() {
+        const theme = localStorage.getItem('theme');
+        if (theme) document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Why I Built the 🕍 Cathedral Roo Architect Mode: A Technical Vision for Open-Source Game Development","description":"Why I Built the 🕍 Cathedral Roo Architect Mode: A Technical Vision for Open-Source Game Development This article outlines the creation of **Cathedral Roo…","image":"https://earezki.com/assets/og-image-default.jpg","datePublished":"2025-11-10T00:00:00.000Z","dateModified":"2025-11-10T00:00:00.000Z","author":{"@type":"Person","name":"El Mehdi Arezki","url":"https://earezki.com/about","jobTitle":"Lead Software Engineer","sameAs":["https://github.com/earezki","https://www.linkedin.com/in/mehdi-arezki"]},"publisher":{"@type":"Organization","name":"Dev|Journal","url":"https://earezki.com","logo":{"@type":"ImageObject","url":"https://earezki.com/assets/logo.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://earezki.com/ai-news/2025-11-10-why-i-built-the-cathedral-roo-architect-mode/"}}</script><link rel="stylesheet" href="/_astro/_slug_.DyQaSGDN.css">
+<style>.toc[data-astro-cid-xvrfupwn]{position:sticky;top:90px;max-height:calc(100vh - 120px);overflow:auto;padding:1rem 1rem 1.2rem;background:var(--color-bg-alt);border:1px solid var(--color-border);border-radius:var(--radius-md);font-size:.8rem;line-height:1.3}.toc-title[data-astro-cid-xvrfupwn]{font-weight:600;font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.6rem;color:var(--color-text-alt)}.toc[data-astro-cid-xvrfupwn] ul[data-astro-cid-xvrfupwn]{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.35rem}.toc[data-astro-cid-xvrfupwn] a[data-astro-cid-xvrfupwn]{text-decoration:none;color:var(--color-text-alt);transition:color var(--transition)}.toc[data-astro-cid-xvrfupwn] a[data-astro-cid-xvrfupwn]:hover{color:var(--color-accent)}.toc[data-astro-cid-xvrfupwn] li[data-astro-cid-xvrfupwn][class*=d-3]{margin-left:.75rem}.toc[data-astro-cid-xvrfupwn] li[data-astro-cid-xvrfupwn][class*=d-4]{margin-left:1.4rem}@media (max-width: 1080px){.toc[data-astro-cid-xvrfupwn]{display:none}}.breadcrumbs[data-astro-cid-ilhxcym7]{margin:0 0 1.5rem;font-size:.85rem}.breadcrumbs[data-astro-cid-ilhxcym7] ol[data-astro-cid-ilhxcym7]{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;align-items:center;gap:.5rem}.breadcrumbs[data-astro-cid-ilhxcym7] li[data-astro-cid-ilhxcym7]{display:flex;align-items:center;gap:.5rem}.breadcrumbs[data-astro-cid-ilhxcym7] a[data-astro-cid-ilhxcym7]{color:var(--color-text-alt);text-decoration:none;transition:color var(--transition)}.breadcrumbs[data-astro-cid-ilhxcym7] a[data-astro-cid-ilhxcym7]:hover{color:var(--color-accent);text-decoration:underline}.breadcrumbs[data-astro-cid-ilhxcym7] .separator[data-astro-cid-ilhxcym7]{color:var(--color-text-alt);opacity:.5;user-select:none}.breadcrumbs[data-astro-cid-ilhxcym7] .current[data-astro-cid-ilhxcym7]{color:var(--color-text);font-weight:500}.related-posts[data-astro-cid-dpgbfi7r]{margin:3rem 0;padding-top:2rem;border-top:2px solid var(--color-border)}.related-posts[data-astro-cid-dpgbfi7r] h2[data-astro-cid-dpgbfi7r]{font-size:1.5rem;margin:0 0 1.5rem;color:var(--color-text)}.related-posts-grid[data-astro-cid-dpgbfi7r]{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem}.related-post-card[data-astro-cid-dpgbfi7r]{background:var(--color-bg-alt);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;transition:all var(--transition)}.related-post-card[data-astro-cid-dpgbfi7r]:hover{border-color:var(--color-accent);transform:translateY(-2px);box-shadow:var(--shadow-md)}.related-post-link[data-astro-cid-dpgbfi7r]{text-decoration:none;color:inherit;display:block}.related-post-card[data-astro-cid-dpgbfi7r] h3[data-astro-cid-dpgbfi7r]{margin:0 0 .75rem;font-size:1.1rem;font-weight:600;color:var(--color-text);line-height:1.3}.related-post-link[data-astro-cid-dpgbfi7r]:hover h3[data-astro-cid-dpgbfi7r]{color:var(--color-accent)}.related-excerpt[data-astro-cid-dpgbfi7r]{font-size:.85rem;color:var(--color-text-alt);line-height:1.5;margin:0 0 .75rem}.related-meta[data-astro-cid-dpgbfi7r]{font-size:.75rem;color:var(--color-text-alt);display:flex;gap:.5rem;align-items:center}@media (max-width: 680px){.related-posts-grid[data-astro-cid-dpgbfi7r]{grid-template-columns:1fr}}
+.post-layout[data-astro-cid-rkg3zjxi]{display:grid;grid-template-columns:260px 1fr;gap:2.5rem}.sidebar-left[data-astro-cid-rkg3zjxi]{position:relative}@media (max-width: 1080px){.post-layout[data-astro-cid-rkg3zjxi]{grid-template-columns:1fr}}
+</style><script type="module" src="/_astro/hoisted.BNOEVMwr.js"></script></head> <body> <div id="readingProgress" role="progressbar" aria-label="Reading progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="position:fixed;left:0;top:0;height:3px;background:linear-gradient(90deg,#2563eb,#9333ea);width:0;z-index:999;transition:width .15s ease;"></div>  <!-- Site Header --> <header class="site-header container"> <div class="logo-wrap"> <a class="logo" href="/" aria-label="Dev|Journal Home">
+Dev|Journal
+</a> </div> <!-- Search Box in Header --> <div class="header-search"> <div class="search-box" id="search-box"> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon" aria-hidden="true"> <circle cx="11" cy="11" r="8"></circle> <path d="m21 21-4.35-4.35"></path> </svg> <input type="text" id="search-input" placeholder="Search ..." class="search-input" autocomplete="off" aria-label="Search articles" minlength="3"> <button id="clear-search" class="clear-button" style="display: none;" aria-label="Clear search"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <line x1="18" y1="6" x2="6" y2="18"></line> <line x1="6" y1="6" x2="18" y2="18"></line> </svg> </button> </div> <div id="search-results" class="search-results" role="status" aria-live="polite"></div> </div>  <nav class="main-nav" aria-label="Main navigation"> <a href="/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path> <polyline points="9 22 9 12 15 12 15 22"></polyline> </svg>
+Home
+</a> <a href="/ai-news/" class="ai-news-link"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h-9.5a.5.5 0 0 0-.5.5.5.5 0 0 1-1 0 .5.5 0 0 0-.5-.5H1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"></path> <path d="M7 15v4a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-4"></path> </svg>
+AI News
+</a> <a href="/about/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <circle cx="12" cy="12" r="10"></circle> <path d="M12 16v-4"></path> <path d="M12 8h.01"></path> </svg>
+About
+</a> <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode"> <span class="theme-icon" aria-hidden="true">☾</span> </button> </nav> </header> <!-- Main Content --> <main class="container content-area">  <nav class="breadcrumbs" aria-label="Breadcrumb" data-astro-cid-ilhxcym7> <ol data-astro-cid-ilhxcym7> <li data-astro-cid-ilhxcym7>  <a href="/" data-astro-cid-ilhxcym7>Home</a> <span class="separator" aria-hidden="true" data-astro-cid-ilhxcym7>/</span>  </li><li data-astro-cid-ilhxcym7>  <a href="/ai-news/" data-astro-cid-ilhxcym7>Ai News</a> <span class="separator" aria-hidden="true" data-astro-cid-ilhxcym7>/</span>  </li><li data-astro-cid-ilhxcym7> <span class="current" aria-current="page" data-astro-cid-ilhxcym7>Why I Built the 🕍 Cathedral Roo Architect Mode: A Technical Vision for Open-Source Game Development</span> </li> </ol> </nav>  <div class="post-layout" data-astro-cid-rkg3zjxi> <aside class="sidebar-left" data-astro-cid-rkg3zjxi> <nav class="toc" aria-label="Table of Contents" data-astro-cid-xvrfupwn> <div class="toc-title" data-astro-cid-xvrfupwn>On this page</div> <ul data-astro-cid-xvrfupwn> <li class="d-2" data-astro-cid-xvrfupwn> <a href="#why-i-built-the-cathedral-roo-architect-mode-a-technical-vision-for-open-source-game-development" data-astro-cid-xvrfupwn> Why I Built the 🕍 Cathedral Roo Architect Mode: A Technical Vision for Open-Source Game Development </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#overview-of-the-cathedral-real-project" data-astro-cid-xvrfupwn> **Overview of the cathedral-real Project** </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#key-features-of-cathedral-roo-architect-mode" data-astro-cid-xvrfupwn> **Key Features of 🕍 Cathedral Roo Architect Mode** </a> </li><li class="d-4" data-astro-cid-xvrfupwn> <a href="#1-repo-locked-constraints" data-astro-cid-xvrfupwn> **1. Repo-Locked Constraints** </a> </li><li class="d-4" data-astro-cid-xvrfupwn> <a href="#2-canon-true-systems" data-astro-cid-xvrfupwn> **2. Canon-True Systems** </a> </li><li class="d-4" data-astro-cid-xvrfupwn> <a href="#3-freelocal-first-philosophy" data-astro-cid-xvrfupwn> **3. Free/Local-First Philosophy** </a> </li><li class="d-4" data-astro-cid-xvrfupwn> <a href="#4-output-focused-automation" data-astro-cid-xvrfupwn> **4. Output-Focused Automation** </a> </li><li class="d-4" data-astro-cid-xvrfupwn> <a href="#5-library-hardening" data-astro-cid-xvrfupwn> **5. Library Hardening** </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#why-this-matters-for-technical-founders-and-engineers" data-astro-cid-xvrfupwn> **Why This Matters for Technical Founders and Engineers** </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#working-example-conceptual-workflow" data-astro-cid-xvrfupwn> **Working Example (Conceptual Workflow)** </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#recommendations-for-implementation" data-astro-cid-xvrfupwn> **Recommendations for Implementation** </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#reference" data-astro-cid-xvrfupwn> **Reference** </a> </li> </ul> </nav>  </aside> <article class="post" data-astro-cid-rkg3zjxi> <header class="post-header" data-astro-cid-rkg3zjxi> <h1 data-astro-cid-rkg3zjxi>Why I Built the 🕍 Cathedral Roo Architect Mode: A Technical Vision for Open-Source Game Development</h1> <div class="meta" data-astro-cid-rkg3zjxi> <time datetime="2025-11-10T00:00:00.000Z" data-astro-cid-rkg3zjxi>Mon Nov 10 2025</time> <span data-astro-cid-rkg3zjxi>• 3 min read</span> </div> <div class="tag-row" data-astro-cid-rkg3zjxi><a class="post-tag ai-news-tag" href="/tags/ai-news/" data-astro-cid-rkg3zjxi>AI News</a><a class="post-tag " href="/tags/game-development/" data-astro-cid-rkg3zjxi>Game Development</a><a class="post-tag " href="/tags/open-source/" data-astro-cid-rkg3zjxi>Open Source</a><a class="post-tag " href="/tags/software-engineering/" data-astro-cid-rkg3zjxi>Software Engineering</a></div> </header> <div class="post-body prose" data-astro-cid-rkg3zjxi> <h2 id="why-i-built-the--cathedral-roo-architect-mode-a-technical-vision-for-open-source-game-development">Why I Built the 🕍 Cathedral Roo Architect Mode: A Technical Vision for Open-Source Game Development</h2>
+<p>This article outlines the creation of <strong>Cathedral Roo Architect Mode</strong>, a custom implementation of the <strong>Roo</strong> toolchain designed to enforce alignment between the <strong>cathedral-real</strong> project and its core vision. The project combines Godot 4 game development, open-source principles, and a “creative OS” framework, emphasizing ethical, spec-driven workflows.</p>
+<hr>
+<h3 id="overview-of-the-cathedral-real-project"><strong>Overview of the cathedral-real Project</strong></h3>
+<ul>
+<li><strong>Primary Goals</strong>:
+<ul>
+<li>Develop a <strong>Godot 4 open-world game</strong> with integrated creative systems (e.g., Living Arcanae, Codex 144:99, Daimons).</li>
+<li>Build a <strong>creative OS</strong> that merges art, science, and open-source development.</li>
+</ul>
+</li>
+<li><strong>Key Components</strong>:
+<ul>
+<li><strong>Godot 4 Engine</strong>: Core game development (repo: <code>godot/project.godot</code>).</li>
+<li><strong>Web Shell/Atlas</strong>: Web-based interface (<code>apps/web/src/main.tsx</code>).</li>
+<li><strong>Canon + Registry</strong>: Documentation and system definitions (<code>docs/systems/CATHEDRAL_UNIFIED_REGISTRY.md</code>).</li>
+</ul>
+</li>
+<li><strong>Technical Stack</strong>:
+<ul>
+<li><strong>Languages</strong>: TypeScript, Rust, Python.</li>
+<li><strong>Tools</strong>: GitHub Actions for automation, Godot for game logic.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="key-features-of--cathedral-roo-architect-mode"><strong>Key Features of 🕍 Cathedral Roo Architect Mode</strong></h3>
+<h4 id="1-repo-locked-constraints"><strong>1. Repo-Locked Constraints</strong></h4>
+<ul>
+<li><strong>Purpose</strong>: Ensures all operations are confined to the <code>cathedral-real</code> repository and its defined files.</li>
+<li><strong>Impact</strong>: Prevents accidental modifications to external systems or unrelated files.</li>
+<li><strong>Example</strong>: Only processes files like <code>AGENT_MEMORY_PERMANENT_RECORD.md</code> and <code>openspec/cathedral-v1-standard.md</code>.</li>
+</ul>
+<h4 id="2-canon-true-systems"><strong>2. Canon-True Systems</strong></h4>
+<ul>
+<li><strong>Purpose</strong>: Enforces adherence to pre-defined lore and technical systems (e.g., Living Arcanae, Monad/True Will framing).</li>
+<li><strong>Impact</strong>: Blocks the introduction of new, unapproved lore or “AI spirituality” concepts.</li>
+<li><strong>Validation</strong>: Uses <code>MONOREPO_ANALYSIS_2025.md</code> to audit alignment with canon.</li>
+</ul>
+<h4 id="3-freelocal-first-philosophy"><strong>3. Free/Local-First Philosophy</strong></h4>
+<ul>
+<li><strong>Purpose</strong>: Avoids reliance on closed/paid AI services (e.g., OpenAI, Azure).</li>
+<li><strong>Impact</strong>: Ensures all workflows operate with <strong>local tools</strong> (Godot, TypeScript, Rust/Python).</li>
+<li><strong>Example</strong>: No cloud dependencies; all processing occurs via GitHub Actions and local dev environments.</li>
+</ul>
+<h4 id="4-output-focused-automation"><strong>4. Output-Focused Automation</strong></h4>
+<ul>
+<li><strong>Purpose</strong>: Translates abstract ideas into concrete deliverables.</li>
+<li><strong>Key Outputs</strong>:
+<ul>
+<li><strong>Godot Vertical Slice Spec</strong>: Detailed game design documents.</li>
+<li><strong>Web Atlas + Ateliers</strong>: Integrated web tools tied to the <code>REGISTRY</code>.</li>
+<li><strong>Registry + Provenance Rules</strong>: Ensures traceability of all contributions.</li>
+</ul>
+</li>
+<li><strong>Validation</strong>: Blocks “hype,” “lock-in,” or “guru/therapy framing” through strict spec checks.</li>
+</ul>
+<h4 id="5-library-hardening"><strong>5. Library Hardening</strong></h4>
+<ul>
+<li><strong>Purpose</strong>: Ensures stability of critical packages under <code>@cathedral/*</code>.</li>
+<li><strong>Impact</strong>: Reduces technical debt and improves maintainability for contributors.</li>
+</ul>
+<hr>
+<h3 id="why-this-matters-for-technical-founders-and-engineers"><strong>Why This Matters for Technical Founders and Engineers</strong></h3>
+<ul>
+<li><strong>Problem Addressed</strong>:
+<ul>
+<li><strong>Invisible dependencies</strong>: Roo eliminates hidden AI or external tool dependencies.</li>
+<li><strong>Misaligned contributors</strong>: Enforces strict spec adherence to prevent divergent implementations.</li>
+<li><strong>Ethical risks</strong>: Avoids “AI spirituality” or therapeutic framing that could harm users.</li>
+</ul>
+</li>
+<li><strong>Benefits</strong>:
+<ul>
+<li><strong>Spec-driven development</strong>: Rules are encoded once, ensuring long-term alignment.</li>
+<li><strong>Open-source scalability</strong>: Enables community contributions without compromising vision.</li>
+<li><strong>Mental health focus</strong>: Contrasts with AI systems that “harm mental health” by prioritizing logic over hype.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="working-example-conceptual-workflow"><strong>Working Example (Conceptual Workflow)</strong></h3>
+<p>While no direct code is provided, the Roo mode operates via <strong>GitHub Actions</strong> and <strong>Godot scenes</strong>. A simplified pseudocode example might look like this:</p>
+<pre class="language-yaml" data-language="yaml"><code is:raw="" class="language-yaml"><span class="token comment"># .github/workflows/validate-specs.yml</span>
+<span class="token key atrule">name</span><span class="token punctuation">:</span> Validate Cathedral Specs
+<span class="token key atrule">on</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>push<span class="token punctuation">,</span> pull_request<span class="token punctuation">]</span>
+<span class="token key atrule">jobs</span><span class="token punctuation">:</span>
+  <span class="token key atrule">validate</span><span class="token punctuation">:</span>
+    <span class="token key atrule">runs-on</span><span class="token punctuation">:</span> ubuntu<span class="token punctuation">-</span>latest
+    <span class="token key atrule">steps</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Checkout code
+        <span class="token key atrule">uses</span><span class="token punctuation">:</span> actions/checkout@v3
+      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Run Roo Architect Mode
+        <span class="token key atrule">run</span><span class="token punctuation">:</span> <span class="token punctuation">|</span><span class="token scalar string">
+          roo validate --spec docs/systems/CATHEDRAL_UNIFIED_REGISTRY.md
+          roo generate --output apps/web/src/main.tsx</span>
+</code></pre>
+<hr>
+<h3 id="recommendations-for-implementation"><strong>Recommendations for Implementation</strong></h3>
+<ul>
+<li><strong>Use Cases</strong>:
+<ul>
+<li><strong>Large open-source projects</strong>: Enforce spec alignment across multiple contributors.</li>
+<li><strong>Creative OS development</strong>: Maintain consistency between game mechanics and philosophical frameworks.</li>
+</ul>
+</li>
+<li><strong>Best Practices</strong>:
+<ul>
+<li>Define <strong>canonical systems</strong> in markdown files before enabling Roo.</li>
+<li>Use <strong>GitHub Actions</strong> for automated validation and generation.</li>
+<li>Avoid <strong>closed AI services</strong>; prioritize local tools for transparency.</li>
+</ul>
+</li>
+<li><strong>Pitfalls to Avoid</strong>:
+<ul>
+<li>Overly restrictive specs may stifle innovation.</li>
+<li>Failing to update canon documents can lead to misalignment over time.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="reference"><strong>Reference</strong></h3>
+<p><a href="https://dev.to/bekalah/why-i-built-the-cathedral-roo-architect-mode-578j">Why I Built the 🕍 Cathedral Roo Architect Mode</a></p> </div>  <section class="related-posts" data-astro-cid-dpgbfi7r> <h2 data-astro-cid-dpgbfi7r>Related Posts</h2> <div class="related-posts-grid" data-astro-cid-dpgbfi7r> <article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/ai-news/2025-11-09-easy-lua-scripts-for-roblox-games-in-2025/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>Mastering Easy Lua Scripts for Roblox Game Development in 2025</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>Mastering Easy Lua Scripts for Roblox Game Development in 2025 Lua remains a cornerstone of Roblox game development in…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2025-11-09T00:00:00.000Z" data-astro-cid-dpgbfi7r> Nov 9, 2025 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>2 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/ai-news/2025-11-08-embedding-atlas-apples-open-source-tool-for-exploring-large-scale-embeddings-locally/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>Embedding Atlas: Apple’s Open-Source Tool for Exploring Large-Scale Embeddings Locally</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>Embedding Atlas: A Browser-Based Tool for Interactive Embedding Exploration Apple has launched **Embedding Atlas**, an…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2025-11-08T00:00:00.000Z" data-astro-cid-dpgbfi7r> Nov 8, 2025 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>2 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/ai-news/2025-11-08-prior-labs-releases-tabpfn-25-the-latest-version-of-tabpfn-that-unlocks-scale-and-speed-for-tabular-foundation-models/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>Prior Labs Launches TabPFN-2.5: Scaling Tabular Foundation Models for Enhanced Performance and Efficiency</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>Prior Labs Launches TabPFN-2.5: Scaling Tabular Foundation Models for Enhanced Performance and Efficiency Overview of…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2025-11-08T00:00:00.000Z" data-astro-cid-dpgbfi7r> Nov 8, 2025 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>2 min read</span> </div> </a> </article> </div> </section>  </article> </div> <div class="back-link" data-astro-cid-rkg3zjxi><a href="/ai-news/" data-astro-cid-rkg3zjxi>← Back to AI News</a></div>  </main> <!-- Site Footer --> <footer class="site-footer container"> <p>
+© 2025 AREZKI El Mehdi •
+<a href="https://github.com/earezki">GitHub</a> •
+<a href="/rss.xml">RSS</a> •
+<a href="/tags/">Tags</a> •
+<a href="/sitemap-index.xml">Sitemap</a> </p> </footer> <!-- Theme Toggle -->  <!-- Article read/unread tracking --> <script>
+      (function() {
+        const KEY = 'readArticles';
+        
+        function getRead() {
+          try {
+            const d = localStorage.getItem(KEY);
+            return d ? JSON.parse(d) : [];
+          } catch (e) {
+            return [];
+          }
+        }
+        
+        function markRead(url) {
+          try {
+            const read = getRead();
+            if (!read.includes(url)) {
+              read.push(url);
+              localStorage.setItem(KEY, JSON.stringify(read));
+            }
+          } catch (e) {}
+        }
+        
+        function updateCards() {
+          const read = new Set(getRead());
+          const cards = document.querySelectorAll('.post-card[data-article-url]');
+          cards.forEach(function(card) {
+            const url = card.getAttribute('data-article-url');
+            if (!url) return;
+            const isRead = read.has(url);
+            card.classList.toggle('read', isRead);
+            card.classList.toggle('unread', !isRead);
+          });
+        }
+        
+        function markCurrent() {
+          if (document.querySelector('.post-body')) {
+            markRead(window.location.pathname);
+          }
+        }
+        
+        function init() {
+          updateCards();
+          markCurrent();
+        }
+        
+        function clearRead(url) {
+          try {
+            const read = new Set(getRead());
+            if (read.has(url)) {
+              read.delete(url);
+              localStorage.setItem(KEY, JSON.stringify(Array.from(read)));
+              updateCards();
+            }
+          } catch (e) {}
+        }
+        
+        window.clearReadArticle = clearRead;
+        document.addEventListener('DOMContentLoaded', init);
+        window.addEventListener('pageshow', function(e) {
+          if (e.persisted) init();
+        });
+      })();
+    </script> <!-- Clear read button handler --> <script>
+      (function() {
+        document.addEventListener('click', function(e) {
+          var tgt = e.target, btn = null;
+          while (tgt && tgt !== document) {
+            if (tgt.classList && tgt.classList.contains('clear-read-btn')) {
+              btn = tgt;
+              break;
+            }
+            tgt = tgt.parentNode;
+          }
+          if (!btn) return;
+          e.preventDefault();
+          e.stopPropagation();
+          var url = btn.getAttribute('data-article-url');
+          if (url && window.clearReadArticle) window.clearReadArticle(url);
+        });
+      })();
+    </script> <!-- External links open in new tab --> <script>
+      (function() {
+        function makeExternal() {
+          const domain = window.location.hostname;
+          const links = document.querySelectorAll('a[href]');
+          links.forEach(function(link) {
+            const href = link.getAttribute('href');
+            if (!href || link.hasAttribute('target')) return;
+            const isExt = (href.startsWith('http://') || href.startsWith('https://')) && !href.includes(domain);
+            if (isExt) {
+              link.setAttribute('target', '_blank');
+              link.setAttribute('rel', 'noopener noreferrer');
+            }
+          });
+        }
+        document.addEventListener('DOMContentLoaded', makeExternal);
+        if (window.MutationObserver) {
+          const obs = new MutationObserver(function(muts) {
+            muts.forEach(function(mut) {
+              if (mut.addedNodes.length) makeExternal();
+            });
+          });
+          obs.observe(document.body, { childList: true, subtree: true });
+        }
+      })();
+    </script> <!-- Code copy buttons --> <script>
+      (function() {
+        function createBtn() {
+          const btn = document.createElement('button');
+          btn.className = 'copy-code-button';
+          btn.setAttribute('aria-label', 'Copy code to clipboard');
+          btn.innerHTML = `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span>Copy</span>
+          `;
+          return btn;
+        }
+        
+        function checkIcon() {
+          return `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span>Copied!</span>
+          `;
+        }
+        
+        async function copyText(txt) {
+          try {
+            await navigator.clipboard.writeText(txt);
+            return true;
+          } catch (err) {
+            const ta = document.createElement('textarea');
+            ta.value = txt;
+            ta.style.position = 'fixed';
+            ta.style.left = '-999999px';
+            document.body.appendChild(ta);
+            ta.select();
+            try {
+              document.execCommand('copy');
+              document.body.removeChild(ta);
+              return true;
+            } catch (e) {
+              document.body.removeChild(ta);
+              return false;
+            }
+          }
+        }
+        
+        async function handleCopy(btn, code) {
+          const txt = code.textContent || '';
+          const ok = await copyText(txt);
+          if (ok) {
+            const orig = btn.innerHTML;
+            btn.classList.add('copied');
+            btn.innerHTML = checkIcon();
+            setTimeout(function() {
+              btn.classList.remove('copied');
+              btn.innerHTML = orig;
+            }, 2000);
+          }
+        }
+        
+        function addBtns() {
+          const blocks = document.querySelectorAll('.post-body pre');
+          blocks.forEach(function(pre) {
+            if (pre.querySelector('.copy-code-button')) return;
+            const btn = createBtn();
+            const code = pre.querySelector('code');
+            if (code) {
+              btn.addEventListener('click', function() {
+                handleCopy(btn, code);
+              });
+              pre.appendChild(btn);
+            }
+          });
+        }
+        
+        document.addEventListener('DOMContentLoaded', addBtns);
+      })();
+    </script> </body> </html> 
