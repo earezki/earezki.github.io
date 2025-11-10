@@ -10,6 +10,7 @@
   margin: 0 auto; 
   padding: 0 1.25rem; 
   background: transparent;
+  box-sizing: border-box;
 }
 
 /* Content Area */
@@ -115,10 +116,25 @@
 }
 
 @media (max-width: 768px) {
+  .container {
+    width: 100%;
+    max-width: 100%;
+    padding: 0 1rem;
+    box-sizing: border-box;
+  }
+  
+  .content-area {
+    padding: 1.5rem 0 2rem;
+  }
+  
   .site-header {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    width: calc(100% - 1.5rem) !important;
+    left: 0.75rem;
+    right: 0.75rem;
+    padding: 0.8rem 1rem !important;
   }
   
   .header-search {

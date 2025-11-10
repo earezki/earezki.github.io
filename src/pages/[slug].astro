@@ -127,7 +127,38 @@ const { Content } = await rawPost.render();
 </BaseLayout>
 
 <style>
-  .post-layout { display:grid; grid-template-columns: 260px 1fr; gap:2.5rem; }
-  .sidebar-left { position:relative; }
-  @media (max-width: 1080px) { .post-layout { grid-template-columns: 1fr; } }
+  .post-layout { 
+    display: grid; 
+    grid-template-columns: 260px 1fr; 
+    gap: 2.5rem;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  .sidebar-left { 
+    position: relative;
+    min-width: 0;
+    overflow: hidden;
+  }
+  @media (max-width: 1080px) { 
+    .post-layout { 
+      grid-template-columns: 1fr;
+      width: 100%;
+      max-width: 100%;
+      padding: 0;
+      margin: 0;
+    }
+  }
+  @media (max-width: 768px) { 
+    .post-layout { 
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      padding: 0;
+      margin: 0;
+    }
+    .sidebar-left {
+      display: none;
+    }
+  }
 </style>
