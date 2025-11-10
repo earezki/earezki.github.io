@@ -1,0 +1,246 @@
+---
+const topics = [
+  { href: '/tags/solid/', icon: '🎯', title: 'SOLID Principles', desc: 'Learn object-oriented design principles for better code' },
+  { href: '/tags/software-architecture/', icon: '🏗️', title: 'Software Architecture', desc: 'Patterns and practices for scalable systems' },
+  { href: '/tags/domain-driven-design/', icon: '📐', title: 'Domain-Driven Design', desc: 'Build software that reflects your business domain' },
+  { href: '/tags/algorithms/', icon: '🔀', title: 'Algorithms', desc: 'Master core algorithm patterns and data structures' },
+  { href: '/ai-news/', icon: '🤖', title: 'AI News', desc: 'Latest developments in artificial intelligence', isAI: true }
+];
+---
+
+<section class="featured-topics fade-in-up" aria-label="Featured topics">
+  <h2>Explore Topics</h2>
+  <div class="topic-cards-scroll">
+    <div class="topic-cards">
+      {topics.concat(topics).map((topic) => (
+        <a href={topic.href} class={`topic-card ${topic.isAI ? 'ai-topic' : ''}`}>
+          <span class="topic-icon">{topic.icon}</span>
+          <h3>{topic.title}</h3>
+          <p>{topic.desc}</p>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  const scroll = document.querySelector('.topic-cards-scroll') as HTMLElement;
+  const cards = document.querySelector('.topic-cards') as HTMLElement;
+  const allCards = document.querySelectorAll('.topic-card') as NodeListOf<HTMLElement>;
+  
+  if (scroll && cards) {
+    let isDown = false, startX = 0, scrollLeft = 0, hasDragged = false;
+    
+    scroll.addEventListener('mousedown', (e: MouseEvent) => {
+      isDown = true;
+      hasDragged = false;
+      scroll.style.cursor = 'grabbing';
+      startX = e.pageX - scroll.offsetLeft;
+      scrollLeft = scroll.scrollLeft;
+      cards.style.animationPlayState = 'paused';
+    });
+    
+    scroll.addEventListener('mouseleave', () => {
+      isDown = false;
+      scroll.style.cursor = 'grab';
+      cards.style.animationPlayState = 'running';
+      allCards.forEach(c => c.classList.remove('dragging'));
+    });
+    
+    scroll.addEventListener('mouseup', () => {
+      isDown = false;
+      scroll.style.cursor = 'grab';
+      cards.style.animationPlayState = 'running';
+      allCards.forEach(c => c.classList.remove('dragging'));
+    });
+    
+    scroll.addEventListener('mousemove', (e: MouseEvent) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - scroll.offsetLeft;
+      const walk = (x - startX) * 2;
+      if (Math.abs(walk) > 5 && !hasDragged) {
+        hasDragged = true;
+        allCards.forEach(c => c.classList.add('dragging'));
+      }
+      scroll.scrollLeft = scrollLeft - walk;
+    });
+    
+    allCards.forEach(card => {
+      card.addEventListener('click', (e: MouseEvent) => {
+        if (hasDragged) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      });
+    });
+  }
+</script>
+
+<style>
+  .featured-topics {
+    margin: 0 0 3rem;
+  }
+  
+  .featured-topics h2 {
+    font-size: 1.75rem;
+    margin: 0 0 1.5rem;
+    color: var(--color-text);
+  }
+  
+  .topic-cards-scroll {
+    position: relative;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-top: 0.75rem;
+    cursor: grab;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    mask-image: linear-gradient(90deg, transparent 0%, black 5%, black 95%, transparent 100%);
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 5%, black 95%, transparent 100%);
+  }
+  
+  .topic-cards-scroll::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .topic-cards {
+    display: flex;
+    gap: 1.25rem;
+    animation: scroll 25s linear infinite;
+    will-change: transform;
+    margin-bottom: 2rem;
+  }
+  
+  @keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(calc(-50% - 0.625rem)); }
+  }
+  
+  .topic-cards:hover {
+    animation-play-state: paused;
+  }
+  
+  .topic-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1.5rem;
+    background: var(--color-bg-alt);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+    min-width: 240px;
+    pointer-events: auto;
+  }
+  
+  .topic-card.dragging {
+    pointer-events: none;
+  }
+  
+  .topic-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(168, 85, 247, 0.03) 50%, rgba(59, 130, 246, 0.04) 100%);
+    opacity: 0;
+    transition: opacity 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
+    border-radius: var(--radius-md);
+  }
+  
+  html[data-theme="dark"] .topic-card::before {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(168, 85, 247, 0.06) 50%, rgba(59, 130, 246, 0.07) 100%);
+  }
+  
+  .topic-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-md);
+    padding: 2px;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.4), rgba(168, 85, 247, 0.4), rgba(59, 130, 246, 0.4));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
+  }
+  
+  .topic-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 32px -8px rgba(99, 102, 241, 0.2), 0 6px 20px -4px rgba(168, 85, 247, 0.15);
+    border-color: rgba(99, 102, 241, 0.3);
+  }
+  
+  html[data-theme="dark"] .topic-card:hover {
+    box-shadow: 0 12px 32px -8px rgba(99, 102, 241, 0.3), 0 6px 20px -4px rgba(168, 85, 247, 0.25);
+  }
+  
+  .topic-card:hover::before,
+  .topic-card:hover::after {
+    opacity: 1;
+  }
+  
+  .topic-card:active {
+    transform: translateY(-4px);
+  }
+  
+  .topic-card.ai-topic {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.06), rgba(118, 75, 162, 0.04));
+  }
+  
+  html[data-theme="dark"] .topic-card.ai-topic {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.12), rgba(118, 75, 162, 0.08));
+  }
+  
+  .topic-card.ai-topic::before {
+    background: var(--ai-gradient);
+    opacity: 0.08;
+  }
+  
+  html[data-theme="dark"] .topic-card.ai-topic::before {
+    opacity: 0.12;
+  }
+  
+  .topic-card.ai-topic:hover::before {
+    opacity: 0.15;
+  }
+  
+  html[data-theme="dark"] .topic-card.ai-topic:hover::before {
+    opacity: 0.2;
+  }
+  
+  .topic-icon {
+    font-size: 2rem;
+    line-height: 1;
+    transition: transform 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
+    display: inline-block;
+  }
+  
+  .topic-card:hover .topic-icon {
+    transform: scale(1.15) rotate(5deg);
+  }
+  
+  .topic-card h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+  
+  .topic-card:hover h3 {
+    color: var(--color-accent);
+  }
+  
+  .topic-card p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--color-text-alt);
+    line-height: 1.4;
+  }
+</style>
