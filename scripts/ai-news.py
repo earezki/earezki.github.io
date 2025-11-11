@@ -36,78 +36,61 @@ def create_llm():
 
 def create_prompt():
     return PromptTemplate.from_template(
-        """
-        Create a detailed, well-structured summary from the provided context. Synthesize and explain comprehensively for complete understanding.
+    """
+    You are a technical writer for engineers. Write a concise, high-signal article from the <CONTEXT>.
 
-        ### Guidelines
+    **Output Format (do not deviate):**
 
-        **Structure:**
-        1. Begin with 1-2 sentences capturing the essence
-        2. Provide thorough explanation with:
-        - Headings/subsections for major themes
-        - Bullet points for multiple items
-        - Specific details: dates, percentages, metrics, identifiers
-        - Explain nature, purpose, and impact of each point
-        - Add the url as a reference link at the end
+    ---
+    title: "Your Generated Title"
+    pubDate: YYYY-MM-DD
+    description: "One sharp sentence. Include key metric or event."
+    categories: ["AI News", "Topic1", "Topic2"]
+    ---
 
-        **Special Instructions for Code Content:**
-        If the context contains code examples or technical implementations:
-        - Explain what the main code does and why it's important
-        - Provide a complete working example that demonstrates the concept
-        - Include practical recommendations and best practices when applicable
-        - Show how to apply the technique in real-world scenarios
-        - Highlight potential pitfalls or common mistakes to avoid
+    ## Extract Main Heading from context (use most prominent phrase)
 
-        **Format:**
+    [2-sentence hook. Name the event, person, or system + one hard fact.]
 
-        ```
-        ---
-        title: "Your Generated Title"
-        pubDate: YYYY-MM-DD
-        description: "Concise description of the content"
-        categories: ["AI News", "Topic1", "Topic2"]
-        ---
+    ### Why This Matters
+    [1 paragraph. Explain technical reality vs ideal models. Cite failure scale or cost.]
 
-        ## Your Generated Main Heading
+    ### Key Insights
+    - [Fact + source/year]: e.g., "8-hour App Engine outage, 2012"
+    - [Concept + example]: e.g., "Sagas over ACID for e-commerce"
+    - [Tool + user]: e.g., "Temporal used by Stripe, Coinbase"
 
-        Content with proper Markdown formatting...
+    ### Working Example [Add as many code sections as needed]
+    ```language
+    # Only if code exists in context. Must be complete and runnable.
+    ```
+    *(Omit entire section if no code)*
 
-        ## Working Example (if code-related)
+    ### Practical Applications
+    - **Use Case**: [Company/system + behavior]
+    - **Pitfall**: [Common anti-pattern + consequence]
 
-        ```language
-        // Complete, runnable code example
-        ```
+    **Reference:** [Exact URL from context]
 
-        ## Recommendations (if code-related)
+    ---
 
-        - Practical tips and best practices
-        - When to use this approach
-        - What to watch out for
-        ```
+    **RULES (STRICT):**
+    - Use **double quotes** for title and description
+    - pubDate: unquoted, ISO format (e.g., 2025-11-11) from the context
+    - categories: valid JSON array, max 3 items, always include "AI News"
+    - description must be SEO-friendly
+    - Extract **Main Heading** verbatim from context
+    - No fluff, no speculation, no made-up metrics
+    - If context lacks code → skip "Working Example"
+    **CRITICAL:
+    - Never output placeholder text like "[2-sentence hook]". Always replace with real content.**
+    - YAML frontmatter for title, pubDate, description and categories must be exact and respected, no deviations.
+    - Always write in English.
 
-        **IMPORTANT YAML Rules:**
-        - ALWAYS wrap title in double quotes (required for YAML)
-        - ALWAYS wrap description in double quotes (required for YAML)
-        - Use single quotes inside double-quoted strings if needed
-        - pubDate must be in YYYY-MM-DD format (not quoted)
-        - Extract pubDate from the article's published date in the context
-        - If title or description contains colons (:), quotes are MANDATORY
-        - Categories must be a JSON array format
-
-        **Content Rules:**
-        - Extract Main Heading from the content
-        - Use only provided context
-        - Ignore irrelevant content
-        - Professional, neutral tone
-        - Generate title and description from content
-        - Include 'AI News' in categories
-
-        <CONTEXT>
-        {context}
-        </CONTEXT>
-
-        **Your Answer:**
-        """
+    <CONTEXT>
+    {context}
+    </CONTEXT>
+    """
     )
 
 def sync_git():
