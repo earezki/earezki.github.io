@@ -5,8 +5,6 @@ description: "Meta AI launches Omnilingual ASR, an open-source speech recognitio
 categories: ["AI News", "Voice AI", "Language Model"]
 ---
 
-## Extract Main Heading from context (use most prominent phrase)
-
 Meta AI Releases Omnilingual ASR: A Suite of Open-Source Multilingual Speech Recognition Models for 1600+ Languages
 
 Meta AI has released Omnilingual ASR, an open-source speech recognition system capable of understanding 1,600+ languages. The model achieves a character error rate below 10% for 78% of supported languages, outperforming prior systems with less training data.
