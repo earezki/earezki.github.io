@@ -1,6 +1,8 @@
 import os
 import re
 import json
+import sys
+import argparse
 from datetime import date, datetime, timedelta
 from email.utils import parsedate_to_datetime
 
@@ -41,6 +43,7 @@ def create_prompt():
 
     **Output Format (do not deviate):**
 
+    
     ---
     title: "Your Generated Title"
     pubDate: YYYY-MM-DD
@@ -48,7 +51,7 @@ def create_prompt():
     categories: ["AI News", "Topic1", "Topic2"]
     ---
 
-    ## Extract Main Heading from context (use most prominent phrase)
+    ## [Extract Main Heading from context (use most prominent phrase)]
 
     [2-sentence hook. Name the event, person, or system + one hard fact.]
 
@@ -60,7 +63,7 @@ def create_prompt():
     - [Concept + example]: e.g., "Sagas over ACID for e-commerce"
     - [Tool + user]: e.g., "Temporal used by Stripe, Coinbase"
 
-    ### Working Example [Add as many code sections as needed]
+    ### Working Example [Add as many code sections as needed, ordered logically]
     ```language
     # Only if code exists in context. Must be complete and runnable.
     ```
@@ -70,7 +73,9 @@ def create_prompt():
     - **Use Case**: [Company/system + behavior]
     - **Pitfall**: [Common anti-pattern + consequence]
 
-    **Reference:** [Exact URL from context]
+    **References:**
+    - [Exact URLs list from context]
+    
 
     ---
 
@@ -90,6 +95,8 @@ def create_prompt():
     <CONTEXT>
     {context}
     </CONTEXT>
+
+    ANSWER:
     """
     )
 
@@ -150,24 +157,25 @@ def clean_llm_response(response):
     return content
 
 
-def process_entry(entry, chain):
+def process_entry(entry, chain, force=False):
     """Download, extract, summarize, and save an article"""
     print(f"Processing: {entry['title']}")
     
     filename = generate_filename(entry)
     
-    if os.path.exists(filename):
+    if os.path.exists(filename) and not force:
         print("Already processed, skipping")
         return False
-    
+        
     # Check for similar articles already in the directory (fuzzy matching)
-    existing_files = [f for f in os.listdir(OUTPUT_DIR) if f.endswith('.md')]
-    for existing_file in existing_files:
-        existing_title = existing_file.replace('.md', '').split('-', 3)[-1]  # Extract title from filename
-        similarity = fuzz.ratio(entry['title'].lower(), existing_title.lower())
-        if similarity >= 75:  # Threshold for similarity
-            print(f"Similar article already exists (similarity: {similarity}%): {existing_file}")
-            return False
+    if not force:
+        existing_files = [f for f in os.listdir(OUTPUT_DIR) if f.endswith('.md')]
+        for existing_file in existing_files:
+            existing_title = existing_file.replace('.md', '').split('-', 3)[-1]  # Extract title from filename
+            similarity = fuzz.ratio(entry['title'].lower(), existing_title.lower())
+            if similarity >= 75:  # Threshold for similarity
+                print(f"Similar article already exists (similarity: {similarity}%): {existing_file}")
+                return False
 
     downloaded = fetch_url(entry['link'])
     if not downloaded:
@@ -311,6 +319,11 @@ def summarize_weekly_articles():
 def main():
     print(f"=== AI Articles Script: {datetime.now().isoformat()} ===")
 
+    # Parse command line arguments
+    parser = argparse.ArgumentParser(description="Process AI news articles")
+    parser.add_argument("--force", action="store_true", help="Override existing markdown files on disk")
+    args = parser.parse_args()
+
     sync_git()
     
     llm = create_llm()
@@ -333,7 +346,7 @@ def main():
     processed_count = 0
     for entry in feeds:
         try:
-            if process_entry(entry, chain):
+            if process_entry(entry, chain, force=args.force):
                 processed_count += 1
                 if processed_count >= MAX_ENTRIES_PER_RUN:
                     print(f"Reached maximum of {MAX_ENTRIES_PER_RUN} entries")

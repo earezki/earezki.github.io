@@ -5,8 +5,6 @@ description: "A JAX-based tutorial implements self-attention and residual blocks
 categories: ["AI News", "Machine Learning", "Deep Learning"]
 ---
 
-## Extract Main Heading from context (use most prominent phrase)
-
 **Build and Train Advanced Architectures with Residual Connections, Self-Attention, and Adaptive Optimization Using JAX, Flax, and Optax**
 
 Asif Razzaq's tutorial implements a JAX-based model with residual connections and self-attention, achieving 92% accuracy on synthetic data in 5 epochs using Optax and Flax.
@@ -65,4 +63,5 @@ def create_learning_rate_schedule(base_lr: float = 1e-3, warmup_steps: int = 100
 - **Pitfall**: Skipping gradient clipping can cause unstable training; Optax's `clip_by_global_norm` prevents this.
 
 **Reference:** https://www.marktechpost.com/2025/11/10/a-coding-implementation-to-build-and-train-advanced-architectures-with-residual-connections-self-attention-and-adaptive-optimization-using-jax-flax-and-optax/  
+
 ---
