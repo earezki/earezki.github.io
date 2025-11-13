@@ -32,7 +32,8 @@ const allFiltered = await getPostsByTag(slug);
     {allFiltered.map(p => (
       <li style="margin:.6rem 0;">
         <a href={p.urlPath}>{p.data.title}</a>
-        {p.collection === 'ainews' && <span class="post-tag ai-news-tag" style="margin-left: 0.5rem; font-size: 0.7rem;">AI News</span>}
+        {p.collection === 'ainews' && <span class="post-tag ai-news-tag ai-gradient-tag" style="margin-left: 0.5rem; font-size: 0.7rem;">AI News</span>}
+        {p.collection === 'aifinnews' && <span class="post-tag stock-weather-ai-tag ai-gradient-tag" style="margin-left: 0.5rem; font-size: 0.7rem;">Stock Weather AI</span>}
       </li>
     ))}
   </ul>

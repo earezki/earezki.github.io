@@ -28,6 +28,9 @@ const canonical = post.urlPath;
 const postImage = `https://earezki.com/assets/og-image-default.jpg`;
 const postKeywords = 'AI News, Technology';
 
+// Precompute lowercase categories for runtime optimization
+const lowerCategories = post.data.categories?.map((c: string) => c.toLowerCase()) || [];
+
 // Generate breadcrumbs
 const breadcrumbs = generateBreadcrumbs(canonical, post.data.title);
 
@@ -91,10 +94,11 @@ const { Content } = await rawPost.render();
           <time datetime={post.data.pubDate.toISOString()}>{post.data.pubDate.toDateString()}</time>
           <span>• {stats.text}</span>
         </div>
-        {post.data.categories && <div class="tag-row">{post.data.categories.map((c: string) => {
+        {post.data.categories && <div class="tag-row">{post.data.categories.map((c: string, idx: number) => {
           const slugTag = slugify(c);
-          const isAINews = c.toLowerCase() === 'ai news';
-          return <a class={`post-tag ${isAINews ? 'ai-news-tag' : ''}`} href={`/tags/${slugTag}/`}>{c}</a>;
+          const isAINews = lowerCategories[idx] === 'ai news';
+          const tagClass = isAINews ? 'post-tag ai-news-tag ai-gradient-tag' : 'post-tag';
+          return <a class={tagClass} href={`/tags/${slugTag}/`}>{c}</a>;
         })}</div>}
       </header>
       <div class="post-body prose">

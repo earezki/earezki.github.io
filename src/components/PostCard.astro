@@ -3,7 +3,7 @@ import type { ProcessedPost } from '../utils/dataCache';
 
 interface Props { 
   post: ProcessedPost;
-  collection?: 'posts' | 'ainews';
+  collection?: 'posts' | 'ainews' | 'aifinnews';
 }
 
 const { post, collection } = Astro.props;
@@ -17,10 +17,14 @@ const date = post.data.pubDate.toISOString().split('T')[0];
 // Use precomputed excerpt from ProcessedPost
 const excerpt = post.excerpt;
 
+// Precompute lowercase categories for efficient comparison
+const lowerCategories = post.data.categories?.map((c: string) => c.toLowerCase()) || [];
+
 // Check if post has AI News tag
-const hasAINewsTag = post.data.categories?.some(
-  (category: string) => category.toLowerCase() === 'ai news'
-);
+const hasAINewsTag = lowerCategories.includes('ai news');
+
+// Check if post has Stock Weather AI tag
+const hasStockWeatherTag = lowerCategories.includes('stock weather ai');
 ---
 
 <article class="post-card" data-article-url={url}>
@@ -81,15 +85,30 @@ const hasAINewsTag = post.data.categories?.some(
   {post.data.categories && (
     <div class="tag-row">
       {post.data.categories
-        .filter((category: string) => category.toLowerCase() !== 'ai assisted')
-        .map((category: string) => {
-        const isAINews = category.toLowerCase() === 'ai news';
-        const tagClass = `post-tag ${isAINews ? 'ai-news-tag' : ''}`;
+        .filter((category: string, idx: number) => lowerCategories[idx] !== 'ai assisted')
+        .map((category: string, idx: number) => {
+        const categoryLower = category.toLowerCase();
+        const isAINews = categoryLower === 'ai news';
+        const isStockWeatherAI = categoryLower === 'stock weather ai';
+        
+        // Build class list
+        let tagClass = 'post-tag';
+        if (isAINews) tagClass += ' ai-news-tag ai-gradient-tag';
+        if (isStockWeatherAI) tagClass += ' stock-weather-ai-tag ai-gradient-tag';
         
         // AI News posts: make AI News tag clickable, others static
         if (collection === 'ainews' && isAINews) {
           return (
             <a class={tagClass} href="/ai-news/">
+              {category}
+            </a>
+          );
+        }
+        
+        // AI Financial News posts: make Stock Weather AI tag clickable, others static
+        if (collection === 'aifinnews' && isStockWeatherAI) {
+          return (
+            <a class={tagClass} href="/ai-financial-news/">
               {category}
             </a>
           );

@@ -20,7 +20,7 @@ export interface ProcessedPost {
   id: string;
   slug: string;
   body: string;
-  collection: 'posts' | 'ainews';
+  collection: 'posts' | 'ainews' | 'aifinnews';
   data: {
     title: string;
     pubDate: Date;
@@ -35,8 +35,10 @@ export interface ProcessedPost {
 // Build-time caches
 let cachedPosts: CollectionEntry<'posts'>[] | null = null;
 let cachedAinews: CollectionEntry<'ainews'>[] | null = null;
+let cachedAifinnews: CollectionEntry<'aifinnews'>[] | null = null;
 let cachedProcessedPosts: ProcessedPost[] | null = null;
 let cachedProcessedAinews: ProcessedPost[] | null = null;
+let cachedProcessedAifinnews: ProcessedPost[] | null = null;
 let cachedAllProcessed: ProcessedPost[] | null = null;
 
 /**
@@ -61,6 +63,18 @@ export async function getAllAinews(): Promise<CollectionEntry<'ainews'>[]> {
     console.log(`[DataCache] Loaded ${cachedAinews.length} AI news articles`);
   }
   return cachedAinews;
+}
+
+/**
+ * Get all AI financial news from the 'aifinnews' collection (cached)
+ * @returns Array of raw aifinnews entries
+ */
+export async function getAllAifinnews(): Promise<CollectionEntry<'aifinnews'>[]> {
+  if (!cachedAifinnews) {
+    cachedAifinnews = await getCollection('aifinnews');
+    console.log(`[DataCache] Loaded ${cachedAifinnews.length} AI financial news articles`);
+  }
+  return cachedAifinnews;
 }
 
 /**
@@ -112,7 +126,31 @@ export async function getProcessedAinews(): Promise<ProcessedPost[]> {
 }
 
 /**
- * Get all processed content (posts + ainews) combined and sorted (cached)
+ * Get processed AI financial news with precomputed metadata (cached)
+ * Includes: readingTime, excerpt, urlPath
+ * Sorted by publication date (newest first)
+ * @returns Array of processed AI financial news
+ */
+export async function getProcessedAifinnews(): Promise<ProcessedPost[]> {
+  if (!cachedProcessedAifinnews) {
+    const aifinnews = await getAllAifinnews();
+    
+    cachedProcessedAifinnews = aifinnews
+      .map((post): ProcessedPost => ({
+        ...post,
+        readingTime: readingTime(post.body),
+        excerpt: plainExcerpt(post.body, 30, 160),
+        urlPath: `/ai-financial-news/${post.slug}/`
+      }))
+      .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+    
+    console.log(`[DataCache] Processed ${cachedProcessedAifinnews.length} AI financial news with metadata`);
+  }
+  return cachedProcessedAifinnews;
+}
+
+/**
+ * Get all processed content (posts + ainews + aifinnews) combined and sorted (cached)
  * Useful for cross-collection features like search and related posts
  * @returns Array of all processed content
  */
@@ -120,8 +158,9 @@ export async function getAllProcessedContent(): Promise<ProcessedPost[]> {
   if (!cachedAllProcessed) {
     const posts = await getProcessedPosts();
     const ainews = await getProcessedAinews();
+    const aifinnews = await getProcessedAifinnews();
     
-    cachedAllProcessed = [...posts, ...ainews]
+    cachedAllProcessed = [...posts, ...ainews, ...aifinnews]
       .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
     
     console.log(`[DataCache] Combined ${cachedAllProcessed.length} total articles`);
@@ -172,6 +211,27 @@ export async function getPaginatedAinews(page: number, pageSize: number) {
 }
 
 /**
+ * Get paginated AI financial news
+ * @param page - Page number (1-indexed)
+ * @param pageSize - Number of items per page
+ * @returns Paginated AI financial news and metadata
+ */
+export async function getPaginatedAifinnews(page: number, pageSize: number) {
+  const allAifinnews = await getProcessedAifinnews();
+  const start = (page - 1) * pageSize;
+  const end = start + pageSize;
+  
+  return {
+    posts: allAifinnews.slice(start, end),
+    total: allAifinnews.length,
+    totalPages: Math.ceil(allAifinnews.length / pageSize),
+    currentPage: page,
+    hasNext: end < allAifinnews.length,
+    hasPrev: page > 1
+  };
+}
+
+/**
  * Find a post by slug (from cache)
  * @param slug - Post slug
  * @returns Processed post or undefined
@@ -189,6 +249,16 @@ export async function findPostBySlug(slug: string): Promise<ProcessedPost | unde
 export async function findAinewsBySlug(slug: string): Promise<ProcessedPost | undefined> {
   const ainews = await getProcessedAinews();
   return ainews.find(p => p.slug === slug);
+}
+
+/**
+ * Find an AI financial news article by slug (from cache)
+ * @param slug - Article slug
+ * @returns Processed AI financial news or undefined
+ */
+export async function findAifinnewsBySlug(slug: string): Promise<ProcessedPost | undefined> {
+  const aifinnews = await getProcessedAifinnews();
+  return aifinnews.find(p => p.slug === slug);
 }
 
 /**

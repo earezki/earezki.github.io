@@ -19,6 +19,15 @@ const ainews = defineCollection({
   })
 });
 
+const aifinnews = defineCollection({
+  schema: z.object({
+    title: z.string(),
+    pubDate: z.coerce.date(),
+    categories: z.array(z.string()).optional(),
+    description: z.string().optional(),
+  })
+});
+
 const about = defineCollection({
   schema: z.object({
     title: z.string(),
@@ -26,4 +35,4 @@ const about = defineCollection({
   })
 });
 
-export const collections = { posts, ainews, about };
+export const collections = { posts, ainews, aifinnews, about };

@@ -1,7 +1,6 @@
 import os
 import re
 import json
-import sys
 import argparse
 from datetime import date, datetime, timedelta
 from email.utils import parsedate_to_datetime
@@ -29,7 +28,7 @@ def create_llm():
         base_url=os.getenv("OPENAI_API_BASE"),
         default_headers={
             "User-Agent": "ai-news/1.0",
-            "HTTP-Referer": "https://earezki.com",
+            "HTTP-Referer": "https://earezki.com/ai-news/",
             "X-Title": "ai-news",
             "x-stainless-app-name": "ai-news"
         }
@@ -99,13 +98,6 @@ def create_prompt():
     ANSWER:
     """
     )
-
-def sync_git():
-    """Sync with remote to avoid conflicts before processing"""
-    result = os.system("git pull")
-    if result != 0:
-        raise RuntimeError("Git pull failed")
-
 
 def fetch_feeds(feed_urls, cutoff_date):
     """Fetch and filter feed entries published after cutoff_date"""
@@ -196,14 +188,6 @@ def process_entry(entry, chain, force=False):
     print(f"Saved: {filename}")
     return True
 
-
-def deploy_changes():
-    """Commit and push changes to git"""
-    print("Deploying changes...")
-    os.system("git add .")
-    os.system(f'git commit -m "chore: update AI articles ({date.today().isoformat()})"')
-    os.system("git push origin master")
-    print("Deployed successfully")
 
 def recent_articles():
     import re
@@ -323,8 +307,6 @@ def main():
     parser = argparse.ArgumentParser(description="Process AI news articles")
     parser.add_argument("--force", action="store_true", help="Override existing markdown files on disk")
     args = parser.parse_args()
-
-    sync_git()
     
     llm = create_llm()
     prompt = create_prompt()
@@ -358,9 +340,6 @@ def main():
     if end_of_week:
         print("End of week detected, summarizing weekly articles!")
         summarize_weekly_articles()
-
-    if processed_count > 0:
-        deploy_changes()
 
     print(f"=== Completed: {datetime.now().isoformat()} ===")
 

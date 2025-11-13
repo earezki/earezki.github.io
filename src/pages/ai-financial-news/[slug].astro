@@ -1,39 +1,35 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
-import TableOfContents from '../components/TableOfContents.astro';
-import Breadcrumbs from '../components/Breadcrumbs.astro';
-import RelatedPosts from '../components/RelatedPosts.astro';
-import SeriesNavigation from '../components/SeriesNavigation.astro';
-import { getAllPosts, getAllProcessedContent, findPostBySlug } from '../utils/dataCache';
-import { RelatedPostsFinder, generateBreadcrumbs } from '../utils/relatedContentOptimized';
-import { slugify } from '../utils/slugify';
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import TableOfContents from '../../components/TableOfContents.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import RelatedPosts from '../../components/RelatedPosts.astro';
+import { getAllAifinnews, getAllProcessedContent, findAifinnewsBySlug } from '../../utils/dataCache';
+import { RelatedPostsFinder, generateBreadcrumbs } from '../../utils/relatedContentOptimized';
+import { slugify } from '../../utils/slugify';
 
 export async function getStaticPaths() {
-  const posts = await getAllPosts();
+  const posts = await getAllAifinnews();
   return posts.map(post => ({ params: { slug: post.slug } }));
 }
 
 const { slug } = Astro.params;
-const post = await findPostBySlug(slug!);
-if (!post) throw new Error(`Post not found for slug: ${slug}`);
+const post = await findAifinnewsBySlug(slug!);
+if (!post) throw new Error(`AI Financial News post not found for slug: ${slug}`);
 
 // Get raw post for rendering
-const posts = await getAllPosts();
-const rawPost = posts.find(p => p.slug === slug);
-if (!rawPost) throw new Error(`Raw post not found for slug: ${slug}`);
+const aifinnews = await getAllAifinnews();
+const rawPost = aifinnews.find(p => p.slug === slug);
+if (!rawPost) throw new Error(`Raw AI financial news post not found for slug: ${slug}`);
 
 // Use precomputed metadata
 const stats = post.readingTime;
 const excerpt = post.excerpt;
 const canonical = post.urlPath;
 const postImage = `https://earezki.com/assets/og-image-default.jpg`;
-const postKeywords = post.data.categories?.join(', ') || 'software architecture, backend development';
+const postKeywords = 'Stock Weather AI, Financial Analysis, Stock Market';
 
-// Precompute lowercase categories for efficient comparison
+// Precompute lowercase categories for runtime optimization
 const lowerCategories = post.data.categories?.map((c: string) => c.toLowerCase()) || [];
-
-// Check if post has "AI Assisted" tag
-const hasAIAssisted = lowerCategories.includes('ai assisted');
 
 // Generate breadcrumbs
 const breadcrumbs = generateBreadcrumbs(canonical, post.data.title);
@@ -44,8 +40,6 @@ const relatedFinder = new RelatedPostsFinder(allContent);
 
 // Find related content using optimized algorithm
 const relatedPosts = relatedFinder.findRelated(post, 3);
-const series = relatedFinder.detectSeries(post);
-const seriesPosts = series ? relatedFinder.findSeriesPosts(post) : [];
 
 const structuredData = {
   '@context': 'https://schema.org',
@@ -100,35 +94,55 @@ const { Content } = await rawPost.render();
           <time datetime={post.data.pubDate.toISOString()}>{post.data.pubDate.toDateString()}</time>
           <span>• {stats.text}</span>
         </div>
-        {post.data.categories && <div class="tag-row">{post.data.categories
-          .filter((c: string, idx: number) => lowerCategories[idx] !== 'ai assisted')
-          .map((c: string, idx: number) => {
+        {post.data.categories && <div class="tag-row">{post.data.categories.map((c: string, idx: number) => {
           const slugTag = slugify(c);
-          const categoryLower = c.toLowerCase();
-          const isAINews = categoryLower === 'ai news';
-          return <a class={`post-tag ${isAINews ? 'ai-news-tag' : ''}`} href={`/tags/${slugTag}/`}>{c}</a>;
+          const isStockWeatherAI = lowerCategories[idx] === 'stock weather ai';
+          // Only Stock Weather AI tag is clickable
+          return isStockWeatherAI 
+            ? <a class="post-tag stock-weather-ai-tag" href={`/tags/${slugTag}/`}>{c}</a>
+            : <span class="post-tag">{c}</span>;
         })}</div>}
       </header>
-      {hasAIAssisted && (
-        <div class="ai-assisted-banner">
-          <p><strong>Note:</strong> This article was refined and organized by AI, but the content and research are entirely human.</p>
-        </div>
-      )}
+      
+      <div class="ai-assisted-banner">
+        <p><strong>AI-Generated Financial Analysis:</strong> This article was created with AI assistance for educational purposes only. This is not financial advice. Always conduct your own research and consult with qualified financial advisors before making investment decisions.</p>
+      </div>
+      
       <div class="post-body prose">
         <Content />
       </div>
-      
-      {/* Series Navigation - appears if post is part of a series */}
-      {series && seriesPosts.length > 1 && (
-        <SeriesNavigation series={series} posts={seriesPosts} currentSlug={slug!} />
-      )}
       
       {/* Related Posts */}
       <RelatedPosts posts={relatedPosts} />
     </article>
   </div>
-  <div class="back-link"><a href="/">← Back to home</a></div>
+  <div class="back-link"><a href="/ai-financial-news/">← Back to AI Financial News</a></div>
 </BaseLayout>
+
+<script>
+  // Runtime styling: detect Prediction: increase/decrease and apply color styling
+  if (typeof window !== 'undefined') {
+    document.addEventListener('DOMContentLoaded', () => {
+      const postBody = document.querySelector('.post-body');
+      if (!postBody) return;
+      
+      const paragraphs = postBody.querySelectorAll('p');
+      paragraphs.forEach((p: Element) => {
+        const text = (p.textContent || '').toLowerCase();
+        
+        // Check if this paragraph contains "Prediction:"
+        if (text.includes('prediction:')) {
+          // Determine if it's increase or decrease
+          if (text.includes('increase')) {
+            p.classList.add('prediction-increase');
+          } else if (text.includes('decrease')) {
+            p.classList.add('prediction-decrease');
+          }
+        }
+      });
+    });
+  }
+</script>
 
 <style>
   .post-layout { 

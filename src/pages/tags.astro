@@ -1,17 +1,22 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { getAllTags, getProcessedAinews } from '../utils/dataCache';
+import { getAllTags, getProcessedAinews, getProcessedAifinnews } from '../utils/dataCache';
 import { slugify } from '../utils/slugify';
 
 const tagMap = await getAllTags();
 const ainewsPosts = await getProcessedAinews();
+const aifinnewsPosts = await getProcessedAifinnews();
 
-const tags = Array.from(tagMap.entries()).sort((a,b) => a[0].localeCompare(b[0]));
+// Filter out Stock Weather AI from regular tags since it's displayed specially
+const tags = Array.from(tagMap.entries())
+  .filter(([name]) => name.toLowerCase() !== 'stock weather ai')
+  .sort((a,b) => a[0].localeCompare(b[0]));
 ---
 <BaseLayout title="Tags" description="Browse posts by category/tag">
   <h1>Tags</h1>
   <ul style="list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 0.75rem;">
-    <li><a class="post-tag ai-news-tag" href="/ai-news/">AI News <span style="opacity:.6;">({ainewsPosts.length})</span></a></li>
+    <li><a class="post-tag ai-news-tag ai-gradient-tag" href="/ai-news/">AI News <span style="opacity:.6;">({ainewsPosts.length})</span></a></li>
+    <li><a class="post-tag stock-weather-ai-tag ai-gradient-tag" href="/ai-financial-news/">Stock Weather AI <span style="opacity:.6;">({aifinnewsPosts.length})</span></a></li>
     {tags.map(([name, count]) => (
       <li><a class="post-tag" href={`/tags/${slugify(name)}/`}>{name} <span style="opacity:.6;">({count})</span></a></li>
     ))}

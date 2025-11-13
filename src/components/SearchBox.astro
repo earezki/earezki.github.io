@@ -201,7 +201,8 @@ import '../styles/_search.css';
       if (clear) clear.style.display = 'flex';
       
       const idx = await loadSearchIndex();
-      const keywords = q.toLowerCase().split(/\s+/).filter(k => k.length >= 2);
+      const qLower = q.toLowerCase();
+      const keywords = qLower.split(/\s+/).filter(k => k.length >= 2);
       
       const scored = idx.map((art: any) => {
         const title = art.title.toLowerCase();
@@ -209,11 +210,11 @@ import '../styles/_search.css';
         const cats = art.categories.map((c: string) => c.toLowerCase()).join(' ');
         
         let score = 0, matched = 0;
-        keywords.forEach(kw => {
+        for (const kw of keywords) {
           if (title.includes(kw)) { score += 10; matched++; }
           if (cats.includes(kw)) { score += 5; matched++; }
           if (excerpt.includes(kw)) { score += 2; matched++; }
-        });
+        }
         
         return matched >= keywords.length ? { art, score } : null;
       }).filter(Boolean) as Array<{ art: any; score: number }>;
