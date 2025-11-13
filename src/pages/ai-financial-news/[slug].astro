@@ -97,10 +97,8 @@ const { Content } = await rawPost.render();
         {post.data.categories && <div class="tag-row">{post.data.categories.map((c: string, idx: number) => {
           const slugTag = slugify(c);
           const isStockWeatherAI = lowerCategories[idx] === 'stock weather ai';
-          // Only Stock Weather AI tag is clickable
-          return isStockWeatherAI 
-            ? <a class="post-tag stock-weather-ai-tag" href={`/tags/${slugTag}/`}>{c}</a>
-            : <span class="post-tag">{c}</span>;
+          const tagClass = isStockWeatherAI ? 'post-tag ai-news-tag ai-gradient-tag' : 'post-tag';
+          return <a class={tagClass} href={`/tags/${slugTag}/`}>{c}</a>;
         })}</div>}
       </header>
       
