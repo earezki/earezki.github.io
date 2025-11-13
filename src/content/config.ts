@@ -35,4 +35,11 @@ const about = defineCollection({
   })
 });
 
-export const collections = { posts, ainews, aifinnews, about };
+const cv = defineCollection({
+  schema: z.object({
+    title: z.string(),
+    language: z.enum(['fr', 'en']),
+  })
+});
+
+export const collections = { posts, ainews, aifinnews, about, cv };

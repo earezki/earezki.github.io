@@ -191,7 +191,7 @@ function extractContent(filePath) {
 
 // Generate markdown CVs
 function generateMarkdownCVs() {
-  const contentDir = path.join(__dirname, '..', 'src', 'content', 'about');
+  const contentDir = path.join(__dirname, '..', 'src', 'content', 'cv');
   const publicDir = path.join(__dirname, '..', 'public');
   
   // Ensure public directory exists
@@ -200,7 +200,7 @@ function generateMarkdownCVs() {
   }
   
   // Process French version
-  const frPath = path.join(contentDir, 'about-fr.md');
+  const frPath = path.join(contentDir, 'cv-fr.md');
   const frContent = extractContent(frPath);
   const frCleaned = stripHtml(frContent);
   const frWrapped = wrapLines(frCleaned);
@@ -209,7 +209,7 @@ function generateMarkdownCVs() {
   console.log('✅ Generated cv-fr.md');
   
   // Process English version
-  const enPath = path.join(contentDir, 'about-en.md');
+  const enPath = path.join(contentDir, 'cv-en.md');
   const enContent = extractContent(enPath);
   const enCleaned = stripHtml(enContent);
   const enWrapped = wrapLines(enCleaned);

@@ -3,181 +3,19 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const aboutContent = await getCollection('about');
-const frContent = aboutContent.find(item => item.data.language === 'fr');
 const enContent = aboutContent.find(item => item.data.language === 'en');
 
-if (!frContent || !enContent) {
-  throw new Error('Missing about content for French or English');
+if (!enContent) {
+  throw new Error('Missing about content for English');
 }
 
-const { Content: FrContent } = await frContent.render();
 const { Content: EnContent } = await enContent.render();
 ---
 
 <BaseLayout title="About">
   <div class="cv-container">
-    <div class="cv-header">
-      <div class="cv-updated">
-        <span class="updated-label" data-lang-fr="Mis à jour :" data-lang-en="Updated:">Mis à jour :</span>
-        <span class="updated-date">10-2025</span>
-      </div>
-      <div class="cv-actions">
-        <button class="lang-switch" id="langSwitch" aria-label="Switch language">
-          <span class="lang-option active" data-lang="fr">FR</span>
-          <span class="lang-divider">|</span>
-          <span class="lang-option" data-lang="en">EN</span>
-        </button>
-      </div>
-    </div>
-
-    <div class="cv-content" id="cvContentFr" data-lang="fr">
-      <FrContent />
-    </div>
-
-    <div class="cv-content hidden" id="cvContentEn" data-lang="en">
+    <div class="cv-content">
       <EnContent />
     </div>
-
-    <div class="cv-footer">
-      <div class="download-buttons">
-        <a class="download-btn" id="downloadPdf" href="/cv-fr.pdf" download="CV-ElMehdi-AREZKI.pdf">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-            <polyline points="14 2 14 8 20 8"></polyline>
-            <line x1="16" y1="13" x2="8" y2="13"></line>
-            <line x1="16" y1="17" x2="8" y2="17"></line>
-            <polyline points="10 9 9 9 8 9"></polyline>
-          </svg>
-          <span data-lang-fr="PDF" data-lang-en="PDF">PDF</span>
-        </a>
-        <span class="download-divider">|</span>
-        <a class="download-btn" id="downloadMarkdown" href="/cv-fr.md" download="CV-ElMehdi-AREZKI.md">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-            <polyline points="14 2 14 8 20 8"></polyline>
-            <line x1="12" y1="18" x2="12" y2="12"></line>
-            <line x1="9" y1="15" x2="12" y2="18"></line>
-            <line x1="15" y1="15" x2="12" y2="18"></line>
-          </svg>
-          <span data-lang-fr="Markdown" data-lang-en="Markdown">Markdown</span>
-        </a>
-      </div>
-    </div>
   </div>
-
-  <script>
-    // Toast notification function
-    function showToast(message: string, type: 'success' | 'info' = 'success') {
-      const toast = document.createElement('div');
-      toast.className = `toast toast-${type}`;
-      toast.textContent = message;
-      document.body.appendChild(toast);
-      
-      // Trigger animation
-      setTimeout(() => toast.classList.add('show'), 10);
-      
-      // Remove after 3 seconds
-      setTimeout(() => {
-        toast.classList.remove('show');
-        setTimeout(() => toast.remove(), 300);
-      }, 3000);
-    }
-    
-    // Language switching functionality
-    const langSwitch = document.getElementById('langSwitch');
-    const cvContentFr = document.getElementById('cvContentFr');
-    const cvContentEn = document.getElementById('cvContentEn');
-    const langOptions = document.querySelectorAll('.lang-option');
-    
-    // Get current language from localStorage or default to 'fr'
-    let currentLang = localStorage.getItem('cvLang') || 'fr';
-    
-    // Function to update UI based on language
-    function updateLanguage(lang: string) {
-      currentLang = lang;
-      localStorage.setItem('cvLang', lang);
-      
-      // Toggle content visibility
-      if (lang === 'fr') {
-        cvContentFr?.classList.remove('hidden');
-        cvContentEn?.classList.add('hidden');
-      } else {
-        cvContentFr?.classList.add('hidden');
-        cvContentEn?.classList.remove('hidden');
-      }
-      
-      // Update language switcher
-      langOptions.forEach(option => {
-        if (option.getAttribute('data-lang') === lang) {
-          option.classList.add('active');
-        } else {
-          option.classList.remove('active');
-        }
-      });
-      
-      // Update translatable text
-      document.querySelectorAll('[data-lang-fr]').forEach(el => {
-        const textFr = el.getAttribute('data-lang-fr');
-        const textEn = el.getAttribute('data-lang-en');
-        if (textFr && textEn) {
-          el.textContent = lang === 'fr' ? textFr : textEn;
-        }
-      });
-      
-      // Update download links
-      const downloadMarkdown = document.getElementById('downloadMarkdown') as HTMLAnchorElement;
-      const downloadPdf = document.getElementById('downloadPdf') as HTMLAnchorElement;
-      
-      if (downloadMarkdown) {
-        const filename = lang === 'fr' ? 'CV-ElMehdi-AREZKI-FR.md' : 'Resume-ElMehdi-AREZKI-EN.md';
-        downloadMarkdown.href = lang === 'fr' ? '/cv-fr.md' : '/cv-en.md';
-        downloadMarkdown.setAttribute('download', filename);
-      }
-      
-      if (downloadPdf) {
-        const pdfFilename = lang === 'fr' ? 'CV-ElMehdi-AREZKI-FR.pdf' : 'Resume-ElMehdi-AREZKI-EN.pdf';
-        downloadPdf.href = lang === 'fr' ? '/cv-fr.pdf' : '/cv-en.pdf';
-        downloadPdf.setAttribute('download', pdfFilename);
-      }
-    }
-    
-    // Initialize with saved or default language
-    updateLanguage(currentLang);
-    
-    // Language switcher click handler
-    langSwitch?.addEventListener('click', () => {
-      const newLang = currentLang === 'fr' ? 'en' : 'fr';
-      updateLanguage(newLang);
-    });
-    
-    langOptions.forEach(option => {
-      option.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const lang = option.getAttribute('data-lang');
-        if (lang) {
-          updateLanguage(lang);
-        }
-      });
-    });
-    
-    // PDF download feedback
-    const downloadPdfBtn = document.getElementById('downloadPdf');
-    downloadPdfBtn?.addEventListener('click', () => {
-      showToast(
-        currentLang === 'fr' 
-          ? '📄 Téléchargement du CV en PDF...' 
-          : '📄 Downloading CV as PDF...'
-      );
-    });
-    
-    // Markdown download feedback
-    const downloadMarkdownBtn = document.getElementById('downloadMarkdown');
-    downloadMarkdownBtn?.addEventListener('click', () => {
-      showToast(
-        currentLang === 'fr' 
-          ? '✅ Téléchargement du CV en Markdown...' 
-          : '✅ Downloading CV in Markdown...'
-      );
-    });
-  </script>
 </BaseLayout>

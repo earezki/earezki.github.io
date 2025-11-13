@@ -21,7 +21,7 @@ echo "Using Python path: $(which python)"
 pip install -r requirements.txt
 
 # run the ai news script
-#python -u scripts/ai-news.py
+python -u scripts/ai-news.py
 
 # run the script to generate AI financial news
 python -u scripts/fin_news/ai_fin_news.py
