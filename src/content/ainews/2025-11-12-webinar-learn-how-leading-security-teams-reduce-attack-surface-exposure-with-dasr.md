@@ -3,6 +3,7 @@ title: "Dynamic Attack Surface Reduction (DASR): A Smarter Way to Stay Safe"
 pubDate: 2025-11-12
 description: "Bitdefender's DASR automates real-time risk reduction, closing security gaps before attackers exploit them."
 categories: ["AI News", "Cyber Security", "Webinar"]
+---
 
 ## Dynamic Attack Surface Reduction (DASR): A Smarter Way to Stay Safe
 
@@ -23,4 +24,5 @@ Traditional security scans report vulnerabilities but do not address them in rea
 **References:**
 - https://thehackernews.com/2025/11/webinar-learn-how-leading-security.html
 - https://www.ponemon.org/research/2024-breach-report
+
 ---
