@@ -1,0 +1,963 @@
+<!DOCTYPE html><html lang="en" data-theme="dark"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>CV • Dev|Journal</title><meta name="description" content="Technical blog covering software architecture, backend development, and engineering best practices."><meta name="keywords" content="software architecture, backend development, microservices, Java, Python, Spring Boot, technical blog"><meta name="author" content="El Mehdi Arezki"><meta property="og:type" content="website"><meta property="og:url" content="https://earezki.com"><meta property="og:title" content="CV • Dev|Journal"><meta property="og:site_name" content="Dev|Journal"><meta property="og:description" content="Technical blog covering software architecture, backend development, and engineering best practices."><meta property="og:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:url" content="https://earezki.com"><meta name="twitter:title" content="CV • Dev|Journal"><meta name="twitter:description" content="Technical blog covering software architecture, backend development, and engineering best practices."><meta name="twitter:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:creator" content="@earezki"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/x-icon" href="/favicon.ico"><link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"><link rel="dns-prefetch" href="https://www.googletagmanager.com"><link rel="dns-prefetch" href="https://www.google-analytics.com"><link rel="dns-prefetch" href="https://cloud.umami.is"><link rel="preconnect" href="https://www.googletagmanager.com" crossorigin><!-- Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=UA-161447264-1"></script><script defer src="https://cloud.umami.is/script.js" data-website-id="4a26531d-1053-4f79-97a6-06a1366aff91"></script><!-- Theme persistence before render --><script>
+      (function() {
+        const theme = localStorage.getItem('theme');
+        if (theme) document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script><link rel="stylesheet" href="/_astro/_slug_.p-TxAP9g.css"><script type="module" src="/_astro/hoisted.C9LDS2q_.js"></script></head> <body> <div id="readingProgress" role="progressbar" aria-label="Reading progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="position:fixed;left:0;top:0;height:3px;background:linear-gradient(90deg,#2563eb,#9333ea);width:0;z-index:999;transition:width .15s ease;"></div>  <!-- Site Header --> <header class="site-header container"> <div class="logo-wrap"> <a class="logo" href="/" aria-label="Dev|Journal Home">
+Dev|Journal
+</a> </div> <!-- Search Box in Header --> <div class="header-search"> <div class="search-box" id="search-box"> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon" aria-hidden="true"> <circle cx="11" cy="11" r="8"></circle> <path d="m21 21-4.35-4.35"></path> </svg> <input type="text" id="search-input" placeholder="Search ..." class="search-input" autocomplete="off" aria-label="Search articles" minlength="3"> <button id="clear-search" class="clear-button" style="display: none;" aria-label="Clear search"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <line x1="18" y1="6" x2="6" y2="18"></line> <line x1="6" y1="6" x2="18" y2="18"></line> </svg> </button> </div> <div id="search-results" class="search-results" role="status" aria-live="polite"></div> </div>  <nav class="main-nav" aria-label="Main navigation"> <a href="/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path> <polyline points="9 22 9 12 15 12 15 22"></polyline> </svg>
+Home
+</a> <a href="/ai-news/" class="ai-news-link ai-gradient-nav"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h-9.5a.5.5 0 0 0-.5.5.5.5 0 0 1-1 0 .5.5 0 0 0-.5-.5H1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"></path> <path d="M7 15v4a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-4"></path> </svg>
+AI News
+</a> <a href="/ai-financial-news/" class="ai-financial-link ai-gradient-nav"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <line x1="12" y1="1" x2="12" y2="23"></line> <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path> </svg>
+AI Financial
+</a> <a href="/about/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <circle cx="12" cy="12" r="10"></circle> <path d="M12 16v-4"></path> <path d="M12 8h.01"></path> </svg>
+About
+</a> <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode"> <span class="theme-icon" aria-hidden="true">☾</span> </button> </nav> </header> <!-- Main Content --> <main class="container content-area">  <div class="cv-container"> <div class="cv-header"> <div class="cv-updated"> <span class="updated-label" data-lang-fr="Mis à jour :" data-lang-en="Updated:">Mis à jour :</span> <span class="updated-date">10-2025</span> </div> <div class="cv-actions"> <button class="lang-switch" id="langSwitch" aria-label="Switch language"> <span class="lang-option active" data-lang="fr">FR</span> <span class="lang-divider">|</span> <span class="lang-option" data-lang="en">EN</span> </button> </div> </div> <div class="cv-content" id="cvContentFr" data-lang="fr"> <div class="profile-banner">
+  <div class="banner-gradient"></div>
+</div>
+<div class="profile-card">
+  <div class="profile-avatar">
+    <div class="avatar-placeholder">
+      <span class="avatar-initials">EA</span>
+    </div>
+  </div>
+  <div class="profile-header-content">
+    <h1 class="profile-name">El Mehdi AREZKI</h1>
+    <p class="profile-title">🚀 Lead Software Engineer &#x26; System Architect</p>
+    <p class="profile-location">📍 Île-de-France, France</p>
+  </div>
+</div>
+<div class="profile-links">
+  <a href="mailto:arezki.elmehdi@gmail.com" class="profile-link email-link">
+    <span class="link-icon">✉️</span>
+    <span>arezki.elmehdi@gmail.com</span>
+  </a>
+  <a href="https://www.linkedin.com/in/mehdi-arezki" class="profile-link linkedin-link" target="_blank" rel="noopener">
+    <span class="link-icon">💼</span>
+    <span>LinkedIn</span>
+  </a>
+  <a href="https://github.com/earezki" class="profile-link github-link" target="_blank" rel="noopener">
+    <span class="link-icon">🐙</span>
+    <span>GitHub</span>
+  </a>
+  <a href="https://earezki.com/" class="profile-link blog-link" target="_blank" rel="noopener">
+    <span class="link-icon">📝</span>
+    <span>Blog</span>
+  </a>
+  <a href="https://stackoverflow.com/users/4059373/mehdi" class="profile-link stackoverflow-link" target="_blank" rel="noopener">
+    <span class="link-icon">💡</span>
+    <span>StackOverflow</span>
+  </a>
+</div>
+<hr>
+<h2 id="-à-propos">👨‍💻 À Propos</h2>
+<p><strong>Passionné par l’architecture logicielle et l’innovation technique</strong>, je suis un Lead Software Engineer <strong>depuis 2017 professionnellement</strong> et <strong>depuis 2012 personnellement</strong> dans la création de solutions backend distribuées à grande échelle.</p>
+<p>🎯 <strong>Ma mission</strong> : Transformer des idées complexes en systèmes robustes, évolutifs et performants qui font la différence.</p>
+<p>💡 <strong>Ce qui me distingue</strong> :</p>
+<ul>
+<li>Leadership technique d’équipes internationales</li>
+<li>Expertise en architecture cloud-native et microservices</li>
+<li>Passion pour la qualité du code et les bonnes pratiques</li>
+<li>Capacité à naviguer entre technique et business</li>
+</ul>
+<hr>
+<h2 id="-statistiques-github">📊 Statistiques GitHub</h2>
+<div align="center" class="github-stats-container">
+  <a href="https://github.com/earezki" target="_blank" rel="noopener noreferrer">
+    <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=earezki&#x26;layout=compact&#x26;theme=transparent&#x26;hide_border=true&#x26;langs_count=8&#x26;cache_seconds=86400" alt="Top Languages" height="180" loading="lazy">
+  </a>
+  <a href="https://github.com/earezki" target="_blank" rel="noopener noreferrer">
+    <img src="https://github-readme-stats.vercel.app/api?username=earezki&#x26;show_icons=true&#x26;theme=transparent&#x26;hide_border=true&#x26;include_all_commits=true&#x26;count_private=true&#x26;cache_seconds=86400" alt="GitHub Stats" height="180" loading="lazy">
+  </a>
+</div>
+<hr>
+<h2 id="-expériences-professionnelles">💼 Expériences Professionnelles</h2>
+<h3 id="entreprise-a-groupe-bancaire-européen--île-de-france"><span class="company-highlight">Entreprise A (Groupe Bancaire Européen)</span> <span class="location-badge">📍 Île-de-France</span></h3>
+<h4 id="️-lead-software-engineer">🎖️ Lead Software Engineer</h4>
+<p><strong>📅 04-2023 – Aujourd’hui</strong></p>
+<p>🏆 <strong>Réalisations clés</strong> :</p>
+<ul>
+<li>🚀 <strong>Pilotage de projet d’envergure</strong> : Direction du développement d’une application bancaire next-gen (v3), construite from scratch pour moderniser un système legacy</li>
+<li>🌍 <strong>Leadership international</strong> : Coordination quotidienne d’équipes distribuées (France &#x26; Pologne) incluant développeurs, Business Analysts et Product Owners</li>
+<li>📋 <strong>Excellence technique</strong> : Rédaction de specs techniques, participation active à la définition des règles métier et animation d’ateliers fonctionnels</li>
+<li>🔧 <strong>DevOps &#x26; Infrastructure</strong> : Mise en place complète des pipelines CI/CD (Jenkins, ArgoCD) et orchestration Kubernetes</li>
+<li>🔬 <strong>Innovation &#x26; R&#x26;D</strong> : Réalisation de POCs comparatifs (Redis vs Apache Ignite, Oracle vs MongoDB, solutions d’audit)</li>
+<li>👨‍🏫 <strong>Mentorat</strong> : Encadrement technique, code reviews, et définition des bonnes pratiques d’équipe</li>
+<li>⚡ <strong>Performance</strong> : Optimisation des performances et gestion proactive des incidents en production</li>
+</ul>
+<div class="tech-stack">
+  <span class="tech-badge java">Java 21</span>
+  <span class="tech-badge spring">Spring Boot</span>
+  <span class="tech-badge">OpenAPI</span>
+  <span class="tech-badge redis">Redis</span>
+  <span class="tech-badge">Apache Ignite</span>
+  <span class="tech-badge oracle">Oracle</span>
+  <span class="tech-badge mongodb">MongoDB</span>
+  <span class="tech-badge jenkins">Jenkins</span>
+  <span class="tech-badge">ArgoCD</span>
+  <span class="tech-badge kubernetes">Kubernetes</span>
+  <span class="tech-badge">RabbitMQ</span>
+  <span class="tech-badge">IBM MQ</span>
+  <span class="tech-badge docker">Docker</span>
+  <span class="tech-badge python">Python</span>
+  <span class="tech-badge">FastAPI</span>
+</div>
+<hr>
+<h4 id="-senior-software-engineer">🎯 Senior Software Engineer</h4>
+<p><strong>📅 06-2021 – 04-2023</strong></p>
+<p>🏆 <strong>Réalisations clés</strong> :</p>
+<ul>
+<li>🏗️ <strong>Architecture from scratch</strong> : Conception et implémentation de l’architecture applicative d’une plateforme bancaire moderne</li>
+<li>🏦 <strong>Projet réglementaire</strong> : Développement d’une application de reporting pour la Banque de France, remplacement d’un système COBOL legacy</li>
+<li>🔄 <strong>CI/CD Excellence</strong> : Mise en œuvre de pipelines GitLab CI, automatisation des déploiements</li>
+<li>🛡️ <strong>Composants transverses</strong> : Développement de modules d’audit, habilitations, sécurité et authentification OAuth2</li>
+<li>✅ <strong>Garantie qualité</strong> : Garant de la qualité technique et fonctionnelle, mentorat d’équipe</li>
+</ul>
+<div class="tech-stack">
+  <span class="tech-badge java">Java 11</span>
+  <span class="tech-badge spring">Spring Boot</span>
+  <span class="tech-badge">DDD</span>
+  <span class="tech-badge">Hexagonal Architecture</span>
+  <span class="tech-badge docker">Docker</span>
+  <span class="tech-badge kubernetes">Kubernetes</span>
+  <span class="tech-badge postgresql">PostgreSQL</span>
+  <span class="tech-badge">GitLab CI</span>
+  <span class="tech-badge">OAuth2</span>
+</div>
+<hr>
+<h3 id="entreprise-b-groupe-bancaire-européen--île-de-france"><span class="company-highlight">Entreprise B (Groupe Bancaire Européen)</span> <span class="location-badge">📍 Île-de-France</span></h3>
+<h4 id="-senior-software-engineer-1">🎯 Senior Software Engineer</h4>
+<p><strong>📅 07-2019 – 06-2021</strong></p>
+<p>🏆 <strong>Réalisations clés</strong> :</p>
+<ul>
+<li>🔬 <strong>R&#x26;D &#x26; Innovation</strong> : Étude et réalisation de POCs techniques pour nouveaux projets stratégiques</li>
+<li>🏗️ <strong>Architecture microservices</strong> : Conception et implémentation d’une infrastructure microservices complète</li>
+<li>🚢 <strong>Migration K8s</strong> : Migration réussie de Docker Swarm vers Kubernetes</li>
+<li>🔐 <strong>Sécurité</strong> : Mise en place d’un serveur OAuth2 et service de signature électronique</li>
+<li>⚡ <strong>Optimisation</strong> : Amélioration significative des performances applicatives et SQL, intégration APM</li>
+<li>🧪 <strong>Tests de charge</strong> : Développement de tests de performance avec Locust (Python)</li>
+<li>👨‍🏫 <strong>Formation</strong> : Accompagnement et formation des juniors et stagiaires</li>
+</ul>
+<div class="tech-stack">
+  <span class="tech-badge java">Java 8</span>
+  <span class="tech-badge spring">Spring Boot</span>
+  <span class="tech-badge docker">Docker</span>
+  <span class="tech-badge kubernetes">Kubernetes</span>
+  <span class="tech-badge postgresql">PostgreSQL</span>
+  <span class="tech-badge">RabbitMQ</span>
+  <span class="tech-badge jenkins">Jenkins</span>
+  <span class="tech-badge react">ReactJS</span>
+  <span class="tech-badge">ELK</span>
+  <span class="tech-badge python">Python</span>
+</div>
+<hr>
+<h3 id="entreprise-c-banque-en-ligne-internationale--paris"><span class="company-highlight">Entreprise C (Banque en Ligne Internationale)</span> <span class="location-badge">📍 Paris</span></h3>
+<h4 id="-développeur-concepteur-java">💻 Développeur Concepteur Java</h4>
+<p><strong>📅 09-2018 – 06-2019</strong></p>
+<p>🏆 <strong>Réalisations clés</strong> :</p>
+<ul>
+<li>📋 <strong>Gestion complète du cycle</strong> : De la spécification à la recette des Change Requests</li>
+<li>🏦 <strong>APIs PSD2</strong> : Analyse et développement des API PSD2 (SCA, AIS, PIS)</li>
+<li>🔐 <strong>Authentification forte</strong> : Implémentation module SCA et système de détection de fraude</li>
+<li>🎨 <strong>Front-end</strong> : Développement de composants Polymer 2 et intégration REST/SOAP</li>
+<li>🎯 <strong>Expertise technique</strong> : Participation active aux choix techniques et code reviews</li>
+</ul>
+<div class="tech-stack">
+  <span class="tech-badge java">Java 8</span>
+  <span class="tech-badge spring">Spring MVC</span>
+  <span class="tech-badge spring">Spring Boot</span>
+  <span class="tech-badge">JAX-RS</span>
+  <span class="tech-badge">AngularJS</span>
+  <span class="tech-badge">Polymer 2</span>
+  <span class="tech-badge jenkins">Jenkins</span>
+</div>
+<hr>
+<h3 id="entreprise-d-e-commerce-international--rabat"><span class="company-highlight">Entreprise D (E-Commerce International)</span> <span class="location-badge">📍 Rabat</span></h3>
+<h4 id="-développeur-concepteur-java-1">💻 Développeur Concepteur Java</h4>
+<p><strong>📅 02-2017 – 09-2018</strong></p>
+<p>🏆 <strong>Réalisations clés</strong> :</p>
+<ul>
+<li>🛒 <strong>E-commerce à grande échelle</strong> : Développement et chiffrage de nouvelles fonctionnalités</li>
+<li>🔄 <strong>Modernisation</strong> : Migration d’un monolithe vers architecture microservices</li>
+<li>🛍️ <strong>Nouveau microservice</strong> : Développement du service de gestion de panier from scratch</li>
+<li>🏗️ <strong>Conception technique</strong> : Design et implémentation avec intégration continue</li>
+<li>👨‍🏫 <strong>Mentorat</strong> : Code reviews et formation des nouveaux développeurs</li>
+</ul>
+<div class="tech-stack">
+  <span class="tech-badge java">Java 8</span>
+  <span class="tech-badge">SAP Hybris</span>
+  <span class="tech-badge spring">Spring Boot</span>
+  <span class="tech-badge">AngularJS</span>
+  <span class="tech-badge docker">Docker</span>
+  <span class="tech-badge jenkins">Jenkins</span>
+  <span class="tech-badge postgresql">PostgreSQL</span>
+</div>
+<hr>
+<h2 id="-projets-personnels">🚀 Projets Personnels</h2>
+<div class="projects-grid">
+<div class="project-card">
+  <div class="project-header">
+    <h3>🤖 Stock Weather AI</h3>
+    <a href="https://github.com/earezki/stock-weather-ai" target="_blank" rel="noopener" class="project-link">
+      <span>Voir le code →</span>
+    </a>
+  </div>
+  <p class="project-description">Application d'analyse des marchés financiers propulsée par l'IA. Utilise le machine learning pour prédire les tendances du marché et fournir des insights en temps réel.</p>
+  <div class="project-tech">
+    <span class="tech-badge python">Python</span>
+    <span class="tech-badge langchain">LangChain</span>
+    <span class="tech-badge">AI/ML</span>
+    <span class="tech-badge">Finance</span>
+  </div>
+</div>
+<div class="project-card">
+  <div class="project-header">
+    <h3>☁️ AltCloud</h3>
+    <a href="https://github.com/earezki/altrcloud" target="_blank" rel="noopener" class="project-link">
+      <span>Voir le code →</span>
+    </a>
+  </div>
+  <p class="project-description">Solution de stockage cloud alternative et sécurisée. Architecture distribuée avec chiffrement de bout en bout pour une confidentialité maximale.</p>
+  <div class="project-tech">
+    <span class="tech-badge flutter">Flutter</span>
+    <span class="tech-badge">Cloud</span>
+    <span class="tech-badge">Storage</span>
+    <span class="tech-badge">Security</span>
+  </div>
+</div>
+<div class="project-card">
+  <div class="project-header">
+    <h3>🛒 CartsAPI</h3>
+    <a href="https://github.com/earezki/carts-api" target="_blank" rel="noopener" class="project-link">
+      <span>Voir le code →</span>
+    </a>
+  </div>
+  <p class="project-description">API RESTful moderne pour la gestion de paniers e-commerce. Architecture microservices avec haute disponibilité et scalabilité.</p>
+  <div class="project-tech">
+    <span class="tech-badge java">Java</span>
+    <span class="tech-badge quarkus">Quarkus</span>
+    <span class="tech-badge">E-Commerce</span>
+  </div>
+</div>
+</div>
+<hr>
+<h2 id="️-compétences-techniques">🛠️ Compétences Techniques</h2>
+<h3 id="️-architecture-logicielle--conception">🏗️ Architecture Logicielle &#x26; Conception</h3>
+<div class="skills-section">
+  <div class="skill-category">
+    <h4>🎨 Paradigmes</h4>
+    <div class="skill-tags">
+      <span class="skill-tag">Microservices</span>
+      <span class="skill-tag">Domain-Driven Design (DDD)</span>
+      <span class="skill-tag">Event-Driven Architecture</span>
+      <span class="skill-tag">API-First</span>
+      <span class="skill-tag">Hexagonal Architecture</span>
+    </div>
+  </div>
+  <div class="skill-category">
+    <h4>💻 Langages</h4>
+    <div class="skill-tags">
+      <span class="skill-tag highlight">Java 25</span>
+      <span class="skill-tag highlight">Python</span>
+      <span class="skill-tag">TypeScript</span>
+      <span class="skill-tag">JavaScript</span>
+    </div>
+  </div>
+  <div class="skill-category">
+    <h4>🚀 Frameworks</h4>
+    <div class="skill-tags">
+      <span class="skill-tag primary">Spring Boot</span>
+      <span class="skill-tag primary">FastAPI</span>
+      <span class="skill-tag primary">LangChain</span>
+      <span class="skill-tag">Apache Camel</span>
+      <span class="skill-tag">React</span>
+      <span class="skill-tag">Hibernate</span>
+    </div>
+  </div>
+</div>
+<h3 id="️-cloud-native--devops">☁️ Cloud Native &#x26; DevOps</h3>
+<div class="skills-section">
+  <div class="skill-category">
+    <h4>🎼 Orchestration</h4>
+    <div class="skill-tags">
+      <span class="skill-tag k8s">Kubernetes</span>
+      <span class="skill-tag">Docker</span>
+      <span class="skill-tag">Docker Swarm</span>
+    </div>
+  </div>
+  <div class="skill-category">
+    <h4>🔄 CI/CD</h4>
+    <div class="skill-tags">
+      <span class="skill-tag">Jenkins</span>
+      <span class="skill-tag">GitLab CI</span>
+      <span class="skill-tag">ArgoCD</span>
+      <span class="skill-tag">GitHub Actions</span>
+    </div>
+  </div>
+  <div class="skill-category">
+    <h4>📦 Méthodologies</h4>
+    <div class="skill-tags">
+      <span class="skill-tag">Infrastructure as Code</span>
+      <span class="skill-tag">GitOps</span>
+      <span class="skill-tag">Continuous Delivery</span>
+    </div>
+  </div>
+</div>
+<h3 id="-systèmes-de-données--messaging">💾 Systèmes de Données &#x26; Messaging</h3>
+<div class="skills-section">
+  <div class="skill-category">
+    <h4>🗄️ Bases de données</h4>
+    <div class="skill-tags">
+      <span class="skill-tag">PostgreSQL</span>
+      <span class="skill-tag">Oracle</span>
+      <span class="skill-tag">MongoDB</span>
+      <span class="skill-tag">S3</span>
+    </div>
+  </div>
+  <div class="skill-category">
+    <h4>⚡ Caching</h4>
+    <div class="skill-tags">
+      <span class="skill-tag">Redis</span>
+      <span class="skill-tag">Apache Ignite</span>
+    </div>
+  </div>
+  <div class="skill-category">
+    <h4>📨 Files de messages</h4>
+    <div class="skill-tags">
+      <span class="skill-tag">RabbitMQ</span>
+      <span class="skill-tag">Apache Kafka</span>
+      <span class="skill-tag">IBM MQ</span>
+    </div>
+  </div>
+</div>
+<h3 id="-leadership--qualité">🎯 Leadership &#x26; Qualité</h3>
+<div class="skills-section">
+  <div class="skill-category">
+    <h4>👥 Leadership</h4>
+    <div class="skill-tags">
+      <span class="skill-tag leader">Gestion d'équipe</span>
+      <span class="skill-tag leader">Mentorat technique</span>
+      <span class="skill-tag leader">Planification Agile</span>
+      <span class="skill-tag leader">Coordination stakeholders</span>
+    </div>
+  </div>
+  <div class="skill-category">
+    <h4>✅ Qualité</h4>
+    <div class="skill-tags">
+      <span class="skill-tag">Tests de performance (Locust)</span>
+      <span class="skill-tag">Tests E2E (Cucumber)</span>
+      <span class="skill-tag">Code Review</span>
+      <span class="skill-tag">TDD</span>
+    </div>
+  </div>
+</div>
+<hr>
+<h2 id="-compétences-fonctionnelles">🎓 Compétences Fonctionnelles</h2>
+<div class="functional-skills">
+<div class="functional-card ecommerce">
+  <div class="functional-icon">🛍️</div>
+  <h3>E-Commerce</h3>
+  <ul>
+    <li>Gestion de catalogue produits</li>
+    <li>Systèmes de livraison</li>
+    <li>Paiements récurrents</li>
+    <li>Expérience omnicanale</li>
+  </ul>
+</div>
+<div class="functional-card banking">
+  <div class="functional-icon">🏦</div>
+  <h3>Bancaire</h3>
+  <ul>
+    <li><strong>PSD2</strong> : SCA, AIS, PIS, CAF</li>
+    <li>Virements et transferts</li>
+    <li>Détection de fraude</li>
+    <li>Produits structurés</li>
+    <li><strong>Conformité</strong> : KYC, AML, ETP, CTP</li>
+  </ul>
+</div>
+<div class="functional-card document">
+  <div class="functional-icon">📄</div>
+  <h3>GED</h3>
+  <ul>
+    <li>Gestion documentaire</li>
+    <li>Systèmes d'audit</li>
+    <li>Versioning avancé</li>
+    <li>Traçabilité complète</li>
+  </ul>
+</div>
+</div>
+<hr>
+<h2 id="-langues">🌍 Langues</h2>
+<div class="languages-badges">
+  <span class="language-badge">🇫🇷 Français</span>
+  <span class="language-badge">🇬🇧 Anglais</span>
+</div> </div> <div class="cv-content hidden" id="cvContentEn" data-lang="en"> <div class="profile-banner">
+  <div class="banner-gradient"></div>
+</div>
+<div class="profile-card">
+  <div class="profile-avatar">
+    <div class="avatar-placeholder">
+      <span class="avatar-initials">EA</span>
+    </div>
+  </div>
+  <div class="profile-header-content">
+    <h1 class="profile-name">El Mehdi AREZKI</h1>
+    <p class="profile-title">🚀 Lead Software Engineer &#x26; System Architect</p>
+    <p class="profile-location">📍 Île-de-France, France</p>
+  </div>
+</div>
+<div class="profile-links">
+  <a href="mailto:arezki.elmehdi@gmail.com" class="profile-link email-link">
+    <span class="link-icon">✉️</span>
+    <span>arezki.elmehdi@gmail.com</span>
+  </a>
+  <a href="https://www.linkedin.com/in/mehdi-arezki" class="profile-link linkedin-link" target="_blank" rel="noopener">
+    <span class="link-icon">💼</span>
+    <span>LinkedIn</span>
+  </a>
+  <a href="https://github.com/earezki" class="profile-link github-link" target="_blank" rel="noopener">
+    <span class="link-icon">🐙</span>
+    <span>GitHub</span>
+  </a>
+  <a href="https://earezki.com/" class="profile-link blog-link" target="_blank" rel="noopener">
+    <span class="link-icon">📝</span>
+    <span>Blog</span>
+  </a>
+  <a href="https://stackoverflow.com/users/4059373/mehdi" class="profile-link stackoverflow-link" target="_blank" rel="noopener">
+    <span class="link-icon">💡</span>
+    <span>StackOverflow</span>
+  </a>
+</div>
+<hr>
+<h2 id="-about">👨‍💻 About</h2>
+<p><strong>Passionate about software architecture and technical innovation</strong>, I’m a Lead Software Engineer <strong>since 2017 professionally</strong> and <strong>since 2012 personally</strong> building large-scale distributed backend solutions.</p>
+<p>🎯 <strong>My Mission</strong>: Transform complex ideas into robust, scalable, and performant systems that make a real difference.</p>
+<p>💡 <strong>What Sets Me Apart</strong>:</p>
+<ul>
+<li>Technical leadership of international teams</li>
+<li>Expertise in cloud-native architecture and microservices</li>
+<li>Passion for code quality and best practices</li>
+<li>Ability to bridge the gap between technical and business</li>
+</ul>
+<hr>
+<h2 id="-github-stats">📊 GitHub Stats</h2>
+<div align="center" class="github-stats-container">
+  <a href="https://github.com/earezki" target="_blank" rel="noopener noreferrer">
+    <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=earezki&#x26;layout=compact&#x26;theme=transparent&#x26;hide_border=true&#x26;langs_count=8&#x26;cache_seconds=86400" alt="Top Languages" height="180" loading="lazy">
+  </a>
+  <a href="https://github.com/earezki" target="_blank" rel="noopener noreferrer">
+    <img src="https://github-readme-stats.vercel.app/api?username=earezki&#x26;show_icons=true&#x26;theme=transparent&#x26;hide_border=true&#x26;include_all_commits=true&#x26;count_private=true&#x26;cache_seconds=86400" alt="GitHub Stats" height="180" loading="lazy">
+  </a>
+</div>
+<hr>
+<h2 id="-professional-experience">💼 Professional Experience</h2>
+<h3 id="company-a-european-banking-group--île-de-france"><span class="company-highlight">Company A (European Banking Group)</span> <span class="location-badge">📍 Île-de-France</span></h3>
+<h4 id="️-lead-software-engineer">🎖️ Lead Software Engineer</h4>
+<p><strong>📅 04-2023 – Present</strong></p>
+<p>🏆 <strong>Key Achievements</strong>:</p>
+<ul>
+<li>🚀 <strong>Large-scale Project Leadership</strong>: Led development of next-gen banking application (v3), built from scratch to modernize legacy system</li>
+<li>🌍 <strong>International Leadership</strong>: Daily coordination of distributed teams (France &#x26; Poland) including developers, Business Analysts, and Product Owners</li>
+<li>📋 <strong>Technical Excellence</strong>: Technical spec writing, active participation in business rule definition, and functional workshop facilitation</li>
+<li>🔧 <strong>DevOps &#x26; Infrastructure</strong>: Complete CI/CD pipeline setup (Jenkins, ArgoCD) and Kubernetes orchestration</li>
+<li>🔬 <strong>Innovation &#x26; R&#x26;D</strong>: Comparative POCs (Redis vs Apache Ignite, Oracle vs MongoDB, audit solutions)</li>
+<li>👨‍🏫 <strong>Mentorship</strong>: Technical coaching, code reviews, and team best practices definition</li>
+<li>⚡ <strong>Performance</strong>: Performance optimization and proactive production incident management</li>
+</ul>
+<div class="tech-stack">
+  <span class="tech-badge java">Java 21</span>
+  <span class="tech-badge spring">Spring Boot</span>
+  <span class="tech-badge">OpenAPI</span>
+  <span class="tech-badge redis">Redis</span>
+  <span class="tech-badge">Apache Ignite</span>
+  <span class="tech-badge oracle">Oracle</span>
+  <span class="tech-badge mongodb">MongoDB</span>
+  <span class="tech-badge jenkins">Jenkins</span>
+  <span class="tech-badge">ArgoCD</span>
+  <span class="tech-badge kubernetes">Kubernetes</span>
+  <span class="tech-badge">RabbitMQ</span>
+  <span class="tech-badge">IBM MQ</span>
+  <span class="tech-badge docker">Docker</span>
+  <span class="tech-badge python">Python</span>
+  <span class="tech-badge">FastAPI</span>
+</div>
+<hr>
+<h4 id="-senior-software-engineer">🎯 Senior Software Engineer</h4>
+<p><strong>📅 06-2021 – 04-2023</strong></p>
+<p>🏆 <strong>Key Achievements</strong>:</p>
+<ul>
+<li>🏗️ <strong>From-scratch Architecture</strong>: Design and implementation of modern banking platform application architecture</li>
+<li>🏦 <strong>Regulatory Project</strong>: Development of regulatory reporting application for Banque de France, replacing legacy COBOL system</li>
+<li>🔄 <strong>CI/CD Excellence</strong>: GitLab CI pipeline implementation, deployment automation</li>
+<li>🛡️ <strong>Cross-cutting Components</strong>: Development of audit, authorization, security, and OAuth2 authentication modules</li>
+<li>✅ <strong>Quality Assurance</strong>: Technical and functional quality guardian, team mentoring</li>
+</ul>
+<div class="tech-stack">
+  <span class="tech-badge java">Java 11</span>
+  <span class="tech-badge spring">Spring Boot</span>
+  <span class="tech-badge">DDD</span>
+  <span class="tech-badge">Hexagonal Architecture</span>
+  <span class="tech-badge docker">Docker</span>
+  <span class="tech-badge kubernetes">Kubernetes</span>
+  <span class="tech-badge postgresql">PostgreSQL</span>
+  <span class="tech-badge">GitLab CI</span>
+  <span class="tech-badge">OAuth2</span>
+</div>
+<hr>
+<h3 id="company-b-european-banking-group--île-de-france"><span class="company-highlight">Company B (European Banking Group)</span> <span class="location-badge">📍 Île-de-France</span></h3>
+<h4 id="-senior-software-engineer-1">🎯 Senior Software Engineer</h4>
+<p><strong>📅 07-2019 – 06-2021</strong></p>
+<p>🏆 <strong>Key Achievements</strong>:</p>
+<ul>
+<li>🔬 <strong>R&#x26;D &#x26; Innovation</strong>: Technical POC study and execution for new strategic projects</li>
+<li>🏗️ <strong>Microservices Architecture</strong>: Complete microservices infrastructure design and implementation</li>
+<li>🚢 <strong>K8s Migration</strong>: Successful migration from Docker Swarm to Kubernetes</li>
+<li>🔐 <strong>Security</strong>: OAuth2 server setup and electronic signature service</li>
+<li>⚡ <strong>Optimization</strong>: Significant application and SQL performance improvements, APM integration</li>
+<li>🧪 <strong>Load Testing</strong>: Performance test development with Locust (Python)</li>
+<li>👨‍🏫 <strong>Training</strong>: Junior and intern coaching and training</li>
+</ul>
+<div class="tech-stack">
+  <span class="tech-badge java">Java 8</span>
+  <span class="tech-badge spring">Spring Boot</span>
+  <span class="tech-badge docker">Docker</span>
+  <span class="tech-badge kubernetes">Kubernetes</span>
+  <span class="tech-badge postgresql">PostgreSQL</span>
+  <span class="tech-badge">RabbitMQ</span>
+  <span class="tech-badge jenkins">Jenkins</span>
+  <span class="tech-badge react">ReactJS</span>
+  <span class="tech-badge">ELK</span>
+  <span class="tech-badge python">Python</span>
+</div>
+<hr>
+<h3 id="company-c-international-online-bank--paris"><span class="company-highlight">Company C (International Online Bank)</span> <span class="location-badge">📍 Paris</span></h3>
+<h4 id="-java-developerdesigner">💻 Java Developer/Designer</h4>
+<p><strong>📅 09-2018 – 06-2019</strong></p>
+<p>🏆 <strong>Key Achievements</strong>:</p>
+<ul>
+<li>📋 <strong>Full Cycle Management</strong>: Change Request specification to acceptance testing</li>
+<li>🏦 <strong>PSD2 APIs</strong>: Analysis and development of PSD2 APIs (SCA, AIS, PIS)</li>
+<li>🔐 <strong>Strong Authentication</strong>: SCA module implementation and fraud detection system</li>
+<li>🎨 <strong>Front-end</strong>: Polymer 2 component development and REST/SOAP integration</li>
+<li>🎯 <strong>Technical Expertise</strong>: Active participation in technical choices and code reviews</li>
+</ul>
+<div class="tech-stack">
+  <span class="tech-badge java">Java 8</span>
+  <span class="tech-badge spring">Spring MVC</span>
+  <span class="tech-badge spring">Spring Boot</span>
+  <span class="tech-badge">JAX-RS</span>
+  <span class="tech-badge">AngularJS</span>
+  <span class="tech-badge">Polymer 2</span>
+  <span class="tech-badge jenkins">Jenkins</span>
+</div>
+<hr>
+<h3 id="company-d-international-e-commerce--rabat"><span class="company-highlight">Company D (International E-Commerce)</span> <span class="location-badge">📍 Rabat</span></h3>
+<h4 id="-java-developerdesigner-1">💻 Java Developer/Designer</h4>
+<p><strong>📅 02-2017 – 09-2018</strong></p>
+<p>🏆 <strong>Key Achievements</strong>:</p>
+<ul>
+<li>🛒 <strong>Large-scale E-commerce</strong>: Development and estimation of new features</li>
+<li>🔄 <strong>Modernization</strong>: Migration from monolith to microservices architecture</li>
+<li>🛍️ <strong>New Microservice</strong>: From-scratch shopping cart management service development</li>
+<li>🏗️ <strong>Technical Design</strong>: Design and implementation with continuous integration</li>
+<li>👨‍🏫 <strong>Mentoring</strong>: Code reviews and new developer training</li>
+</ul>
+<div class="tech-stack">
+  <span class="tech-badge java">Java 8</span>
+  <span class="tech-badge">SAP Hybris</span>
+  <span class="tech-badge spring">Spring Boot</span>
+  <span class="tech-badge">AngularJS</span>
+  <span class="tech-badge docker">Docker</span>
+  <span class="tech-badge jenkins">Jenkins</span>
+  <span class="tech-badge postgresql">PostgreSQL</span>
+</div>
+<hr>
+<h2 id="-personal-projects">🚀 Personal Projects</h2>
+<div class="projects-grid">
+<div class="project-card">
+  <div class="project-header">
+    <h3>🤖 Stock Weather AI</h3>
+    <a href="https://github.com/earezki/stock-weather-ai" target="_blank" rel="noopener" class="project-link">
+      <span>View Code →</span>
+    </a>
+  </div>
+  <p class="project-description">AI-powered financial market analysis application. Uses machine learning to predict market trends and provide real-time insights.</p>
+  <div class="project-tech">
+    <span class="tech-badge python">Python</span>
+    <span class="tech-badge langchain">LangChain</span>
+    <span class="tech-badge">AI/ML</span>
+    <span class="tech-badge">Finance</span>
+  </div>
+</div>
+<div class="project-card">
+  <div class="project-header">
+    <h3>☁️ AltCloud</h3>
+    <a href="https://github.com/earezki/altrcloud" target="_blank" rel="noopener" class="project-link">
+      <span>View Code →</span>
+    </a>
+  </div>
+  <p class="project-description">Alternative secure cloud storage solution. Distributed architecture with end-to-end encryption for maximum confidentiality.</p>
+  <div class="project-tech">
+    <span class="tech-badge flutter">Flutter</span>
+    <span class="tech-badge">Cloud</span>
+    <span class="tech-badge">Storage</span>
+    <span class="tech-badge">Security</span>
+  </div>
+</div>
+<div class="project-card">
+  <div class="project-header">
+    <h3>🛒 CartsAPI</h3>
+    <a href="https://github.com/earezki/carts-api" target="_blank" rel="noopener" class="project-link">
+      <span>View Code →</span>
+    </a>
+  </div>
+  <p class="project-description">Modern RESTful API for e-commerce cart management. Microservices architecture with high availability and scalability.</p>
+  <div class="project-tech">
+    <span class="tech-badge java">Java</span>
+    <span class="tech-badge quarkus">Quarkus</span>
+    <span class="tech-badge">E-Commerce</span>
+  </div>
+</div>
+</div>
+<hr>
+<h2 id="️-technical-skills">🛠️ Technical Skills</h2>
+<h3 id="️-software-architecture--design">🏗️ Software Architecture &#x26; Design</h3>
+<div class="skills-section">
+  <div class="skill-category">
+    <h4>🎨 Paradigms</h4>
+    <div class="skill-tags">
+      <span class="skill-tag">Microservices</span>
+      <span class="skill-tag">Domain-Driven Design (DDD)</span>
+      <span class="skill-tag">Event-Driven Architecture</span>
+      <span class="skill-tag">API-First</span>
+      <span class="skill-tag">Hexagonal Architecture</span>
+    </div>
+  </div>
+  <div class="skill-category">
+    <h4>💻 Languages</h4>
+    <div class="skill-tags">
+      <span class="skill-tag highlight">Java 25</span>
+      <span class="skill-tag highlight">Python</span>
+      <span class="skill-tag">TypeScript</span>
+      <span class="skill-tag">JavaScript</span>
+    </div>
+  </div>
+  <div class="skill-category">
+    <h4>🚀 Frameworks</h4>
+    <div class="skill-tags">
+      <span class="skill-tag primary">Spring Boot</span>
+      <span class="skill-tag primary">FastAPI</span>
+      <span class="skill-tag primary">LangChain</span>
+      <span class="skill-tag">Apache Camel</span>
+      <span class="skill-tag">React</span>
+      <span class="skill-tag">Hibernate</span>
+    </div>
+  </div>
+</div>
+<h3 id="️-cloud-native--devops">☁️ Cloud Native &#x26; DevOps</h3>
+<div class="skills-section">
+  <div class="skill-category">
+    <h4>🎼 Orchestration</h4>
+    <div class="skill-tags">
+      <span class="skill-tag k8s">Kubernetes</span>
+      <span class="skill-tag">Docker</span>
+      <span class="skill-tag">Docker Swarm</span>
+    </div>
+  </div>
+  <div class="skill-category">
+    <h4>🔄 CI/CD</h4>
+    <div class="skill-tags">
+      <span class="skill-tag">Jenkins</span>
+      <span class="skill-tag">GitLab CI</span>
+      <span class="skill-tag">ArgoCD</span>
+      <span class="skill-tag">GitHub Actions</span>
+    </div>
+  </div>
+  <div class="skill-category">
+    <h4>📦 Methodologies</h4>
+    <div class="skill-tags">
+      <span class="skill-tag">Infrastructure as Code</span>
+      <span class="skill-tag">GitOps</span>
+      <span class="skill-tag">Continuous Delivery</span>
+    </div>
+  </div>
+</div>
+<h3 id="-data--messaging-systems">💾 Data &#x26; Messaging Systems</h3>
+<div class="skills-section">
+  <div class="skill-category">
+    <h4>🗄️ Databases</h4>
+    <div class="skill-tags">
+      <span class="skill-tag">PostgreSQL</span>
+      <span class="skill-tag">Oracle</span>
+      <span class="skill-tag">MongoDB</span>
+      <span class="skill-tag">S3</span>
+    </div>
+  </div>
+  <div class="skill-category">
+    <h4>⚡ Caching</h4>
+    <div class="skill-tags">
+      <span class="skill-tag">Redis</span>
+      <span class="skill-tag">Apache Ignite</span>
+    </div>
+  </div>
+  <div class="skill-category">
+    <h4>📨 Message Queues</h4>
+    <div class="skill-tags">
+      <span class="skill-tag">RabbitMQ</span>
+      <span class="skill-tag">Apache Kafka</span>
+      <span class="skill-tag">IBM MQ</span>
+    </div>
+  </div>
+</div>
+<h3 id="-leadership--quality">🎯 Leadership &#x26; Quality</h3>
+<div class="skills-section">
+  <div class="skill-category">
+    <h4>👥 Leadership</h4>
+    <div class="skill-tags">
+      <span class="skill-tag leader">Team Management</span>
+      <span class="skill-tag leader">Technical Mentoring</span>
+      <span class="skill-tag leader">Agile Planning</span>
+      <span class="skill-tag leader">Stakeholder Coordination</span>
+    </div>
+  </div>
+  <div class="skill-category">
+    <h4>✅ Quality</h4>
+    <div class="skill-tags">
+      <span class="skill-tag">Performance Testing (Locust)</span>
+      <span class="skill-tag">E2E Testing (Cucumber)</span>
+      <span class="skill-tag">Code Review</span>
+      <span class="skill-tag">TDD</span>
+    </div>
+  </div>
+</div>
+<hr>
+<h2 id="-functional-skills">🎓 Functional Skills</h2>
+<div class="functional-skills">
+<div class="functional-card ecommerce">
+  <div class="functional-icon">🛍️</div>
+  <h3>E-Commerce</h3>
+  <ul>
+    <li>Product catalog management</li>
+    <li>Delivery systems</li>
+    <li>Recurring payments</li>
+    <li>Omnichannel experience</li>
+  </ul>
+</div>
+<div class="functional-card banking">
+  <div class="functional-icon">🏦</div>
+  <h3>Banking</h3>
+  <ul>
+    <li><strong>PSD2</strong>: SCA, AIS, PIS, CAF</li>
+    <li>Wire transfers</li>
+    <li>Fraud detection</li>
+    <li>Structured products</li>
+    <li><strong>Compliance</strong>: KYC, AML, ETP, CTP</li>
+  </ul>
+</div>
+<div class="functional-card document">
+  <div class="functional-icon">📄</div>
+  <h3>Document Management</h3>
+  <ul>
+    <li>Document management</li>
+    <li>Audit systems</li>
+    <li>Advanced versioning</li>
+    <li>Complete traceability</li>
+  </ul>
+</div>
+</div>
+<hr>
+<h2 id="-languages">🌍 Languages</h2>
+<div class="languages-badges">
+  <span class="language-badge">🇫🇷 French</span>
+  <span class="language-badge">🇬🇧 English</span>
+</div> </div> <div class="cv-footer"> <div class="download-buttons"> <a class="download-btn" id="downloadPdf" href="/cv-fr.pdf" download="CV-ElMehdi-AREZKI.pdf"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path> <polyline points="14 2 14 8 20 8"></polyline> <line x1="16" y1="13" x2="8" y2="13"></line> <line x1="16" y1="17" x2="8" y2="17"></line> <polyline points="10 9 9 9 8 9"></polyline> </svg> <span data-lang-fr="PDF" data-lang-en="PDF">PDF</span> </a> <span class="download-divider">|</span> <a class="download-btn" id="downloadMarkdown" href="/cv-fr.md" download="CV-ElMehdi-AREZKI.md"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path> <polyline points="14 2 14 8 20 8"></polyline> <line x1="12" y1="18" x2="12" y2="12"></line> <line x1="9" y1="15" x2="12" y2="18"></line> <line x1="15" y1="15" x2="12" y2="18"></line> </svg> <span data-lang-fr="Markdown" data-lang-en="Markdown">Markdown</span> </a> </div> </div> </div>   </main> <!-- Site Footer --> <footer class="site-footer container"> <p>
+© 2025 AREZKI El Mehdi •
+<a href="https://github.com/earezki">GitHub</a> •
+<a href="/rss.xml">RSS</a> •
+<a href="/tags/">Tags</a> •
+<a href="/sitemap-index.xml">Sitemap</a> </p> </footer> <!-- Theme Toggle -->  <!-- Article read/unread tracking --> <script>
+      (function() {
+        const KEY = 'readArticles';
+        
+        function getRead() {
+          try {
+            const d = localStorage.getItem(KEY);
+            return d ? JSON.parse(d) : [];
+          } catch (e) {
+            return [];
+          }
+        }
+        
+        function markRead(url) {
+          try {
+            const read = getRead();
+            if (!read.includes(url)) {
+              read.push(url);
+              localStorage.setItem(KEY, JSON.stringify(read));
+            }
+          } catch (e) {}
+        }
+        
+        function updateCards() {
+          const read = new Set(getRead());
+          const cards = document.querySelectorAll('.post-card[data-article-url]');
+          cards.forEach(function(card) {
+            const url = card.getAttribute('data-article-url');
+            if (!url) return;
+            const isRead = read.has(url);
+            card.classList.toggle('read', isRead);
+            card.classList.toggle('unread', !isRead);
+          });
+        }
+        
+        function markCurrent() {
+          if (document.querySelector('.post-body')) {
+            markRead(window.location.pathname);
+          }
+        }
+        
+        function init() {
+          updateCards();
+          markCurrent();
+        }
+        
+        function clearRead(url) {
+          try {
+            const read = new Set(getRead());
+            if (read.has(url)) {
+              read.delete(url);
+              localStorage.setItem(KEY, JSON.stringify(Array.from(read)));
+              updateCards();
+            }
+          } catch (e) {}
+        }
+        
+        window.clearReadArticle = clearRead;
+        document.addEventListener('DOMContentLoaded', init);
+        window.addEventListener('pageshow', function(e) {
+          if (e.persisted) init();
+        });
+      })();
+    </script> <!-- Clear read button handler --> <script>
+      (function() {
+        document.addEventListener('click', function(e) {
+          var tgt = e.target, btn = null;
+          while (tgt && tgt !== document) {
+            if (tgt.classList && tgt.classList.contains('clear-read-btn')) {
+              btn = tgt;
+              break;
+            }
+            tgt = tgt.parentNode;
+          }
+          if (!btn) return;
+          e.preventDefault();
+          e.stopPropagation();
+          var url = btn.getAttribute('data-article-url');
+          if (url && window.clearReadArticle) window.clearReadArticle(url);
+        });
+      })();
+    </script> <!-- External links open in new tab --> <script>
+      (function() {
+        function makeExternal() {
+          const domain = window.location.hostname;
+          const links = document.querySelectorAll('a[href]');
+          links.forEach(function(link) {
+            const href = link.getAttribute('href');
+            if (!href || link.hasAttribute('target')) return;
+            const isExt = (href.startsWith('http://') || href.startsWith('https://')) && !href.includes(domain);
+            if (isExt) {
+              link.setAttribute('target', '_blank');
+              link.setAttribute('rel', 'noopener noreferrer');
+            }
+          });
+        }
+        document.addEventListener('DOMContentLoaded', makeExternal);
+        if (window.MutationObserver) {
+          const obs = new MutationObserver(function(muts) {
+            muts.forEach(function(mut) {
+              if (mut.addedNodes.length) makeExternal();
+            });
+          });
+          obs.observe(document.body, { childList: true, subtree: true });
+        }
+      })();
+    </script> <!-- Code copy buttons --> <script>
+      (function() {
+        function createBtn() {
+          const btn = document.createElement('button');
+          btn.className = 'copy-code-button';
+          btn.setAttribute('aria-label', 'Copy code to clipboard');
+          btn.innerHTML = `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span>Copy</span>
+          `;
+          return btn;
+        }
+        
+        function checkIcon() {
+          return `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span>Copied!</span>
+          `;
+        }
+        
+        async function copyText(txt) {
+          try {
+            await navigator.clipboard.writeText(txt);
+            return true;
+          } catch (err) {
+            const ta = document.createElement('textarea');
+            ta.value = txt;
+            ta.style.position = 'fixed';
+            ta.style.left = '-999999px';
+            document.body.appendChild(ta);
+            ta.select();
+            try {
+              document.execCommand('copy');
+              document.body.removeChild(ta);
+              return true;
+            } catch (e) {
+              document.body.removeChild(ta);
+              return false;
+            }
+          }
+        }
+        
+        async function handleCopy(btn, code) {
+          const txt = code.textContent || '';
+          const ok = await copyText(txt);
+          if (ok) {
+            const orig = btn.innerHTML;
+            btn.classList.add('copied');
+            btn.innerHTML = checkIcon();
+            setTimeout(function() {
+              btn.classList.remove('copied');
+              btn.innerHTML = orig;
+            }, 2000);
+          }
+        }
+        
+        function addBtns() {
+          const blocks = document.querySelectorAll('.post-body pre');
+          blocks.forEach(function(pre) {
+            if (pre.querySelector('.copy-code-button')) return;
+            const btn = createBtn();
+            const code = pre.querySelector('code');
+            if (code) {
+              btn.addEventListener('click', function() {
+                handleCopy(btn, code);
+              });
+              pre.appendChild(btn);
+            }
+          });
+        }
+        
+        document.addEventListener('DOMContentLoaded', addBtns);
+      })();
+    </script> </body> </html>
