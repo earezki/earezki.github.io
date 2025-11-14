@@ -18,8 +18,7 @@ from ddgs import DDGS
 
 OUTPUT_DIR = "src/content/aifinnews"
 
-def create_llm():
-    model = os.getenv("OPENAI_MODEL")
+def create_llm(model):
     print(f"[INFO] Using LLM model: {model}")
     return ChatOpenAI(
         model=model,
@@ -202,7 +201,8 @@ def eval(news: str, financials: str, llm) -> str:
     return response.content
 
 def main():
-    llm = create_llm()
+    query_llm = create_llm(model = os.getenv("QUERY_MODEL"))
+    financial_llm = create_llm(model = os.getenv("FINANCIAL_MODEL"))
 
     tickers = get_tickers()
     if tickers is None:
@@ -221,7 +221,7 @@ def main():
             print(f"[INFO] Evaluation for {ticker['ticker']} already exists. Skipping.")
             continue
 
-        news = get_news(ticker, llm)
+        news = get_news(ticker, query_llm)
         if not news:
             print(f"[WARNING] No news found for {ticker['ticker']}. Skipping.")
             continue
@@ -229,12 +229,12 @@ def main():
         print(f"[INFO] News for {ticker['ticker']}")
         print(news)
         
-        financials = get_financials(ticker['ticker'], llm)
+        financials = get_financials(ticker['ticker'], financial_llm)
         if not financials:
             print(f"[WARNING] No financial data found for {ticker['ticker']}. Skipping.")
             continue
         
-        evaluation = eval(news, financials, llm)
+        evaluation = eval(news, financials, financial_llm)
         with open(filename, "w") as f:
             f.write(evaluation)
 
