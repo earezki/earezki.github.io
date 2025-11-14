@@ -204,7 +204,15 @@ def main():
     query_llm = create_llm(model = os.getenv("QUERY_MODEL"))
     financial_llm = create_llm(model = os.getenv("FINANCIAL_MODEL"))
 
-    tickers = get_tickers()
+    watch_list = [
+        {"ticker": "ORCL", "name": "Oracle Corporation"},
+        {"ticker": "MSFT", "name": "Microsoft Corporation"},
+        {"ticker": "GOOGL", "name": "Alphabet Inc."},
+        {"ticker": "AMZN", "name": "Amazon.com, Inc."},
+        {"ticker": "NVDA", "name": "NVIDIA Corporation"},
+    ]
+
+    tickers = get_tickers() + watch_list
     if tickers is None:
         print("[ERROR] Could not retrieve tickers. Exiting.")
         return
@@ -212,14 +220,14 @@ def main():
     print(f"[INFO] Retrieved {tickers} tickers.")
 
     for ticker in tickers:
-        # sleep to avoid rate limits
-        time.sleep(random.uniform(3, 6))
-
         current_date = datetime.now().date().isoformat()
         filename = f"{OUTPUT_DIR}/{current_date}-{ticker['ticker']}.md"
         if os.path.exists(filename):
             print(f"[INFO] Evaluation for {ticker['ticker']} already exists. Skipping.")
             continue
+
+        # sleep to avoid rate limits
+        time.sleep(random.uniform(3, 6))
 
         news = get_news(ticker, query_llm)
         if not news:
