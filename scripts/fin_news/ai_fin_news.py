@@ -5,7 +5,7 @@ load_dotenv()
 import os
 import time
 import random
-from datetime import date, datetime
+from datetime import datetime
 
 from trafilatura import fetch_url, extract
 from langchain_openai import ChatOpenAI
@@ -35,13 +35,15 @@ def create_llm():
         }
     )
 
-def search_engine(ticker, name) -> list[dict]:
+def search_engine(ticker, name, max_results=5) -> list[dict]:
     query = f"{ticker} - {name} financial news"
-    results = []
-    with DDGS() as ddgs:
-        for r in ddgs.news(query, safesearch="off",max_results=5):
-            results.append(r)
-    
+
+    try:
+        results = DDGS(timeout=30).news(query, safesearch="off", max_results=max_results)    
+    except Exception as e:
+        print(f"[ERROR] Search engine error: {e}")
+        return []
+
     return [
         {
             "url": r['url'] if 'url' in r else ( r['href'] if 'href' in r else None ),
@@ -211,7 +213,7 @@ def main():
 
     for ticker in tickers:
         # sleep to avoid rate limits
-        time.sleep(random.uniform(1, 3))
+        time.sleep(random.uniform(3, 6))
 
         current_date = datetime.now().date().isoformat()
         filename = f"{OUTPUT_DIR}/{current_date}-{ticker['ticker']}.md"
