@@ -14,7 +14,7 @@ from fuzzywuzzy import fuzz
 
 load_dotenv()
 
-MAX_ENTRIES_PER_RUN = 20
+MAX_ENTRIES_PER_RUN = int(os.getenv("MAX_ENTRIES_PER_RUN", 20))
 DAYS_TO_LOOK_BACK = 7
 OUTPUT_DIR = "src/content/ainews"
 
