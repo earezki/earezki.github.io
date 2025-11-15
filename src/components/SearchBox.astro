@@ -1,8 +1,9 @@
 ---
 import '../styles/_search.css';
+import { SITE } from '../config/site';
 ---
 
-<div class="header-search">
+<div class="header-search" data-search-api-url={SITE.searchAPI.url} data-search-timeout={SITE.searchAPI.timeout}>
   <div class="search-box" id="search-box">
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon" aria-hidden="true">
       <circle cx="11" cy="11" r="8"></circle>
@@ -28,6 +29,11 @@ import '../styles/_search.css';
   const STORE_NAME = 'search-index';
   const INDEX_KEY = 'search-data';
   const VERSION_KEY = 'index-version';
+  
+  // Get server API configuration from data attributes
+  const headerElement = document.querySelector('.header-search') as HTMLElement;
+  const SERVER_API_URL = headerElement?.dataset.searchApiUrl || '';
+  const SERVER_TIMEOUT = parseInt(headerElement?.dataset.searchTimeout || '2000', 10);
   
   function initDB(): Promise<IDBDatabase> {
     return new Promise((resolve, reject) => {
@@ -143,6 +149,52 @@ import '../styles/_search.css';
     }
   }
   
+  // Query server API with timeout and error handling
+  async function queryServerAPI(query: string): Promise<any[] | null> {
+    // Skip if server API is disabled
+    if (!SERVER_API_URL) {
+      return null;
+    }
+    
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), SERVER_TIMEOUT);
+      
+      const response = await fetch(`${SERVER_API_URL}?k=${encodeURIComponent(query)}`, {
+        signal: controller.signal,
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+      
+      clearTimeout(timeoutId);
+      
+      if (!response.ok) {
+        console.warn('[Search] Server API returned error:', response.status);
+        return null;
+      }
+      
+      const results = await response.json();
+      console.log('[Search] Using server API results');
+      
+      // Transform server results to match client-side format
+      return results.map((item: any) => ({
+        title: item.title,
+        excerpt: item.description,
+        pubDate: item.published_at,
+        url: item.url,
+        categories: []
+      }));
+    } catch (error) {
+      if (error instanceof Error && error.name === 'AbortError') {
+        console.warn('[Search] Server API timeout, falling back to client search');
+      } else {
+        console.warn('[Search] Server API error, falling back to client search:', error);
+      }
+      return null;
+    }
+  }
+  
   const readCache = new Map<string, boolean>();
   
   function isArticleRead(url: string): boolean {
@@ -200,31 +252,38 @@ import '../styles/_search.css';
       lastQ = q;
       if (clear) clear.style.display = 'flex';
       
-      const idx = await loadSearchIndex();
-      const qLower = q.toLowerCase();
-      const keywords = qLower.split(/\s+/).filter(k => k.length >= 2);
+      // Try server API first
+      let searchResults: any[] | null = await queryServerAPI(q);
       
-      const scored = idx.map((art: any) => {
-        const title = art.title.toLowerCase();
-        const excerpt = art.excerpt.toLowerCase();
-        const cats = art.categories.map((c: string) => c.toLowerCase()).join(' ');
+      // Fallback to client-side search if server API fails or is slow
+      if (!searchResults) {
+        const idx = await loadSearchIndex();
+        const qLower = q.toLowerCase();
+        const keywords = qLower.split(/\s+/).filter(k => k.length >= 2);
         
-        let score = 0, matched = 0;
-        for (const kw of keywords) {
-          if (title.includes(kw)) { score += 10; matched++; }
-          if (cats.includes(kw)) { score += 5; matched++; }
-          if (excerpt.includes(kw)) { score += 2; matched++; }
-        }
+        const scored = idx.map((art: any) => {
+          const title = art.title.toLowerCase();
+          const excerpt = art.excerpt.toLowerCase();
+          const cats = art.categories.map((c: string) => c.toLowerCase()).join(' ');
+          
+          let score = 0, matched = 0;
+          for (const kw of keywords) {
+            if (title.includes(kw)) { score += 10; matched++; }
+            if (cats.includes(kw)) { score += 5; matched++; }
+            if (excerpt.includes(kw)) { score += 2; matched++; }
+          }
+          
+          return matched >= keywords.length ? { art, score } : null;
+        }).filter(Boolean) as Array<{ art: any; score: number }>;
         
-        return matched >= keywords.length ? { art, score } : null;
-      }).filter(Boolean) as Array<{ art: any; score: number }>;
+        searchResults = scored.sort((a, b) => b.score - a.score).map(i => i.art);
+      }
       
-      const sorted = scored.sort((a, b) => b.score - a.score).map(i => i.art);
-      const hash = sorted.slice(0, 6).map(a => a.url).join('|');
+      const hash = searchResults.slice(0, 6).map(a => a.url).join('|');
       
       if (hash !== lastHash || results.style.display !== 'block') {
         lastHash = hash;
-        displayResults(sorted);
+        displayResults(searchResults);
       }
     }
     

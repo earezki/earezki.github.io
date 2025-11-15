@@ -17,4 +17,13 @@ export const SITE = {
   
   /** Number of posts to display per page in pagination */
   postsPerPage: 12,
+  
+  /** Search API configuration */
+  searchAPI: {
+    /** Server API endpoint URL (set to empty string to disable) */
+    url: import.meta.env.PUBLIC_SEARCH_API_URL || 'http://localhost:8000/q',
+    /** Timeout in milliseconds before falling back to client-side search */
+    timeout: 2000,
+  },
 } as const;
+
