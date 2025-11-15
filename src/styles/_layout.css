@@ -1,9 +1,7 @@
 /* ==========================================================================
-   Layout Components
-   Site structure: container, header, navigation
+   Layout Components - Site structure
    ========================================================================== */
 
-/* Container */
 .container { 
   width: 100%; 
   max-width: 1040px; 
@@ -13,13 +11,11 @@
   box-sizing: border-box;
 }
 
-/* Content Area */
 .content-area { 
   padding: 2rem 0 3.5rem; 
   background: transparent;
 }
 
-/* Site Header */
 .site-header { 
   display: grid;
   grid-template-columns: auto 1fr auto;
@@ -44,7 +40,6 @@
               0 1px 0 rgba(99, 102, 241, 0.03);
 }
 
-/* Header Search Box */
 .header-search {
   justify-self: center;
   width: 100%;
@@ -73,7 +68,6 @@
   z-index: 1000;
 }
 
-/* When search is active, expand it to the right and hide nav buttons */
 .site-header.search-active {
   grid-template-columns: auto 1fr auto;
 }
@@ -88,7 +82,6 @@
   animation: fadeOutSlideRight 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
 }
 
-/* Show nav buttons with animation when search is not active */
 .site-header .main-nav {
   animation: fadeInSlideLeft 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
 }
@@ -167,7 +160,6 @@ html[data-theme="dark"] .site-header.scrolled {
   transform: translateY(-2px);
 }
 
-/* Logo */
 .logo { 
   font-size: 1.15rem; 
   font-weight: 600; 
@@ -198,7 +190,6 @@ html[data-theme="dark"] .logo {
   50% { background-position: 100% 50%; }
 }
 
-/* Main Navigation */
 .main-nav { 
   display: flex; 
   gap: 0.9rem; 
@@ -250,7 +241,6 @@ html[data-theme="dark"] .main-nav a:hover {
   flex-shrink: 0; 
 }
 
-/* Theme Toggle Button */
 .theme-toggle { 
   cursor: pointer; 
   border: 1px solid var(--color-border); 
@@ -313,9 +303,6 @@ html[data-theme="dark"] .main-nav a:hover {
   text-transform: lowercase; 
 }
 
-/* Content Area - duplicate removed, defined earlier */
-
-/* Posts Grid */
 .posts-grid { 
   display: grid; 
   gap: 1.4rem; 

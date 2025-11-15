@@ -1,15 +1,12 @@
 /* ==========================================================================
-   Code Blocks
-   Syntax highlighting with Prism, copy button, and code-related styles
+   Code Blocks - Syntax highlighting and code-related styles
    ========================================================================== */
 
-/* Base code styling */
 .post-body code { 
   font-family: var(--font-mono); 
   font-size: 0.875em;
 }
 
-/* Inline code (not in pre blocks) - specific styling */
 .post-body p code,
 .post-body li code,
 .post-body h1 code,
@@ -30,7 +27,6 @@
   pointer-events: auto;
 }
 
-/* Completely disable ALL hover effects on inline code */
 .post-body p code:hover,
 .post-body li code:hover,
 .post-body h1 code:hover,
@@ -78,7 +74,6 @@ html[data-theme="dark"] .post-body td code:hover {
   border: 1px solid rgba(99, 102, 241, 0.2) !important;
 }
 
-/* Override ALL Prism token styling for inline code */
 .post-body p code *,
 .post-body li code *,
 .post-body h1 code *,
@@ -92,7 +87,6 @@ html[data-theme="dark"] .post-body td code:hover {
   background: transparent !important;
 }
 
-/* Disable Prism completely for inline code */
 .post-body p code .token,
 .post-body li code .token,
 .post-body h1 code .token,
@@ -125,7 +119,6 @@ html[data-theme="dark"] .post-body pre:hover {
   box-shadow: 0 4px 16px rgba(99, 102, 241, 0.2);
 }
 
-/* Code block styling */
 pre { 
   background: var(--color-code-bg) !important;
   padding: 1rem !important;
@@ -133,7 +126,6 @@ pre {
   overflow-x: auto;
 }
 
-/* Code inside pre blocks - enable Prism */
 pre code { 
   background: transparent !important;
   padding: 0 !important;
@@ -142,12 +134,10 @@ pre code {
   color: var(--color-text) !important;
 }
 
-/* Enable Prism tokens ONLY in pre blocks */
 pre code .token {
   all: revert;
 }
 
-/* Prism syntax highlighting - Light theme */
 .token.comment,
 .token.prolog,
 .token.doctype,
@@ -203,7 +193,6 @@ pre code .token {
   color: #e36209;
 }
 
-/* Prism syntax highlighting - Dark theme */
 html[data-theme="dark"] .token.comment,
 html[data-theme="dark"] .token.prolog,
 html[data-theme="dark"] .token.doctype,
@@ -259,7 +248,6 @@ html[data-theme="dark"] .token.variable {
   color: #ffa657;
 }
 
-/* Copy Button Styling */
 .copy-code-button {
   position: absolute;
   top: 0.5rem;
