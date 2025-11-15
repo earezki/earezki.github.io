@@ -23,6 +23,8 @@ services:
     ports:
       - "8000:8000"
     restart: unless-stopped
+    environment:
+      - QDRANT_HOST=qdrant
     deploy:
       resources:
         limits:
