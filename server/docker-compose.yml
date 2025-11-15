@@ -1,15 +1,25 @@
 services:
+
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: qdrant
+    ports:
+      - "6333:6333"  # HTTP API
+      - "6334:6334"  # gRPC API
+    volumes:
+      - ./qdrant_storage:/qdrant/storage
+    environment:
+      - QDRANT__SERVICE__HTTP_PORT=6333
+      - QDRANT__SERVICE__GRPC_PORT=6334
+    restart: unless-stopped
+    networks:
+      - api_net
+
   api:
     build:
       context: ..
       dockerfile: server/Dockerfile
     container_name: earezki_api
-    environment:
-      - BASE_PATH=/shared
-    env_file:
-      - ./.env
-    volumes:
-      - ${BASE_PATH}/vectors:/shared/vectors:ro
     ports:
       - "8000:8000"
     restart: unless-stopped
@@ -24,3 +34,9 @@ services:
       timeout: 5s
       start_period: 30s
       retries: 3
+    networks:
+      - api_net
+
+networks:
+  api_net:
+    driver: bridge

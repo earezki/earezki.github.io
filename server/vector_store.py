@@ -8,10 +8,9 @@ from embedding import embed_query
 from datetime import datetime
 import uuid
 
-db_path = os.getenv("BASE_PATH", ".") + "/vectors"
-os.makedirs(db_path, exist_ok=True)
-print(f"[INFO] Connecting to Qdrant at {db_path}")
-client = QdrantClient(path=db_path)
+db_host = os.getenv("QDRANT_HOST")
+print(f"[INFO] Connecting to Qdrant at {db_host}")
+client = QdrantClient(host=db_host)
 
 embedding_dim = len(embed_query("earezki.com"))
 
