@@ -2,52 +2,30 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
-import lancedb
+from qdrant_client import QdrantClient
+from qdrant_client.models import Distance, VectorParams, PointStruct, FieldCondition, MatchValue, Filter
 from embedding import embed_query
-import pyarrow as pa
-
 from datetime import datetime
+import uuid
 
-db_path = os.getenv("BASE_PATH") + "/vectors"
-print(f"[INFO] Connecting to LanceDB at {db_path}")
-db = lancedb.connect(db_path)
+db_path = os.getenv("BASE_PATH", ".") + "/vectors"
+os.makedirs(db_path, exist_ok=True)
+print(f"[INFO] Connecting to Qdrant at {db_path}")
+client = QdrantClient(path=db_path)
 
 embedding_dim = len(embed_query("earezki.com"))
+
+COLLECTION_NAME = "articles"
+
 try:
-    table: lancedb.Table = db.open_table("articles")
-except Exception as e:
-    table = db.create_table(
-            "articles",
-            schema=pa.schema([
-                pa.field("text", pa.string()),
-                pa.field("title", pa.string()),
-                pa.field("description", pa.string()),
-                pa.field("published_at", pa.string()),
-                # pa.field("categories", pa.list_(pa.string())),
-                pa.field("url", pa.string()),
-
-                pa.field("vector", pa.list_(pa.float32(), embedding_dim)),
-                
-                # Enumeration during chunking (e.g., 1, 2, 3, ...)
-                pa.field("chunk_id", pa.int32()),
-
-                pa.field("total_chunks", pa.int32()),
-                
-                pa.field("filename", pa.string()),
-                pa.field("folder", pa.string()),
-
-                # Hash of the containing file to avoid duplicates
-                pa.field("file_hash", pa.string()),
-
-                # Modification time of the file from OS
-                pa.field("mtime", pa.float64()),
-                
-                pa.field("indexed_at", pa.string()),
-            ]),
-        )
-    # table.create_index("vector", method="IVF_FLAT", metric="L2")
-    table.create_scalar_index("filename", replace=True)
-    table.create_scalar_index("folder", replace=True)
+    client.get_collection(COLLECTION_NAME)
+    print(f"[INFO] Using existing Qdrant collection: {COLLECTION_NAME}")
+except Exception:
+    print(f"[INFO] Creating new Qdrant collection: {COLLECTION_NAME}")
+    client.create_collection(
+        collection_name=COLLECTION_NAME,
+        vectors_config=VectorParams(size=embedding_dim, distance=Distance.COSINE),
+    )
 
 
 
@@ -56,7 +34,7 @@ def store(  text: str, title: str, description: str, published_at: str,
             chunk_id: int, total_chunks: int, filename: str,
             folder: str, file_hash: str, mtime: float) -> None:
     """
-    Store a document and its metadata into the LanceDB table.
+    Store a document and its metadata into the Qdrant collection.
     Args:
         text (str): The text content of the document.
         title (str): The title of the document.
@@ -75,36 +53,52 @@ def store(  text: str, title: str, description: str, published_at: str,
         None
     """
     
-    record = {
-        "text": text,
-        "title": title,
-        "description": description,
-        "published_at": published_at,
-        # "categories": categories,
-        "url": url,
-        "vector": vector,
-        "chunk_id": chunk_id,
-        "total_chunks": total_chunks,
-        "filename": filename,
-        "folder": folder,
-        "file_hash": file_hash,
-        "mtime": mtime,
-        "indexed_at": datetime.now().isoformat(),
-    }
-
-    table.add([record])
+    point = PointStruct(
+        id=uuid.uuid4().int % (2**63), # Qdrant requires 64-bit integer IDs
+        vector=vector,
+        payload={
+            "text": text,
+            "title": title,
+            "description": description,
+            "published_at": published_at,
+            "url": url,
+            "chunk_id": chunk_id,
+            "total_chunks": total_chunks,
+            "filename": filename,
+            "folder": folder,
+            "file_hash": file_hash,
+            "mtime": mtime,
+            "indexed_at": datetime.now().isoformat(),
+        }
+    )
+    
+    client.upsert(
+        collection_name=COLLECTION_NAME,
+        points=[point],
+    )
 
 def search(query_vector: list[float], top_k: int = 5) -> list[dict]:
     """
-    Query the LanceDB table for the most similar documents to the given vector.
+    Query the Qdrant collection for the most similar documents to the given vector.
     Args:
         query_vector (list[float]): The embedding vector to query against.
         top_k (int): The number of top similar documents to retrieve.
     Returns:
         list[dict]: A list of the most similar documents and their metadata.
     """
-    results = table.search(query_vector, "vector").limit(top_k).to_list()
-    return results
+    results = client.search(
+        collection_name=COLLECTION_NAME,
+        query_vector=query_vector,
+        limit=top_k,
+    )
+    
+    return [
+        {
+            **result.payload,
+            "score": result.score,
+        }
+        for result in results
+    ]
 
 
 def search_by_filename(filename: str) -> list[dict]:
@@ -115,8 +109,25 @@ def search_by_filename(filename: str) -> list[dict]:
     Returns:
         list[dict]: A list of document chunks and their metadata.
     """
-    results = table.search().where(f"filename = '{filename}'").to_list()
-    return results
+    results = client.scroll(
+        collection_name=COLLECTION_NAME,
+        limit=10000,
+        scroll_filter=Filter(
+            must=[
+                FieldCondition(
+                    key="filename",
+                    match=MatchValue(value=filename),
+                )
+            ]
+        ),
+    )
+    
+    return [
+        {
+            **point.payload,
+        }
+        for point in results[0]
+    ]
 
 
 def delete_by_filename(filename: str) -> None:
@@ -127,4 +138,14 @@ def delete_by_filename(filename: str) -> None:
     Returns:
         None
     """
-    table.delete().where(f"filename = '{filename}'").execute()
+    client.delete(
+        collection_name=COLLECTION_NAME,
+        points_selector=Filter(
+            must=[
+                FieldCondition(
+                    key="filename",
+                    match=MatchValue(value=filename),
+                )
+            ]
+        ),
+    )
