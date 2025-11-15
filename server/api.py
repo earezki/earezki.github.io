@@ -4,8 +4,14 @@ from typing import List, Dict
 from embedding import embed_query
 from vector_store import search
 
+import os
 
-app = FastAPI()
+DEBUG = os.getenv("DEBUG", "false").lower() == "true"
+app = FastAPI(
+    docs_url=None if not DEBUG else "/docs",
+    redoc_url=None if not DEBUG else "/redoc",
+    openapi_url=None if not DEBUG else "/openapi.json"
+)
 
 # Configure CORS
 app.add_middleware(
