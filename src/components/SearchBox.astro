@@ -258,7 +258,9 @@ import { SITE } from '../config/site';
     });
     
     async function performSearch(q: string) {
-      if (!q.trim() || q.trim().length < 3) {
+      q = q.trim();
+      
+      if (!q || q.length < 3) {
         results.style.display = 'none';
         if (clear) clear.style.display = q.length > 0 ? 'flex' : 'none';
         lastQ = lastHash = '';
@@ -269,7 +271,7 @@ import { SITE } from '../config/site';
       lastQ = q;
       if (clear) clear.style.display = 'flex';
       
-      // Check cache first
+      // Check cache first with normalized query
       if (queryCache.has(q)) {
         const cached = queryCache.get(q)!;
         displayResults(cached.results, cached.isAPI);
@@ -323,16 +325,22 @@ import { SITE } from '../config/site';
     function displayResults(arts: any[], isAPISearch: boolean = false) {
       results.innerHTML = '';
       
+      // Create scroll wrapper
+      const scrollWrapper = document.createElement('div');
+      scrollWrapper.className = 'search-results-scroll';
+      
       if (arts.length === 0) {
-        results.innerHTML = `
-          <div class="search-no-results">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-            <div>No results found. Try different keywords.</div>
-          </div>
+        const noResults = document.createElement('div');
+        noResults.className = 'search-no-results';
+        noResults.innerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <div>No results found. Try different keywords.</div>
         `;
-        results.style.display = 'block';
+        scrollWrapper.appendChild(noResults);
+        results.appendChild(scrollWrapper);
+        results.style.display = 'flex';
         return;
       }
       
@@ -397,7 +405,7 @@ import { SITE } from '../config/site';
         
         card.appendChild(content);
         card.appendChild(actions);
-        results.appendChild(card);
+        scrollWrapper.appendChild(card);
       });
       
       if (total > 6) {
@@ -405,8 +413,10 @@ import { SITE } from '../config/site';
         more.className = 'search-more-results';
         const rem = total - 6;
         more.innerHTML = `<strong>+${rem}</strong> more result${rem !== 1 ? 's' : ''} not shown`;
-        results.appendChild(more);
+        scrollWrapper.appendChild(more);
       }
+      
+      results.appendChild(scrollWrapper);
       
       // Add "Powered by AI" label if using API search
       if (isAPISearch) {
@@ -416,7 +426,7 @@ import { SITE } from '../config/site';
         results.appendChild(footer);
       }
       
-      results.style.display = 'block';
+      results.style.display = 'flex';
     }
     
     let timeout: number;
