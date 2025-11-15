@@ -1,0 +1,26 @@
+services:
+  api:
+    build:
+      context: ..
+      dockerfile: server/Dockerfile
+    container_name: earezki_api
+    environment:
+      - BASE_PATH=/shared
+    env_file:
+      - ./.env
+    volumes:
+      - ${BASE_PATH}/vectors:/shared/vectors:ro
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O-", "http://127.0.0.1:8000/health"]
+      interval: 30s
+      timeout: 5s
+      start_period: 30s
+      retries: 3

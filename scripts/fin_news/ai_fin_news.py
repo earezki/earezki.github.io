@@ -201,6 +201,13 @@ def eval(news: str, financials: str, llm) -> str:
     return response.content
 
 def main():
+    current_date = datetime.now().date()
+
+    # skip weekends
+    if current_date.weekday() >= 5:
+        print("[INFO] Today is weekend. Exiting.")
+        return
+
     query_llm = create_llm(model = os.getenv("QUERY_MODEL"))
     financial_llm = create_llm(model = os.getenv("FINANCIAL_MODEL"))
 
@@ -219,8 +226,8 @@ def main():
     
     print(f"[INFO] Retrieved {tickers} tickers.")
 
+    current_date = current_date.isoformat()
     for ticker in tickers:
-        current_date = datetime.now().date().isoformat()
         filename = f"{OUTPUT_DIR}/{current_date}-{ticker['ticker']}.md"
         if os.path.exists(filename):
             print(f"[INFO] Evaluation for {ticker['ticker']} already exists. Skipping.")
