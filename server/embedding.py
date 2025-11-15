@@ -4,6 +4,7 @@ import os
 os.environ["OMP_NUM_THREADS"] = str(_threads)
 os.environ["OPENBLAS_NUM_THREADS"] = str(_threads)
 os.environ["MKL_NUM_THREADS"] = str(_threads)
+os.environ["ORT_DISABLE_OPTIONAL_CPU_FEATURES"] = "1"
 
 from fastembed import TextEmbedding
 
@@ -11,6 +12,13 @@ embedding_model = TextEmbedding(
     model_name="BAAI/bge-small-en-v1.5",
     device="cpu",
     threads=_threads,
+    providers=["CPUExecutionProvider"],
+    # Disable advanced optimizations
+    provider_options={
+        "CPUExecutionProvider": {
+            "arena_extend_strategy": "kSameAsRequested",
+        }
+    }
 )
 
 print("[INFO] The model BAAI/bge-small-en-v1.5 is ready to use.")
