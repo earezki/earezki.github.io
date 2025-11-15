@@ -7,7 +7,6 @@ const tagMap = await getAllTags();
 const ainewsPosts = await getProcessedAinews();
 const aifinnewsPosts = await getProcessedAifinnews();
 
-// Filter out Stock Weather AI from regular tags since it's displayed specially
 const tags = Array.from(tagMap.entries())
   .filter(([name]) => name.toLowerCase() !== 'stock weather ai')
   .sort((a,b) => a[0].localeCompare(b[0]));

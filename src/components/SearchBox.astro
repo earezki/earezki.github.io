@@ -20,7 +20,6 @@ import { SITE } from '../config/site';
   <div id="search-results" class="search-results" role="status" aria-live="polite"></div>
 </div>
 <script>
-  // IndexedDB-cached search with ETag validation, 3-char min, 6-result cap
   let searchIndex: any[] | null = null;
   let isLoadingIndex = false;
   
@@ -30,12 +29,10 @@ import { SITE } from '../config/site';
   const INDEX_KEY = 'search-data';
   const VERSION_KEY = 'index-version';
   
-  // Get server API configuration from data attributes
   const headerElement = document.querySelector('.header-search') as HTMLElement;
   const SERVER_API_URL = headerElement?.dataset.searchApiUrl || '';
   const SERVER_TIMEOUT = parseInt(headerElement?.dataset.searchTimeout || '2000', 10);
   
-  // In-memory cache for search results (max 10 queries)
   const queryCache = new Map<string, { results: any[], isAPI: boolean }>();
   const MAX_CACHE_SIZE = 10;
   
@@ -106,7 +103,6 @@ import { SITE } from '../config/site';
     }
   }
 
-  // Load index: check ETag, use cache if match, else fetch fresh
   async function loadSearchIndex(): Promise<any[]> {
     if (searchIndex) return searchIndex;
     if (isLoadingIndex) {
@@ -153,20 +149,15 @@ import { SITE } from '../config/site';
     }
   }
   
-  // Query server API with timeout and error handling
-  // Helper function to clean escaped quotes from strings
   function cleanText(text: string): string {
-    // Remove leading/trailing quotes (single or double)
     return text.replace(/^["']|["']$/g, '').replace(/\\"/g, '"').replace(/\\'/g, "'");
   }
 
-  // Helper function to ensure trailing slash for Astro's trailingSlash: 'always' config
   function ensureTrailingSlash(url: string): string {
     return url.endsWith('/') ? url : url + '/';
   }
 
   async function queryServerAPI(query: string): Promise<any[] | null> {
-    // Skip if server API is disabled
     if (!SERVER_API_URL) {
       return null;
     }
@@ -198,7 +189,7 @@ import { SITE } from '../config/site';
           title: cleanText(item.title),
           excerpt: cleanText(item.description),
           pubDate: item.published_at,
-          url: url,  // Ensure trailing slash for Astro routing
+          url: url,
           categories: []
         };
       });
@@ -271,18 +262,15 @@ import { SITE } from '../config/site';
       lastQ = q;
       if (clear) clear.style.display = 'flex';
       
-      // Check cache first with normalized query
       if (queryCache.has(q)) {
         const cached = queryCache.get(q)!;
         displayResults(cached.results, cached.isAPI);
         return;
       }
       
-      // Try server API first
       let searchResults: any[] | null = await queryServerAPI(q);
       let isAPISearch = !!searchResults;
       
-      // Fallback to client-side search if server API fails or is slow
       if (!searchResults) {
         const idx = await loadSearchIndex();
         const qLower = q.toLowerCase();
@@ -307,14 +295,12 @@ import { SITE } from '../config/site';
         isAPISearch = false;
       }
       
-      // Store in cache (keep max 10 queries)
       if (queryCache.size >= MAX_CACHE_SIZE) {
         const firstKey = queryCache.keys().next().value;
         if (firstKey) queryCache.delete(firstKey);
       }
       queryCache.set(q, { results: searchResults, isAPI: isAPISearch });
       
-      // Only update display if results actually changed
       const hash = searchResults.slice(0, 6).map(a => a.url).join('|');
       if (hash !== lastHash || results.style.display !== 'block') {
         lastHash = hash;
@@ -325,7 +311,6 @@ import { SITE } from '../config/site';
     function displayResults(arts: any[], isAPISearch: boolean = false) {
       results.innerHTML = '';
       
-      // Create scroll wrapper
       const scrollWrapper = document.createElement('div');
       scrollWrapper.className = 'search-results-scroll';
       
@@ -416,17 +401,14 @@ import { SITE } from '../config/site';
         scrollWrapper.appendChild(more);
       }
       
-      results.appendChild(scrollWrapper);
+        results.appendChild(scrollWrapper);
       
-      // Add "Powered by AI" label if using API search
       if (isAPISearch) {
         const footer = document.createElement('div');
         footer.className = 'search-footer';
         footer.innerHTML = '<small>✨ Powered by AI Search</small>';
         results.appendChild(footer);
-      }
-      
-      results.style.display = 'flex';
+      }      results.style.display = 'flex';
     }
     
     let timeout: number;
