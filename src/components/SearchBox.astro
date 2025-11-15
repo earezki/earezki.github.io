@@ -156,6 +156,11 @@ import { SITE } from '../config/site';
     return text.replace(/^["']|["']$/g, '').replace(/\\"/g, '"').replace(/\\'/g, "'");
   }
 
+  // Helper function to ensure trailing slash for Astro's trailingSlash: 'always' config
+  function ensureTrailingSlash(url: string): string {
+    return url.endsWith('/') ? url : url + '/';
+  }
+
   async function queryServerAPI(query: string): Promise<any[] | null> {
     // Skip if server API is disabled
     if (!SERVER_API_URL) {
@@ -184,13 +189,17 @@ import { SITE } from '../config/site';
       console.log('[Search] Using server API results');
       
       // Transform server results to match client-side format
-      return results.map((item: any) => ({
-        title: cleanText(item.title),
-        excerpt: cleanText(item.description),
-        pubDate: item.published_at,
-        url: item.url,  // Now a relative path like /ai-news/2025-11-01-langchain-complete-guide
-        categories: []
-      }));
+      return results.map((item: any) => {
+        const url = ensureTrailingSlash(item.url);
+        console.log('[Search] API URL:', item.url, '→', url);
+        return {
+          title: cleanText(item.title),
+          excerpt: cleanText(item.description),
+          pubDate: item.published_at,
+          url: url,  // Ensure trailing slash for Astro routing
+          categories: []
+        };
+      });
     } catch (error) {
       if (error instanceof Error && error.name === 'AbortError') {
         console.warn('[Search] Server API timeout, falling back to client search');

@@ -21,7 +21,7 @@ export const SITE = {
   /** Search API configuration */
   searchAPI: {
     /** Server API endpoint URL (set to empty string to disable) */
-    url: import.meta.env.PUBLIC_SEARCH_API_URL || 'http://localhost:8000/q',
+    url: import.meta.env.PUBLIC_SEARCH_API_URL || 'https://blogapi.earezki.com/q',
     /** Timeout in milliseconds before falling back to client-side search */
     timeout: 2000,
   },
