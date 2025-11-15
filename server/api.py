@@ -13,19 +13,25 @@ app = FastAPI(
     openapi_url=None if not DEBUG else "/openapi.json"
 )
 
-# Configure CORS
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=[
+# CORS
+origins = [
+    "https://earezki.com",
+    "https://www.earezki.com",
+]
+
+if DEBUG:
+    origins += [
         "http://localhost:4321",
         "http://localhost:3000",
         "http://127.0.0.1:4321",
         "http://127.0.0.1:3000",
-        "https://earezki.com",
-        "https://www.earezki.com",
-    ],
+    ]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["GET", "POST", "OPTIONS"],
+    allow_methods=["GET", "OPTIONS"],
     allow_headers=["*"],
 )
 
