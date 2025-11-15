@@ -8,25 +8,26 @@ os.environ["ORT_DISABLE_OPTIONAL_CPU_FEATURES"] = "1"
 
 from sentence_transformers import SentenceTransformer
 
-# from fastembed import TextEmbedding
-# embedding_model = TextEmbedding(
-#     model_name="BAAI/bge-small-en-v1.5",
-#     device="cpu",
-#     threads=_threads,
-#     providers=["CPUExecutionProvider"],
-#     # Disable advanced optimizations
-#     provider_options={
-#         "CPUExecutionProvider": {
-#             "arena_extend_strategy": "kSameAsRequested",
-#         }
-#     }
+from fastembed import TextEmbedding
+embedding_model = TextEmbedding(
+    model_name="BAAI/bge-small-en-v1.5",
+    device="cpu",
+    threads=_threads,
+    providers=["CPUExecutionProvider"],
+    # Disable advanced optimizations
+    provider_options={
+        "CPUExecutionProvider": {
+            "arena_extend_strategy": "kSameAsRequested",
+        }
+    }
+)
+print("[INFO] FastEmbed model BAAI/bge-small-en-v1.5 is ready to use.")
+
+# embedding_model = SentenceTransformer(
+#     'all-MiniLM-L6-v2', 
+#     device='cpu'
 # )
-# print("[INFO] FastEmbed model BAAI/bge-small-en-v1.5 is ready to use.")
-
-embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
-embedding_model = embedding_model.to('cpu')
-
-print("[INFO] Sentence-Transformers model all-MiniLM-L6-v2 is ready to use.")
+# print("[INFO] Sentence-Transformers model all-MiniLM-L6-v2 is ready to use.")
 
 
 def embed_documents(documents: list[str]) -> list[list[float]]:
@@ -39,15 +40,18 @@ def embed_documents(documents: list[str]) -> list[list[float]]:
         list[list[float]]: A list of embeddings, where each embedding is a list of floats.
     """
 
-    embeddings = embedding_model.encode(
-        documents,
-        batch_size=32,
-        show_progress_bar=False,
-        convert_to_numpy=True,
-        normalize_embeddings=True
-    )
+    # TODO: add caching. 
 
-    return [list(e) for e in embeddings]
+    # embeddings = embedding_model.encode(
+    #     documents,
+    #     batch_size=32,
+    #     show_progress_bar=False,
+    #     convert_to_numpy=True,
+    #     normalize_embeddings=True
+    # )
+
+    # return [list(e) for e in embeddings]
+    return list(embedding_model.embed(documents))
 
 def embed_query(query: str) -> list[float]:
     """
@@ -59,12 +63,5 @@ def embed_query(query: str) -> list[float]:
         list[float]: The embedding for the query as a list of floats.
     """
 
-    embedding = embedding_model.encode(
-        query,
-        batch_size=32,
-        show_progress_bar=False,
-        convert_to_numpy=True,
-        normalize_embeddings=True
-    )
-
-    return list(embedding)
+    embeds = embed_documents([query])
+    return embeds[0]
