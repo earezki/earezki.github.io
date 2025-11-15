@@ -2,6 +2,7 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getAllTags, getPostsByTag } from '../../utils/dataCache';
 import { slugify } from '../../utils/slugify';
+import { isArticleNew } from '../../utils/newArticles';
 
 export async function getStaticPaths() {
   const tagMap = await getAllTags();
@@ -29,13 +30,74 @@ const allFiltered = await getPostsByTag(slug);
   <h1>Tag: {label}</h1>
   <p style="color: var(--color-text-alt); margin-bottom: 1.5rem;">{count} {count === 1 ? 'article' : 'articles'}</p>
   <ul style="list-style:none; padding:0;">
-    {allFiltered.map(p => (
-      <li style="margin:.6rem 0;">
-        <a href={p.urlPath}>{p.data.title}</a>
-        {p.collection === 'ainews' && <span class="post-tag ai-news-tag ai-gradient-tag" style="margin-left: 0.5rem; font-size: 0.7rem;">AI News</span>}
-        {p.collection === 'aifinnews' && <span class="post-tag stock-weather-ai-tag ai-gradient-tag" style="margin-left: 0.5rem; font-size: 0.7rem;">Stock Weather AI</span>}
-      </li>
-    ))}
+    {allFiltered.map(p => {
+      const isNew = isArticleNew(p.slug, p.collection);
+      return (
+        <li style="margin:.6rem 0; display: flex; align-items: center; gap: 0.5rem;">
+          <a href={p.urlPath}>{p.data.title}</a>
+          {p.collection === 'ainews' && <span class="post-tag ai-news-tag ai-gradient-tag" style="margin-left: 0.5rem; font-size: 0.7rem;">AI News</span>}
+          {p.collection === 'aifinnews' && <span class="post-tag stock-weather-ai-tag ai-gradient-tag" style="margin-left: 0.5rem; font-size: 0.7rem;">Stock Weather AI</span>}
+          {isNew && <span class="new-badge-inline">NEW</span>}
+        </li>
+      );
+    })}
   </ul>
   <p style="margin-top:2rem;"><a href="/tags/">← All tags</a></p>
 </BaseLayout>
+
+<style>
+  .new-badge-inline {
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    padding: 0.25rem 0.45rem;
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+    border-radius: 4px;
+    text-transform: uppercase;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+    animation: pulse-glow 2s ease-in-out infinite;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .new-badge-inline::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      45deg,
+      transparent,
+      rgba(255, 255, 255, 0.3),
+      transparent
+    );
+    transform: rotate(45deg);
+    animation: shimmer 3s linear infinite;
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% {
+      box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+    }
+    50% {
+      box-shadow: 0 2px 16px rgba(16, 185, 129, 0.5), 0 0 24px rgba(16, 185, 129, 0.2);
+    }
+  }
+
+  @keyframes shimmer {
+    0% {
+      transform: translateX(-100%) translateY(-100%) rotate(45deg);
+    }
+    100% {
+      transform: translateX(100%) translateY(100%) rotate(45deg);
+    }
+  }
+
+  html[data-theme="dark"] .new-badge-inline {
+    background: linear-gradient(135deg, #059669, #047857);
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
+  }
+</style>

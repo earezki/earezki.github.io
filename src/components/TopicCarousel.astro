@@ -1,11 +1,21 @@
 ---
+import { isArticleNew } from '../utils/newArticles';
+import { getProcessedAinews, getProcessedAifinnews } from '../utils/dataCache';
+
+// Check if there are any new articles in AI News or AI Financial News
+const ainewsPosts = await getProcessedAinews();
+const aifinnewsPosts = await getProcessedAifinnews();
+
+const hasNewAINews = ainewsPosts.some(post => isArticleNew(post.slug, 'ainews'));
+const hasNewAIFinNews = aifinnewsPosts.some(post => isArticleNew(post.slug, 'aifinnews'));
+
 const topics = [
   { href: '/tags/solid/', icon: '🎯', title: 'SOLID Principles', desc: 'Learn object-oriented design principles for better code' },
   { href: '/tags/software-architecture/', icon: '🏗️', title: 'Software Architecture', desc: 'Patterns and practices for scalable systems' },
   { href: '/tags/domain-driven-design/', icon: '📐', title: 'Domain-Driven Design', desc: 'Build software that reflects your business domain' },
   { href: '/tags/algorithms/', icon: '🔀', title: 'Algorithms', desc: 'Master core algorithm patterns and data structures' },
-  { href: '/ai-news/', icon: '🤖', title: 'AI News', desc: 'Latest developments in artificial intelligence', isAI: true },
-  { href: '/ai-financial-news/', icon: '📊', title: 'AI Financial News', desc: 'Stock market analysis powered by AI', isAI: true }
+  { href: '/ai-news/', icon: '🤖', title: 'AI News', desc: 'Latest developments in artificial intelligence', isAI: true, isNew: hasNewAINews },
+  { href: '/ai-financial-news/', icon: '📊', title: 'AI Financial News', desc: 'Stock market analysis powered by AI', isAI: true, isNew: hasNewAIFinNews }
 ];
 ---
 
@@ -16,7 +26,10 @@ const topics = [
       {topics.concat(topics).map((topic) => (
         <a href={topic.href} class={`topic-card ${topic.isAI ? 'ai-topic' : ''}`}>
           <span class="topic-icon">{topic.icon}</span>
-          <h3>{topic.title}</h3>
+          <h3>
+            {topic.title}
+            {topic.isNew && <span class="new-badge-carousel">NEW</span>}
+          </h3>
           <p>{topic.desc}</p>
         </a>
       ))}
@@ -232,10 +245,68 @@ const topics = [
     font-size: 1.1rem;
     font-weight: 600;
     color: var(--color-text);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
   }
   
   .topic-card:hover h3 {
     color: var(--color-accent);
+  }
+  
+  .new-badge-carousel {
+    font-size: 0.5rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    padding: 0.3rem 0.45rem;
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+    border-radius: 4px;
+    text-transform: uppercase;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+    animation: pulse-glow 2s ease-in-out infinite;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .new-badge-carousel::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      45deg,
+      transparent,
+      rgba(255, 255, 255, 0.3),
+      transparent
+    );
+    transform: rotate(45deg);
+    animation: shimmer 3s linear infinite;
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% {
+      box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+    }
+    50% {
+      box-shadow: 0 2px 16px rgba(16, 185, 129, 0.5), 0 0 24px rgba(16, 185, 129, 0.2);
+    }
+  }
+
+  @keyframes shimmer {
+    0% {
+      transform: translateX(-100%) translateY(-100%) rotate(45deg);
+    }
+    100% {
+      transform: translateX(100%) translateY(100%) rotate(45deg);
+    }
+  }
+
+  html[data-theme="dark"] .new-badge-carousel {
+    background: linear-gradient(135deg, #059669, #047857);
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
   }
   
   .topic-card p {

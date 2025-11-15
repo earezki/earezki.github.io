@@ -8,9 +8,10 @@ interface Props {
     label: string;
     href: string;
   }>;
+  isNew?: boolean;
 }
 
-const { breadcrumbs } = Astro.props;
+const { breadcrumbs, isNew = false } = Astro.props;
 ---
 
 <nav class="breadcrumbs" aria-label="Breadcrumb">
@@ -27,6 +28,11 @@ const { breadcrumbs } = Astro.props;
         )}
       </li>
     ))}
+    {isNew && (
+      <li>
+        <span class="new-badge-breadcrumb">NEW</span>
+      </li>
+    )}
   </ol>
 </nav>
 
@@ -72,5 +78,61 @@ const { breadcrumbs } = Astro.props;
   .breadcrumbs .current {
     color: var(--color-text);
     font-weight: 500;
+  }
+  
+  .new-badge-breadcrumb {
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    padding: 0.3rem 0.5rem;
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+    border-radius: 4px;
+    text-transform: uppercase;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+    animation: pulse-glow 2s ease-in-out infinite;
+    position: relative;
+    overflow: hidden;
+    margin-left: 0.25rem;
+  }
+
+  .new-badge-breadcrumb::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      45deg,
+      transparent,
+      rgba(255, 255, 255, 0.3),
+      transparent
+    );
+    transform: rotate(45deg);
+    animation: shimmer 3s linear infinite;
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% {
+      box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+    }
+    50% {
+      box-shadow: 0 2px 16px rgba(16, 185, 129, 0.5), 0 0 24px rgba(16, 185, 129, 0.2);
+    }
+  }
+
+  @keyframes shimmer {
+    0% {
+      transform: translateX(-100%) translateY(-100%) rotate(45deg);
+    }
+    100% {
+      transform: translateX(100%) translateY(100%) rotate(45deg);
+    }
+  }
+
+  html[data-theme="dark"] .new-badge-breadcrumb {
+    background: linear-gradient(135deg, #059669, #047857);
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
   }
 </style>

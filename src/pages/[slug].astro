@@ -7,6 +7,7 @@ import SeriesNavigation from '../components/SeriesNavigation.astro';
 import { getAllPosts, getAllProcessedContent, findPostBySlug } from '../utils/dataCache';
 import { RelatedPostsFinder, generateBreadcrumbs } from '../utils/relatedContentOptimized';
 import { slugify } from '../utils/slugify';
+import { isArticleNew } from '../utils/newArticles';
 
 export async function getStaticPaths() {
   const posts = await getAllPosts();
@@ -34,6 +35,9 @@ const lowerCategories = post.data.categories?.map((c: string) => c.toLowerCase()
 
 // Check if post has "AI Assisted" tag
 const hasAIAssisted = lowerCategories.includes('ai assisted');
+
+// Check if article is new
+const isNew = isArticleNew(post.slug, 'posts');
 
 // Generate breadcrumbs
 const breadcrumbs = generateBreadcrumbs(canonical, post.data.title);
@@ -88,7 +92,7 @@ const { Content } = await rawPost.render();
   canonical={canonical} 
   image={postImage}
   structuredData={structuredData}>
-  <Breadcrumbs breadcrumbs={breadcrumbs} />
+  <Breadcrumbs breadcrumbs={breadcrumbs} isNew={isNew} />
   <div class="post-layout">
     <aside class="sidebar-left">
       <TableOfContents markdown={post.body} />

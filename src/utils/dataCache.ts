@@ -275,10 +275,7 @@ export async function getAllTags(): Promise<Map<string, number>> {
       const tag = (category || '').toString().trim();
       // Skip empty/blank category entries which would generate invalid routes
       if (!tag) continue;
-      // Don't count "AI News" as a separate tag since it has its own section
-      if (tag.toLowerCase() !== 'ai news') {
-        tagMap.set(tag, (tagMap.get(tag) || 0) + 1);
-      }
+      tagMap.set(tag, (tagMap.get(tag) || 0) + 1);
     }
   }
   

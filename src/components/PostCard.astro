@@ -1,5 +1,6 @@
 ---
 import type { ProcessedPost } from '../utils/dataCache';
+import { isArticleNew } from '../utils/newArticles';
 
 interface Props { 
   post: ProcessedPost;
@@ -25,10 +26,13 @@ const hasAINewsTag = lowerCategories.includes('ai news');
 
 // Check if post has Stock Weather AI tag
 const hasStockWeatherTag = lowerCategories.includes('stock weather ai');
+
+// Check if article is new (modified in last x hours)
+const isNew = collection ? isArticleNew(post.slug, collection) : false;
 ---
 
 <article class="post-card" data-article-url={url}>
-  <!-- Read status indicator -->
+  <!-- Read status indicator / New badge -->
   <div class="read-indicator" aria-hidden="true">
     <svg 
       width="18" 
@@ -65,6 +69,13 @@ const hasStockWeatherTag = lowerCategories.includes('stock weather ai');
       </svg>
     </button>
   </div>
+
+  <!-- New article badge (shown when not read) -->
+  {isNew && (
+    <div class="new-indicator" aria-label="New article">
+      <span class="new-badge-card">NEW</span>
+    </div>
+  )}
 
   <!-- Post metadata -->
   <div class="meta-row">
