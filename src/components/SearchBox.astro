@@ -150,6 +150,12 @@ import { SITE } from '../config/site';
   }
   
   // Query server API with timeout and error handling
+  // Helper function to clean escaped quotes from strings
+  function cleanText(text: string): string {
+    // Remove leading/trailing quotes (single or double)
+    return text.replace(/^["']|["']$/g, '').replace(/\\"/g, '"').replace(/\\'/g, "'");
+  }
+
   async function queryServerAPI(query: string): Promise<any[] | null> {
     // Skip if server API is disabled
     if (!SERVER_API_URL) {
@@ -179,10 +185,10 @@ import { SITE } from '../config/site';
       
       // Transform server results to match client-side format
       return results.map((item: any) => ({
-        title: item.title,
-        excerpt: item.description,
+        title: cleanText(item.title),
+        excerpt: cleanText(item.description),
         pubDate: item.published_at,
-        url: item.url,
+        url: item.url,  // Now a relative path like /ai-news/2025-11-01-langchain-complete-guide
         categories: []
       }));
     } catch (error) {

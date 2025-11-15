@@ -11,9 +11,9 @@ from langchain_text_splitters import MarkdownHeaderTextSplitter, RecursiveCharac
 from tqdm import tqdm
 
 folder_to_url_map = {
-    "posts": "https://earezki.com/",
-    "ainews": "https://earezki.com/ai-news/",
-    "aifinnews": "https://earezki.com/ai-financial-news/",
+    "posts": "/",
+    "ainews": "/ai-news/",
+    "aifinnews": "/ai-financial-news/",
 }
 
 chunk_size = 512

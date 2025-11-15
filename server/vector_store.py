@@ -26,6 +26,17 @@ except Exception:
         vectors_config=VectorParams(size=embedding_dim, distance=Distance.COSINE),
     )
 
+# Index
+try:
+    client.create_payload_index(
+        collection_name=COLLECTION_NAME,
+        field_name="filename",
+        field_schema="keyword",
+    )
+    print(f"[INFO] Created index on 'filename' field")
+except Exception as e:
+    print(f"[INFO] Index on 'filename' field already exists or error: {e}")
+
 
 
 def store(  text: str, title: str, description: str, published_at: str,

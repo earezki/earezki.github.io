@@ -6,8 +6,6 @@ os.environ["OPENBLAS_NUM_THREADS"] = str(_threads)
 os.environ["MKL_NUM_THREADS"] = str(_threads)
 os.environ["ORT_DISABLE_OPTIONAL_CPU_FEATURES"] = "1"
 
-from sentence_transformers import SentenceTransformer
-
 from fastembed import TextEmbedding
 embedding_model = TextEmbedding(
     model_name="BAAI/bge-small-en-v1.5",
@@ -23,6 +21,7 @@ embedding_model = TextEmbedding(
 )
 print("[INFO] FastEmbed model BAAI/bge-small-en-v1.5 is ready to use.")
 
+# from sentence_transformers import SentenceTransformer
 # embedding_model = SentenceTransformer(
 #     'all-MiniLM-L6-v2', 
 #     device='cpu'
