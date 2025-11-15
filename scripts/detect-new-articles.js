@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { execSync } from 'child_process';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -10,6 +11,24 @@ const OUTPUT_FILE = path.join(__dirname, '../public/new-articles.json');
 const HOURS_THRESHOLD = 48;
 
 const COLLECTIONS = ['posts', 'ainews', 'aifinnews'];
+
+function getGitCommitTime(filePath) {
+  try {
+    // Get the timestamp of the last commit that modified this file
+    const timestamp = execSync(
+      `git log -1 --format=%ct -- "${filePath}"`,
+      { encoding: 'utf-8', stdio: ['pipe', 'pipe', 'ignore'] }
+    ).trim();
+    
+    if (!timestamp) return null;
+    
+    // Convert Unix timestamp (seconds) to milliseconds
+    return parseInt(timestamp) * 1000;
+  } catch (error) {
+    // If git command fails (e.g., file not committed yet), fall back to file system time
+    return fs.statSync(filePath).mtimeMs;
+  }
+}
 
 function scanCollectionForNewFiles(collectionName) {
   const collectionPath = path.join(CONTENT_BASE, collectionName);
@@ -29,15 +48,16 @@ function scanCollectionForNewFiles(collectionName) {
     if (!file.endsWith('.md')) continue;
     
     const filePath = path.join(collectionPath, file);
-    const stats = fs.statSync(filePath);
+    const commitTime = getGitCommitTime(filePath);
     
-    if (stats.mtimeMs > threshold) {
+    if (commitTime && commitTime > threshold) {
       const slug = file.replace(/\.md$/, '');
+      const stats = fs.statSync(filePath);
       newFiles.push({
         slug,
         collection: collectionName,
         filename: file,
-        modifiedAt: new Date(stats.mtimeMs).toISOString(),
+        modifiedAt: new Date(commitTime).toISOString(),
         sizeKB: (stats.size / 1024).toFixed(2)
       });
     }

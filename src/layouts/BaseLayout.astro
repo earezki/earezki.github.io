@@ -93,6 +93,9 @@ const canonicalUrl = canonical ? (canonical.startsWith('http') ? canonical : SIT
       })();
     </script>
     
+    <!-- Client-side URL normalization -->
+    <script is:inline src="/redirect.js"></script>
+    
     {structuredData && <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />}
   </head>
   

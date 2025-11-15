@@ -1,27 +1,13 @@
 import { defineMiddleware } from 'astro:middleware';
 
+/**
+ * Note: Middleware only works with SSR (server-side rendering).
+ * For GitHub Pages (static hosting), URL normalization is handled
+ * client-side in BaseLayout.astro instead.
+ */
+
 export const onRequest = defineMiddleware((context, next) => {
-    const pathname = new URL(context.request.url).pathname;
-
-    if (pathname === '/') {
-        return next();
-    }
-
-    if (pathname.match(/\.\w+$/)) {
-        return next();
-    }
-
-    // Normalize pathname: convert to lowercase and ensure trailing slash
-    const lowerPathname = pathname.toLowerCase();
-    const needsLowercase = lowerPathname !== pathname;
-    const needsTrailingSlash = !pathname.endsWith('/');
-    
-    if (needsLowercase || needsTrailingSlash) {
-        const url = new URL(context.request.url);
-        // Apply both transformations: lowercase and trailing slash
-        url.pathname = lowerPathname + (needsTrailingSlash ? '/' : '');
-        return context.redirect(url.toString(), 301);
-    }
-
+    // Middleware is disabled for static sites
+    // URL normalization is handled client-side
     return next();
 });
