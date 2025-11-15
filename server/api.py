@@ -6,6 +6,8 @@ from vector_store import search
 
 import os
 
+from cachetools import cached, TTLCache
+
 DEBUG = os.getenv("DEBUG", "false").lower() == "true"
 app = FastAPI(
     docs_url=None if not DEBUG else "/docs",
@@ -43,8 +45,16 @@ def health():
 
 @app.get("/q", response_model=List[Dict[str, str]])
 def query(k: str) -> List[Dict[str, str]]:
-    print(f"[INFO] search: {k}")
-    response =  search(embed_query(k), top_k=10)
+    if k:
+        k = k.strip()
+        return _query(k)
+    
+    return []
+
+@cached(cache=TTLCache(maxsize=1024, ttl=1*60*60)) # cache for 1H
+def _query(keyword: str) -> list[dict[str, str]]:
+    print(f"[INFO] search: {keyword}")
+    response =  search(embed_query(keyword), top_k=10)
     response = [
         {
             "title": r.get("title") or "",
@@ -55,7 +65,6 @@ def query(k: str) -> List[Dict[str, str]]:
     ]
     response = deduplicate(response)
     return response
-
 
 def deduplicate(items: list[dict[str, str]]) -> list[dict[str, str]]:
     seen = set()
