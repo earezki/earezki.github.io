@@ -35,10 +35,10 @@ def query(k: str) -> List[Dict[str, str]]:
     response =  search(embed_query(k), top_k=10)
     response = [
         {
-            "title": r["title"],
-            "description": r["description"],
-            "published_at": r["published_at"],
-            "url": r["url"],
+            "title": r.get("title") or "",
+            "description": r.get("description") or "",
+            "published_at": r.get("published_at") or "",
+            "url": r.get("url") or "",
         } for r in response
     ]
     response = deduplicate(response)

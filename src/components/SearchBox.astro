@@ -35,6 +35,10 @@ import { SITE } from '../config/site';
   const SERVER_API_URL = headerElement?.dataset.searchApiUrl || '';
   const SERVER_TIMEOUT = parseInt(headerElement?.dataset.searchTimeout || '2000', 10);
   
+  // In-memory cache for search results (max 10 queries)
+  const queryCache = new Map<string, { results: any[], isAPI: boolean }>();
+  const MAX_CACHE_SIZE = 10;
+  
   function initDB(): Promise<IDBDatabase> {
     return new Promise((resolve, reject) => {
       const req = indexedDB.open(DB_NAME, DB_VERSION);
@@ -186,12 +190,10 @@ import { SITE } from '../config/site';
       }
       
       const results = await response.json();
-      console.log('[Search] Using server API results');
       
       // Transform server results to match client-side format
       return results.map((item: any) => {
         const url = ensureTrailingSlash(item.url);
-        console.log('[Search] API URL:', item.url, '→', url);
         return {
           title: cleanText(item.title),
           excerpt: cleanText(item.description),
@@ -267,8 +269,16 @@ import { SITE } from '../config/site';
       lastQ = q;
       if (clear) clear.style.display = 'flex';
       
+      // Check cache first
+      if (queryCache.has(q)) {
+        const cached = queryCache.get(q)!;
+        displayResults(cached.results, cached.isAPI);
+        return;
+      }
+      
       // Try server API first
       let searchResults: any[] | null = await queryServerAPI(q);
+      let isAPISearch = !!searchResults;
       
       // Fallback to client-side search if server API fails or is slow
       if (!searchResults) {
@@ -292,17 +302,25 @@ import { SITE } from '../config/site';
         }).filter(Boolean) as Array<{ art: any; score: number }>;
         
         searchResults = scored.sort((a, b) => b.score - a.score).map(i => i.art);
+        isAPISearch = false;
       }
       
-      const hash = searchResults.slice(0, 6).map(a => a.url).join('|');
+      // Store in cache (keep max 10 queries)
+      if (queryCache.size >= MAX_CACHE_SIZE) {
+        const firstKey = queryCache.keys().next().value;
+        if (firstKey) queryCache.delete(firstKey);
+      }
+      queryCache.set(q, { results: searchResults, isAPI: isAPISearch });
       
+      // Only update display if results actually changed
+      const hash = searchResults.slice(0, 6).map(a => a.url).join('|');
       if (hash !== lastHash || results.style.display !== 'block') {
         lastHash = hash;
-        displayResults(searchResults);
+        displayResults(searchResults, isAPISearch);
       }
     }
     
-    function displayResults(arts: any[]) {
+    function displayResults(arts: any[], isAPISearch: boolean = false) {
       results.innerHTML = '';
       
       if (arts.length === 0) {
@@ -388,6 +406,14 @@ import { SITE } from '../config/site';
         const rem = total - 6;
         more.innerHTML = `<strong>+${rem}</strong> more result${rem !== 1 ? 's' : ''} not shown`;
         results.appendChild(more);
+      }
+      
+      // Add "Powered by AI" label if using API search
+      if (isAPISearch) {
+        const footer = document.createElement('div');
+        footer.className = 'search-footer';
+        footer.innerHTML = '<small>✨ Powered by AI Search</small>';
+        results.appendChild(footer);
       }
       
       results.style.display = 'block';
