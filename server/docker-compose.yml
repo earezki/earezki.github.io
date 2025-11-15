@@ -37,6 +37,15 @@ services:
     networks:
       - api_net
 
+  cloudflared-blogapi:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflared-blogapi
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run
+    env_file:
+      - .env
+    network_mode: host
+
 networks:
   api_net:
     driver: bridge
