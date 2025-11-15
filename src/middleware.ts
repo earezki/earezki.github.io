@@ -11,19 +11,16 @@ export const onRequest = defineMiddleware((context, next) => {
         return next();
     }
 
-    // convert to lowercase (e.g., /ai-financial-news/2025-11-15-AMZN/ -> /ai-financial-news/2025-11-15-amzn/)
+    // Normalize pathname: convert to lowercase and ensure trailing slash
     const lowerPathname = pathname.toLowerCase();
-    if (lowerPathname !== pathname) {
+    const needsLowercase = lowerPathname !== pathname;
+    const needsTrailingSlash = !pathname.endsWith('/');
+    
+    if (needsLowercase || needsTrailingSlash) {
         const url = new URL(context.request.url);
-        url.pathname = lowerPathname;
-        return context.redirect(url.pathname, 301);
-    }
-
-    // handle missing "/" at the end
-    if (!pathname.endsWith('/')) {
-        const url = new URL(context.request.url);
-        url.pathname = pathname + '/';
-        return context.redirect(url.pathname, 301);
+        // Apply both transformations: lowercase and trailing slash
+        url.pathname = lowerPathname + (needsTrailingSlash ? '/' : '');
+        return context.redirect(url.toString(), 301);
     }
 
     return next();
