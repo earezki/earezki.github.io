@@ -95,8 +95,8 @@ def deduplicate(items: list[dict[str, str]]) -> list[dict[str, str]]:
 @app.post("/subscribe")
 def api_subscribe(request: SubscribeRequest):
     reponse = subscribe(request.name, request.email)
-    if reponse.get("success"):
-        send_welcome(request.email, request.name)
+    # if reponse.get("success"):
+    #     send_welcome(request.email, request.name)
     return reponse
 
 
