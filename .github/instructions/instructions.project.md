@@ -31,6 +31,7 @@ Minimal checks for PRs
 
 Performance optimizations
 - Heavy operations indexed at build time in `dataCache.ts`.
+- Server-side search: API calling when available, when failed or slow, it fallsback to Client-side search
 - Client-side search: IndexedDB for caching (not querying), JavaScript for filtering.
 - Use Set for O(1) lookups instead of Array.includes() for large collections.
 - Result caching to prevent unnecessary re-renders.

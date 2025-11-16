@@ -52,5 +52,34 @@ jobs:
           enable_jekyll: false
           commit_message: "deploy: ${GITHUB_SHA}"
 
+      - name: Cleanup old deployments
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const deployments = await github.rest.repos.listDeployments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              environment: 'github-pages',
+              per_page: 100
+            });
+            
+            // Keep only the 5 most recent deployments
+            const toDelete = deployments.data.slice(5);
+            
+            for (const deployment of toDelete) {
+              try {
+                await github.rest.repos.deleteDeployment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  deployment_id: deployment.id
+                });
+                console.log(`Deleted deployment ${deployment.id}`);
+              } catch (error) {
+                console.log(`Could not delete deployment ${deployment.id}: ${error.message}`);
+              }
+            }
+            
+            console.log(`Kept ${Math.min(5, deployments.data.length)} most recent deployments`);
+
       - name: Summary
         run: echo "Published dist to $PUBLISH_BRANCH" >> $GITHUB_STEP_SUMMARY
