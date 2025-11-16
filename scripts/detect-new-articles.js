@@ -8,7 +8,7 @@ const __dirname = path.dirname(__filename);
 
 const CONTENT_BASE = path.join(__dirname, '../src/content');
 const OUTPUT_FILE = path.join(__dirname, '../public/new-articles.json');
-const HOURS_THRESHOLD = 48;
+const HOURS_THRESHOLD = 24;
 
 const COLLECTIONS = ['posts', 'ainews', 'aifinnews'];
 
@@ -51,7 +51,8 @@ function scanCollectionForNewFiles(collectionName) {
     const commitTime = getGitCommitTime(filePath);
     
     if (commitTime && commitTime > threshold) {
-      const slug = file.replace(/\.md$/, '');
+      // Lowercase the slug to match URL routing
+      const slug = file.replace(/\.md$/, '').toLowerCase();
       const stats = fs.statSync(filePath);
       newFiles.push({
         slug,
