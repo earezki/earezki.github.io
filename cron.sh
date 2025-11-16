@@ -31,6 +31,7 @@ python -u server/markdown_embedding.py --path ./src/content/
 
 # restart/rebuild the api
 docker compose -f server/docker-compose.yml up -d --build
+docker system prune -f
 
 # push changes to the repository
 git add .
