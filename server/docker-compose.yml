@@ -25,6 +25,11 @@ services:
     restart: unless-stopped
     environment:
       - QDRANT_HOST=qdrant
+      - DB_PATH=/app/data/
+    env_file:
+      - .env
+    volumes:
+      - ${DB_PATH}:/app/data
     deploy:
       resources:
         limits:
