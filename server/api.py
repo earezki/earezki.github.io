@@ -1,8 +1,13 @@
+from datetime import datetime
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 from typing import List, Dict
 from embedding import embed_query
 from vector_store import search
+from subscription import subscribe, unsubscribe
+
+from send_mail import send_welcome
 
 import os
 
@@ -38,6 +43,15 @@ app.add_middleware(
 )
 
 
+class SubscribeRequest(BaseModel):
+    name: str
+    email: str
+
+
+class UnsubscribeRequest(BaseModel):
+    email: str
+
+
 @app.get("/health")
 def health():
     return {"status": "ok"}
@@ -53,7 +67,7 @@ def query(k: str) -> List[Dict[str, str]]:
 
 @cached(cache=TTLCache(maxsize=1024, ttl=1*60*60)) # cache for 1H
 def _query(keyword: str) -> list[dict[str, str]]:
-    print(f"[INFO] search: {keyword}")
+    print(f"{datetime.now()} - [INFO] search: {keyword}")
     response =  search(embed_query(keyword), top_k=10)
     response = [
         {
@@ -76,3 +90,17 @@ def deduplicate(items: list[dict[str, str]]) -> list[dict[str, str]]:
             seen.add(id)
     
     return unique
+
+
+@app.post("/subscribe")
+def api_subscribe(request: SubscribeRequest):
+    reponse = subscribe(request.name, request.email)
+    if reponse.get("success"):
+        send_welcome(request.email, request.name)
+    return reponse
+
+
+@app.post("/unsubscribe")
+def api_unsubscribe(request: UnsubscribeRequest):
+    success = unsubscribe(request.email)
+    return {"success": success}
