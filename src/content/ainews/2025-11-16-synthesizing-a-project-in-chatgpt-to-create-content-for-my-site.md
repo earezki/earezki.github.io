@@ -3,6 +3,7 @@ title: "Synthesizing a project in ChatGPT to create content for my site"
 pubDate: 2025-11-16
 description: "Damien House automates technical writing with ChatGPT, publishing AI-generated content summarizing 2006–2012 R&D work."
 categories: ["AI News", "AI Content Creation", "ChatGPT"]
+---
 
 ## Synthesizing a project in ChatGPT to create content for my site
 
