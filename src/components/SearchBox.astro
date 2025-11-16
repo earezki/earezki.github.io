@@ -116,7 +116,6 @@ import { SITE } from '../config/site';
       const { data: cached, version: cachedVer } = await getCachedIndex();
 
       if (cached && cachedVer && remoteVer && cachedVer === remoteVer) {
-        console.log('[Search] Using cache');
         searchIndex = cached;
         return cached;
       }
