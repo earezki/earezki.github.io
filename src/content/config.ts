@@ -25,6 +25,7 @@ const aifinnews = defineCollection({
     pubDate: z.coerce.date(),
     categories: z.array(z.string()).optional(),
     description: z.string().optional(),
+    ticker: z.string().optional(),
   })
 });
 

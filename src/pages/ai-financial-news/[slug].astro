@@ -110,6 +110,61 @@ const { Content } = await rawPost.render();
         <p><strong>AI-Generated Financial Analysis:</strong> This article was created with AI assistance for educational purposes only. This is not financial advice. Always conduct your own research and consult with qualified financial advisors before making investment decisions.</p>
       </div>
       
+      {post.data.ticker && (
+        <div class="tradingview-widget-container">
+          <div class="tradingview-widget-container__widget"></div>
+        </div>
+      )}
+      
+      {post.data.ticker && (
+        <script is:inline set:html={`
+          (function() {
+            // Detect current theme
+            const isDarkMode = document.documentElement.getAttribute('data-theme') === 'dark';
+            
+            const widgetScript = document.createElement('script');
+            widgetScript.type = 'text/javascript';
+            widgetScript.src = 'https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js';
+            widgetScript.async = true;
+            
+            const config = {
+              symbol: "${post.data.ticker}",
+              chartOnly: false,
+              dateRange: "3M",
+              noTimeScale: false,
+              locale: "en",
+              width: "100%",
+              autosize: true,
+              height: "100%"
+            };
+            
+            if (isDarkMode) {
+              config.colorTheme = "dark";
+              config.isTransparent = true;
+            } else {
+              config.colorTheme = "light";
+              config.isTransparent = false;
+            }
+            
+            widgetScript.innerHTML = JSON.stringify(config);
+            
+            const container = document.querySelector('.tradingview-widget-container__widget');
+            if (container) {
+              container.appendChild(widgetScript);
+            }
+            
+            // Listen for theme changes
+            const observer = new MutationObserver(() => {
+              const newIsDarkMode = document.documentElement.getAttribute('data-theme') === 'dark'
+              if (newIsDarkMode !== isDarkMode) {
+                location.reload();
+              }
+            });
+            observer.observe(document.documentElement, { attributes: true });
+          })();
+        `} />
+      )}
+      
       <div class="post-body prose">
         <Content />
       </div>
@@ -160,6 +215,20 @@ const { Content } = await rawPost.render();
     min-width: 0;
     overflow: hidden;
   }
+  
+  .tradingview-widget-container {
+    width: 100%;
+    height: 400px;
+    margin: 2rem 0;
+    border-radius: 8px;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.1);
+  }
+  
+  .tradingview-widget-container__widget {
+    height: 100%;
+  }
+  
   @media (max-width: 1080px) { 
     .post-layout { 
       grid-template-columns: 1fr;
@@ -179,6 +248,11 @@ const { Content } = await rawPost.render();
     }
     .sidebar-left {
       display: none;
+    }
+    
+    .tradingview-widget-container {
+      height: 350px;
+      margin: 1.5rem 0;
     }
   }
 </style>

@@ -123,7 +123,7 @@ def get_news(ticker, llm) -> str:
     print(f"[INFO] Distilled news for {ticker['ticker']}: {len(news.split('•'))} key points")
     return news
 
-def eval(news: str, financials: str, llm) -> str:
+def eval(ticker: str, news: str, financials: str, llm) -> str:
     prompt = PromptTemplate.from_template("""
     You are an expert quantitative market strategist and financial analyst. Evaluate the company using financial data and latest news to predict if the stock price will **increase** in the **upcoming days to weeks**.
 
@@ -147,6 +147,7 @@ def eval(news: str, financials: str, llm) -> str:
     pubDate: {current_date}
     description: "One sharp sentence: financial signal + news catalyst + prediction."
     categories: ["Stock Weather AI", "Topic1", "Topic2"]
+    ticker: "{ticker}"
     ---
 
     ## [Company Ticker] – [Prediction] in Days/Weeks
@@ -180,6 +181,7 @@ def eval(news: str, financials: str, llm) -> str:
     - **title** and **description** in **double quotes**
     - **pubDate**: unquoted, ISO format (e.g., 2025-11-12)
     - **categories**: valid JSON array, max 3
+    - **ticker**: stock ticker symbol as provided
     - **No placeholders** — all fields must be filled
     - **No code blocks**, no JSON, no markdown beyond structure
     **CRITICAL:
@@ -195,7 +197,8 @@ def eval(news: str, financials: str, llm) -> str:
     response = chain.invoke({
         "current_date": iso_current_date,
         "financial_data": financials,
-        "news_data": news
+        "news_data": news,
+        "ticker": ticker
     })
 
     return response.content
@@ -249,7 +252,11 @@ def main():
             print(f"[WARNING] No financial data found for {ticker['ticker']}. Skipping.")
             continue
         
-        evaluation = eval(news, financials, financial_llm)
+        evaluation = eval(  ticker=ticker['ticker'],
+                            news=news,
+                            financials=financials,
+                            llm=financial_llm)
+        
         with open(filename, "w") as f:
             f.write(evaluation)
 
