@@ -4,7 +4,6 @@ import TableOfContents from '../components/TableOfContents.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import RelatedPosts from '../components/RelatedPosts.astro';
 import SeriesNavigation from '../components/SeriesNavigation.astro';
-import SubscriptionPopup from '../components/SubscriptionPopup.astro';
 import { getAllPosts, getAllProcessedContent, findPostBySlug } from '../utils/dataCache';
 import { RelatedPostsFinder, generateBreadcrumbs } from '../utils/relatedContentOptimized';
 import { slugify } from '../utils/slugify';
@@ -92,7 +91,8 @@ const { Content } = await rawPost.render();
   keywords={postKeywords}
   canonical={canonical} 
   image={postImage}
-  structuredData={structuredData}>
+  structuredData={structuredData}
+  isArticlePage={true}>
   <Breadcrumbs breadcrumbs={breadcrumbs} isNew={isNew} />
   <div class="post-layout">
     <aside class="sidebar-left">
@@ -133,9 +133,6 @@ const { Content } = await rawPost.render();
     </article>
   </div>
   <div class="back-link"><a href="/">← Back to home</a></div>
-  
-  {/* Newsletter Subscription Popup */}
-  <SubscriptionPopup />
 </BaseLayout>
 
 <style>

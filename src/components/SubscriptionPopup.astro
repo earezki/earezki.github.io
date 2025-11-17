@@ -1,8 +1,13 @@
 ---
 // Subscription popup component
+export interface Props {
+  autoTrigger?: boolean; // Whether to automatically show the popup after delay
+}
+
+const { autoTrigger = false } = Astro.props;
 ---
 
-<div id="subscription-popup" class="subscription-popup" data-state="hidden">
+<div id="subscription-popup" class="subscription-popup" data-state="hidden" data-auto-trigger={autoTrigger.toString()}>
   <div class="popup-overlay" id="popup-overlay"></div>
   <div class="popup-container">
     <div class="popup-content">
@@ -392,7 +397,7 @@
   }
 </style>
 
-<script>
+<script is:inline>
   // Configuration
   const CONFIG = {
     graceDelay: 5000, // 5 seconds delay before showing popup
@@ -407,7 +412,7 @@
   };
 
   // State management
-  let popupTimeout: number | null = null;
+  let popupTimeout = null;
 
   function showPopup() {
     const popup = document.getElementById('subscription-popup');
@@ -425,7 +430,7 @@
     }
   }
 
-  function shouldShowPopup(): boolean {
+  function shouldShowPopup() {
     // Check if user has already subscribed
     if (localStorage.getItem(STORAGE_KEYS.subscribed) === 'true') {
       return false;
@@ -448,7 +453,7 @@
     return true;
   }
 
-  async function checkAPIHealth(): Promise<boolean> {
+  async function checkAPIHealth() {
     try {
       const response = await fetch(`${CONFIG.apiUrl}/health`, {
         method: 'GET',
@@ -481,18 +486,19 @@
       return;
     }
 
+    // Show popup after grace period
     popupTimeout = window.setTimeout(() => {
       showPopup();
     }, CONFIG.graceDelay);
   }
 
-  async function handleSubscribe(event: Event) {
+  async function handleSubscribe(event) {
     event.preventDefault();
     
-    const form = event.target as HTMLFormElement;
-    const nameInput = form.querySelector('#subscriber-name') as HTMLInputElement;
-    const emailInput = form.querySelector('#subscriber-email') as HTMLInputElement;
-    const submitBtn = form.querySelector('#subscribe-btn') as HTMLButtonElement;
+    const form = event.target;
+    const nameInput = form.querySelector('#subscriber-name');
+    const emailInput = form.querySelector('#subscriber-email');
+    const submitBtn = form.querySelector('#subscribe-btn');
     const messageEl = document.getElementById('form-message');
 
     const name = nameInput.value.trim();
@@ -568,8 +574,13 @@
 
   // Initialize popup
   document.addEventListener('DOMContentLoaded', () => {
-    // Schedule popup to show after grace period
-    schedulePopup();
+    const popup = document.getElementById('subscription-popup');
+    const autoTrigger = popup?.getAttribute('data-auto-trigger') === 'true';
+    
+    // Schedule popup to show after grace period only if autoTrigger is enabled
+    if (autoTrigger) {
+      schedulePopup();
+    }
 
     // Event listeners
     const form = document.getElementById('subscription-form');

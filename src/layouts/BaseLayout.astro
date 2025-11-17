@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import ProgressBar from '../components/ProgressBar.astro';
 import SearchBox from '../components/SearchBox.astro';
+import SubscriptionPopup from '../components/SubscriptionPopup.astro';
 
 export interface Props {
   title?: string;
@@ -12,6 +13,7 @@ export interface Props {
   canonical?: string;
   noIndex?: boolean;
   structuredData?: Record<string, any> | null;
+  isArticlePage?: boolean; // Whether to auto-trigger subscription popup
 }
 
 const SITE_CONFIG = {
@@ -31,7 +33,8 @@ const {
   image = SITE_CONFIG.origin + SITE_CONFIG.defaultImage, 
   canonical, 
   noIndex = false, 
-  structuredData = null 
+  structuredData = null,
+  isArticlePage = false
 } = Astro.props;
 
 const fullTitle = title === SITE_CONFIG.title ? title : `${title} • ${SITE_CONFIG.title}`;
@@ -171,9 +174,31 @@ const canonicalUrl = canonical ? (canonical.startsWith('http') ? canonical : SIT
         <a href="https://github.com/earezki">GitHub</a> • 
         <a href="/rss.xml">RSS</a> • 
         <a href="/tags/">Tags</a> • 
-        <a href="/sitemap-index.xml">Sitemap</a>
+        <a href="/sitemap-index.xml">Sitemap</a> • 
+        <button id="footer-subscribe-btn" class="footer-subscribe-btn" aria-label="Subscribe to newsletter">
+          📬 Subscribe
+        </button>
       </p>
     </footer>
+    
+    <!-- Footer Subscribe Button Handler -->
+    <script>
+      // Wait for DOM to be ready
+      document.addEventListener('DOMContentLoaded', () => {
+        const subscribeBtn = document.getElementById('footer-subscribe-btn');
+        
+        if (subscribeBtn) {
+          subscribeBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const popup = document.getElementById('subscription-popup');
+            if (popup) {
+              popup.setAttribute('data-state', 'visible');
+              document.body.style.overflow = 'hidden';
+            }
+          });
+        }
+      });
+    </script>
     
     <!-- Theme Toggle -->
     <script>
@@ -394,5 +419,8 @@ const canonicalUrl = canonical ? (canonical.startsWith('http') ? canonical : SIT
         document.addEventListener('DOMContentLoaded', addBtns);
       })();
     </script>
+    
+    <!-- Newsletter Subscription Popup -->
+    <SubscriptionPopup autoTrigger={isArticlePage} />
   </body>
 </html>
