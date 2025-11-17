@@ -26,6 +26,8 @@ services:
     environment:
       - QDRANT_HOST=qdrant
       - DB_PATH=/app/data/
+      - MAILJET_API_KEY=${MAILJET_API_KEY}
+      - MAILJET_API_SECRET=${MAILJET_API_SECRET}
     env_file:
       - .env
     volumes:
