@@ -1,7 +1,7 @@
 import database
 import re
 
-# create subscriptions table if it doesn't exist
+# create tables
 with database.get_connection() as conn:
     cursor = conn.cursor()
     cursor.execute(
@@ -12,6 +12,21 @@ with database.get_connection() as conn:
             email TEXT NOT NULL UNIQUE,
             subscribed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             unsubscribed_at TIMESTAMP NULL
+        )
+        """
+    )
+
+    cursor.execute(
+        """
+        CREATE INDEX IF NOT EXISTS idx_unsubscribed_at ON subscriptions (unsubscribed_at)
+        """
+    )
+
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS welcome_emails (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            subscription_id INTEGER,
+            FOREIGN KEY (subscription_id) REFERENCES subscriptions(id)
         )
         """
     )
@@ -66,6 +81,7 @@ def subscribe(name: str, email: str) -> dict:
             )
             conn.commit()
             return {
+                "id": row[0],
                 "success": True
             }
         elif row:
@@ -85,6 +101,7 @@ def subscribe(name: str, email: str) -> dict:
         conn.commit()
         
         return {
+            "id": cursor.lastrowid,
             "success": True
         }
 

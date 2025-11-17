@@ -79,17 +79,17 @@ def send_bulk_email(
         raise
 
 
-def get_welcome_template(name: str) -> str:
+def get_welcome_template(name: str) -> tuple[str, str]:
     """
-    Generate a welcome email HTML template.
+    Generate a welcome email template.
     
     Args:
         name: Recipient's name
     
     Returns:
-        HTML template string
+        A tuple containing the plain text and HTML template strings
     """
-    return f"""
+    html = f"""
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -251,6 +251,32 @@ def get_welcome_template(name: str) -> str:
     </html>
     """
 
+    text = f"""
+    Welcome to Dev|Journal!
+    
+    Hi {name},
+    
+    Welcome to Dev|Journal! We're thrilled to have you join our community of developers, engineers, and tech enthusiasts.
+    
+    What You'll Get:
+    ✓ Latest AI and tech news curated for developers
+    ✓ Financial analysis on tech stocks with AI insights
+    ✓ In-depth technical articles and tutorials
+    ✓ Expert perspectives on software engineering
+    ✓ Stock weather predictions powered by AI
+    
+    Visit us at: https://earezki.com
+    
+    Happy coding,
+    The Dev|Journal Team
+    
+    ---
+    You received this email because you subscribed to Dev|Journal updates.
+    © 2025 Dev|Journal. All rights reserved.
+    """
+
+    return (text, html)
+
 
 def send_welcome(
     to_name: str,
@@ -272,31 +298,7 @@ def send_welcome(
         requests.exceptions.RequestException: If API call fails
     """
         
-    html_content = get_welcome_template(to_name)
-    
-    text_content = f"""
-    Welcome to Dev|Journal!
-    
-    Hi {to_name},
-    
-    Welcome to Dev|Journal! We're thrilled to have you join our community of developers, engineers, and tech enthusiasts.
-    
-    What You'll Get:
-    ✓ Latest AI and tech news curated for developers
-    ✓ Financial analysis on tech stocks with AI insights
-    ✓ In-depth technical articles and tutorials
-    ✓ Expert perspectives on software engineering
-    ✓ Stock weather predictions powered by AI
-    
-    Visit us at: https://earezki.com
-    
-    Happy coding,
-    The Dev|Journal Team
-    
-    ---
-    You received this email because you subscribed to Dev|Journal updates.
-    © 2025 Dev|Journal. All rights reserved.
-    """
+    text_content, html_content = get_welcome_template(to_name)
     
     return send_bulk_email(
         recipients=[{'Email': to_email, 'Name': to_name}] if to_name else [{'Email': to_email}],

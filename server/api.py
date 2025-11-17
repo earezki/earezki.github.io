@@ -1,13 +1,14 @@
 from datetime import datetime
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import RedirectResponse
 from pydantic import BaseModel
 from typing import List, Dict
 from embedding import embed_query
 from vector_store import search
 from subscription import subscribe, unsubscribe
 
-from send_mail import send_welcome
+from welcome import queue_welcome
 
 import os
 
@@ -95,12 +96,18 @@ def deduplicate(items: list[dict[str, str]]) -> list[dict[str, str]]:
 @app.post("/subscribe")
 def api_subscribe(request: SubscribeRequest):
     reponse = subscribe(request.name, request.email)
-    # if reponse.get("success"):
-    #     send_welcome(request.email, request.name)
-    return reponse
+    if reponse.get("success"):
+        queue_welcome(subscriptionId=reponse.get("id"))
+    
+    return {
+        "success": reponse.get("success"), 
+        "error": reponse.get("error", None)
+    }
 
 
 @app.post("/unsubscribe")
 def api_unsubscribe(request: UnsubscribeRequest):
-    success = unsubscribe(request.email)
-    return {"success": success}
+    unsubscribe(request.email)
+    # Redirect to unsubscribe page regardless of success
+    # Not to expose whether an email was in the system (enumeration attack)
+    return RedirectResponse(url="https://earezki.com/unsubscribe/", status_code=303)

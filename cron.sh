@@ -29,6 +29,9 @@ python -u scripts/fin_news/ai_fin_news.py
 # run the embeddings indexer
 python -u server/markdown_embedding.py --path ./src/content/
 
+# run the welcome email processor
+python -u server/welcome.py
+
 # restart/rebuild the api
 docker compose -f server/docker-compose.yml up -d --build
 docker system prune -f
