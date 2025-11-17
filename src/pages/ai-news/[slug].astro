@@ -3,6 +3,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import TableOfContents from '../../components/TableOfContents.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import RelatedPosts from '../../components/RelatedPosts.astro';
+import SubscriptionPopup from '../../components/SubscriptionPopup.astro';
 import { getAllAinews, getAllProcessedContent, findAinewsBySlug } from '../../utils/dataCache';
 import { RelatedPostsFinder, generateBreadcrumbs } from '../../utils/relatedContentOptimized';
 import { slugify } from '../../utils/slugify';
@@ -114,6 +115,8 @@ const { Content } = await rawPost.render();
     </article>
   </div>
   <div class="back-link"><a href="/ai-news/">← Back to AI News</a></div>
+  
+  <SubscriptionPopup />
 </BaseLayout>
 
 <style>
