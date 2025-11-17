@@ -31,6 +31,8 @@ Built with Astro.
 
 - [x] **WebP Image Optimization** - Automated conversion
 
+- [x] **Send welcome emails** - Periodically
+- [ ] **Send weekly emails** - Pick top 5 picks from the week
 
 - [ ] **RAG (Retrieval-Augmented Generation)** - Context-aware Q&A over all articles
 - [ ] **Semantic Question Answering** - Natural language queries with cited sources
