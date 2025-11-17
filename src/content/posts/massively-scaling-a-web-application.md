@@ -19,4 +19,6 @@ categories:
 10. [CDN](/cdn/)
 11. [Multi-region deployment](/multi-region-deployment/)
 
-![Scaling software](/assets/scaling_software.jpg "Scaling software")
+<a href="/assets/scaling_software.jpg" target="_blank" rel="noopener noreferrer">
+  ![Scaling software](/assets/scaling_software.jpg "Scaling software")
+</a>
