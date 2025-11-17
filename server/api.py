@@ -108,6 +108,25 @@ def api_subscribe(request: SubscribeRequest):
 @app.post("/unsubscribe")
 def api_unsubscribe(request: UnsubscribeRequest):
     unsubscribe(request.email)
+    return RedirectResponse(url="https://earezki.com/unsubscribe/", status_code=303)
+
+@app.get("/unsubscribe/{token}")
+def api_unsubscribe(token: str):
+    # try:
+    #     # When sending email, generate token:
+    #     # token = serializer.dumps(user_email)
+    #     # link = f"https://blogapi.earezki.com/unsubscribe/{token}"
+
+    #     from itsdangerous import URLSafeTimedSerializer
+
+    #     SECRET_KEY = os.getenv("SECRET_KEY", "your-secret-key")
+    #     serializer = URLSafeTimedSerializer(SECRET_KEY)
+
+    #     email = serializer.loads(token, max_age=30*24*60*60)  # 30 days
+    #     unsubscribe(email)
+    # except:
+    #     pass  # Invalid/expired token
+    
     # Redirect to unsubscribe page regardless of success
     # Not to expose whether an email was in the system (enumeration attack)
     return RedirectResponse(url="https://earezki.com/unsubscribe/", status_code=303)
