@@ -1,7 +1,7 @@
 # Dev|Journal
 
 Built with Astro.
-(https://earezki.com)[https://earezki.com]
+![https://earezki.com](https://earezki.com "https://earezki.com")
 
 ## Features
 
