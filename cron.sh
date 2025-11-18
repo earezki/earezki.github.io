@@ -28,7 +28,13 @@ python -u scripts/ai-news.py
 echo "Running AI financial news script..."
 python -u scripts/fin_news/ai_fin_news.py
 
-# run the embeddings indexer - note if the deployment failed, then the response will contain articles not yet deployed.
+# push changes to the repository
+echo "Pushing & deploying changes to the repository..."
+git add .
+git commit -m "Automated updates $(date +'%Y-%m-%d')"
+git push origin master
+
+# run the embeddings indexer - note if the deployment failed, then the search api response will contain articles not yet deployed.
 echo "Running embeddings indexer..."
 python -u server/markdown_embedding.py --path ./src/content/
 
@@ -40,9 +46,3 @@ python -u server/welcome.py
 echo "Rebuilding and restarting the server..."
 docker compose -f server/docker-compose.yml up -d --build
 docker system prune -f
-
-# push changes to the repository
-echo "Pushing & deploying changes to the repository..."
-git add .
-git commit -m "Automated updates $(date +'%Y-%m-%d')"
-git push origin master

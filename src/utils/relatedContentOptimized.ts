@@ -87,7 +87,7 @@ export class RelatedPostsFinder {
    * @param maxResults - Maximum number of results (default: 3)
    * @returns Array of related posts sorted by relevance
    */
-  findRelated(currentPost: ProcessedPost, maxResults: number = 3): ProcessedPost[] {
+  findRelated(currentPost: ProcessedPost, maxResults: number = 4): ProcessedPost[] {
     const currentCategories = currentPost.data.categories || [];
     const scoreMap = new Map<string, number>();
     
