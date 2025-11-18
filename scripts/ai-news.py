@@ -23,7 +23,7 @@ def create_llm():
     return ChatOpenAI(
         model=os.getenv("OPENAI_MODEL"),
         temperature=0.5,
-        max_retries=2,
+        max_retries=10,
         api_key=os.getenv("OPENAI_API_KEY"),
         base_url=os.getenv("OPENAI_API_BASE"),
         default_headers={
@@ -88,6 +88,7 @@ def create_prompt():
     - If context lacks code → skip "Working Example"
     **CRITICAL:
     - Never output placeholder text like "[2-sentence hook]". Always replace with real content.**
+    - Never output the given examples as-is; always generate new content.
     - YAML frontmatter for title, pubDate, description and categories must be exact and respected, no deviations.
     - Always write in English.
 

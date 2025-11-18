@@ -10,6 +10,7 @@ from datetime import datetime
 from trafilatura import fetch_url, extract
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import PromptTemplate
+from tenacity import retry, stop_after_attempt, wait_exponential
 
 from tickers import get_tickers
 from financials import get_financials
@@ -22,8 +23,8 @@ def create_llm(model):
     print(f"[INFO] Using LLM model: {model}")
     return ChatOpenAI(
         model=model,
-        temperature=0.5,
-        max_retries=2,
+        temperature=0,
+        max_retries=10,
         api_key=os.getenv("OPENAI_API_KEY"),
         base_url=os.getenv("OPENAI_API_BASE"),
         default_headers={
@@ -50,6 +51,7 @@ def search_engine(ticker, name, max_results=5) -> list[dict]:
         } for r in results
     ]
 
+@retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=60, max=300))
 def get_news(ticker, llm) -> str:
     print(f"[INFO] Searching news for {ticker['ticker']} - {ticker['name']}")
     results = search_engine(ticker['ticker'], ticker['name'])
@@ -109,11 +111,15 @@ def get_news(ticker, llm) -> str:
     **Distilled Financial Information:**
     """)
 
-    chain = prompt | llm
-    response = chain.invoke({
-        "news": news,
-        "ticker": ticker['ticker']
-    })
+    try:
+        chain = prompt | llm
+        response = chain.invoke({
+            "news": news,
+            "ticker": ticker['ticker']
+        })
+    except Exception as e:
+        print(f"[ERROR] LLM error in get_news: {e}")
+        raise
 
     news = response.content.strip()
     if not news or news == "NO_RELEVANT_NEWS":
@@ -123,6 +129,7 @@ def get_news(ticker, llm) -> str:
     print(f"[INFO] Distilled news for {ticker['ticker']}: {len(news.split('•'))} key points")
     return news
 
+@retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=60, max=300))
 def eval(ticker: str, news: str, financials: str, llm) -> str:
     prompt = PromptTemplate.from_template("""
     You are an expert quantitative market strategist and financial analyst. Evaluate the company using financial data and latest news to predict if the stock price will **increase** in the **upcoming days to weeks**.
@@ -193,13 +200,17 @@ def eval(ticker: str, news: str, financials: str, llm) -> str:
 
     iso_current_date = datetime.now().date().isoformat()
 
-    chain = prompt | llm
-    response = chain.invoke({
-        "current_date": iso_current_date,
-        "financial_data": financials,
-        "news_data": news,
-        "ticker": ticker
-    })
+    try:
+        chain = prompt | llm
+        response = chain.invoke({
+            "current_date": iso_current_date,
+            "financial_data": financials,
+            "news_data": news,
+            "ticker": ticker
+        })
+    except Exception as e:
+        print(f"[ERROR] LLM error in eval: {e}")
+        raise
 
     return response.content
 
