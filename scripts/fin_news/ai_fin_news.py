@@ -130,7 +130,7 @@ def get_news(ticker, llm) -> str:
     return news
 
 @retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=60, max=300))
-def eval(ticker: str, news: str, financials: str, llm) -> str:
+def eval(ticker: str, news: str, financials: str, price_data: dict, llm) -> str:
     prompt = PromptTemplate.from_template("""
     You are an expert quantitative market strategist and financial analyst. Evaluate the company using financial data and latest news to predict if the stock price will **increase** in the **upcoming days to weeks**.
 
@@ -155,6 +155,12 @@ def eval(ticker: str, news: str, financials: str, llm) -> str:
     description: "One sharp sentence: financial signal + news catalyst + prediction."
     categories: ["Stock Weather AI", "Topic1", "Topic2"]
     ticker: "{ticker}"
+    prediction: {{{{prediction}}}}
+    confidence: {{{{confidence}}}}
+    priceAtPrediction: {price}
+    prediction52WeekHigh: {high_52w}
+    prediction52WeekLow: {low_52w}
+    targetDate: {target_date}
     ---
 
     ## [Company Ticker] – [Prediction] in Days/Weeks
@@ -183,12 +189,16 @@ def eval(ticker: str, news: str, financials: str, llm) -> str:
     ---
 
     **RULES (STRICT):**
-    - Replace **{{prediction}}** with: `increase` or `decrease` (lowercase)
-    - Replace **{{confidence}}** with: integer 1–10
+    - Replace **{{{{prediction}}}}** with: `increase` or `decrease` (lowercase, unquoted)
+    - Replace **{{{{confidence}}}}** with: integer 1–10 (unquoted)
     - **title** and **description** in **double quotes**
     - **pubDate**: unquoted, ISO format (e.g., 2025-11-12)
     - **categories**: valid JSON array, max 3
     - **ticker**: stock ticker symbol as provided
+    - **prediction**: lowercase, unquoted (increase or decrease)
+    - **confidence**: unquoted integer 1-10
+    - **priceAtPrediction**, **prediction52WeekHigh**, **prediction52WeekLow**: already populated, do not modify
+    - **targetDate**: already populated, do not modify
     - **No placeholders** — all fields must be filled
     - **No code blocks**, no JSON, no markdown beyond structure
     **CRITICAL:
@@ -199,6 +209,8 @@ def eval(ticker: str, news: str, financials: str, llm) -> str:
     """)
 
     iso_current_date = datetime.now().date().isoformat()
+    from datetime import timedelta
+    target_date = (datetime.now().date() + timedelta(days=14)).isoformat()
 
     try:
         chain = prompt | llm
@@ -206,7 +218,11 @@ def eval(ticker: str, news: str, financials: str, llm) -> str:
             "current_date": iso_current_date,
             "financial_data": financials,
             "news_data": news,
-            "ticker": ticker
+            "ticker": ticker,
+            "price": price_data.get('currentPrice', 'N/A'),
+            "high_52w": price_data.get('fiftyTwoWeekHigh', 'N/A'),
+            "low_52w": price_data.get('fiftyTwoWeekLow', 'N/A'),
+            "target_date": target_date
         })
     except Exception as e:
         print(f"[ERROR] LLM error in eval: {e}")
@@ -263,9 +279,25 @@ def main():
             print(f"[WARNING] No financial data found for {ticker['ticker']}. Skipping.")
             continue
         
+        # Get price data for tracking
+        import yfinance as yf
+        try:
+            yf_ticker = yf.Ticker(ticker['ticker'])
+            price_info = yf_ticker.info
+            price_data = {
+                'currentPrice': price_info.get('currentPrice'),
+                'fiftyTwoWeekHigh': price_info.get('fiftyTwoWeekHigh'),
+                'fiftyTwoWeekLow': price_info.get('fiftyTwoWeekLow')
+            }
+            print(f"[INFO] Price data for {ticker['ticker']}: ${price_data['currentPrice']}")
+        except Exception as e:
+            print(f"[ERROR] Failed to fetch price data for {ticker['ticker']}: {e}")
+            price_data = {'currentPrice': None, 'fiftyTwoWeekHigh': None, 'fiftyTwoWeekLow': None}
+        
         evaluation = eval(  ticker=ticker['ticker'],
                             news=news,
                             financials=financials,
+                            price_data=price_data,
                             llm=financial_llm)
         
         with open(filename, "w") as f:

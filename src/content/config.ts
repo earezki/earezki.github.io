@@ -26,6 +26,12 @@ const aifinnews = defineCollection({
     categories: z.array(z.string()).optional(),
     description: z.string().optional(),
     ticker: z.string().optional(),
+    prediction: z.enum(['increase', 'decrease']).optional(),
+    confidence: z.number().min(1).max(10).optional(),
+    priceAtPrediction: z.number().optional(),
+    prediction52WeekHigh: z.number().optional(),
+    prediction52WeekLow: z.number().optional(),
+    targetDate: z.coerce.date().optional(),
   })
 });
 

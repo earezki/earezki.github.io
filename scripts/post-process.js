@@ -16,6 +16,7 @@ const scripts = [
   'optimize-images.js',
   'replace-images-webp.js',
   'generate-pdf.js',
+  'validate-predictions.js',
   'postbuild.js',
 ];
 

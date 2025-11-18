@@ -1,0 +1,772 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const pageTitle = 'AI Financial News - Prediction Performance';
+const pageDescription = 'Track the accuracy and performance of our AI-generated stock predictions over time';
+
+// Load performance data
+let performanceData: any = null;
+let performanceError = false;
+
+try {
+  // Use import.meta.env for build-time access
+  const fs = await import('node:fs');
+  const path = await import('node:path');
+  const perfFilePath = path.join(process.cwd(), 'public', 'prediction-performance.json');
+  
+  if (fs.existsSync(perfFilePath)) {
+    const fileContent = fs.readFileSync(perfFilePath, 'utf-8');
+    performanceData = JSON.parse(fileContent);
+  } else {
+    performanceError = true;
+  }
+} catch (error) {
+  console.error('Failed to load performance data:', error);
+  performanceError = true;
+}
+
+// Get all aifinnews articles for additional stats
+const allArticles = await getCollection('aifinnews');
+const articlesWithPredictions = allArticles.filter(a => a.data.prediction);
+
+// Calculate total articles
+const totalArticles = allArticles.length;
+const articlesWithTracking = articlesWithPredictions.length;
+const trackingPercentage = totalArticles > 0 ? ((articlesWithTracking / totalArticles) * 100).toFixed(1) : '0';
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <div class="performance-dashboard">
+    <header class="dashboard-header">
+      <h1>AI Prediction Performance</h1>
+      <p class="subtitle">Tracking the accuracy of our AI-generated stock market predictions</p>
+      {performanceData && (
+        <p class="last-updated">Last Updated: {new Date(performanceData.lastUpdated).toLocaleString()}</p>
+      )}
+    </header>
+
+    {performanceError ? (
+      <div class="error-message">
+        <h2>⚠️ Performance Data Unavailable</h2>
+        <p>Run the validation script to generate performance metrics:</p>
+        <code>npm run build</code>
+      </div>
+    ) : performanceData ? (
+      <>
+        <!-- Overview Cards -->
+        <section class="metrics-grid">
+          <div class="metric-card primary">
+            <div class="metric-value">{performanceData.overallAccuracy}%</div>
+            <div class="metric-label">Overall Accuracy</div>
+            <div class="metric-detail">
+              {performanceData.correctPredictions} / {performanceData.validatedPredictions} correct
+            </div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-value">{performanceData.validatedPredictions}</div>
+            <div class="metric-label">Validated Predictions</div>
+            <div class="metric-detail">
+              {trackingPercentage}% of {totalArticles} total articles
+            </div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-value">
+              {performanceData.avgCorrectIncreaseChange > 0 ? '+' : ''}{performanceData.avgCorrectIncreaseChange}%
+            </div>
+            <div class="metric-label">Avg Correct "Increase"</div>
+            <div class="metric-detail">Average price change when predicted increase correctly</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-value">
+              {performanceData.avgCorrectDecreaseChange}%
+            </div>
+            <div class="metric-label">Avg Correct "Decrease"</div>
+            <div class="metric-detail">Average price change when predicted decrease correctly</div>
+          </div>
+        </section>
+
+        <!-- Accuracy by Confidence Level -->
+        {Object.keys(performanceData.byConfidence).length > 0 && (
+          <section class="confidence-breakdown">
+            <h2>Accuracy by Confidence Level</h2>
+            <p class="section-desc">How well does our confidence score correlate with actual accuracy?</p>
+            <div class="confidence-grid">
+              {Object.entries(performanceData.byConfidence)
+                .sort((a: any, b: any) => Number(b[0]) - Number(a[0]))
+                .map(([level, data]: [string, any]) => (
+                  <div class="confidence-item">
+                    <div class="confidence-level">
+                      <span class="level-badge">{level}/10</span>
+                    </div>
+                    <div class="confidence-bar-container">
+                      <div 
+                        class="confidence-bar" 
+                        style={`width: ${data.accuracy}%; background: ${data.accuracy >= 70 ? '#10b981' : data.accuracy >= 50 ? '#f59e0b' : '#ef4444'}`}
+                      >
+                        <span class="bar-label">{data.accuracy}%</span>
+                      </div>
+                    </div>
+                    <div class="confidence-stats">
+                      {data.correct}/{data.total} correct
+                    </div>
+                  </div>
+                ))}
+            </div>
+          </section>
+        )}
+
+        <!-- Accuracy by Direction -->
+        {Object.keys(performanceData.byDirection).length > 0 && (
+          <section class="direction-breakdown">
+            <h2>Accuracy by Prediction Type</h2>
+            <div class="direction-grid">
+              {Object.entries(performanceData.byDirection).map(([direction, data]: [string, any]) => (
+                <div class="direction-card">
+                  <h3 class={`direction-title ${direction}`}>
+                    {direction === 'increase' ? '📈' : '📉'} {direction.toUpperCase()}
+                  </h3>
+                  <div class="direction-accuracy">
+                    <div class="accuracy-circle" style={`--accuracy: ${data.accuracy}`}>
+                      <span class="accuracy-percent">{data.accuracy}%</span>
+                    </div>
+                  </div>
+                  <div class="direction-stats">
+                    <div class="stat">
+                      <span class="stat-label">Correct:</span>
+                      <span class="stat-value">{data.correct}</span>
+                    </div>
+                    <div class="stat">
+                      <span class="stat-label">Total:</span>
+                      <span class="stat-value">{data.total}</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <!-- Recent Predictions Table -->
+        {performanceData.predictions.length > 0 && (
+          <section class="predictions-table-section">
+            <h2>Recent Validated Predictions</h2>
+            <div class="table-container">
+              <table class="predictions-table">
+                <thead>
+                  <tr>
+                    <th>Ticker</th>
+                    <th>Date</th>
+                    <th>Prediction</th>
+                    <th>Confidence</th>
+                    <th>Price @ Prediction</th>
+                    <th>Price @ Target</th>
+                    <th>Change</th>
+                    <th>Result</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {performanceData.predictions.slice(0, 20).map((pred: any) => (
+                    <tr class={pred.isCorrect ? 'correct' : 'incorrect'}>
+                      <td class="ticker-cell">
+                        <a href={`/ai-financial-news?ticker=${pred.ticker}`}>{pred.ticker}</a>
+                      </td>
+                      <td>{new Date(pred.pubDate).toLocaleDateString()}</td>
+                      <td>
+                        <span class={`prediction-badge ${pred.prediction}`}>
+                          {pred.prediction === 'increase' ? '↑' : '↓'} {pred.prediction}
+                        </span>
+                      </td>
+                      <td class="confidence-cell">{pred.confidence}/10</td>
+                      <td class="price-cell">${pred.priceAtPrediction.toFixed(2)}</td>
+                      <td class="price-cell">${pred.priceAtTarget.toFixed(2)}</td>
+                      <td class={`change-cell ${pred.priceChangePct >= 0 ? 'positive' : 'negative'}`}>
+                        {pred.priceChangePct >= 0 ? '+' : ''}{pred.priceChangePct}%
+                      </td>
+                      <td class="result-cell">
+                        <span class={`result-badge ${pred.isCorrect ? 'correct' : 'incorrect'}`}>
+                          {pred.isCorrect ? '✓ Correct' : '✗ Wrong'}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
+        )}
+
+        <!-- Methodology -->
+        <section class="methodology">
+          <h2>Methodology</h2>
+          <div class="methodology-content">
+            <p><strong>Prediction Timeframe:</strong> Each prediction is validated 14 days after publication.</p>
+            <p><strong>Success Criteria:</strong> A prediction is marked correct if the actual price movement direction (increase/decrease) matches the predicted direction, regardless of magnitude.</p>
+            <p><strong>Price Source:</strong> Historical prices are fetched from Yahoo Finance. If the exact target date falls on a weekend or holiday, the closest trading day is used.</p>
+            <p><strong>Confidence Calibration:</strong> Ideally, predictions with 7/10 confidence should be correct ~70% of the time. This section helps track if our confidence scores are well-calibrated.</p>
+          </div>
+        </section>
+      </>
+    ) : (
+      <div class="loading">
+        <p>Loading performance data...</p>
+      </div>
+    )}
+  </div>
+</BaseLayout>
+
+<style>
+  .performance-dashboard {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  }
+
+  .dashboard-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 2px solid var(--border-color, #e5e7eb);
+  }
+
+  .dashboard-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary, #111827);
+  }
+
+  html[data-theme="dark"] .dashboard-header h1 {
+    color: var(--color-text, #f1f5f9);
+  }
+
+  .subtitle {
+    font-size: 1.125rem;
+    color: var(--text-secondary, #6b7280);
+    margin-bottom: 0.5rem;
+  }
+
+  html[data-theme="dark"] .subtitle {
+    color: var(--color-text-alt, #cbd5e1);
+  }
+
+  .last-updated {
+    font-size: 0.875rem;
+    color: var(--text-tertiary, #9ca3af);
+    font-style: italic;
+  }
+
+  html[data-theme="dark"] .last-updated {
+    color: var(--color-text-alt, #94a3b8);
+  }
+
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .metric-card {
+    background: var(--card-bg, #fff);
+    border: 1px solid var(--border-color, #e5e7eb);
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .metric-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .metric-card.primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+  }
+
+  .metric-value {
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .metric-label {
+    font-size: 1rem;
+    font-weight: 600;
+    opacity: 0.9;
+    margin-bottom: 0.25rem;
+  }
+
+  .metric-detail {
+    font-size: 0.875rem;
+    opacity: 0.7;
+  }
+
+  .confidence-breakdown,
+  .direction-breakdown,
+  .predictions-table-section,
+  .methodology {
+    margin-bottom: 3rem;
+  }
+
+  .confidence-breakdown h2,
+  .direction-breakdown h2,
+  .predictions-table-section h2,
+  .methodology h2 {
+    font-size: 1.75rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary, #111827);
+  }
+
+  html[data-theme="dark"] .confidence-breakdown h2,
+  html[data-theme="dark"] .direction-breakdown h2,
+  html[data-theme="dark"] .predictions-table-section h2,
+  html[data-theme="dark"] .methodology h2 {
+    color: var(--color-text, #f1f5f9);
+  }
+
+  .section-desc {
+    color: var(--text-secondary, #6b7280);
+    margin-bottom: 1.5rem;
+  }
+
+  html[data-theme="dark"] .section-desc {
+    color: var(--color-text-alt, #cbd5e1);
+  }
+
+  .confidence-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .confidence-item {
+    display: grid;
+    grid-template-columns: 80px 1fr 120px;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: var(--card-bg, #fff);
+    border: 1px solid var(--border-color, #e5e7eb);
+    border-radius: 8px;
+  }
+
+  .level-badge {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: #f3f4f6;
+    border-radius: 6px;
+    font-weight: 600;
+    color: #374151;
+  }
+
+  html[data-theme="dark"] .level-badge {
+    background: rgba(71, 85, 105, 0.3);
+    color: #e2e8f0;
+  }
+
+  .confidence-bar-container {
+    position: relative;
+    height: 32px;
+    background: #f3f4f6;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  html[data-theme="dark"] .confidence-bar-container {
+    background: rgba(15, 23, 42, 0.6);
+  }
+
+  .confidence-bar {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 0.5rem;
+    transition: width 0.3s ease;
+  }
+
+  .bar-label {
+    color: white;
+    font-weight: 600;
+    font-size: 0.875rem;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  }
+
+  .confidence-stats {
+    text-align: right;
+    color: var(--text-secondary, #6b7280);
+    font-size: 0.875rem;
+  }
+
+  html[data-theme="dark"] .confidence-stats {
+    color: var(--color-text-alt, #cbd5e1);
+  }
+
+  .direction-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+  }
+
+  .direction-card {
+    background: var(--card-bg, #fff);
+    border: 1px solid var(--border-color, #e5e7eb);
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+  }
+
+  .direction-title {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .direction-title.increase {
+    color: #10b981;
+  }
+
+  .direction-title.decrease {
+    color: #ef4444;
+  }
+
+  .direction-accuracy {
+    margin-bottom: 1.5rem;
+  }
+
+  .accuracy-circle {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto;
+    border-radius: 50%;
+    background: conic-gradient(
+      #10b981 0%,
+      #10b981 calc(var(--accuracy) * 1%),
+      #f3f4f6 calc(var(--accuracy) * 1%)
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .accuracy-circle::before {
+    content: '';
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    background: var(--card-bg, #fff);
+    border-radius: 50%;
+  }
+
+  .accuracy-percent {
+    position: relative;
+    z-index: 1;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary, #111827);
+  }
+
+  .direction-stats {
+    display: flex;
+    justify-content: space-around;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color, #e5e7eb);
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .stat-label {
+    font-size: 0.875rem;
+    color: var(--text-secondary, #6b7280);
+  }
+
+  .stat-value {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary, #111827);
+  }
+
+  .table-container {
+    overflow-x: auto;
+    border: 1px solid var(--border-color, #e5e7eb);
+    border-radius: 8px;
+  }
+
+  .predictions-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--card-bg, #fff);
+  }
+
+  .predictions-table th,
+  .predictions-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color, #e5e7eb);
+  }
+
+  .predictions-table th {
+    background: #f9fafb;
+    font-weight: 600;
+    color: var(--text-primary, #111827);
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .predictions-table tr.correct {
+    background: rgba(16, 185, 129, 0.05);
+  }
+
+  .predictions-table tr.incorrect {
+    background: rgba(239, 68, 68, 0.05);
+  }
+
+  .ticker-cell a {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .ticker-cell a:hover {
+    text-decoration: underline;
+  }
+
+  .prediction-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  .prediction-badge.increase {
+    background: #d1fae5;
+    color: #065f46;
+  }
+
+  .prediction-badge.decrease {
+    background: #fee2e2;
+    color: #991b1b;
+  }
+
+  .confidence-cell {
+    font-weight: 600;
+    color: var(--text-secondary, #6b7280);
+  }
+
+  .price-cell {
+    font-family: 'Monaco', 'Courier New', monospace;
+    font-size: 0.875rem;
+  }
+
+  .change-cell {
+    font-weight: 600;
+  }
+
+  .change-cell.positive {
+    color: #10b981;
+  }
+
+  .change-cell.negative {
+    color: #ef4444;
+  }
+
+  .result-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  .result-badge.correct {
+    background: #d1fae5;
+    color: #065f46;
+  }
+
+  html[data-theme="dark"] .result-badge.correct {
+    background: rgba(16, 185, 129, 0.2);
+    color: #6ee7b7;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+  }
+
+  .result-badge.incorrect {
+    background: #fee2e2;
+    color: #991b1b;
+  }
+
+  html[data-theme="dark"] .result-badge.incorrect {
+    background: rgba(239, 68, 68, 0.2);
+    color: #fca5a5;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+  }
+
+  .methodology {
+    background: #f9fafb;
+    border-radius: 12px;
+    padding: 2rem;
+  }
+
+  html[data-theme="dark"] .methodology {
+    background: rgba(30, 41, 59, 0.4);
+    border: 1px solid rgba(71, 85, 105, 0.3);
+  }
+
+  .methodology-content p {
+    margin-bottom: 1rem;
+    line-height: 1.7;
+    color: var(--text-secondary, #6b7280);
+  }
+
+  html[data-theme="dark"] .methodology-content p {
+    color: var(--color-text-alt, #cbd5e1);
+  }
+
+  .methodology-content strong {
+    color: var(--text-primary, #111827);
+  }
+
+  html[data-theme="dark"] .methodology-content strong {
+    color: var(--color-text, #f1f5f9);
+  }
+
+  .error-message,
+  .loading {
+    text-align: center;
+    padding: 3rem;
+    background: #fef3c7;
+    border: 1px solid #f59e0b;
+    border-radius: 8px;
+  }
+
+  html[data-theme="dark"] .error-message,
+  html[data-theme="dark"] .loading {
+    background: rgba(217, 119, 6, 0.15);
+    border-color: rgba(245, 158, 11, 0.4);
+  }
+
+  .error-message h2 {
+    color: #92400e;
+    margin-bottom: 1rem;
+  }
+
+  html[data-theme="dark"] .error-message h2 {
+    color: #fcd34d;
+  }
+
+  .error-message code {
+    display: block;
+    background: #fff;
+    padding: 1rem;
+    border-radius: 4px;
+    margin-top: 1rem;
+    font-family: 'Monaco', 'Courier New', monospace;
+  }
+
+  html[data-theme="dark"] .error-message code {
+    background: rgba(15, 23, 42, 0.6);
+    color: #e2e8f0;
+    border: 1px solid rgba(71, 85, 105, 0.3);
+  }
+
+  /* Dark mode enhancements */
+  html[data-theme="dark"] .metric-card {
+    background: rgba(30, 41, 59, 0.6);
+    border-color: rgba(71, 85, 105, 0.3);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  html[data-theme="dark"] .metric-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  }
+
+  html[data-theme="dark"] .metric-card.primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  }
+
+  html[data-theme="dark"] .confidence-item,
+  html[data-theme="dark"] .direction-card {
+    background: rgba(30, 41, 59, 0.4);
+    border-color: rgba(71, 85, 105, 0.3);
+  }
+
+  html[data-theme="dark"] .predictions-table th {
+    background: rgba(30, 41, 59, 0.6);
+    border-bottom-color: rgba(71, 85, 105, 0.4);
+  }
+
+  html[data-theme="dark"] .predictions-table td {
+    border-bottom-color: rgba(71, 85, 105, 0.3);
+  }
+
+  html[data-theme="dark"] .predictions-table tr:hover {
+    background: rgba(30, 41, 59, 0.3);
+  }
+
+  html[data-theme="dark"] .result-badge.correct {
+    background: rgba(16, 185, 129, 0.2);
+    color: #6ee7b7;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+  }
+
+  html[data-theme="dark"] .result-badge.incorrect {
+    background: rgba(239, 68, 68, 0.2);
+    color: #fca5a5;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+  }
+
+  html[data-theme="dark"] .methodology {
+    background: rgba(30, 41, 59, 0.4);
+    border: 1px solid rgba(71, 85, 105, 0.3);
+  }
+
+  html[data-theme="dark"] .confidence-bar {
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
+  }
+
+  @media (max-width: 768px) {
+    .dashboard-header h1 {
+      font-size: 2rem;
+    }
+
+    .metrics-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .confidence-item {
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
+
+    .confidence-bar-container {
+      order: 2;
+    }
+
+    .confidence-stats {
+      text-align: center;
+      order: 3;
+    }
+
+    .predictions-table {
+      font-size: 0.875rem;
+    }
+
+    .predictions-table th,
+    .predictions-table td {
+      padding: 0.5rem;
+    }
+  }
+</style>

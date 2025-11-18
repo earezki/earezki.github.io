@@ -40,6 +40,14 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Commit updated cache to master
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add cache/
+          git diff --staged --quiet || git commit -m "chore: update prediction cache [skip ci]"
+          git push origin master || echo "No cache changes to commit"
+
       - name: Copy CNAME
         run: |
           if [ -f public/CNAME ]; then cp public/CNAME $DIST_DIR/CNAME; fi
