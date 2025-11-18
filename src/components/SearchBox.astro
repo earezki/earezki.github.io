@@ -20,7 +20,7 @@ import { SITE } from '../config/site';
   <div id="search-results" class="search-results" role="status" aria-live="polite"></div>
 </div>
 <script>
-  let searchIndex: any[] | null = null;
+  let searchIndex: any = null; // Now contains {categories: string[], articles: any[]}
   let isLoadingIndex = false;
   
   const DB_NAME = 'earezki-search-db';
@@ -103,7 +103,7 @@ import { SITE } from '../config/site';
     }
   }
 
-  async function loadSearchIndex(): Promise<any[]> {
+  async function loadSearchIndex(): Promise<any> {
     if (searchIndex) return searchIndex;
     if (isLoadingIndex) {
       await new Promise(r => setTimeout(r, 100));
@@ -142,7 +142,7 @@ import { SITE } from '../config/site';
         searchIndex = cached;
         return cached;
       }
-      return [];
+      return { categories: [], articles: [] };
     } finally {
       isLoadingIndex = false;
     }
@@ -275,15 +275,31 @@ import { SITE } from '../config/site';
         const qLower = q.toLowerCase();
         const keywords = qLower.split(/\s+/).filter(k => k.length >= 2);
         
-        const scored = idx.map((art: any) => {
+        // Pre-compute category matches ONCE (optimized)
+        const categoryMatches = new Map();
+        for (const kw of keywords) {
+          const matches = new Set();
+          idx.categories.forEach((cat: string, i: number) => {
+            if (cat.toLowerCase().includes(kw)) matches.add(i);
+          });
+          categoryMatches.set(kw, matches);
+        }
+        
+        const scored = idx.articles.map((art: any) => {
           const title = art.title.toLowerCase();
           const excerpt = art.excerpt.toLowerCase();
-          const cats = art.categories.map((c: string) => c.toLowerCase()).join(' ');
           
           let score = 0, matched = 0;
           for (const kw of keywords) {
             if (title.includes(kw)) { score += 10; matched++; }
-            if (cats.includes(kw)) { score += 5; matched++; }
+            
+            // Fast category check using pre-computed indices
+            const catSet = categoryMatches.get(kw);
+            if (catSet && art.categories.some((i: number) => catSet.has(i))) {
+              score += 5;
+              matched++;
+            }
+            
             if (excerpt.includes(kw)) { score += 2; matched++; }
           }
           
