@@ -303,8 +303,26 @@ export async function getPostsByTag(tag: string): Promise<ProcessedPost[]> {
 export function clearCache(): void {
   cachedPosts = null;
   cachedAinews = null;
+  cachedAifinnews = null;
   cachedProcessedPosts = null;
   cachedProcessedAinews = null;
+  cachedProcessedAifinnews = null;
   cachedAllProcessed = null;
   console.log('[DataCache] Cache cleared');
+}
+
+/**
+ * Get all AI financial news articles for a specific ticker, sorted chronologically
+ * @param ticker - Stock ticker symbol (e.g., "NVDA", "MSFT")
+ * @returns Array of articles for that ticker, sorted by date (oldest first)
+ */
+export async function getTickerTimeline(ticker: string): Promise<ProcessedPost[]> {
+  const aifinnews = await getProcessedAifinnews();
+  
+  return aifinnews
+    .filter(post => {
+      const postTicker = (post.data as any).ticker;
+      return postTicker && postTicker.toUpperCase() === ticker.toUpperCase();
+    })
+    .sort((a, b) => a.data.pubDate.getTime() - b.data.pubDate.getTime());
 }

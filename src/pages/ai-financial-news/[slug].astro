@@ -3,7 +3,8 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import TableOfContents from '../../components/TableOfContents.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import RelatedPosts from '../../components/RelatedPosts.astro';
-import { getAllAifinnews, getAllProcessedContent, findAifinnewsBySlug } from '../../utils/dataCache';
+import TickerTimeline from '../../components/TickerTimeline.astro';
+import { getAllAifinnews, getAllProcessedContent, findAifinnewsBySlug, getTickerTimeline } from '../../utils/dataCache';
 import { RelatedPostsFinder, generateBreadcrumbs } from '../../utils/relatedContentOptimized';
 import { slugify } from '../../utils/slugify';
 import { isArticleNew } from '../../utils/newArticles';
@@ -44,6 +45,10 @@ const relatedFinder = new RelatedPostsFinder(allContent);
 
 // Find related content using optimized algorithm
 const relatedPosts = relatedFinder.findRelated(post, 3);
+
+// Get ticker timeline if ticker exists
+const ticker = (post.data as any).ticker;
+const tickerTimeline = ticker ? await getTickerTimeline(ticker) : [];
 
 const structuredData = {
   '@context': 'https://schema.org',
@@ -169,6 +174,15 @@ const { Content } = await rawPost.render();
       <div class="post-body prose">
         <Content />
       </div>
+      
+      {/* Ticker Timeline - shows all analyses for this ticker */}
+      {ticker && tickerTimeline.length > 1 && (
+        <TickerTimeline 
+          ticker={ticker} 
+          posts={tickerTimeline} 
+          currentSlug={slug!} 
+        />
+      )}
       
       {/* Related Posts */}
       <RelatedPosts posts={relatedPosts} />

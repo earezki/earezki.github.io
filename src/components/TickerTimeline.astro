@@ -1,0 +1,579 @@
+---
+/**
+ * Ticker Timeline Component
+ * Displays all analyses for a stock ticker with chronological navigation
+ * - Horizontal layout for <5 entries
+ * - Vertical layout for 5+ entries
+ * - Shows prediction indicators and confidence scores
+ */
+import type { ProcessedPost } from '../utils/dataCache';
+
+interface Props {
+  ticker: string;
+  posts: ProcessedPost[];
+  currentSlug: string;
+}
+
+const { ticker, posts, currentSlug } = Astro.props;
+
+if (posts.length <= 1) return null;
+
+const currentIndex = posts.findIndex((p: ProcessedPost) => p.slug === currentSlug);
+const isHorizontal = posts.length < 5;
+
+// Extract prediction and confidence from title or content
+function extractPrediction(post: ProcessedPost): { direction: 'increase' | 'decrease' | 'neutral', confidence?: number } {
+  const title = post.data.title.toLowerCase();
+  const body = post.body.toLowerCase();
+  
+  // Check for prediction in content
+  const increaseMatch = body.match(/prediction:\s*\*\*increase\*\*/i) || title.includes('increase');
+  const decreaseMatch = body.match(/prediction:\s*\*\*decrease\*\*/i) || title.includes('decrease');
+  
+  // Extract confidence score
+  const confidenceMatch = post.data.title.match(/confidence\s+(\d+)\/10/i) || post.body.match(/confidence:\s*\*\*(\d+)\/10\*\*/i);
+  const confidence = confidenceMatch ? parseInt(confidenceMatch[1]) : undefined;
+  
+  return {
+    direction: increaseMatch ? 'increase' : decreaseMatch ? 'decrease' : 'neutral',
+    confidence
+  };
+}
+
+// Calculate date range
+const firstDate = posts[0].data.pubDate;
+const lastDate = posts[posts.length - 1].data.pubDate;
+const daysDiff = Math.floor((lastDate.getTime() - firstDate.getTime()) / (1000 * 60 * 60 * 24));
+
+// Format date for display
+function formatDate(date: Date): string {
+  return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+---
+
+<section class={`ticker-timeline ${isHorizontal ? 'horizontal' : 'vertical'}`}>
+  <div class="timeline-header">
+    <div class="ticker-badge">
+      <span class="ticker-symbol">📈 {ticker}</span>
+      <span class="ticker-label">Analysis Timeline</span>
+    </div>
+    <div class="timeline-stats">
+      <span class="stat">{posts.length} analyses</span>
+      <span class="stat-separator">•</span>
+      <span class="stat">{daysDiff} days tracked</span>
+      <span class="stat-separator">•</span>
+      <span class="stat">{formatDate(firstDate)} - {formatDate(lastDate)}</span>
+    </div>
+  </div>
+  
+  <div class="timeline-container">
+    <div class="timeline-track"></div>
+    <div class="timeline-items">
+      {posts.map((post: ProcessedPost, index: number) => {
+        const isCurrent = post.slug === currentSlug;
+        const prediction = extractPrediction(post);
+        const isPast = index < currentIndex;
+        
+        return (
+          <div 
+            class={`timeline-item ${isCurrent ? 'current' : ''} ${isPast ? 'past' : ''}`}
+            style={`animation-delay: ${index * 0.1}s`}
+          >
+            <div class={`timeline-marker ${prediction.direction}`}>
+              <span class="marker-dot"></span>
+              {prediction.direction === 'increase' && <span class="prediction-icon">↑</span>}
+              {prediction.direction === 'decrease' && <span class="prediction-icon">↓</span>}
+              {prediction.confidence && (
+                <span class="confidence-ring" style={`--confidence: ${prediction.confidence * 10}%`}></span>
+              )}
+            </div>
+            
+            <div class="timeline-content">
+              <time class="timeline-date" datetime={post.data.pubDate.toISOString()}>
+                {formatDate(post.data.pubDate)}
+              </time>
+              
+              {isCurrent ? (
+                <div class="timeline-title current-title">
+                  <span class="current-badge">You are here</span>
+                  {post.data.title}
+                </div>
+              ) : (
+                <a href={post.urlPath} class="timeline-title">
+                  {post.data.title}
+                </a>
+              )}
+              
+              {post.data.description && (
+                <p class="timeline-description">{post.data.description}</p>
+              )}
+              
+              <div class="timeline-meta">
+                {prediction.confidence && (
+                  <span class="confidence-score">
+                    Confidence: {prediction.confidence}/10
+                  </span>
+                )}
+                <span class={`prediction-badge ${prediction.direction}`}>
+                  {prediction.direction === 'increase' ? '↑ Bullish' : prediction.direction === 'decrease' ? '↓ Bearish' : 'Neutral'}
+                </span>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</section>
+
+<style>
+  .ticker-timeline {
+    margin: 3rem 0 2rem;
+    padding: 2rem;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(139, 92, 246, 0.05));
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  html[data-theme="dark"] .ticker-timeline {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(139, 92, 246, 0.08));
+  }
+  
+  /* Header */
+  .timeline-header {
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  
+  .ticker-badge {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .ticker-symbol {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-accent);
+    letter-spacing: 0.05em;
+  }
+  
+  .ticker-label {
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-text-alt);
+    font-weight: 600;
+  }
+  
+  .timeline-stats {
+    font-size: 0.875rem;
+    color: var(--color-text-alt);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  
+  .stat {
+    white-space: nowrap;
+  }
+  
+  .stat-separator {
+    opacity: 0.5;
+  }
+  
+  /* Timeline Container */
+  .timeline-container {
+    position: relative;
+    padding: 2rem 0;
+  }
+  
+  /* Vertical Layout (5+ entries) */
+  .ticker-timeline.vertical .timeline-items {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    position: relative;
+  }
+  
+  .ticker-timeline.vertical .timeline-track {
+    position: absolute;
+    left: 2rem;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, 
+      transparent 0%, 
+      var(--color-accent) 10%, 
+      var(--color-accent) 90%, 
+      transparent 100%
+    );
+    opacity: 0.3;
+  }
+  
+  .ticker-timeline.vertical .timeline-item {
+    display: grid;
+    grid-template-columns: 4rem 1fr;
+    gap: 1.5rem;
+    align-items: start;
+    opacity: 0;
+    animation: fadeInUp 0.5s ease-out forwards;
+  }
+  
+  /* Horizontal Layout (<5 entries) */
+  .ticker-timeline.horizontal .timeline-items {
+    display: flex;
+    justify-content: space-around;
+    gap: 1rem;
+    position: relative;
+    flex-wrap: wrap;
+  }
+  
+  .ticker-timeline.horizontal .timeline-track {
+    position: absolute;
+    left: 5%;
+    right: 5%;
+    top: 2rem;
+    height: 2px;
+    background: linear-gradient(90deg, 
+      transparent 0%, 
+      var(--color-accent) 10%, 
+      var(--color-accent) 90%, 
+      transparent 100%
+    );
+    opacity: 0.3;
+  }
+  
+  .ticker-timeline.horizontal .timeline-item {
+    flex: 1;
+    min-width: 200px;
+    max-width: 280px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    opacity: 0;
+    animation: fadeInUp 0.5s ease-out forwards;
+  }
+  
+  .ticker-timeline.horizontal .timeline-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* Timeline Marker */
+  .timeline-marker {
+    position: relative;
+    width: 4rem;
+    height: 4rem;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+  }
+  
+  .marker-dot {
+    width: 1rem;
+    height: 1rem;
+    background: var(--color-bg);
+    border: 3px solid var(--color-text-alt);
+    border-radius: 50%;
+    transition: all var(--transition);
+    z-index: 2;
+  }
+  
+  .timeline-item.current .marker-dot {
+    width: 1.5rem;
+    height: 1.5rem;
+    border-color: var(--color-accent);
+    background: var(--color-accent);
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  
+  .timeline-item.past .marker-dot {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+  
+  /* Prediction Icon */
+  .prediction-icon {
+    position: absolute;
+    font-size: 1.25rem;
+    font-weight: 700;
+    z-index: 3;
+  }
+  
+  .timeline-marker.increase .prediction-icon {
+    color: #10b981;
+  }
+  
+  .timeline-marker.decrease .prediction-icon {
+    color: #ef4444;
+  }
+  
+  /* Confidence Ring */
+  .confidence-ring {
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    border-top-color: var(--color-accent);
+    opacity: calc(var(--confidence) / 100);
+    transform: rotate(calc(var(--confidence) * 3.6deg));
+  }
+  
+  /* Timeline Content */
+  .timeline-content {
+    flex: 1;
+  }
+  
+  .timeline-date {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-text-alt);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+  }
+  
+  .timeline-title {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-text);
+    text-decoration: none;
+    margin-bottom: 0.5rem;
+    transition: color var(--transition);
+    line-height: 1.4;
+  }
+  
+  .timeline-title:hover {
+    color: var(--color-accent);
+  }
+  
+  .timeline-title.current-title {
+    color: var(--color-accent);
+  }
+  
+  .current-badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--color-accent);
+    background: rgba(59, 130, 246, 0.1);
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--radius-pill);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  
+  .timeline-description {
+    font-size: 0.85rem;
+    color: var(--color-text-alt);
+    margin: 0.5rem 0;
+    line-height: 1.5;
+  }
+  
+  .timeline-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+    flex-wrap: wrap;
+  }
+  
+  .ticker-timeline.horizontal .timeline-meta {
+    justify-content: center;
+  }
+  
+  .confidence-score {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-text-alt);
+  }
+  
+  .prediction-badge {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--radius-pill);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+  
+  .prediction-badge.increase {
+    background: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+  }
+  
+  .prediction-badge.decrease {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+  }
+  
+  .prediction-badge.neutral {
+    background: rgba(107, 114, 128, 0.1);
+    color: var(--color-text-alt);
+  }
+  
+  /* Footer */
+  .timeline-footer {
+    margin-top: 2rem;
+    text-align: center;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border);
+  }
+  
+  .view-all-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-accent);
+    text-decoration: none;
+    padding: 0.75rem 1.5rem;
+    border: 2px solid var(--color-accent);
+    border-radius: var(--radius-pill);
+    transition: all var(--transition);
+  }
+  
+  .view-all-link:hover {
+    background: var(--color-accent);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  }
+  
+  /* Animations */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes pulse {
+    0%, 100% {
+      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
+    }
+    50% {
+      box-shadow: 0 0 0 8px rgba(59, 130, 246, 0.1);
+    }
+  }
+  
+  /* Mobile Responsive */
+  @media (max-width: 768px) {
+    .ticker-timeline {
+      padding: 1.5rem 1rem;
+      margin: 2rem -1rem 1rem;
+    }
+    
+    .timeline-header {
+      margin-bottom: 1.5rem;
+    }
+    
+    .ticker-symbol {
+      font-size: 1.25rem;
+    }
+    
+    .timeline-stats {
+      font-size: 0.75rem;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+    
+    .stat-separator {
+      display: none;
+    }
+    
+    /* Force all timelines to vertical layout on mobile */
+    .ticker-timeline.horizontal .timeline-items,
+    .ticker-timeline.vertical .timeline-items {
+      flex-direction: column;
+    }
+    
+    .ticker-timeline.horizontal .timeline-track,
+    .ticker-timeline.vertical .timeline-track {
+      left: 1.5rem;
+      right: auto;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      height: auto;
+      background: linear-gradient(180deg, 
+        transparent 0%, 
+        var(--color-accent) 10%, 
+        var(--color-accent) 90%, 
+        transparent 100%
+      );
+    }
+    
+    .ticker-timeline.horizontal .timeline-item,
+    .ticker-timeline.vertical .timeline-item {
+      display: grid;
+      grid-template-columns: 3rem 1fr;
+      gap: 1rem;
+      align-items: start;
+      text-align: left;
+      max-width: none;
+      min-width: auto;
+    }
+    
+    .ticker-timeline.horizontal .timeline-content,
+    .ticker-timeline.vertical .timeline-content {
+      align-items: flex-start;
+    }
+    
+    .ticker-timeline.horizontal .timeline-meta,
+    .ticker-timeline.vertical .timeline-meta {
+      justify-content: flex-start;
+      flex-wrap: wrap;
+    }
+    
+    .timeline-marker {
+      width: 3rem;
+      height: 3rem;
+    }
+    
+    .timeline-title {
+      font-size: 0.875rem;
+      line-height: 1.3;
+    }
+    
+    .timeline-description {
+      font-size: 0.8rem;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    
+    .current-badge {
+      font-size: 0.65rem;
+      padding: 0.2rem 0.4rem;
+    }
+    
+    .prediction-badge,
+    .confidence-score {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.5rem;
+    }
+  }
+</style>
