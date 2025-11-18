@@ -1,7 +1,7 @@
 ---
-title: 'Maximum Subarray: Kadane's Algorithm and the Art of Local vs Global Optimization'
+title: "Maximum Subarray: Kadane's Algorithm and the Art of Local vs Global Optimization"
 pubDate: '2025-11-17'
-description: 'Discover how Kadane's algorithm finds the maximum sum subarray in O(n) time. Learn why tracking local maximums leads to global solutions, and how this pattern applies far beyond array problems.'
+description: "Discover how Kadane's algorithm finds the maximum sum subarray in O(n) time. Learn why tracking local maximums leads to global solutions, and how this pattern applies far beyond array problems."
 categories:
   - Algorithms
   - Interview

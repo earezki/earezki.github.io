@@ -1,5 +1,5 @@
 ---
-title: 'Best Time to Buy and Sell Stock: Finding Profit in a Single Pass'
+title: "Best Time to Buy and Sell Stock: Finding Profit in a Single Pass"
 pubDate: '2025-11-15'
 description: 'Learn how to find the maximum profit from a single stock transaction with an elegant O(n) solution. Discover why tracking the minimum price is the key insight that transforms this problem from complex to simple.'
 categories:
