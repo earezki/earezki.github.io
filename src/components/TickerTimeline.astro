@@ -21,16 +21,13 @@ if (posts.length <= 1) return null;
 const currentIndex = posts.findIndex((p: ProcessedPost) => p.slug === currentSlug);
 const isHorizontal = posts.length < 5;
 
-// Extract prediction and confidence from title or content
 function extractPrediction(post: ProcessedPost): { direction: 'increase' | 'decrease' | 'neutral', confidence?: number } {
   const title = post.data.title.toLowerCase();
   const body = post.body.toLowerCase();
   
-  // Check for prediction in content
   const increaseMatch = body.match(/prediction:\s*\*\*increase\*\*/i) || title.includes('increase');
   const decreaseMatch = body.match(/prediction:\s*\*\*decrease\*\*/i) || title.includes('decrease');
   
-  // Extract confidence score
   const confidenceMatch = post.data.title.match(/confidence\s+(\d+)\/10/i) || post.body.match(/confidence:\s*\*\*(\d+)\/10\*\*/i);
   const confidence = confidenceMatch ? parseInt(confidenceMatch[1]) : undefined;
   
@@ -40,12 +37,10 @@ function extractPrediction(post: ProcessedPost): { direction: 'increase' | 'decr
   };
 }
 
-// Calculate date range
 const firstDate = posts[0].data.pubDate;
 const lastDate = posts[posts.length - 1].data.pubDate;
 const daysDiff = Math.floor((lastDate.getTime() - firstDate.getTime()) / (1000 * 60 * 60 * 24));
 
-// Format date for display
 function formatDate(date: Date): string {
   return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 }
@@ -141,7 +136,6 @@ function formatDate(date: Date): string {
     background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(139, 92, 246, 0.08));
   }
   
-  /* Header */
   .timeline-header {
     margin-bottom: 2rem;
     text-align: center;
@@ -306,7 +300,6 @@ function formatDate(date: Date): string {
     animation: fadeIn 0.5s ease-out;
   }
   
-  /* Prediction Icon */
   .prediction-icon {
     position: absolute;
     font-size: 2rem;
@@ -338,7 +331,6 @@ function formatDate(date: Date): string {
     border: 2px solid #ef4444;
   }
   
-  /* Confidence Ring */
   .confidence-ring {
     position: absolute;
     inset: -4px;
@@ -349,7 +341,6 @@ function formatDate(date: Date): string {
     transform: rotate(calc(var(--confidence) * 3.6deg));
   }
   
-  /* Timeline Content */
   .timeline-content {
     flex: 1;
   }
@@ -446,7 +437,6 @@ function formatDate(date: Date): string {
     color: var(--color-text-alt);
   }
   
-  /* Footer */
   .timeline-footer {
     margin-top: 2rem;
     text-align: center;
@@ -507,7 +497,6 @@ function formatDate(date: Date): string {
     }
   }
   
-  /* Mobile Responsive */
   @media (max-width: 768px) {
     .ticker-timeline {
       padding: 1.5rem 1rem;

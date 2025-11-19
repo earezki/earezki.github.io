@@ -1,9 +1,4 @@
 ---
-/**
- * Related Posts Component
- * Displays related posts based on shared categories
- * Uses precomputed values from ProcessedPost for optimal performance
- */
 import type { ProcessedPost } from '../utils/dataCache';
 
 interface Props {
@@ -20,9 +15,7 @@ if (posts.length === 0) return null;
   <h2>{title}</h2>
   <div class="related-posts-grid">
     {posts.map(post => {
-      // Use precomputed values from ProcessedPost - no recomputation needed
       const stats = post.readingTime;
-      // Truncate excerpt to ~120 chars if needed
       const excerpt = post.excerpt.length > 120 
         ? post.excerpt.slice(0, 120).replace(/\s+\S*$/, '') + '…'
         : post.excerpt;

@@ -9,30 +9,22 @@ interface Props {
 
 const { post, collection } = Astro.props;
 
-// Use precomputed URL from ProcessedPost
 const url = post.urlPath;
 
-// Format date consistently (ISO 8601 format)
 const date = post.data.pubDate.toISOString().split('T')[0];
 
-// Use precomputed excerpt from ProcessedPost
 const excerpt = post.excerpt;
 
-// Precompute lowercase categories for efficient comparison
 const lowerCategories = post.data.categories?.map((c: string) => c.toLowerCase()) || [];
 
-// Check if post has AI News tag
 const hasAINewsTag = lowerCategories.includes('ai news');
 
-// Check if post has Stock Weather AI tag
 const hasStockWeatherTag = lowerCategories.includes('stock weather ai');
 
-// Check if article is new (modified in last x hours)
 const isNew = collection ? isArticleNew(post.slug, collection) : false;
 ---
 
 <article class="post-card" data-article-url={url}>
-  <!-- Read status indicator / New badge -->
   <div class="read-indicator" aria-hidden="true">
     <svg 
       width="18" 
@@ -47,7 +39,6 @@ const isNew = collection ? isArticleNew(post.slug, collection) : false;
       <polyline points="20 6 9 17 4 12"></polyline>
     </svg>
     
-    <!-- Clear button (appears on hover) -->
     <button 
       class="clear-read-btn" 
       title="Clear from read list" 
@@ -70,7 +61,6 @@ const isNew = collection ? isArticleNew(post.slug, collection) : false;
     </button>
   </div>
 
-  <!-- New article badge (shown when not read) -->
   {isNew && (
     <div class="new-indicator" aria-label="New article">
       <span class="new-badge-card">NEW</span>

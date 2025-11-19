@@ -1,5 +1,5 @@
 /**
- * Client-side URL normalization for GitHub Pages
+ * Client-side URL normalization
  * Redirects uppercase URLs to lowercase and ensures trailing slashes
  */
 (function() {

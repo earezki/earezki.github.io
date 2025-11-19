@@ -18,35 +18,27 @@ const { slug } = Astro.params;
 const post = await findPostBySlug(slug!);
 if (!post) throw new Error(`Post not found for slug: ${slug}`);
 
-// Get raw post for rendering
 const posts = await getAllPosts();
 const rawPost = posts.find(p => p.slug === slug);
 if (!rawPost) throw new Error(`Raw post not found for slug: ${slug}`);
 
-// Use precomputed metadata
 const stats = post.readingTime;
 const excerpt = post.excerpt;
 const canonical = post.urlPath;
 const postImage = `https://earezki.com/assets/og-image-default.jpg`;
 const postKeywords = post.data.categories?.join(', ') || 'software architecture, backend development';
 
-// Precompute lowercase categories for efficient comparison
 const lowerCategories = post.data.categories?.map((c: string) => c.toLowerCase()) || [];
 
-// Check if post has "AI Assisted" tag
 const hasAIAssisted = lowerCategories.includes('ai assisted');
 
-// Check if article is new
 const isNew = isArticleNew(post.slug, 'posts');
 
-// Generate breadcrumbs
 const breadcrumbs = generateBreadcrumbs(canonical, post.data.title);
 
-// Initialize optimized related posts finder with all content
 const allContent = await getAllProcessedContent();
 const relatedFinder = new RelatedPostsFinder(allContent);
 
-// Find related content using optimized algorithm
 const relatedPosts = relatedFinder.findRelated(post, 4);
 const series = relatedFinder.detectSeries(post);
 const seriesPosts = series ? relatedFinder.findSeriesPosts(post) : [];

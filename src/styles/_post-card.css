@@ -1,9 +1,3 @@
-/* ==========================================================================
-   Post Card Components
-   Blog post cards, article pages, and related elements
-   ========================================================================== */
-
-/* Post Card Component */
 .post-card { 
   display: flex; 
   flex-direction: column; 
@@ -22,14 +16,12 @@
               opacity var(--transition); 
 }
 
-/* Stretched link for entire card clickability */
 .post-card .stretched-link { 
   position: absolute; 
   inset: 0; 
   z-index: 5; 
 }
 
-/* Gradient border effect on hover */
 .post-card::after {
   content: '';
   position: absolute;
@@ -48,7 +40,6 @@
   transition: opacity 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
 }
 
-/* Hover effect gradient overlay */
 .post-card:before { 
   content: ""; 
   position: absolute; 
@@ -89,12 +80,10 @@ html[data-theme="dark"] .post-card:hover {
   opacity: 1;
 }
 
-/* Active state for click feedback */
 .post-card:active {
   transform: translateY(-3px) scale(0.99);
 }
 
-/* Read article state - grayed out */
 .post-card.read { 
   opacity: 0.6; 
   background: rgba(0, 0, 0, 0.02); 
@@ -113,7 +102,6 @@ html[data-theme="dark"] .post-card.read {
   color: var(--color-text-alt); 
 }
 
-/* Read indicator checkmark */
 .post-card .read-indicator { 
   position: absolute; 
   top: 0.75rem; 
@@ -137,7 +125,6 @@ html[data-theme="dark"] .post-card.read {
   display: flex; 
 }
 
-/* New indicator badge (positioned like read indicator) */
 .post-card .new-indicator {
   position: absolute;
   top: 0.75rem;
@@ -148,12 +135,10 @@ html[data-theme="dark"] .post-card.read {
   justify-content: center;
 }
 
-/* Hide new indicator if article is read */
 .post-card.read .new-indicator {
   display: none;
 }
 
-/* Consolidated badge styles - used as .new-badge and .new-badge-card */
 .new-badge,
 .new-badge-card {
   font-size: 0.5rem;
@@ -194,7 +179,6 @@ html[data-theme="dark"] .new-badge-card {
   box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
 }
 
-/* Clear read button - hidden by default, appears on hover */
 .post-card .read-indicator .clear-read-btn {
   display: none;
   position: absolute;
@@ -231,7 +215,6 @@ html[data-theme="dark"] .new-badge-card {
   stroke: white;
 }
 
-/* Post card content */
 .post-card h3 { 
   margin: 0; 
   font-size: 1.05rem; 
@@ -250,7 +233,6 @@ html[data-theme="dark"] .new-badge-card {
   overflow: hidden; 
 }
 
-/* Meta row (date and reading time) */
 .meta-row { 
   font-size: 0.65rem; 
   text-transform: uppercase; 
@@ -288,7 +270,6 @@ html[data-theme="dark"] .new-badge-card {
   }
 }
 
-/* Tag row */
 .tag-row { 
   display: flex; 
   gap: 0.4rem; 
@@ -323,7 +304,6 @@ html[data-theme="dark"] .new-badge-card {
   transform: translateY(0) scale(1);
 }
 
-/* Article/Post Page Styles */
 .post { 
   max-width: 780px; 
   margin: 0 auto; 
@@ -394,18 +374,15 @@ html[data-theme="dark"] .new-badge-card {
   display: block; 
 }
 
-/* TOC adjustments */
 .toc { 
   margin: 1.5rem 0; 
 }
 
-/* Search page */
 .search-container { 
   max-width: 680px; 
   margin: 0 auto; 
 }
 
-/* AI Assisted Banner - Subtle and blended */
 .ai-assisted-banner {
   margin: 1.5rem 0;
   padding: 0.875rem 1rem;
@@ -434,12 +411,6 @@ html[data-theme="dark"] .new-badge-card {
   }
 }
 
-/* ==========================================================================
-   AI Financial News - Prediction Increase/Decrease Styling
-   Green for increase, Red for decrease - works in light/dark modes
-   ========================================================================== */
-
-/* Prediction: increase - Green styling */
 .post-body .prediction-increase {
   position: relative;
   padding: 1rem 1.5rem;
@@ -481,7 +452,6 @@ html[data-theme="dark"] .post-body .prediction-increase strong {
   color: var(--color-success-light);
 }
 
-/* Prediction: decrease - Red styling */
 .post-body .prediction-decrease {
   position: relative;
   padding: 1rem 1.5rem;

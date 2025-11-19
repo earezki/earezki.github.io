@@ -18,7 +18,6 @@ interface TocItem {
 
 const { markdown, min = 2, max = 4 } = Astro.props;
 
-// Extract headings from markdown
 const headingRegex = new RegExp(`^#{${min},${max}}\\s+(.+)$`, 'gm');
 const items: TocItem[] = [];
 let match: RegExpExecArray | null;
@@ -32,7 +31,6 @@ while ((match = headingRegex.exec(markdown)) !== null) {
   items.push({ depth, text, slug });
 }
 
-// Don't render TOC if no headings found
 if (items.length === 0) {
   return null;
 }
@@ -93,7 +91,6 @@ if (items.length === 0) {
     color: var(--color-accent); 
   }
   
-  /* Indentation for nested headings */
   .toc li[class*='d-3'] { 
     margin-left: 0.75rem; 
   }
@@ -102,7 +99,6 @@ if (items.length === 0) {
     margin-left: 1.4rem; 
   }
   
-  /* Hide TOC on smaller screens */
   @media (max-width: 1080px) { 
     .toc { 
       display: none; 
