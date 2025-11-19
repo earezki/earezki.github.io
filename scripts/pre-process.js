@@ -13,6 +13,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // List of pre-processing scripts to run in order (before astro build)
 const scripts = [
+  'validate-markdown.js',
   'backfill-predictions.cjs',
   'minify-scripts.js',
   'detect-new-articles.js',
