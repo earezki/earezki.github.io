@@ -1,9 +1,9 @@
-```yaml
+---
 title: "Erase and Forget: The Revolutionary Privacy Tool for AI Models"
 pubDate: 2025-11-18
 description: "A new 'unlearning' technique allows AI models to selectively remove data without full retraining, reducing costs and enhancing privacy."
 categories: ["AI News", "Machine Learning", "Privacy"]
-```
+---
 
 ## Erase and Forget: The Revolutionary Privacy Tool for AI Models
 
