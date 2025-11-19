@@ -3,18 +3,7 @@
    Shared gradient styling for AI News and AI Financial sections
    ========================================================================== */
 
-/* Gradient animation keyframes */
-@keyframes gradient-rotate {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
+/* Gradient animation - consolidated in _variables.css for shared usage */
 
 /* Base gradient border styling - shared by nav links and tags */
 .ai-gradient-nav,
@@ -37,7 +26,7 @@
   padding: 2px;
   background: var(--ai-gradient-border);
   background-size: 200% 200%;
-  animation: gradient-rotate 3s linear infinite;
+  animation: gradient-shift 3s linear infinite;
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -63,38 +52,4 @@ html[data-theme="dark"] .ai-gradient-nav:hover {
 
 html[data-theme="dark"] .post-tag.ai-gradient-tag {
   background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15), rgba(240, 147, 251, 0.15));
-}
-
-/* ==========================================================================
-   Ticker Timeline Prediction Styling
-   Provides visual indicators for stock prediction direction in articles
-   ========================================================================== */
-
-/* Prediction direction styling for article content */
-.prediction-increase {
-  display: inline-block;
-  color: #10b981;
-  font-weight: 600;
-  background: rgba(16, 185, 129, 0.1);
-  padding: 0.25rem 0.75rem;
-  border-radius: var(--radius-sm);
-  border-left: 3px solid #10b981;
-}
-
-.prediction-decrease {
-  display: inline-block;
-  color: #ef4444;
-  font-weight: 600;
-  background: rgba(239, 68, 68, 0.1);
-  padding: 0.25rem 0.75rem;
-  border-radius: var(--radius-sm);
-  border-left: 3px solid #ef4444;
-}
-
-html[data-theme="dark"] .prediction-increase {
-  background: rgba(16, 185, 129, 0.15);
-}
-
-html[data-theme="dark"] .prediction-decrease {
-  background: rgba(239, 68, 68, 0.15);
 }
