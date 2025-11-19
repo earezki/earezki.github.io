@@ -53,7 +53,7 @@ Before starting, ensure you have:
 
 Store AWS credentials securely in a `.env.local` file in your Next.js project:
 
-```env
+```bash
 AWS_ACCESS_KEY_ID=your_access_key
 AWS_SECRET_ACCESS_KEY=your_secret_key
 AWS_REGION=ap-south-1

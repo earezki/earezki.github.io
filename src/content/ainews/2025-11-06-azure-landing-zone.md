@@ -54,7 +54,7 @@ An Azure Landing Zone is a foundational architecture that ensures all cloud work
   - **Landing Zones MG**: Houses production and non-production management groups.
   - Example Bicep snippet:
 
-```bicep
+```text
 targetScope = 'tenant'
 resource mgPlatform 'Microsoft.Management/managementGroups@2021-04-01' = {
   name: 'lz-platform'
@@ -124,7 +124,7 @@ resource mgPlatform 'Microsoft.Management/managementGroups@2021-04-01' = {
 
 ### **Working Example: Bicep for Management Groups**
 
-```bicep
+```text
 targetScope = 'tenant'
 resource mgPlatform 'Microsoft.Management/managementGroups@2021-04-01' = {
   name: 'lz-platform'

@@ -14,7 +14,7 @@ remote: fatal: pack exceeds maximum allowed size (2.00 gib)
 Turns out (which I didn't knew) that **Github** imposes a size limit per *push*.
 in this [link]((https://docs.github.com/en/get-started/using-git/troubleshooting-the-2-gb-push-limit)), **Github** suggests certain solutions, which didn't work out for me, so I was inspired by the push per commit idea, and came up with a shell script to push per **50 MB** worth of files.
 
-```sh
+```text
 #!/usr/bin/env bash
 set -euo pipefail
 

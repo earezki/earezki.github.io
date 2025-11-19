@@ -25,6 +25,6 @@ Technical debt isn’t just a metaphor—it’s a measurable, costly reality. So
 - https://dev.to/pragmaticdx/the-hidden-cost-of-adding-just-one-more-feature-33k1
 ---
 
-```language
+```text
 # No code provided in context.
 ```

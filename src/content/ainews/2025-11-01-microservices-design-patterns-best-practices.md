@@ -468,7 +468,7 @@ spring:
 
 ### E-Commerce Platform Architecture
 
-```plaintext
+```text
 ┌─────────────────┐
 │   API Gateway   │
 └────────┬────────┘

@@ -27,6 +27,6 @@ Traditional code analysis tools provide static feedback, but Symphony.js introdu
 - https://github.com/akashsahu54/Symphony-js
 ---
 
-```language
+```text
 // No code provided in context. Working Example section omitted.
 ```

@@ -25,6 +25,6 @@ Building software without validating the problem leads to solutions that no one 
 - https://dev.to/stasxreal/how-to-create-my-startup-a-developer-friendly-guide-3453
 ---
 
-```language
+```text
 # No code provided in context
 ```

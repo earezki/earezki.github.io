@@ -225,6 +225,6 @@ Jersey simplifies server-side logging via built-in features and custom filters. 
 
 For the complete source code, refer to [Baeldung's GitHub repository](https://www.baeldung.com/java-jersey-logging-server).
 
-```plaintext
+```text
 Reference: https://www.baeldung.com/java-jersey-logging-server
 ```

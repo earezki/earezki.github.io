@@ -28,6 +28,6 @@ The technical reality of computing is built on interdependent components with st
 - https://dev.to/stasxreal/how-does-a-pc-work-2dhk
 ---
 
-```language
+```text
 # No code provided in context. Section omitted.
 ```

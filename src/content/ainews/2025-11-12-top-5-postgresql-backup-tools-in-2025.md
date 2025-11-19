@@ -25,6 +25,6 @@ PostgreSQL's built-in tools like `pg_dump` lack features such as incremental bac
 - https://dev.to/rostislav_dugin/top-5-postgresql-backup-tools-in-2025-5801
 ---
 
-```language
+```text
 # No code provided in context.
 ```

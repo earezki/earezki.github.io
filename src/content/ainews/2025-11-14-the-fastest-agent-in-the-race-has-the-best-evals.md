@@ -25,6 +25,6 @@ Traditional GPUs and CPUs are not optimized for inference, leading to higher lat
 - https://stackoverflow.blog/2025/11/14/the-fastest-agent-in-the-race-has-the-best-evals/
 ---
 
-```language
+```text
 # No code provided in context. Working Example section omitted.
 ```

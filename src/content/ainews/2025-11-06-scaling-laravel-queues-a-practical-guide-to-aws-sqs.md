@@ -34,7 +34,7 @@ Before configuring Laravel, set up AWS infrastructure:
 2. **IAM User Permissions**:  
    - Create a dedicated IAM user with **least privilege**.  
    - Required permissions:  
-     ```plaintext
+     ```text
      sqs:SendMessage
      sqs:ReceiveMessage
      sqs:DeleteMessage

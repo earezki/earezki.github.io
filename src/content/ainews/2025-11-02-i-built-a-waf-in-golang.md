@@ -37,6 +37,6 @@ For developers interested in WAF implementation, this project serves as a practi
 - **Use Cases**: Ideal for securing APIs, e-commerce platforms, or any application handling sensitive user data.
 - **Pitfalls to Avoid**: Overly restrictive rules may block legitimate traffic; balance security with usability through thorough testing.
 
-```plaintext
+```text
 Reference: https://dev.to/1rhino2/i-built-a-waf-in-golang-3i9e
 ```

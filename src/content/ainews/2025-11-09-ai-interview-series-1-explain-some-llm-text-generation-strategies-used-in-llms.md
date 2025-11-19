@@ -27,6 +27,6 @@ LLMs generate text token-by-token, but strategies like Greedy Search prioritize 
 - https://www.marktechpost.com/2025/11/09/ai-interview-series-1-explain-some-llm-text-generation-strategies-used-in-llms/
 ---
 
-```language
+```text
 # Working Example section omitted as no runnable code exists in context
 ```

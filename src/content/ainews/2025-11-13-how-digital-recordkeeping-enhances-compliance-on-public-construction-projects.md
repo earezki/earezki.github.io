@@ -25,7 +25,7 @@ Manual systems for tracking labor logs, safety forms, and contracts introduce er
 - https://dev.to/kapusto/how-digital-recordkeeping-enhances-compliance-on-public-construction-projects-1af7
 ---
 
-```language
+```text
 # No code provided in context.
 ```
 
