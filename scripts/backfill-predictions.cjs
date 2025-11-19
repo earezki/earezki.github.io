@@ -19,6 +19,9 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+const { default: YahooFinance } = require('yahoo-finance2');
+
+const yahooFinance = new YahooFinance();
 
 const CONTENT_DIR = path.join(process.cwd(), 'src/content/aifinnews');
 const CACHE_FILE = path.join(process.cwd(), 'cache/prediction-backfill.json');
@@ -119,69 +122,47 @@ function extractConfidence(frontmatter) {
  * Fetch stock price data from Yahoo Finance
  */
 async function fetchYahooFinanceData(ticker, date) {
-  const targetDate = new Date(date);
-  targetDate.setUTCHours(0, 0, 0, 0);
-  
-  // Query a week before and after to ensure we get data
-  const startDate = new Date(targetDate);
-  startDate.setDate(startDate.getDate() - 7);
-  const endDate = new Date(targetDate);
-  endDate.setDate(endDate.getDate() + 7);
-  
-  const period1 = Math.floor(startDate.getTime() / 1000);
-  const period2 = Math.floor(endDate.getTime() / 1000);
-  
-  const url = `https://query1.finance.yahoo.com/v8/finance/chart/${ticker}?period1=${period1}&period2=${period2}&interval=1d`;
-  
   try {
-    const https = require('https');
-    const response = await new Promise((resolve, reject) => {
-      https.get(url, { headers: { 'User-Agent': 'Mozilla/5.0' } }, (res) => {
-        let data = '';
-        res.on('data', chunk => data += chunk);
-        res.on('end', () => resolve({ data, statusCode: res.statusCode }));
-      }).on('error', reject);
-    });
+    const targetDate = new Date(date);
+    targetDate.setUTCHours(0, 0, 0, 0);
     
-    if (response.statusCode !== 200) {
-      throw new Error(`HTTP ${response.statusCode}`);
+    // Query a week before and after to ensure we get data
+    const startDate = new Date(targetDate);
+    startDate.setDate(startDate.getDate() - 7);
+    const endDate = new Date(targetDate);
+    endDate.setDate(endDate.getDate() + 7);
+    
+    // Fetch historical data
+    const queryOptions = { period1: startDate, period2: endDate };
+    const result = await yahooFinance.historical(ticker, queryOptions);
+    
+    if (!result || result.length === 0) {
+      throw new Error('No historical data returned');
     }
     
-    const json = JSON.parse(response.data);
-    const result = json.chart?.result?.[0];
+    // Find closest date to target date
+    let closestData = result[0];
+    let minDiff = Math.abs(new Date(result[0].date) - targetDate);
     
-    if (!result || !result.timestamp || !result.indicators?.quote?.[0]) {
-      throw new Error('No data returned');
-    }
-    
-    const timestamps = result.timestamp;
-    const quotes = result.indicators.quote[0];
-    const meta = result.meta;
-    
-    // Find closest timestamp to target date
-    let closestIndex = 0;
-    let minDiff = Math.abs(timestamps[0] - targetDate.getTime() / 1000);
-    
-    for (let i = 1; i < timestamps.length; i++) {
-      const diff = Math.abs(timestamps[i] - targetDate.getTime() / 1000);
+    for (const data of result) {
+      const diff = Math.abs(new Date(data.date) - targetDate);
       if (diff < minDiff) {
         minDiff = diff;
-        closestIndex = i;
+        closestData = data;
       }
     }
     
-    const price = quotes.close[closestIndex];
-    const high52Week = meta.fiftyTwoWeekHigh;
-    const low52Week = meta.fiftyTwoWeekLow;
+    // Fetch quote for 52-week high/low
+    const quote = await yahooFinance.quote(ticker);
     
-    if (!price || !high52Week || !low52Week) {
-      throw new Error('Missing price data');
+    if (!quote || !quote.fiftyTwoWeekHigh || !quote.fiftyTwoWeekLow) {
+      throw new Error('Missing quote data for 52-week range');
     }
     
     return {
-      price: parseFloat(price.toFixed(2)),
-      high52Week: parseFloat(high52Week.toFixed(2)),
-      low52Week: parseFloat(low52Week.toFixed(2))
+      price: parseFloat(closestData.close.toFixed(2)),
+      high52Week: parseFloat(quote.fiftyTwoWeekHigh.toFixed(2)),
+      low52Week: parseFloat(quote.fiftyTwoWeekLow.toFixed(2))
     };
     
   } catch (error) {

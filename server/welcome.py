@@ -48,8 +48,6 @@ def process_welcome_emails() -> None:
             email = row[2]
             
             try:
-                send_welcome(name, email)
-                
                 # dequeue
                 cursor.execute(
                     """
@@ -58,6 +56,9 @@ def process_welcome_emails() -> None:
                     """,
                     (welcome_email_id,)
                 )
+
+                send_welcome(name, email)
+                
                 conn.commit()
 
                 print(f"[INFO] Successfully sent welcome email to {email}.")

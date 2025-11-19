@@ -11,6 +11,9 @@ import fs from 'fs';
 import path from 'path';
 import crypto from 'crypto';
 import { fileURLToPath } from 'url';
+import YahooFinance from 'yahoo-finance2';
+
+const yahooFinance = new YahooFinance();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -107,39 +110,27 @@ async function getPriceAtDate(ticker, targetDate, cache) {
     const endDate = new Date(target);
     endDate.setDate(endDate.getDate() + 5);
 
-    const start = Math.floor(startDate.getTime() / 1000);
-    const end = Math.floor(endDate.getTime() / 1000);
+    // Fetch historical data
+    const queryOptions = { period1: startDate, period2: endDate };
+    const result = await yahooFinance.historical(ticker, queryOptions);
 
-    const url = `https://query1.finance.yahoo.com/v8/finance/chart/${ticker}?period1=${start}&period2=${end}&interval=1d`;
-    
-    const response = await fetch(url, {
-      headers: { 'User-Agent': 'Mozilla/5.0' }
-    });
-
-    if (!response.ok) return null;
-
-    const data = await response.json();
-    
-    if (!data.chart?.result?.[0]?.timestamp) return null;
-
-    const timestamps = data.chart.result[0].timestamp;
-    const closes = data.chart.result[0].indicators.quote[0].close;
-
-    if (!timestamps.length || !closes.length) return null;
+    if (!result || result.length === 0) {
+      return null;
+    }
 
     // Find closest date to target
-    let closestIndex = 0;
-    let minDiff = Math.abs(timestamps[0] - target.getTime() / 1000);
+    let closestData = result[0];
+    let minDiff = Math.abs(new Date(result[0].date) - target);
 
-    for (let i = 1; i < timestamps.length; i++) {
-      const diff = Math.abs(timestamps[i] - target.getTime() / 1000);
+    for (const data of result) {
+      const diff = Math.abs(new Date(data.date) - target);
       if (diff < minDiff) {
         minDiff = diff;
-        closestIndex = i;
+        closestData = data;
       }
     }
 
-    const price = closes[closestIndex];
+    const price = closestData.close;
     
     // Cache the result
     if (!cache.validations[cacheKey]) {
