@@ -26,64 +26,64 @@ About
 </code></pre>
 <p>Turns out (which I didn’t knew) that <strong>Github</strong> imposes a size limit per <em>push</em>.
 in this <a href="(https://docs.github.com/en/get-started/using-git/troubleshooting-the-2-gb-push-limit)">link</a>, <strong>Github</strong> suggests certain solutions, which didn’t work out for me, so I was inspired by the push per commit idea, and came up with a shell script to push per <strong>50 MB</strong> worth of files.</p>
-<pre class="language-sh" data-language="sh"><code is:raw="" class="language-sh"><span class="token shebang important">#!/usr/bin/env bash</span>
-<span class="token builtin class-name">set</span> <span class="token parameter variable">-euo</span> pipefail
+<pre class="language-text" data-language="text"><code is:raw="" class="language-text">#!/usr/bin/env bash
+set -euo pipefail
 
-<span class="token comment"># Batch size in megabytes (adjust as needed)</span>
-<span class="token assign-left variable">BATCH_SIZE_MB</span><span class="token operator">=</span><span class="token variable">${BATCH_SIZE_MB<span class="token operator">:-</span>50}</span>
-<span class="token assign-left variable">BATCH_SIZE_BYTES</span><span class="token operator">=</span><span class="token variable"><span class="token variable">$((</span>BATCH_SIZE_MB <span class="token operator">*</span> <span class="token number">1024</span> <span class="token operator">*</span> <span class="token number">1024</span><span class="token variable">))</span></span>
+# Batch size in megabytes (adjust as needed)
+BATCH_SIZE_MB=${BATCH_SIZE_MB:-50}
+BATCH_SIZE_BYTES=$((BATCH_SIZE_MB * 1024 * 1024))
 
-<span class="token comment"># Remote and branch detection (push to same branch)</span>
-<span class="token assign-left variable">REMOTE</span><span class="token operator">=</span><span class="token variable">${REMOTE<span class="token operator">:-</span>origin}</span>
-<span class="token assign-left variable">BRANCH</span><span class="token operator">=</span><span class="token variable"><span class="token variable">$(</span><span class="token function">git</span> rev-parse --abbrev-ref HEAD <span class="token operator"><span class="token file-descriptor important">2</span>></span>/dev/null <span class="token operator">||</span> <span class="token builtin class-name">echo</span> <span class="token string">"master"</span><span class="token variable">)</span></span>
+# Remote and branch detection (push to same branch)
+REMOTE=${REMOTE:-origin}
+BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "master")
 
-<span class="token builtin class-name">echo</span> <span class="token string">"Using remote: <span class="token variable">$REMOTE</span>, branch: <span class="token variable">$BRANCH</span>, batch size: <span class="token variable">${BATCH_SIZE_MB}</span>MB"</span>
+echo "Using remote: $REMOTE, branch: $BRANCH, batch size: ${BATCH_SIZE_MB}MB"
 
-<span class="token assign-left variable">current_size</span><span class="token operator">=</span><span class="token number">0</span>
-<span class="token assign-left variable">batch_num</span><span class="token operator">=</span><span class="token number">1</span>
-<span class="token assign-left variable">files_to_add</span><span class="token operator">=</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+current_size=0
+batch_num=1
+files_to_add=()
 
-<span class="token function-name function">commit_batch</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">if</span> <span class="token punctuation">[</span> <span class="token variable">${<span class="token operator">#</span>files_to_add<span class="token punctuation">[</span>@<span class="token punctuation">]</span>}</span> <span class="token parameter variable">-eq</span> <span class="token number">0</span> <span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token keyword">then</span>
-        <span class="token builtin class-name">return</span>
-    <span class="token keyword">fi</span>
+commit_batch() {
+    if [ ${#files_to_add[@]} -eq 0 ]; then
+        return
+    fi
 
-    <span class="token builtin class-name">echo</span> <span class="token string">"[batch <span class="token variable">$batch_num</span>] adding <span class="token variable">${<span class="token operator">#</span>files_to_add<span class="token punctuation">[</span>@<span class="token punctuation">]</span>}</span> files (~<span class="token variable"><span class="token variable">$((</span>current_size<span class="token operator">/</span><span class="token number">1024</span><span class="token operator">/</span><span class="token number">1024</span><span class="token variable">))</span></span> MB)"</span>
-    <span class="token function">git</span> <span class="token function">add</span> -- <span class="token string">"<span class="token variable">${files_to_add<span class="token punctuation">[</span>@<span class="token punctuation">]</span>}</span>"</span>
+    echo "[batch $batch_num] adding ${#files_to_add[@]} files (~$((current_size/1024/1024)) MB)"
+    git add -- "${files_to_add[@]}"
 
-    <span class="token function">git</span> commit <span class="token parameter variable">-m</span> <span class="token string">"Batch <span class="token variable">$batch_num</span>: ~<span class="token variable">${BATCH_SIZE_MB}</span>MB"</span>
-    <span class="token function">git</span> push <span class="token parameter variable">-u</span> <span class="token string">"<span class="token variable">$REMOTE</span>"</span> <span class="token string">"<span class="token variable">$BRANCH</span>"</span>
+    git commit -m "Batch $batch_num: ~${BATCH_SIZE_MB}MB"
+    git push -u "$REMOTE" "$BRANCH"
 
-    <span class="token comment"># reset</span>
-    <span class="token assign-left variable">current_size</span><span class="token operator">=</span><span class="token number">0</span>
-    <span class="token assign-left variable">files_to_add</span><span class="token operator">=</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-    <span class="token assign-left variable">batch_num</span><span class="token operator">=</span><span class="token variable"><span class="token variable">$((</span>batch_num <span class="token operator">+</span> <span class="token number">1</span><span class="token variable">))</span></span>
-<span class="token punctuation">}</span>
+    # reset
+    current_size=0
+    files_to_add=()
+    batch_num=$((batch_num + 1))
+}
 
-<span class="token comment"># Iterate over files tracked by git (respects .gitignore). Use NUL separators.</span>
-<span class="token function">git</span> ls-files <span class="token parameter variable">-z</span> <span class="token operator">|</span> <span class="token keyword">while</span> <span class="token assign-left variable"><span class="token environment constant">IFS</span></span><span class="token operator">=</span> <span class="token builtin class-name">read</span> <span class="token parameter variable">-r</span> <span class="token parameter variable">-d</span> <span class="token string">''</span> <span class="token function">file</span><span class="token punctuation">;</span> <span class="token keyword">do</span>
-    <span class="token comment"># get file size in bytes in a portable way</span>
-    <span class="token keyword">if</span> <span class="token function">stat</span> <span class="token parameter variable">--version</span> <span class="token operator">></span>/dev/null <span class="token operator"><span class="token file-descriptor important">2</span>></span><span class="token file-descriptor important">&#x26;1</span><span class="token punctuation">;</span> <span class="token keyword">then</span>
-        <span class="token comment"># GNU stat</span>
-        <span class="token assign-left variable">size</span><span class="token operator">=</span><span class="token variable"><span class="token variable">$(</span><span class="token function">stat</span> -c%s -- <span class="token string">"<span class="token variable">$file</span>"</span><span class="token variable">)</span></span>
-    <span class="token keyword">else</span>
-        <span class="token comment"># BSD stat (macOS)</span>
-        <span class="token assign-left variable">size</span><span class="token operator">=</span><span class="token variable"><span class="token variable">$(</span><span class="token function">stat</span> -f%z -- <span class="token string">"<span class="token variable">$file</span>"</span><span class="token variable">)</span></span>
-    <span class="token keyword">fi</span>
+# Iterate over files tracked by git (respects .gitignore). Use NUL separators.
+git ls-files -z | while IFS= read -r -d '' file; do
+    # get file size in bytes in a portable way
+    if stat --version >/dev/null 2>&#x26;1; then
+        # GNU stat
+        size=$(stat -c%s -- "$file")
+    else
+        # BSD stat (macOS)
+        size=$(stat -f%z -- "$file")
+    fi
 
-    <span class="token comment"># if adding this file would exceed the batch size, flush current batch first</span>
-    <span class="token keyword">if</span> <span class="token punctuation">[</span> <span class="token variable"><span class="token variable">$((</span>current_size <span class="token operator">+</span> size<span class="token variable">))</span></span> <span class="token parameter variable">-gt</span> <span class="token variable">$BATCH_SIZE_BYTES</span> <span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token keyword">then</span>
+    # if adding this file would exceed the batch size, flush current batch first
+    if [ $((current_size + size)) -gt $BATCH_SIZE_BYTES ]; then
         commit_batch
-    <span class="token keyword">fi</span>
+    fi
 
-    <span class="token assign-left variable">files_to_add</span><span class="token operator">+=</span><span class="token punctuation">(</span><span class="token string">"<span class="token variable">$file</span>"</span><span class="token punctuation">)</span>
-    <span class="token assign-left variable">current_size</span><span class="token operator">=</span><span class="token variable"><span class="token variable">$((</span>current_size <span class="token operator">+</span> size<span class="token variable">))</span></span>
-<span class="token keyword">done</span>
+    files_to_add+=("$file")
+    current_size=$((current_size + size))
+done
 
-<span class="token comment"># commit remaining files</span>
+# commit remaining files
 commit_batch
 
-<span class="token builtin class-name">echo</span> <span class="token string">"All done."</span>
+echo "All done."
 </code></pre>
 <p>If you prefer a Python script instead of shell, here’s a small, cross-platform script that does the same thing: it iterates tracked files (via <code>git ls-files</code>), accumulates file sizes until the batch limit is reached, then stages, commits and pushes the batch.</p>
 <pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token comment">#!/usr/bin/env python3</span>

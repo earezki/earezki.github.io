@@ -81,11 +81,11 @@ About
 </ul>
 </li>
 </ul>
-<pre class="language-bicep" data-language="bicep"><code is:raw="" class="language-bicep"><span class="token keyword">targetScope</span> <span class="token operator">=</span> <span class="token string">'tenant'</span>
-<span class="token keyword">resource</span> mgPlatform <span class="token string">'Microsoft.Management/managementGroups@2021-04-01'</span> <span class="token operator">=</span> <span class="token punctuation">{</span>
-  <span class="token property">name</span><span class="token operator">:</span> <span class="token string">'lz-platform'</span>
-  <span class="token property">properties</span><span class="token operator">:</span> <span class="token punctuation">{</span> displayName<span class="token operator">:</span> <span class="token string">'Platform'</span> <span class="token punctuation">}</span>
-<span class="token punctuation">}</span>
+<pre class="language-text" data-language="text"><code is:raw="" class="language-text">targetScope = 'tenant'
+resource mgPlatform 'Microsoft.Management/managementGroups@2021-04-01' = {
+  name: 'lz-platform'
+  properties: { displayName: 'Platform' }
+}
 </code></pre>
 <ul>
 <li><strong>Use Case:</strong> Enforce stricter policies on <code>Prod</code> vs. <code>Non-Prod</code> groups to control costs and security.</li>
@@ -176,18 +176,18 @@ About
 </ul>
 <hr>
 <h3 id="working-example-bicep-for-management-groups"><strong>Working Example: Bicep for Management Groups</strong></h3>
-<pre class="language-bicep" data-language="bicep"><code is:raw="" class="language-bicep"><span class="token keyword">targetScope</span> <span class="token operator">=</span> <span class="token string">'tenant'</span>
-<span class="token keyword">resource</span> mgPlatform <span class="token string">'Microsoft.Management/managementGroups@2021-04-01'</span> <span class="token operator">=</span> <span class="token punctuation">{</span>
-  <span class="token property">name</span><span class="token operator">:</span> <span class="token string">'lz-platform'</span>
-  <span class="token property">properties</span><span class="token operator">:</span> <span class="token punctuation">{</span> displayName<span class="token operator">:</span> <span class="token string">'Platform'</span> <span class="token punctuation">}</span>
-<span class="token punctuation">}</span>
-<span class="token keyword">resource</span> mgConnectivity <span class="token string">'Microsoft.Management/managementGroups@2021-04-01'</span> <span class="token operator">=</span> <span class="token punctuation">{</span>
-  <span class="token property">name</span><span class="token operator">:</span> <span class="token string">'lz-connectivity'</span>
-  <span class="token property">properties</span><span class="token operator">:</span> <span class="token punctuation">{</span>
-    <span class="token property">displayName</span><span class="token operator">:</span> <span class="token string">'Connectivity'</span>
-    <span class="token property">details</span><span class="token operator">:</span> <span class="token punctuation">{</span> parent<span class="token operator">:</span> <span class="token punctuation">{</span> id<span class="token operator">:</span> mgPlatform<span class="token punctuation">.</span>id <span class="token punctuation">}</span> <span class="token punctuation">}</span>
-  <span class="token punctuation">}</span>
-<span class="token punctuation">}</span>
+<pre class="language-text" data-language="text"><code is:raw="" class="language-text">targetScope = 'tenant'
+resource mgPlatform 'Microsoft.Management/managementGroups@2021-04-01' = {
+  name: 'lz-platform'
+  properties: { displayName: 'Platform' }
+}
+resource mgConnectivity 'Microsoft.Management/managementGroups@2021-04-01' = {
+  name: 'lz-connectivity'
+  properties: {
+    displayName: 'Connectivity'
+    details: { parent: { id: mgPlatform.id } }
+  }
+}
 </code></pre>
 <p><strong>Deployment Command:</strong></p>
 <pre class="language-bash" data-language="bash"><code is:raw="" class="language-bash">az deployment tenant create <span class="token parameter variable">--location</span> eastus --template-file managementGroups.bicep
