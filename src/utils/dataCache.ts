@@ -12,6 +12,7 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 import readingTime, { type ReadingTimeResult } from './readingTime.js';
 import { plainExcerpt } from './excerpt.js';
 import { slugify } from './slugify.js';
+import { isPublished } from './publishDate.js';
 
 /**
  * Extended post with precomputed metadata
@@ -81,6 +82,8 @@ export async function getAllAifinnews(): Promise<CollectionEntry<'aifinnews'>[]>
  * Get processed posts with precomputed metadata (cached)
  * Includes: readingTime, excerpt, urlPath
  * Sorted by publication date (newest first)
+ * NOTE: This returns ALL posts regardless of publication date.
+ * For listings, use getPublishedPosts() instead.
  * @returns Array of processed posts
  */
 export async function getProcessedPosts(): Promise<ProcessedPost[]> {
@@ -102,9 +105,21 @@ export async function getProcessedPosts(): Promise<ProcessedPost[]> {
 }
 
 /**
+ * Get only published posts (pubDate <= current date)
+ * Use this for post listings, cards, and feeds.
+ * @returns Array of published processed posts
+ */
+export async function getPublishedPosts(): Promise<ProcessedPost[]> {
+  const allPosts = await getProcessedPosts();
+  return allPosts.filter(post => isPublished(post.data.pubDate));
+}
+
+/**
  * Get processed AI news with precomputed metadata (cached)
  * Includes: readingTime, excerpt, urlPath
  * Sorted by publication date (newest first)
+ * NOTE: This returns ALL AI news regardless of publication date.
+ * For listings, use getPublishedAinews() instead.
  * @returns Array of processed AI news
  */
 export async function getProcessedAinews(): Promise<ProcessedPost[]> {
@@ -126,9 +141,21 @@ export async function getProcessedAinews(): Promise<ProcessedPost[]> {
 }
 
 /**
+ * Get only published AI news (pubDate <= current date)
+ * Use this for AI news listings, cards, and feeds.
+ * @returns Array of published AI news
+ */
+export async function getPublishedAinews(): Promise<ProcessedPost[]> {
+  const allAinews = await getProcessedAinews();
+  return allAinews.filter(post => isPublished(post.data.pubDate));
+}
+
+/**
  * Get processed AI financial news with precomputed metadata (cached)
  * Includes: readingTime, excerpt, urlPath
  * Sorted by publication date (newest first)
+ * NOTE: This returns ALL AI financial news regardless of publication date.
+ * For listings, use getPublishedAifinnews() instead.
  * @returns Array of processed AI financial news
  */
 export async function getProcessedAifinnews(): Promise<ProcessedPost[]> {
@@ -147,6 +174,16 @@ export async function getProcessedAifinnews(): Promise<ProcessedPost[]> {
     console.log(`[DataCache] Processed ${cachedProcessedAifinnews.length} AI financial news with metadata`);
   }
   return cachedProcessedAifinnews;
+}
+
+/**
+ * Get only published AI financial news (pubDate <= current date)
+ * Use this for AI financial news listings, cards, and feeds.
+ * @returns Array of published AI financial news
+ */
+export async function getPublishedAifinnews(): Promise<ProcessedPost[]> {
+  const allAifinnews = await getProcessedAifinnews();
+  return allAifinnews.filter(post => isPublished(post.data.pubDate));
 }
 
 /**
@@ -170,12 +207,13 @@ export async function getAllProcessedContent(): Promise<ProcessedPost[]> {
 
 /**
  * Get paginated posts
+ * NOTE: This returns only PUBLISHED posts for listings.
  * @param page - Page number (1-indexed)
  * @param pageSize - Number of items per page
  * @returns Paginated posts and metadata
  */
 export async function getPaginatedPosts(page: number, pageSize: number) {
-  const allPosts = await getProcessedPosts();
+  const allPosts = await getPublishedPosts();
   const start = (page - 1) * pageSize;
   const end = start + pageSize;
   
@@ -191,12 +229,13 @@ export async function getPaginatedPosts(page: number, pageSize: number) {
 
 /**
  * Get paginated AI news
+ * NOTE: This returns only PUBLISHED AI news for listings.
  * @param page - Page number (1-indexed)
  * @param pageSize - Number of items per page
  * @returns Paginated AI news and metadata
  */
 export async function getPaginatedAinews(page: number, pageSize: number) {
-  const allAinews = await getProcessedAinews();
+  const allAinews = await getPublishedAinews();
   const start = (page - 1) * pageSize;
   const end = start + pageSize;
   
@@ -212,12 +251,13 @@ export async function getPaginatedAinews(page: number, pageSize: number) {
 
 /**
  * Get paginated AI financial news
+ * NOTE: This returns only PUBLISHED AI financial news for listings.
  * @param page - Page number (1-indexed)
  * @param pageSize - Number of items per page
  * @returns Paginated AI financial news and metadata
  */
 export async function getPaginatedAifinnews(page: number, pageSize: number) {
-  const allAifinnews = await getProcessedAifinnews();
+  const allAifinnews = await getPublishedAifinnews();
   const start = (page - 1) * pageSize;
   const end = start + pageSize;
   

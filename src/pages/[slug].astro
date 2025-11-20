@@ -4,6 +4,7 @@ import TableOfContents from '../components/TableOfContents.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import RelatedPosts from '../components/RelatedPosts.astro';
 import SeriesNavigation from '../components/SeriesNavigation.astro';
+import UnpublishedWarning from '../components/UnpublishedWarning.astro';
 import { getAllPosts, getAllProcessedContent, findPostBySlug } from '../utils/dataCache';
 import { RelatedPostsFinder, generateBreadcrumbs } from '../utils/relatedContentOptimized';
 import { slugify } from '../utils/slugify';
@@ -106,6 +107,7 @@ const { Content } = await rawPost.render();
           return <a class={`post-tag ${isAINews ? 'ai-news-tag' : ''}`} href={`/tags/${slugTag}/`}>{c}</a>;
         })}</div>}
       </header>
+      <UnpublishedWarning pubDate={post.data.pubDate} />
       {hasAIAssisted && (
         <div class="ai-assisted-banner">
           <p><strong>Note:</strong> This article was refined and organized by AI, but the content and research are entirely human.</p>

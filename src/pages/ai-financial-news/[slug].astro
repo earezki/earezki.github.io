@@ -4,6 +4,7 @@ import TableOfContents from '../../components/TableOfContents.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import RelatedPosts from '../../components/RelatedPosts.astro';
 import TickerTimeline from '../../components/TickerTimeline.astro';
+import UnpublishedWarning from '../../components/UnpublishedWarning.astro';
 import { getAllAifinnews, getAllProcessedContent, findAifinnewsBySlug, getTickerTimeline } from '../../utils/dataCache';
 import { RelatedPostsFinder, generateBreadcrumbs } from '../../utils/relatedContentOptimized';
 import { slugify } from '../../utils/slugify';
@@ -116,6 +117,8 @@ const { Content } = await rawPost.render();
           Performance
         </a></div>}
       </header>
+      
+      <UnpublishedWarning pubDate={post.data.pubDate} />
       
       <div class="ai-assisted-banner">
         <p><strong>AI-Generated Financial Analysis:</strong> This article was created with AI assistance for educational purposes only. This is not financial advice. Always conduct your own research and consult with qualified financial advisors before making investment decisions.</p>
