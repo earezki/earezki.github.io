@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { spawn } from 'child_process';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -83,7 +84,7 @@ function copyFile(from, to, description) {
 /**
  * Main execution function
  */
-function main() {
+async function main() {
   console.log('🚀 Running post-build tasks...\n');
   
   let successCount = 0;
@@ -99,10 +100,31 @@ function main() {
   
   console.log(`\n✨ Post-build completed: ${successCount} successful, ${failCount} skipped/failed`);
   
-  // Exit with error code if all critical files failed
+  console.log('\n📦 Running script inlining...\n');
+  
+  await new Promise((resolve, reject) => {
+    const scriptPath = path.join(__dirname, 'inline-scripts.js');
+    const child = spawn('node', [scriptPath], { stdio: 'inherit' });
+    
+    child.on('close', (code) => {
+      if (code === 0) {
+        resolve();
+      } else {
+        reject(new Error(`inline-scripts.js exited with code ${code}`));
+      }
+    });
+    
+    child.on('error', reject);
+  });
+  
+  console.log('\n✨ Post-processing pipeline completed successfully!\n');
+  
   if (failCount > 0 && successCount === 0) {
     process.exit(1);
   }
 }
 
-main();
+main().catch(error => {
+  console.error('❌ Post-build error:', error);
+  process.exit(1);
+});
