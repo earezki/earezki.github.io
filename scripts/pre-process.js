@@ -15,6 +15,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const scripts = [
   'validate-markdown.js',
   'backfill-predictions.cjs',
+  'fetch-stock-data.js',
   'minify-scripts.js',
   'detect-new-articles.js',
   'generate-cv-markdown.js',

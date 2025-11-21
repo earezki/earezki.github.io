@@ -1,0 +1,690 @@
+---
+/**
+ * Stock Chart Component
+ * Beautiful, animated, cookie-free stock chart using SVG
+ * Displays 3-month historical data with responsive design and dark mode support
+ */
+
+import * as fs from 'fs/promises';
+import * as path from 'path';
+
+interface Props {
+  ticker: string;
+  articleDate: string;
+}
+
+const { ticker, articleDate } = Astro.props;
+
+// Load stock data from cache directory (primary) or public fallback
+let stockData = null;
+try {
+  // Try cache first (committed via GitHub Actions)
+  const cachePath = path.join(process.cwd(), 'cache', 'stock-data', `${ticker}-${articleDate}.json`);
+  try {
+    const fileContent = await fs.readFile(cachePath, 'utf-8');
+    stockData = JSON.parse(fileContent);
+  } catch {
+    // Fallback to public directory
+    const publicPath = path.join(process.cwd(), 'public', 'stock-data', `${ticker}-${articleDate}.json`);
+    const fileContent = await fs.readFile(publicPath, 'utf-8');
+    stockData = JSON.parse(fileContent);
+  }
+} catch (error) {
+  console.error(`Failed to load stock data for ${ticker} on ${articleDate}:`, error instanceof Error ? error.message : String(error));
+}
+
+if (!stockData || !stockData.chartData || stockData.chartData.length === 0) {
+  return null; // Don't render if no data
+}
+
+const { name, currency, currentPrice, change, changePercent, high52w, low52w, volume, chartData } = stockData;
+
+// Calculate chart dimensions and scales
+const width = 800;
+const height = 400;
+const padding = { top: 40, right: 60, bottom: 60, left: 60 };
+const chartWidth = width - padding.left - padding.right;
+const chartHeight = height - padding.top - padding.bottom;
+
+// Extract price and volume data
+const prices = chartData.map((d: any) => d.close);
+const volumes = chartData.map((d: any) => d.volume);
+const dates = chartData.map((d: any) => d.date);
+
+// Calculate scales
+const minPrice = Math.min(...prices) * 0.98;
+const maxPrice = Math.max(...prices) * 1.02;
+const priceRange = maxPrice - minPrice;
+
+const maxVolume = Math.max(...volumes);
+
+// Generate SVG path for price line
+const points = chartData.map((d: any, i: number) => {
+  const x = padding.left + (i / (chartData.length - 1)) * chartWidth;
+  const y = padding.top + chartHeight - ((d.close - minPrice) / priceRange) * chartHeight;
+  return { x, y, price: d.close, date: d.date };
+});
+
+const priceLine = points.map((p: any, i: number) => `${i === 0 ? 'M' : 'L'} ${p.x},${p.y}`).join(' ');
+
+// Generate area gradient path
+const areaPath = [
+  `M ${points[0].x},${padding.top + chartHeight}`,
+  ...points.map((p: any) => `L ${p.x},${p.y}`),
+  `L ${points[points.length - 1].x},${padding.top + chartHeight}`,
+  'Z'
+].join(' ');
+
+// Generate volume bars
+const volumeBars = chartData.map((d: any, i: number) => {
+  const x = padding.left + (i / (chartData.length - 1)) * chartWidth;
+  const barHeight = (d.volume / maxVolume) * 60;
+  const y = height - padding.bottom + 10;
+  return { x, y, height: barHeight, volume: d.volume };
+});
+
+// Y-axis ticks
+const numTicks = 5;
+const yTicks = Array.from({ length: numTicks }, (_, i) => {
+  const price = minPrice + (priceRange / (numTicks - 1)) * i;
+  const y = padding.top + chartHeight - ((price - minPrice) / priceRange) * chartHeight;
+  return { price: price.toFixed(2), y };
+});
+
+// X-axis ticks (show every ~15 days)
+const xTickInterval = Math.ceil(chartData.length / 6);
+const xTicks = chartData.filter((_: any, i: number) => i % xTickInterval === 0 || i === chartData.length - 1);
+
+const isPositive = parseFloat(change) >= 0;
+---
+
+<div class="stock-chart-container">
+  <div class="stock-header">
+    <div class="stock-info">
+      <h3 class="stock-name">
+        {ticker}
+        <span class="company-name">{name}</span>
+      </h3>
+      <div class="stock-price">
+        <span class="current-price">{currency} {currentPrice}</span>
+        <span class={`price-change ${isPositive ? 'positive' : 'negative'}`}>
+          {isPositive ? '▲' : '▼'} {change} ({changePercent}%)
+        </span>
+      </div>
+    </div>
+    <div class="stock-stats">
+      <div class="stat">
+        <span class="stat-label">52W High</span>
+        <span class="stat-value">{high52w}</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">52W Low</span>
+        <span class="stat-value">{low52w}</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Volume</span>
+        <span class="stat-value">{(volume / 1000000).toFixed(2)}M</span>
+      </div>
+    </div>
+  </div>
+
+  <svg 
+    class="stock-chart" 
+    viewBox={`0 0 ${width} ${height}`} 
+    preserveAspectRatio="xMidYMid meet"
+    role="img"
+    aria-label={`Stock chart for ${ticker} showing 3-month price history`}
+  >
+    <!-- Gradient definitions -->
+    <defs>
+      <linearGradient id={`area-gradient-${ticker}`} x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" class="gradient-start" />
+        <stop offset="100%" class="gradient-end" />
+      </linearGradient>
+      
+      <filter id={`glow-${ticker}`}>
+        <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+        <feMerge>
+          <feMergeNode in="coloredBlur"/>
+          <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+      </filter>
+    </defs>
+
+    <!-- Grid lines -->
+    <g class="grid-lines">
+      {yTicks.map(tick => (
+        <line 
+          x1={padding.left} 
+          y1={tick.y} 
+          x2={width - padding.right} 
+          y2={tick.y} 
+          class="grid-line"
+        />
+      ))}
+    </g>
+
+    <!-- Area under curve -->
+    <path 
+      d={areaPath} 
+      fill={`url(#area-gradient-${ticker})`} 
+      opacity="0.3"
+      class="area-fill"
+    />
+
+    <!-- Price line -->
+    <path 
+      d={priceLine} 
+      fill="none" 
+      class="price-line"
+      filter={`url(#glow-${ticker})`}
+    />
+
+    <!-- Volume bars -->
+    <g class="volume-bars">
+      {volumeBars.map((bar: any, i: number) => (
+        <rect
+          x={bar.x - 2}
+          y={bar.y - bar.height}
+          width="4"
+          height={bar.height}
+          class="volume-bar"
+          data-volume={bar.volume}
+        />
+      ))}
+    </g>
+
+    <!-- Data points -->
+    <g class="data-points">
+      {points.map((point: any, i: number) => (
+        <circle
+          cx={point.x}
+          cy={point.y}
+          r="4"
+          class="data-point"
+          data-price={point.price}
+          data-date={point.date}
+        />
+      ))}
+    </g>
+
+    <!-- Y-axis -->
+    <g class="y-axis">
+      <line 
+        x1={padding.left} 
+        y1={padding.top} 
+        x2={padding.left} 
+        y2={height - padding.bottom} 
+        class="axis-line"
+      />
+      {yTicks.map(tick => (
+        <text 
+          x={padding.left - 10} 
+          y={tick.y} 
+          class="axis-label y-label"
+          text-anchor="end"
+          dominant-baseline="middle"
+        >
+          ${tick.price}
+        </text>
+      ))}
+    </g>
+
+    <!-- X-axis -->
+    <g class="x-axis">
+      <line 
+        x1={padding.left} 
+        y1={height - padding.bottom} 
+        x2={width - padding.right} 
+        y2={height - padding.bottom} 
+        class="axis-line"
+      />
+      {xTicks.map((d: any, i: number) => {
+        const index = chartData.indexOf(d);
+        const x = padding.left + (index / (chartData.length - 1)) * chartWidth;
+        const dateObj = new Date(d.date);
+        const label = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        return (
+          <text 
+            x={x} 
+            y={height - padding.bottom + 25} 
+            class="axis-label x-label"
+            text-anchor="middle"
+          >
+            {label}
+          </text>
+        );
+      })}
+    </g>
+
+    <!-- Tooltip (handled by JavaScript) -->
+    <g class="tooltip" style="display: none;">
+      <rect class="tooltip-bg" rx="4" />
+      <text class="tooltip-date" />
+      <text class="tooltip-price" />
+    </g>
+  </svg>
+
+  <div class="chart-footer">
+    <span class="chart-period">3-Month Historical Data</span>
+    <span class="chart-source">Source: Yahoo Finance</span>
+  </div>
+  
+  <div class="chart-disclaimer">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="12" cy="12" r="10"></circle>
+      <line x1="12" y1="16" x2="12" y2="12"></line>
+      <line x1="12" y1="8" x2="12.01" y2="8"></line>
+    </svg>
+    <span>This chart shows historical data as of {new Date(stockData.generatedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' })}. Not updated in real-time.</span>
+  </div>
+</div>
+
+<style>
+  .stock-chart-container {
+    width: 100%;
+    margin: 2rem 0;
+    background: #fafbfc;
+    border: 1px solid #e2e8f0;
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.04);
+    transition: all 0.3s ease;
+  }
+
+  html[data-theme="dark"] .stock-chart-container {
+    background: rgba(255, 255, 255, 0.02);
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  }
+
+  .stock-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .stock-info {
+    flex: 1;
+    min-width: 250px;
+  }
+
+  .stock-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+    color: #1e293b;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  html[data-theme="dark"] .stock-name {
+    color: #f1f5f9;
+  }
+
+  .company-name {
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: #64748b;
+  }
+
+  html[data-theme="dark"] .company-name {
+    color: #94a3b8;
+  }
+
+  .stock-price {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .current-price {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1e293b;
+  }
+
+  html[data-theme="dark"] .current-price {
+    color: #f1f5f9;
+  }
+
+  .price-change {
+    font-size: 1.125rem;
+    font-weight: 600;
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--radius-sm);
+  }
+
+  .price-change.positive {
+    color: #10b981;
+    background: rgba(16, 185, 129, 0.1);
+  }
+
+  .price-change.negative {
+    color: #ef4444;
+    background: rgba(239, 68, 68, 0.1);
+  }
+
+  .stock-stats {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  html[data-theme="dark"] .stat-label {
+    color: #94a3b8;
+  }
+
+  .stat-value {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #334155;
+  }
+
+  html[data-theme="dark"] .stat-value {
+    color: #e2e8f0;
+  }
+
+  .stock-chart {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    overflow: visible;
+  }
+
+  /* Chart styling */
+  .grid-line {
+    stroke: #cbd5e1;
+    stroke-width: 1;
+    opacity: 0.5;
+    stroke-dasharray: 4 4;
+  }
+
+  html[data-theme="dark"] .grid-line {
+    stroke: #475569;
+    opacity: 0.3;
+  }
+
+  .area-fill {
+    animation: fadeIn 1s ease-out;
+  }
+
+  .gradient-start {
+    stop-color: #3b82f6;
+    stop-opacity: 0.6;
+  }
+
+  .gradient-end {
+    stop-color: #3b82f6;
+    stop-opacity: 0;
+  }
+
+  html[data-theme="dark"] .gradient-start {
+    stop-color: #60a5fa;
+  }
+
+  .price-line {
+    stroke: #3b82f6;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    animation: drawLine 1.5s ease-out;
+  }
+
+  html[data-theme="dark"] .price-line {
+    stroke: #60a5fa;
+  }
+
+  @keyframes drawLine {
+    from {
+      stroke-dasharray: 2000;
+      stroke-dashoffset: 2000;
+    }
+    to {
+      stroke-dasharray: 2000;
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 0.3; }
+  }
+
+  .volume-bar {
+    fill: #94a3b8;
+    opacity: 0.4;
+    transition: opacity 0.2s ease;
+  }
+
+  .volume-bar:hover {
+    opacity: 0.8;
+  }
+
+  html[data-theme="dark"] .volume-bar {
+    fill: #64748b;
+  }
+
+  .data-point {
+    fill: #3b82f6;
+    stroke: white;
+    stroke-width: 2;
+    opacity: 0;
+    transition: opacity 0.2s ease, r 0.2s ease;
+    animation: fadeInPoints 0.5s ease-out 1s forwards;
+  }
+
+  html[data-theme="dark"] .data-point {
+    fill: #60a5fa;
+    stroke: #1e293b;
+  }
+
+  @keyframes fadeInPoints {
+    to { opacity: 1; }
+  }
+
+  .data-point:hover {
+    r: 6;
+    opacity: 1;
+  }
+
+  .axis-line {
+    stroke: #cbd5e1;
+    stroke-width: 1.5;
+  }
+
+  html[data-theme="dark"] .axis-line {
+    stroke: #475569;
+  }
+
+  .axis-label {
+    font-size: 12px;
+    fill: #64748b;
+    font-family: system-ui, -apple-system, sans-serif;
+  }
+
+  html[data-theme="dark"] .axis-label {
+    fill: #94a3b8;
+  }
+
+  .y-label {
+    font-weight: 500;
+  }
+
+  .x-label {
+    font-weight: 500;
+  }
+
+  .tooltip-bg {
+    fill: #ffffff;
+    stroke: #cbd5e1;
+    stroke-width: 1;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+  }
+
+  html[data-theme="dark"] .tooltip-bg {
+    fill: #1e293b;
+    stroke: #334155;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+  }
+
+  .tooltip-date,
+  .tooltip-price {
+    font-size: 13px;
+    fill: #1e293b;
+    font-weight: 500;
+  }
+
+  html[data-theme="dark"] .tooltip-date,
+  html[data-theme="dark"] .tooltip-price {
+    fill: #f1f5f9;
+  }
+
+  .chart-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-border);
+    font-size: 0.75rem;
+    color: #64748b;
+  }
+
+  html[data-theme="dark"] .chart-footer {
+    color: #94a3b8;
+  }
+
+  .chart-disclaimer {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: rgba(59, 130, 246, 0.05);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    color: #475569;
+    line-height: 1.4;
+  }
+
+  html[data-theme="dark"] .chart-disclaimer {
+    background: rgba(59, 130, 246, 0.1);
+    border-color: rgba(59, 130, 246, 0.3);
+    color: #cbd5e1;
+  }
+
+  .chart-disclaimer svg {
+    flex-shrink: 0;
+    color: #3b82f6;
+    opacity: 0.7;
+  }
+
+  @media (max-width: 768px) {
+    .stock-chart-container {
+      padding: 1rem;
+    }
+
+    .stock-header {
+      flex-direction: column;
+    }
+
+    .stock-stats {
+      width: 100%;
+      justify-content: space-between;
+    }
+
+    .current-price {
+      font-size: 1.5rem;
+    }
+
+    .price-change {
+      font-size: 1rem;
+    }
+
+    .axis-label {
+      font-size: 10px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .x-label:not(:first-child):not(:last-child) {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  // Add interactive tooltip
+  document.addEventListener('astro:page-load', () => {
+    const charts = document.querySelectorAll('.stock-chart');
+    
+    charts.forEach(chart => {
+      const dataPoints = chart.querySelectorAll('.data-point');
+      const tooltip = chart.querySelector('.tooltip');
+      const tooltipBg = chart.querySelector('.tooltip-bg');
+      const tooltipDate = chart.querySelector('.tooltip-date');
+      const tooltipPrice = chart.querySelector('.tooltip-price');
+      
+      if (!tooltip || !tooltipBg || !tooltipDate || !tooltipPrice) return;
+      
+      dataPoints.forEach(point => {
+        point.addEventListener('mouseenter', (e: Event) => {
+          const target = e.target as SVGCircleElement;
+          const price = target.getAttribute('data-price');
+          const date = target.getAttribute('data-date');
+          
+          if (!price || !date) return;
+          
+          const dateObj = new Date(date);
+          const formattedDate = dateObj.toLocaleDateString('en-US', { 
+            month: 'short', 
+            day: 'numeric', 
+            year: 'numeric' 
+          });
+          
+          tooltipDate.textContent = formattedDate;
+          tooltipPrice.textContent = `$${parseFloat(price).toFixed(2)}`;
+          
+          const x = parseFloat(target.getAttribute('cx') || '0');
+          const y = parseFloat(target.getAttribute('cy') || '0');
+          
+          tooltip.setAttribute('transform', `translate(${x + 10}, ${y - 40})`);
+          (tooltip as HTMLElement).style.display = 'block';
+          
+          // Size tooltip background
+          tooltipBg.setAttribute('width', '120');
+          tooltipBg.setAttribute('height', '50');
+          tooltipDate.setAttribute('x', '10');
+          tooltipDate.setAttribute('y', '20');
+          tooltipPrice.setAttribute('x', '10');
+          tooltipPrice.setAttribute('y', '38');
+        });
+        
+        point.addEventListener('mouseleave', () => {
+          (tooltip as HTMLElement).style.display = 'none';
+        });
+      });
+    });
+  });
+</script>

@@ -55,7 +55,7 @@ volumes:
 
 Create the config file `valkey.conf`:
 
-```conf
+```text
 # Network
 bind 0.0.0.0
 port 6379
@@ -670,7 +670,7 @@ def get_slow_queries():
 **The problem:** Valkey will consume all available RAM and crash your server.
 
 **The fix:**
-```conf
+```text
 maxmemory 2gb
 maxmemory-policy allkeys-lru
 ```
