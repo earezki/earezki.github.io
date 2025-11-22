@@ -6,6 +6,7 @@ Built with Astro.
 ## Features
 
 - [x] **RSS Feed & Sitemap** - Auto-generated RSS feeds and sitemaps for all content
+- [x] **IndexNow Integration** - Automatic search engine notification (Bing, Yandex) when new content is published
 - [x] **Reading Time Estimation** - Accurate reading time calculations for all articles
 - [x] **Series Navigation** - Support for multi-part article series with navigation
 - [x] **Related Posts** - Content recommendations using optimized similarity algorithms

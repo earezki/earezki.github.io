@@ -44,6 +44,11 @@ const FILES_TO_COPY = [
     to: 'dist/cv-en.pdf', 
     description: 'English CV (PDF)' 
   },
+  { 
+    from: 'public/e0b2d1d4eef749e8bdcb95374a1d309a.txt', 
+    to: 'dist/e0b2d1d4eef749e8bdcb95374a1d309a.txt', 
+    description: 'IndexNow verification key' 
+  },
 ];
 
 /**
@@ -115,6 +120,26 @@ async function main() {
     });
     
     child.on('error', reject);
+  });
+  
+  console.log('\n🔍 Submitting new/modified content to IndexNow...\n');
+  
+  await new Promise((resolve, reject) => {
+    const scriptPath = path.join(__dirname, 'indexnow-submit.js');
+    const child = spawn('node', [scriptPath], { stdio: 'inherit' });
+    
+    child.on('close', (code) => {
+      // Don't fail the build if IndexNow submission fails
+      if (code !== 0) {
+        console.warn(`⚠️  IndexNow submission exited with code ${code} (non-fatal)`);
+      }
+      resolve();
+    });
+    
+    child.on('error', (error) => {
+      console.warn(`⚠️  IndexNow submission error: ${error.message} (non-fatal)`);
+      resolve();
+    });
   });
   
   console.log('\n✨ Post-processing pipeline completed successfully!\n');
