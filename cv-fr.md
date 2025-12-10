@@ -154,6 +154,34 @@ StackOverflow
 
 ## 🚀 Projets Personnels
 
+🏋️ Swipe Interview App
+
+Visiter l'app →
+
+Application web progressive pour la préparation aux entretiens avec questions
+d'interview et explications détaillées. Inclut un suivi de progression et des
+défis quotidiens pour apprendre et s'entraîner.
+
+TypeScript
+React
+Tailwind
+Python
+FastAPI
+
+🎭 ZestLoop
+
+Visiter l'app →
+
+Plateforme de contenu propulsée par l'IA offrant des catégories dynamiques :
+blagues, affirmations, citations, histoires et contes pour s'endormir.
+Application full-stack avec frontend Flutter et backend Python FastAPI, avec
+génération de contenu intelligente.
+
+Flutter
+Python
+FastAPI
+AI Content
+
 🤖 Stock Weather AI
 
 Voir le code →

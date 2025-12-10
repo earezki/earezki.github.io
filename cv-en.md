@@ -147,6 +147,33 @@ systems that make a real difference.
 
 ## 🚀 Personal Projects
 
+🏋️ Swipe Interview App
+
+Visit App →
+
+Progressive Web App for interview preparation with interview questions and
+detailed explanations. Features progress tracking, daily challenges, and an
+intuitive swiping interface to learn and practice.
+
+TypeScript
+React
+Tailwind
+Python
+FastAPI
+
+🎭 ZestLoop
+
+Visit App →
+
+AI-powered content platform delivering dynamic categories: jokes, affirmations,
+quotes, stories, and bedtime tales. Full-stack application with Flutter frontend
+and FastAPI backend, featuring intelligent content generation.
+
+Flutter
+Python
+FastAPI
+AI Content
+
 🤖 Stock Weather AI
 
 View Code →
@@ -181,19 +208,6 @@ with high availability and scalability.
 Java
 Quarkus
 E-Commerce
-
-🎭 ZestLoop
-
-Visit App →
-
-AI-powered content platform delivering dynamic categories: jokes, affirmations,
-quotes, stories, and bedtime tales. Full-stack application with Flutter frontend
-and FastAPI backend, featuring intelligent content generation.
-
-Flutter
-Python
-FastAPI
-AI Content
 
 ---
 
