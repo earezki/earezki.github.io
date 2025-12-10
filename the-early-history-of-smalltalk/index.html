@@ -1,0 +1,463 @@
+<!DOCTYPE html><html lang="en" data-theme="dark"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Best Of: The Early History Of Smalltalk • Dev|Journal</title><meta name="description" content="> Smalltalk’s design–and existence–is due to the insight that everything we can describe can be represented by the recursive composition of a single kind of…"><meta name="keywords" content="Software architecture, Software design, Thoughts"><meta name="author" content="El Mehdi Arezki"><meta property="og:type" content="website"><meta property="og:url" content="https://earezki.com/the-early-history-of-smalltalk/"><meta property="og:title" content="Best Of: The Early History Of Smalltalk • Dev|Journal"><meta property="og:site_name" content="Dev|Journal"><meta property="og:description" content="> Smalltalk’s design–and existence–is due to the insight that everything we can describe can be represented by the recursive composition of a single kind of…"><meta property="og:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:url" content="https://earezki.com/the-early-history-of-smalltalk/"><meta name="twitter:title" content="Best Of: The Early History Of Smalltalk • Dev|Journal"><meta name="twitter:description" content="> Smalltalk’s design–and existence–is due to the insight that everything we can describe can be represented by the recursive composition of a single kind of…"><meta name="twitter:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:creator" content="@earezki"><link rel="canonical" href="https://earezki.com/the-early-history-of-smalltalk/"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/x-icon" href="/favicon.ico"><link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"><link rel="dns-prefetch" href="https://cloud.umami.is"><script defer src="https://cloud.umami.is/script.js" data-website-id="4a26531d-1053-4f79-97a6-06a1366aff91"></script><script>
+      (function() {
+        const theme = localStorage.getItem('theme');
+        if (theme) document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script><script>
+!function(){const o=window.location.pathname;if("/"===o)return;if(/\.\w+$/.test(o))return;const n=o.toLowerCase(),i=n!==o,t=!o.endsWith("/");if(i||t){const o=n+(t?"/":""),i=window.location.origin+o+window.location.search+window.location.hash;window.location.replace(i)}}();
+</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Best Of: The Early History Of Smalltalk","description":"> Smalltalk’s design–and existence–is due to the insight that everything we can describe can be represented by the recursive composition of a single kind of…","image":"https://earezki.com/assets/og-image-default.jpg","datePublished":"2020-04-13T00:00:00.000Z","dateModified":"2020-04-13T00:00:00.000Z","author":{"@type":"Person","name":"El Mehdi Arezki","url":"https://earezki.com/about","jobTitle":"Lead Software Engineer","sameAs":["https://github.com/earezki","https://www.linkedin.com/in/mehdi-arezki"]},"publisher":{"@type":"Organization","name":"Dev|Journal","url":"https://earezki.com","logo":{"@type":"ImageObject","url":"https://earezki.com/assets/logo.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://earezki.com/the-early-history-of-smalltalk/"}}</script><link rel="stylesheet" href="/_astro/_slug_.BZhQT0av.css">
+<link rel="stylesheet" href="/_astro/_slug_.CFj9bTVJ.css">
+<style>.series-navigation[data-astro-cid-2hl7stop]{margin:2rem 0 3rem;padding:1.5rem;background:linear-gradient(135deg,#2563eb0d,#6366f10d);border:1px solid var(--color-border);border-radius:var(--radius-md)}html[data-theme=dark] .series-navigation[data-astro-cid-2hl7stop]{background:linear-gradient(135deg,#2563eb1a,#6366f11a)}.series-header[data-astro-cid-2hl7stop]{margin-bottom:1.25rem}.series-badge[data-astro-cid-2hl7stop]{display:inline-block;font-size:.75rem;font-weight:600;color:var(--color-accent);background:#2563eb1a;padding:.25rem .75rem;border-radius:var(--radius-pill);margin-bottom:.5rem}.series-header[data-astro-cid-2hl7stop] h3[data-astro-cid-2hl7stop]{margin:.5rem 0 .25rem;font-size:1.25rem;color:var(--color-text)}.series-progress[data-astro-cid-2hl7stop]{font-size:.85rem;color:var(--color-text-alt);margin:0}.series-list[data-astro-cid-2hl7stop]{display:flex;flex-direction:column;gap:.75rem;margin:1.5rem 0}.series-item[data-astro-cid-2hl7stop]{display:flex;align-items:center;gap:.75rem;padding:.75rem;background:var(--color-bg);border:1px solid var(--color-border);border-radius:var(--radius-sm);transition:all var(--transition)}.series-item[data-astro-cid-2hl7stop]:hover{border-color:var(--color-accent)}.series-item[data-astro-cid-2hl7stop].current{background:var(--color-accent);border-color:var(--color-accent)}.series-item[data-astro-cid-2hl7stop].completed{opacity:.7}.series-number[data-astro-cid-2hl7stop]{flex-shrink:0;width:28px;height:28px;display:flex;align-items:center;justify-content:center;background:var(--color-bg-alt);color:var(--color-text-alt);border-radius:50%;font-size:.85rem;font-weight:600}.series-item[data-astro-cid-2hl7stop].current .series-number[data-astro-cid-2hl7stop]{background:#fff3;color:#fff}.series-title[data-astro-cid-2hl7stop]{flex:1;font-size:.95rem;color:var(--color-text);text-decoration:none;transition:color var(--transition)}.series-title[data-astro-cid-2hl7stop]:hover{color:var(--color-accent)}.series-item[data-astro-cid-2hl7stop].current .current-title[data-astro-cid-2hl7stop]{color:#fff;font-weight:600}.check-icon[data-astro-cid-2hl7stop]{flex-shrink:0;color:#10b981;font-size:1.1rem}.series-nav-buttons[data-astro-cid-2hl7stop]{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--color-border)}.series-nav-btn[data-astro-cid-2hl7stop]{display:flex;flex-direction:column;gap:.25rem;padding:1rem;background:var(--color-bg);border:1px solid var(--color-border);border-radius:var(--radius-sm);text-decoration:none;transition:all var(--transition)}.series-nav-btn[data-astro-cid-2hl7stop]:hover{border-color:var(--color-accent);transform:translateY(-2px);box-shadow:var(--shadow-sm)}.series-nav-btn[data-astro-cid-2hl7stop].next{text-align:right}.nav-label[data-astro-cid-2hl7stop]{font-size:.75rem;color:var(--color-text-alt);font-weight:600;text-transform:uppercase;letter-spacing:.05em}.nav-title[data-astro-cid-2hl7stop]{font-size:.9rem;color:var(--color-text);font-weight:500}.series-nav-btn[data-astro-cid-2hl7stop]:hover .nav-title[data-astro-cid-2hl7stop]{color:var(--color-accent)}@media(max-width:680px){.series-navigation[data-astro-cid-2hl7stop]{padding:1rem}.series-nav-buttons[data-astro-cid-2hl7stop]{grid-template-columns:1fr}.series-nav-btn[data-astro-cid-2hl7stop].next{text-align:left}}.post-layout[data-astro-cid-yvbahnfj]{display:grid;grid-template-columns:260px 1fr;gap:2.5rem;width:100%;max-width:100%;box-sizing:border-box}.sidebar-left[data-astro-cid-yvbahnfj]{position:relative;min-width:0;overflow:hidden}@media(max-width:1080px){.post-layout[data-astro-cid-yvbahnfj]{grid-template-columns:1fr;width:100%;max-width:100%;padding:0;margin:0}}@media(max-width:768px){.post-layout[data-astro-cid-yvbahnfj]{display:block;width:100%;max-width:100%;padding:0;margin:0}.sidebar-left[data-astro-cid-yvbahnfj]{display:none}}
+</style></head> <body> <div id="readingProgress" role="progressbar" aria-label="Reading progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="position:fixed;left:0;top:0;height:3px;background:linear-gradient(90deg,#2563eb,#9333ea);width:0;z-index:999;transition:width .15s ease;"></div> <script type="module">function c(){const t=document.getElementById("readingProgress");if(!t)return;const o=()=>{const e=document.documentElement,r=e.scrollTop||document.body.scrollTop,s=e.scrollHeight-e.clientHeight,n=s>0?r/s*100:0;t.style.width=`${n}%`,t.setAttribute("aria-valuenow",n.toFixed(0))};document.addEventListener("scroll",o,{passive:!0}),o()}c();</script> <header class="site-header container"> <div class="logo-wrap"> <a class="logo" href="/" aria-label="Dev|Journal Home">
+Dev|Journal
+</a> </div> <!-- Search Box in Header --> <div class="header-search" data-search-api-url="https://api.earezki.com/blog/api/q" data-search-timeout="2000"> <div class="search-box" id="search-box"> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon" aria-hidden="true"> <circle cx="11" cy="11" r="8"></circle> <path d="m21 21-4.35-4.35"></path> </svg> <input type="text" id="search-input" placeholder="Search ..." class="search-input" autocomplete="off" aria-label="Search articles" minlength="3"> <button id="clear-search" class="clear-button" style="display: none;" aria-label="Clear search"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <line x1="18" y1="6" x2="6" y2="18"></line> <line x1="6" y1="6" x2="18" y2="18"></line> </svg> </button> </div> <div id="search-results" class="search-results" role="status" aria-live="polite"></div> </div> <script type="module" src="/_astro/SearchBox.astro_astro_type_script_index_0_lang.BNnBPVSN.js"></script> <nav class="main-nav" aria-label="Main navigation"> <a href="/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path> <polyline points="9 22 9 12 15 12 15 22"></polyline> </svg>
+Home
+</a> <a href="/ai-news/" class="ai-news-link ai-gradient-nav"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h-9.5a.5.5 0 0 0-.5.5.5.5 0 0 1-1 0 .5.5 0 0 0-.5-.5H1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"></path> <path d="M7 15v4a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-4"></path> </svg>
+AI News
+</a> <a href="/ai-financial-news/" class="ai-financial-link ai-gradient-nav"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <line x1="12" y1="1" x2="12" y2="23"></line> <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path> </svg>
+AI Financial
+</a> <a href="/about/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <circle cx="12" cy="12" r="10"></circle> <path d="M12 16v-4"></path> <path d="M12 8h.01"></path> </svg>
+About
+</a> <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode"> <span class="theme-icon" aria-hidden="true">☾</span> </button> </nav> </header> <!-- Main Content --> <main class="container content-area">  <nav class="breadcrumbs" aria-label="Breadcrumb" data-astro-cid-ilhxcym7> <ol data-astro-cid-ilhxcym7> <li data-astro-cid-ilhxcym7>  <a href="/" data-astro-cid-ilhxcym7>Home</a> <span class="separator" aria-hidden="true" data-astro-cid-ilhxcym7>/</span>  </li><li data-astro-cid-ilhxcym7> <span class="current" aria-current="page" data-astro-cid-ilhxcym7>Best Of: The Early History Of Smalltalk</span> </li>  </ol> </nav>  <div class="post-layout" data-astro-cid-yvbahnfj> <aside class="sidebar-left" data-astro-cid-yvbahnfj>  </aside> <article class="post" data-astro-cid-yvbahnfj> <header class="post-header" data-astro-cid-yvbahnfj> <h1 data-astro-cid-yvbahnfj>Best Of: The Early History Of Smalltalk</h1> <div class="meta" data-astro-cid-yvbahnfj> <time datetime="2020-04-13T00:00:00.000Z" data-astro-cid-yvbahnfj>Mon Apr 13 2020</time> <span data-astro-cid-yvbahnfj>• 1 min read</span> </div> <div class="tag-row" data-astro-cid-yvbahnfj><a class="post-tag " href="/tags/software-architecture/" data-astro-cid-yvbahnfj>Software architecture</a><a class="post-tag " href="/tags/software-design/" data-astro-cid-yvbahnfj>Software design</a><a class="post-tag " href="/tags/thoughts/" data-astro-cid-yvbahnfj>Thoughts</a></div> </header>    <div class="post-body prose" data-astro-cid-yvbahnfj> <blockquote>
+<p>Smalltalk’s design–and existence–is due to the insight that everything we can describe can be represented by the recursive composition of a single kind of behavioral building block that hides its combination of state and process inside itself and can be dealt with only through the exchange of messages.<br>
+—  <strong>Alan C.Kay</strong></p>
+</blockquote>
+<p>Kay means that Smalltalk models everything as objects that bundle data (state) and the code that acts on that data (behavior). By forcing interactions to go through message passing, systems become collections of small, well-encapsulated pieces you can assemble and reason about.</p>
+<hr>
+<blockquote>
+<p>each Smalltalk object is a recursion on the entire possibilities of the computer. Thus its semantics are a bit like having thousands and thousands of computer all hooked together by a very fast network.<br>
+—  <strong>Alan C.Kay</strong></p>
+</blockquote>
+<p>This is a metaphor: every object is a tiny computational unit, and when you combine many of them you can model very complex behavior. Think of simple, identical bricks that, when connected, can build anything — that’s the power Kay describes.</p>
+<hr>
+<blockquote>
+<p>Though it has noble ancestors indeed, Smalltalk’s contribution is anew design paradigm–which I called object-oriented–for attacking large problems of the professional programmer, and making small ones possible for the novice user. Object-oriented design is a successful attempt to qualitatively improve the efficiency of modeling the ever more complex dynamic systems and user relationships made possible by the silicon explosion.<br>
+—  <strong>Alan C.Kay</strong></p>
+</blockquote>
+<hr>
+<p>Here Kay argues that object-oriented programming isn’t just syntax or sugar: it’s a different way to think about solving problems. By keeping data with its behavior and favouring message-based interactions, OOP makes large, evolving systems easier to manage and easier to learn for newcomers.</p> </div>  <section class="series-navigation" data-astro-cid-2hl7stop> <div class="series-header" data-astro-cid-2hl7stop> <span class="series-badge" data-astro-cid-2hl7stop>📚 Series</span> <h3 data-astro-cid-2hl7stop>Architecture Patterns</h3> <p class="series-progress" data-astro-cid-2hl7stop>Part 1 of 90</p> </div> <div class="series-list" data-astro-cid-2hl7stop> <div class="series-item current " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>1</span> <span class="series-title current-title" data-astro-cid-2hl7stop>Best Of: The Early History Of Smalltalk</span>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>2</span> <a href="/microservices-vs-monoliths/" class="series-title" data-astro-cid-2hl7stop> Microservices vs Monoliths </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>3</span> <a href="/ai-news/2025-12-05-teaching-llms-how-to-count/" class="series-title" data-astro-cid-2hl7stop> Teaching LLMs to Count: IBM&#39;s PD-SSM Breakthrough </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>4</span> <a href="/ai-news/2025-10-21-article-three-questions-that-help-you-build-a-better-software-architecture/" class="series-title" data-astro-cid-2hl7stop> Three Questions That Help You Build a Better Software Architecture </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>5</span> <a href="/ai-news/2025-10-24-presentation-the-ideal-micro-frontends-platform/" class="series-title" data-astro-cid-2hl7stop> The Ideal Micro-Frontends Platform </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>6</span> <a href="/ai-news/2025-10-27-presentation-vector-sync-patterns-keeping-ai-features-fresh-when-your-data-changes/" class="series-title" data-astro-cid-2hl7stop> Vector Sync Patterns: Keeping AI Features Fresh When Your Data Changes </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>7</span> <a href="/ai-news/2025-10-28-meta-open-sources-openzl-a-universal-compression-framework-for-structured-data/" class="series-title" data-astro-cid-2hl7stop> Meta Open Sources OpenZL: A Universal Compression Framework for Structured Data </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>8</span> <a href="/ai-news/2025-10-29-the-architectural-shift-ai-agents-become-execution-engines-while-backends-retreat-to-governance/" class="series-title" data-astro-cid-2hl7stop> AI Agents Evolve: From Assistance to Execution Engines in Enterprise Architecture </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>9</span> <a href="/ai-news/2025-10-30-inside-the-architectures-powering-modern-ai-systems-qcon-san-francisco-2025/" class="series-title" data-astro-cid-2hl7stop> Inside the Architectures Powering Modern AI Systems: QCon San Francisco 2025 </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>10</span> <a href="/ai-news/2025-11-01-microservices-design-patterns-best-practices/" class="series-title" data-astro-cid-2hl7stop> Microservices Design Patterns: Best Practices for Scalable Systems </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>11</span> <a href="/ai-news/2025-11-01-typescript-advanced-patterns-best-practices/" class="series-title" data-astro-cid-2hl7stop> TypeScript Advanced Patterns and Best Practices: Complete Guide </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>12</span> <a href="/caching/" class="series-title" data-astro-cid-2hl7stop> Caching, when to add it and how to avoid headaches </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>13</span> <a href="/cdn/" class="series-title" data-astro-cid-2hl7stop> CDNs, make the world feel closer </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>14</span> <a href="/choice-of-database/" class="series-title" data-astro-cid-2hl7stop> Choosing a database, practicality over purity </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>15</span> <a href="/database-replication/" class="series-title" data-astro-cid-2hl7stop> Database replication, how to copy reliably and why it matters </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>16</span> <a href="/database-sharding/" class="series-title" data-astro-cid-2hl7stop> Database sharding, splitting data without losing your mind </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>17</span> <a href="/horizontal-scaling/" class="series-title" data-astro-cid-2hl7stop> Horizontal scaling, building systems that grow outwards </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>18</span> <a href="/load-balancer/" class="series-title" data-astro-cid-2hl7stop> Load balancers, the traffic cops of your architecture </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>19</span> <a href="/massively-scaling-a-web-application/" class="series-title" data-astro-cid-2hl7stop> Massively scaling a web application </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>20</span> <a href="/multi-region-deployment/" class="series-title" data-astro-cid-2hl7stop> Multi-region deployment, global availability with local complexity </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>21</span> <a href="/single-server-setup/" class="series-title" data-astro-cid-2hl7stop> Single server setup, when simple is best </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>22</span> <a href="/stateful-vs-stateless/" class="series-title" data-astro-cid-2hl7stop> Stateful vs Stateless, design choices that shape scalability </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>23</span> <a href="/vertical-scaling/" class="series-title" data-astro-cid-2hl7stop> Vertical scaling, when you need raw power </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>24</span> <a href="/ai-news/2025-11-03-article-empowering-teams-decentralizing-architectural-decision-making/" class="series-title" data-astro-cid-2hl7stop> Empowering Teams: Decentralizing Architectural Decision-Making </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>25</span> <a href="/ai-news/2025-11-03-java-news-roundup-openjdk-jeps-for-jdk-26-spring-rcs-quarkus-jreleaser-seed4j-gradle/" class="series-title" data-astro-cid-2hl7stop> Java News Roundup: OpenJDK JEPs, Spring RCs, and Tool Updates for JDK 26 and Beyond </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>26</span> <a href="/ai-news/2025-11-04-the-problem-space-why-modern-banking-infrastructure-is-broken/" class="series-title" data-astro-cid-2hl7stop> The Core Banking Crisis: Legacy Systems vs. Modern Financial Demands </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>27</span> <a href="/ai-news/2025-11-05-presentation-scaling-api-independence-mocking-contract-testing-observability-in-large-microservices-environments/" class="series-title" data-astro-cid-2hl7stop> Scaling API Independence: Mocking, Contract Testing &amp; Observability in Microservices </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>28</span> <a href="/ai-news/2025-11-06-azure-landing-zone/" class="series-title" data-astro-cid-2hl7stop> Production-Grade Azure Landing Zone: Architecture, Governance, and Automation </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>29</span> <a href="/ai-news/2025-11-06-inside-ubers-pinot-query-overhaul-simplifying-layers-and-improving-observability/" class="series-title" data-astro-cid-2hl7stop> Inside Uber’s Pinot Query Overhaul: Simplifying Layers and Improving Observability </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>30</span> <a href="/ai-news/2025-11-07-grails-70-now-under-the-apache-software-foundation-delivers-enhancements-for-micronaut-and-gorm/" class="series-title" data-astro-cid-2hl7stop> Apache Grails 7.0.0 Released with Micronaut Integration and GORM Enhancements </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>31</span> <a href="/ai-news/2025-11-07-presentation-achieving-precision-in-ai-retrieving-the-right-data-using-ai-agents/" class="series-title" data-astro-cid-2hl7stop> Achieving Precision in AI: Agentic RAG and Feedback Loops for Operational Excellence </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>32</span> <a href="/ai-news/2025-11-08-aws-launches-capabilities-by-region-tool/" class="series-title" data-astro-cid-2hl7stop> AWS Launches Capabilities by Region Tool for Enhanced Service Visibility and Deployment Planning </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>33</span> <a href="/ai-news/2025-11-08-building-an-event-driven-architecture-on-aws-using-eventbridge-and-sns-for-ec2-state-notifications/" class="series-title" data-astro-cid-2hl7stop> Building an Event-Driven Architecture on AWS Using EventBridge and SNS for EC2 State Notifications </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>34</span> <a href="/ai-news/2025-11-09-princpios-fundamentais-do-desenvolvimento-de-software/" class="series-title" data-astro-cid-2hl7stop> Fundamental Principles of Software Development: DRY, KISS, YAGNI, POLS, and CoC </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>35</span> <a href="/ai-news/2025-11-10-podcast-architecture-should-model-the-world-as-it-really-is-a-conversation-with-randy-shoup/" class="series-title" data-astro-cid-2hl7stop> Architecture Should Model the Real World: Lessons from Software Failures and Resilience Strategies </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>36</span> <a href="/ai-news/2025-11-11-a-coding-implementation-to-build-and-train-advanced-architectures-with-residual-connections-self-attention-and-adaptive-optimization-using-jax-flax-and-optax/" class="series-title" data-astro-cid-2hl7stop> Build and Train Advanced Architectures with Residual Connections, Self-Attention, and Adaptive Optimization Using JAX, Flax, and Optax </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>37</span> <a href="/ai-news/2025-11-11-ability-to-create-async-commands-in-webforms-core-2/" class="series-title" data-astro-cid-2hl7stop> Ability to Create Async Commands in WebForms Core 2 </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>38</span> <a href="/ai-news/2025-11-11-architectural-decisions/" class="series-title" data-astro-cid-2hl7stop> Architectural Decisions: Balancing Simplicity and Optimization </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>39</span> <a href="/ai-news/2025-11-12-new-claude-haiku-45-model-promises-faster-performance-at-one-third-the-cost/" class="series-title" data-astro-cid-2hl7stop> New Claude Haiku 4.5 Model Promises Faster Performance at One-Third the Cost </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>40</span> <a href="/ai-news/2025-11-14-nvidia-ai-introduces-tidar-a-hybrid-diffusion-autoregressive-architecture-for-high-throughput-llm-inference/" class="series-title" data-astro-cid-2hl7stop> NVIDIA AI Introduces TiDAR: A Hybrid Diffusion Autoregressive Architecture For High Throughput LLM Inference </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>41</span> <a href="/ai-news/2025-11-14-anthropic-adds-sandboxing-and-web-access-to-claude-code-for-safer-ai-powered-coding/" class="series-title" data-astro-cid-2hl7stop> Anthropic Launches Sandboxed Claude Code with Web Access for Enhanced AI Coding Security </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>42</span> <a href="/ai-news/2025-11-14-know-before-you-go-aws-reinvent-2025-guide-to-well-architected-and-cloud-optimization-sessions/" class="series-title" data-astro-cid-2hl7stop> AWS re:Invent 2025 Unveils AI-Powered Architecture and Cloud Optimization Sessions </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>43</span> <a href="/ai-news/2025-11-15-comparing-the-top-5-ai-agent-architectures-in-2025-hierarchical-swarm-meta-learning-modular-evolutionary/" class="series-title" data-astro-cid-2hl7stop> Comparing the Top 5 AI Agent Architectures in 2025: Hierarchical, Swarm, Meta Learning, Modular, Evolutionary </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>44</span> <a href="/ai-news/2025-11-16-how-to-build-memory-powered-agentic-ai-that-learns-continuously-through-episodic-experiences-and-semantic-patterns-for-long-term-autonomy/" class="series-title" data-astro-cid-2hl7stop> Memory-Powered Agentic AI: Continuous Learning Through Episodic and Semantic Patterns </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>45</span> <a href="/ai-news/2025-11-16-what-happens-when-your-cluster-runs-out-of-cpu-the-unsolved-devops-paradox/" class="series-title" data-astro-cid-2hl7stop> What happens when your cluster runs out of CPU? — The unsolved DevOps paradox </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>46</span> <a href="/ai-news/2025-11-17-article-holistic-engineering-organic-problem-solving-for-complex-evolving-systems/" class="series-title" data-astro-cid-2hl7stop> Holistic Engineering: Organic Problem Solving for Complex Evolving Systems </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>47</span> <a href="/ai-news/2025-11-18-new-ibm-granite-4-models-to-reduce-ai-costs-with-inference-efficient-hybrid-mamba-2-architecture/" class="series-title" data-astro-cid-2hl7stop> New IBM Granite 4 Models to Reduce AI Costs with Inference-Efficient Hybrid Mamba-2 Architecture </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>48</span> <a href="/ai-news/2025-11-19-announcing-the-updated-aws-well-architected-machine-learning-lens/" class="series-title" data-astro-cid-2hl7stop> Announcing the updated AWS Well-Architected Machine Learning Lens </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>49</span> <a href="/ai-news/2025-11-19-article-building-distributed-event-driven-architectures-across-multi-cloud-boundaries/" class="series-title" data-astro-cid-2hl7stop> Building Distributed Event-Driven Architectures Across Multi-Cloud Boundaries </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>50</span> <a href="/ai-news/2025-11-19-building-an-ai-gateway-to-amazon-bedrock-with-amazon-api-gateway/" class="series-title" data-astro-cid-2hl7stop> Building an AI gateway to Amazon Bedrock with Amazon API Gateway </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>51</span> <a href="/ai-news/2025-11-19-the-hidden-failure-pattern-behind-the-aws-azure-and-cloudflare-outages-of-2025/" class="series-title" data-astro-cid-2hl7stop> The Hidden Failure Pattern Behind the AWS, Azure and Cloudflare Outages of 2025 </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>52</span> <a href="/ai-news/2025-11-21-airbnb-adds-adaptive-traffic-control-to-manage-key-value-store-spikes/" class="series-title" data-astro-cid-2hl7stop> Airbnb Adds Adaptive Traffic Control to Manage Key Value Store Spikes </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>53</span> <a href="/ai-news/2025-11-21-netflix-tackles-data-deletion-at-scale-with-centralized-platform-architecture/" class="series-title" data-astro-cid-2hl7stop> Netflix Tackles Data Deletion at Scale with Centralized Platform Architecture </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>54</span> <a href="/ai-news/2025-11-21-the-monolith-strikes-back-when-a-monolith-still-beats-microservices/" class="series-title" data-astro-cid-2hl7stop> The Monolith Strikes Back: When a Monolith Still Beats Microservices </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>55</span> <a href="/ai-news/2025-11-22-scalable-multi-tenant-architecture-for-hundreds-of-custom-domains/" class="series-title" data-astro-cid-2hl7stop> Scalable Multi-Tenant Architecture for Hundreds of Custom Domains </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>56</span> <a href="/ai-news/2025-11-24-article-micro-frontends-a-sociotechnical-journey-toward-a-modern-frontend-architecture/" class="series-title" data-astro-cid-2hl7stop> Micro-Frontends: A Sociotechnical Shift in Frontend Architecture </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>57</span> <a href="/ai-news/2025-11-26-linkedins-migration-journey-to-serve-billions-of-users-by-nishant-lakshmikanth-at-qcon-sf/" class="series-title" data-astro-cid-2hl7stop> LinkedIn Achieves 90% Offline Cost Reduction with Real-Time Recommendation Architecture </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>58</span> <a href="/ai-news/2025-11-28-amazon-adds-a2a-protocol-to-bedrock-agentcore-for-interoperable-multi-agent-workflows/" class="series-title" data-astro-cid-2hl7stop> Amazon Introduces A2A Protocol for Interoperable Multi-Agent Workflows </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>59</span> <a href="/ai-news/2025-11-28-presentation-reliable-data-flows-and-scalable-platforms-tackling-key-data-challenges/" class="series-title" data-astro-cid-2hl7stop> Data Contracts: Bridging the Gap Between Data Producers and Consumers </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>60</span> <a href="/ai-news/2025-11-28-temporal-workflow-engine-with-spring-boot/" class="series-title" data-astro-cid-2hl7stop> Temporal Workflow Engine with Spring Boot Integration </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>61</span> <a href="/ai-news/2025-11-28-trust-the-server-not-the-llm-a-deterministic-approach-to-llm-accuracy/" class="series-title" data-astro-cid-2hl7stop> Zero Mental Math: An Anti-Hallucination Architecture for LLM-Driven Analysis </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>62</span> <a href="/ai-news/2025-11-29-a-coding-guide-to-design-an-agentic-ai-system-using-a-control-plane-architecture-for-safe-modular-and-scalable-tool-driven-reasoning-workflows/" class="series-title" data-astro-cid-2hl7stop> Control-Plane Architecture for Agentic AI Systems </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>63</span> <a href="/ai-news/2025-11-29-googles-antigravity-hacked-in-24-hours-why-ai-agents-need-a-new-security-architecture/" class="series-title" data-astro-cid-2hl7stop> Google&#39;s Antigravity Hacked in 24 Hours: Why AI Agents Need a New Security Architecture </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>64</span> <a href="/ai-news/2025-11-29-how-whatsapp-manages-typing-status-efficiently-a-deep-technical-breakdown/" class="series-title" data-astro-cid-2hl7stop> WhatsApp&#39;s Typing Status Architecture: Real-Time Efficiency at Scale </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>65</span> <a href="/ai-news/2025-11-29-mastering-terraform-file-structure-from-chaos-to-clean-architecture/" class="series-title" data-astro-cid-2hl7stop> Mastering Terraform File Structure – From Chaos to Clean Architecture </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>66</span> <a href="/ai-news/2025-11-30-ci-cd-security-architecture-end-to-end-guide-for-sast-sca-dast-and-automated-triage/" class="series-title" data-astro-cid-2hl7stop> CI/CD Security Architecture: End-to-End Guide for SAST, SCA, DAST, and Automated Triage </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>67</span> <a href="/ai-news/2025-11-30-connection-management-art-the-performance-secrets-of-low-level-architecture/" class="series-title" data-astro-cid-2hl7stop> Connection-Management-Art-The-Performance-Secrets-of-Low-Level-Architecture </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>68</span> <a href="/ai-news/2025-12-01-google-antigravity-an-overview-architecture-and-core-differentiators/" class="series-title" data-astro-cid-2hl7stop> Google Antigravity: Architecture and Differentiation from VS Code </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>69</span> <a href="/ai-news/2025-12-01-how-i-stopped-ai-codebases-from-collapsing-architecture-drift-vs-deterministic-slices/" class="series-title" data-astro-cid-2hl7stop> How I Stopped AI Codebases From Collapsing: Architecture Drift vs. Deterministic Slices </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>70</span> <a href="/ai-news/2025-12-01-podcast-looking-for-root-causes-is-a-false-path-a-conversation-with-david-blank-edelman/" class="series-title" data-astro-cid-2hl7stop> Reliability Is an Emergent Property, Not a Root Cause </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>71</span> <a href="/ai-news/2025-12-01-the-atomic-schlep-the-architecture-of-the-unstoppable-swap/" class="series-title" data-astro-cid-2hl7stop> The Atomic Schlep: The Architecture of the Unstoppable Swap </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>72</span> <a href="/ai-news/2025-12-02-building-intelligent-ai-agents-with-mongodb-atlas-a-bidirectional-data-flow-architecture/" class="series-title" data-astro-cid-2hl7stop> Bidirectional Data Flow Architecture for AI Agents with MongoDB Atlas </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>73</span> <a href="/ai-news/2025-12-02-enterprise-dal-final-automated-user-auditing-and-architectural-retrospective/" class="series-title" data-astro-cid-2hl7stop> Automated User Auditing in Enterprise DAL: A C# Implementation </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>74</span> <a href="/ai-news/2025-12-03-podcast-genai-security-defending-against-deepfakes-and-automated-social-engineering/" class="series-title" data-astro-cid-2hl7stop> GenAI Security: Defending Against Deepfakes and Automated Social Engineering </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>75</span> <a href="/ai-news/2025-12-03-presentation-wasm-in-the-enterprise-secure-portable-and-ready-for-business/" class="series-title" data-astro-cid-2hl7stop> WebAssembly in the Enterprise: Secure, Portable, and Ready for Business </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>76</span> <a href="/ai-news/2025-12-04-ai-interview-series-4-transformers-vs-mixture-of-experts-moe/" class="series-title" data-astro-cid-2hl7stop> How MoE Models Outperform Transformers in Inference Speed Despite More Parameters </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>77</span> <a href="/ai-news/2025-12-04-finalizing-the-enterprise-dal-series-we-implement-automated-user-auditing-createdbyuserid-modifiedbyuserid-and-review-the-full-architecture-that-automated-soft-delete-multi-tenancy-and-rls-c-linq2db-dotnet-csharp-architecture-sql/" class="series-title" data-astro-cid-2hl7stop> Automated User Auditing in Enterprise DAL with C# and Linq2Db </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>78</span> <a href="/ai-news/2025-12-04-karrot-improves-conversion-rates-by-70-with-new-scalable-feature-platform-on-aws/" class="series-title" data-astro-cid-2hl7stop> Karrot Improves Conversion Rates by 70% with New Scalable Feature Platform on AWS </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>79</span> <a href="/ai-news/2025-12-04-the-invisible-architecture-behind-apps-that-never-lag/" class="series-title" data-astro-cid-2hl7stop> The Invisible Architecture Behind Apps That Never Lag </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>80</span> <a href="/ai-news/2025-12-04-why-you-suck-at-structuring-data-and-how-to-finally-get-better-/" class="series-title" data-astro-cid-2hl7stop> Why Developers Fail at Data Modeling (And How to Fix It) </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>81</span> <a href="/ai-financial-news/2025-12-04-ptrn/" class="series-title" data-astro-cid-2hl7stop> Pattern Group Inc. – 2025-12-04 - increase Confidence 7/10 </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>82</span> <a href="/ai-news/2025-12-05-aws-reinvent-2025-powering-enterprise-ai-architecting-and-governing-agents-at-iberdrola-on-aws/" class="series-title" data-astro-cid-2hl7stop> AWS re:Invent 2025 - Iberdrola&#39;s Agentic AI Strategy for Enterprise Scalability </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>83</span> <a href="/ai-news/2025-12-05-treating-your-agents-like-microservices/" class="series-title" data-astro-cid-2hl7stop> Treating Your Agents Like Microservices </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>84</span> <a href="/ai-financial-news/2025-12-05-ptrn/" class="series-title" data-astro-cid-2hl7stop> Pattern Group Inc. – 2025-12-05 - Increase Confidence 7/10 </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>85</span> <a href="/ai-news/2025-12-06-death-by-1000-defaults-the-slow-motion-car-crash-nobody-saw-coming/" class="series-title" data-astro-cid-2hl7stop> Death by 1,000 Defaults: The Slow-Motion Car Crash Nobody Saw Coming </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>86</span> <a href="/ai-news/2025-12-06-structuring-terraform-for-multi-environment-microservice-architectures/" class="series-title" data-astro-cid-2hl7stop> Terraform Patterns for Multi-Environment Microservices: Balancing Parity and Isolation </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>87</span> <a href="/ai-news/2025-12-07-cisco-released-cisco-time-series-model-their-first-open-weights-foundation-model-based-on-decoder-only-transformer-architecture/" class="series-title" data-astro-cid-2hl7stop> Cisco Released Cisco Time Series Model: Their First Open-Weights Foundation Model based on Decoder-only Transformer Architecture </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>88</span> <a href="/ai-news/2025-12-07-how-i-built-a-production-grade-multi-tier-application-on-aws-ecs-fargate-a-complete-case-study/" class="series-title" data-astro-cid-2hl7stop> Building a Production-Grade Multi-Tier App on AWS ECS Fargate </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>89</span> <a href="/ai-news/2025-12-08-she-architects-bringing-unique-perspectives-to-innovative-solutions-at-aws/" class="series-title" data-astro-cid-2hl7stop> She architects: Bringing unique perspectives to innovative solutions at AWS </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>90</span> <a href="/angular-v21/" class="series-title" data-astro-cid-2hl7stop> Angular v21: Zoneless by Default and the Death of Zone.js </a>  </div> </div> <div class="series-nav-buttons" data-astro-cid-2hl7stop>  <a href="/microservices-vs-monoliths/" class="series-nav-btn next" data-astro-cid-2hl7stop> <span class="nav-label" data-astro-cid-2hl7stop>Next →</span> <span class="nav-title" data-astro-cid-2hl7stop>Microservices vs Monoliths</span> </a> </div> </section>   <section class="related-posts" data-astro-cid-dpgbfi7r> <h2 data-astro-cid-dpgbfi7r>Related Posts</h2> <div class="related-posts-grid" data-astro-cid-dpgbfi7r> <article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/massively-scaling-a-web-application/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>Massively scaling a web application</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>1. Single server setup 2. Vertical scaling 3. Horizontal scaling 4. Stateful-vs-stateless 5. Load balancer 6. Choice of…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2025-11-02T00:00:00.000Z" data-astro-cid-dpgbfi7r> Nov 2, 2025 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>1 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/solid-principles/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>SOLID</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r></p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2024-07-25T00:00:00.000Z" data-astro-cid-dpgbfi7r> Jul 25, 2024 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>1 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/dependency-inversion-principle/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>D (Dependency Inversion) from SOLID</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>The Dependency Inversion Principle: Stop Depending on Details What Is Dependency Inversion, Really? Let me ask you a…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2024-06-22T00:00:00.000Z" data-astro-cid-dpgbfi7r> Jun 22, 2024 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>14 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/interface-segregation-principle/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>I (Interface Segregation) from SOLID</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>The Interface Segregation Principle: Why Your Interfaces Are Probably Too Fat What Is Interface Segregation, Really?…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2024-06-21T00:00:00.000Z" data-astro-cid-dpgbfi7r> Jun 21, 2024 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>17 min read</span> </div> </a> </article> </div> </section>  </article> </div> <div class="back-link" data-astro-cid-yvbahnfj><a href="/" data-astro-cid-yvbahnfj>← Back to home</a></div>  </main> <!-- Site Footer --> <footer class="site-footer container"> <p>
+© 2025 AREZKI El Mehdi •
+<a href="https://github.com/earezki">GitHub</a> •
+<a href="/rss.xml">RSS</a> •
+<a href="/tags/">Tags</a> •
+<a href="/sitemap-index.xml">Sitemap</a> •
+<button id="footer-subscribe-btn" class="footer-subscribe-btn" aria-label="Subscribe to newsletter">
+📬 Subscribe
+</button> </p> </footer> <!-- Footer Subscribe Button Handler --> <script type="module">const e=document.getElementById("themeToggle"),o=n=>{if(!e)return;const t=e.querySelector(".theme-icon");t&&(t.textContent=n==="dark"?"☀":"☾")};if(e){const n=document.documentElement.getAttribute("data-theme")||"dark";o(n),e.addEventListener("click",()=>{const t=document.documentElement,c=t.getAttribute("data-theme")==="dark"?"light":"dark";t.setAttribute("data-theme",c),localStorage.setItem("theme",c),o(c)})}</script> <!-- Theme Toggle --> <script type="module">document.addEventListener("DOMContentLoaded",()=>{const e=document.getElementById("footer-subscribe-btn");e&&e.addEventListener("click",n=>{n.preventDefault();const t=document.getElementById("subscription-popup");t&&(t.setAttribute("data-state","visible"),document.body.style.overflow="hidden")})});</script> <!-- Article read/unread tracking --> <script>
+      (function() {
+        const KEY = 'readArticles';
+        
+        function getRead() {
+          try {
+            const d = localStorage.getItem(KEY);
+            return d ? JSON.parse(d) : [];
+          } catch (e) {
+            return [];
+          }
+        }
+        
+        function markRead(url) {
+          try {
+            const read = getRead();
+            if (!read.includes(url)) {
+              read.push(url);
+              localStorage.setItem(KEY, JSON.stringify(read));
+            }
+          } catch (e) {}
+        }
+        
+        function updateCards() {
+          const read = new Set(getRead());
+          const cards = document.querySelectorAll('.post-card[data-article-url]');
+          cards.forEach(function(card) {
+            const url = card.getAttribute('data-article-url');
+            if (!url) return;
+            const isRead = read.has(url);
+            card.classList.toggle('read', isRead);
+            card.classList.toggle('unread', !isRead);
+          });
+        }
+        
+        function markCurrent() {
+          if (document.querySelector('.post-body')) {
+            markRead(window.location.pathname);
+          }
+        }
+        
+        function init() {
+          updateCards();
+          markCurrent();
+        }
+        
+        function clearRead(url) {
+          try {
+            const read = new Set(getRead());
+            if (read.has(url)) {
+              read.delete(url);
+              localStorage.setItem(KEY, JSON.stringify(Array.from(read)));
+              updateCards();
+            }
+          } catch (e) {}
+        }
+        
+        window.clearReadArticle = clearRead;
+        document.addEventListener('DOMContentLoaded', init);
+        window.addEventListener('pageshow', function(e) {
+          if (e.persisted) init();
+        });
+      })();
+    </script> <!-- Clear read button handler --> <script>
+      (function() {
+        document.addEventListener('click', function(e) {
+          var tgt = e.target, btn = null;
+          while (tgt && tgt !== document) {
+            if (tgt.classList && tgt.classList.contains('clear-read-btn')) {
+              btn = tgt;
+              break;
+            }
+            tgt = tgt.parentNode;
+          }
+          if (!btn) return;
+          e.preventDefault();
+          e.stopPropagation();
+          var url = btn.getAttribute('data-article-url');
+          if (url && window.clearReadArticle) window.clearReadArticle(url);
+        });
+      })();
+    </script> <!-- External links open in new tab --> <script>
+      (function() {
+        function makeExternal() {
+          const domain = window.location.hostname;
+          const links = document.querySelectorAll('a[href]');
+          links.forEach(function(link) {
+            const href = link.getAttribute('href');
+            if (!href || link.hasAttribute('target')) return;
+            const isExt = (href.startsWith('http://') || href.startsWith('https://')) && !href.includes(domain);
+            if (isExt) {
+              link.setAttribute('target', '_blank');
+              link.setAttribute('rel', 'noopener noreferrer');
+            }
+          });
+        }
+        document.addEventListener('DOMContentLoaded', makeExternal);
+        if (window.MutationObserver) {
+          const obs = new MutationObserver(function(muts) {
+            muts.forEach(function(mut) {
+              if (mut.addedNodes.length) makeExternal();
+            });
+          });
+          obs.observe(document.body, { childList: true, subtree: true });
+        }
+      })();
+    </script> <!-- Code copy buttons --> <script>
+      (function() {
+        function createBtn() {
+          const btn = document.createElement('button');
+          btn.className = 'copy-code-button';
+          btn.setAttribute('aria-label', 'Copy code to clipboard');
+          btn.innerHTML = `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span>Copy</span>
+          `;
+          return btn;
+        }
+        
+        function checkIcon() {
+          return `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span>Copied!</span>
+          `;
+        }
+        
+        async function copyText(txt) {
+          try {
+            await navigator.clipboard.writeText(txt);
+            return true;
+          } catch (err) {
+            const ta = document.createElement('textarea');
+            ta.value = txt;
+            ta.style.position = 'fixed';
+            ta.style.left = '-999999px';
+            document.body.appendChild(ta);
+            ta.select();
+            try {
+              document.execCommand('copy');
+              document.body.removeChild(ta);
+              return true;
+            } catch (e) {
+              document.body.removeChild(ta);
+              return false;
+            }
+          }
+        }
+        
+        async function handleCopy(btn, code) {
+          const txt = code.textContent || '';
+          const ok = await copyText(txt);
+          if (ok) {
+            const orig = btn.innerHTML;
+            btn.classList.add('copied');
+            btn.innerHTML = checkIcon();
+            setTimeout(function() {
+              btn.classList.remove('copied');
+              btn.innerHTML = orig;
+            }, 2000);
+          }
+        }
+        
+        function addBtns() {
+          const blocks = document.querySelectorAll('.post-body pre');
+          blocks.forEach(function(pre) {
+            if (pre.querySelector('.copy-code-button')) return;
+            const btn = createBtn();
+            const code = pre.querySelector('code');
+            if (code) {
+              btn.addEventListener('click', function() {
+                handleCopy(btn, code);
+              });
+              pre.appendChild(btn);
+            }
+          });
+        }
+        
+        document.addEventListener('DOMContentLoaded', addBtns);
+      })();
+    </script> <!-- Newsletter Subscription Popup --> <div id="subscription-popup" class="subscription-popup" data-state="hidden" data-auto-trigger="true" data-astro-cid-we5gmdnp> <div class="popup-overlay" id="popup-overlay" data-astro-cid-we5gmdnp></div> <div class="popup-container" data-astro-cid-we5gmdnp> <div class="popup-content" data-astro-cid-we5gmdnp> <div class="popup-icon" data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-we5gmdnp> <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" data-astro-cid-we5gmdnp></path> <polyline points="22,6 12,13 2,6" data-astro-cid-we5gmdnp></polyline> </svg> </div> <h2 class="popup-title" data-astro-cid-we5gmdnp>Stay Updated with Dev|Journal</h2> <p class="popup-description" id="popup-description" data-astro-cid-we5gmdnp>
+Join our community of developers and engineers. Get insights on:
+</p> <ul class="popup-features" data-astro-cid-we5gmdnp> <li data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-we5gmdnp> <polyline points="20 6 9 17 4 12" data-astro-cid-we5gmdnp></polyline> </svg>
+Software Architecture & Design Patterns
+</li> <li data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-we5gmdnp> <polyline points="20 6 9 17 4 12" data-astro-cid-we5gmdnp></polyline> </svg>
+Backend Development Best Practices
+</li> <li data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-we5gmdnp> <polyline points="20 6 9 17 4 12" data-astro-cid-we5gmdnp></polyline> </svg>
+AI & Tech Industry Analysis
+</li> </ul> <form id="subscription-form" class="popup-form" data-astro-cid-we5gmdnp> <div class="form-group" data-astro-cid-we5gmdnp> <input type="text" id="subscriber-name" name="name" placeholder="Your name" required autocomplete="name" data-astro-cid-we5gmdnp> </div> <div class="form-group" data-astro-cid-we5gmdnp> <input type="email" id="subscriber-email" name="email" placeholder="your.email@example.com" required autocomplete="email" data-astro-cid-we5gmdnp> </div> <div id="form-message" class="form-message" data-astro-cid-we5gmdnp></div> <div class="popup-actions" data-astro-cid-we5gmdnp> <button type="submit" class="btn btn-primary" id="subscribe-btn" data-astro-cid-we5gmdnp> <span class="btn-text" data-astro-cid-we5gmdnp>Subscribe</span> <span class="btn-loader" data-astro-cid-we5gmdnp> <svg class="spinner" viewBox="0 0 24 24" data-astro-cid-we5gmdnp> <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" data-astro-cid-we5gmdnp></circle> </svg> </span> </button> <button type="button" class="btn btn-secondary" id="not-now-btn" data-astro-cid-we5gmdnp>Not Now</button> <button type="button" class="btn btn-text" id="cancel-btn" data-astro-cid-we5gmdnp>Don't Show Again</button> </div> </form> </div> </div> </div>  <script>
+  // Configuration
+  const CONFIG = {
+    graceDelay: 5000, // 5 seconds delay before showing popup
+    notNowDelay: 24 * 60 * 60 * 1000, // 1 day in milliseconds
+    apiUrl: 'https://api.earezki.com/blog/api',
+  };
+
+  const STORAGE_KEYS = {
+    subscribed: 'newsletter_subscribed',
+    cancelled: 'newsletter_cancelled',
+    notNowUntil: 'newsletter_not_now_until',
+  };
+
+  // State management
+  let popupTimeout = null;
+
+  function showPopup() {
+    const popup = document.getElementById('subscription-popup');
+    if (popup) {
+      popup.setAttribute('data-state', 'visible');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  function hidePopup() {
+    const popup = document.getElementById('subscription-popup');
+    if (popup) {
+      popup.setAttribute('data-state', 'hidden');
+      document.body.style.overflow = '';
+    }
+  }
+
+  function shouldShowPopup() {
+    // Check if user has already subscribed
+    if (localStorage.getItem(STORAGE_KEYS.subscribed) === 'true') {
+      return false;
+    }
+
+    // Check if user clicked "Don't show again"
+    if (localStorage.getItem(STORAGE_KEYS.cancelled) === 'true') {
+      return false;
+    }
+
+    // Check if user clicked "Not now" and delay hasn't passed
+    const notNowUntil = localStorage.getItem(STORAGE_KEYS.notNowUntil);
+    if (notNowUntil) {
+      const notNowTime = parseInt(notNowUntil, 10);
+      if (Date.now() < notNowTime) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  async function getSubscriberStats() {
+    try {
+      const response = await fetch(`${CONFIG.apiUrl}/subscribers/stats`, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+        },
+      });
+      
+      if (!response.ok) {
+        return null;
+      }
+      
+      const data = await response.json();
+      return data.subscriber_count || null;
+    } catch (error) {
+      console.error('Failed to fetch subscriber stats:', error);
+      return null;
+    }
+  }
+
+  async function schedulePopup() {
+    if (!shouldShowPopup()) {
+      return;
+    }
+
+    // Fetch subscriber stats before scheduling popup
+    const subscriberCount = await getSubscriberStats();
+    if (subscriberCount === null) {
+      console.log('Failed to fetch subscriber stats, not showing subscription popup');
+      return;
+    }
+
+    // Update popup with subscriber count
+    updatePopupWithStats(subscriberCount);
+
+    // Show popup after grace period
+    popupTimeout = window.setTimeout(() => {
+      showPopup();
+    }, CONFIG.graceDelay);
+  }
+
+  function updatePopupWithStats(count) {
+    const descriptionEl = document.querySelector('.popup-description');
+    if (descriptionEl) {
+      const formattedCount = new Intl.NumberFormat('en-US').format(count);
+      descriptionEl.innerHTML = `Join a community of <strong>${formattedCount}+</strong> developers and engineers who are growing together. Get insights on:`;
+    }
+  }
+
+  async function handleSubscribe(event) {
+    event.preventDefault();
+    
+    const form = event.target;
+    const nameInput = form.querySelector('#subscriber-name');
+    const emailInput = form.querySelector('#subscriber-email');
+    const submitBtn = form.querySelector('#subscribe-btn');
+    const messageEl = document.getElementById('form-message');
+
+    const name = nameInput.value.trim();
+    const email = emailInput.value.trim();
+
+    if (!name || !email) {
+      if (messageEl) {
+        messageEl.textContent = 'Please fill in all fields.';
+        messageEl.className = 'form-message error';
+      }
+      return;
+    }
+
+    // Show loading state
+    submitBtn.classList.add('loading');
+    submitBtn.disabled = true;
+    if (messageEl) {
+      messageEl.textContent = '';
+      messageEl.className = 'form-message';
+    }
+
+    try {
+      const response = await fetch(`${CONFIG.apiUrl}/subscribe`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, email }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        localStorage.setItem(STORAGE_KEYS.subscribed, 'true');
+        
+        if (messageEl) {
+          messageEl.textContent = '🎉 Successfully subscribed! Thank you for joining us.';
+          messageEl.className = 'form-message success';
+        }
+
+        // Hide popup after 2 seconds
+        setTimeout(() => {
+          hidePopup();
+        }, 2000);
+      } else {
+        if (messageEl) {
+          messageEl.textContent = data.error || 'Subscription failed. Please try again.';
+          messageEl.className = 'form-message error';
+        }
+      }
+    } catch (error) {
+      console.error('Subscription error:', error);
+      if (messageEl) {
+        messageEl.textContent = 'Network error. Please check your connection and try again.';
+        messageEl.className = 'form-message error';
+      }
+    } finally {
+      submitBtn.classList.remove('loading');
+      submitBtn.disabled = false;
+    }
+  }
+
+  function handleNotNow() {
+    const notNowUntil = Date.now() + CONFIG.notNowDelay;
+    localStorage.setItem(STORAGE_KEYS.notNowUntil, notNowUntil.toString());
+    hidePopup();
+  }
+
+  function handleCancel() {
+    localStorage.setItem(STORAGE_KEYS.cancelled, 'true');
+    hidePopup();
+  }
+
+  // Initialize popup
+  document.addEventListener('DOMContentLoaded', () => {
+    const popup = document.getElementById('subscription-popup');
+    const autoTrigger = popup?.getAttribute('data-auto-trigger') === 'true';
+    
+    // Schedule popup to show after grace period only if autoTrigger is enabled
+    if (autoTrigger) {
+      schedulePopup();
+    }
+
+    // Event listeners
+    const form = document.getElementById('subscription-form');
+    const overlay = document.getElementById('popup-overlay');
+    const notNowBtn = document.getElementById('not-now-btn');
+    const cancelBtn = document.getElementById('cancel-btn');
+
+    if (form) {
+      form.addEventListener('submit', handleSubscribe);
+    }
+
+    if (overlay) {
+      overlay.addEventListener('click', handleNotNow);
+    }
+
+    if (notNowBtn) {
+      notNowBtn.addEventListener('click', handleNotNow);
+    }
+
+    if (cancelBtn) {
+      cancelBtn.addEventListener('click', handleCancel);
+    }
+
+    // Clean up on page unload
+    window.addEventListener('beforeunload', () => {
+      if (popupTimeout) {
+        clearTimeout(popupTimeout);
+      }
+    });
+  });
+</script> </body></html> 

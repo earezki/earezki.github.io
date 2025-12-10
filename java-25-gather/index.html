@@ -1,0 +1,711 @@
+<!DOCTYPE html><html lang="en" data-theme="dark"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Java 25 Gather API • Dev|Journal</title><meta name="description" content="TL;DR Java 25's Gather API solves a 15-year-old problem: you can finally write concurrent I/O code that's both readable and performant. lets you process stream…"><meta name="keywords" content="Java, Concurrency, Performance, Software Engineering"><meta name="author" content="El Mehdi Arezki"><meta property="og:type" content="website"><meta property="og:url" content="https://earezki.com/java-25-gather/"><meta property="og:title" content="Java 25 Gather API • Dev|Journal"><meta property="og:site_name" content="Dev|Journal"><meta property="og:description" content="TL;DR Java 25's Gather API solves a 15-year-old problem: you can finally write concurrent I/O code that's both readable and performant. lets you process stream…"><meta property="og:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:url" content="https://earezki.com/java-25-gather/"><meta name="twitter:title" content="Java 25 Gather API • Dev|Journal"><meta name="twitter:description" content="TL;DR Java 25's Gather API solves a 15-year-old problem: you can finally write concurrent I/O code that's both readable and performant. lets you process stream…"><meta name="twitter:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:creator" content="@earezki"><link rel="canonical" href="https://earezki.com/java-25-gather/"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/x-icon" href="/favicon.ico"><link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"><link rel="dns-prefetch" href="https://cloud.umami.is"><script defer src="https://cloud.umami.is/script.js" data-website-id="4a26531d-1053-4f79-97a6-06a1366aff91"></script><script>
+      (function() {
+        const theme = localStorage.getItem('theme');
+        if (theme) document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script><script>
+!function(){const o=window.location.pathname;if("/"===o)return;if(/\.\w+$/.test(o))return;const n=o.toLowerCase(),i=n!==o,t=!o.endsWith("/");if(i||t){const o=n+(t?"/":""),i=window.location.origin+o+window.location.search+window.location.hash;window.location.replace(i)}}();
+</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Java 25 Gather API","description":"TL;DR Java 25's Gather API solves a 15-year-old problem: you can finally write concurrent I/O code that's both readable and performant. lets you process stream…","image":"https://earezki.com/assets/og-image-default.jpg","datePublished":"2025-12-01T00:00:00.000Z","dateModified":"2025-12-01T00:00:00.000Z","author":{"@type":"Person","name":"El Mehdi Arezki","url":"https://earezki.com/about","jobTitle":"Lead Software Engineer","sameAs":["https://github.com/earezki","https://www.linkedin.com/in/mehdi-arezki"]},"publisher":{"@type":"Organization","name":"Dev|Journal","url":"https://earezki.com","logo":{"@type":"ImageObject","url":"https://earezki.com/assets/logo.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://earezki.com/java-25-gather/"}}</script><link rel="stylesheet" href="/_astro/_slug_.BZhQT0av.css">
+<link rel="stylesheet" href="/_astro/_slug_.CFj9bTVJ.css">
+<style>.series-navigation[data-astro-cid-2hl7stop]{margin:2rem 0 3rem;padding:1.5rem;background:linear-gradient(135deg,#2563eb0d,#6366f10d);border:1px solid var(--color-border);border-radius:var(--radius-md)}html[data-theme=dark] .series-navigation[data-astro-cid-2hl7stop]{background:linear-gradient(135deg,#2563eb1a,#6366f11a)}.series-header[data-astro-cid-2hl7stop]{margin-bottom:1.25rem}.series-badge[data-astro-cid-2hl7stop]{display:inline-block;font-size:.75rem;font-weight:600;color:var(--color-accent);background:#2563eb1a;padding:.25rem .75rem;border-radius:var(--radius-pill);margin-bottom:.5rem}.series-header[data-astro-cid-2hl7stop] h3[data-astro-cid-2hl7stop]{margin:.5rem 0 .25rem;font-size:1.25rem;color:var(--color-text)}.series-progress[data-astro-cid-2hl7stop]{font-size:.85rem;color:var(--color-text-alt);margin:0}.series-list[data-astro-cid-2hl7stop]{display:flex;flex-direction:column;gap:.75rem;margin:1.5rem 0}.series-item[data-astro-cid-2hl7stop]{display:flex;align-items:center;gap:.75rem;padding:.75rem;background:var(--color-bg);border:1px solid var(--color-border);border-radius:var(--radius-sm);transition:all var(--transition)}.series-item[data-astro-cid-2hl7stop]:hover{border-color:var(--color-accent)}.series-item[data-astro-cid-2hl7stop].current{background:var(--color-accent);border-color:var(--color-accent)}.series-item[data-astro-cid-2hl7stop].completed{opacity:.7}.series-number[data-astro-cid-2hl7stop]{flex-shrink:0;width:28px;height:28px;display:flex;align-items:center;justify-content:center;background:var(--color-bg-alt);color:var(--color-text-alt);border-radius:50%;font-size:.85rem;font-weight:600}.series-item[data-astro-cid-2hl7stop].current .series-number[data-astro-cid-2hl7stop]{background:#fff3;color:#fff}.series-title[data-astro-cid-2hl7stop]{flex:1;font-size:.95rem;color:var(--color-text);text-decoration:none;transition:color var(--transition)}.series-title[data-astro-cid-2hl7stop]:hover{color:var(--color-accent)}.series-item[data-astro-cid-2hl7stop].current .current-title[data-astro-cid-2hl7stop]{color:#fff;font-weight:600}.check-icon[data-astro-cid-2hl7stop]{flex-shrink:0;color:#10b981;font-size:1.1rem}.series-nav-buttons[data-astro-cid-2hl7stop]{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--color-border)}.series-nav-btn[data-astro-cid-2hl7stop]{display:flex;flex-direction:column;gap:.25rem;padding:1rem;background:var(--color-bg);border:1px solid var(--color-border);border-radius:var(--radius-sm);text-decoration:none;transition:all var(--transition)}.series-nav-btn[data-astro-cid-2hl7stop]:hover{border-color:var(--color-accent);transform:translateY(-2px);box-shadow:var(--shadow-sm)}.series-nav-btn[data-astro-cid-2hl7stop].next{text-align:right}.nav-label[data-astro-cid-2hl7stop]{font-size:.75rem;color:var(--color-text-alt);font-weight:600;text-transform:uppercase;letter-spacing:.05em}.nav-title[data-astro-cid-2hl7stop]{font-size:.9rem;color:var(--color-text);font-weight:500}.series-nav-btn[data-astro-cid-2hl7stop]:hover .nav-title[data-astro-cid-2hl7stop]{color:var(--color-accent)}@media(max-width:680px){.series-navigation[data-astro-cid-2hl7stop]{padding:1rem}.series-nav-buttons[data-astro-cid-2hl7stop]{grid-template-columns:1fr}.series-nav-btn[data-astro-cid-2hl7stop].next{text-align:left}}.post-layout[data-astro-cid-yvbahnfj]{display:grid;grid-template-columns:260px 1fr;gap:2.5rem;width:100%;max-width:100%;box-sizing:border-box}.sidebar-left[data-astro-cid-yvbahnfj]{position:relative;min-width:0;overflow:hidden}@media(max-width:1080px){.post-layout[data-astro-cid-yvbahnfj]{grid-template-columns:1fr;width:100%;max-width:100%;padding:0;margin:0}}@media(max-width:768px){.post-layout[data-astro-cid-yvbahnfj]{display:block;width:100%;max-width:100%;padding:0;margin:0}.sidebar-left[data-astro-cid-yvbahnfj]{display:none}}
+</style></head> <body> <div id="readingProgress" role="progressbar" aria-label="Reading progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="position:fixed;left:0;top:0;height:3px;background:linear-gradient(90deg,#2563eb,#9333ea);width:0;z-index:999;transition:width .15s ease;"></div> <script type="module">function c(){const t=document.getElementById("readingProgress");if(!t)return;const o=()=>{const e=document.documentElement,r=e.scrollTop||document.body.scrollTop,s=e.scrollHeight-e.clientHeight,n=s>0?r/s*100:0;t.style.width=`${n}%`,t.setAttribute("aria-valuenow",n.toFixed(0))};document.addEventListener("scroll",o,{passive:!0}),o()}c();</script> <header class="site-header container"> <div class="logo-wrap"> <a class="logo" href="/" aria-label="Dev|Journal Home">
+Dev|Journal
+</a> </div> <!-- Search Box in Header --> <div class="header-search" data-search-api-url="https://api.earezki.com/blog/api/q" data-search-timeout="2000"> <div class="search-box" id="search-box"> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon" aria-hidden="true"> <circle cx="11" cy="11" r="8"></circle> <path d="m21 21-4.35-4.35"></path> </svg> <input type="text" id="search-input" placeholder="Search ..." class="search-input" autocomplete="off" aria-label="Search articles" minlength="3"> <button id="clear-search" class="clear-button" style="display: none;" aria-label="Clear search"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <line x1="18" y1="6" x2="6" y2="18"></line> <line x1="6" y1="6" x2="18" y2="18"></line> </svg> </button> </div> <div id="search-results" class="search-results" role="status" aria-live="polite"></div> </div> <script type="module" src="/_astro/SearchBox.astro_astro_type_script_index_0_lang.BNnBPVSN.js"></script> <nav class="main-nav" aria-label="Main navigation"> <a href="/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path> <polyline points="9 22 9 12 15 12 15 22"></polyline> </svg>
+Home
+</a> <a href="/ai-news/" class="ai-news-link ai-gradient-nav"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h-9.5a.5.5 0 0 0-.5.5.5.5 0 0 1-1 0 .5.5 0 0 0-.5-.5H1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"></path> <path d="M7 15v4a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-4"></path> </svg>
+AI News
+</a> <a href="/ai-financial-news/" class="ai-financial-link ai-gradient-nav"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <line x1="12" y1="1" x2="12" y2="23"></line> <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path> </svg>
+AI Financial
+</a> <a href="/about/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <circle cx="12" cy="12" r="10"></circle> <path d="M12 16v-4"></path> <path d="M12 8h.01"></path> </svg>
+About
+</a> <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode"> <span class="theme-icon" aria-hidden="true">☾</span> </button> </nav> </header> <!-- Main Content --> <main class="container content-area">  <nav class="breadcrumbs" aria-label="Breadcrumb" data-astro-cid-ilhxcym7> <ol data-astro-cid-ilhxcym7> <li data-astro-cid-ilhxcym7>  <a href="/" data-astro-cid-ilhxcym7>Home</a> <span class="separator" aria-hidden="true" data-astro-cid-ilhxcym7>/</span>  </li><li data-astro-cid-ilhxcym7> <span class="current" aria-current="page" data-astro-cid-ilhxcym7>Java 25 Gather API</span> </li>  </ol> </nav>  <div class="post-layout" data-astro-cid-yvbahnfj> <aside class="sidebar-left" data-astro-cid-yvbahnfj> <nav class="toc" aria-label="Table of Contents" data-astro-cid-xvrfupwn> <div class="toc-title" data-astro-cid-xvrfupwn>On this page</div> <ul data-astro-cid-xvrfupwn> <li class="d-2" data-astro-cid-xvrfupwn> <a href="#tldr" data-astro-cid-xvrfupwn> TL;DR </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#why-we-needed-this" data-astro-cid-xvrfupwn> Why We Needed This </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#how-mapconcurrent-actually-works" data-astro-cid-xvrfupwn> How mapConcurrent Actually Works </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#the-three-line-revolution" data-astro-cid-xvrfupwn> The Three-Line Revolution </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#performance" data-astro-cid-xvrfupwn> Performance: </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#when-to-mapconcurrent" data-astro-cid-xvrfupwn> When to mapConcurrent </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#use-for" data-astro-cid-xvrfupwn> Use For: </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#dont-use-for" data-astro-cid-xvrfupwn> Don&#39;t Use For: </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#error-handling" data-astro-cid-xvrfupwn> Error Handling </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#beyond-mapconcurrent-the-full-gatherer-toolkit" data-astro-cid-xvrfupwn> Beyond mapConcurrent: The Full Gatherer Toolkit </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#windowfixed-and-windowsliding" data-astro-cid-xvrfupwn> windowFixed() and windowSliding() </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#scan-running-aggregations" data-astro-cid-xvrfupwn> scan() - Running Aggregations </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#fold-ordered-reduction" data-astro-cid-xvrfupwn> fold() - Ordered Reduction </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#be-careful" data-astro-cid-xvrfupwn> Be Careful: </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#1-the-ordering-tax-head-of-line-blocking" data-astro-cid-xvrfupwn> 1. The Ordering Tax (Head-of-Line Blocking) </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#2-virtual-thread-pinning" data-astro-cid-xvrfupwn> 2. Virtual Thread Pinning </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#3-downstream-backpressure" data-astro-cid-xvrfupwn> 3. Downstream Backpressure </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#real-world-pattern-seda-style-pipelines" data-astro-cid-xvrfupwn> Real-World Pattern: SEDA-Style Pipelines </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#migration-strategy-for-production" data-astro-cid-xvrfupwn> Migration Strategy for Production </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#benchmarking-your-own-code" data-astro-cid-xvrfupwn> Benchmarking Your Own Code </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#final-thoughts" data-astro-cid-xvrfupwn> Final Thoughts </a> </li> </ul> </nav>  </aside> <article class="post" data-astro-cid-yvbahnfj> <header class="post-header" data-astro-cid-yvbahnfj> <h1 data-astro-cid-yvbahnfj>Java 25 Gather API</h1> <div class="meta" data-astro-cid-yvbahnfj> <time datetime="2025-12-01T00:00:00.000Z" data-astro-cid-yvbahnfj>Mon Dec 01 2025</time> <span data-astro-cid-yvbahnfj>• 7 min read</span> </div> <div class="tag-row" data-astro-cid-yvbahnfj><a class="post-tag " href="/tags/java/" data-astro-cid-yvbahnfj>Java</a><a class="post-tag " href="/tags/concurrency/" data-astro-cid-yvbahnfj>Concurrency</a><a class="post-tag " href="/tags/performance/" data-astro-cid-yvbahnfj>Performance</a><a class="post-tag " href="/tags/software-engineering/" data-astro-cid-yvbahnfj>Software Engineering</a></div> </header>    <div class="post-body prose" data-astro-cid-yvbahnfj> <h2 id="tldr">TL;DR</h2>
+<p>Java 25’s Gather API solves a 15-year-old problem: you can finally write concurrent I/O code that’s both readable and performant. <code>mapConcurrent()</code> lets you process stream elements concurrently using virtual threads with explicit concurrency limits, killing three birds with one stone: no ExecutorService boilerplate, no CompletableFuture callback hell, and no parallel stream footguns. For 10 items with 100ms latency each, <code>mapConcurrent(5)</code> completes in ~200ms versus 400-500ms for ExecutorService or parallel streams. Production deployments show 2-3× latency improvements for microservice fan-out patterns.</p>
+<hr>
+<h2 id="why-we-needed-this">Why We Needed This</h2>
+<p>For a very long time, Java forced us to choose between two bad options for concurrent I/O:</p>
+<p><strong>Option 1: Parallel Streams</strong> - Readable but broken for I/O. Uses <code>ForkJoinPool.commonPool()</code> sized by CPU cores (typically 2-8 threads). One slow database query blocks a platform thread, starving every other parallel stream in our JVM. We’ve all seen the incident reports: “parallel stream made 1000 HTTP calls, saturated the common pool, killed the entire app.”</p>
+<p><strong>Option 2: CompletableFuture</strong> - Performant but unreadable. You end up with 50-line chains of <code>thenCompose</code>, <code>thenApply</code>, <code>exceptionally</code> that look nothing like the business logic they implement. Error handling becomes a maze of callbacks. Debugging stack traces show you framework internals, not your code.</p>
+<p><strong>Option 3: ExecutorService</strong> - The old guard. Explicit thread pools, manual Future management, verbose boilerplate:</p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token class-name">ExecutorService</span> executor <span class="token operator">=</span> <span class="token class-name">Executors</span><span class="token punctuation">.</span><span class="token function">newFixedThreadPool</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&#x3C;</span><span class="token class-name">Future</span><span class="token punctuation">&#x3C;</span><span class="token class-name">UserProfile</span><span class="token punctuation">></span><span class="token punctuation">></span></span> futures <span class="token operator">=</span> userIds<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>id <span class="token operator">-></span> executor<span class="token punctuation">.</span><span class="token function">submit</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-></span> <span class="token function">fetchProfile</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">collect</span><span class="token punctuation">(</span><span class="token class-name">Collectors</span><span class="token punctuation">.</span><span class="token function">toList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&#x3C;</span><span class="token class-name">UserProfile</span><span class="token punctuation">></span></span> profiles <span class="token operator">=</span> futures<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>f <span class="token operator">-></span> <span class="token punctuation">{</span> <span class="token keyword">try</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> f<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">RuntimeException</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">}</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">collect</span><span class="token punctuation">(</span><span class="token class-name">Collectors</span><span class="token punctuation">.</span><span class="token function">toList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+executor<span class="token punctuation">.</span><span class="token function">shutdown</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>The Gather API + virtual threads kills this false trilemma. You write readable stream code that performs like highly-tuned async systems.</p>
+<hr>
+<h2 id="how-mapconcurrent-actually-works">How mapConcurrent Actually Works</h2>
+<p>The Gather API introduces <code>Gatherer&#x3C;T, A, R></code>, an intermediate stream operation (unlike <code>Collector</code>, which is terminal). A gatherer transforms <code>T</code> inputs to <code>R</code> outputs while maintaining state <code>A</code>. It’s defined by four functions:</p>
+<ol>
+<li><strong>Initializer</strong> (<code>Supplier&#x3C;A></code>): Creates the state object (e.g., a buffer for windowing)</li>
+<li><strong>Integrator</strong> (<code>Integrator&#x3C;A, T, R></code>): Processes each element, updates state, emits downstream</li>
+<li><strong>Combiner</strong> (<code>BinaryOperator&#x3C;A></code>): Merges states for parallel execution</li>
+<li><strong>Finisher</strong> (<code>BiConsumer&#x3C;A, Downstream&#x3C;R>></code>): Emits remaining buffered elements</li>
+</ol>
+<p><code>mapConcurrent(maxConcurrency, mapper)</code> is a built-in gatherer that:</p>
+<ul>
+<li>Spawns a virtual thread for each element to run <code>mapper</code></li>
+<li>Maintains at most <code>maxConcurrency</code> active virtual threads (semaphore-style backpressure)</li>
+<li>Preserves encounter order via an internal reordering buffer</li>
+<li>Interrupts all active threads if downstream throws an exception</li>
+</ul>
+<p><strong>The Critical Insight</strong>: Because virtual threads are cheap (~1KB vs ~1MB for platform threads), you can spawn millions. The <code>maxConcurrency</code> parameter isn’t protecting your OS from thread exhaustion, it’s rate-limiting your downstream dependencies (databases, APIs) from getting hammered.</p>
+<hr>
+<h2 id="the-three-line-revolution">The Three-Line Revolution</h2>
+<p>Here’s the before/after that sold me on migrating:</p>
+<p><strong>Before (ExecutorService)</strong>:</p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token class-name">ExecutorService</span> executor <span class="token operator">=</span> <span class="token class-name">Executors</span><span class="token punctuation">.</span><span class="token function">newFixedThreadPool</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&#x3C;</span><span class="token class-name">Future</span><span class="token punctuation">&#x3C;</span><span class="token class-name">UserProfile</span><span class="token punctuation">></span><span class="token punctuation">></span></span> futures <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token generics"><span class="token punctuation">&#x3C;</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name">String</span> id <span class="token operator">:</span> userIds<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    futures<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>executor<span class="token punctuation">.</span><span class="token function">submit</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-></span> <span class="token function">fetchProfile</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&#x3C;</span><span class="token class-name">UserProfile</span><span class="token punctuation">></span></span> profiles <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token generics"><span class="token punctuation">&#x3C;</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name">Future</span><span class="token generics"><span class="token punctuation">&#x3C;</span><span class="token class-name">UserProfile</span><span class="token punctuation">></span></span> future <span class="token operator">:</span> futures<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">try</span> <span class="token punctuation">{</span>
+        profiles<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>future<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">RuntimeException</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+executor<span class="token punctuation">.</span><span class="token function">shutdown</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p><strong>After (Gather API)</strong>:</p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&#x3C;</span><span class="token class-name">UserProfile</span><span class="token punctuation">></span></span> profiles <span class="token operator">=</span> userIds<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">gather</span><span class="token punctuation">(</span><span class="token class-name">Gatherers</span><span class="token punctuation">.</span><span class="token function">mapConcurrent</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span> userId <span class="token operator">-></span> <span class="token function">fetchProfile</span><span class="token punctuation">(</span>userId<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">toList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Same semantics. Same concurrency. 90% less code. No thread pool lifecycle management. No manual Future unwrapping.</p>
+<hr>
+<h2 id="performance">Performance:</h2>
+<p>I benchmarked three approaches on my service aggregation layer (fetches data from 5-20 downstream services):</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Approach</th><th>10 items × 100ms latency</th><th>Memory Overhead</th><th>GC Pressure</th></tr></thead><tbody><tr><td><strong>mapConcurrent(5)</strong></td><td>~200ms</td><td>Minimal (1KB/thread)</td><td>Low</td></tr><tr><td><strong>Parallel Streams</strong></td><td>~300-400ms</td><td>High (1MB/thread)</td><td>High</td></tr><tr><td><strong>ExecutorService</strong></td><td>~400-500ms</td><td>High</td><td>High</td></tr><tr><td><strong>Sequential</strong></td><td>~1000ms</td><td>Minimal</td><td>Minimal</td></tr></tbody></table>
+<p>The win isn’t just latency, it’s <strong>scalability</strong>. When we hit 1000 concurrent requests to our gateway service (each fanning out to 10 microservices), <code>mapConcurrent</code> handled it without breaking a sweat. Parallel streams started failing with thread pool exhaustion. ExecutorService required careful tuning to avoid OOM errors.</p>
+<hr>
+<h2 id="when-to-mapconcurrent">When to mapConcurrent</h2>
+<h3 id="use-for">Use For:</h3>
+<p><strong>1. Microservice Fan-Out/Fan-In</strong>
+You’re building a BFF (Backend for Frontend) that calls 10 downstream APIs to assemble a page:</p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token keyword">var</span> pageData <span class="token operator">=</span> endpoints<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">gather</span><span class="token punctuation">(</span><span class="token class-name">Gatherers</span><span class="token punctuation">.</span><span class="token function">mapConcurrent</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">,</span> endpoint <span class="token operator">-></span>
+        httpClient<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>endpoint<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">body</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">toList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p><strong>2. Batch Processing with I/O</strong>
+Reading 1M records from Postgres, enriching against a REST API, writing to Kafka:</p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java">databaseRecords<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">gather</span><span class="token punctuation">(</span><span class="token class-name">Gatherers</span><span class="token punctuation">.</span><span class="token function">windowFixed</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment">// Batch for efficiency</span>
+    <span class="token punctuation">.</span><span class="token function">gather</span><span class="token punctuation">(</span><span class="token class-name">Gatherers</span><span class="token punctuation">.</span><span class="token function">mapConcurrent</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">,</span> batch <span class="token operator">-></span>
+        batch<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token operator">::</span><span class="token function">enrichFromApi</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">toList</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">flatMap</span><span class="token punctuation">(</span><span class="token class-name">List</span><span class="token operator">::</span><span class="token function">stream</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span>kafkaProducer<span class="token operator">::</span><span class="token function">send</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p><strong>3. Rate-Limited Third-Party APIs</strong>
+Calling an API that enforces “50 requests/second”:</p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java">items<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">gather</span><span class="token punctuation">(</span><span class="token class-name">Gatherers</span><span class="token punctuation">.</span><span class="token function">mapConcurrent</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">,</span> item <span class="token operator">-></span> externalApi<span class="token punctuation">.</span><span class="token function">fetch</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">toList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>The <code>maxConcurrency=50</code> acts as a built-in rate limiter. No need for something like a Guava RateLimiter or custom semaphores.</p>
+<h3 id="dont-use-for">Don’t Use For:</h3>
+<p><strong>1. CPU-Bound Work</strong> - Use <code>parallelStream()</code> instead. Virtual threads don’t make your CPU faster.</p>
+<p><strong>2. Operations &#x3C;10ms</strong> - Thread creation overhead (even virtual threads) isn’t free. If your operation takes 5ms, sequential is often faster.</p>
+<p><strong>3. Strict Ordering Requirements</strong> - mapConcurrent preserves order by buffering results. If element 1 takes 10 seconds and element 2 takes 10ms, element 2 sits in a buffer until element 1 completes. Use <code>.unordered()</code> if order doesn’t matter:</p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java">stream<span class="token punctuation">.</span><span class="token function">unordered</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">gather</span><span class="token punctuation">(</span><span class="token class-name">Gatherers</span><span class="token punctuation">.</span><span class="token function">mapConcurrent</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span> task<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">toList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<hr>
+<h2 id="error-handling">Error Handling</h2>
+<p>Concurrent failures are messy. One bad element shouldn’t kill your entire stream. Use a Result wrapper:</p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token keyword">public</span> <span class="token keyword">record</span> <span class="token class-name">Result</span><span class="token generics"><span class="token punctuation">&#x3C;</span><span class="token class-name">T</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token class-name">T</span> value<span class="token punctuation">,</span> <span class="token class-name">Throwable</span> error<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">isSuccess</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> error <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&#x3C;</span><span class="token class-name">Result</span><span class="token punctuation">&#x3C;</span><span class="token class-name">UserProfile</span><span class="token punctuation">></span><span class="token punctuation">></span></span> results <span class="token operator">=</span> userIds<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">gather</span><span class="token punctuation">(</span><span class="token class-name">Gatherers</span><span class="token punctuation">.</span><span class="token function">mapConcurrent</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span> id <span class="token operator">-></span> <span class="token punctuation">{</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Result</span><span class="token generics"><span class="token punctuation">&#x3C;</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token function">fetchProfile</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token keyword">null</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Result</span><span class="token generics"><span class="token punctuation">&#x3C;</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token keyword">null</span><span class="token punctuation">,</span> e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">toList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&#x3C;</span><span class="token class-name">UserProfile</span><span class="token punctuation">></span></span> successes <span class="token operator">=</span> results<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span><span class="token class-name">Result</span><span class="token operator">::</span><span class="token function">isSuccess</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token class-name">Result</span><span class="token operator">::</span><span class="token function">value</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">toList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&#x3C;</span><span class="token class-name">Throwable</span><span class="token punctuation">></span></span> failures <span class="token operator">=</span> results<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>r <span class="token operator">-></span> <span class="token operator">!</span>r<span class="token punctuation">.</span><span class="token function">isSuccess</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token class-name">Result</span><span class="token operator">::</span><span class="token function">error</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">toList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>This pattern gives you partial success handling.</p>
+<hr>
+<h2 id="beyond-mapconcurrent-the-full-gatherer-toolkit">Beyond mapConcurrent: The Full Gatherer Toolkit</h2>
+<h3 id="windowfixed-and-windowsliding">windowFixed() and windowSliding()</h3>
+<p>Before Java 25, creating sliding windows was painful. Now it’s built-in:</p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token comment">// Sliding window for time-series anomaly detection</span>
+sensorReadings<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">gather</span><span class="token punctuation">(</span><span class="token class-name">Gatherers</span><span class="token punctuation">.</span><span class="token function">windowSliding</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment">// Last 10 readings</span>
+    <span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>window <span class="token operator">-></span> <span class="token function">detectAnomaly</span><span class="token punctuation">(</span>window<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">findFirst</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Fixed batching for database inserts</span>
+records<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">gather</span><span class="token punctuation">(</span><span class="token class-name">Gatherers</span><span class="token punctuation">.</span><span class="token function">windowFixed</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span>batch <span class="token operator">-></span> db<span class="token punctuation">.</span><span class="token function">batchInsert</span><span class="token punctuation">(</span>batch<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h3 id="scan---running-aggregations">scan() - Running Aggregations</h3>
+<p>Like <code>reduce()</code> but emits intermediate results:</p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token class-name">Stream</span><span class="token punctuation">.</span><span class="token function">of</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">gather</span><span class="token punctuation">(</span><span class="token class-name">Gatherers</span><span class="token punctuation">.</span><span class="token function">scan</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-></span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token class-name">Integer</span><span class="token operator">::</span><span class="token function">sum</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">toList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// Output: [1, 3, 6, 10, 15]</span>
+</code></pre>
+<p>Use case: financial dashboards showing running portfolio values, cumulative sales metrics.</p>
+<h3 id="fold---ordered-reduction">fold() - Ordered Reduction</h3>
+<p>Unlike <code>reduce()</code>, <code>fold()</code> doesn’t require associativity or commutativity:</p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&#x3C;</span><span class="token class-name">String</span><span class="token punctuation">></span></span> tokens <span class="token operator">=</span> <span class="token class-name">List</span><span class="token punctuation">.</span><span class="token function">of</span><span class="token punctuation">(</span><span class="token string">"Hello"</span><span class="token punctuation">,</span> <span class="token string">" "</span><span class="token punctuation">,</span> <span class="token string">"World"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">String</span> result <span class="token operator">=</span> tokens<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">gather</span><span class="token punctuation">(</span><span class="token class-name">Gatherers</span><span class="token punctuation">.</span><span class="token function">fold</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-></span> <span class="token string">""</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>acc<span class="token punctuation">,</span> s<span class="token punctuation">)</span> <span class="token operator">-></span> acc <span class="token operator">+</span> s<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">findFirst</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">orElse</span><span class="token punctuation">(</span><span class="token string">""</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// Result: "Hello World"</span>
+</code></pre>
+<hr>
+<h2 id="be-careful">Be Careful:</h2>
+<h3 id="1-the-ordering-tax-head-of-line-blocking">1. The Ordering Tax (Head-of-Line Blocking)</h3>
+<p>If element 1 takes 10 seconds and elements 2-100 take 10ms each, the reordering buffer holds those 99 fast results until element 1 completes. <strong>Solution</strong>: Use <code>.unordered()</code> or rethink your data model to avoid heterogeneous latencies.</p>
+<h3 id="2-virtual-thread-pinning">2. Virtual Thread Pinning</h3>
+<p>If your mapper uses <code>synchronized</code> blocks or blocking file I/O (not NIO), virtual threads get “pinned” to platform threads, killing performance. <strong>Solution</strong>: Replace <code>synchronized</code> with <code>ReentrantLock</code>, use NIO for file operations.</p>
+<h3 id="3-downstream-backpressure">3. Downstream Backpressure</h3>
+<p>If your downstream consumer (database, Kafka) is slower than your producer, the stream buffers data in memory. <strong>Solution</strong>: Add windowing to batch operations:</p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java">stream
+    <span class="token punctuation">.</span><span class="token function">gather</span><span class="token punctuation">(</span><span class="token class-name">Gatherers</span><span class="token punctuation">.</span><span class="token function">mapConcurrent</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token operator">::</span><span class="token function">enrich</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">gather</span><span class="token punctuation">(</span><span class="token class-name">Gatherers</span><span class="token punctuation">.</span><span class="token function">windowFixed</span><span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span>batch <span class="token operator">-></span> slowDatabase<span class="token punctuation">.</span><span class="token function">insertBatch</span><span class="token punctuation">(</span>batch<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<hr>
+<h2 id="real-world-pattern-seda-style-pipelines">Real-World Pattern: SEDA-Style Pipelines</h2>
+<p>Staged Event-Driven Architecture works beautifully with gatherers:</p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java">orders<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token comment">// Stage 1: Validation (sequential, fast)</span>
+    <span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span><span class="token class-name">OrderValidator</span><span class="token operator">::</span><span class="token function">isValid</span><span class="token punctuation">)</span>
+    
+    <span class="token comment">// Stage 2: Inventory reservation (I/O, high concurrency)</span>
+    <span class="token punctuation">.</span><span class="token function">gather</span><span class="token punctuation">(</span><span class="token class-name">Gatherers</span><span class="token punctuation">.</span><span class="token function">mapConcurrent</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">,</span> inventoryService<span class="token operator">::</span><span class="token function">reserve</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    
+    <span class="token comment">// Stage 3: Payment (I/O, strict limit due to API quotas)</span>
+    <span class="token punctuation">.</span><span class="token function">gather</span><span class="token punctuation">(</span><span class="token class-name">Gatherers</span><span class="token punctuation">.</span><span class="token function">mapConcurrent</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">,</span> paymentService<span class="token operator">::</span><span class="token function">charge</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    
+    <span class="token comment">// Stage 4: Email (I/O, high concurrency)</span>
+    <span class="token punctuation">.</span><span class="token function">gather</span><span class="token punctuation">(</span><span class="token class-name">Gatherers</span><span class="token punctuation">.</span><span class="token function">mapConcurrent</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">,</span> emailService<span class="token operator">::</span><span class="token function">send</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    
+    <span class="token punctuation">.</span><span class="token function">toList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>If the payment service slows down, the <code>mapConcurrent(5)</code> gatherer stops pulling from inventory. Inventory eventually fills its buffer and stops pulling from the source. <strong>Backpressure propagates upstream automatically</strong>, no manual queue management.</p>
+<hr>
+<h2 id="migration-strategy-for-production">Migration Strategy for Production</h2>
+<p><strong>Phase 1</strong>: Identify all <code>parallelStream()</code> usages that do I/O. Replace with <code>mapConcurrent</code>.</p>
+<p><strong>Phase 2</strong>: Find CompletableFuture chains longer than 3 operations. Rewrite as <code>mapConcurrent</code> + sequential operations.</p>
+<p><strong>Phase 3</strong>: Profile <code>maxConcurrency</code> values. Start conservative (5-10), measure p99 latency, increase until you hit diminishing returns or downstream rate limits.</p>
+<p><strong>Phase 4</strong>: Update observability tooling to handle virtual threads. Ensure structured concurrency context propagation works.</p>
+<hr>
+<h2 id="benchmarking-your-own-code">Benchmarking Your Own Code</h2>
+<p>Don’t trust my numbers. Profile your workload:</p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token comment">// Baseline: Sequential</span>
+<span class="token keyword">long</span> start <span class="token operator">=</span> <span class="token class-name">System</span><span class="token punctuation">.</span><span class="token function">currentTimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> sequential <span class="token operator">=</span> items<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token operator">::</span><span class="token function">expensiveOperation</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">toList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">long</span> seqTime <span class="token operator">=</span> <span class="token class-name">System</span><span class="token punctuation">.</span><span class="token function">currentTimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> start<span class="token punctuation">;</span>
+
+<span class="token comment">// Test: mapConcurrent</span>
+start <span class="token operator">=</span> <span class="token class-name">System</span><span class="token punctuation">.</span><span class="token function">currentTimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> concurrent <span class="token operator">=</span> items<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">gather</span><span class="token punctuation">(</span><span class="token class-name">Gatherers</span><span class="token punctuation">.</span><span class="token function">mapConcurrent</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token operator">::</span><span class="token function">expensiveOperation</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">toList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">long</span> concTime <span class="token operator">=</span> <span class="token class-name">System</span><span class="token punctuation">.</span><span class="token function">currentTimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> start<span class="token punctuation">;</span>
+
+<span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Speedup: "</span> <span class="token operator">+</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token keyword">double</span><span class="token punctuation">)</span>seqTime <span class="token operator">/</span> concTime<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">"x"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p><strong>Red flags</strong>:</p>
+<ul>
+<li>If speedup &#x3C;1.5×, you’re probably CPU-bound or have tiny operations</li>
+<li>If speedup >10×, your downstream service might be getting hammered, lower <code>maxConcurrency</code></li>
+</ul>
+<hr>
+<h2 id="final-thoughts">Final Thoughts</h2>
+<p>The Gather API isn’t just a utility update, it’s a paradigm correction. For many years, we’ve been choosing between readable code (Streams) and performant I/O (CompletableFuture). That trade-off is dead.</p>
+<p><code>mapConcurrent</code> democratizes high-concurrency programming. You no longer need to understand reactive frameworks, monadic composition, or callback hell to write performant I/O code. You write straightforward, blocking-style code that performs like highly-tuned async systems.</p> </div>    <section class="related-posts" data-astro-cid-dpgbfi7r> <h2 data-astro-cid-dpgbfi7r>Related Posts</h2> <div class="related-posts-grid" data-astro-cid-dpgbfi7r> <article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/ai-news/2025-11-01-spring-boot-performance-optimization/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>Spring Boot Performance Optimization: Expert Tips and Techniques</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>Spring Boot Performance Optimization: Expert Tips and Techniques Performance is critical for production Spring Boot…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2025-11-01T00:00:00.000Z" data-astro-cid-dpgbfi7r> Nov 1, 2025 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>7 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/ai-news/2025-12-08-bellsoft-unveils-hardened-java-images/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>BellSoft Unveils Hardened Java Images with 95% Fewer CVEs</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>BellSoft Unveils Hardened Java Images BellSoft announced Hardened Images for Java containers at KubeCon 2025, claiming…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2025-12-08T00:00:00.000Z" data-astro-cid-dpgbfi7r> Dec 8, 2025 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>1 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/ai-news/2025-12-07-building-debian-deb-packages-from-java-builds-using-jdeb/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>Building Debian deb Packages From Java Builds Using jdeb</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>Building Debian deb Packages From Java Builds Using jdeb jdeb enables Java projects to generate Debian packages on…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2025-12-07T00:00:00.000Z" data-astro-cid-dpgbfi7r> Dec 7, 2025 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>1 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/ai-news/2025-12-04-terminating-scanner-when-input-is-complete-in-java/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>Terminating Scanner When Input Is Complete in Java</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>Terminating Scanner When Input Is Complete in Java Java&#39;s Scanner class doesn&#39;t automatically stop reading input unless…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2025-12-04T00:00:00.000Z" data-astro-cid-dpgbfi7r> Dec 4, 2025 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>1 min read</span> </div> </a> </article> </div> </section>  </article> </div> <div class="back-link" data-astro-cid-yvbahnfj><a href="/" data-astro-cid-yvbahnfj>← Back to home</a></div>  </main> <!-- Site Footer --> <footer class="site-footer container"> <p>
+© 2025 AREZKI El Mehdi •
+<a href="https://github.com/earezki">GitHub</a> •
+<a href="/rss.xml">RSS</a> •
+<a href="/tags/">Tags</a> •
+<a href="/sitemap-index.xml">Sitemap</a> •
+<button id="footer-subscribe-btn" class="footer-subscribe-btn" aria-label="Subscribe to newsletter">
+📬 Subscribe
+</button> </p> </footer> <!-- Footer Subscribe Button Handler --> <script type="module">const e=document.getElementById("themeToggle"),o=n=>{if(!e)return;const t=e.querySelector(".theme-icon");t&&(t.textContent=n==="dark"?"☀":"☾")};if(e){const n=document.documentElement.getAttribute("data-theme")||"dark";o(n),e.addEventListener("click",()=>{const t=document.documentElement,c=t.getAttribute("data-theme")==="dark"?"light":"dark";t.setAttribute("data-theme",c),localStorage.setItem("theme",c),o(c)})}</script> <!-- Theme Toggle --> <script type="module">document.addEventListener("DOMContentLoaded",()=>{const e=document.getElementById("footer-subscribe-btn");e&&e.addEventListener("click",n=>{n.preventDefault();const t=document.getElementById("subscription-popup");t&&(t.setAttribute("data-state","visible"),document.body.style.overflow="hidden")})});</script> <!-- Article read/unread tracking --> <script>
+      (function() {
+        const KEY = 'readArticles';
+        
+        function getRead() {
+          try {
+            const d = localStorage.getItem(KEY);
+            return d ? JSON.parse(d) : [];
+          } catch (e) {
+            return [];
+          }
+        }
+        
+        function markRead(url) {
+          try {
+            const read = getRead();
+            if (!read.includes(url)) {
+              read.push(url);
+              localStorage.setItem(KEY, JSON.stringify(read));
+            }
+          } catch (e) {}
+        }
+        
+        function updateCards() {
+          const read = new Set(getRead());
+          const cards = document.querySelectorAll('.post-card[data-article-url]');
+          cards.forEach(function(card) {
+            const url = card.getAttribute('data-article-url');
+            if (!url) return;
+            const isRead = read.has(url);
+            card.classList.toggle('read', isRead);
+            card.classList.toggle('unread', !isRead);
+          });
+        }
+        
+        function markCurrent() {
+          if (document.querySelector('.post-body')) {
+            markRead(window.location.pathname);
+          }
+        }
+        
+        function init() {
+          updateCards();
+          markCurrent();
+        }
+        
+        function clearRead(url) {
+          try {
+            const read = new Set(getRead());
+            if (read.has(url)) {
+              read.delete(url);
+              localStorage.setItem(KEY, JSON.stringify(Array.from(read)));
+              updateCards();
+            }
+          } catch (e) {}
+        }
+        
+        window.clearReadArticle = clearRead;
+        document.addEventListener('DOMContentLoaded', init);
+        window.addEventListener('pageshow', function(e) {
+          if (e.persisted) init();
+        });
+      })();
+    </script> <!-- Clear read button handler --> <script>
+      (function() {
+        document.addEventListener('click', function(e) {
+          var tgt = e.target, btn = null;
+          while (tgt && tgt !== document) {
+            if (tgt.classList && tgt.classList.contains('clear-read-btn')) {
+              btn = tgt;
+              break;
+            }
+            tgt = tgt.parentNode;
+          }
+          if (!btn) return;
+          e.preventDefault();
+          e.stopPropagation();
+          var url = btn.getAttribute('data-article-url');
+          if (url && window.clearReadArticle) window.clearReadArticle(url);
+        });
+      })();
+    </script> <!-- External links open in new tab --> <script>
+      (function() {
+        function makeExternal() {
+          const domain = window.location.hostname;
+          const links = document.querySelectorAll('a[href]');
+          links.forEach(function(link) {
+            const href = link.getAttribute('href');
+            if (!href || link.hasAttribute('target')) return;
+            const isExt = (href.startsWith('http://') || href.startsWith('https://')) && !href.includes(domain);
+            if (isExt) {
+              link.setAttribute('target', '_blank');
+              link.setAttribute('rel', 'noopener noreferrer');
+            }
+          });
+        }
+        document.addEventListener('DOMContentLoaded', makeExternal);
+        if (window.MutationObserver) {
+          const obs = new MutationObserver(function(muts) {
+            muts.forEach(function(mut) {
+              if (mut.addedNodes.length) makeExternal();
+            });
+          });
+          obs.observe(document.body, { childList: true, subtree: true });
+        }
+      })();
+    </script> <!-- Code copy buttons --> <script>
+      (function() {
+        function createBtn() {
+          const btn = document.createElement('button');
+          btn.className = 'copy-code-button';
+          btn.setAttribute('aria-label', 'Copy code to clipboard');
+          btn.innerHTML = `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span>Copy</span>
+          `;
+          return btn;
+        }
+        
+        function checkIcon() {
+          return `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span>Copied!</span>
+          `;
+        }
+        
+        async function copyText(txt) {
+          try {
+            await navigator.clipboard.writeText(txt);
+            return true;
+          } catch (err) {
+            const ta = document.createElement('textarea');
+            ta.value = txt;
+            ta.style.position = 'fixed';
+            ta.style.left = '-999999px';
+            document.body.appendChild(ta);
+            ta.select();
+            try {
+              document.execCommand('copy');
+              document.body.removeChild(ta);
+              return true;
+            } catch (e) {
+              document.body.removeChild(ta);
+              return false;
+            }
+          }
+        }
+        
+        async function handleCopy(btn, code) {
+          const txt = code.textContent || '';
+          const ok = await copyText(txt);
+          if (ok) {
+            const orig = btn.innerHTML;
+            btn.classList.add('copied');
+            btn.innerHTML = checkIcon();
+            setTimeout(function() {
+              btn.classList.remove('copied');
+              btn.innerHTML = orig;
+            }, 2000);
+          }
+        }
+        
+        function addBtns() {
+          const blocks = document.querySelectorAll('.post-body pre');
+          blocks.forEach(function(pre) {
+            if (pre.querySelector('.copy-code-button')) return;
+            const btn = createBtn();
+            const code = pre.querySelector('code');
+            if (code) {
+              btn.addEventListener('click', function() {
+                handleCopy(btn, code);
+              });
+              pre.appendChild(btn);
+            }
+          });
+        }
+        
+        document.addEventListener('DOMContentLoaded', addBtns);
+      })();
+    </script> <!-- Newsletter Subscription Popup --> <div id="subscription-popup" class="subscription-popup" data-state="hidden" data-auto-trigger="true" data-astro-cid-we5gmdnp> <div class="popup-overlay" id="popup-overlay" data-astro-cid-we5gmdnp></div> <div class="popup-container" data-astro-cid-we5gmdnp> <div class="popup-content" data-astro-cid-we5gmdnp> <div class="popup-icon" data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-we5gmdnp> <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" data-astro-cid-we5gmdnp></path> <polyline points="22,6 12,13 2,6" data-astro-cid-we5gmdnp></polyline> </svg> </div> <h2 class="popup-title" data-astro-cid-we5gmdnp>Stay Updated with Dev|Journal</h2> <p class="popup-description" id="popup-description" data-astro-cid-we5gmdnp>
+Join our community of developers and engineers. Get insights on:
+</p> <ul class="popup-features" data-astro-cid-we5gmdnp> <li data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-we5gmdnp> <polyline points="20 6 9 17 4 12" data-astro-cid-we5gmdnp></polyline> </svg>
+Software Architecture & Design Patterns
+</li> <li data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-we5gmdnp> <polyline points="20 6 9 17 4 12" data-astro-cid-we5gmdnp></polyline> </svg>
+Backend Development Best Practices
+</li> <li data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-we5gmdnp> <polyline points="20 6 9 17 4 12" data-astro-cid-we5gmdnp></polyline> </svg>
+AI & Tech Industry Analysis
+</li> </ul> <form id="subscription-form" class="popup-form" data-astro-cid-we5gmdnp> <div class="form-group" data-astro-cid-we5gmdnp> <input type="text" id="subscriber-name" name="name" placeholder="Your name" required autocomplete="name" data-astro-cid-we5gmdnp> </div> <div class="form-group" data-astro-cid-we5gmdnp> <input type="email" id="subscriber-email" name="email" placeholder="your.email@example.com" required autocomplete="email" data-astro-cid-we5gmdnp> </div> <div id="form-message" class="form-message" data-astro-cid-we5gmdnp></div> <div class="popup-actions" data-astro-cid-we5gmdnp> <button type="submit" class="btn btn-primary" id="subscribe-btn" data-astro-cid-we5gmdnp> <span class="btn-text" data-astro-cid-we5gmdnp>Subscribe</span> <span class="btn-loader" data-astro-cid-we5gmdnp> <svg class="spinner" viewBox="0 0 24 24" data-astro-cid-we5gmdnp> <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" data-astro-cid-we5gmdnp></circle> </svg> </span> </button> <button type="button" class="btn btn-secondary" id="not-now-btn" data-astro-cid-we5gmdnp>Not Now</button> <button type="button" class="btn btn-text" id="cancel-btn" data-astro-cid-we5gmdnp>Don't Show Again</button> </div> </form> </div> </div> </div>  <script>
+  // Configuration
+  const CONFIG = {
+    graceDelay: 5000, // 5 seconds delay before showing popup
+    notNowDelay: 24 * 60 * 60 * 1000, // 1 day in milliseconds
+    apiUrl: 'https://api.earezki.com/blog/api',
+  };
+
+  const STORAGE_KEYS = {
+    subscribed: 'newsletter_subscribed',
+    cancelled: 'newsletter_cancelled',
+    notNowUntil: 'newsletter_not_now_until',
+  };
+
+  // State management
+  let popupTimeout = null;
+
+  function showPopup() {
+    const popup = document.getElementById('subscription-popup');
+    if (popup) {
+      popup.setAttribute('data-state', 'visible');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  function hidePopup() {
+    const popup = document.getElementById('subscription-popup');
+    if (popup) {
+      popup.setAttribute('data-state', 'hidden');
+      document.body.style.overflow = '';
+    }
+  }
+
+  function shouldShowPopup() {
+    // Check if user has already subscribed
+    if (localStorage.getItem(STORAGE_KEYS.subscribed) === 'true') {
+      return false;
+    }
+
+    // Check if user clicked "Don't show again"
+    if (localStorage.getItem(STORAGE_KEYS.cancelled) === 'true') {
+      return false;
+    }
+
+    // Check if user clicked "Not now" and delay hasn't passed
+    const notNowUntil = localStorage.getItem(STORAGE_KEYS.notNowUntil);
+    if (notNowUntil) {
+      const notNowTime = parseInt(notNowUntil, 10);
+      if (Date.now() < notNowTime) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  async function getSubscriberStats() {
+    try {
+      const response = await fetch(`${CONFIG.apiUrl}/subscribers/stats`, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+        },
+      });
+      
+      if (!response.ok) {
+        return null;
+      }
+      
+      const data = await response.json();
+      return data.subscriber_count || null;
+    } catch (error) {
+      console.error('Failed to fetch subscriber stats:', error);
+      return null;
+    }
+  }
+
+  async function schedulePopup() {
+    if (!shouldShowPopup()) {
+      return;
+    }
+
+    // Fetch subscriber stats before scheduling popup
+    const subscriberCount = await getSubscriberStats();
+    if (subscriberCount === null) {
+      console.log('Failed to fetch subscriber stats, not showing subscription popup');
+      return;
+    }
+
+    // Update popup with subscriber count
+    updatePopupWithStats(subscriberCount);
+
+    // Show popup after grace period
+    popupTimeout = window.setTimeout(() => {
+      showPopup();
+    }, CONFIG.graceDelay);
+  }
+
+  function updatePopupWithStats(count) {
+    const descriptionEl = document.querySelector('.popup-description');
+    if (descriptionEl) {
+      const formattedCount = new Intl.NumberFormat('en-US').format(count);
+      descriptionEl.innerHTML = `Join a community of <strong>${formattedCount}+</strong> developers and engineers who are growing together. Get insights on:`;
+    }
+  }
+
+  async function handleSubscribe(event) {
+    event.preventDefault();
+    
+    const form = event.target;
+    const nameInput = form.querySelector('#subscriber-name');
+    const emailInput = form.querySelector('#subscriber-email');
+    const submitBtn = form.querySelector('#subscribe-btn');
+    const messageEl = document.getElementById('form-message');
+
+    const name = nameInput.value.trim();
+    const email = emailInput.value.trim();
+
+    if (!name || !email) {
+      if (messageEl) {
+        messageEl.textContent = 'Please fill in all fields.';
+        messageEl.className = 'form-message error';
+      }
+      return;
+    }
+
+    // Show loading state
+    submitBtn.classList.add('loading');
+    submitBtn.disabled = true;
+    if (messageEl) {
+      messageEl.textContent = '';
+      messageEl.className = 'form-message';
+    }
+
+    try {
+      const response = await fetch(`${CONFIG.apiUrl}/subscribe`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, email }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        localStorage.setItem(STORAGE_KEYS.subscribed, 'true');
+        
+        if (messageEl) {
+          messageEl.textContent = '🎉 Successfully subscribed! Thank you for joining us.';
+          messageEl.className = 'form-message success';
+        }
+
+        // Hide popup after 2 seconds
+        setTimeout(() => {
+          hidePopup();
+        }, 2000);
+      } else {
+        if (messageEl) {
+          messageEl.textContent = data.error || 'Subscription failed. Please try again.';
+          messageEl.className = 'form-message error';
+        }
+      }
+    } catch (error) {
+      console.error('Subscription error:', error);
+      if (messageEl) {
+        messageEl.textContent = 'Network error. Please check your connection and try again.';
+        messageEl.className = 'form-message error';
+      }
+    } finally {
+      submitBtn.classList.remove('loading');
+      submitBtn.disabled = false;
+    }
+  }
+
+  function handleNotNow() {
+    const notNowUntil = Date.now() + CONFIG.notNowDelay;
+    localStorage.setItem(STORAGE_KEYS.notNowUntil, notNowUntil.toString());
+    hidePopup();
+  }
+
+  function handleCancel() {
+    localStorage.setItem(STORAGE_KEYS.cancelled, 'true');
+    hidePopup();
+  }
+
+  // Initialize popup
+  document.addEventListener('DOMContentLoaded', () => {
+    const popup = document.getElementById('subscription-popup');
+    const autoTrigger = popup?.getAttribute('data-auto-trigger') === 'true';
+    
+    // Schedule popup to show after grace period only if autoTrigger is enabled
+    if (autoTrigger) {
+      schedulePopup();
+    }
+
+    // Event listeners
+    const form = document.getElementById('subscription-form');
+    const overlay = document.getElementById('popup-overlay');
+    const notNowBtn = document.getElementById('not-now-btn');
+    const cancelBtn = document.getElementById('cancel-btn');
+
+    if (form) {
+      form.addEventListener('submit', handleSubscribe);
+    }
+
+    if (overlay) {
+      overlay.addEventListener('click', handleNotNow);
+    }
+
+    if (notNowBtn) {
+      notNowBtn.addEventListener('click', handleNotNow);
+    }
+
+    if (cancelBtn) {
+      cancelBtn.addEventListener('click', handleCancel);
+    }
+
+    // Clean up on page unload
+    window.addEventListener('beforeunload', () => {
+      if (popupTimeout) {
+        clearTimeout(popupTimeout);
+      }
+    });
+  });
+</script> </body></html> 

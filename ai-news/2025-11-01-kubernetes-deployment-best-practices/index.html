@@ -1,0 +1,1254 @@
+<!DOCTYPE html><html lang="en" data-theme="dark"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Kubernetes Deployment Best Practices: Production-Ready Guide • Dev|Journal</title><meta name="description" content="Kubernetes Deployment Best Practices: Production-Ready Guide Deploying applications to Kubernetes is more than just writing a Deployment YAML. This…"><meta name="keywords" content="AI News, Technology"><meta name="author" content="El Mehdi Arezki"><meta property="og:type" content="website"><meta property="og:url" content="https://earezki.com/ai-news/2025-11-01-kubernetes-deployment-best-practices/"><meta property="og:title" content="Kubernetes Deployment Best Practices: Production-Ready Guide • Dev|Journal"><meta property="og:site_name" content="Dev|Journal"><meta property="og:description" content="Kubernetes Deployment Best Practices: Production-Ready Guide Deploying applications to Kubernetes is more than just writing a Deployment YAML. This…"><meta property="og:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:url" content="https://earezki.com/ai-news/2025-11-01-kubernetes-deployment-best-practices/"><meta name="twitter:title" content="Kubernetes Deployment Best Practices: Production-Ready Guide • Dev|Journal"><meta name="twitter:description" content="Kubernetes Deployment Best Practices: Production-Ready Guide Deploying applications to Kubernetes is more than just writing a Deployment YAML. This…"><meta name="twitter:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:creator" content="@earezki"><link rel="canonical" href="https://earezki.com/ai-news/2025-11-01-kubernetes-deployment-best-practices/"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/x-icon" href="/favicon.ico"><link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"><link rel="dns-prefetch" href="https://cloud.umami.is"><script defer src="https://cloud.umami.is/script.js" data-website-id="4a26531d-1053-4f79-97a6-06a1366aff91"></script><script>
+      (function() {
+        const theme = localStorage.getItem('theme');
+        if (theme) document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script><script>
+!function(){const o=window.location.pathname;if("/"===o)return;if(/\.\w+$/.test(o))return;const n=o.toLowerCase(),i=n!==o,t=!o.endsWith("/");if(i||t){const o=n+(t?"/":""),i=window.location.origin+o+window.location.search+window.location.hash;window.location.replace(i)}}();
+</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Kubernetes Deployment Best Practices: Production-Ready Guide","description":"Kubernetes Deployment Best Practices: Production-Ready Guide Deploying applications to Kubernetes is more than just writing a Deployment YAML. This…","image":"https://earezki.com/assets/og-image-default.jpg","datePublished":"2025-11-01T00:00:00.000Z","dateModified":"2025-11-01T00:00:00.000Z","author":{"@type":"Person","name":"El Mehdi Arezki","url":"https://earezki.com/about","jobTitle":"Lead Software Engineer","sameAs":["https://github.com/earezki","https://www.linkedin.com/in/mehdi-arezki"]},"publisher":{"@type":"Organization","name":"Dev|Journal","url":"https://earezki.com","logo":{"@type":"ImageObject","url":"https://earezki.com/assets/logo.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://earezki.com/ai-news/2025-11-01-kubernetes-deployment-best-practices/"}}</script><link rel="stylesheet" href="/_astro/_slug_.BZhQT0av.css">
+<link rel="stylesheet" href="/_astro/_slug_.CFj9bTVJ.css">
+<link rel="stylesheet" href="/_astro/_slug_.ICs7ea4X.css"></head> <body> <div id="readingProgress" role="progressbar" aria-label="Reading progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="position:fixed;left:0;top:0;height:3px;background:linear-gradient(90deg,#2563eb,#9333ea);width:0;z-index:999;transition:width .15s ease;"></div> <script type="module">function c(){const t=document.getElementById("readingProgress");if(!t)return;const o=()=>{const e=document.documentElement,r=e.scrollTop||document.body.scrollTop,s=e.scrollHeight-e.clientHeight,n=s>0?r/s*100:0;t.style.width=`${n}%`,t.setAttribute("aria-valuenow",n.toFixed(0))};document.addEventListener("scroll",o,{passive:!0}),o()}c();</script> <header class="site-header container"> <div class="logo-wrap"> <a class="logo" href="/" aria-label="Dev|Journal Home">
+Dev|Journal
+</a> </div> <!-- Search Box in Header --> <div class="header-search" data-search-api-url="https://api.earezki.com/blog/api/q" data-search-timeout="2000"> <div class="search-box" id="search-box"> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon" aria-hidden="true"> <circle cx="11" cy="11" r="8"></circle> <path d="m21 21-4.35-4.35"></path> </svg> <input type="text" id="search-input" placeholder="Search ..." class="search-input" autocomplete="off" aria-label="Search articles" minlength="3"> <button id="clear-search" class="clear-button" style="display: none;" aria-label="Clear search"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <line x1="18" y1="6" x2="6" y2="18"></line> <line x1="6" y1="6" x2="18" y2="18"></line> </svg> </button> </div> <div id="search-results" class="search-results" role="status" aria-live="polite"></div> </div> <script type="module" src="/_astro/SearchBox.astro_astro_type_script_index_0_lang.BNnBPVSN.js"></script> <nav class="main-nav" aria-label="Main navigation"> <a href="/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path> <polyline points="9 22 9 12 15 12 15 22"></polyline> </svg>
+Home
+</a> <a href="/ai-news/" class="ai-news-link ai-gradient-nav"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h-9.5a.5.5 0 0 0-.5.5.5.5 0 0 1-1 0 .5.5 0 0 0-.5-.5H1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"></path> <path d="M7 15v4a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-4"></path> </svg>
+AI News
+</a> <a href="/ai-financial-news/" class="ai-financial-link ai-gradient-nav"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <line x1="12" y1="1" x2="12" y2="23"></line> <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path> </svg>
+AI Financial
+</a> <a href="/about/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <circle cx="12" cy="12" r="10"></circle> <path d="M12 16v-4"></path> <path d="M12 8h.01"></path> </svg>
+About
+</a> <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode"> <span class="theme-icon" aria-hidden="true">☾</span> </button> </nav> </header> <!-- Main Content --> <main class="container content-area">  <nav class="breadcrumbs" aria-label="Breadcrumb" data-astro-cid-ilhxcym7> <ol data-astro-cid-ilhxcym7> <li data-astro-cid-ilhxcym7>  <a href="/" data-astro-cid-ilhxcym7>Home</a> <span class="separator" aria-hidden="true" data-astro-cid-ilhxcym7>/</span>  </li><li data-astro-cid-ilhxcym7>  <a href="/ai-news/" data-astro-cid-ilhxcym7>Ai News</a> <span class="separator" aria-hidden="true" data-astro-cid-ilhxcym7>/</span>  </li><li data-astro-cid-ilhxcym7> <span class="current" aria-current="page" data-astro-cid-ilhxcym7>Kubernetes Deployment Best Practices: Production-Ready Guide</span> </li>  </ol> </nav>  <div class="post-layout" data-astro-cid-rkg3zjxi> <aside class="sidebar-left" data-astro-cid-rkg3zjxi> <nav class="toc" aria-label="Table of Contents" data-astro-cid-xvrfupwn> <div class="toc-title" data-astro-cid-xvrfupwn>On this page</div> <ul data-astro-cid-xvrfupwn> <li class="d-2" data-astro-cid-xvrfupwn> <a href="#table-of-contents" data-astro-cid-xvrfupwn> Table of Contents </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#deployment-fundamentals-fundamentals" data-astro-cid-xvrfupwn> Deployment Fundamentals {#fundamentals} </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#basic-deployment-structure" data-astro-cid-xvrfupwn> Basic Deployment Structure </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#key-components-explained" data-astro-cid-xvrfupwn> Key Components Explained </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#resource-management-resources" data-astro-cid-xvrfupwn> Resource Management {#resources} </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#1-resource-requests-and-limits" data-astro-cid-xvrfupwn> 1. Resource Requests and Limits </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#2-quality-of-service-qos-classes" data-astro-cid-xvrfupwn> 2. Quality of Service (QoS) Classes </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#3-resourcequota-and-limitrange" data-astro-cid-xvrfupwn> 3. ResourceQuota and LimitRange </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#health-checks-and-probes-health-checks" data-astro-cid-xvrfupwn> Health Checks and Probes {#health-checks} </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#1-liveness-probe" data-astro-cid-xvrfupwn> 1. Liveness Probe </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#2-readiness-probe" data-astro-cid-xvrfupwn> 2. Readiness Probe </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#3-startup-probe-for-slow-starting-apps" data-astro-cid-xvrfupwn> 3. Startup Probe (for slow-starting apps) </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#deployment-strategies-deployment-strategies" data-astro-cid-xvrfupwn> Deployment Strategies {#deployment-strategies} </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#1-rolling-update-default" data-astro-cid-xvrfupwn> 1. Rolling Update (Default) </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#2-blue-green-deployment" data-astro-cid-xvrfupwn> 2. Blue-Green Deployment </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#3-canary-deployment" data-astro-cid-xvrfupwn> 3. Canary Deployment </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#configuration-management-configuration" data-astro-cid-xvrfupwn> Configuration Management {#configuration} </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#1-configmaps" data-astro-cid-xvrfupwn> 1. ConfigMaps </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#2-secrets" data-astro-cid-xvrfupwn> 2. Secrets </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#scaling-and-autoscaling-scaling" data-astro-cid-xvrfupwn> Scaling and Autoscaling {#scaling} </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#1-horizontal-pod-autoscaler-hpa" data-astro-cid-xvrfupwn> 1. Horizontal Pod Autoscaler (HPA) </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#2-vertical-pod-autoscaler-vpa" data-astro-cid-xvrfupwn> 2. Vertical Pod Autoscaler (VPA) </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#3-custom-metrics-keda" data-astro-cid-xvrfupwn> 3. Custom Metrics (KEDA) </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#security-best-practices-security" data-astro-cid-xvrfupwn> Security Best Practices {#security} </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#1-pod-security-standards" data-astro-cid-xvrfupwn> 1. Pod Security Standards </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#2-security-context" data-astro-cid-xvrfupwn> 2. Security Context </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#3-network-policies" data-astro-cid-xvrfupwn> 3. Network Policies </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#monitoring-and-logging-monitoring" data-astro-cid-xvrfupwn> Monitoring and Logging {#monitoring} </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#1-prometheus-monitoring" data-astro-cid-xvrfupwn> 1. Prometheus Monitoring </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#2-servicemonitor-prometheus-operator" data-astro-cid-xvrfupwn> 2. ServiceMonitor (Prometheus Operator) </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#3-logging-with-fluentd" data-astro-cid-xvrfupwn> 3. Logging with Fluentd </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#production-checklist-checklist" data-astro-cid-xvrfupwn> Production Checklist {#checklist} </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#pre-deployment" data-astro-cid-xvrfupwn> Pre-Deployment: </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#during-deployment" data-astro-cid-xvrfupwn> During Deployment: </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#post-deployment" data-astro-cid-xvrfupwn> Post-Deployment: </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#conclusion" data-astro-cid-xvrfupwn> Conclusion </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#resources" data-astro-cid-xvrfupwn> Resources </a> </li> </ul> </nav>  </aside> <article class="post" data-astro-cid-rkg3zjxi> <header class="post-header" data-astro-cid-rkg3zjxi> <h1 data-astro-cid-rkg3zjxi>Kubernetes Deployment Best Practices: Production-Ready Guide</h1> <div class="meta" data-astro-cid-rkg3zjxi> <time datetime="2025-11-01T00:00:00.000Z" data-astro-cid-rkg3zjxi>Sat Nov 01 2025</time> <span data-astro-cid-rkg3zjxi>• 8 min read</span> </div> <div class="tag-row" data-astro-cid-rkg3zjxi><a class="post-tag" href="/tags/kubernetes/" data-astro-cid-rkg3zjxi>Kubernetes</a><a class="post-tag" href="/tags/devops/" data-astro-cid-rkg3zjxi>DevOps</a><a class="post-tag" href="/tags/cloud-native/" data-astro-cid-rkg3zjxi>Cloud Native</a></div> </header>    <div class="post-body prose" data-astro-cid-rkg3zjxi> <h1 id="kubernetes-deployment-best-practices-production-ready-guide">Kubernetes Deployment Best Practices: Production-Ready Guide</h1>
+<p>Deploying applications to Kubernetes is more than just writing a Deployment YAML. This comprehensive guide covers everything you need to know to run production-grade applications on Kubernetes successfully.</p>
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol>
+<li><a href="#fundamentals">Deployment Fundamentals</a></li>
+<li><a href="#resources">Resource Management</a></li>
+<li><a href="#health-checks">Health Checks and Probes</a></li>
+<li><a href="#deployment-strategies">Deployment Strategies</a></li>
+<li><a href="#configuration">Configuration Management</a></li>
+<li><a href="#scaling">Scaling and Autoscaling</a></li>
+<li><a href="#security">Security Best Practices</a></li>
+<li><a href="#monitoring">Monitoring and Logging</a></li>
+<li><a href="#checklist">Production Checklist</a></li>
+</ol>
+<h2 id="deployment-fundamentals-fundamentals">Deployment Fundamentals {#fundamentals}</h2>
+<h3 id="basic-deployment-structure">Basic Deployment Structure</h3>
+<pre class="language-yaml" data-language="yaml"><code is:raw="" class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> apps/v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> Deployment
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> myapp
+  <span class="token key atrule">namespace</span><span class="token punctuation">:</span> production
+  <span class="token key atrule">labels</span><span class="token punctuation">:</span>
+    <span class="token key atrule">app</span><span class="token punctuation">:</span> myapp
+    <span class="token key atrule">version</span><span class="token punctuation">:</span> v1.0.0
+    <span class="token key atrule">environment</span><span class="token punctuation">:</span> production
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">replicas</span><span class="token punctuation">:</span> <span class="token number">3</span>
+  <span class="token key atrule">revisionHistoryLimit</span><span class="token punctuation">:</span> <span class="token number">10</span>
+  <span class="token key atrule">selector</span><span class="token punctuation">:</span>
+    <span class="token key atrule">matchLabels</span><span class="token punctuation">:</span>
+      <span class="token key atrule">app</span><span class="token punctuation">:</span> myapp
+  <span class="token key atrule">template</span><span class="token punctuation">:</span>
+    <span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+      <span class="token key atrule">labels</span><span class="token punctuation">:</span>
+        <span class="token key atrule">app</span><span class="token punctuation">:</span> myapp
+        <span class="token key atrule">version</span><span class="token punctuation">:</span> v1.0.0
+    <span class="token key atrule">spec</span><span class="token punctuation">:</span>
+      <span class="token key atrule">containers</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> myapp
+        <span class="token key atrule">image</span><span class="token punctuation">:</span> myregistry.com/myapp<span class="token punctuation">:</span>1.0.0
+        <span class="token key atrule">imagePullPolicy</span><span class="token punctuation">:</span> IfNotPresent
+        <span class="token key atrule">ports</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> <span class="token key atrule">containerPort</span><span class="token punctuation">:</span> <span class="token number">8080</span>
+          <span class="token key atrule">name</span><span class="token punctuation">:</span> http
+          <span class="token key atrule">protocol</span><span class="token punctuation">:</span> TCP
+</code></pre>
+<h3 id="key-components-explained">Key Components Explained</h3>
+<p><strong>Deployment Spec:</strong></p>
+<ul>
+<li><code>replicas</code>: Number of pod instances</li>
+<li><code>revisionHistoryLimit</code>: Number of old ReplicaSets to retain</li>
+<li><code>selector</code>: Identifies pods managed by this deployment</li>
+<li><code>template</code>: Pod template specification</li>
+</ul>
+<h2 id="resource-management-resources">Resource Management {#resources}</h2>
+<h3 id="1-resource-requests-and-limits">1. Resource Requests and Limits</h3>
+<p><strong>Critical for production stability:</strong></p>
+<pre class="language-yaml" data-language="yaml"><code is:raw="" class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> apps/v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> Deployment
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> myapp
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">template</span><span class="token punctuation">:</span>
+    <span class="token key atrule">spec</span><span class="token punctuation">:</span>
+      <span class="token key atrule">containers</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> myapp
+        <span class="token key atrule">image</span><span class="token punctuation">:</span> myapp<span class="token punctuation">:</span>1.0.0
+        <span class="token key atrule">resources</span><span class="token punctuation">:</span>
+          <span class="token key atrule">requests</span><span class="token punctuation">:</span>
+            <span class="token key atrule">memory</span><span class="token punctuation">:</span> <span class="token string">"256Mi"</span>
+            <span class="token key atrule">cpu</span><span class="token punctuation">:</span> <span class="token string">"250m"</span>
+          <span class="token key atrule">limits</span><span class="token punctuation">:</span>
+            <span class="token key atrule">memory</span><span class="token punctuation">:</span> <span class="token string">"512Mi"</span>
+            <span class="token key atrule">cpu</span><span class="token punctuation">:</span> <span class="token string">"500m"</span>
+</code></pre>
+<p><strong>Understanding Resources:</strong></p>
+<ul>
+<li><strong>Requests</strong>: Guaranteed resources (used for scheduling)</li>
+<li><strong>Limits</strong>: Maximum resources (hard caps)</li>
+<li><strong>CPU</strong>: Measured in millicores (m)</li>
+<li><strong>Memory</strong>: Measured in bytes (Mi, Gi)</li>
+</ul>
+<p><strong>Best Practices:</strong></p>
+<pre class="language-yaml" data-language="yaml"><code is:raw="" class="language-yaml"><span class="token comment"># Good: Requests = Limits for critical workloads (Guaranteed QoS)</span>
+<span class="token key atrule">resources</span><span class="token punctuation">:</span>
+  <span class="token key atrule">requests</span><span class="token punctuation">:</span>
+    <span class="token key atrule">memory</span><span class="token punctuation">:</span> <span class="token string">"1Gi"</span>
+    <span class="token key atrule">cpu</span><span class="token punctuation">:</span> <span class="token string">"1000m"</span>
+  <span class="token key atrule">limits</span><span class="token punctuation">:</span>
+    <span class="token key atrule">memory</span><span class="token punctuation">:</span> <span class="token string">"1Gi"</span>
+    <span class="token key atrule">cpu</span><span class="token punctuation">:</span> <span class="token string">"1000m"</span>
+
+<span class="token comment"># Good: Slightly higher limits for burstable workloads</span>
+<span class="token key atrule">resources</span><span class="token punctuation">:</span>
+  <span class="token key atrule">requests</span><span class="token punctuation">:</span>
+    <span class="token key atrule">memory</span><span class="token punctuation">:</span> <span class="token string">"512Mi"</span>
+    <span class="token key atrule">cpu</span><span class="token punctuation">:</span> <span class="token string">"500m"</span>
+  <span class="token key atrule">limits</span><span class="token punctuation">:</span>
+    <span class="token key atrule">memory</span><span class="token punctuation">:</span> <span class="token string">"1Gi"</span>
+    <span class="token key atrule">cpu</span><span class="token punctuation">:</span> <span class="token string">"1000m"</span>
+
+<span class="token comment"># Bad: No limits (risk of resource exhaustion)</span>
+<span class="token key atrule">resources</span><span class="token punctuation">:</span>
+  <span class="token key atrule">requests</span><span class="token punctuation">:</span>
+    <span class="token key atrule">memory</span><span class="token punctuation">:</span> <span class="token string">"256Mi"</span>
+    <span class="token key atrule">cpu</span><span class="token punctuation">:</span> <span class="token string">"250m"</span>
+  <span class="token comment"># No limits defined!</span>
+</code></pre>
+<h3 id="2-quality-of-service-qos-classes">2. Quality of Service (QoS) Classes</h3>
+<p><strong>Guaranteed:</strong></p>
+<pre class="language-yaml" data-language="yaml"><code is:raw="" class="language-yaml"><span class="token comment"># Highest priority, won't be evicted</span>
+<span class="token key atrule">resources</span><span class="token punctuation">:</span>
+  <span class="token key atrule">requests</span><span class="token punctuation">:</span>
+    <span class="token key atrule">memory</span><span class="token punctuation">:</span> <span class="token string">"1Gi"</span>
+    <span class="token key atrule">cpu</span><span class="token punctuation">:</span> <span class="token string">"1"</span>
+  <span class="token key atrule">limits</span><span class="token punctuation">:</span>
+    <span class="token key atrule">memory</span><span class="token punctuation">:</span> <span class="token string">"1Gi"</span>
+    <span class="token key atrule">cpu</span><span class="token punctuation">:</span> <span class="token string">"1"</span>
+</code></pre>
+<p><strong>Burstable:</strong></p>
+<pre class="language-yaml" data-language="yaml"><code is:raw="" class="language-yaml"><span class="token comment"># Medium priority, can use extra resources</span>
+<span class="token key atrule">resources</span><span class="token punctuation">:</span>
+  <span class="token key atrule">requests</span><span class="token punctuation">:</span>
+    <span class="token key atrule">memory</span><span class="token punctuation">:</span> <span class="token string">"512Mi"</span>
+    <span class="token key atrule">cpu</span><span class="token punctuation">:</span> <span class="token string">"500m"</span>
+  <span class="token key atrule">limits</span><span class="token punctuation">:</span>
+    <span class="token key atrule">memory</span><span class="token punctuation">:</span> <span class="token string">"2Gi"</span>
+    <span class="token key atrule">cpu</span><span class="token punctuation">:</span> <span class="token string">"2"</span>
+</code></pre>
+<p><strong>BestEffort:</strong></p>
+<pre class="language-yaml" data-language="yaml"><code is:raw="" class="language-yaml"><span class="token comment"># Lowest priority, first to be evicted</span>
+<span class="token comment"># No resources specified</span>
+</code></pre>
+<h3 id="3-resourcequota-and-limitrange">3. ResourceQuota and LimitRange</h3>
+<p><strong>Namespace ResourceQuota:</strong></p>
+<pre class="language-yaml" data-language="yaml"><code is:raw="" class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> ResourceQuota
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> production<span class="token punctuation">-</span>quota
+  <span class="token key atrule">namespace</span><span class="token punctuation">:</span> production
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">hard</span><span class="token punctuation">:</span>
+    <span class="token key atrule">requests.cpu</span><span class="token punctuation">:</span> <span class="token string">"100"</span>
+    <span class="token key atrule">requests.memory</span><span class="token punctuation">:</span> <span class="token string">"200Gi"</span>
+    <span class="token key atrule">limits.cpu</span><span class="token punctuation">:</span> <span class="token string">"200"</span>
+    <span class="token key atrule">limits.memory</span><span class="token punctuation">:</span> <span class="token string">"400Gi"</span>
+    <span class="token key atrule">pods</span><span class="token punctuation">:</span> <span class="token string">"50"</span>
+    <span class="token key atrule">services</span><span class="token punctuation">:</span> <span class="token string">"20"</span>
+</code></pre>
+<p><strong>LimitRange for defaults:</strong></p>
+<pre class="language-yaml" data-language="yaml"><code is:raw="" class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> LimitRange
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> default<span class="token punctuation">-</span>limits
+  <span class="token key atrule">namespace</span><span class="token punctuation">:</span> production
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">limits</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">default</span><span class="token punctuation">:</span>
+      <span class="token key atrule">memory</span><span class="token punctuation">:</span> <span class="token string">"512Mi"</span>
+      <span class="token key atrule">cpu</span><span class="token punctuation">:</span> <span class="token string">"500m"</span>
+    <span class="token key atrule">defaultRequest</span><span class="token punctuation">:</span>
+      <span class="token key atrule">memory</span><span class="token punctuation">:</span> <span class="token string">"256Mi"</span>
+      <span class="token key atrule">cpu</span><span class="token punctuation">:</span> <span class="token string">"250m"</span>
+    <span class="token key atrule">type</span><span class="token punctuation">:</span> Container
+</code></pre>
+<h2 id="health-checks-and-probes-health-checks">Health Checks and Probes {#health-checks}</h2>
+<h3 id="1-liveness-probe">1. Liveness Probe</h3>
+<p>Determines if container is running. Restarts on failure.</p>
+<pre class="language-yaml" data-language="yaml"><code is:raw="" class="language-yaml"><span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">containers</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> myapp
+    <span class="token key atrule">image</span><span class="token punctuation">:</span> myapp<span class="token punctuation">:</span>1.0.0
+    <span class="token key atrule">livenessProbe</span><span class="token punctuation">:</span>
+      <span class="token key atrule">httpGet</span><span class="token punctuation">:</span>
+        <span class="token key atrule">path</span><span class="token punctuation">:</span> /actuator/health/liveness
+        <span class="token key atrule">port</span><span class="token punctuation">:</span> <span class="token number">8080</span>
+        <span class="token key atrule">scheme</span><span class="token punctuation">:</span> HTTP
+      <span class="token key atrule">initialDelaySeconds</span><span class="token punctuation">:</span> <span class="token number">60</span>
+      <span class="token key atrule">periodSeconds</span><span class="token punctuation">:</span> <span class="token number">10</span>
+      <span class="token key atrule">timeoutSeconds</span><span class="token punctuation">:</span> <span class="token number">5</span>
+      <span class="token key atrule">successThreshold</span><span class="token punctuation">:</span> <span class="token number">1</span>
+      <span class="token key atrule">failureThreshold</span><span class="token punctuation">:</span> <span class="token number">3</span>
+</code></pre>
+<p><strong>Alternative Probe Types:</strong></p>
+<p><strong>Exec Probe:</strong></p>
+<pre class="language-yaml" data-language="yaml"><code is:raw="" class="language-yaml"><span class="token key atrule">livenessProbe</span><span class="token punctuation">:</span>
+  <span class="token key atrule">exec</span><span class="token punctuation">:</span>
+    <span class="token key atrule">command</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> /bin/sh
+    <span class="token punctuation">-</span> <span class="token punctuation">-</span>c
+    <span class="token punctuation">-</span> <span class="token string">"pgrep java || exit 1"</span>
+  <span class="token key atrule">initialDelaySeconds</span><span class="token punctuation">:</span> <span class="token number">30</span>
+  <span class="token key atrule">periodSeconds</span><span class="token punctuation">:</span> <span class="token number">10</span>
+</code></pre>
+<p><strong>TCP Socket Probe:</strong></p>
+<pre class="language-yaml" data-language="yaml"><code is:raw="" class="language-yaml"><span class="token key atrule">livenessProbe</span><span class="token punctuation">:</span>
+  <span class="token key atrule">tcpSocket</span><span class="token punctuation">:</span>
+    <span class="token key atrule">port</span><span class="token punctuation">:</span> <span class="token number">8080</span>
+  <span class="token key atrule">initialDelaySeconds</span><span class="token punctuation">:</span> <span class="token number">15</span>
+  <span class="token key atrule">periodSeconds</span><span class="token punctuation">:</span> <span class="token number">10</span>
+</code></pre>
+<p><strong>gRPC Probe (Kubernetes 1.24+):</strong></p>
+<pre class="language-yaml" data-language="yaml"><code is:raw="" class="language-yaml"><span class="token key atrule">livenessProbe</span><span class="token punctuation">:</span>
+  <span class="token key atrule">grpc</span><span class="token punctuation">:</span>
+    <span class="token key atrule">port</span><span class="token punctuation">:</span> <span class="token number">9090</span>
+  <span class="token key atrule">initialDelaySeconds</span><span class="token punctuation">:</span> <span class="token number">30</span>
+</code></pre>
+<h3 id="2-readiness-probe">2. Readiness Probe</h3>
+<p>Determines if container can accept traffic.</p>
+<pre class="language-yaml" data-language="yaml"><code is:raw="" class="language-yaml"><span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">containers</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> myapp
+    <span class="token key atrule">readinessProbe</span><span class="token punctuation">:</span>
+      <span class="token key atrule">httpGet</span><span class="token punctuation">:</span>
+        <span class="token key atrule">path</span><span class="token punctuation">:</span> /actuator/health/readiness
+        <span class="token key atrule">port</span><span class="token punctuation">:</span> <span class="token number">8080</span>
+      <span class="token key atrule">initialDelaySeconds</span><span class="token punctuation">:</span> <span class="token number">30</span>
+      <span class="token key atrule">periodSeconds</span><span class="token punctuation">:</span> <span class="token number">5</span>
+      <span class="token key atrule">timeoutSeconds</span><span class="token punctuation">:</span> <span class="token number">3</span>
+      <span class="token key atrule">successThreshold</span><span class="token punctuation">:</span> <span class="token number">1</span>
+      <span class="token key atrule">failureThreshold</span><span class="token punctuation">:</span> <span class="token number">3</span>
+</code></pre>
+<h3 id="3-startup-probe-for-slow-starting-apps">3. Startup Probe (for slow-starting apps)</h3>
+<pre class="language-yaml" data-language="yaml"><code is:raw="" class="language-yaml"><span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">containers</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> myapp
+    <span class="token key atrule">startupProbe</span><span class="token punctuation">:</span>
+      <span class="token key atrule">httpGet</span><span class="token punctuation">:</span>
+        <span class="token key atrule">path</span><span class="token punctuation">:</span> /actuator/health/startup
+        <span class="token key atrule">port</span><span class="token punctuation">:</span> <span class="token number">8080</span>
+      <span class="token key atrule">initialDelaySeconds</span><span class="token punctuation">:</span> <span class="token number">0</span>
+      <span class="token key atrule">periodSeconds</span><span class="token punctuation">:</span> <span class="token number">10</span>
+      <span class="token key atrule">failureThreshold</span><span class="token punctuation">:</span> <span class="token number">30</span>  <span class="token comment"># Allow up to 5 minutes for startup</span>
+      <span class="token key atrule">timeoutSeconds</span><span class="token punctuation">:</span> <span class="token number">5</span>
+</code></pre>
+<p><strong>Complete Health Check Example:</strong></p>
+<pre class="language-yaml" data-language="yaml"><code is:raw="" class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> apps/v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> Deployment
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> myapp
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">template</span><span class="token punctuation">:</span>
+    <span class="token key atrule">spec</span><span class="token punctuation">:</span>
+      <span class="token key atrule">containers</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> myapp
+        <span class="token key atrule">image</span><span class="token punctuation">:</span> myapp<span class="token punctuation">:</span>1.0.0
+        <span class="token key atrule">ports</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> <span class="token key atrule">containerPort</span><span class="token punctuation">:</span> <span class="token number">8080</span>
+        
+        <span class="token comment"># Startup probe - gives app time to start</span>
+        <span class="token key atrule">startupProbe</span><span class="token punctuation">:</span>
+          <span class="token key atrule">httpGet</span><span class="token punctuation">:</span>
+            <span class="token key atrule">path</span><span class="token punctuation">:</span> /health/startup
+            <span class="token key atrule">port</span><span class="token punctuation">:</span> <span class="token number">8080</span>
+          <span class="token key atrule">failureThreshold</span><span class="token punctuation">:</span> <span class="token number">30</span>
+          <span class="token key atrule">periodSeconds</span><span class="token punctuation">:</span> <span class="token number">10</span>
+        
+        <span class="token comment"># Readiness probe - determines traffic eligibility</span>
+        <span class="token key atrule">readinessProbe</span><span class="token punctuation">:</span>
+          <span class="token key atrule">httpGet</span><span class="token punctuation">:</span>
+            <span class="token key atrule">path</span><span class="token punctuation">:</span> /health/ready
+            <span class="token key atrule">port</span><span class="token punctuation">:</span> <span class="token number">8080</span>
+          <span class="token key atrule">initialDelaySeconds</span><span class="token punctuation">:</span> <span class="token number">10</span>
+          <span class="token key atrule">periodSeconds</span><span class="token punctuation">:</span> <span class="token number">5</span>
+          <span class="token key atrule">failureThreshold</span><span class="token punctuation">:</span> <span class="token number">3</span>
+        
+        <span class="token comment"># Liveness probe - restarts if unhealthy</span>
+        <span class="token key atrule">livenessProbe</span><span class="token punctuation">:</span>
+          <span class="token key atrule">httpGet</span><span class="token punctuation">:</span>
+            <span class="token key atrule">path</span><span class="token punctuation">:</span> /health/live
+            <span class="token key atrule">port</span><span class="token punctuation">:</span> <span class="token number">8080</span>
+          <span class="token key atrule">initialDelaySeconds</span><span class="token punctuation">:</span> <span class="token number">60</span>
+          <span class="token key atrule">periodSeconds</span><span class="token punctuation">:</span> <span class="token number">10</span>
+          <span class="token key atrule">failureThreshold</span><span class="token punctuation">:</span> <span class="token number">3</span>
+</code></pre>
+<h2 id="deployment-strategies-deployment-strategies">Deployment Strategies {#deployment-strategies}</h2>
+<h3 id="1-rolling-update-default">1. Rolling Update (Default)</h3>
+<p>Gradually replaces old pods with new ones.</p>
+<pre class="language-yaml" data-language="yaml"><code is:raw="" class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> apps/v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> Deployment
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> myapp
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">replicas</span><span class="token punctuation">:</span> <span class="token number">10</span>
+  <span class="token key atrule">strategy</span><span class="token punctuation">:</span>
+    <span class="token key atrule">type</span><span class="token punctuation">:</span> RollingUpdate
+    <span class="token key atrule">rollingUpdate</span><span class="token punctuation">:</span>
+      <span class="token key atrule">maxUnavailable</span><span class="token punctuation">:</span> <span class="token number">1</span>      <span class="token comment"># Max pods unavailable during update</span>
+      <span class="token key atrule">maxSurge</span><span class="token punctuation">:</span> <span class="token number">2</span>            <span class="token comment"># Max extra pods during update</span>
+  <span class="token key atrule">template</span><span class="token punctuation">:</span>
+    <span class="token key atrule">spec</span><span class="token punctuation">:</span>
+      <span class="token key atrule">containers</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> myapp
+        <span class="token key atrule">image</span><span class="token punctuation">:</span> myapp<span class="token punctuation">:</span>2.0.0
+</code></pre>
+<p><strong>Characteristics:</strong></p>
+<ul>
+<li>✅ Zero downtime</li>
+<li>✅ Gradual rollout</li>
+<li>⚠️ Both versions run simultaneously</li>
+<li>⚠️ Slower deployment</li>
+</ul>
+<h3 id="2-blue-green-deployment">2. Blue-Green Deployment</h3>
+<p>Run new version alongside old, switch traffic when ready.</p>
+<pre class="language-yaml" data-language="yaml"><code is:raw="" class="language-yaml"><span class="token comment"># Blue deployment (current)</span>
+<span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> apps/v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> Deployment
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> myapp<span class="token punctuation">-</span>blue
+  <span class="token key atrule">labels</span><span class="token punctuation">:</span>
+    <span class="token key atrule">app</span><span class="token punctuation">:</span> myapp
+    <span class="token key atrule">version</span><span class="token punctuation">:</span> blue
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">replicas</span><span class="token punctuation">:</span> <span class="token number">3</span>
+  <span class="token key atrule">selector</span><span class="token punctuation">:</span>
+    <span class="token key atrule">matchLabels</span><span class="token punctuation">:</span>
+      <span class="token key atrule">app</span><span class="token punctuation">:</span> myapp
+      <span class="token key atrule">version</span><span class="token punctuation">:</span> blue
+  <span class="token key atrule">template</span><span class="token punctuation">:</span>
+    <span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+      <span class="token key atrule">labels</span><span class="token punctuation">:</span>
+        <span class="token key atrule">app</span><span class="token punctuation">:</span> myapp
+        <span class="token key atrule">version</span><span class="token punctuation">:</span> blue
+    <span class="token key atrule">spec</span><span class="token punctuation">:</span>
+      <span class="token key atrule">containers</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> myapp
+        <span class="token key atrule">image</span><span class="token punctuation">:</span> myapp<span class="token punctuation">:</span>1.0.0
+
+<span class="token punctuation">---</span>
+<span class="token comment"># Green deployment (new)</span>
+<span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> apps/v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> Deployment
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> myapp<span class="token punctuation">-</span>green
+  <span class="token key atrule">labels</span><span class="token punctuation">:</span>
+    <span class="token key atrule">app</span><span class="token punctuation">:</span> myapp
+    <span class="token key atrule">version</span><span class="token punctuation">:</span> green
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">replicas</span><span class="token punctuation">:</span> <span class="token number">3</span>
+  <span class="token key atrule">selector</span><span class="token punctuation">:</span>
+    <span class="token key atrule">matchLabels</span><span class="token punctuation">:</span>
+      <span class="token key atrule">app</span><span class="token punctuation">:</span> myapp
+      <span class="token key atrule">version</span><span class="token punctuation">:</span> green
+  <span class="token key atrule">template</span><span class="token punctuation">:</span>
+    <span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+      <span class="token key atrule">labels</span><span class="token punctuation">:</span>
+        <span class="token key atrule">app</span><span class="token punctuation">:</span> myapp
+        <span class="token key atrule">version</span><span class="token punctuation">:</span> green
+    <span class="token key atrule">spec</span><span class="token punctuation">:</span>
+      <span class="token key atrule">containers</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> myapp
+        <span class="token key atrule">image</span><span class="token punctuation">:</span> myapp<span class="token punctuation">:</span>2.0.0
+
+<span class="token punctuation">---</span>
+<span class="token comment"># Service (switch selector to green when ready)</span>
+<span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> Service
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> myapp
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">selector</span><span class="token punctuation">:</span>
+    <span class="token key atrule">app</span><span class="token punctuation">:</span> myapp
+    <span class="token key atrule">version</span><span class="token punctuation">:</span> blue    <span class="token comment"># Change to 'green' when ready to switch</span>
+  <span class="token key atrule">ports</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">port</span><span class="token punctuation">:</span> <span class="token number">80</span>
+    <span class="token key atrule">targetPort</span><span class="token punctuation">:</span> <span class="token number">8080</span>
+</code></pre>
+<p><strong>Characteristics:</strong></p>
+<ul>
+<li>✅ Instant rollback</li>
+<li>✅ Full testing before switch</li>
+<li>⚠️ Requires 2x resources</li>
+<li>⚠️ Database migrations complex</li>
+</ul>
+<h3 id="3-canary-deployment">3. Canary Deployment</h3>
+<p>Gradually shift traffic to new version.</p>
+<p><strong>Using Istio:</strong></p>
+<pre class="language-yaml" data-language="yaml"><code is:raw="" class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> networking.istio.io/v1beta1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> VirtualService
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> myapp
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">hosts</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> myapp
+  <span class="token key atrule">http</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">match</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">headers</span><span class="token punctuation">:</span>
+        <span class="token key atrule">user-type</span><span class="token punctuation">:</span>
+          <span class="token key atrule">exact</span><span class="token punctuation">:</span> beta<span class="token punctuation">-</span>tester
+    <span class="token key atrule">route</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">destination</span><span class="token punctuation">:</span>
+        <span class="token key atrule">host</span><span class="token punctuation">:</span> myapp
+        <span class="token key atrule">subset</span><span class="token punctuation">:</span> v2
+  <span class="token punctuation">-</span> <span class="token key atrule">route</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">destination</span><span class="token punctuation">:</span>
+        <span class="token key atrule">host</span><span class="token punctuation">:</span> myapp
+        <span class="token key atrule">subset</span><span class="token punctuation">:</span> v1
+      <span class="token key atrule">weight</span><span class="token punctuation">:</span> <span class="token number">90</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">destination</span><span class="token punctuation">:</span>
+        <span class="token key atrule">host</span><span class="token punctuation">:</span> myapp
+        <span class="token key atrule">subset</span><span class="token punctuation">:</span> v2
+      <span class="token key atrule">weight</span><span class="token punctuation">:</span> <span class="token number">10</span>
+
+<span class="token punctuation">---</span>
+<span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> networking.istio.io/v1beta1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> DestinationRule
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> myapp
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">host</span><span class="token punctuation">:</span> myapp
+  <span class="token key atrule">subsets</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> v1
+    <span class="token key atrule">labels</span><span class="token punctuation">:</span>
+      <span class="token key atrule">version</span><span class="token punctuation">:</span> v1
+  <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> v2
+    <span class="token key atrule">labels</span><span class="token punctuation">:</span>
+      <span class="token key atrule">version</span><span class="token punctuation">:</span> v2
+</code></pre>
+<p><strong>Using Argo Rollouts:</strong></p>
+<pre class="language-yaml" data-language="yaml"><code is:raw="" class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> argoproj.io/v1alpha1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> Rollout
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> myapp
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">replicas</span><span class="token punctuation">:</span> <span class="token number">10</span>
+  <span class="token key atrule">strategy</span><span class="token punctuation">:</span>
+    <span class="token key atrule">canary</span><span class="token punctuation">:</span>
+      <span class="token key atrule">steps</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">setWeight</span><span class="token punctuation">:</span> <span class="token number">10</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">pause</span><span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token key atrule">duration</span><span class="token punctuation">:</span> 5m<span class="token punctuation">}</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">setWeight</span><span class="token punctuation">:</span> <span class="token number">25</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">pause</span><span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token key atrule">duration</span><span class="token punctuation">:</span> 5m<span class="token punctuation">}</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">setWeight</span><span class="token punctuation">:</span> <span class="token number">50</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">pause</span><span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token key atrule">duration</span><span class="token punctuation">:</span> 5m<span class="token punctuation">}</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">setWeight</span><span class="token punctuation">:</span> <span class="token number">75</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">pause</span><span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token key atrule">duration</span><span class="token punctuation">:</span> 5m<span class="token punctuation">}</span>
+  <span class="token key atrule">template</span><span class="token punctuation">:</span>
+    <span class="token key atrule">spec</span><span class="token punctuation">:</span>
+      <span class="token key atrule">containers</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> myapp
+        <span class="token key atrule">image</span><span class="token punctuation">:</span> myapp<span class="token punctuation">:</span>2.0.0
+</code></pre>
+<h2 id="configuration-management-configuration">Configuration Management {#configuration}</h2>
+<h3 id="1-configmaps">1. ConfigMaps</h3>
+<pre class="language-yaml" data-language="yaml"><code is:raw="" class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> ConfigMap
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> myapp<span class="token punctuation">-</span>config
+  <span class="token key atrule">namespace</span><span class="token punctuation">:</span> production
+<span class="token key atrule">data</span><span class="token punctuation">:</span>
+  <span class="token key atrule">application.yaml</span><span class="token punctuation">:</span> <span class="token punctuation">|</span><span class="token scalar string">
+    server:
+      port: 8080
+    spring:
+      datasource:
+        url: jdbc:postgresql://db:5432/mydb</span>
+  <span class="token key atrule">log-level</span><span class="token punctuation">:</span> <span class="token string">"INFO"</span>
+  <span class="token key atrule">cache-size</span><span class="token punctuation">:</span> <span class="token string">"1000"</span>
+
+<span class="token punctuation">---</span>
+<span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> apps/v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> Deployment
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> myapp
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">template</span><span class="token punctuation">:</span>
+    <span class="token key atrule">spec</span><span class="token punctuation">:</span>
+      <span class="token key atrule">containers</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> myapp
+        <span class="token key atrule">image</span><span class="token punctuation">:</span> myapp<span class="token punctuation">:</span>1.0.0
+        <span class="token key atrule">env</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> LOG_LEVEL
+          <span class="token key atrule">valueFrom</span><span class="token punctuation">:</span>
+            <span class="token key atrule">configMapKeyRef</span><span class="token punctuation">:</span>
+              <span class="token key atrule">name</span><span class="token punctuation">:</span> myapp<span class="token punctuation">-</span>config
+              <span class="token key atrule">key</span><span class="token punctuation">:</span> log<span class="token punctuation">-</span>level
+        <span class="token key atrule">volumeMounts</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> config
+          <span class="token key atrule">mountPath</span><span class="token punctuation">:</span> /config
+      <span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> config
+        <span class="token key atrule">configMap</span><span class="token punctuation">:</span>
+          <span class="token key atrule">name</span><span class="token punctuation">:</span> myapp<span class="token punctuation">-</span>config
+</code></pre>
+<h3 id="2-secrets">2. Secrets</h3>
+<pre class="language-yaml" data-language="yaml"><code is:raw="" class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> Secret
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> myapp<span class="token punctuation">-</span>secrets
+  <span class="token key atrule">namespace</span><span class="token punctuation">:</span> production
+<span class="token key atrule">type</span><span class="token punctuation">:</span> Opaque
+<span class="token key atrule">stringData</span><span class="token punctuation">:</span>
+  <span class="token key atrule">database-password</span><span class="token punctuation">:</span> <span class="token string">"supersecret"</span>
+  <span class="token key atrule">api-key</span><span class="token punctuation">:</span> <span class="token string">"abc123def456"</span>
+
+<span class="token punctuation">---</span>
+<span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> apps/v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> Deployment
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> myapp
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">template</span><span class="token punctuation">:</span>
+    <span class="token key atrule">spec</span><span class="token punctuation">:</span>
+      <span class="token key atrule">containers</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> myapp
+        <span class="token key atrule">env</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> DB_PASSWORD
+          <span class="token key atrule">valueFrom</span><span class="token punctuation">:</span>
+            <span class="token key atrule">secretKeyRef</span><span class="token punctuation">:</span>
+              <span class="token key atrule">name</span><span class="token punctuation">:</span> myapp<span class="token punctuation">-</span>secrets
+              <span class="token key atrule">key</span><span class="token punctuation">:</span> database<span class="token punctuation">-</span>password
+        <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> API_KEY
+          <span class="token key atrule">valueFrom</span><span class="token punctuation">:</span>
+            <span class="token key atrule">secretKeyRef</span><span class="token punctuation">:</span>
+              <span class="token key atrule">name</span><span class="token punctuation">:</span> myapp<span class="token punctuation">-</span>secrets
+              <span class="token key atrule">key</span><span class="token punctuation">:</span> api<span class="token punctuation">-</span>key
+</code></pre>
+<p><strong>Best Practice: Use External Secrets Operator</strong></p>
+<pre class="language-yaml" data-language="yaml"><code is:raw="" class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> external<span class="token punctuation">-</span>secrets.io/v1beta1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> ExternalSecret
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> myapp<span class="token punctuation">-</span>secrets
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">refreshInterval</span><span class="token punctuation">:</span> 1h
+  <span class="token key atrule">secretStoreRef</span><span class="token punctuation">:</span>
+    <span class="token key atrule">name</span><span class="token punctuation">:</span> aws<span class="token punctuation">-</span>secrets<span class="token punctuation">-</span>manager
+    <span class="token key atrule">kind</span><span class="token punctuation">:</span> SecretStore
+  <span class="token key atrule">target</span><span class="token punctuation">:</span>
+    <span class="token key atrule">name</span><span class="token punctuation">:</span> myapp<span class="token punctuation">-</span>secrets
+  <span class="token key atrule">data</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">secretKey</span><span class="token punctuation">:</span> database<span class="token punctuation">-</span>password
+    <span class="token key atrule">remoteRef</span><span class="token punctuation">:</span>
+      <span class="token key atrule">key</span><span class="token punctuation">:</span> prod/myapp/db
+      <span class="token key atrule">property</span><span class="token punctuation">:</span> password
+</code></pre>
+<h2 id="scaling-and-autoscaling-scaling">Scaling and Autoscaling {#scaling}</h2>
+<h3 id="1-horizontal-pod-autoscaler-hpa">1. Horizontal Pod Autoscaler (HPA)</h3>
+<pre class="language-yaml" data-language="yaml"><code is:raw="" class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> autoscaling/v2
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> HorizontalPodAutoscaler
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> myapp<span class="token punctuation">-</span>hpa
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">scaleTargetRef</span><span class="token punctuation">:</span>
+    <span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> apps/v1
+    <span class="token key atrule">kind</span><span class="token punctuation">:</span> Deployment
+    <span class="token key atrule">name</span><span class="token punctuation">:</span> myapp
+  <span class="token key atrule">minReplicas</span><span class="token punctuation">:</span> <span class="token number">3</span>
+  <span class="token key atrule">maxReplicas</span><span class="token punctuation">:</span> <span class="token number">50</span>
+  <span class="token key atrule">metrics</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">type</span><span class="token punctuation">:</span> Resource
+    <span class="token key atrule">resource</span><span class="token punctuation">:</span>
+      <span class="token key atrule">name</span><span class="token punctuation">:</span> cpu
+      <span class="token key atrule">target</span><span class="token punctuation">:</span>
+        <span class="token key atrule">type</span><span class="token punctuation">:</span> Utilization
+        <span class="token key atrule">averageUtilization</span><span class="token punctuation">:</span> <span class="token number">70</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">type</span><span class="token punctuation">:</span> Resource
+    <span class="token key atrule">resource</span><span class="token punctuation">:</span>
+      <span class="token key atrule">name</span><span class="token punctuation">:</span> memory
+      <span class="token key atrule">target</span><span class="token punctuation">:</span>
+        <span class="token key atrule">type</span><span class="token punctuation">:</span> Utilization
+        <span class="token key atrule">averageUtilization</span><span class="token punctuation">:</span> <span class="token number">80</span>
+  <span class="token key atrule">behavior</span><span class="token punctuation">:</span>
+    <span class="token key atrule">scaleDown</span><span class="token punctuation">:</span>
+      <span class="token key atrule">stabilizationWindowSeconds</span><span class="token punctuation">:</span> <span class="token number">300</span>
+      <span class="token key atrule">policies</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">type</span><span class="token punctuation">:</span> Percent
+        <span class="token key atrule">value</span><span class="token punctuation">:</span> <span class="token number">50</span>
+        <span class="token key atrule">periodSeconds</span><span class="token punctuation">:</span> <span class="token number">60</span>
+    <span class="token key atrule">scaleUp</span><span class="token punctuation">:</span>
+      <span class="token key atrule">stabilizationWindowSeconds</span><span class="token punctuation">:</span> <span class="token number">0</span>
+      <span class="token key atrule">policies</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">type</span><span class="token punctuation">:</span> Percent
+        <span class="token key atrule">value</span><span class="token punctuation">:</span> <span class="token number">100</span>
+        <span class="token key atrule">periodSeconds</span><span class="token punctuation">:</span> <span class="token number">15</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">type</span><span class="token punctuation">:</span> Pods
+        <span class="token key atrule">value</span><span class="token punctuation">:</span> <span class="token number">4</span>
+        <span class="token key atrule">periodSeconds</span><span class="token punctuation">:</span> <span class="token number">15</span>
+      <span class="token key atrule">selectPolicy</span><span class="token punctuation">:</span> Max
+</code></pre>
+<h3 id="2-vertical-pod-autoscaler-vpa">2. Vertical Pod Autoscaler (VPA)</h3>
+<pre class="language-yaml" data-language="yaml"><code is:raw="" class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> autoscaling.k8s.io/v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> VerticalPodAutoscaler
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> myapp<span class="token punctuation">-</span>vpa
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">targetRef</span><span class="token punctuation">:</span>
+    <span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> apps/v1
+    <span class="token key atrule">kind</span><span class="token punctuation">:</span> Deployment
+    <span class="token key atrule">name</span><span class="token punctuation">:</span> myapp
+  <span class="token key atrule">updatePolicy</span><span class="token punctuation">:</span>
+    <span class="token key atrule">updateMode</span><span class="token punctuation">:</span> <span class="token string">"Auto"</span>
+  <span class="token key atrule">resourcePolicy</span><span class="token punctuation">:</span>
+    <span class="token key atrule">containerPolicies</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">containerName</span><span class="token punctuation">:</span> myapp
+      <span class="token key atrule">minAllowed</span><span class="token punctuation">:</span>
+        <span class="token key atrule">cpu</span><span class="token punctuation">:</span> <span class="token string">"250m"</span>
+        <span class="token key atrule">memory</span><span class="token punctuation">:</span> <span class="token string">"256Mi"</span>
+      <span class="token key atrule">maxAllowed</span><span class="token punctuation">:</span>
+        <span class="token key atrule">cpu</span><span class="token punctuation">:</span> <span class="token string">"2"</span>
+        <span class="token key atrule">memory</span><span class="token punctuation">:</span> <span class="token string">"4Gi"</span>
+</code></pre>
+<h3 id="3-custom-metrics-keda">3. Custom Metrics (KEDA)</h3>
+<pre class="language-yaml" data-language="yaml"><code is:raw="" class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> keda.sh/v1alpha1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> ScaledObject
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> myapp<span class="token punctuation">-</span>scaler
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">scaleTargetRef</span><span class="token punctuation">:</span>
+    <span class="token key atrule">name</span><span class="token punctuation">:</span> myapp
+  <span class="token key atrule">minReplicaCount</span><span class="token punctuation">:</span> <span class="token number">2</span>
+  <span class="token key atrule">maxReplicaCount</span><span class="token punctuation">:</span> <span class="token number">100</span>
+  <span class="token key atrule">triggers</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">type</span><span class="token punctuation">:</span> rabbitmq
+    <span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+      <span class="token key atrule">queueName</span><span class="token punctuation">:</span> tasks
+      <span class="token key atrule">queueLength</span><span class="token punctuation">:</span> <span class="token string">"10"</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">type</span><span class="token punctuation">:</span> prometheus
+    <span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+      <span class="token key atrule">serverAddress</span><span class="token punctuation">:</span> http<span class="token punctuation">:</span>//prometheus<span class="token punctuation">:</span><span class="token number">9090</span>
+      <span class="token key atrule">metricName</span><span class="token punctuation">:</span> http_requests_total
+      <span class="token key atrule">threshold</span><span class="token punctuation">:</span> <span class="token string">'100'</span>
+      <span class="token key atrule">query</span><span class="token punctuation">:</span> sum(rate(http_requests_total<span class="token punctuation">[</span>1m<span class="token punctuation">]</span>))
+</code></pre>
+<h2 id="security-best-practices-security">Security Best Practices {#security}</h2>
+<h3 id="1-pod-security-standards">1. Pod Security Standards</h3>
+<pre class="language-yaml" data-language="yaml"><code is:raw="" class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> Namespace
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> production
+  <span class="token key atrule">labels</span><span class="token punctuation">:</span>
+    <span class="token key atrule">pod-security.kubernetes.io/enforce</span><span class="token punctuation">:</span> restricted
+    <span class="token key atrule">pod-security.kubernetes.io/audit</span><span class="token punctuation">:</span> restricted
+    <span class="token key atrule">pod-security.kubernetes.io/warn</span><span class="token punctuation">:</span> restricted
+</code></pre>
+<h3 id="2-security-context">2. Security Context</h3>
+<pre class="language-yaml" data-language="yaml"><code is:raw="" class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> apps/v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> Deployment
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> myapp
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">template</span><span class="token punctuation">:</span>
+    <span class="token key atrule">spec</span><span class="token punctuation">:</span>
+      <span class="token key atrule">securityContext</span><span class="token punctuation">:</span>
+        <span class="token key atrule">runAsNonRoot</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+        <span class="token key atrule">runAsUser</span><span class="token punctuation">:</span> <span class="token number">1000</span>
+        <span class="token key atrule">fsGroup</span><span class="token punctuation">:</span> <span class="token number">2000</span>
+        <span class="token key atrule">seccompProfile</span><span class="token punctuation">:</span>
+          <span class="token key atrule">type</span><span class="token punctuation">:</span> RuntimeDefault
+      <span class="token key atrule">containers</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> myapp
+        <span class="token key atrule">image</span><span class="token punctuation">:</span> myapp<span class="token punctuation">:</span>1.0.0
+        <span class="token key atrule">securityContext</span><span class="token punctuation">:</span>
+          <span class="token key atrule">allowPrivilegeEscalation</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
+          <span class="token key atrule">readOnlyRootFilesystem</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+          <span class="token key atrule">runAsNonRoot</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+          <span class="token key atrule">runAsUser</span><span class="token punctuation">:</span> <span class="token number">1000</span>
+          <span class="token key atrule">capabilities</span><span class="token punctuation">:</span>
+            <span class="token key atrule">drop</span><span class="token punctuation">:</span>
+            <span class="token punctuation">-</span> ALL
+</code></pre>
+<h3 id="3-network-policies">3. Network Policies</h3>
+<pre class="language-yaml" data-language="yaml"><code is:raw="" class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> networking.k8s.io/v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> NetworkPolicy
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> myapp<span class="token punctuation">-</span>network<span class="token punctuation">-</span>policy
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">podSelector</span><span class="token punctuation">:</span>
+    <span class="token key atrule">matchLabels</span><span class="token punctuation">:</span>
+      <span class="token key atrule">app</span><span class="token punctuation">:</span> myapp
+  <span class="token key atrule">policyTypes</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> Ingress
+  <span class="token punctuation">-</span> Egress
+  <span class="token key atrule">ingress</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">from</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">podSelector</span><span class="token punctuation">:</span>
+        <span class="token key atrule">matchLabels</span><span class="token punctuation">:</span>
+          <span class="token key atrule">role</span><span class="token punctuation">:</span> frontend
+    <span class="token key atrule">ports</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">protocol</span><span class="token punctuation">:</span> TCP
+      <span class="token key atrule">port</span><span class="token punctuation">:</span> <span class="token number">8080</span>
+  <span class="token key atrule">egress</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">to</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">podSelector</span><span class="token punctuation">:</span>
+        <span class="token key atrule">matchLabels</span><span class="token punctuation">:</span>
+          <span class="token key atrule">role</span><span class="token punctuation">:</span> database
+    <span class="token key atrule">ports</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">protocol</span><span class="token punctuation">:</span> TCP
+      <span class="token key atrule">port</span><span class="token punctuation">:</span> <span class="token number">5432</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">to</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">namespaceSelector</span><span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+    <span class="token key atrule">ports</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">protocol</span><span class="token punctuation">:</span> TCP
+      <span class="token key atrule">port</span><span class="token punctuation">:</span> <span class="token number">53</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">protocol</span><span class="token punctuation">:</span> UDP
+      <span class="token key atrule">port</span><span class="token punctuation">:</span> <span class="token number">53</span>
+</code></pre>
+<h2 id="monitoring-and-logging-monitoring">Monitoring and Logging {#monitoring}</h2>
+<h3 id="1-prometheus-monitoring">1. Prometheus Monitoring</h3>
+<pre class="language-yaml" data-language="yaml"><code is:raw="" class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> Service
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> myapp
+  <span class="token key atrule">labels</span><span class="token punctuation">:</span>
+    <span class="token key atrule">app</span><span class="token punctuation">:</span> myapp
+  <span class="token key atrule">annotations</span><span class="token punctuation">:</span>
+    <span class="token key atrule">prometheus.io/scrape</span><span class="token punctuation">:</span> <span class="token string">"true"</span>
+    <span class="token key atrule">prometheus.io/port</span><span class="token punctuation">:</span> <span class="token string">"8080"</span>
+    <span class="token key atrule">prometheus.io/path</span><span class="token punctuation">:</span> <span class="token string">"/actuator/prometheus"</span>
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">selector</span><span class="token punctuation">:</span>
+    <span class="token key atrule">app</span><span class="token punctuation">:</span> myapp
+  <span class="token key atrule">ports</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">port</span><span class="token punctuation">:</span> <span class="token number">80</span>
+    <span class="token key atrule">targetPort</span><span class="token punctuation">:</span> <span class="token number">8080</span>
+</code></pre>
+<h3 id="2-servicemonitor-prometheus-operator">2. ServiceMonitor (Prometheus Operator)</h3>
+<pre class="language-yaml" data-language="yaml"><code is:raw="" class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> monitoring.coreos.com/v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> ServiceMonitor
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> myapp
+  <span class="token key atrule">labels</span><span class="token punctuation">:</span>
+    <span class="token key atrule">app</span><span class="token punctuation">:</span> myapp
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">selector</span><span class="token punctuation">:</span>
+    <span class="token key atrule">matchLabels</span><span class="token punctuation">:</span>
+      <span class="token key atrule">app</span><span class="token punctuation">:</span> myapp
+  <span class="token key atrule">endpoints</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">port</span><span class="token punctuation">:</span> http
+    <span class="token key atrule">path</span><span class="token punctuation">:</span> /actuator/prometheus
+    <span class="token key atrule">interval</span><span class="token punctuation">:</span> 30s
+</code></pre>
+<h3 id="3-logging-with-fluentd">3. Logging with Fluentd</h3>
+<pre class="language-yaml" data-language="yaml"><code is:raw="" class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> ConfigMap
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> fluentd<span class="token punctuation">-</span>config
+<span class="token key atrule">data</span><span class="token punctuation">:</span>
+  <span class="token key atrule">fluent.conf</span><span class="token punctuation">:</span> <span class="token punctuation">|</span><span class="token scalar string">
+    &#x3C;source>
+      @type tail
+      path /var/log/containers/*.log
+      pos_file /var/log/fluentd-containers.log.pos
+      tag kubernetes.*
+      &#x3C;parse>
+        @type json
+        time_format %Y-%m-%dT%H:%M:%S.%NZ
+      &#x3C;/parse>
+    &#x3C;/source></span>
+    
+    &#x3C;filter kubernetes.<span class="token important">**></span>
+      @type kubernetes_metadata
+    &#x3C;/filter<span class="token punctuation">></span>
+    
+    &#x3C;match kubernetes.<span class="token important">**></span>
+      @type elasticsearch
+      host elasticsearch
+      port 9200
+      logstash_format true
+    &#x3C;/match<span class="token punctuation">></span>
+</code></pre>
+<h2 id="production-checklist-checklist">Production Checklist {#checklist}</h2>
+<h3 id="pre-deployment">Pre-Deployment:</h3>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled> Resource requests and limits defined</li>
+<li class="task-list-item"><input type="checkbox" disabled> Health probes configured (liveness, readiness, startup)</li>
+<li class="task-list-item"><input type="checkbox" disabled> Security context applied</li>
+<li class="task-list-item"><input type="checkbox" disabled> Network policies in place</li>
+<li class="task-list-item"><input type="checkbox" disabled> Secrets externalized</li>
+<li class="task-list-item"><input type="checkbox" disabled> Monitoring and logging configured</li>
+<li class="task-list-item"><input type="checkbox" disabled> HPA configured for scaling</li>
+<li class="task-list-item"><input type="checkbox" disabled> PodDisruptionBudget defined</li>
+<li class="task-list-item"><input type="checkbox" disabled> Multi-zone deployment</li>
+<li class="task-list-item"><input type="checkbox" disabled> Backup strategy defined</li>
+</ul>
+<h3 id="during-deployment">During Deployment:</h3>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled> Use rolling update strategy</li>
+<li class="task-list-item"><input type="checkbox" disabled> Monitor error rates</li>
+<li class="task-list-item"><input type="checkbox" disabled> Watch resource usage</li>
+<li class="task-list-item"><input type="checkbox" disabled> Check logs for errors</li>
+<li class="task-list-item"><input type="checkbox" disabled> Verify health probes passing</li>
+</ul>
+<h3 id="post-deployment">Post-Deployment:</h3>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled> Run smoke tests</li>
+<li class="task-list-item"><input type="checkbox" disabled> Verify metrics collection</li>
+<li class="task-list-item"><input type="checkbox" disabled> Check log aggregation</li>
+<li class="task-list-item"><input type="checkbox" disabled> Test rollback procedure</li>
+<li class="task-list-item"><input type="checkbox" disabled> Document deployment</li>
+<li class="task-list-item"><input type="checkbox" disabled> Update runbooks</li>
+</ul>
+<h2 id="conclusion">Conclusion</h2>
+<p>Successful Kubernetes deployments require attention to:</p>
+<ol>
+<li><strong>Resource Management</strong> - Right-size your applications</li>
+<li><strong>Health Checks</strong> - Ensure reliability</li>
+<li><strong>Security</strong> - Follow least privilege principle</li>
+<li><strong>Observability</strong> - Monitor everything</li>
+<li><strong>Scalability</strong> - Plan for growth</li>
+</ol>
+<p>Remember: Start simple, iterate based on actual needs and metrics.</p>
+<h2 id="resources">Resources</h2>
+<ul>
+<li><a href="https://kubernetes.io/docs/concepts/configuration/overview/">Kubernetes Best Practices</a></li>
+<li><a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/">Deployment Strategies</a></li>
+<li><a href="https://kubernetes.io/docs/concepts/security/pod-security-standards/">Pod Security Standards</a></li>
+<li><a href="https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/">Resource Management</a></li>
+</ul>
+<hr>
+<p><em>What Kubernetes practices have helped your team the most? Share your experiences!</em></p> </div>  <section class="related-posts" data-astro-cid-dpgbfi7r> <h2 data-astro-cid-dpgbfi7r>Related Posts</h2> <div class="related-posts-grid" data-astro-cid-dpgbfi7r> <article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/ai-news/2025-12-05-kubernetes-hands-on-persistentvolumes-cronjobs-configmaps-and-secure-kubeconfig-management-labs/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>Master Kubernetes with Hands-On Labs on PersistentVolumes, CronJobs, and ConfigMaps</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>Kubernetes Hands-On: PersistentVolumes, CronJobs, ConfigMaps, and Secure Kubeconfig Management Labs Labby&#39;s Kubernetes…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2025-12-05T00:00:00.000Z" data-astro-cid-dpgbfi7r> Dec 5, 2025 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>1 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/ai-news/2025-12-03-the-night-kubernetes-almost-made-me-quit-devops-forever/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>The Night Kubernetes Almost Made Me Quit DevOps Forever</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>The Night Kubernetes Almost Made Me Quit DevOps Forever A DevOps engineer&#39;s 6-hour Kubernetes debugging nightmare…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2025-12-03T00:00:00.000Z" data-astro-cid-dpgbfi7r> Dec 3, 2025 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>1 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/ai-news/2025-12-02-eks-standard-vs-eks-auto-mode-the-evolutionary-leap-in-kubernetes-operations/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>EKS Standard vs. EKS Auto Mode: The Evolutionary Leap in Kubernetes Operations</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>EKS Standard vs. EKS Auto Mode: The Evolutionary Leap in Kubernetes Operations AWS EKS Auto Mode shifts responsibility…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2025-12-02T00:00:00.000Z" data-astro-cid-dpgbfi7r> Dec 2, 2025 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>1 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/ai-news/2025-12-02-most-outages-are-preventable-why-your-system-needs-self-healing-yesterday/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>Self-Healing Systems: Prevent Outages Before They Happen</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>Self-Healing Systems Are Basically Computer Systems That Can Fix Themselves Automatically When Something Goes Wrong…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2025-12-02T00:00:00.000Z" data-astro-cid-dpgbfi7r> Dec 2, 2025 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>1 min read</span> </div> </a> </article> </div> </section>  </article> </div> <div class="back-link" data-astro-cid-rkg3zjxi><a href="/ai-news/" data-astro-cid-rkg3zjxi>← Back to AI News</a></div>  </main> <!-- Site Footer --> <footer class="site-footer container"> <p>
+© 2025 AREZKI El Mehdi •
+<a href="https://github.com/earezki">GitHub</a> •
+<a href="/rss.xml">RSS</a> •
+<a href="/tags/">Tags</a> •
+<a href="/sitemap-index.xml">Sitemap</a> •
+<button id="footer-subscribe-btn" class="footer-subscribe-btn" aria-label="Subscribe to newsletter">
+📬 Subscribe
+</button> </p> </footer> <!-- Footer Subscribe Button Handler --> <script type="module">const e=document.getElementById("themeToggle"),o=n=>{if(!e)return;const t=e.querySelector(".theme-icon");t&&(t.textContent=n==="dark"?"☀":"☾")};if(e){const n=document.documentElement.getAttribute("data-theme")||"dark";o(n),e.addEventListener("click",()=>{const t=document.documentElement,c=t.getAttribute("data-theme")==="dark"?"light":"dark";t.setAttribute("data-theme",c),localStorage.setItem("theme",c),o(c)})}</script> <!-- Theme Toggle --> <script type="module">document.addEventListener("DOMContentLoaded",()=>{const e=document.getElementById("footer-subscribe-btn");e&&e.addEventListener("click",n=>{n.preventDefault();const t=document.getElementById("subscription-popup");t&&(t.setAttribute("data-state","visible"),document.body.style.overflow="hidden")})});</script> <!-- Article read/unread tracking --> <script>
+      (function() {
+        const KEY = 'readArticles';
+        
+        function getRead() {
+          try {
+            const d = localStorage.getItem(KEY);
+            return d ? JSON.parse(d) : [];
+          } catch (e) {
+            return [];
+          }
+        }
+        
+        function markRead(url) {
+          try {
+            const read = getRead();
+            if (!read.includes(url)) {
+              read.push(url);
+              localStorage.setItem(KEY, JSON.stringify(read));
+            }
+          } catch (e) {}
+        }
+        
+        function updateCards() {
+          const read = new Set(getRead());
+          const cards = document.querySelectorAll('.post-card[data-article-url]');
+          cards.forEach(function(card) {
+            const url = card.getAttribute('data-article-url');
+            if (!url) return;
+            const isRead = read.has(url);
+            card.classList.toggle('read', isRead);
+            card.classList.toggle('unread', !isRead);
+          });
+        }
+        
+        function markCurrent() {
+          if (document.querySelector('.post-body')) {
+            markRead(window.location.pathname);
+          }
+        }
+        
+        function init() {
+          updateCards();
+          markCurrent();
+        }
+        
+        function clearRead(url) {
+          try {
+            const read = new Set(getRead());
+            if (read.has(url)) {
+              read.delete(url);
+              localStorage.setItem(KEY, JSON.stringify(Array.from(read)));
+              updateCards();
+            }
+          } catch (e) {}
+        }
+        
+        window.clearReadArticle = clearRead;
+        document.addEventListener('DOMContentLoaded', init);
+        window.addEventListener('pageshow', function(e) {
+          if (e.persisted) init();
+        });
+      })();
+    </script> <!-- Clear read button handler --> <script>
+      (function() {
+        document.addEventListener('click', function(e) {
+          var tgt = e.target, btn = null;
+          while (tgt && tgt !== document) {
+            if (tgt.classList && tgt.classList.contains('clear-read-btn')) {
+              btn = tgt;
+              break;
+            }
+            tgt = tgt.parentNode;
+          }
+          if (!btn) return;
+          e.preventDefault();
+          e.stopPropagation();
+          var url = btn.getAttribute('data-article-url');
+          if (url && window.clearReadArticle) window.clearReadArticle(url);
+        });
+      })();
+    </script> <!-- External links open in new tab --> <script>
+      (function() {
+        function makeExternal() {
+          const domain = window.location.hostname;
+          const links = document.querySelectorAll('a[href]');
+          links.forEach(function(link) {
+            const href = link.getAttribute('href');
+            if (!href || link.hasAttribute('target')) return;
+            const isExt = (href.startsWith('http://') || href.startsWith('https://')) && !href.includes(domain);
+            if (isExt) {
+              link.setAttribute('target', '_blank');
+              link.setAttribute('rel', 'noopener noreferrer');
+            }
+          });
+        }
+        document.addEventListener('DOMContentLoaded', makeExternal);
+        if (window.MutationObserver) {
+          const obs = new MutationObserver(function(muts) {
+            muts.forEach(function(mut) {
+              if (mut.addedNodes.length) makeExternal();
+            });
+          });
+          obs.observe(document.body, { childList: true, subtree: true });
+        }
+      })();
+    </script> <!-- Code copy buttons --> <script>
+      (function() {
+        function createBtn() {
+          const btn = document.createElement('button');
+          btn.className = 'copy-code-button';
+          btn.setAttribute('aria-label', 'Copy code to clipboard');
+          btn.innerHTML = `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span>Copy</span>
+          `;
+          return btn;
+        }
+        
+        function checkIcon() {
+          return `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span>Copied!</span>
+          `;
+        }
+        
+        async function copyText(txt) {
+          try {
+            await navigator.clipboard.writeText(txt);
+            return true;
+          } catch (err) {
+            const ta = document.createElement('textarea');
+            ta.value = txt;
+            ta.style.position = 'fixed';
+            ta.style.left = '-999999px';
+            document.body.appendChild(ta);
+            ta.select();
+            try {
+              document.execCommand('copy');
+              document.body.removeChild(ta);
+              return true;
+            } catch (e) {
+              document.body.removeChild(ta);
+              return false;
+            }
+          }
+        }
+        
+        async function handleCopy(btn, code) {
+          const txt = code.textContent || '';
+          const ok = await copyText(txt);
+          if (ok) {
+            const orig = btn.innerHTML;
+            btn.classList.add('copied');
+            btn.innerHTML = checkIcon();
+            setTimeout(function() {
+              btn.classList.remove('copied');
+              btn.innerHTML = orig;
+            }, 2000);
+          }
+        }
+        
+        function addBtns() {
+          const blocks = document.querySelectorAll('.post-body pre');
+          blocks.forEach(function(pre) {
+            if (pre.querySelector('.copy-code-button')) return;
+            const btn = createBtn();
+            const code = pre.querySelector('code');
+            if (code) {
+              btn.addEventListener('click', function() {
+                handleCopy(btn, code);
+              });
+              pre.appendChild(btn);
+            }
+          });
+        }
+        
+        document.addEventListener('DOMContentLoaded', addBtns);
+      })();
+    </script> <!-- Newsletter Subscription Popup --> <div id="subscription-popup" class="subscription-popup" data-state="hidden" data-auto-trigger="true" data-astro-cid-we5gmdnp> <div class="popup-overlay" id="popup-overlay" data-astro-cid-we5gmdnp></div> <div class="popup-container" data-astro-cid-we5gmdnp> <div class="popup-content" data-astro-cid-we5gmdnp> <div class="popup-icon" data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-we5gmdnp> <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" data-astro-cid-we5gmdnp></path> <polyline points="22,6 12,13 2,6" data-astro-cid-we5gmdnp></polyline> </svg> </div> <h2 class="popup-title" data-astro-cid-we5gmdnp>Stay Updated with Dev|Journal</h2> <p class="popup-description" id="popup-description" data-astro-cid-we5gmdnp>
+Join our community of developers and engineers. Get insights on:
+</p> <ul class="popup-features" data-astro-cid-we5gmdnp> <li data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-we5gmdnp> <polyline points="20 6 9 17 4 12" data-astro-cid-we5gmdnp></polyline> </svg>
+Software Architecture & Design Patterns
+</li> <li data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-we5gmdnp> <polyline points="20 6 9 17 4 12" data-astro-cid-we5gmdnp></polyline> </svg>
+Backend Development Best Practices
+</li> <li data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-we5gmdnp> <polyline points="20 6 9 17 4 12" data-astro-cid-we5gmdnp></polyline> </svg>
+AI & Tech Industry Analysis
+</li> </ul> <form id="subscription-form" class="popup-form" data-astro-cid-we5gmdnp> <div class="form-group" data-astro-cid-we5gmdnp> <input type="text" id="subscriber-name" name="name" placeholder="Your name" required autocomplete="name" data-astro-cid-we5gmdnp> </div> <div class="form-group" data-astro-cid-we5gmdnp> <input type="email" id="subscriber-email" name="email" placeholder="your.email@example.com" required autocomplete="email" data-astro-cid-we5gmdnp> </div> <div id="form-message" class="form-message" data-astro-cid-we5gmdnp></div> <div class="popup-actions" data-astro-cid-we5gmdnp> <button type="submit" class="btn btn-primary" id="subscribe-btn" data-astro-cid-we5gmdnp> <span class="btn-text" data-astro-cid-we5gmdnp>Subscribe</span> <span class="btn-loader" data-astro-cid-we5gmdnp> <svg class="spinner" viewBox="0 0 24 24" data-astro-cid-we5gmdnp> <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" data-astro-cid-we5gmdnp></circle> </svg> </span> </button> <button type="button" class="btn btn-secondary" id="not-now-btn" data-astro-cid-we5gmdnp>Not Now</button> <button type="button" class="btn btn-text" id="cancel-btn" data-astro-cid-we5gmdnp>Don't Show Again</button> </div> </form> </div> </div> </div>  <script>
+  // Configuration
+  const CONFIG = {
+    graceDelay: 5000, // 5 seconds delay before showing popup
+    notNowDelay: 24 * 60 * 60 * 1000, // 1 day in milliseconds
+    apiUrl: 'https://api.earezki.com/blog/api',
+  };
+
+  const STORAGE_KEYS = {
+    subscribed: 'newsletter_subscribed',
+    cancelled: 'newsletter_cancelled',
+    notNowUntil: 'newsletter_not_now_until',
+  };
+
+  // State management
+  let popupTimeout = null;
+
+  function showPopup() {
+    const popup = document.getElementById('subscription-popup');
+    if (popup) {
+      popup.setAttribute('data-state', 'visible');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  function hidePopup() {
+    const popup = document.getElementById('subscription-popup');
+    if (popup) {
+      popup.setAttribute('data-state', 'hidden');
+      document.body.style.overflow = '';
+    }
+  }
+
+  function shouldShowPopup() {
+    // Check if user has already subscribed
+    if (localStorage.getItem(STORAGE_KEYS.subscribed) === 'true') {
+      return false;
+    }
+
+    // Check if user clicked "Don't show again"
+    if (localStorage.getItem(STORAGE_KEYS.cancelled) === 'true') {
+      return false;
+    }
+
+    // Check if user clicked "Not now" and delay hasn't passed
+    const notNowUntil = localStorage.getItem(STORAGE_KEYS.notNowUntil);
+    if (notNowUntil) {
+      const notNowTime = parseInt(notNowUntil, 10);
+      if (Date.now() < notNowTime) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  async function getSubscriberStats() {
+    try {
+      const response = await fetch(`${CONFIG.apiUrl}/subscribers/stats`, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+        },
+      });
+      
+      if (!response.ok) {
+        return null;
+      }
+      
+      const data = await response.json();
+      return data.subscriber_count || null;
+    } catch (error) {
+      console.error('Failed to fetch subscriber stats:', error);
+      return null;
+    }
+  }
+
+  async function schedulePopup() {
+    if (!shouldShowPopup()) {
+      return;
+    }
+
+    // Fetch subscriber stats before scheduling popup
+    const subscriberCount = await getSubscriberStats();
+    if (subscriberCount === null) {
+      console.log('Failed to fetch subscriber stats, not showing subscription popup');
+      return;
+    }
+
+    // Update popup with subscriber count
+    updatePopupWithStats(subscriberCount);
+
+    // Show popup after grace period
+    popupTimeout = window.setTimeout(() => {
+      showPopup();
+    }, CONFIG.graceDelay);
+  }
+
+  function updatePopupWithStats(count) {
+    const descriptionEl = document.querySelector('.popup-description');
+    if (descriptionEl) {
+      const formattedCount = new Intl.NumberFormat('en-US').format(count);
+      descriptionEl.innerHTML = `Join a community of <strong>${formattedCount}+</strong> developers and engineers who are growing together. Get insights on:`;
+    }
+  }
+
+  async function handleSubscribe(event) {
+    event.preventDefault();
+    
+    const form = event.target;
+    const nameInput = form.querySelector('#subscriber-name');
+    const emailInput = form.querySelector('#subscriber-email');
+    const submitBtn = form.querySelector('#subscribe-btn');
+    const messageEl = document.getElementById('form-message');
+
+    const name = nameInput.value.trim();
+    const email = emailInput.value.trim();
+
+    if (!name || !email) {
+      if (messageEl) {
+        messageEl.textContent = 'Please fill in all fields.';
+        messageEl.className = 'form-message error';
+      }
+      return;
+    }
+
+    // Show loading state
+    submitBtn.classList.add('loading');
+    submitBtn.disabled = true;
+    if (messageEl) {
+      messageEl.textContent = '';
+      messageEl.className = 'form-message';
+    }
+
+    try {
+      const response = await fetch(`${CONFIG.apiUrl}/subscribe`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, email }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        localStorage.setItem(STORAGE_KEYS.subscribed, 'true');
+        
+        if (messageEl) {
+          messageEl.textContent = '🎉 Successfully subscribed! Thank you for joining us.';
+          messageEl.className = 'form-message success';
+        }
+
+        // Hide popup after 2 seconds
+        setTimeout(() => {
+          hidePopup();
+        }, 2000);
+      } else {
+        if (messageEl) {
+          messageEl.textContent = data.error || 'Subscription failed. Please try again.';
+          messageEl.className = 'form-message error';
+        }
+      }
+    } catch (error) {
+      console.error('Subscription error:', error);
+      if (messageEl) {
+        messageEl.textContent = 'Network error. Please check your connection and try again.';
+        messageEl.className = 'form-message error';
+      }
+    } finally {
+      submitBtn.classList.remove('loading');
+      submitBtn.disabled = false;
+    }
+  }
+
+  function handleNotNow() {
+    const notNowUntil = Date.now() + CONFIG.notNowDelay;
+    localStorage.setItem(STORAGE_KEYS.notNowUntil, notNowUntil.toString());
+    hidePopup();
+  }
+
+  function handleCancel() {
+    localStorage.setItem(STORAGE_KEYS.cancelled, 'true');
+    hidePopup();
+  }
+
+  // Initialize popup
+  document.addEventListener('DOMContentLoaded', () => {
+    const popup = document.getElementById('subscription-popup');
+    const autoTrigger = popup?.getAttribute('data-auto-trigger') === 'true';
+    
+    // Schedule popup to show after grace period only if autoTrigger is enabled
+    if (autoTrigger) {
+      schedulePopup();
+    }
+
+    // Event listeners
+    const form = document.getElementById('subscription-form');
+    const overlay = document.getElementById('popup-overlay');
+    const notNowBtn = document.getElementById('not-now-btn');
+    const cancelBtn = document.getElementById('cancel-btn');
+
+    if (form) {
+      form.addEventListener('submit', handleSubscribe);
+    }
+
+    if (overlay) {
+      overlay.addEventListener('click', handleNotNow);
+    }
+
+    if (notNowBtn) {
+      notNowBtn.addEventListener('click', handleNotNow);
+    }
+
+    if (cancelBtn) {
+      cancelBtn.addEventListener('click', handleCancel);
+    }
+
+    // Clean up on page unload
+    window.addEventListener('beforeunload', () => {
+      if (popupTimeout) {
+        clearTimeout(popupTimeout);
+      }
+    });
+  });
+</script> </body></html> 

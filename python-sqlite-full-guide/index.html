@@ -1,0 +1,1505 @@
+<!DOCTYPE html><html lang="en" data-theme="dark"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Python and SQLite in the Real World • Dev|Journal</title><meta name="description" content="TL;DR – When to Use SQLite and When to Run Away SQLite is the most deployed database engine in the world, with billions of instances embedded in mobile…"><meta name="keywords" content="Python, Databases, Backend, Performance"><meta name="author" content="El Mehdi Arezki"><meta property="og:type" content="website"><meta property="og:url" content="https://earezki.com/python-sqlite-full-guide/"><meta property="og:title" content="Python and SQLite in the Real World • Dev|Journal"><meta property="og:site_name" content="Dev|Journal"><meta property="og:description" content="TL;DR – When to Use SQLite and When to Run Away SQLite is the most deployed database engine in the world, with billions of instances embedded in mobile…"><meta property="og:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:url" content="https://earezki.com/python-sqlite-full-guide/"><meta name="twitter:title" content="Python and SQLite in the Real World • Dev|Journal"><meta name="twitter:description" content="TL;DR – When to Use SQLite and When to Run Away SQLite is the most deployed database engine in the world, with billions of instances embedded in mobile…"><meta name="twitter:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:creator" content="@earezki"><link rel="canonical" href="https://earezki.com/python-sqlite-full-guide/"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/x-icon" href="/favicon.ico"><link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"><link rel="dns-prefetch" href="https://cloud.umami.is"><script defer src="https://cloud.umami.is/script.js" data-website-id="4a26531d-1053-4f79-97a6-06a1366aff91"></script><script>
+      (function() {
+        const theme = localStorage.getItem('theme');
+        if (theme) document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script><script>
+!function(){const o=window.location.pathname;if("/"===o)return;if(/\.\w+$/.test(o))return;const n=o.toLowerCase(),i=n!==o,t=!o.endsWith("/");if(i||t){const o=n+(t?"/":""),i=window.location.origin+o+window.location.search+window.location.hash;window.location.replace(i)}}();
+</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Python and SQLite in the Real World","description":"TL;DR – When to Use SQLite and When to Run Away SQLite is the most deployed database engine in the world, with billions of instances embedded in mobile…","image":"https://earezki.com/assets/og-image-default.jpg","datePublished":"2025-11-22T00:00:00.000Z","dateModified":"2025-11-22T00:00:00.000Z","author":{"@type":"Person","name":"El Mehdi Arezki","url":"https://earezki.com/about","jobTitle":"Lead Software Engineer","sameAs":["https://github.com/earezki","https://www.linkedin.com/in/mehdi-arezki"]},"publisher":{"@type":"Organization","name":"Dev|Journal","url":"https://earezki.com","logo":{"@type":"ImageObject","url":"https://earezki.com/assets/logo.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://earezki.com/python-sqlite-full-guide/"}}</script><link rel="stylesheet" href="/_astro/_slug_.BZhQT0av.css">
+<link rel="stylesheet" href="/_astro/_slug_.CFj9bTVJ.css">
+<style>.series-navigation[data-astro-cid-2hl7stop]{margin:2rem 0 3rem;padding:1.5rem;background:linear-gradient(135deg,#2563eb0d,#6366f10d);border:1px solid var(--color-border);border-radius:var(--radius-md)}html[data-theme=dark] .series-navigation[data-astro-cid-2hl7stop]{background:linear-gradient(135deg,#2563eb1a,#6366f11a)}.series-header[data-astro-cid-2hl7stop]{margin-bottom:1.25rem}.series-badge[data-astro-cid-2hl7stop]{display:inline-block;font-size:.75rem;font-weight:600;color:var(--color-accent);background:#2563eb1a;padding:.25rem .75rem;border-radius:var(--radius-pill);margin-bottom:.5rem}.series-header[data-astro-cid-2hl7stop] h3[data-astro-cid-2hl7stop]{margin:.5rem 0 .25rem;font-size:1.25rem;color:var(--color-text)}.series-progress[data-astro-cid-2hl7stop]{font-size:.85rem;color:var(--color-text-alt);margin:0}.series-list[data-astro-cid-2hl7stop]{display:flex;flex-direction:column;gap:.75rem;margin:1.5rem 0}.series-item[data-astro-cid-2hl7stop]{display:flex;align-items:center;gap:.75rem;padding:.75rem;background:var(--color-bg);border:1px solid var(--color-border);border-radius:var(--radius-sm);transition:all var(--transition)}.series-item[data-astro-cid-2hl7stop]:hover{border-color:var(--color-accent)}.series-item[data-astro-cid-2hl7stop].current{background:var(--color-accent);border-color:var(--color-accent)}.series-item[data-astro-cid-2hl7stop].completed{opacity:.7}.series-number[data-astro-cid-2hl7stop]{flex-shrink:0;width:28px;height:28px;display:flex;align-items:center;justify-content:center;background:var(--color-bg-alt);color:var(--color-text-alt);border-radius:50%;font-size:.85rem;font-weight:600}.series-item[data-astro-cid-2hl7stop].current .series-number[data-astro-cid-2hl7stop]{background:#fff3;color:#fff}.series-title[data-astro-cid-2hl7stop]{flex:1;font-size:.95rem;color:var(--color-text);text-decoration:none;transition:color var(--transition)}.series-title[data-astro-cid-2hl7stop]:hover{color:var(--color-accent)}.series-item[data-astro-cid-2hl7stop].current .current-title[data-astro-cid-2hl7stop]{color:#fff;font-weight:600}.check-icon[data-astro-cid-2hl7stop]{flex-shrink:0;color:#10b981;font-size:1.1rem}.series-nav-buttons[data-astro-cid-2hl7stop]{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--color-border)}.series-nav-btn[data-astro-cid-2hl7stop]{display:flex;flex-direction:column;gap:.25rem;padding:1rem;background:var(--color-bg);border:1px solid var(--color-border);border-radius:var(--radius-sm);text-decoration:none;transition:all var(--transition)}.series-nav-btn[data-astro-cid-2hl7stop]:hover{border-color:var(--color-accent);transform:translateY(-2px);box-shadow:var(--shadow-sm)}.series-nav-btn[data-astro-cid-2hl7stop].next{text-align:right}.nav-label[data-astro-cid-2hl7stop]{font-size:.75rem;color:var(--color-text-alt);font-weight:600;text-transform:uppercase;letter-spacing:.05em}.nav-title[data-astro-cid-2hl7stop]{font-size:.9rem;color:var(--color-text);font-weight:500}.series-nav-btn[data-astro-cid-2hl7stop]:hover .nav-title[data-astro-cid-2hl7stop]{color:var(--color-accent)}@media(max-width:680px){.series-navigation[data-astro-cid-2hl7stop]{padding:1rem}.series-nav-buttons[data-astro-cid-2hl7stop]{grid-template-columns:1fr}.series-nav-btn[data-astro-cid-2hl7stop].next{text-align:left}}.post-layout[data-astro-cid-yvbahnfj]{display:grid;grid-template-columns:260px 1fr;gap:2.5rem;width:100%;max-width:100%;box-sizing:border-box}.sidebar-left[data-astro-cid-yvbahnfj]{position:relative;min-width:0;overflow:hidden}@media(max-width:1080px){.post-layout[data-astro-cid-yvbahnfj]{grid-template-columns:1fr;width:100%;max-width:100%;padding:0;margin:0}}@media(max-width:768px){.post-layout[data-astro-cid-yvbahnfj]{display:block;width:100%;max-width:100%;padding:0;margin:0}.sidebar-left[data-astro-cid-yvbahnfj]{display:none}}
+</style></head> <body> <div id="readingProgress" role="progressbar" aria-label="Reading progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="position:fixed;left:0;top:0;height:3px;background:linear-gradient(90deg,#2563eb,#9333ea);width:0;z-index:999;transition:width .15s ease;"></div> <script type="module">function c(){const t=document.getElementById("readingProgress");if(!t)return;const o=()=>{const e=document.documentElement,r=e.scrollTop||document.body.scrollTop,s=e.scrollHeight-e.clientHeight,n=s>0?r/s*100:0;t.style.width=`${n}%`,t.setAttribute("aria-valuenow",n.toFixed(0))};document.addEventListener("scroll",o,{passive:!0}),o()}c();</script> <header class="site-header container"> <div class="logo-wrap"> <a class="logo" href="/" aria-label="Dev|Journal Home">
+Dev|Journal
+</a> </div> <!-- Search Box in Header --> <div class="header-search" data-search-api-url="https://api.earezki.com/blog/api/q" data-search-timeout="2000"> <div class="search-box" id="search-box"> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon" aria-hidden="true"> <circle cx="11" cy="11" r="8"></circle> <path d="m21 21-4.35-4.35"></path> </svg> <input type="text" id="search-input" placeholder="Search ..." class="search-input" autocomplete="off" aria-label="Search articles" minlength="3"> <button id="clear-search" class="clear-button" style="display: none;" aria-label="Clear search"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <line x1="18" y1="6" x2="6" y2="18"></line> <line x1="6" y1="6" x2="18" y2="18"></line> </svg> </button> </div> <div id="search-results" class="search-results" role="status" aria-live="polite"></div> </div> <script type="module" src="/_astro/SearchBox.astro_astro_type_script_index_0_lang.BNnBPVSN.js"></script> <nav class="main-nav" aria-label="Main navigation"> <a href="/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path> <polyline points="9 22 9 12 15 12 15 22"></polyline> </svg>
+Home
+</a> <a href="/ai-news/" class="ai-news-link ai-gradient-nav"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h-9.5a.5.5 0 0 0-.5.5.5.5 0 0 1-1 0 .5.5 0 0 0-.5-.5H1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"></path> <path d="M7 15v4a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-4"></path> </svg>
+AI News
+</a> <a href="/ai-financial-news/" class="ai-financial-link ai-gradient-nav"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <line x1="12" y1="1" x2="12" y2="23"></line> <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path> </svg>
+AI Financial
+</a> <a href="/about/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <circle cx="12" cy="12" r="10"></circle> <path d="M12 16v-4"></path> <path d="M12 8h.01"></path> </svg>
+About
+</a> <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode"> <span class="theme-icon" aria-hidden="true">☾</span> </button> </nav> </header> <!-- Main Content --> <main class="container content-area">  <nav class="breadcrumbs" aria-label="Breadcrumb" data-astro-cid-ilhxcym7> <ol data-astro-cid-ilhxcym7> <li data-astro-cid-ilhxcym7>  <a href="/" data-astro-cid-ilhxcym7>Home</a> <span class="separator" aria-hidden="true" data-astro-cid-ilhxcym7>/</span>  </li><li data-astro-cid-ilhxcym7> <span class="current" aria-current="page" data-astro-cid-ilhxcym7>Python and SQLite in the Real World</span> </li>  </ol> </nav>  <div class="post-layout" data-astro-cid-yvbahnfj> <aside class="sidebar-left" data-astro-cid-yvbahnfj> <nav class="toc" aria-label="Table of Contents" data-astro-cid-xvrfupwn> <div class="toc-title" data-astro-cid-xvrfupwn>On this page</div> <ul data-astro-cid-xvrfupwn> <li class="d-2" data-astro-cid-xvrfupwn> <a href="#tldr-when-to-use-sqlite-and-when-to-run-away" data-astro-cid-xvrfupwn> TL;DR – When to Use SQLite and When to Run Away </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#storage-model-deep-dive" data-astro-cid-xvrfupwn> Storage Model Deep Dive </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#journal-modes" data-astro-cid-xvrfupwn> Journal Modes </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#page-size-tuning" data-astro-cid-xvrfupwn> Page Size Tuning </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#critical-pragmas-for-production" data-astro-cid-xvrfupwn> Critical PRAGMAs for Production </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#schema-design-and-migrations-that-dont-suck" data-astro-cid-xvrfupwn> Schema Design and Migrations That Don&#39;t Suck </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#type-affinity-not-types" data-astro-cid-xvrfupwn> Type Affinity (Not Types) </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#migrations-without-a-framework" data-astro-cid-xvrfupwn> Migrations Without a Framework </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#creating-tables-indexes-and-generated-columns" data-astro-cid-xvrfupwn> Creating Tables, Indexes, and Generated Columns </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#generated-columns-sqlite-331" data-astro-cid-xvrfupwn> Generated Columns (SQLite 3.31+) </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#index-design" data-astro-cid-xvrfupwn> Index Design </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#connection-management-and-threading-model" data-astro-cid-xvrfupwn> Connection Management and Threading Model </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#the-default-pattern" data-astro-cid-xvrfupwn> The Default Pattern </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#pattern-1-one-connection-per-thread" data-astro-cid-xvrfupwn> Pattern 1: One Connection Per Thread </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#pattern-2-connection-pool-with-queue" data-astro-cid-xvrfupwn> Pattern 2: Connection Pool with Queue </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#pooling-strategies" data-astro-cid-xvrfupwn> Pooling Strategies </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#threadpoolexecutor-contextmanager" data-astro-cid-xvrfupwn> ThreadPoolExecutor + contextmanager </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#sqlite3connect-checksamethreadfalse-pitfalls" data-astro-cid-xvrfupwn> sqlite3.connect(..., check_same_thread=False) Pitfalls </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#third-party-pools" data-astro-cid-xvrfupwn> Third-Party Pools </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#fastapi-synchronous-routes" data-astro-cid-xvrfupwn> FastAPI + Synchronous Routes </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#fastapi-async-with-aiosqlite" data-astro-cid-xvrfupwn> FastAPI + Async with aiosqlite </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#backup-and-restore-options" data-astro-cid-xvrfupwn> Backup and Restore Options </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#online-backup-api-best-for-hot-backups" data-astro-cid-xvrfupwn> Online Backup API (Best for Hot Backups) </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#vacuum-into-sqlite-327" data-astro-cid-xvrfupwn> VACUUM INTO (SQLite 3.27+) </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#backup-command-cli" data-astro-cid-xvrfupwn> .backup Command (CLI) </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#litestream-continuous-replication" data-astro-cid-xvrfupwn> Litestream (Continuous Replication) </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#sqlite-backup-python-package" data-astro-cid-xvrfupwn> sqlite-backup (Python Package) </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#performance-expectations-and-hard-limitations" data-astro-cid-xvrfupwn> Performance Expectations and Hard Limitations </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#read-performance" data-astro-cid-xvrfupwn> Read Performance </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#write-performance" data-astro-cid-xvrfupwn> Write Performance </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#use-cases-where-sqlite-wins-hard" data-astro-cid-xvrfupwn> Use Cases Where SQLite Wins Hard </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#use-cases-that-will-not-work-with-sqlite" data-astro-cid-xvrfupwn> Use Cases That Will Not Work with SQLite </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#monitoring-observability-and-debugging-checklist" data-astro-cid-xvrfupwn> Monitoring, Observability, and Debugging Checklist </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#production-recommendations" data-astro-cid-xvrfupwn> Production Recommendations </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#checklist" data-astro-cid-xvrfupwn> Checklist </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#hard-no-gos" data-astro-cid-xvrfupwn> Hard No-Gos </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#if-you-do-this-at-least" data-astro-cid-xvrfupwn> &quot;If You Do This, At Least...&quot; </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#final-thoughts" data-astro-cid-xvrfupwn> Final Thoughts </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#complete-working-example" data-astro-cid-xvrfupwn> Complete Working Example </a> </li> </ul> </nav>  </aside> <article class="post" data-astro-cid-yvbahnfj> <header class="post-header" data-astro-cid-yvbahnfj> <h1 data-astro-cid-yvbahnfj>Python and SQLite in the Real World</h1> <div class="meta" data-astro-cid-yvbahnfj> <time datetime="2025-11-22T00:00:00.000Z" data-astro-cid-yvbahnfj>Sat Nov 22 2025</time> <span data-astro-cid-yvbahnfj>• 23 min read</span> </div> <div class="tag-row" data-astro-cid-yvbahnfj><a class="post-tag " href="/tags/python/" data-astro-cid-yvbahnfj>Python</a><a class="post-tag " href="/tags/databases/" data-astro-cid-yvbahnfj>Databases</a><a class="post-tag " href="/tags/backend/" data-astro-cid-yvbahnfj>Backend</a><a class="post-tag " href="/tags/performance/" data-astro-cid-yvbahnfj>Performance</a></div> </header>    <div class="post-body prose" data-astro-cid-yvbahnfj> <h2 id="tldr--when-to-use-sqlite-and-when-to-run-away">TL;DR – When to Use SQLite and When to Run Away</h2>
+<p>SQLite is the most deployed database engine in the world, with billions of instances embedded in mobile devices, browsers, applications, and embedded systems, far outpacing traditional client-server databases like PostgreSQL or MySQL in sheer volume of deployments. This ubiquity stems from its lightweight, serverless design, making it a default choice for scenarios where a full RDBMS would be overkill.</p>
+<p><strong>Use SQLite when:</strong></p>
+<ul>
+<li><strong>Single-writer workloads</strong> (analytics pipelines, log processing, CLI tools)</li>
+<li><strong>Read-heavy apps</strong> with &#x3C; 100 concurrent readers (documentation sites, local-first apps)</li>
+<li><strong>Embedded systems</strong> where installing PostgreSQL is insane</li>
+<li><strong>Testing</strong> (it’s 10x faster than spinning up containers)</li>
+<li><strong>Edge deployments</strong> (Cloudflare Workers, Lambda@Edge)</li>
+<li><strong>You need ACID without a server</strong> (mobile apps, desktop software)</li>
+</ul>
+<p><strong>Run away when:</strong></p>
+<ul>
+<li><strong>High write concurrency</strong> (> 1 writer or > 100 writes/sec sustained)</li>
+<li><strong>Network file systems</strong> (NFS, SMB, EFS). This will corrupt your database. Not “might”, will.</li>
+<li><strong>You need replication</strong> (SQLite has no built-in replication)</li>
+</ul>
+<p>Real-world examples I’ve shipped:</p>
+<p><strong>Desktop and mobile standalone apps (perfect fit):</strong></p>
+<ul>
+<li>Flutter app with SQLite for local state storage</li>
+<li>Zero server infrastructure, data lives on the user’s device</li>
+</ul>
+<p><strong>A documentation site serving 5k requests/day (perfect fit):</strong></p>
+<ul>
+<li>Static site with search index in SQLite (~500k indexed documents)</li>
+<li>Deployed to a basic VPS</li>
+<li>p99 latency &#x3C; 5ms, handles traffic spikes without breaking a sweat</li>
+</ul>
+<p><strong>Internet-facing web APIs (works with caveats):</strong></p>
+<ul>
+<li>Internal tools API with ~20 requests/sec average, 90% reads</li>
+<li>Required careful tuning (WAL mode, write batching, connection pooling)</li>
+<li>Worked fine until I needed horizontal scaling, then migrated to PostgreSQL</li>
+</ul>
+<p>The pattern: SQLite excels when you control the hardware and have predictable, modest write rates. If you have burst writes, you’re fighting the single-writer lock. If you have sustained high-throughput reads, WAL mode makes it competitive with PostgreSQL for that specific workload.</p>
+<h2 id="storage-model-deep-dive">Storage Model Deep Dive</h2>
+<p>SQLite’s performance characteristics are entirely dictated by its storage model. Understanding this is not optional.</p>
+<h3 id="journal-modes">Journal Modes</h3>
+<p>SQLite has three journal modes, and picking the wrong one will cost you 10x performance:</p>
+<p><strong>DELETE mode (default, do not use):</strong></p>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token keyword">import</span> sqlite3
+
+conn <span class="token operator">=</span> sqlite3<span class="token punctuation">.</span>connect<span class="token punctuation">(</span><span class="token string">"app.db"</span><span class="token punctuation">)</span>
+conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"PRAGMA journal_mode"</span><span class="token punctuation">)</span>  <span class="token comment"># Returns: delete</span>
+</code></pre>
+<p>Every transaction creates a journal file on disk, writes changes, commits, then deletes the journal. This is slow and causes write amplification. The only reason this is the default is backward compatibility with systems from 2004.</p>
+<p><strong>TRUNCATE mode (slightly better, still don’t use):</strong></p>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python">conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"PRAGMA journal_mode = TRUNCATE"</span><span class="token punctuation">)</span>
+</code></pre>
+<p>Same as DELETE but truncates the journal file instead of deleting it. Saves some syscalls.</p>
+<p><strong>WAL mode (use this):</strong></p>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python">conn <span class="token operator">=</span> sqlite3<span class="token punctuation">.</span>connect<span class="token punctuation">(</span><span class="token string">"app.db"</span><span class="token punctuation">)</span>
+conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"PRAGMA journal_mode = WAL"</span><span class="token punctuation">)</span>
+conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"PRAGMA synchronous = NORMAL"</span><span class="token punctuation">)</span>
+</code></pre>
+<p>Write-Ahead Logging. Writes go to a separate WAL file (<code>app.db-wal</code>), readers see a consistent snapshot. This is the only mode that allows concurrent reads during writes. <strong>If you take one thing from this article, use WAL mode.</strong></p>
+<p>Performance difference (10k inserts):</p>
+<p><strong>AWS EC2 t3.medium (2 vCPU, gp3 EBS 3000 IOPS):</strong></p>
+<ul>
+<li>DELETE mode: 8.1 seconds</li>
+<li>WAL mode: 1.4 seconds</li>
+</ul>
+<p><strong>GCP e2-medium (2 vCPU, standard persistent disk):</strong></p>
+<ul>
+<li>DELETE mode: 12.3 seconds</li>
+<li>WAL mode: 2.1 seconds</li>
+</ul>
+<p>The pattern holds across environments: WAL mode is 5-6x faster than DELETE mode. Cloud instances with slower disk I/O show the benefit even more dramatically.</p>
+<p>WAL has one critical limitation: <strong>only one writer at a time</strong>. If you need multiple concurrent writers, you need something else like PostgreSQL.</p>
+<h3 id="page-size-tuning">Page Size Tuning</h3>
+<p>SQLite stores data in fixed-size blocks called <strong>pages</strong>. A page is the smallest unit SQLite reads from or writes to disk. Think of it like the block size in a filesystem, every read operation pulls at least one full page into memory, even if you only need a few bytes.</p>
+<p>The default page size is 4096 bytes (4KB), which was reasonable in 2004 when most systems had 4KB OS page sizes and limited RAM. In recent years, this became suboptimal for several reasons:</p>
+<ol>
+<li><strong>Modern SSDs</strong> have larger internal block sizes (often 8KB or 16KB). Reading a 4KB SQLite page might require reading a full 16KB SSD block, wasting 12KB.</li>
+<li><strong>Modern OS page caches</strong> work better with larger pages (8KB-16KB), reducing the number of page faults.</li>
+<li><strong>Analytics workloads</strong> benefit from larger pages because sequential scans read fewer total pages.</li>
+</ol>
+<p>Setting the page size correctly can improve throughput by 20-40% for read-heavy workloads.</p>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token comment"># Check current page size</span>
+conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"PRAGMA page_size"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>fetchone<span class="token punctuation">(</span><span class="token punctuation">)</span>  <span class="token comment"># (4096,)</span>
+
+<span class="token comment"># Set page size (must be done BEFORE creating tables)</span>
+conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"PRAGMA page_size = 8192"</span><span class="token punctuation">)</span>
+conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"VACUUM"</span><span class="token punctuation">)</span>  <span class="token comment"># Rebuild database with new page size</span>
+</code></pre>
+<p><strong>Guidelines:</strong></p>
+<ul>
+<li><strong>8KB or 16KB for modern SSDs</strong> (matches OS page cache better)</li>
+<li><strong>4KB for mobile/embedded</strong> (smaller memory footprint)</li>
+<li><strong>32KB for analytics</strong> (fewer page reads for large scans)</li>
+</ul>
+<p>Changing page size after you have data requires <code>VACUUM</code>, which rewrites the entire database. Do this during schema creation.</p>
+<h3 id="critical-pragmas-for-production">Critical PRAGMAs for Production</h3>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token keyword">def</span> <span class="token function">configure_connection</span><span class="token punctuation">(</span>conn<span class="token punctuation">:</span> sqlite3<span class="token punctuation">.</span>Connection<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token boolean">None</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""Apply production-grade settings to every connection."""</span>
+    conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"PRAGMA journal_mode = WAL"</span><span class="token punctuation">)</span>
+    conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"PRAGMA synchronous = NORMAL"</span><span class="token punctuation">)</span>  <span class="token comment"># fsync only on checkpoints</span>
+    conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"PRAGMA cache_size = -64000"</span><span class="token punctuation">)</span>   <span class="token comment"># 64MB cache (negative = KB)</span>
+    conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"PRAGMA temp_store = MEMORY"</span><span class="token punctuation">)</span>   <span class="token comment"># Temp tables in RAM</span>
+    conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"PRAGMA mmap_size = 268435456"</span><span class="token punctuation">)</span> <span class="token comment"># 256MB memory-mapped I/O</span>
+    conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"PRAGMA page_size = 8192"</span><span class="token punctuation">)</span>      <span class="token comment"># Must be set before data</span>
+    conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"PRAGMA busy_timeout = 5000"</span><span class="token punctuation">)</span>   <span class="token comment"># Wait 5s on lock, not fail instantly</span>
+</code></pre>
+<p><strong>What these do:</strong></p>
+<ul>
+<li><code>synchronous = NORMAL</code>: Trade durability for speed. If you lose power mid-transaction, you might lose the last transaction but won’t corrupt the DB. Acceptable for most apps.</li>
+<li><code>cache_size</code>: How many pages to cache in RAM. Default is 2MB, which is insane in 2025.</li>
+<li><code>temp_store = MEMORY</code>: Don’t write temp tables to disk. Huge win for JOINs.</li>
+<li><code>mmap_size</code>: Memory-map the database file for faster reads. Set to 50% of your DB size or 256MB, whichever is smaller.</li>
+<li><code>busy_timeout</code>: Don’t fail immediately when another connection holds a lock. Wait a bit.</li>
+</ul>
+<h2 id="schema-design-and-migrations-that-dont-suck">Schema Design and Migrations That Don’t Suck</h2>
+<p>SQLite has weaker schema enforcement than PostgreSQL, which means you’ll shoot yourself if you’re not careful.</p>
+<h3 id="type-affinity-not-types">Type Affinity (Not Types)</h3>
+<p>SQLite has “type affinity”, not strict types. This is a footgun:</p>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token comment"># This works. It shouldn't, but it does.</span>
+conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT)"</span><span class="token punctuation">)</span>
+conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"INSERT INTO users (id, name) VALUES (1, 'Alice')"</span><span class="token punctuation">)</span>
+conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"INSERT INTO users (id, name) VALUES (2, 12345)"</span><span class="token punctuation">)</span>  <span class="token comment"># Storing int in TEXT column</span>
+conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"SELECT * FROM users WHERE name = 12345"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>fetchone<span class="token punctuation">(</span><span class="token punctuation">)</span>  <span class="token comment"># Returns (2, '12345')</span>
+</code></pre>
+<p>Use <code>STRICT</code> tables (SQLite 3.37+):</p>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python">conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token triple-quoted-string string">"""
+    CREATE TABLE users (
+        id INTEGER PRIMARY KEY,
+        name TEXT NOT NULL
+    ) STRICT
+"""</span><span class="token punctuation">)</span>
+conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"INSERT INTO users (id, name) VALUES (1, 12345)"</span><span class="token punctuation">)</span>  
+<span class="token comment"># Raises: sqlite3.IntegrityError: cannot store INTEGER value in TEXT column</span>
+</code></pre>
+<p><strong>Always use STRICT tables</strong> unless you have a good reason not to.</p>
+<h3 id="migrations-without-a-framework">Migrations Without a Framework</h3>
+<p>Here’s a migration system I’ve used before:</p>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token keyword">import</span> sqlite3
+<span class="token keyword">from</span> pathlib <span class="token keyword">import</span> Path
+
+<span class="token keyword">def</span> <span class="token function">get_schema_version</span><span class="token punctuation">(</span>conn<span class="token punctuation">:</span> sqlite3<span class="token punctuation">.</span>Connection<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">int</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""Get current schema version, or 0 if uninitialized."""</span>
+    <span class="token keyword">try</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"PRAGMA user_version"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>fetchone<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+    <span class="token keyword">except</span> sqlite3<span class="token punctuation">.</span>OperationalError<span class="token punctuation">:</span>
+        <span class="token keyword">return</span> <span class="token number">0</span>
+
+<span class="token keyword">def</span> <span class="token function">apply_migrations</span><span class="token punctuation">(</span>conn<span class="token punctuation">:</span> sqlite3<span class="token punctuation">.</span>Connection<span class="token punctuation">,</span> migrations_dir<span class="token punctuation">:</span> Path<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token boolean">None</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""Apply migrations in order from migrations_dir."""</span>
+    current <span class="token operator">=</span> get_schema_version<span class="token punctuation">(</span>conn<span class="token punctuation">)</span>
+    migration_files <span class="token operator">=</span> <span class="token builtin">sorted</span><span class="token punctuation">(</span>migrations_dir<span class="token punctuation">.</span>glob<span class="token punctuation">(</span><span class="token string">"*.sql"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    
+    <span class="token keyword">for</span> migration_file <span class="token keyword">in</span> migration_files<span class="token punctuation">:</span>
+        version <span class="token operator">=</span> <span class="token builtin">int</span><span class="token punctuation">(</span>migration_file<span class="token punctuation">.</span>stem<span class="token punctuation">)</span>  <span class="token comment"># e.g., "001.sql" -> 1</span>
+        <span class="token keyword">if</span> version <span class="token operator">&#x3C;=</span> current<span class="token punctuation">:</span>
+            <span class="token keyword">continue</span>
+        
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Applying migration </span><span class="token interpolation"><span class="token punctuation">{</span>version<span class="token punctuation">}</span></span><span class="token string">: </span><span class="token interpolation"><span class="token punctuation">{</span>migration_file<span class="token punctuation">.</span>name<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+        sql <span class="token operator">=</span> migration_file<span class="token punctuation">.</span>read_text<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        
+        <span class="token keyword">with</span> conn<span class="token punctuation">:</span>  <span class="token comment"># Transaction</span>
+            conn<span class="token punctuation">.</span>executescript<span class="token punctuation">(</span>sql<span class="token punctuation">)</span>
+            conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"PRAGMA user_version = </span><span class="token interpolation"><span class="token punctuation">{</span>version<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+    
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Schema version: </span><span class="token interpolation"><span class="token punctuation">{</span>get_schema_version<span class="token punctuation">(</span>conn<span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+
+<span class="token comment"># Usage</span>
+conn <span class="token operator">=</span> sqlite3<span class="token punctuation">.</span>connect<span class="token punctuation">(</span><span class="token string">"app.db"</span><span class="token punctuation">)</span>
+configure_connection<span class="token punctuation">(</span>conn<span class="token punctuation">)</span>
+apply_migrations<span class="token punctuation">(</span>conn<span class="token punctuation">,</span> Path<span class="token punctuation">(</span><span class="token string">"migrations"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+<p>Migration file <code>migrations/001.sql</code>:</p>
+<pre class="language-sql" data-language="sql"><code is:raw="" class="language-sql"><span class="token keyword">CREATE</span> <span class="token keyword">TABLE</span> users <span class="token punctuation">(</span>
+    id <span class="token keyword">INTEGER</span> <span class="token keyword">PRIMARY</span> <span class="token keyword">KEY</span><span class="token punctuation">,</span>
+    email <span class="token keyword">TEXT</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span> <span class="token keyword">UNIQUE</span><span class="token punctuation">,</span>
+    created_at <span class="token keyword">INTEGER</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span>  <span class="token comment">-- Unix timestamp</span>
+<span class="token punctuation">)</span> STRICT<span class="token punctuation">;</span>
+
+<span class="token keyword">CREATE</span> <span class="token keyword">INDEX</span> idx_users_email <span class="token keyword">ON</span> users<span class="token punctuation">(</span>email<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Migration file <code>migrations/002.sql</code>:</p>
+<pre class="language-sql" data-language="sql"><code is:raw="" class="language-sql"><span class="token keyword">ALTER</span> <span class="token keyword">TABLE</span> users <span class="token keyword">ADD</span> <span class="token keyword">COLUMN</span> display_name <span class="token keyword">TEXT</span><span class="token punctuation">;</span>
+</code></pre>
+<p><strong>Why this works:</strong></p>
+<ul>
+<li><code>PRAGMA user_version</code> is built into SQLite for exactly this purpose</li>
+<li>Migration files are numbered, applied in order</li>
+<li>Migrations are transactional (except <code>CREATE INDEX</code>, which is autocommit)</li>
+<li>No dependencies, just stdlib</li>
+</ul>
+<h2 id="creating-tables-indexes-and-generated-columns">Creating Tables, Indexes, and Generated Columns</h2>
+<h3 id="generated-columns-sqlite-331">Generated Columns (SQLite 3.31+)</h3>
+<p>Generated columns are massively underused. They’re free computed indexes:</p>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python">conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token triple-quoted-string string">"""
+    CREATE TABLE posts (
+        id INTEGER PRIMARY KEY,
+        title TEXT NOT NULL,
+        body TEXT NOT NULL,
+        title_lower TEXT GENERATED ALWAYS AS (lower(title)) VIRTUAL,
+        word_count INTEGER GENERATED ALWAYS AS (
+            length(body) - length(replace(body, ' ', '')) + 1
+        ) STORED
+    ) STRICT
+"""</span><span class="token punctuation">)</span>
+
+<span class="token comment"># Fast case-insensitive search</span>
+conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"CREATE INDEX idx_posts_title_lower ON posts(title_lower)"</span><span class="token punctuation">)</span>
+conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"SELECT * FROM posts WHERE title_lower = 'hello world'"</span><span class="token punctuation">)</span>
+</code></pre>
+<p><strong>VIRTUAL vs STORED:</strong></p>
+<ul>
+<li><code>VIRTUAL</code>: Computed on read, not stored on disk. Use for cheap computations.</li>
+<li><code>STORED</code>: Computed on write, stored on disk. Use for expensive computations you’ll query often.</li>
+</ul>
+<p>Real-world example: full-text search keys:</p>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python">conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token triple-quoted-string string">"""
+    CREATE TABLE articles (
+        id INTEGER PRIMARY KEY,
+        title TEXT NOT NULL,
+        content TEXT NOT NULL,
+        search_text TEXT GENERATED ALWAYS AS (
+            lower(title || ' ' || content)
+        ) VIRTUAL
+    ) STRICT
+"""</span><span class="token punctuation">)</span>
+
+conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"CREATE VIRTUAL TABLE articles_fts USING fts5(search_text, content=articles)"</span><span class="token punctuation">)</span>
+
+<span class="token comment"># Full-text search without duplicating data</span>
+conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"SELECT * FROM articles WHERE id IN (SELECT rowid FROM articles_fts WHERE search_text MATCH 'python')"</span><span class="token punctuation">)</span>
+</code></pre>
+<h3 id="index-design">Index Design</h3>
+<p>SQLite uses a B-tree for indexes. Every index is a separate file structure. Too many indexes = slow writes.</p>
+<p><strong>Rules:</strong></p>
+<ol>
+<li><strong>Primary key is always indexed</strong> (automatically)</li>
+<li><strong>Index foreign keys</strong> if you’re doing JOINs</li>
+<li><strong>Index WHERE clause columns</strong> in your hot queries</li>
+<li><strong>Don’t index low-cardinality columns</strong> (e.g., boolean flags)</li>
+</ol>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token comment"># Good: Composite index for a query pattern</span>
+conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token triple-quoted-string string">"""
+    CREATE TABLE events (
+        id INTEGER PRIMARY KEY,
+        user_id INTEGER NOT NULL,
+        event_type TEXT NOT NULL,
+        timestamp INTEGER NOT NULL
+    ) STRICT
+"""</span><span class="token punctuation">)</span>
+
+<span class="token comment"># If you query by user_id + timestamp, create a composite index</span>
+conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"CREATE INDEX idx_events_user_time ON events(user_id, timestamp)"</span><span class="token punctuation">)</span>
+
+<span class="token comment"># Query optimizer will use this index</span>
+conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"SELECT * FROM events WHERE user_id = ? AND timestamp > ?"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token number">123</span><span class="token punctuation">,</span> <span class="token number">1700000000</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+<p><strong>Use <code>EXPLAIN QUERY PLAN</code> to verify:</strong></p>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token keyword">for</span> row <span class="token keyword">in</span> conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"EXPLAIN QUERY PLAN SELECT * FROM events WHERE user_id = 123"</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span>row<span class="token punctuation">)</span>
+<span class="token comment"># Output: SEARCH events USING INDEX idx_events_user_time (user_id=?)</span>
+</code></pre>
+<p>If you see <code>SCAN TABLE</code>, you’re missing an index.</p>
+<h2 id="connection-management-and-threading-model">Connection Management and Threading Model</h2>
+<p>This is where most production bugs come from. SQLite has a single file lock. Your Python code has threads. These don’t mix well by default.</p>
+<h3 id="the-default-pattern">The Default Pattern</h3>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token keyword">import</span> sqlite3
+<span class="token keyword">from</span> threading <span class="token keyword">import</span> Thread
+
+conn <span class="token operator">=</span> sqlite3<span class="token punctuation">.</span>connect<span class="token punctuation">(</span><span class="token string">"app.db"</span><span class="token punctuation">)</span>  <span class="token comment"># Global connection</span>
+
+<span class="token keyword">def</span> <span class="token function">worker</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"INSERT INTO logs (message) VALUES (?)"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token string">"test"</span><span class="token punctuation">,</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+threads <span class="token operator">=</span> <span class="token punctuation">[</span>Thread<span class="token punctuation">(</span>target<span class="token operator">=</span>worker<span class="token punctuation">)</span> <span class="token keyword">for</span> _ <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">]</span>
+<span class="token keyword">for</span> t <span class="token keyword">in</span> threads<span class="token punctuation">:</span>
+    t<span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">for</span> t <span class="token keyword">in</span> threads<span class="token punctuation">:</span>
+    t<span class="token punctuation">.</span>join<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment"># Result: sqlite3.ProgrammingError: SQLite objects created in a thread </span>
+<span class="token comment"># can only be used in that same thread.</span>
+</code></pre>
+<p>SQLite connections are <strong>not thread-safe</strong> by default. The <code>check_same_thread</code> check exists to save you from yourself.</p>
+<h3 id="pattern-1-one-connection-per-thread">Pattern 1: One Connection Per Thread</h3>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token keyword">import</span> sqlite3
+<span class="token keyword">from</span> threading <span class="token keyword">import</span> local
+
+thread_local <span class="token operator">=</span> local<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token keyword">def</span> <span class="token function">get_connection</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> sqlite3<span class="token punctuation">.</span>Connection<span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""Get a connection for the current thread."""</span>
+    <span class="token keyword">if</span> <span class="token keyword">not</span> <span class="token builtin">hasattr</span><span class="token punctuation">(</span>thread_local<span class="token punctuation">,</span> <span class="token string">"connection"</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        thread_local<span class="token punctuation">.</span>connection <span class="token operator">=</span> sqlite3<span class="token punctuation">.</span>connect<span class="token punctuation">(</span><span class="token string">"app.db"</span><span class="token punctuation">)</span>
+        configure_connection<span class="token punctuation">(</span>thread_local<span class="token punctuation">.</span>connection<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> thread_local<span class="token punctuation">.</span>connection
+
+<span class="token keyword">def</span> <span class="token function">worker</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    conn <span class="token operator">=</span> get_connection<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">with</span> conn<span class="token punctuation">:</span>
+        conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"INSERT INTO logs (message) VALUES (?)"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token string">"test"</span><span class="token punctuation">,</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+<span class="token comment"># Now this works</span>
+threads <span class="token operator">=</span> <span class="token punctuation">[</span>Thread<span class="token punctuation">(</span>target<span class="token operator">=</span>worker<span class="token punctuation">)</span> <span class="token keyword">for</span> _ <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">]</span>
+<span class="token keyword">for</span> t <span class="token keyword">in</span> threads<span class="token punctuation">:</span>
+    t<span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">for</span> t <span class="token keyword">in</span> threads<span class="token punctuation">:</span>
+    t<span class="token punctuation">.</span>join<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+<p>This works but doesn’t scale. Each thread holds a connection, and WAL mode still only allows <strong>one writer at a time</strong>. If you have 100 threads, 99 are blocked waiting for the lock.</p>
+<h3 id="pattern-2-connection-pool-with-queue">Pattern 2: Connection Pool with Queue</h3>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token keyword">import</span> sqlite3
+<span class="token keyword">from</span> queue <span class="token keyword">import</span> Queue
+<span class="token keyword">from</span> contextlib <span class="token keyword">import</span> contextmanager
+<span class="token keyword">from</span> typing <span class="token keyword">import</span> Iterator
+
+<span class="token keyword">class</span> <span class="token class-name">ConnectionPool</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> database<span class="token punctuation">:</span> <span class="token builtin">str</span><span class="token punctuation">,</span> pool_size<span class="token punctuation">:</span> <span class="token builtin">int</span> <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>database <span class="token operator">=</span> database
+        self<span class="token punctuation">.</span>pool <span class="token operator">=</span> Queue<span class="token punctuation">(</span>maxsize<span class="token operator">=</span>pool_size<span class="token punctuation">)</span>
+        <span class="token keyword">for</span> _ <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>pool_size<span class="token punctuation">)</span><span class="token punctuation">:</span>
+            conn <span class="token operator">=</span> sqlite3<span class="token punctuation">.</span>connect<span class="token punctuation">(</span>database<span class="token punctuation">,</span> check_same_thread<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+            configure_connection<span class="token punctuation">(</span>conn<span class="token punctuation">)</span>
+            self<span class="token punctuation">.</span>pool<span class="token punctuation">.</span>put<span class="token punctuation">(</span>conn<span class="token punctuation">)</span>
+    
+    <span class="token decorator annotation punctuation">@contextmanager</span>
+    <span class="token keyword">def</span> <span class="token function">get_connection</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> Iterator<span class="token punctuation">[</span>sqlite3<span class="token punctuation">.</span>Connection<span class="token punctuation">]</span><span class="token punctuation">:</span>
+        conn <span class="token operator">=</span> self<span class="token punctuation">.</span>pool<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token keyword">try</span><span class="token punctuation">:</span>
+            <span class="token keyword">yield</span> conn
+        <span class="token keyword">finally</span><span class="token punctuation">:</span>
+            self<span class="token punctuation">.</span>pool<span class="token punctuation">.</span>put<span class="token punctuation">(</span>conn<span class="token punctuation">)</span>
+
+<span class="token comment"># Usage</span>
+pool <span class="token operator">=</span> ConnectionPool<span class="token punctuation">(</span><span class="token string">"app.db"</span><span class="token punctuation">,</span> pool_size<span class="token operator">=</span><span class="token number">5</span><span class="token punctuation">)</span>
+
+<span class="token keyword">def</span> <span class="token function">worker</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">with</span> pool<span class="token punctuation">.</span>get_connection<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">as</span> conn<span class="token punctuation">:</span>
+        <span class="token keyword">with</span> conn<span class="token punctuation">:</span>
+            conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"INSERT INTO logs (message) VALUES (?)"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token string">"test"</span><span class="token punctuation">,</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+<p><strong>Why this works:</strong></p>
+<ul>
+<li>Limits concurrent connections to <code>pool_size</code></li>
+<li><code>check_same_thread=False</code> disables SQLite’s built-in safety check that prevents using a connection object in a different thread than where it was created. By default, if you create a connection in thread A and try to execute a query from thread B, SQLite raises an error. Setting this to <code>False</code> removes that restriction, allowing you to pass connection objects between threads. However, you still need external synchronization (like our Queue) to prevent concurrent access to the same connection object from multiple threads simultaneously.</li>
+<li>Context manager ensures connections are returned to pool</li>
+<li>Write serialization is handled by SQLite’s file lock</li>
+</ul>
+<h2 id="pooling-strategies">Pooling Strategies</h2>
+<h3 id="threadpoolexecutor--contextmanager">ThreadPoolExecutor + contextmanager</h3>
+<p>For CPU-bound tasks with occasional DB writes:</p>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token keyword">from</span> concurrent<span class="token punctuation">.</span>futures <span class="token keyword">import</span> ThreadPoolExecutor
+<span class="token keyword">from</span> contextlib <span class="token keyword">import</span> contextmanager
+
+<span class="token decorator annotation punctuation">@contextmanager</span>
+<span class="token keyword">def</span> <span class="token function">get_db</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    conn <span class="token operator">=</span> sqlite3<span class="token punctuation">.</span>connect<span class="token punctuation">(</span><span class="token string">"app.db"</span><span class="token punctuation">,</span> check_same_thread<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+    configure_connection<span class="token punctuation">(</span>conn<span class="token punctuation">)</span>
+    <span class="token keyword">try</span><span class="token punctuation">:</span>
+        <span class="token keyword">yield</span> conn
+    <span class="token keyword">finally</span><span class="token punctuation">:</span>
+        conn<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token keyword">def</span> <span class="token function">process_item</span><span class="token punctuation">(</span>item_id<span class="token punctuation">:</span> <span class="token builtin">int</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token boolean">None</span><span class="token punctuation">:</span>
+    <span class="token comment"># Heavy CPU work</span>
+    result <span class="token operator">=</span> expensive_computation<span class="token punctuation">(</span>item_id<span class="token punctuation">)</span>
+    
+    <span class="token comment"># Quick DB write</span>
+    <span class="token keyword">with</span> get_db<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">as</span> conn<span class="token punctuation">:</span>
+        <span class="token keyword">with</span> conn<span class="token punctuation">:</span>
+            conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"INSERT INTO results (item_id, value) VALUES (?, ?)"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>item_id<span class="token punctuation">,</span> result<span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+<span class="token comment"># Process 100 items with 10 workers</span>
+<span class="token keyword">with</span> ThreadPoolExecutor<span class="token punctuation">(</span>max_workers<span class="token operator">=</span><span class="token number">10</span><span class="token punctuation">)</span> <span class="token keyword">as</span> executor<span class="token punctuation">:</span>
+    executor<span class="token punctuation">.</span><span class="token builtin">map</span><span class="token punctuation">(</span>process_item<span class="token punctuation">,</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+<p>This pattern works because each task gets its own short-lived connection. No connection pool needed.</p>
+<h3 id="sqlite3connect-check_same_threadfalse-pitfalls">sqlite3.connect(…, check_same_thread=False) Pitfalls</h3>
+<p>Disabling the thread check is safe <strong>if</strong>:</p>
+<ol>
+<li>You never share connections between threads <strong>without proper locking</strong></li>
+<li>You understand that writes are still serialized by SQLite’s lock</li>
+<li>You’re not trying to work around the single-writer limitation</li>
+</ol>
+<p><strong>The footgun:</strong></p>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token comment"># This compiles. This runs. This corrupts your data.</span>
+conn <span class="token operator">=</span> sqlite3<span class="token punctuation">.</span>connect<span class="token punctuation">(</span><span class="token string">"app.db"</span><span class="token punctuation">,</span> check_same_thread<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+
+<span class="token keyword">def</span> <span class="token function">writer_thread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"INSERT INTO data (value) VALUES (?)"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>i<span class="token punctuation">,</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        conn<span class="token punctuation">.</span>commit<span class="token punctuation">(</span><span class="token punctuation">)</span>  <span class="token comment"># Explicit commit</span>
+
+threads <span class="token operator">=</span> <span class="token punctuation">[</span>Thread<span class="token punctuation">(</span>target<span class="token operator">=</span>writer_thread<span class="token punctuation">)</span> <span class="token keyword">for</span> _ <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">]</span>
+<span class="token keyword">for</span> t <span class="token keyword">in</span> threads<span class="token punctuation">:</span>
+    t<span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">for</span> t <span class="token keyword">in</span> threads<span class="token punctuation">:</span>
+    t<span class="token punctuation">.</span>join<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment"># Result: Missing rows, database corruption, or "database is locked" errors</span>
+</code></pre>
+<p><strong>Why it breaks:</strong> You’re calling <code>commit()</code> from multiple threads on the same connection object. Python’s sqlite3 module is not thread-safe at the connection level even with <code>check_same_thread=False</code>.</p>
+<h3 id="third-party-pools">Third-Party Pools</h3>
+<p><strong>SQLAlchemy (overkill but battle-tested):</strong></p>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token keyword">from</span> sqlalchemy <span class="token keyword">import</span> create_engine<span class="token punctuation">,</span> text
+
+engine <span class="token operator">=</span> create_engine<span class="token punctuation">(</span>
+    <span class="token string">"sqlite:///app.db"</span><span class="token punctuation">,</span>
+    connect_args<span class="token operator">=</span><span class="token punctuation">{</span><span class="token string">"check_same_thread"</span><span class="token punctuation">:</span> <span class="token boolean">False</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+    poolclass<span class="token operator">=</span>QueuePool<span class="token punctuation">,</span>
+    pool_size<span class="token operator">=</span><span class="token number">5</span><span class="token punctuation">,</span>
+    max_overflow<span class="token operator">=</span><span class="token number">10</span>
+<span class="token punctuation">)</span>
+
+<span class="token keyword">def</span> <span class="token function">worker</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">with</span> engine<span class="token punctuation">.</span>connect<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">as</span> conn<span class="token punctuation">:</span>
+        conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span>text<span class="token punctuation">(</span><span class="token string">"INSERT INTO logs (message) VALUES (:msg)"</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token string">"msg"</span><span class="token punctuation">:</span> <span class="token string">"test"</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
+        conn<span class="token punctuation">.</span>commit<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+<p><strong>aiosqlite (for async):</strong></p>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token keyword">import</span> aiosqlite
+<span class="token keyword">import</span> asyncio
+
+<span class="token keyword">async</span> <span class="token keyword">def</span> <span class="token function">write_log</span><span class="token punctuation">(</span>message<span class="token punctuation">:</span> <span class="token builtin">str</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">async</span> <span class="token keyword">with</span> aiosqlite<span class="token punctuation">.</span>connect<span class="token punctuation">(</span><span class="token string">"app.db"</span><span class="token punctuation">)</span> <span class="token keyword">as</span> conn<span class="token punctuation">:</span>
+        <span class="token keyword">await</span> conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"PRAGMA journal_mode = WAL"</span><span class="token punctuation">)</span>
+        <span class="token keyword">await</span> conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"INSERT INTO logs (message) VALUES (?)"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>message<span class="token punctuation">,</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token keyword">await</span> conn<span class="token punctuation">.</span>commit<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+asyncio<span class="token punctuation">.</span>run<span class="token punctuation">(</span>write_log<span class="token punctuation">(</span><span class="token string">"test"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+<h3 id="fastapi--synchronous-routes">FastAPI + Synchronous Routes</h3>
+<p>This is the “it works on my machine” trap. FastAPI runs routes in a thread pool by default:</p>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token keyword">from</span> fastapi <span class="token keyword">import</span> FastAPI
+<span class="token keyword">import</span> sqlite3
+
+app <span class="token operator">=</span> FastAPI<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment"># WRONG: Global connection</span>
+conn <span class="token operator">=</span> sqlite3<span class="token punctuation">.</span>connect<span class="token punctuation">(</span><span class="token string">"app.db"</span><span class="token punctuation">)</span>
+
+<span class="token decorator annotation punctuation">@app<span class="token punctuation">.</span>get</span><span class="token punctuation">(</span><span class="token string">"/users/{user_id}"</span><span class="token punctuation">)</span>
+<span class="token keyword">def</span> <span class="token function">get_user</span><span class="token punctuation">(</span>user_id<span class="token punctuation">:</span> <span class="token builtin">int</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    row <span class="token operator">=</span> conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"SELECT * FROM users WHERE id = ?"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>user_id<span class="token punctuation">,</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>fetchone<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> <span class="token punctuation">{</span><span class="token string">"user"</span><span class="token punctuation">:</span> row<span class="token punctuation">}</span>
+
+<span class="token comment"># This will crash with "SQLite objects created in a thread can only be used in that same thread"</span>
+</code></pre>
+<p><strong>Fix: Thread-local connections</strong></p>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token keyword">from</span> threading <span class="token keyword">import</span> local
+
+thread_local <span class="token operator">=</span> local<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token keyword">def</span> <span class="token function">get_db</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> sqlite3<span class="token punctuation">.</span>Connection<span class="token punctuation">:</span>
+    <span class="token keyword">if</span> <span class="token keyword">not</span> <span class="token builtin">hasattr</span><span class="token punctuation">(</span>thread_local<span class="token punctuation">,</span> <span class="token string">"conn"</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        thread_local<span class="token punctuation">.</span>conn <span class="token operator">=</span> sqlite3<span class="token punctuation">.</span>connect<span class="token punctuation">(</span><span class="token string">"app.db"</span><span class="token punctuation">,</span> check_same_thread<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+        configure_connection<span class="token punctuation">(</span>thread_local<span class="token punctuation">.</span>conn<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> thread_local<span class="token punctuation">.</span>conn
+
+<span class="token decorator annotation punctuation">@app<span class="token punctuation">.</span>get</span><span class="token punctuation">(</span><span class="token string">"/users/{user_id}"</span><span class="token punctuation">)</span>
+<span class="token keyword">def</span> <span class="token function">get_user</span><span class="token punctuation">(</span>user_id<span class="token punctuation">:</span> <span class="token builtin">int</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    conn <span class="token operator">=</span> get_db<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    row <span class="token operator">=</span> conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"SELECT * FROM users WHERE id = ?"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>user_id<span class="token punctuation">,</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>fetchone<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> <span class="token punctuation">{</span><span class="token string">"user"</span><span class="token punctuation">:</span> row<span class="token punctuation">}</span>
+</code></pre>
+<p><strong>Better: Dependency injection</strong></p>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token keyword">from</span> fastapi <span class="token keyword">import</span> Depends
+
+<span class="token keyword">def</span> <span class="token function">get_db_connection</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    conn <span class="token operator">=</span> sqlite3<span class="token punctuation">.</span>connect<span class="token punctuation">(</span><span class="token string">"app.db"</span><span class="token punctuation">,</span> check_same_thread<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+    configure_connection<span class="token punctuation">(</span>conn<span class="token punctuation">)</span>
+    <span class="token keyword">try</span><span class="token punctuation">:</span>
+        <span class="token keyword">yield</span> conn
+    <span class="token keyword">finally</span><span class="token punctuation">:</span>
+        conn<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token decorator annotation punctuation">@app<span class="token punctuation">.</span>get</span><span class="token punctuation">(</span><span class="token string">"/users/{user_id}"</span><span class="token punctuation">)</span>
+<span class="token keyword">def</span> <span class="token function">get_user</span><span class="token punctuation">(</span>user_id<span class="token punctuation">:</span> <span class="token builtin">int</span><span class="token punctuation">,</span> conn <span class="token operator">=</span> Depends<span class="token punctuation">(</span>get_db_connection<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    row <span class="token operator">=</span> conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"SELECT * FROM users WHERE id = ?"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>user_id<span class="token punctuation">,</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>fetchone<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> <span class="token punctuation">{</span><span class="token string">"user"</span><span class="token punctuation">:</span> row<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="fastapi--async-with-aiosqlite">FastAPI + Async with aiosqlite</h3>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token keyword">import</span> aiosqlite
+<span class="token keyword">from</span> fastapi <span class="token keyword">import</span> FastAPI
+
+app <span class="token operator">=</span> FastAPI<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token keyword">async</span> <span class="token keyword">def</span> <span class="token function">get_db</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">async</span> <span class="token keyword">with</span> aiosqlite<span class="token punctuation">.</span>connect<span class="token punctuation">(</span><span class="token string">"app.db"</span><span class="token punctuation">)</span> <span class="token keyword">as</span> conn<span class="token punctuation">:</span>
+        <span class="token keyword">await</span> conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"PRAGMA journal_mode = WAL"</span><span class="token punctuation">)</span>
+        <span class="token keyword">yield</span> conn
+
+<span class="token decorator annotation punctuation">@app<span class="token punctuation">.</span>get</span><span class="token punctuation">(</span><span class="token string">"/users/{user_id}"</span><span class="token punctuation">)</span>
+<span class="token keyword">async</span> <span class="token keyword">def</span> <span class="token function">get_user</span><span class="token punctuation">(</span>user_id<span class="token punctuation">:</span> <span class="token builtin">int</span><span class="token punctuation">,</span> conn <span class="token operator">=</span> Depends<span class="token punctuation">(</span>get_db<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">async</span> <span class="token keyword">with</span> conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"SELECT * FROM users WHERE id = ?"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>user_id<span class="token punctuation">,</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword">as</span> cursor<span class="token punctuation">:</span>
+        row <span class="token operator">=</span> <span class="token keyword">await</span> cursor<span class="token punctuation">.</span>fetchone<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> <span class="token punctuation">{</span><span class="token string">"user"</span><span class="token punctuation">:</span> row<span class="token punctuation">}</span>
+</code></pre>
+<p><strong>Async doesn’t magically fix SQLite’s single-writer limitation.</strong> It just lets you do other work while waiting for locks.</p>
+<h2 id="backup-and-restore-options">Backup and Restore Options</h2>
+<p>Backups are non-negotiable. Here’s what actually works in production.</p>
+<h3 id="online-backup-api-best-for-hot-backups">Online Backup API (Best for Hot Backups)</h3>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token keyword">import</span> sqlite3
+<span class="token keyword">from</span> pathlib <span class="token keyword">import</span> Path
+
+<span class="token keyword">def</span> <span class="token function">backup_database</span><span class="token punctuation">(</span>source<span class="token punctuation">:</span> <span class="token builtin">str</span><span class="token punctuation">,</span> destination<span class="token punctuation">:</span> <span class="token builtin">str</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token boolean">None</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""Backup database while it's being used."""</span>
+    src <span class="token operator">=</span> sqlite3<span class="token punctuation">.</span>connect<span class="token punctuation">(</span>source<span class="token punctuation">)</span>
+    dst <span class="token operator">=</span> sqlite3<span class="token punctuation">.</span>connect<span class="token punctuation">(</span>destination<span class="token punctuation">)</span>
+    
+    <span class="token keyword">with</span> dst<span class="token punctuation">:</span>
+        src<span class="token punctuation">.</span>backup<span class="token punctuation">(</span>dst<span class="token punctuation">,</span> pages<span class="token operator">=</span><span class="token number">100</span><span class="token punctuation">,</span> progress<span class="token operator">=</span><span class="token keyword">lambda</span> status<span class="token punctuation">,</span> remaining<span class="token punctuation">,</span> total<span class="token punctuation">:</span> 
+            <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Backup: </span><span class="token interpolation"><span class="token punctuation">{</span><span class="token punctuation">(</span>total <span class="token operator">-</span> remaining<span class="token punctuation">)</span> <span class="token operator">/</span> total <span class="token operator">*</span> <span class="token number">100</span><span class="token punctuation">:</span><span class="token format-spec">.1f</span><span class="token punctuation">}</span></span><span class="token string">%"</span></span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    
+    src<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    dst<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment"># Run this in a background thread/cron</span>
+backup_database<span class="token punctuation">(</span><span class="token string">"app.db"</span><span class="token punctuation">,</span> <span class="token string-interpolation"><span class="token string">f"backups/app-</span><span class="token interpolation"><span class="token punctuation">{</span>datetime<span class="token punctuation">.</span>now<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>isoformat<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token string">.db"</span></span><span class="token punctuation">)</span>
+</code></pre>
+<p><strong>Why this is good:</strong></p>
+<ul>
+<li>Works while the database is in use</li>
+<li>Doesn’t block writers for long (copies 100 pages at a time)</li>
+<li>Produces a consistent snapshot</li>
+</ul>
+<h3 id="vacuum-into-sqlite-327">VACUUM INTO (SQLite 3.27+)</h3>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token comment"># Backup + compress in one step</span>
+conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"VACUUM INTO 'backups/app-</span><span class="token interpolation"><span class="token punctuation">{</span>datetime<span class="token punctuation">.</span>now<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>isoformat<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token string">.db'"</span></span><span class="token punctuation">)</span>
+</code></pre>
+<p>This is faster than the backup API and produces a smaller file (removes deleted data), but blocks all writes for the duration.</p>
+<h3 id="backup-command-cli">.backup Command (CLI)</h3>
+<pre class="language-bash" data-language="bash"><code is:raw="" class="language-bash">sqlite3 app.db <span class="token string">".backup 'app-backup.db'"</span>
+</code></pre>
+<p>Same as the Python API but from the shell. Useful for cron jobs.</p>
+<h3 id="litestream-continuous-replication">Litestream (Continuous Replication)</h3>
+<p>If you need point-in-time recovery:</p>
+<pre class="language-bash" data-language="bash"><code is:raw="" class="language-bash"><span class="token comment"># Install litestream</span>
+brew <span class="token function">install</span> litestream  <span class="token comment"># or download binary</span>
+
+<span class="token comment"># litestream.yml</span>
+dbs:
+  - path: /path/to/app.db
+    replicas:
+      - url: s3://my-bucket/app.db
+</code></pre>
+<pre class="language-bash" data-language="bash"><code is:raw="" class="language-bash"><span class="token comment"># Run alongside your app</span>
+litestream replicate
+</code></pre>
+<p>Litestream streams WAL changes to S3/Azure/GCS in real-time. If your disk dies, restore from the last second:</p>
+<pre class="language-bash" data-language="bash"><code is:raw="" class="language-bash">litestream restore <span class="token parameter variable">-o</span> app.db s3://my-bucket/app.db
+</code></pre>
+<p><strong>This is the closest SQLite gets to PostgreSQL WAL streaming replication.</strong></p>
+<h3 id="sqlite-backup-python-package">sqlite-backup (Python Package)</h3>
+<pre class="language-bash" data-language="bash"><code is:raw="" class="language-bash">pip <span class="token function">install</span> sqlite-backup
+</code></pre>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token keyword">from</span> sqlite_backup <span class="token keyword">import</span> backup
+
+backup<span class="token punctuation">(</span>
+    source<span class="token operator">=</span><span class="token string">"app.db"</span><span class="token punctuation">,</span>
+    dest<span class="token operator">=</span><span class="token string">"s3://my-bucket/backups/app.db"</span><span class="token punctuation">,</span>
+    compression<span class="token operator">=</span><span class="token string">"gzip"</span><span class="token punctuation">,</span>
+    encryption_key<span class="token operator">=</span><span class="token string">"your-key"</span>
+<span class="token punctuation">)</span>
+</code></pre>
+<p>Handles S3/GCS uploads, compression, encryption. Good for scheduled backups.</p>
+<h2 id="performance-expectations-and-hard-limitations">Performance Expectations and Hard Limitations</h2>
+<p>Let’s talk numbers. These are from a 2023 M1 MacBook Pro with an NVMe SSD, WAL mode enabled.</p>
+<h3 id="read-performance">Read Performance</h3>
+<p><strong>Single-threaded sequential reads:</strong></p>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token comment"># Test: SELECT on 1M rows with indexed column</span>
+start <span class="token operator">=</span> time<span class="token punctuation">.</span>time<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">10000</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"SELECT * FROM users WHERE id = ?"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>random<span class="token punctuation">.</span>randint<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1000000</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+elapsed <span class="token operator">=</span> time<span class="token punctuation">.</span>time<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> start
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"QPS: </span><span class="token interpolation"><span class="token punctuation">{</span><span class="token number">10000</span> <span class="token operator">/</span> elapsed<span class="token punctuation">:</span><span class="token format-spec">.0f</span><span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>  <span class="token comment"># ~25,000 QPS</span>
+</code></pre>
+<p><strong>Multi-threaded reads (8 threads):</strong></p>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token comment"># Same query, 8 threads</span>
+<span class="token comment"># QPS: ~120,000 (scales linearly with cores)</span>
+</code></pre>
+<p>WAL mode allows unlimited concurrent readers. This is why SQLite crushes PostgreSQL for read-heavy workloads on a single machine.</p>
+<h3 id="write-performance">Write Performance</h3>
+<p><strong>Single-threaded inserts (no transaction):</strong></p>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"INSERT INTO users (name) VALUES (?)"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"user</span><span class="token interpolation"><span class="token punctuation">{</span>i<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">,</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    conn<span class="token punctuation">.</span>commit<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token comment"># Time: 4.5 seconds (~222 inserts/sec)</span>
+</code></pre>
+<p><strong>Single-threaded inserts (batched transaction):</strong></p>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token keyword">with</span> conn<span class="token punctuation">:</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"INSERT INTO users (name) VALUES (?)"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"user</span><span class="token interpolation"><span class="token punctuation">{</span>i<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">,</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment"># Time: 0.05 seconds (~20,000 inserts/sec)</span>
+</code></pre>
+<p><strong>The lesson:</strong> Batch your writes. Every commit is a disk fsync.</p>
+<p><strong>Multi-threaded writes (8 threads, batched):</strong></p>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token comment"># 8 threads, each inserting 1000 rows in a transaction</span>
+<span class="token comment"># Time: 0.8 seconds (~10,000 inserts/sec total)</span>
+</code></pre>
+<p><strong>Why slower?</strong> The single-writer lock. Only one thread can hold the write lock at a time. The other 7 are blocked.</p>
+<h2 id="use-cases-where-sqlite-wins-hard">Use Cases Where SQLite Wins Hard</h2>
+<p><strong>1. Analytics Pipelines</strong></p>
+<ul>
+<li>Ingest millions of rows/day from Kafka</li>
+<li>Process in batches of 10k rows</li>
+<li>Single writer, no concurrency needed</li>
+<li>10x faster than pushing to PostgreSQL over the network</li>
+</ul>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token keyword">with</span> conn<span class="token punctuation">:</span>
+    conn<span class="token punctuation">.</span>executemany<span class="token punctuation">(</span><span class="token string">"INSERT INTO events VALUES (?, ?, ?)"</span><span class="token punctuation">,</span> batch<span class="token punctuation">)</span>
+<span class="token comment"># Handles 100k inserts/sec sustained</span>
+</code></pre>
+<p><strong>2. Static Site Generators</strong></p>
+<ul>
+<li>Build-time database for content</li>
+<li>Ship the .db file to production</li>
+<li>Serve reads from edge workers (Cloudflare Workers Durable Objects)</li>
+<li>Zero operational overhead</li>
+</ul>
+<p><strong>3. CLI Tools</strong></p>
+<ul>
+<li>Store configuration, cache, state</li>
+<li>No daemon to start, no port to conflict</li>
+<li>Works offline</li>
+</ul>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token comment"># Example: CLI tool tracking command history</span>
+<span class="token keyword">def</span> <span class="token function">log_command</span><span class="token punctuation">(</span>cmd<span class="token punctuation">:</span> <span class="token builtin">str</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    conn <span class="token operator">=</span> sqlite3<span class="token punctuation">.</span>connect<span class="token punctuation">(</span>Path<span class="token punctuation">.</span>home<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token string">".my-tool"</span> <span class="token operator">/</span> <span class="token string">"history.db"</span><span class="token punctuation">)</span>
+    conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"INSERT INTO commands (cmd, timestamp) VALUES (?, ?)"</span><span class="token punctuation">,</span> 
+                 <span class="token punctuation">(</span>cmd<span class="token punctuation">,</span> <span class="token builtin">int</span><span class="token punctuation">(</span>time<span class="token punctuation">.</span>time<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    conn<span class="token punctuation">.</span>commit<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+<p><strong>4. Testing</strong></p>
+<ul>
+<li>Spin up a database in 1ms</li>
+<li>No Docker, no external process</li>
+<li>Parallel test runs with isolated DBs</li>
+</ul>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token decorator annotation punctuation">@pytest<span class="token punctuation">.</span>fixture</span>
+<span class="token keyword">def</span> <span class="token function">db</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    conn <span class="token operator">=</span> sqlite3<span class="token punctuation">.</span>connect<span class="token punctuation">(</span><span class="token string">":memory:"</span><span class="token punctuation">)</span>  <span class="token comment"># In-memory DB</span>
+    setup_schema<span class="token punctuation">(</span>conn<span class="token punctuation">)</span>
+    <span class="token keyword">yield</span> conn
+    conn<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+<p><strong>5. Embedded Apps</strong></p>
+<ul>
+<li>Mobile apps (iOS, Android)</li>
+<li>Desktop software (VS Code uses SQLite for extension storage)</li>
+</ul>
+<h2 id="use-cases-that-will-not-work-with-sqlite">Use Cases That Will Not Work with SQLite</h2>
+<p><strong>1. High-Concurrency Web APIs</strong></p>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token decorator annotation punctuation">@app<span class="token punctuation">.</span>post</span><span class="token punctuation">(</span><span class="token string">"/subscriptions"</span><span class="token punctuation">)</span>
+<span class="token keyword">async</span> <span class="token keyword">def</span> <span class="token function">subscribe</span><span class="token punctuation">(</span>subscription<span class="token punctuation">:</span> Subscription<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment"># 100 requests/sec hit this endpoint</span>
+    <span class="token keyword">async</span> <span class="token keyword">with</span> aiosqlite<span class="token punctuation">.</span>connect<span class="token punctuation">(</span><span class="token string">"app.db"</span><span class="token punctuation">)</span> <span class="token keyword">as</span> conn<span class="token punctuation">:</span>
+        <span class="token keyword">await</span> conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"INSERT INTO subscriptions (...) VALUES (...)"</span><span class="token punctuation">)</span>
+        <span class="token keyword">await</span> conn<span class="token punctuation">.</span>commit<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+<p><strong>Why it fails:</strong></p>
+<ul>
+<li>The single-writer lock serializes all writes. At 100 writes/sec, you’re at the edge of SQLite’s comfort zone. Any spike and latency explodes.</li>
+<li><strong>No sharding support</strong>: You can’t distribute writes across multiple SQLite instances like you can with PostgreSQL/MySQL partitioning.</li>
+<li><strong>No built-in replication</strong>: When your single server dies, your database dies with it.</li>
+<li><strong>No horizontal scaling</strong>: Can’t add more database servers to handle more load. You’re stuck on one machine.</li>
+</ul>
+<p><strong>Fix:</strong> Use PostgreSQL with connection pooling and read replicas, or architect your way out (event queue + background worker that batches writes).</p>
+<p><strong>2. Network File Systems</strong></p>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token comment"># NFS-mounted /mnt/shared/app.db</span>
+conn <span class="token operator">=</span> sqlite3<span class="token punctuation">.</span>connect<span class="token punctuation">(</span><span class="token string">"/mnt/shared/app.db"</span><span class="token punctuation">)</span>
+</code></pre>
+<p><strong>This will corrupt your database.</strong> NFS file locking is broken. Even if it works 99% of the time, the 1% will destroy your data.</p>
+<p><strong>Fix:</strong> Don’t. SQLite requires local disk.</p>
+<p><strong>3. Replication</strong></p>
+<p>SQLite has no built-in replication. Litestream is the closest thing, and it’s one-way.</p>
+<p><strong>Fix:</strong> If you need multi-master replication, use PostgreSQL or CockroachDB.</p>
+<h2 id="monitoring-observability-and-debugging-checklist">Monitoring, Observability, and Debugging Checklist</h2>
+<p><strong>Things to log/monitor:</strong></p>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token keyword">import</span> sqlite3
+
+<span class="token keyword">def</span> <span class="token function">get_db_stats</span><span class="token punctuation">(</span>conn<span class="token punctuation">:</span> sqlite3<span class="token punctuation">.</span>Connection<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">dict</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""Collect key metrics."""</span>
+    stats <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+    
+    <span class="token comment"># File size</span>
+    stats<span class="token punctuation">[</span><span class="token string">"size_mb"</span><span class="token punctuation">]</span> <span class="token operator">=</span> Path<span class="token punctuation">(</span>conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"PRAGMA database_list"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>fetchone<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">.</span>stat<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>st_size <span class="token operator">/</span> <span class="token number">1024</span> <span class="token operator">/</span> <span class="token number">1024</span>
+    
+    <span class="token comment"># Page count</span>
+    stats<span class="token punctuation">[</span><span class="token string">"page_count"</span><span class="token punctuation">]</span> <span class="token operator">=</span> conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"PRAGMA page_count"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>fetchone<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+    
+    <span class="token comment"># Freelist (deleted pages not yet reclaimed)</span>
+    stats<span class="token punctuation">[</span><span class="token string">"freelist_count"</span><span class="token punctuation">]</span> <span class="token operator">=</span> conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"PRAGMA freelist_count"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>fetchone<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+    
+    <span class="token comment"># WAL file size</span>
+    wal_path <span class="token operator">=</span> Path<span class="token punctuation">(</span>conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"PRAGMA database_list"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>fetchone<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">.</span>with_suffix<span class="token punctuation">(</span><span class="token string">".db-wal"</span><span class="token punctuation">)</span>
+    stats<span class="token punctuation">[</span><span class="token string">"wal_size_mb"</span><span class="token punctuation">]</span> <span class="token operator">=</span> wal_path<span class="token punctuation">.</span>stat<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>st_size <span class="token operator">/</span> <span class="token number">1024</span> <span class="token operator">/</span> <span class="token number">1024</span> <span class="token keyword">if</span> wal_path<span class="token punctuation">.</span>exists<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">else</span> <span class="token number">0</span>
+    
+    <span class="token comment"># Cache hit rate (needs PRAGMA compile_options to enable)</span>
+    <span class="token comment"># stats["cache_hit_rate"] = ...</span>
+    
+    <span class="token keyword">return</span> stats
+</code></pre>
+<p><strong>Red flags:</strong></p>
+<ul>
+<li>WAL file growing unbounded (checkpoint not running)</li>
+<li>Freelist > 20% of page count (need VACUUM)</li>
+<li>Database size growing but row count stable (fragmentation)</li>
+</ul>
+<p><strong>Enable query logging:</strong></p>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token keyword">def</span> <span class="token function">trace_queries</span><span class="token punctuation">(</span>conn<span class="token punctuation">:</span> sqlite3<span class="token punctuation">.</span>Connection<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""Log all queries with execution time."""</span>
+    <span class="token keyword">def</span> <span class="token function">tracer</span><span class="token punctuation">(</span>sql<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        start <span class="token operator">=</span> time<span class="token punctuation">.</span>time<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        result <span class="token operator">=</span> conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span>sql<span class="token punctuation">)</span>
+        elapsed <span class="token operator">=</span> time<span class="token punctuation">.</span>time<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> start
+        <span class="token keyword">if</span> elapsed <span class="token operator">></span> <span class="token number">0.1</span><span class="token punctuation">:</span>  <span class="token comment"># Log slow queries</span>
+            <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"SLOW QUERY (</span><span class="token interpolation"><span class="token punctuation">{</span>elapsed<span class="token punctuation">:</span><span class="token format-spec">.2f</span><span class="token punctuation">}</span></span><span class="token string">s): </span><span class="token interpolation"><span class="token punctuation">{</span>sql<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span> result
+    
+    conn<span class="token punctuation">.</span>set_trace_callback<span class="token punctuation">(</span><span class="token keyword">lambda</span> sql<span class="token punctuation">:</span> <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"SQL: </span><span class="token interpolation"><span class="token punctuation">{</span>sql<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+<p><strong>Check for missing indexes:</strong></p>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token comment"># Run EXPLAIN QUERY PLAN on your hot queries</span>
+<span class="token keyword">for</span> row <span class="token keyword">in</span> conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"EXPLAIN QUERY PLAN SELECT * FROM users WHERE email = ?"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token string">"test@example.com"</span><span class="token punctuation">,</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span>row<span class="token punctuation">)</span>
+<span class="token comment"># If you see "SCAN TABLE", add an index</span>
+</code></pre>
+<p><strong>Checkpoint manually if needed:</strong></p>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token comment"># Force WAL checkpoint (flushes WAL to main DB)</span>
+conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"PRAGMA wal_checkpoint(TRUNCATE)"</span><span class="token punctuation">)</span>
+</code></pre>
+<h2 id="production-recommendations">Production Recommendations</h2>
+<h3 id="checklist">Checklist</h3>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled> <strong>Use WAL mode</strong> (<code>PRAGMA journal_mode = WAL</code>)</li>
+<li class="task-list-item"><input type="checkbox" disabled> <strong>Use STRICT tables</strong> (SQLite 3.37+)</li>
+<li class="task-list-item"><input type="checkbox" disabled> <strong>Set page_size to 8192 or 16384</strong> before creating tables</li>
+<li class="task-list-item"><input type="checkbox" disabled> <strong>Configure cache_size</strong> to at least 64MB</li>
+<li class="task-list-item"><input type="checkbox" disabled> <strong>Set busy_timeout</strong> to 5000ms minimum</li>
+<li class="task-list-item"><input type="checkbox" disabled> <strong>Enable synchronous = NORMAL</strong> (not FULL, unless you need it)</li>
+<li class="task-list-item"><input type="checkbox" disabled> <strong>Use AUTOINCREMENT</strong> for primary keys (prevents reuse)</li>
+<li class="task-list-item"><input type="checkbox" disabled> <strong>Add indexes</strong> for all foreign keys and WHERE clause columns</li>
+<li class="task-list-item"><input type="checkbox" disabled> <strong>Batch writes</strong> in transactions (1000+ rows per transaction)</li>
+<li class="task-list-item"><input type="checkbox" disabled> <strong>Monitor WAL size</strong> and checkpoint regularly</li>
+<li class="task-list-item"><input type="checkbox" disabled> <strong>Test with PRAGMA integrity_check</strong> after migrations</li>
+<li class="task-list-item"><input type="checkbox" disabled> <strong>Set up automated backups</strong> (litestream or cron + backup API)</li>
+<li class="task-list-item"><input type="checkbox" disabled> <strong>Use connection pooling</strong> if you have > 10 threads</li>
+<li class="task-list-item"><input type="checkbox" disabled> <strong>Never use SQLite on NFS/EFS/SMB</strong></li>
+<li class="task-list-item"><input type="checkbox" disabled> <strong>Test failover</strong> (what happens if the disk fills up?)</li>
+</ul>
+<h3 id="hard-no-gos">Hard No-Gos</h3>
+<p><strong>Don’t:</strong></p>
+<ul>
+<li>Use DELETE journal mode in production</li>
+<li>Put SQLite on a network file system</li>
+<li>Share connections between threads without pooling</li>
+<li>Run without backups</li>
+<li>Use it for high-concurrency writes (> 100/sec sustained)</li>
+<li>Store BLOBs > 10MB (use filesystem + store path)</li>
+<li>Rely on it for multi-tenant isolation</li>
+<li>Use autocommit for bulk inserts</li>
+</ul>
+<h3 id="if-you-do-this-at-least">”If You Do This, At Least…”</h3>
+<p><strong>If you must use SQLite for a web API:</strong></p>
+<ul>
+<li>Use WAL mode</li>
+<li>Use a connection pool (max 5-10 connections)</li>
+<li>Batch writes with a background queue</li>
+<li>Monitor write latency and fail fast if it spikes</li>
+<li>Have a migration path to PostgreSQL ready</li>
+</ul>
+<p><strong>If you must store large files:</strong></p>
+<ul>
+<li>Store them on disk, put the path in SQLite</li>
+<li>Or use <code>BLOB</code> with streaming (<code>.read()</code> / <code>.write()</code>)</li>
+<li>Never load a 100MB BLOB into RAM</li>
+</ul>
+<p><strong>If you have multiple writers:</strong></p>
+<ul>
+<li>You don’t. You have a single-writer problem.</li>
+<li>Use a queue (Redis, RabbitMQ) to serialize writes</li>
+<li>Or switch to PostgreSQL/MySQL</li>
+</ul>
+<p><strong>If you need replication:</strong></p>
+<ul>
+<li>Use litestream for one-way replication to S3</li>
+<li>Or accept that you need another solution</li>
+</ul>
+<h2 id="final-thoughts">Final Thoughts</h2>
+<p>SQLite is fast, reliable, and simple when you stay within its design constraints. The moment you fight those constraints (network storage, high write concurrency, multi-master replication), you’re in pain.</p>
+<p>Use it for embedded systems, analytics pipelines, CLI tools, testing, and read-heavy apps. Don’t use it for multi-tenant SaaS, high-concurrency APIs, or anything that needs replication.</p>
+<p>If you follow the PRAGMAs in this guide, use WAL mode, batch your writes, and respect the single-writer rule, SQLite will outlive your company.</p>
+<p>When in doubt, start with SQLite. Migrate to PostgreSQL when you hit the wall. You’ll know when you do.</p>
+<h2 id="complete-working-example">Complete Working Example</h2>
+<p>Here’s a production-ready pattern with best configuration, table creation, indexes, and all CRUD operations:</p>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token keyword">import</span> sqlite3
+<span class="token keyword">import</span> time
+<span class="token keyword">from</span> contextlib <span class="token keyword">import</span> contextmanager
+<span class="token keyword">from</span> pathlib <span class="token keyword">import</span> Path
+<span class="token keyword">from</span> typing <span class="token keyword">import</span> Iterator<span class="token punctuation">,</span> Optional
+
+
+<span class="token keyword">def</span> <span class="token function">configure_connection</span><span class="token punctuation">(</span>conn<span class="token punctuation">:</span> sqlite3<span class="token punctuation">.</span>Connection<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token boolean">None</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""Apply production-grade settings."""</span>
+    conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"PRAGMA journal_mode = WAL"</span><span class="token punctuation">)</span>
+    conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"PRAGMA synchronous = NORMAL"</span><span class="token punctuation">)</span>
+    conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"PRAGMA cache_size = -64000"</span><span class="token punctuation">)</span>   <span class="token comment"># 64MB</span>
+    conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"PRAGMA temp_store = MEMORY"</span><span class="token punctuation">)</span>
+    conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"PRAGMA mmap_size = 268435456"</span><span class="token punctuation">)</span> <span class="token comment"># 256MB</span>
+    conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"PRAGMA busy_timeout = 5000"</span><span class="token punctuation">)</span>
+    <span class="token comment"># Note: page_size must be set before any tables exist</span>
+    conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"PRAGMA page_size = 8192"</span><span class="token punctuation">)</span>
+
+
+<span class="token decorator annotation punctuation">@contextmanager</span>
+<span class="token keyword">def</span> <span class="token function">get_db</span><span class="token punctuation">(</span>db_path<span class="token punctuation">:</span> <span class="token builtin">str</span> <span class="token operator">=</span> <span class="token string">"production.db"</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> Iterator<span class="token punctuation">[</span>sqlite3<span class="token punctuation">.</span>Connection<span class="token punctuation">]</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""Context manager for database connections."""</span>
+    conn <span class="token operator">=</span> sqlite3<span class="token punctuation">.</span>connect<span class="token punctuation">(</span>db_path<span class="token punctuation">)</span>
+    configure_connection<span class="token punctuation">(</span>conn<span class="token punctuation">)</span>
+    conn<span class="token punctuation">.</span>row_factory <span class="token operator">=</span> sqlite3<span class="token punctuation">.</span>Row  <span class="token comment"># Access columns by name</span>
+    <span class="token keyword">try</span><span class="token punctuation">:</span>
+        <span class="token keyword">yield</span> conn
+    <span class="token keyword">finally</span><span class="token punctuation">:</span>
+        conn<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+
+<span class="token keyword">def</span> <span class="token function">init_database</span><span class="token punctuation">(</span>db_path<span class="token punctuation">:</span> <span class="token builtin">str</span> <span class="token operator">=</span> <span class="token string">"production.db"</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token boolean">None</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""Initialize database schema with indexes."""</span>
+    <span class="token keyword">with</span> get_db<span class="token punctuation">(</span>db_path<span class="token punctuation">)</span> <span class="token keyword">as</span> conn<span class="token punctuation">:</span>
+        <span class="token comment"># Drop existing table for clean demo</span>
+        conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"DROP TABLE IF EXISTS users"</span><span class="token punctuation">)</span>
+        
+        <span class="token comment"># Create table with STRICT mode for type safety</span>
+        conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token triple-quoted-string string">"""
+            CREATE TABLE users (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                email TEXT NOT NULL UNIQUE,
+                username TEXT NOT NULL,
+                age INTEGER,
+                is_active INTEGER NOT NULL DEFAULT 1,
+                created_at INTEGER NOT NULL,
+                last_login INTEGER
+            ) STRICT
+        """</span><span class="token punctuation">)</span>
+        
+        <span class="token comment"># Create indexes for common query patterns</span>
+        conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"CREATE INDEX idx_users_email ON users(email)"</span><span class="token punctuation">)</span>
+        conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"CREATE INDEX idx_users_active_created ON users(is_active, created_at)"</span><span class="token punctuation">)</span>
+        conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"CREATE INDEX idx_users_username ON users(username)"</span><span class="token punctuation">)</span>
+        
+        conn<span class="token punctuation">.</span>commit<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Database schema initialized"</span><span class="token punctuation">)</span>
+
+
+<span class="token keyword">def</span> <span class="token function">insert_users_batch</span><span class="token punctuation">(</span>users<span class="token punctuation">:</span> <span class="token builtin">list</span><span class="token punctuation">[</span><span class="token builtin">dict</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">int</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""Insert multiple users in a single transaction (fast)."""</span>
+    <span class="token keyword">with</span> get_db<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">as</span> conn<span class="token punctuation">:</span>
+        <span class="token keyword">with</span> conn<span class="token punctuation">:</span>  <span class="token comment"># Automatic transaction</span>
+            cursor <span class="token operator">=</span> conn<span class="token punctuation">.</span>executemany<span class="token punctuation">(</span>
+                <span class="token triple-quoted-string string">"""
+                INSERT INTO users (email, username, age, is_active, created_at)
+                VALUES (:email, :username, :age, :is_active, :created_at)
+                """</span><span class="token punctuation">,</span>
+                users
+            <span class="token punctuation">)</span>
+            <span class="token keyword">return</span> cursor<span class="token punctuation">.</span>rowcount
+
+
+<span class="token keyword">def</span> <span class="token function">insert_user</span><span class="token punctuation">(</span>email<span class="token punctuation">:</span> <span class="token builtin">str</span><span class="token punctuation">,</span> username<span class="token punctuation">:</span> <span class="token builtin">str</span><span class="token punctuation">,</span> age<span class="token punctuation">:</span> Optional<span class="token punctuation">[</span><span class="token builtin">int</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token boolean">None</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">int</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""Insert a single user, return the new user ID."""</span>
+    <span class="token keyword">with</span> get_db<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">as</span> conn<span class="token punctuation">:</span>
+        <span class="token keyword">with</span> conn<span class="token punctuation">:</span>
+            cursor <span class="token operator">=</span> conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span>
+                <span class="token triple-quoted-string string">"""
+                INSERT INTO users (email, username, age, is_active, created_at)
+                VALUES (?, ?, ?, 1, ?)
+                """</span><span class="token punctuation">,</span>
+                <span class="token punctuation">(</span>email<span class="token punctuation">,</span> username<span class="token punctuation">,</span> age<span class="token punctuation">,</span> <span class="token builtin">int</span><span class="token punctuation">(</span>time<span class="token punctuation">.</span>time<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token punctuation">)</span>
+            <span class="token keyword">return</span> cursor<span class="token punctuation">.</span>lastrowid
+
+
+<span class="token keyword">def</span> <span class="token function">get_user_by_email</span><span class="token punctuation">(</span>email<span class="token punctuation">:</span> <span class="token builtin">str</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> Optional<span class="token punctuation">[</span><span class="token builtin">dict</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""Retrieve user by email (uses index)."""</span>
+    <span class="token keyword">with</span> get_db<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">as</span> conn<span class="token punctuation">:</span>
+        cursor <span class="token operator">=</span> conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span>
+            <span class="token string">"SELECT * FROM users WHERE email = ?"</span><span class="token punctuation">,</span>
+            <span class="token punctuation">(</span>email<span class="token punctuation">,</span><span class="token punctuation">)</span>
+        <span class="token punctuation">)</span>
+        row <span class="token operator">=</span> cursor<span class="token punctuation">.</span>fetchone<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span> <span class="token builtin">dict</span><span class="token punctuation">(</span>row<span class="token punctuation">)</span> <span class="token keyword">if</span> row <span class="token keyword">else</span> <span class="token boolean">None</span>
+
+
+<span class="token keyword">def</span> <span class="token function">get_active_users</span><span class="token punctuation">(</span>limit<span class="token punctuation">:</span> <span class="token builtin">int</span> <span class="token operator">=</span> <span class="token number">100</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">list</span><span class="token punctuation">[</span><span class="token builtin">dict</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""Get active users sorted by creation date (uses index)."""</span>
+    <span class="token keyword">with</span> get_db<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">as</span> conn<span class="token punctuation">:</span>
+        cursor <span class="token operator">=</span> conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span>
+            <span class="token triple-quoted-string string">"""
+            SELECT id, email, username, age, created_at
+            FROM users
+            WHERE is_active = 1
+            ORDER BY created_at DESC
+            LIMIT ?
+            """</span><span class="token punctuation">,</span>
+            <span class="token punctuation">(</span>limit<span class="token punctuation">,</span><span class="token punctuation">)</span>
+        <span class="token punctuation">)</span>
+        <span class="token keyword">return</span> <span class="token punctuation">[</span><span class="token builtin">dict</span><span class="token punctuation">(</span>row<span class="token punctuation">)</span> <span class="token keyword">for</span> row <span class="token keyword">in</span> cursor<span class="token punctuation">.</span>fetchall<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">]</span>
+
+
+<span class="token keyword">def</span> <span class="token function">update_last_login</span><span class="token punctuation">(</span>user_id<span class="token punctuation">:</span> <span class="token builtin">int</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">bool</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""Update user's last login timestamp."""</span>
+    <span class="token keyword">with</span> get_db<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">as</span> conn<span class="token punctuation">:</span>
+        <span class="token keyword">with</span> conn<span class="token punctuation">:</span>
+            cursor <span class="token operator">=</span> conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span>
+                <span class="token string">"UPDATE users SET last_login = ? WHERE id = ?"</span><span class="token punctuation">,</span>
+                <span class="token punctuation">(</span><span class="token builtin">int</span><span class="token punctuation">(</span>time<span class="token punctuation">.</span>time<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> user_id<span class="token punctuation">)</span>
+            <span class="token punctuation">)</span>
+            <span class="token keyword">return</span> cursor<span class="token punctuation">.</span>rowcount <span class="token operator">></span> <span class="token number">0</span>
+
+
+<span class="token keyword">def</span> <span class="token function">deactivate_user</span><span class="token punctuation">(</span>email<span class="token punctuation">:</span> <span class="token builtin">str</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">bool</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""Soft delete: mark user as inactive."""</span>
+    <span class="token keyword">with</span> get_db<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">as</span> conn<span class="token punctuation">:</span>
+        <span class="token keyword">with</span> conn<span class="token punctuation">:</span>
+            cursor <span class="token operator">=</span> conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span>
+                <span class="token string">"UPDATE users SET is_active = 0 WHERE email = ?"</span><span class="token punctuation">,</span>
+                <span class="token punctuation">(</span>email<span class="token punctuation">,</span><span class="token punctuation">)</span>
+            <span class="token punctuation">)</span>
+            <span class="token keyword">return</span> cursor<span class="token punctuation">.</span>rowcount <span class="token operator">></span> <span class="token number">0</span>
+
+
+<span class="token keyword">def</span> <span class="token function">search_users</span><span class="token punctuation">(</span>query<span class="token punctuation">:</span> <span class="token builtin">str</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">list</span><span class="token punctuation">[</span><span class="token builtin">dict</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""Search users by username (uses index)."""</span>
+    <span class="token keyword">with</span> get_db<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">as</span> conn<span class="token punctuation">:</span>
+        cursor <span class="token operator">=</span> conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span>
+            <span class="token triple-quoted-string string">"""
+            SELECT id, email, username, created_at
+            FROM users
+            WHERE username LIKE ? AND is_active = 1
+            LIMIT 50
+            """</span><span class="token punctuation">,</span>
+            <span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"%</span><span class="token interpolation"><span class="token punctuation">{</span>query<span class="token punctuation">}</span></span><span class="token string">%"</span></span><span class="token punctuation">,</span><span class="token punctuation">)</span>
+        <span class="token punctuation">)</span>
+        <span class="token keyword">return</span> <span class="token punctuation">[</span><span class="token builtin">dict</span><span class="token punctuation">(</span>row<span class="token punctuation">)</span> <span class="token keyword">for</span> row <span class="token keyword">in</span> cursor<span class="token punctuation">.</span>fetchall<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">]</span>
+
+
+<span class="token keyword">def</span> <span class="token function">get_database_stats</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">dict</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""Get database statistics for monitoring."""</span>
+    <span class="token keyword">with</span> get_db<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">as</span> conn<span class="token punctuation">:</span>
+        stats <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+        stats<span class="token punctuation">[</span><span class="token string">"page_size"</span><span class="token punctuation">]</span> <span class="token operator">=</span> conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"PRAGMA page_size"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>fetchone<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+        stats<span class="token punctuation">[</span><span class="token string">"page_count"</span><span class="token punctuation">]</span> <span class="token operator">=</span> conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"PRAGMA page_count"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>fetchone<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+        stats<span class="token punctuation">[</span><span class="token string">"freelist_count"</span><span class="token punctuation">]</span> <span class="token operator">=</span> conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"PRAGMA freelist_count"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>fetchone<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+        stats<span class="token punctuation">[</span><span class="token string">"journal_mode"</span><span class="token punctuation">]</span> <span class="token operator">=</span> conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"PRAGMA journal_mode"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>fetchone<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+        
+        db_path <span class="token operator">=</span> Path<span class="token punctuation">(</span><span class="token string">"production.db"</span><span class="token punctuation">)</span>
+        stats<span class="token punctuation">[</span><span class="token string">"size_mb"</span><span class="token punctuation">]</span> <span class="token operator">=</span> db_path<span class="token punctuation">.</span>stat<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>st_size <span class="token operator">/</span> <span class="token punctuation">(</span><span class="token number">1024</span> <span class="token operator">*</span> <span class="token number">1024</span><span class="token punctuation">)</span> <span class="token keyword">if</span> db_path<span class="token punctuation">.</span>exists<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">else</span> <span class="token number">0</span>
+        
+        wal_path <span class="token operator">=</span> db_path<span class="token punctuation">.</span>with_suffix<span class="token punctuation">(</span><span class="token string">".db-wal"</span><span class="token punctuation">)</span>
+        stats<span class="token punctuation">[</span><span class="token string">"wal_size_mb"</span><span class="token punctuation">]</span> <span class="token operator">=</span> wal_path<span class="token punctuation">.</span>stat<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>st_size <span class="token operator">/</span> <span class="token punctuation">(</span><span class="token number">1024</span> <span class="token operator">*</span> <span class="token number">1024</span><span class="token punctuation">)</span> <span class="token keyword">if</span> wal_path<span class="token punctuation">.</span>exists<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">else</span> <span class="token number">0</span>
+        
+        <span class="token comment"># Count active users</span>
+        cursor <span class="token operator">=</span> conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"SELECT COUNT(*) FROM users WHERE is_active = 1"</span><span class="token punctuation">)</span>
+        stats<span class="token punctuation">[</span><span class="token string">"active_users"</span><span class="token punctuation">]</span> <span class="token operator">=</span> cursor<span class="token punctuation">.</span>fetchone<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+        
+        <span class="token keyword">return</span> stats
+
+
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">"__main__"</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"="</span> <span class="token operator">*</span> <span class="token number">60</span><span class="token punctuation">)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"SQLite Production Example"</span><span class="token punctuation">)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"="</span> <span class="token operator">*</span> <span class="token number">60</span><span class="token punctuation">)</span>
+    
+    <span class="token comment"># Initialize</span>
+    init_database<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    
+    <span class="token comment"># Batch insert (fast)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"\n[1] Batch inserting 1000 users..."</span><span class="token punctuation">)</span>
+    start <span class="token operator">=</span> time<span class="token punctuation">.</span>time<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    batch_users <span class="token operator">=</span> <span class="token punctuation">[</span>
+        <span class="token punctuation">{</span>
+            <span class="token string">"email"</span><span class="token punctuation">:</span> <span class="token string-interpolation"><span class="token string">f"user</span><span class="token interpolation"><span class="token punctuation">{</span>i<span class="token punctuation">}</span></span><span class="token string">@example.com"</span></span><span class="token punctuation">,</span>
+            <span class="token string">"username"</span><span class="token punctuation">:</span> <span class="token string-interpolation"><span class="token string">f"user_</span><span class="token interpolation"><span class="token punctuation">{</span>i<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">,</span>
+            <span class="token string">"age"</span><span class="token punctuation">:</span> <span class="token number">20</span> <span class="token operator">+</span> <span class="token punctuation">(</span>i <span class="token operator">%</span> <span class="token number">50</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+            <span class="token string">"is_active"</span><span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+            <span class="token string">"created_at"</span><span class="token punctuation">:</span> <span class="token builtin">int</span><span class="token punctuation">(</span>time<span class="token punctuation">.</span>time<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token punctuation">(</span>i <span class="token operator">*</span> <span class="token number">60</span><span class="token punctuation">)</span>  <span class="token comment"># Stagger timestamps</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span>
+    <span class="token punctuation">]</span>
+    inserted <span class="token operator">=</span> insert_users_batch<span class="token punctuation">(</span>batch_users<span class="token punctuation">)</span>
+    elapsed <span class="token operator">=</span> time<span class="token punctuation">.</span>time<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> start
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Inserted </span><span class="token interpolation"><span class="token punctuation">{</span>inserted<span class="token punctuation">}</span></span><span class="token string"> users in </span><span class="token interpolation"><span class="token punctuation">{</span>elapsed<span class="token punctuation">:</span><span class="token format-spec">.3f</span><span class="token punctuation">}</span></span><span class="token string">s (</span><span class="token interpolation"><span class="token punctuation">{</span>inserted<span class="token operator">/</span>elapsed<span class="token punctuation">:</span><span class="token format-spec">.0f</span><span class="token punctuation">}</span></span><span class="token string"> inserts/sec)"</span></span><span class="token punctuation">)</span>
+    
+    <span class="token comment"># Single insert</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"\n[2] Inserting single user..."</span><span class="token punctuation">)</span>
+    user_id <span class="token operator">=</span> insert_user<span class="token punctuation">(</span><span class="token string">"alice@example.com"</span><span class="token punctuation">,</span> <span class="token string">"alice"</span><span class="token punctuation">,</span> <span class="token number">28</span><span class="token punctuation">)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Created user ID: </span><span class="token interpolation"><span class="token punctuation">{</span>user_id<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+    
+    <span class="token comment"># Read by email (indexed query)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"\n[3] Reading user by email..."</span><span class="token punctuation">)</span>
+    user <span class="token operator">=</span> get_user_by_email<span class="token punctuation">(</span><span class="token string">"alice@example.com"</span><span class="token punctuation">)</span>
+    <span class="token keyword">if</span> user<span class="token punctuation">:</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Found: </span><span class="token interpolation"><span class="token punctuation">{</span>user<span class="token punctuation">[</span><span class="token string">'username'</span><span class="token punctuation">]</span><span class="token punctuation">}</span></span><span class="token string"> (ID: </span><span class="token interpolation"><span class="token punctuation">{</span>user<span class="token punctuation">[</span><span class="token string">'id'</span><span class="token punctuation">]</span><span class="token punctuation">}</span></span><span class="token string">)"</span></span><span class="token punctuation">)</span>
+    
+    <span class="token comment"># Update</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"\n[4] Updating last login..."</span><span class="token punctuation">)</span>
+    updated <span class="token operator">=</span> update_last_login<span class="token punctuation">(</span>user_id<span class="token punctuation">)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Updated: </span><span class="token interpolation"><span class="token punctuation">{</span>updated<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+    
+    <span class="token comment"># Query active users</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"\n[5] Querying active users (limit 5)..."</span><span class="token punctuation">)</span>
+    active <span class="token operator">=</span> get_active_users<span class="token punctuation">(</span>limit<span class="token operator">=</span><span class="token number">5</span><span class="token punctuation">)</span>
+    <span class="token keyword">for</span> u <span class="token keyword">in</span> active<span class="token punctuation">:</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"  - </span><span class="token interpolation"><span class="token punctuation">{</span>u<span class="token punctuation">[</span><span class="token string">'username'</span><span class="token punctuation">]</span><span class="token punctuation">}</span></span><span class="token string"> (</span><span class="token interpolation"><span class="token punctuation">{</span>u<span class="token punctuation">[</span><span class="token string">'email'</span><span class="token punctuation">]</span><span class="token punctuation">}</span></span><span class="token string">)"</span></span><span class="token punctuation">)</span>
+    
+    <span class="token comment"># Search</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"\n[6] Searching for users matching 'user_1'..."</span><span class="token punctuation">)</span>
+    results <span class="token operator">=</span> search_users<span class="token punctuation">(</span><span class="token string">"user_1"</span><span class="token punctuation">)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Found </span><span class="token interpolation"><span class="token punctuation">{</span><span class="token builtin">len</span><span class="token punctuation">(</span>results<span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token string"> matches"</span></span><span class="token punctuation">)</span>
+    
+    <span class="token comment"># Soft delete</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"\n[7] Deactivating user..."</span><span class="token punctuation">)</span>
+    deactivated <span class="token operator">=</span> deactivate_user<span class="token punctuation">(</span><span class="token string">"user50@example.com"</span><span class="token punctuation">)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Deactivated: </span><span class="token interpolation"><span class="token punctuation">{</span>deactivated<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+    
+    <span class="token comment"># Stats</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"\n[8] Database statistics:"</span><span class="token punctuation">)</span>
+    stats <span class="token operator">=</span> get_database_stats<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">for</span> key<span class="token punctuation">,</span> value <span class="token keyword">in</span> stats<span class="token punctuation">.</span>items<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">if</span> <span class="token string">"_mb"</span> <span class="token keyword">in</span> key<span class="token punctuation">:</span>
+            <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"  </span><span class="token interpolation"><span class="token punctuation">{</span>key<span class="token punctuation">}</span></span><span class="token string">: </span><span class="token interpolation"><span class="token punctuation">{</span>value<span class="token punctuation">:</span><span class="token format-spec">.2f</span><span class="token punctuation">}</span></span><span class="token string"> MB"</span></span><span class="token punctuation">)</span>
+        <span class="token keyword">else</span><span class="token punctuation">:</span>
+            <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"  </span><span class="token interpolation"><span class="token punctuation">{</span>key<span class="token punctuation">}</span></span><span class="token string">: </span><span class="token interpolation"><span class="token punctuation">{</span>value<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+    
+    <span class="token comment"># Verify index usage</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"\n[9] Verifying index usage:"</span><span class="token punctuation">)</span>
+    <span class="token keyword">with</span> get_db<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">as</span> conn<span class="token punctuation">:</span>
+        plan <span class="token operator">=</span> conn<span class="token punctuation">.</span>execute<span class="token punctuation">(</span>
+            <span class="token string">"EXPLAIN QUERY PLAN SELECT * FROM users WHERE email = ?"</span><span class="token punctuation">,</span>
+            <span class="token punctuation">(</span><span class="token string">"alice@example.com"</span><span class="token punctuation">,</span><span class="token punctuation">)</span>
+        <span class="token punctuation">)</span><span class="token punctuation">.</span>fetchall<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token keyword">for</span> row <span class="token keyword">in</span> plan<span class="token punctuation">:</span>
+            <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"  </span><span class="token interpolation"><span class="token punctuation">{</span>row<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+        <span class="token keyword">if</span> <span class="token string">"idx_users_email"</span> <span class="token keyword">in</span> <span class="token builtin">str</span><span class="token punctuation">(</span>plan<span class="token punctuation">)</span><span class="token punctuation">:</span>
+            <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Index is being used!"</span><span class="token punctuation">)</span>
+    
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"\n"</span> <span class="token operator">+</span> <span class="token string">"="</span> <span class="token operator">*</span> <span class="token number">60</span><span class="token punctuation">)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"All operations completed successfully!"</span><span class="token punctuation">)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"="</span> <span class="token operator">*</span> <span class="token number">60</span><span class="token punctuation">)</span>
+</code></pre>
+<p><strong>What this demonstrates:</strong></p>
+<ol>
+<li><strong>Production configuration</strong>: WAL mode, proper cache size, memory-mapped I/O</li>
+<li><strong>STRICT tables</strong>: Type safety to catch bugs early</li>
+<li><strong>Strategic indexes</strong>: On email, username, and composite (is_active, created_at)</li>
+<li><strong>Batched inserts</strong>: 1000 rows in a single transaction (fast)</li>
+<li><strong>Context managers</strong>: Automatic connection cleanup</li>
+<li><strong>Row factory</strong>: Access columns by name instead of index</li>
+<li><strong>Monitoring</strong>: Track database size, WAL size, and fragmentation</li>
+<li><strong>Index verification</strong>: Use EXPLAIN QUERY PLAN to confirm indexes are used</li>
+</ol>
+<p>This is the pattern I use for every SQLite project. Copy it, adapt it, ship it.</p> </div>    <section class="related-posts" data-astro-cid-dpgbfi7r> <h2 data-astro-cid-dpgbfi7r>Related Posts</h2> <div class="related-posts-grid" data-astro-cid-dpgbfi7r> <article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/fastapi-full-guide/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>FastAPI in Production - Full Guide</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>FastAPI in Production - Full Guide 1. TL;DR - When FastAPI Wins and Loses FastAPI is genuinely excellent for: -…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2025-11-28T00:00:00.000Z" data-astro-cid-dpgbfi7r> Nov 28, 2025 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>45 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/valkey-getting-started-complete-guide/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>Valkey Complete Getting Started Guide: Production-Ready in 30 Minutes</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>TL;DR Valkey is the open-source fork of Redis that&#39;s actually faster and uses less memory. This guide takes you from…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2025-11-24T00:00:00.000Z" data-astro-cid-dpgbfi7r> Nov 24, 2025 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>10 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/ai-news/2025-11-10-build-a-docusaurus-like-site-with-fastapi-step-5-handling-static-files/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>Handling Static Files in FastAPI for Markdown Documentation Sites</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>Handling Static Files in FastAPI for Markdown Documentation Sites This article explains how to enable FastAPI to serve…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2025-11-10T00:00:00.000Z" data-astro-cid-dpgbfi7r> Nov 10, 2025 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>2 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/ai-news/2025-12-07-what-exactly-is-a-function-in-python-and-why-devs-love-them/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>What Exactly Is a Function in Python? (And Why Devs Love Them!)</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>What Exactly Is a Function in Python? Python functions are reusable code blocks that save time and reduce bugs. A…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2025-12-07T00:00:00.000Z" data-astro-cid-dpgbfi7r> Dec 7, 2025 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>1 min read</span> </div> </a> </article> </div> </section>  </article> </div> <div class="back-link" data-astro-cid-yvbahnfj><a href="/" data-astro-cid-yvbahnfj>← Back to home</a></div>  </main> <!-- Site Footer --> <footer class="site-footer container"> <p>
+© 2025 AREZKI El Mehdi •
+<a href="https://github.com/earezki">GitHub</a> •
+<a href="/rss.xml">RSS</a> •
+<a href="/tags/">Tags</a> •
+<a href="/sitemap-index.xml">Sitemap</a> •
+<button id="footer-subscribe-btn" class="footer-subscribe-btn" aria-label="Subscribe to newsletter">
+📬 Subscribe
+</button> </p> </footer> <!-- Footer Subscribe Button Handler --> <script type="module">const e=document.getElementById("themeToggle"),o=n=>{if(!e)return;const t=e.querySelector(".theme-icon");t&&(t.textContent=n==="dark"?"☀":"☾")};if(e){const n=document.documentElement.getAttribute("data-theme")||"dark";o(n),e.addEventListener("click",()=>{const t=document.documentElement,c=t.getAttribute("data-theme")==="dark"?"light":"dark";t.setAttribute("data-theme",c),localStorage.setItem("theme",c),o(c)})}</script> <!-- Theme Toggle --> <script type="module">document.addEventListener("DOMContentLoaded",()=>{const e=document.getElementById("footer-subscribe-btn");e&&e.addEventListener("click",n=>{n.preventDefault();const t=document.getElementById("subscription-popup");t&&(t.setAttribute("data-state","visible"),document.body.style.overflow="hidden")})});</script> <!-- Article read/unread tracking --> <script>
+      (function() {
+        const KEY = 'readArticles';
+        
+        function getRead() {
+          try {
+            const d = localStorage.getItem(KEY);
+            return d ? JSON.parse(d) : [];
+          } catch (e) {
+            return [];
+          }
+        }
+        
+        function markRead(url) {
+          try {
+            const read = getRead();
+            if (!read.includes(url)) {
+              read.push(url);
+              localStorage.setItem(KEY, JSON.stringify(read));
+            }
+          } catch (e) {}
+        }
+        
+        function updateCards() {
+          const read = new Set(getRead());
+          const cards = document.querySelectorAll('.post-card[data-article-url]');
+          cards.forEach(function(card) {
+            const url = card.getAttribute('data-article-url');
+            if (!url) return;
+            const isRead = read.has(url);
+            card.classList.toggle('read', isRead);
+            card.classList.toggle('unread', !isRead);
+          });
+        }
+        
+        function markCurrent() {
+          if (document.querySelector('.post-body')) {
+            markRead(window.location.pathname);
+          }
+        }
+        
+        function init() {
+          updateCards();
+          markCurrent();
+        }
+        
+        function clearRead(url) {
+          try {
+            const read = new Set(getRead());
+            if (read.has(url)) {
+              read.delete(url);
+              localStorage.setItem(KEY, JSON.stringify(Array.from(read)));
+              updateCards();
+            }
+          } catch (e) {}
+        }
+        
+        window.clearReadArticle = clearRead;
+        document.addEventListener('DOMContentLoaded', init);
+        window.addEventListener('pageshow', function(e) {
+          if (e.persisted) init();
+        });
+      })();
+    </script> <!-- Clear read button handler --> <script>
+      (function() {
+        document.addEventListener('click', function(e) {
+          var tgt = e.target, btn = null;
+          while (tgt && tgt !== document) {
+            if (tgt.classList && tgt.classList.contains('clear-read-btn')) {
+              btn = tgt;
+              break;
+            }
+            tgt = tgt.parentNode;
+          }
+          if (!btn) return;
+          e.preventDefault();
+          e.stopPropagation();
+          var url = btn.getAttribute('data-article-url');
+          if (url && window.clearReadArticle) window.clearReadArticle(url);
+        });
+      })();
+    </script> <!-- External links open in new tab --> <script>
+      (function() {
+        function makeExternal() {
+          const domain = window.location.hostname;
+          const links = document.querySelectorAll('a[href]');
+          links.forEach(function(link) {
+            const href = link.getAttribute('href');
+            if (!href || link.hasAttribute('target')) return;
+            const isExt = (href.startsWith('http://') || href.startsWith('https://')) && !href.includes(domain);
+            if (isExt) {
+              link.setAttribute('target', '_blank');
+              link.setAttribute('rel', 'noopener noreferrer');
+            }
+          });
+        }
+        document.addEventListener('DOMContentLoaded', makeExternal);
+        if (window.MutationObserver) {
+          const obs = new MutationObserver(function(muts) {
+            muts.forEach(function(mut) {
+              if (mut.addedNodes.length) makeExternal();
+            });
+          });
+          obs.observe(document.body, { childList: true, subtree: true });
+        }
+      })();
+    </script> <!-- Code copy buttons --> <script>
+      (function() {
+        function createBtn() {
+          const btn = document.createElement('button');
+          btn.className = 'copy-code-button';
+          btn.setAttribute('aria-label', 'Copy code to clipboard');
+          btn.innerHTML = `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span>Copy</span>
+          `;
+          return btn;
+        }
+        
+        function checkIcon() {
+          return `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span>Copied!</span>
+          `;
+        }
+        
+        async function copyText(txt) {
+          try {
+            await navigator.clipboard.writeText(txt);
+            return true;
+          } catch (err) {
+            const ta = document.createElement('textarea');
+            ta.value = txt;
+            ta.style.position = 'fixed';
+            ta.style.left = '-999999px';
+            document.body.appendChild(ta);
+            ta.select();
+            try {
+              document.execCommand('copy');
+              document.body.removeChild(ta);
+              return true;
+            } catch (e) {
+              document.body.removeChild(ta);
+              return false;
+            }
+          }
+        }
+        
+        async function handleCopy(btn, code) {
+          const txt = code.textContent || '';
+          const ok = await copyText(txt);
+          if (ok) {
+            const orig = btn.innerHTML;
+            btn.classList.add('copied');
+            btn.innerHTML = checkIcon();
+            setTimeout(function() {
+              btn.classList.remove('copied');
+              btn.innerHTML = orig;
+            }, 2000);
+          }
+        }
+        
+        function addBtns() {
+          const blocks = document.querySelectorAll('.post-body pre');
+          blocks.forEach(function(pre) {
+            if (pre.querySelector('.copy-code-button')) return;
+            const btn = createBtn();
+            const code = pre.querySelector('code');
+            if (code) {
+              btn.addEventListener('click', function() {
+                handleCopy(btn, code);
+              });
+              pre.appendChild(btn);
+            }
+          });
+        }
+        
+        document.addEventListener('DOMContentLoaded', addBtns);
+      })();
+    </script> <!-- Newsletter Subscription Popup --> <div id="subscription-popup" class="subscription-popup" data-state="hidden" data-auto-trigger="true" data-astro-cid-we5gmdnp> <div class="popup-overlay" id="popup-overlay" data-astro-cid-we5gmdnp></div> <div class="popup-container" data-astro-cid-we5gmdnp> <div class="popup-content" data-astro-cid-we5gmdnp> <div class="popup-icon" data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-we5gmdnp> <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" data-astro-cid-we5gmdnp></path> <polyline points="22,6 12,13 2,6" data-astro-cid-we5gmdnp></polyline> </svg> </div> <h2 class="popup-title" data-astro-cid-we5gmdnp>Stay Updated with Dev|Journal</h2> <p class="popup-description" id="popup-description" data-astro-cid-we5gmdnp>
+Join our community of developers and engineers. Get insights on:
+</p> <ul class="popup-features" data-astro-cid-we5gmdnp> <li data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-we5gmdnp> <polyline points="20 6 9 17 4 12" data-astro-cid-we5gmdnp></polyline> </svg>
+Software Architecture & Design Patterns
+</li> <li data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-we5gmdnp> <polyline points="20 6 9 17 4 12" data-astro-cid-we5gmdnp></polyline> </svg>
+Backend Development Best Practices
+</li> <li data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-we5gmdnp> <polyline points="20 6 9 17 4 12" data-astro-cid-we5gmdnp></polyline> </svg>
+AI & Tech Industry Analysis
+</li> </ul> <form id="subscription-form" class="popup-form" data-astro-cid-we5gmdnp> <div class="form-group" data-astro-cid-we5gmdnp> <input type="text" id="subscriber-name" name="name" placeholder="Your name" required autocomplete="name" data-astro-cid-we5gmdnp> </div> <div class="form-group" data-astro-cid-we5gmdnp> <input type="email" id="subscriber-email" name="email" placeholder="your.email@example.com" required autocomplete="email" data-astro-cid-we5gmdnp> </div> <div id="form-message" class="form-message" data-astro-cid-we5gmdnp></div> <div class="popup-actions" data-astro-cid-we5gmdnp> <button type="submit" class="btn btn-primary" id="subscribe-btn" data-astro-cid-we5gmdnp> <span class="btn-text" data-astro-cid-we5gmdnp>Subscribe</span> <span class="btn-loader" data-astro-cid-we5gmdnp> <svg class="spinner" viewBox="0 0 24 24" data-astro-cid-we5gmdnp> <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" data-astro-cid-we5gmdnp></circle> </svg> </span> </button> <button type="button" class="btn btn-secondary" id="not-now-btn" data-astro-cid-we5gmdnp>Not Now</button> <button type="button" class="btn btn-text" id="cancel-btn" data-astro-cid-we5gmdnp>Don't Show Again</button> </div> </form> </div> </div> </div>  <script>
+  // Configuration
+  const CONFIG = {
+    graceDelay: 5000, // 5 seconds delay before showing popup
+    notNowDelay: 24 * 60 * 60 * 1000, // 1 day in milliseconds
+    apiUrl: 'https://api.earezki.com/blog/api',
+  };
+
+  const STORAGE_KEYS = {
+    subscribed: 'newsletter_subscribed',
+    cancelled: 'newsletter_cancelled',
+    notNowUntil: 'newsletter_not_now_until',
+  };
+
+  // State management
+  let popupTimeout = null;
+
+  function showPopup() {
+    const popup = document.getElementById('subscription-popup');
+    if (popup) {
+      popup.setAttribute('data-state', 'visible');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  function hidePopup() {
+    const popup = document.getElementById('subscription-popup');
+    if (popup) {
+      popup.setAttribute('data-state', 'hidden');
+      document.body.style.overflow = '';
+    }
+  }
+
+  function shouldShowPopup() {
+    // Check if user has already subscribed
+    if (localStorage.getItem(STORAGE_KEYS.subscribed) === 'true') {
+      return false;
+    }
+
+    // Check if user clicked "Don't show again"
+    if (localStorage.getItem(STORAGE_KEYS.cancelled) === 'true') {
+      return false;
+    }
+
+    // Check if user clicked "Not now" and delay hasn't passed
+    const notNowUntil = localStorage.getItem(STORAGE_KEYS.notNowUntil);
+    if (notNowUntil) {
+      const notNowTime = parseInt(notNowUntil, 10);
+      if (Date.now() < notNowTime) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  async function getSubscriberStats() {
+    try {
+      const response = await fetch(`${CONFIG.apiUrl}/subscribers/stats`, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+        },
+      });
+      
+      if (!response.ok) {
+        return null;
+      }
+      
+      const data = await response.json();
+      return data.subscriber_count || null;
+    } catch (error) {
+      console.error('Failed to fetch subscriber stats:', error);
+      return null;
+    }
+  }
+
+  async function schedulePopup() {
+    if (!shouldShowPopup()) {
+      return;
+    }
+
+    // Fetch subscriber stats before scheduling popup
+    const subscriberCount = await getSubscriberStats();
+    if (subscriberCount === null) {
+      console.log('Failed to fetch subscriber stats, not showing subscription popup');
+      return;
+    }
+
+    // Update popup with subscriber count
+    updatePopupWithStats(subscriberCount);
+
+    // Show popup after grace period
+    popupTimeout = window.setTimeout(() => {
+      showPopup();
+    }, CONFIG.graceDelay);
+  }
+
+  function updatePopupWithStats(count) {
+    const descriptionEl = document.querySelector('.popup-description');
+    if (descriptionEl) {
+      const formattedCount = new Intl.NumberFormat('en-US').format(count);
+      descriptionEl.innerHTML = `Join a community of <strong>${formattedCount}+</strong> developers and engineers who are growing together. Get insights on:`;
+    }
+  }
+
+  async function handleSubscribe(event) {
+    event.preventDefault();
+    
+    const form = event.target;
+    const nameInput = form.querySelector('#subscriber-name');
+    const emailInput = form.querySelector('#subscriber-email');
+    const submitBtn = form.querySelector('#subscribe-btn');
+    const messageEl = document.getElementById('form-message');
+
+    const name = nameInput.value.trim();
+    const email = emailInput.value.trim();
+
+    if (!name || !email) {
+      if (messageEl) {
+        messageEl.textContent = 'Please fill in all fields.';
+        messageEl.className = 'form-message error';
+      }
+      return;
+    }
+
+    // Show loading state
+    submitBtn.classList.add('loading');
+    submitBtn.disabled = true;
+    if (messageEl) {
+      messageEl.textContent = '';
+      messageEl.className = 'form-message';
+    }
+
+    try {
+      const response = await fetch(`${CONFIG.apiUrl}/subscribe`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, email }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        localStorage.setItem(STORAGE_KEYS.subscribed, 'true');
+        
+        if (messageEl) {
+          messageEl.textContent = '🎉 Successfully subscribed! Thank you for joining us.';
+          messageEl.className = 'form-message success';
+        }
+
+        // Hide popup after 2 seconds
+        setTimeout(() => {
+          hidePopup();
+        }, 2000);
+      } else {
+        if (messageEl) {
+          messageEl.textContent = data.error || 'Subscription failed. Please try again.';
+          messageEl.className = 'form-message error';
+        }
+      }
+    } catch (error) {
+      console.error('Subscription error:', error);
+      if (messageEl) {
+        messageEl.textContent = 'Network error. Please check your connection and try again.';
+        messageEl.className = 'form-message error';
+      }
+    } finally {
+      submitBtn.classList.remove('loading');
+      submitBtn.disabled = false;
+    }
+  }
+
+  function handleNotNow() {
+    const notNowUntil = Date.now() + CONFIG.notNowDelay;
+    localStorage.setItem(STORAGE_KEYS.notNowUntil, notNowUntil.toString());
+    hidePopup();
+  }
+
+  function handleCancel() {
+    localStorage.setItem(STORAGE_KEYS.cancelled, 'true');
+    hidePopup();
+  }
+
+  // Initialize popup
+  document.addEventListener('DOMContentLoaded', () => {
+    const popup = document.getElementById('subscription-popup');
+    const autoTrigger = popup?.getAttribute('data-auto-trigger') === 'true';
+    
+    // Schedule popup to show after grace period only if autoTrigger is enabled
+    if (autoTrigger) {
+      schedulePopup();
+    }
+
+    // Event listeners
+    const form = document.getElementById('subscription-form');
+    const overlay = document.getElementById('popup-overlay');
+    const notNowBtn = document.getElementById('not-now-btn');
+    const cancelBtn = document.getElementById('cancel-btn');
+
+    if (form) {
+      form.addEventListener('submit', handleSubscribe);
+    }
+
+    if (overlay) {
+      overlay.addEventListener('click', handleNotNow);
+    }
+
+    if (notNowBtn) {
+      notNowBtn.addEventListener('click', handleNotNow);
+    }
+
+    if (cancelBtn) {
+      cancelBtn.addEventListener('click', handleCancel);
+    }
+
+    // Clean up on page unload
+    window.addEventListener('beforeunload', () => {
+      if (popupTimeout) {
+        clearTimeout(popupTimeout);
+      }
+    });
+  });
+</script> </body></html> 

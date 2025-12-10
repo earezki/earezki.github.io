@@ -1,0 +1,648 @@
+<!DOCTYPE html><html lang="en" data-theme="dark"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Clean Code: The Cult of Dogma and Why Your Abstractions Are Probably Wrong • Dev|Journal</title><meta name="description" content="TL;DR Clean Code isn't the programming bible we thought it was. While it introduced valuable concepts like meaningful names, the DRY principle, and the boy…"><meta name="keywords" content="Software design, Code quality, Book reviews"><meta name="author" content="El Mehdi Arezki"><meta property="og:type" content="website"><meta property="og:url" content="https://earezki.com/clean-code-the-truth/"><meta property="og:title" content="Clean Code: The Cult of Dogma and Why Your Abstractions Are Probably Wrong • Dev|Journal"><meta property="og:site_name" content="Dev|Journal"><meta property="og:description" content="TL;DR Clean Code isn't the programming bible we thought it was. While it introduced valuable concepts like meaningful names, the DRY principle, and the boy…"><meta property="og:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:url" content="https://earezki.com/clean-code-the-truth/"><meta name="twitter:title" content="Clean Code: The Cult of Dogma and Why Your Abstractions Are Probably Wrong • Dev|Journal"><meta name="twitter:description" content="TL;DR Clean Code isn't the programming bible we thought it was. While it introduced valuable concepts like meaningful names, the DRY principle, and the boy…"><meta name="twitter:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:creator" content="@earezki"><link rel="canonical" href="https://earezki.com/clean-code-the-truth/"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/x-icon" href="/favicon.ico"><link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"><link rel="dns-prefetch" href="https://cloud.umami.is"><script defer src="https://cloud.umami.is/script.js" data-website-id="4a26531d-1053-4f79-97a6-06a1366aff91"></script><script>
+      (function() {
+        const theme = localStorage.getItem('theme');
+        if (theme) document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script><script>
+!function(){const o=window.location.pathname;if("/"===o)return;if(/\.\w+$/.test(o))return;const n=o.toLowerCase(),i=n!==o,t=!o.endsWith("/");if(i||t){const o=n+(t?"/":""),i=window.location.origin+o+window.location.search+window.location.hash;window.location.replace(i)}}();
+</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Clean Code: The Cult of Dogma and Why Your Abstractions Are Probably Wrong","description":"TL;DR Clean Code isn't the programming bible we thought it was. While it introduced valuable concepts like meaningful names, the DRY principle, and the boy…","image":"https://earezki.com/assets/og-image-default.jpg","datePublished":"2025-11-28T00:00:00.000Z","dateModified":"2025-11-25T00:00:00.000Z","author":{"@type":"Person","name":"El Mehdi Arezki","url":"https://earezki.com/about","jobTitle":"Lead Software Engineer","sameAs":["https://github.com/earezki","https://www.linkedin.com/in/mehdi-arezki"]},"publisher":{"@type":"Organization","name":"Dev|Journal","url":"https://earezki.com","logo":{"@type":"ImageObject","url":"https://earezki.com/assets/logo.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://earezki.com/clean-code-the-truth/"}}</script><link rel="stylesheet" href="/_astro/_slug_.BZhQT0av.css">
+<link rel="stylesheet" href="/_astro/_slug_.CFj9bTVJ.css">
+<style>.series-navigation[data-astro-cid-2hl7stop]{margin:2rem 0 3rem;padding:1.5rem;background:linear-gradient(135deg,#2563eb0d,#6366f10d);border:1px solid var(--color-border);border-radius:var(--radius-md)}html[data-theme=dark] .series-navigation[data-astro-cid-2hl7stop]{background:linear-gradient(135deg,#2563eb1a,#6366f11a)}.series-header[data-astro-cid-2hl7stop]{margin-bottom:1.25rem}.series-badge[data-astro-cid-2hl7stop]{display:inline-block;font-size:.75rem;font-weight:600;color:var(--color-accent);background:#2563eb1a;padding:.25rem .75rem;border-radius:var(--radius-pill);margin-bottom:.5rem}.series-header[data-astro-cid-2hl7stop] h3[data-astro-cid-2hl7stop]{margin:.5rem 0 .25rem;font-size:1.25rem;color:var(--color-text)}.series-progress[data-astro-cid-2hl7stop]{font-size:.85rem;color:var(--color-text-alt);margin:0}.series-list[data-astro-cid-2hl7stop]{display:flex;flex-direction:column;gap:.75rem;margin:1.5rem 0}.series-item[data-astro-cid-2hl7stop]{display:flex;align-items:center;gap:.75rem;padding:.75rem;background:var(--color-bg);border:1px solid var(--color-border);border-radius:var(--radius-sm);transition:all var(--transition)}.series-item[data-astro-cid-2hl7stop]:hover{border-color:var(--color-accent)}.series-item[data-astro-cid-2hl7stop].current{background:var(--color-accent);border-color:var(--color-accent)}.series-item[data-astro-cid-2hl7stop].completed{opacity:.7}.series-number[data-astro-cid-2hl7stop]{flex-shrink:0;width:28px;height:28px;display:flex;align-items:center;justify-content:center;background:var(--color-bg-alt);color:var(--color-text-alt);border-radius:50%;font-size:.85rem;font-weight:600}.series-item[data-astro-cid-2hl7stop].current .series-number[data-astro-cid-2hl7stop]{background:#fff3;color:#fff}.series-title[data-astro-cid-2hl7stop]{flex:1;font-size:.95rem;color:var(--color-text);text-decoration:none;transition:color var(--transition)}.series-title[data-astro-cid-2hl7stop]:hover{color:var(--color-accent)}.series-item[data-astro-cid-2hl7stop].current .current-title[data-astro-cid-2hl7stop]{color:#fff;font-weight:600}.check-icon[data-astro-cid-2hl7stop]{flex-shrink:0;color:#10b981;font-size:1.1rem}.series-nav-buttons[data-astro-cid-2hl7stop]{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--color-border)}.series-nav-btn[data-astro-cid-2hl7stop]{display:flex;flex-direction:column;gap:.25rem;padding:1rem;background:var(--color-bg);border:1px solid var(--color-border);border-radius:var(--radius-sm);text-decoration:none;transition:all var(--transition)}.series-nav-btn[data-astro-cid-2hl7stop]:hover{border-color:var(--color-accent);transform:translateY(-2px);box-shadow:var(--shadow-sm)}.series-nav-btn[data-astro-cid-2hl7stop].next{text-align:right}.nav-label[data-astro-cid-2hl7stop]{font-size:.75rem;color:var(--color-text-alt);font-weight:600;text-transform:uppercase;letter-spacing:.05em}.nav-title[data-astro-cid-2hl7stop]{font-size:.9rem;color:var(--color-text);font-weight:500}.series-nav-btn[data-astro-cid-2hl7stop]:hover .nav-title[data-astro-cid-2hl7stop]{color:var(--color-accent)}@media(max-width:680px){.series-navigation[data-astro-cid-2hl7stop]{padding:1rem}.series-nav-buttons[data-astro-cid-2hl7stop]{grid-template-columns:1fr}.series-nav-btn[data-astro-cid-2hl7stop].next{text-align:left}}.post-layout[data-astro-cid-yvbahnfj]{display:grid;grid-template-columns:260px 1fr;gap:2.5rem;width:100%;max-width:100%;box-sizing:border-box}.sidebar-left[data-astro-cid-yvbahnfj]{position:relative;min-width:0;overflow:hidden}@media(max-width:1080px){.post-layout[data-astro-cid-yvbahnfj]{grid-template-columns:1fr;width:100%;max-width:100%;padding:0;margin:0}}@media(max-width:768px){.post-layout[data-astro-cid-yvbahnfj]{display:block;width:100%;max-width:100%;padding:0;margin:0}.sidebar-left[data-astro-cid-yvbahnfj]{display:none}}
+</style></head> <body> <div id="readingProgress" role="progressbar" aria-label="Reading progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="position:fixed;left:0;top:0;height:3px;background:linear-gradient(90deg,#2563eb,#9333ea);width:0;z-index:999;transition:width .15s ease;"></div> <script type="module">function c(){const t=document.getElementById("readingProgress");if(!t)return;const o=()=>{const e=document.documentElement,r=e.scrollTop||document.body.scrollTop,s=e.scrollHeight-e.clientHeight,n=s>0?r/s*100:0;t.style.width=`${n}%`,t.setAttribute("aria-valuenow",n.toFixed(0))};document.addEventListener("scroll",o,{passive:!0}),o()}c();</script> <header class="site-header container"> <div class="logo-wrap"> <a class="logo" href="/" aria-label="Dev|Journal Home">
+Dev|Journal
+</a> </div> <!-- Search Box in Header --> <div class="header-search" data-search-api-url="https://api.earezki.com/blog/api/q" data-search-timeout="2000"> <div class="search-box" id="search-box"> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon" aria-hidden="true"> <circle cx="11" cy="11" r="8"></circle> <path d="m21 21-4.35-4.35"></path> </svg> <input type="text" id="search-input" placeholder="Search ..." class="search-input" autocomplete="off" aria-label="Search articles" minlength="3"> <button id="clear-search" class="clear-button" style="display: none;" aria-label="Clear search"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <line x1="18" y1="6" x2="6" y2="18"></line> <line x1="6" y1="6" x2="18" y2="18"></line> </svg> </button> </div> <div id="search-results" class="search-results" role="status" aria-live="polite"></div> </div> <script type="module" src="/_astro/SearchBox.astro_astro_type_script_index_0_lang.BNnBPVSN.js"></script> <nav class="main-nav" aria-label="Main navigation"> <a href="/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path> <polyline points="9 22 9 12 15 12 15 22"></polyline> </svg>
+Home
+</a> <a href="/ai-news/" class="ai-news-link ai-gradient-nav"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h-9.5a.5.5 0 0 0-.5.5.5.5 0 0 1-1 0 .5.5 0 0 0-.5-.5H1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"></path> <path d="M7 15v4a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-4"></path> </svg>
+AI News
+</a> <a href="/ai-financial-news/" class="ai-financial-link ai-gradient-nav"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <line x1="12" y1="1" x2="12" y2="23"></line> <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path> </svg>
+AI Financial
+</a> <a href="/about/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <circle cx="12" cy="12" r="10"></circle> <path d="M12 16v-4"></path> <path d="M12 8h.01"></path> </svg>
+About
+</a> <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode"> <span class="theme-icon" aria-hidden="true">☾</span> </button> </nav> </header> <!-- Main Content --> <main class="container content-area">  <nav class="breadcrumbs" aria-label="Breadcrumb" data-astro-cid-ilhxcym7> <ol data-astro-cid-ilhxcym7> <li data-astro-cid-ilhxcym7>  <a href="/" data-astro-cid-ilhxcym7>Home</a> <span class="separator" aria-hidden="true" data-astro-cid-ilhxcym7>/</span>  </li><li data-astro-cid-ilhxcym7> <span class="current" aria-current="page" data-astro-cid-ilhxcym7>Clean Code: The Cult of Dogma and Why Your Abstractions Are Probably Wrong</span> </li>  </ol> </nav>  <div class="post-layout" data-astro-cid-yvbahnfj> <aside class="sidebar-left" data-astro-cid-yvbahnfj> <nav class="toc" aria-label="Table of Contents" data-astro-cid-xvrfupwn> <div class="toc-title" data-astro-cid-xvrfupwn>On this page</div> <ul data-astro-cid-xvrfupwn> <li class="d-2" data-astro-cid-xvrfupwn> <a href="#tldr" data-astro-cid-xvrfupwn> TL;DR </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#what-clean-code-got-right" data-astro-cid-xvrfupwn> What Clean Code Got Right </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#the-obsolete-parts" data-astro-cid-xvrfupwn> The Obsolete Parts </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#the-dangerous-dogma" data-astro-cid-xvrfupwn> The Dangerous Dogma </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#when-abstraction-becomes-self-parody" data-astro-cid-xvrfupwn> When Abstraction Becomes Self-Parody </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#sandi-metz-and-the-wrong-abstraction" data-astro-cid-xvrfupwn> Sandi Metz and The Wrong Abstraction </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#the-example-code-is-terrible" data-astro-cid-xvrfupwn> The Example Code Is Terrible </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#the-unit-testing-chapters-self-contradiction" data-astro-cid-xvrfupwn> The Unit Testing Chapter&#39;s Self-Contradiction </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#the-three-phase-tdd-loop-nobody-can-actually-follow" data-astro-cid-xvrfupwn> The Three-Phase TDD Loop Nobody Can Actually Follow </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#what-data-structure-actually-means" data-astro-cid-xvrfupwn> What &quot;Data Structure&quot; Actually Means </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#so-what-do-we-do-instead" data-astro-cid-xvrfupwn> So What Do We Do Instead? </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#the-continuous-clean-code-trap" data-astro-cid-xvrfupwn> The Continuous Clean Code Trap </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#final-verdict" data-astro-cid-xvrfupwn> Final Verdict </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#references" data-astro-cid-xvrfupwn> References: </a> </li> </ul> </nav>  </aside> <article class="post" data-astro-cid-yvbahnfj> <header class="post-header" data-astro-cid-yvbahnfj> <h1 data-astro-cid-yvbahnfj>Clean Code: The Cult of Dogma and Why Your Abstractions Are Probably Wrong</h1> <div class="meta" data-astro-cid-yvbahnfj> <time datetime="2025-11-28T00:00:00.000Z" data-astro-cid-yvbahnfj>Fri Nov 28 2025</time> <span data-astro-cid-yvbahnfj>• 10 min read</span> </div> <div class="tag-row" data-astro-cid-yvbahnfj><a class="post-tag " href="/tags/software-design/" data-astro-cid-yvbahnfj>Software design</a><a class="post-tag " href="/tags/code-quality/" data-astro-cid-yvbahnfj>Code quality</a><a class="post-tag " href="/tags/book-reviews/" data-astro-cid-yvbahnfj>Book reviews</a></div> </header>    <div class="post-body prose" data-astro-cid-yvbahnfj> <h2 id="tldr">TL;DR</h2>
+<p>Clean Code isn’t the programming bible we thought it was. While it introduced valuable concepts like meaningful names, the DRY principle, and the boy scout rule, its dogmatic insistence on 2-4 line functions, zealous abstraction, and elimination of all duplication has led a generation of developers astray. The book’s own example code violates its own advice, filled with side effects, breaking command-query separation, and creating incomprehensible abstractions. Worse, it turned “clean code” into an identity badge rather than a tool for reasoning about trade-offs. If you’re learning software design today, read <em>A Philosophy of Software Design</em> or <em>The Pragmatic Programmer</em> instead. They teach you to think, not to follow mantras.</p>
+<h2 id="what-clean-code-got-right">What Clean Code Got Right</h2>
+<p>Let’s give credit where it’s due. Robert C. Martin’s 2008 book accomplished something remarkable: it made an entire generation of programmers care about code quality. Before Clean Code, “move fast and break things” meant shipping garbage and forgetting about it. After Clean Code, we had a vocabulary for discussing maintainability.</p>
+<p>The book’s lasting contributions:</p>
+<p><strong>The only way to go fast is to go well.</strong> This single insight, that technical debt compounds faster than you think, saved countless projects from death marches.</p>
+<p><strong>Foundational naming advice</strong> that holds up perfectly:</p>
+<ul>
+<li>Variables and functions should reveal intent</li>
+<li>Use problem-domain names (the DDD “ubiquitous language” before we called it that)</li>
+<li>Make names searchable, <code>WORK_DAYS_PER_WEEK</code> beats <code>5</code></li>
+<li>Method names should be verb phrases: <code>postPayment</code>, <code>deletePage</code>, <code>save</code></li>
+</ul>
+<p><strong>The DRY principle</strong> (Don’t Repeat Yourself), though we’ll see how this became a weapon of mass abstraction later.</p>
+<p><strong>Command-Query Separation</strong>: methods should either do something (command) or answer something (query), not both. When a method named <code>getStatus()</code> also sends emails, developers rightfully lose their minds.</p>
+<p><strong>The Boy Scout Rule</strong>: leave code cleaner than you found it. Small, incremental improvements beat big-bang rewrites.</p>
+<p><strong>Exception handling best practices</strong>: use unchecked exceptions, provide context, don’t return null.</p>
+<p><strong>Pure functions without side effects</strong> should be preferred. Stateless functions are easier to test, reason about, and parallelize.</p>
+<p><strong>The FIRST principle for unit tests</strong>: Fast, Independent, Repeatable, Self-validating, Timely. Still the gold standard.</p>
+<p><strong>The comprehensive code smells catalog</strong> remains valuable, every team should know what “shotgun surgery,” “feature envy,” and “primitive obsession” mean.</p>
+<p>For junior developers especially, these fundamentals are timeless. I still find myself repeating this advice in code reviews fifteen years later.</p>
+<h2 id="the-obsolete-parts">The Obsolete Parts</h2>
+<p>Some of Clean Code’s content simply aged poorly:</p>
+<p><strong>Heavy Java/OOP focus</strong>: The book uses Java EJBs and AspectJ extensively. In 2025, with TypeScript, Rust, Go, and functional paradigms dominating greenfield projects, the pure OOP approach feels dated.</p>
+<p><strong>Outdated tooling</strong>: Entire chapters on code formatting and style can now be replaced with: “Run <code>prettier</code> and never think about this again.”</p>
+<p>These limitations are forgivable. Every programming book dates poorly. What’s less forgivable is what comes next.</p>
+<h2 id="the-dangerous-dogma">The Dangerous Dogma</h2>
+<p>Here’s where Clean Code becomes actively harmful. The book presents rules as absolute laws, delivered with zero nuance about trade-offs:</p>
+<blockquote>
+<p><strong>The first rule of functions is that they should be small. The second rule of functions is that they should be smaller than that.</strong></p>
+<p><strong>Functions should be two to four lines long.</strong></p>
+<p><strong>Functions should not be indented more than two levels.</strong></p>
+<p><strong>An ideal function has zero arguments</strong> (but still no side effects?).</p>
+</blockquote>
+<p>This isn’t advice. It’s fundamentalism. And it’s backed not by empirical research but by anecdote:</p>
+<blockquote>
+<p>“When Kent Beck showed me the code, I was struck by how small all the functions were… Each was just two, or three, or four lines long.”</p>
+</blockquote>
+<p>That’s it. That’s the evidence. Kent Beck wrote tiny functions once, therefore you must too.</p>
+<p>This mantra-driven approach created a generation of clean code zealots who attached their professional identity to metrics rather than outcomes. If you could count lines of code and duplication, you could feel good about yourself without understanding whether the code was actually better.</p>
+<h2 id="when-abstraction-becomes-self-parody">When Abstraction Becomes Self-Parody</h2>
+<p>Consider this real scenario from Dan Abramov’s essay “Goodbye, Clean Code”:</p>
+<p>A developer writes code with some duplication, methods for resizing rectangles, ovals, and text boxes by dragging handles. The code works. It’s about 200 lines.</p>
+<p>A zealous colleague stays late, removes all duplication, and produces an elegant 100-line abstraction with <code>Directions</code> and <code>Shapes</code> composed together. Beautiful! Clean!</p>
+<p>The next morning, their boss asks them to revert it.</p>
+<p>Why? Because the abstraction traded <strong>changeability for eliminating duplication</strong>. When new requirements arrived, different behaviors for different handles on different shapes, the original “messy” code stayed easy to modify. The “clean” abstraction would require tortured conditional logic and parameter passing to accommodate reality.</p>
+<p>The kicker: the refactorer never talked to the original author. They just imposed their abstraction without discussing requirements. This destroyed team trust and created a maintenance nightmare.</p>
+<p><strong>The lesson</strong>: duplication is far cheaper than the wrong abstraction.</p>
+<h2 id="sandi-metz-and-the-wrong-abstraction">Sandi Metz and The Wrong Abstraction</h2>
+<p>Sandi Metz crystalized this pattern in her essay “The Wrong Abstraction”:</p>
+<ol>
+<li>Programmer A sees duplication</li>
+<li>Programmer A extracts it into an abstraction</li>
+<li>New requirement appears that’s <em>almost</em> the same</li>
+<li>Programmer B adds a parameter and conditional logic</li>
+<li>Another requirement. Another parameter. More conditionals.</li>
+<li>Loop until incomprehensible</li>
+</ol>
+<p>The code is now a condition-laden procedure interleaving vaguely associated ideas. It’s hard to understand and easy to break. But the sunk cost fallacy kicks in: “This must have taken ages to get right. It would be a sin to let that effort go to waste.”</p>
+<p>Metz’s advice when you find yourself here:</p>
+<ol>
+<li><strong>Inline everything</strong>, put the abstraction’s code back in every caller</li>
+<li><strong>Delete unused code</strong> for each specific caller</li>
+<li><strong>Start fresh</strong> with current requirements</li>
+</ol>
+<p>This is advance, not retreat. The fastest way forward is back.</p>
+<h2 id="the-example-code-is-terrible">The Example Code Is Terrible</h2>
+<p>The most damning evidence against Clean Code is the book’s own example code. After spending chapters telling you how to write functions, Martin presents this as the ideal:</p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">SetupTeardownIncluder</span> <span class="token punctuation">{</span>
+  <span class="token keyword">private</span> <span class="token class-name">PageData</span> pageData<span class="token punctuation">;</span>
+  <span class="token keyword">private</span> <span class="token keyword">boolean</span> isSuite<span class="token punctuation">;</span>
+  <span class="token keyword">private</span> <span class="token class-name">WikiPage</span> testPage<span class="token punctuation">;</span>
+  <span class="token keyword">private</span> <span class="token class-name">StringBuffer</span> newPageContent<span class="token punctuation">;</span>
+  <span class="token keyword">private</span> <span class="token class-name">PageCrawler</span> pageCrawler<span class="token punctuation">;</span>
+
+  <span class="token keyword">private</span> <span class="token class-name">String</span> <span class="token function">render</span><span class="token punctuation">(</span><span class="token keyword">boolean</span> isSuite<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Exception</span> <span class="token punctuation">{</span>
+     <span class="token keyword">this</span><span class="token punctuation">.</span>isSuite <span class="token operator">=</span> isSuite<span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">isTestPage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+      <span class="token function">includeSetupAndTeardownPages</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> pageData<span class="token punctuation">.</span><span class="token function">getHtml</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">private</span> <span class="token keyword">boolean</span> <span class="token function">isTestPage</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Exception</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> pageData<span class="token punctuation">.</span><span class="token function">hasAttribute</span><span class="token punctuation">(</span><span class="token string">"Test"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">includeSetupPages</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Exception</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>isSuite<span class="token punctuation">)</span>
+      <span class="token function">includeSuiteSetupPage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">includeSetupPage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  
+  <span class="token comment">// ... 13 more tiny private methods</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>This is Martin’s own code, written to his standards, as a teaching example. Let’s count the problems:</p>
+<p><strong>Side effects everywhere</strong>: Nearly every method modifies member variables (<code>this.isSuite</code>, <code>newPageContent</code>) or calls methods that do. Earlier in the chapter, Martin wrote:</p>
+<blockquote>
+<p>“Side effects are lies. Your function promises to do one thing, but it also does other hidden things… they are devious and damaging mistruths.”</p>
+</blockquote>
+<p>So why does his “clean” code do nothing but this?</p>
+<p><strong>Breaking Command-Query Separation</strong>: <code>render()</code> sets <code>this.isSuite</code> (command), then calls <code>isTestPage()</code> (query), then returns <code>pageData.getHtml()</code> without ever touching <code>pageData</code>. Where did the HTML come from? Was it already there? Did <code>includeSetupAndTeardownPages()</code> modify it? You can’t know without reading every method.</p>
+<p><strong>Impossible to test</strong>: You can’t unit-test <code>render()</code> in isolation. It’s not a unit, it’s coupled to half the class through side effects.</p>
+<p><strong>Pointless extractions</strong>:</p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token keyword">private</span> <span class="token keyword">boolean</span> <span class="token function">isTestPage</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Exception</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> pageData<span class="token punctuation">.</span><span class="token function">hasAttribute</span><span class="token punctuation">(</span><span class="token string">"Test"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>This “abstraction” isn’t meaningful, it’s a literal restatement of its implementation. It’s called from exactly one place. Why does this method exist?</p>
+<p><strong>Method names that lie</strong>: What does <code>wayTooCold()</code> do? It sounds like a query (is it way too cold?) but it’s actually a command (set temperature to way too cold AND call <code>controller.tic()</code>). The book explicitly says methods should be verb phrases, then violates this in its own examples.</p>
+<p>The prime number generator example is even worse, fifteen microscopic methods with names like <code>smallestOddNthMultipleNotLessThanCandidate()</code> and <code>isLeastRelevantMultipleOfNextLargerPrimeFactor()</code>. The function names are harder to understand than the code they replaced.</p>
+<h2 id="the-unit-testing-chapters-self-contradiction">The Unit Testing Chapter’s Self-Contradiction</h2>
+<p>Clean Code advocates for clear, simple tests. Then it shows this transformation:</p>
+<p><strong>Before (too much detail):</strong></p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token annotation punctuation">@Test</span>
+<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">turnOnLoTempAlarmAtThreshold</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Exception</span> <span class="token punctuation">{</span>
+  hw<span class="token punctuation">.</span><span class="token function">setTemp</span><span class="token punctuation">(</span><span class="token constant">WAY_TOO_COLD</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  controller<span class="token punctuation">.</span><span class="token function">tic</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token function">assertTrue</span><span class="token punctuation">(</span>hw<span class="token punctuation">.</span><span class="token function">heaterState</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token function">assertTrue</span><span class="token punctuation">(</span>hw<span class="token punctuation">.</span><span class="token function">blowerState</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token function">assertFalse</span><span class="token punctuation">(</span>hw<span class="token punctuation">.</span><span class="token function">coolerState</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token function">assertFalse</span><span class="token punctuation">(</span>hw<span class="token punctuation">.</span><span class="token function">hiTempAlarm</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token function">assertTrue</span><span class="token punctuation">(</span>hw<span class="token punctuation">.</span><span class="token function">loTempAlarm</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p><strong>After (clean!):</strong></p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token annotation punctuation">@Test</span>
+<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">turnOnLoTempAlarmAtThreshold</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Exception</span> <span class="token punctuation">{</span>
+  <span class="token function">wayTooCold</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token function">assertEquals</span><span class="token punctuation">(</span><span class="token string">"HBchL"</span><span class="token punctuation">,</span> hw<span class="token punctuation">.</span><span class="token function">getState</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>This is presented as an improvement, inventing a “domain-specific testing language.”</p>
+<p>It’s catastrophically worse. The original test was transparent: set temperature, tick the controller, assert five observable states. The “clean” version:</p>
+<ul>
+<li>Hides <code>controller.tic()</code> inside <code>wayTooCold()</code> (side effect!)</li>
+<li>Uses a magic string <code>"HBchL"</code> that requires decoding</li>
+<li>Makes the test completely opaque to anyone who doesn’t have the DSL documentation memorized</li>
+</ul>
+<p>The lesson here was supposed to be about DSLs. The actual lesson: <strong>explicit is better than clever</strong>.</p>
+<h2 id="the-three-phase-tdd-loop-nobody-can-actually-follow">The Three-Phase TDD Loop Nobody Can Actually Follow</h2>
+<p>Clean Code presents Test-Driven Development as:</p>
+<ol>
+<li>Write a failing test</li>
+<li>Write just enough production code to pass</li>
+<li>Refactor</li>
+<li>Repeat in 30-second cycles</li>
+</ol>
+<p>This “locks you into a cycle that is perhaps thirty seconds long.”</p>
+<p>But there’s a missing step zero: <strong>figure out how to decompose your problem into 30-second increments</strong>. For non-trivial problems, this is often harder than solving the problem itself, and frequently impossible.</p>
+<p>I’ve watched teams try to follow this dogmatically and end up paralyzed, spending hours decomposing before writing a single line. Or they fake it, writing tests after the code just to appease the process.</p>
+<p>TDD is a tool. Sometimes it’s the right tool. Often it’s not. The book presents it as the One True Way.</p>
+<h2 id="what-data-structure-actually-means">What “Data Structure” Actually Means</h2>
+<p>In Chapter 7, Martin redefines “data structure”:</p>
+<blockquote>
+<p><strong>Data structures expose their data and have no meaningful functions.</strong></p>
+</blockquote>
+<p>He then contrasts this with “objects” which hide data and expose behavior.</p>
+<p>Fine, but this is not what the rest of the world means by “data structure.” We mean arrays, linked lists, hash maps, trees, graphs, stacks, queues. The chapter has <strong>zero content</strong> about these fundamental computer science concepts and how to write clean code using them.</p>
+<p>This is a stunning omission for a book claiming to teach software design.</p>
+<h2 id="so-what-do-we-do-instead">So What Do We Do Instead?</h2>
+<p><strong>1. Think in trade-offs, not rules</strong></p>
+<p>Every design decision has costs and benefits. Extracting a function improves readability but adds indirection. DRY reduces duplication but increases coupling. Understand the trade-offs and make conscious choices.</p>
+<p><strong>2. Embrace duplication when it reveals structure</strong></p>
+<p>As Sandi Metz argues, sometimes you need duplication to see the real abstraction. Don’t abstract on the first occurrence. Wait for the third.</p>
+<p><strong>3. Optimize for change, not cleanliness</strong></p>
+<p>Code that’s easy to modify beats code that’s aesthetically perfect. A little messiness is fine if it makes future requirements easier to accommodate.</p>
+<p><strong>4. Use your judgment</strong></p>
+<p>Kent Beck’s most important quote: <strong>“It depends.”</strong></p>
+<p>Context matters. Team experience matters. Project constraints matter. Don’t let a book from 2008 override your understanding of your specific situation.</p>
+<p><strong>5. Read better books</strong></p>
+<p>If you’re learning software design today:</p>
+<ul>
+<li><strong>A Philosophy of Software Design</strong> (John Ousterhout, 2018) ,  focuses on managing complexity at the right level of abstraction</li>
+<li><strong>The Pragmatic Programmer</strong> (Hunt &#x26; Thomas) ,  teaches practical wisdom, not dogma</li>
+<li><strong>Code That Fits in Your Head</strong> (Mark Seemann) ,  modern take on cognitive load and design</li>
+<li><strong>99 Bottles of OOP</strong> (Sandi Metz) ,  teaches you to recognize when to abstract and when to wait</li>
+</ul>
+<p>These books teach you to <strong>think</strong> instead of follow mantras.</p>
+<h2 id="the-continuous-clean-code-trap">The Continuous Clean Code Trap</h2>
+<p>The greatest harm Clean Code inflicted wasn’t bad example code, it was turning “clean code” into an identity.</p>
+<p>“I’m the kind of person who writes clean code” becomes a self-deception. You measure lines per function, count duplication, enforce strict lint rules, and feel righteous. Meanwhile, your abstractions are wrong, your tests are brittle, and your colleagues can’t understand your code.</p>
+<p>This is phase many of us went through. When we don’t feel confident, we attach our self-worth to measurable metrics. Removing duplication feels like improving objective quality. It messes with our sense of identity.</p>
+<p>The cure: <strong>let clean code guide you, then let it go</strong>.</p>
+<p>Code cleanliness is not a goal. It’s a defense mechanism when you’re not sure how a change will affect the codebase. It’s training wheels. Useful for beginners, limiting for experts.</p>
+<h2 id="final-verdict">Final Verdict</h2>
+<p>Should you read Clean Code in 2025? Only with heavy caveats.</p>
+<p><strong>Skip it if</strong>: You’re a beginner looking for your first software engineering book. The dogma will confuse you more than it helps.</p>
+<p><strong>Read it if</strong>: You’re experienced enough to disagree with half of it and want to understand the cultural moment that shaped a generation of developers.</p>
+<p><strong>Definitely skip</strong>: Treating it as scripture. The book itself admits “many recommendations are controversial” and “we can’t claim final authority.” Take that seriously.</p>
+<p>The book’s greatest gift wasn’t its rules, it was starting a conversation about code quality. That conversation has moved on. It’s time we moved on too.</p>
+<hr>
+<p><em>Recommended reading order for learning software design in 2025:</em></p>
+<ol>
+<li><em>The Pragmatic Programmer</em> (timeless practical wisdom)</li>
+<li><em>A Philosophy of Software Design</em> (managing complexity)</li>
+<li><em>99 Bottles of OOP</em> (when to abstract)</li>
+<li><em>Clean Code</em> (with critical eye, as historical artifact)</li>
+<li><em>Domain-Driven Design</em> (if tackling complex domains)</li>
+</ol>
+<h2 id="references">References:</h2>
+<p><a href="https://qntm.org/clean">https://qntm.org/clean</a>
+<a href="https://gerlacdt.github.io/blog/posts/clean_code/">https://gerlacdt.github.io/blog/posts/clean_code/</a></p> </div>    <section class="related-posts" data-astro-cid-dpgbfi7r> <h2 data-astro-cid-dpgbfi7r>Related Posts</h2> <div class="related-posts-grid" data-astro-cid-dpgbfi7r> <article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/massively-scaling-a-web-application/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>Massively scaling a web application</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>1. Single server setup 2. Vertical scaling 3. Horizontal scaling 4. Stateful-vs-stateless 5. Load balancer 6. Choice of…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2025-11-02T00:00:00.000Z" data-astro-cid-dpgbfi7r> Nov 2, 2025 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>1 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/solid-principles/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>SOLID</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r></p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2024-07-25T00:00:00.000Z" data-astro-cid-dpgbfi7r> Jul 25, 2024 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>1 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/dependency-inversion-principle/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>D (Dependency Inversion) from SOLID</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>The Dependency Inversion Principle: Stop Depending on Details What Is Dependency Inversion, Really? Let me ask you a…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2024-06-22T00:00:00.000Z" data-astro-cid-dpgbfi7r> Jun 22, 2024 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>14 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/interface-segregation-principle/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>I (Interface Segregation) from SOLID</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>The Interface Segregation Principle: Why Your Interfaces Are Probably Too Fat What Is Interface Segregation, Really?…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2024-06-21T00:00:00.000Z" data-astro-cid-dpgbfi7r> Jun 21, 2024 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>17 min read</span> </div> </a> </article> </div> </section>  </article> </div> <div class="back-link" data-astro-cid-yvbahnfj><a href="/" data-astro-cid-yvbahnfj>← Back to home</a></div>  </main> <!-- Site Footer --> <footer class="site-footer container"> <p>
+© 2025 AREZKI El Mehdi •
+<a href="https://github.com/earezki">GitHub</a> •
+<a href="/rss.xml">RSS</a> •
+<a href="/tags/">Tags</a> •
+<a href="/sitemap-index.xml">Sitemap</a> •
+<button id="footer-subscribe-btn" class="footer-subscribe-btn" aria-label="Subscribe to newsletter">
+📬 Subscribe
+</button> </p> </footer> <!-- Footer Subscribe Button Handler --> <script type="module">const e=document.getElementById("themeToggle"),o=n=>{if(!e)return;const t=e.querySelector(".theme-icon");t&&(t.textContent=n==="dark"?"☀":"☾")};if(e){const n=document.documentElement.getAttribute("data-theme")||"dark";o(n),e.addEventListener("click",()=>{const t=document.documentElement,c=t.getAttribute("data-theme")==="dark"?"light":"dark";t.setAttribute("data-theme",c),localStorage.setItem("theme",c),o(c)})}</script> <!-- Theme Toggle --> <script type="module">document.addEventListener("DOMContentLoaded",()=>{const e=document.getElementById("footer-subscribe-btn");e&&e.addEventListener("click",n=>{n.preventDefault();const t=document.getElementById("subscription-popup");t&&(t.setAttribute("data-state","visible"),document.body.style.overflow="hidden")})});</script> <!-- Article read/unread tracking --> <script>
+      (function() {
+        const KEY = 'readArticles';
+        
+        function getRead() {
+          try {
+            const d = localStorage.getItem(KEY);
+            return d ? JSON.parse(d) : [];
+          } catch (e) {
+            return [];
+          }
+        }
+        
+        function markRead(url) {
+          try {
+            const read = getRead();
+            if (!read.includes(url)) {
+              read.push(url);
+              localStorage.setItem(KEY, JSON.stringify(read));
+            }
+          } catch (e) {}
+        }
+        
+        function updateCards() {
+          const read = new Set(getRead());
+          const cards = document.querySelectorAll('.post-card[data-article-url]');
+          cards.forEach(function(card) {
+            const url = card.getAttribute('data-article-url');
+            if (!url) return;
+            const isRead = read.has(url);
+            card.classList.toggle('read', isRead);
+            card.classList.toggle('unread', !isRead);
+          });
+        }
+        
+        function markCurrent() {
+          if (document.querySelector('.post-body')) {
+            markRead(window.location.pathname);
+          }
+        }
+        
+        function init() {
+          updateCards();
+          markCurrent();
+        }
+        
+        function clearRead(url) {
+          try {
+            const read = new Set(getRead());
+            if (read.has(url)) {
+              read.delete(url);
+              localStorage.setItem(KEY, JSON.stringify(Array.from(read)));
+              updateCards();
+            }
+          } catch (e) {}
+        }
+        
+        window.clearReadArticle = clearRead;
+        document.addEventListener('DOMContentLoaded', init);
+        window.addEventListener('pageshow', function(e) {
+          if (e.persisted) init();
+        });
+      })();
+    </script> <!-- Clear read button handler --> <script>
+      (function() {
+        document.addEventListener('click', function(e) {
+          var tgt = e.target, btn = null;
+          while (tgt && tgt !== document) {
+            if (tgt.classList && tgt.classList.contains('clear-read-btn')) {
+              btn = tgt;
+              break;
+            }
+            tgt = tgt.parentNode;
+          }
+          if (!btn) return;
+          e.preventDefault();
+          e.stopPropagation();
+          var url = btn.getAttribute('data-article-url');
+          if (url && window.clearReadArticle) window.clearReadArticle(url);
+        });
+      })();
+    </script> <!-- External links open in new tab --> <script>
+      (function() {
+        function makeExternal() {
+          const domain = window.location.hostname;
+          const links = document.querySelectorAll('a[href]');
+          links.forEach(function(link) {
+            const href = link.getAttribute('href');
+            if (!href || link.hasAttribute('target')) return;
+            const isExt = (href.startsWith('http://') || href.startsWith('https://')) && !href.includes(domain);
+            if (isExt) {
+              link.setAttribute('target', '_blank');
+              link.setAttribute('rel', 'noopener noreferrer');
+            }
+          });
+        }
+        document.addEventListener('DOMContentLoaded', makeExternal);
+        if (window.MutationObserver) {
+          const obs = new MutationObserver(function(muts) {
+            muts.forEach(function(mut) {
+              if (mut.addedNodes.length) makeExternal();
+            });
+          });
+          obs.observe(document.body, { childList: true, subtree: true });
+        }
+      })();
+    </script> <!-- Code copy buttons --> <script>
+      (function() {
+        function createBtn() {
+          const btn = document.createElement('button');
+          btn.className = 'copy-code-button';
+          btn.setAttribute('aria-label', 'Copy code to clipboard');
+          btn.innerHTML = `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span>Copy</span>
+          `;
+          return btn;
+        }
+        
+        function checkIcon() {
+          return `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span>Copied!</span>
+          `;
+        }
+        
+        async function copyText(txt) {
+          try {
+            await navigator.clipboard.writeText(txt);
+            return true;
+          } catch (err) {
+            const ta = document.createElement('textarea');
+            ta.value = txt;
+            ta.style.position = 'fixed';
+            ta.style.left = '-999999px';
+            document.body.appendChild(ta);
+            ta.select();
+            try {
+              document.execCommand('copy');
+              document.body.removeChild(ta);
+              return true;
+            } catch (e) {
+              document.body.removeChild(ta);
+              return false;
+            }
+          }
+        }
+        
+        async function handleCopy(btn, code) {
+          const txt = code.textContent || '';
+          const ok = await copyText(txt);
+          if (ok) {
+            const orig = btn.innerHTML;
+            btn.classList.add('copied');
+            btn.innerHTML = checkIcon();
+            setTimeout(function() {
+              btn.classList.remove('copied');
+              btn.innerHTML = orig;
+            }, 2000);
+          }
+        }
+        
+        function addBtns() {
+          const blocks = document.querySelectorAll('.post-body pre');
+          blocks.forEach(function(pre) {
+            if (pre.querySelector('.copy-code-button')) return;
+            const btn = createBtn();
+            const code = pre.querySelector('code');
+            if (code) {
+              btn.addEventListener('click', function() {
+                handleCopy(btn, code);
+              });
+              pre.appendChild(btn);
+            }
+          });
+        }
+        
+        document.addEventListener('DOMContentLoaded', addBtns);
+      })();
+    </script> <!-- Newsletter Subscription Popup --> <div id="subscription-popup" class="subscription-popup" data-state="hidden" data-auto-trigger="true" data-astro-cid-we5gmdnp> <div class="popup-overlay" id="popup-overlay" data-astro-cid-we5gmdnp></div> <div class="popup-container" data-astro-cid-we5gmdnp> <div class="popup-content" data-astro-cid-we5gmdnp> <div class="popup-icon" data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-we5gmdnp> <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" data-astro-cid-we5gmdnp></path> <polyline points="22,6 12,13 2,6" data-astro-cid-we5gmdnp></polyline> </svg> </div> <h2 class="popup-title" data-astro-cid-we5gmdnp>Stay Updated with Dev|Journal</h2> <p class="popup-description" id="popup-description" data-astro-cid-we5gmdnp>
+Join our community of developers and engineers. Get insights on:
+</p> <ul class="popup-features" data-astro-cid-we5gmdnp> <li data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-we5gmdnp> <polyline points="20 6 9 17 4 12" data-astro-cid-we5gmdnp></polyline> </svg>
+Software Architecture & Design Patterns
+</li> <li data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-we5gmdnp> <polyline points="20 6 9 17 4 12" data-astro-cid-we5gmdnp></polyline> </svg>
+Backend Development Best Practices
+</li> <li data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-we5gmdnp> <polyline points="20 6 9 17 4 12" data-astro-cid-we5gmdnp></polyline> </svg>
+AI & Tech Industry Analysis
+</li> </ul> <form id="subscription-form" class="popup-form" data-astro-cid-we5gmdnp> <div class="form-group" data-astro-cid-we5gmdnp> <input type="text" id="subscriber-name" name="name" placeholder="Your name" required autocomplete="name" data-astro-cid-we5gmdnp> </div> <div class="form-group" data-astro-cid-we5gmdnp> <input type="email" id="subscriber-email" name="email" placeholder="your.email@example.com" required autocomplete="email" data-astro-cid-we5gmdnp> </div> <div id="form-message" class="form-message" data-astro-cid-we5gmdnp></div> <div class="popup-actions" data-astro-cid-we5gmdnp> <button type="submit" class="btn btn-primary" id="subscribe-btn" data-astro-cid-we5gmdnp> <span class="btn-text" data-astro-cid-we5gmdnp>Subscribe</span> <span class="btn-loader" data-astro-cid-we5gmdnp> <svg class="spinner" viewBox="0 0 24 24" data-astro-cid-we5gmdnp> <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" data-astro-cid-we5gmdnp></circle> </svg> </span> </button> <button type="button" class="btn btn-secondary" id="not-now-btn" data-astro-cid-we5gmdnp>Not Now</button> <button type="button" class="btn btn-text" id="cancel-btn" data-astro-cid-we5gmdnp>Don't Show Again</button> </div> </form> </div> </div> </div>  <script>
+  // Configuration
+  const CONFIG = {
+    graceDelay: 5000, // 5 seconds delay before showing popup
+    notNowDelay: 24 * 60 * 60 * 1000, // 1 day in milliseconds
+    apiUrl: 'https://api.earezki.com/blog/api',
+  };
+
+  const STORAGE_KEYS = {
+    subscribed: 'newsletter_subscribed',
+    cancelled: 'newsletter_cancelled',
+    notNowUntil: 'newsletter_not_now_until',
+  };
+
+  // State management
+  let popupTimeout = null;
+
+  function showPopup() {
+    const popup = document.getElementById('subscription-popup');
+    if (popup) {
+      popup.setAttribute('data-state', 'visible');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  function hidePopup() {
+    const popup = document.getElementById('subscription-popup');
+    if (popup) {
+      popup.setAttribute('data-state', 'hidden');
+      document.body.style.overflow = '';
+    }
+  }
+
+  function shouldShowPopup() {
+    // Check if user has already subscribed
+    if (localStorage.getItem(STORAGE_KEYS.subscribed) === 'true') {
+      return false;
+    }
+
+    // Check if user clicked "Don't show again"
+    if (localStorage.getItem(STORAGE_KEYS.cancelled) === 'true') {
+      return false;
+    }
+
+    // Check if user clicked "Not now" and delay hasn't passed
+    const notNowUntil = localStorage.getItem(STORAGE_KEYS.notNowUntil);
+    if (notNowUntil) {
+      const notNowTime = parseInt(notNowUntil, 10);
+      if (Date.now() < notNowTime) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  async function getSubscriberStats() {
+    try {
+      const response = await fetch(`${CONFIG.apiUrl}/subscribers/stats`, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+        },
+      });
+      
+      if (!response.ok) {
+        return null;
+      }
+      
+      const data = await response.json();
+      return data.subscriber_count || null;
+    } catch (error) {
+      console.error('Failed to fetch subscriber stats:', error);
+      return null;
+    }
+  }
+
+  async function schedulePopup() {
+    if (!shouldShowPopup()) {
+      return;
+    }
+
+    // Fetch subscriber stats before scheduling popup
+    const subscriberCount = await getSubscriberStats();
+    if (subscriberCount === null) {
+      console.log('Failed to fetch subscriber stats, not showing subscription popup');
+      return;
+    }
+
+    // Update popup with subscriber count
+    updatePopupWithStats(subscriberCount);
+
+    // Show popup after grace period
+    popupTimeout = window.setTimeout(() => {
+      showPopup();
+    }, CONFIG.graceDelay);
+  }
+
+  function updatePopupWithStats(count) {
+    const descriptionEl = document.querySelector('.popup-description');
+    if (descriptionEl) {
+      const formattedCount = new Intl.NumberFormat('en-US').format(count);
+      descriptionEl.innerHTML = `Join a community of <strong>${formattedCount}+</strong> developers and engineers who are growing together. Get insights on:`;
+    }
+  }
+
+  async function handleSubscribe(event) {
+    event.preventDefault();
+    
+    const form = event.target;
+    const nameInput = form.querySelector('#subscriber-name');
+    const emailInput = form.querySelector('#subscriber-email');
+    const submitBtn = form.querySelector('#subscribe-btn');
+    const messageEl = document.getElementById('form-message');
+
+    const name = nameInput.value.trim();
+    const email = emailInput.value.trim();
+
+    if (!name || !email) {
+      if (messageEl) {
+        messageEl.textContent = 'Please fill in all fields.';
+        messageEl.className = 'form-message error';
+      }
+      return;
+    }
+
+    // Show loading state
+    submitBtn.classList.add('loading');
+    submitBtn.disabled = true;
+    if (messageEl) {
+      messageEl.textContent = '';
+      messageEl.className = 'form-message';
+    }
+
+    try {
+      const response = await fetch(`${CONFIG.apiUrl}/subscribe`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, email }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        localStorage.setItem(STORAGE_KEYS.subscribed, 'true');
+        
+        if (messageEl) {
+          messageEl.textContent = '🎉 Successfully subscribed! Thank you for joining us.';
+          messageEl.className = 'form-message success';
+        }
+
+        // Hide popup after 2 seconds
+        setTimeout(() => {
+          hidePopup();
+        }, 2000);
+      } else {
+        if (messageEl) {
+          messageEl.textContent = data.error || 'Subscription failed. Please try again.';
+          messageEl.className = 'form-message error';
+        }
+      }
+    } catch (error) {
+      console.error('Subscription error:', error);
+      if (messageEl) {
+        messageEl.textContent = 'Network error. Please check your connection and try again.';
+        messageEl.className = 'form-message error';
+      }
+    } finally {
+      submitBtn.classList.remove('loading');
+      submitBtn.disabled = false;
+    }
+  }
+
+  function handleNotNow() {
+    const notNowUntil = Date.now() + CONFIG.notNowDelay;
+    localStorage.setItem(STORAGE_KEYS.notNowUntil, notNowUntil.toString());
+    hidePopup();
+  }
+
+  function handleCancel() {
+    localStorage.setItem(STORAGE_KEYS.cancelled, 'true');
+    hidePopup();
+  }
+
+  // Initialize popup
+  document.addEventListener('DOMContentLoaded', () => {
+    const popup = document.getElementById('subscription-popup');
+    const autoTrigger = popup?.getAttribute('data-auto-trigger') === 'true';
+    
+    // Schedule popup to show after grace period only if autoTrigger is enabled
+    if (autoTrigger) {
+      schedulePopup();
+    }
+
+    // Event listeners
+    const form = document.getElementById('subscription-form');
+    const overlay = document.getElementById('popup-overlay');
+    const notNowBtn = document.getElementById('not-now-btn');
+    const cancelBtn = document.getElementById('cancel-btn');
+
+    if (form) {
+      form.addEventListener('submit', handleSubscribe);
+    }
+
+    if (overlay) {
+      overlay.addEventListener('click', handleNotNow);
+    }
+
+    if (notNowBtn) {
+      notNowBtn.addEventListener('click', handleNotNow);
+    }
+
+    if (cancelBtn) {
+      cancelBtn.addEventListener('click', handleCancel);
+    }
+
+    // Clean up on page unload
+    window.addEventListener('beforeunload', () => {
+      if (popupTimeout) {
+        clearTimeout(popupTimeout);
+      }
+    });
+  });
+</script> </body></html> 

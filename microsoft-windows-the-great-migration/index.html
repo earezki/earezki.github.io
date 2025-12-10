@@ -1,0 +1,592 @@
+<!DOCTYPE html><html lang="en" data-theme="dark"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Why Engineers Are Ditching Windows: The Great Desktop Migration • Dev|Journal</title><meta name="description" content="TL;DR Windows has become hostile to power users. Between aggressive telemetry, mandatory Microsoft accounts, arbitrary hardware requirements that obsolete 500M…"><meta name="keywords" content="Operating Systems, Linux, Windows, Developer Experience"><meta name="author" content="El Mehdi Arezki"><meta property="og:type" content="website"><meta property="og:url" content="https://earezki.com/microsoft-windows-the-great-migration/"><meta property="og:title" content="Why Engineers Are Ditching Windows: The Great Desktop Migration • Dev|Journal"><meta property="og:site_name" content="Dev|Journal"><meta property="og:description" content="TL;DR Windows has become hostile to power users. Between aggressive telemetry, mandatory Microsoft accounts, arbitrary hardware requirements that obsolete 500M…"><meta property="og:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:url" content="https://earezki.com/microsoft-windows-the-great-migration/"><meta name="twitter:title" content="Why Engineers Are Ditching Windows: The Great Desktop Migration • Dev|Journal"><meta name="twitter:description" content="TL;DR Windows has become hostile to power users. Between aggressive telemetry, mandatory Microsoft accounts, arbitrary hardware requirements that obsolete 500M…"><meta name="twitter:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:creator" content="@earezki"><link rel="canonical" href="https://earezki.com/microsoft-windows-the-great-migration/"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/x-icon" href="/favicon.ico"><link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"><link rel="dns-prefetch" href="https://cloud.umami.is"><script defer src="https://cloud.umami.is/script.js" data-website-id="4a26531d-1053-4f79-97a6-06a1366aff91"></script><script>
+      (function() {
+        const theme = localStorage.getItem('theme');
+        if (theme) document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script><script>
+!function(){const o=window.location.pathname;if("/"===o)return;if(/\.\w+$/.test(o))return;const n=o.toLowerCase(),i=n!==o,t=!o.endsWith("/");if(i||t){const o=n+(t?"/":""),i=window.location.origin+o+window.location.search+window.location.hash;window.location.replace(i)}}();
+</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Why Engineers Are Ditching Windows: The Great Desktop Migration","description":"TL;DR Windows has become hostile to power users. Between aggressive telemetry, mandatory Microsoft accounts, arbitrary hardware requirements that obsolete 500M…","image":"https://earezki.com/assets/og-image-default.jpg","datePublished":"2025-11-30T00:00:00.000Z","dateModified":"2025-11-30T00:00:00.000Z","author":{"@type":"Person","name":"El Mehdi Arezki","url":"https://earezki.com/about","jobTitle":"Lead Software Engineer","sameAs":["https://github.com/earezki","https://www.linkedin.com/in/mehdi-arezki"]},"publisher":{"@type":"Organization","name":"Dev|Journal","url":"https://earezki.com","logo":{"@type":"ImageObject","url":"https://earezki.com/assets/logo.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://earezki.com/microsoft-windows-the-great-migration/"}}</script><link rel="stylesheet" href="/_astro/_slug_.BZhQT0av.css">
+<link rel="stylesheet" href="/_astro/_slug_.CFj9bTVJ.css">
+<style>.series-navigation[data-astro-cid-2hl7stop]{margin:2rem 0 3rem;padding:1.5rem;background:linear-gradient(135deg,#2563eb0d,#6366f10d);border:1px solid var(--color-border);border-radius:var(--radius-md)}html[data-theme=dark] .series-navigation[data-astro-cid-2hl7stop]{background:linear-gradient(135deg,#2563eb1a,#6366f11a)}.series-header[data-astro-cid-2hl7stop]{margin-bottom:1.25rem}.series-badge[data-astro-cid-2hl7stop]{display:inline-block;font-size:.75rem;font-weight:600;color:var(--color-accent);background:#2563eb1a;padding:.25rem .75rem;border-radius:var(--radius-pill);margin-bottom:.5rem}.series-header[data-astro-cid-2hl7stop] h3[data-astro-cid-2hl7stop]{margin:.5rem 0 .25rem;font-size:1.25rem;color:var(--color-text)}.series-progress[data-astro-cid-2hl7stop]{font-size:.85rem;color:var(--color-text-alt);margin:0}.series-list[data-astro-cid-2hl7stop]{display:flex;flex-direction:column;gap:.75rem;margin:1.5rem 0}.series-item[data-astro-cid-2hl7stop]{display:flex;align-items:center;gap:.75rem;padding:.75rem;background:var(--color-bg);border:1px solid var(--color-border);border-radius:var(--radius-sm);transition:all var(--transition)}.series-item[data-astro-cid-2hl7stop]:hover{border-color:var(--color-accent)}.series-item[data-astro-cid-2hl7stop].current{background:var(--color-accent);border-color:var(--color-accent)}.series-item[data-astro-cid-2hl7stop].completed{opacity:.7}.series-number[data-astro-cid-2hl7stop]{flex-shrink:0;width:28px;height:28px;display:flex;align-items:center;justify-content:center;background:var(--color-bg-alt);color:var(--color-text-alt);border-radius:50%;font-size:.85rem;font-weight:600}.series-item[data-astro-cid-2hl7stop].current .series-number[data-astro-cid-2hl7stop]{background:#fff3;color:#fff}.series-title[data-astro-cid-2hl7stop]{flex:1;font-size:.95rem;color:var(--color-text);text-decoration:none;transition:color var(--transition)}.series-title[data-astro-cid-2hl7stop]:hover{color:var(--color-accent)}.series-item[data-astro-cid-2hl7stop].current .current-title[data-astro-cid-2hl7stop]{color:#fff;font-weight:600}.check-icon[data-astro-cid-2hl7stop]{flex-shrink:0;color:#10b981;font-size:1.1rem}.series-nav-buttons[data-astro-cid-2hl7stop]{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--color-border)}.series-nav-btn[data-astro-cid-2hl7stop]{display:flex;flex-direction:column;gap:.25rem;padding:1rem;background:var(--color-bg);border:1px solid var(--color-border);border-radius:var(--radius-sm);text-decoration:none;transition:all var(--transition)}.series-nav-btn[data-astro-cid-2hl7stop]:hover{border-color:var(--color-accent);transform:translateY(-2px);box-shadow:var(--shadow-sm)}.series-nav-btn[data-astro-cid-2hl7stop].next{text-align:right}.nav-label[data-astro-cid-2hl7stop]{font-size:.75rem;color:var(--color-text-alt);font-weight:600;text-transform:uppercase;letter-spacing:.05em}.nav-title[data-astro-cid-2hl7stop]{font-size:.9rem;color:var(--color-text);font-weight:500}.series-nav-btn[data-astro-cid-2hl7stop]:hover .nav-title[data-astro-cid-2hl7stop]{color:var(--color-accent)}@media(max-width:680px){.series-navigation[data-astro-cid-2hl7stop]{padding:1rem}.series-nav-buttons[data-astro-cid-2hl7stop]{grid-template-columns:1fr}.series-nav-btn[data-astro-cid-2hl7stop].next{text-align:left}}.post-layout[data-astro-cid-yvbahnfj]{display:grid;grid-template-columns:260px 1fr;gap:2.5rem;width:100%;max-width:100%;box-sizing:border-box}.sidebar-left[data-astro-cid-yvbahnfj]{position:relative;min-width:0;overflow:hidden}@media(max-width:1080px){.post-layout[data-astro-cid-yvbahnfj]{grid-template-columns:1fr;width:100%;max-width:100%;padding:0;margin:0}}@media(max-width:768px){.post-layout[data-astro-cid-yvbahnfj]{display:block;width:100%;max-width:100%;padding:0;margin:0}.sidebar-left[data-astro-cid-yvbahnfj]{display:none}}
+</style></head> <body> <div id="readingProgress" role="progressbar" aria-label="Reading progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="position:fixed;left:0;top:0;height:3px;background:linear-gradient(90deg,#2563eb,#9333ea);width:0;z-index:999;transition:width .15s ease;"></div> <script type="module">function c(){const t=document.getElementById("readingProgress");if(!t)return;const o=()=>{const e=document.documentElement,r=e.scrollTop||document.body.scrollTop,s=e.scrollHeight-e.clientHeight,n=s>0?r/s*100:0;t.style.width=`${n}%`,t.setAttribute("aria-valuenow",n.toFixed(0))};document.addEventListener("scroll",o,{passive:!0}),o()}c();</script> <header class="site-header container"> <div class="logo-wrap"> <a class="logo" href="/" aria-label="Dev|Journal Home">
+Dev|Journal
+</a> </div> <!-- Search Box in Header --> <div class="header-search" data-search-api-url="https://api.earezki.com/blog/api/q" data-search-timeout="2000"> <div class="search-box" id="search-box"> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon" aria-hidden="true"> <circle cx="11" cy="11" r="8"></circle> <path d="m21 21-4.35-4.35"></path> </svg> <input type="text" id="search-input" placeholder="Search ..." class="search-input" autocomplete="off" aria-label="Search articles" minlength="3"> <button id="clear-search" class="clear-button" style="display: none;" aria-label="Clear search"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <line x1="18" y1="6" x2="6" y2="18"></line> <line x1="6" y1="6" x2="18" y2="18"></line> </svg> </button> </div> <div id="search-results" class="search-results" role="status" aria-live="polite"></div> </div> <script type="module" src="/_astro/SearchBox.astro_astro_type_script_index_0_lang.BNnBPVSN.js"></script> <nav class="main-nav" aria-label="Main navigation"> <a href="/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path> <polyline points="9 22 9 12 15 12 15 22"></polyline> </svg>
+Home
+</a> <a href="/ai-news/" class="ai-news-link ai-gradient-nav"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h-9.5a.5.5 0 0 0-.5.5.5.5 0 0 1-1 0 .5.5 0 0 0-.5-.5H1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"></path> <path d="M7 15v4a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-4"></path> </svg>
+AI News
+</a> <a href="/ai-financial-news/" class="ai-financial-link ai-gradient-nav"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <line x1="12" y1="1" x2="12" y2="23"></line> <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path> </svg>
+AI Financial
+</a> <a href="/about/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <circle cx="12" cy="12" r="10"></circle> <path d="M12 16v-4"></path> <path d="M12 8h.01"></path> </svg>
+About
+</a> <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode"> <span class="theme-icon" aria-hidden="true">☾</span> </button> </nav> </header> <!-- Main Content --> <main class="container content-area">  <nav class="breadcrumbs" aria-label="Breadcrumb" data-astro-cid-ilhxcym7> <ol data-astro-cid-ilhxcym7> <li data-astro-cid-ilhxcym7>  <a href="/" data-astro-cid-ilhxcym7>Home</a> <span class="separator" aria-hidden="true" data-astro-cid-ilhxcym7>/</span>  </li><li data-astro-cid-ilhxcym7> <span class="current" aria-current="page" data-astro-cid-ilhxcym7>Why Engineers Are Ditching Windows: The Great Desktop Migration</span> </li>  </ol> </nav>  <div class="post-layout" data-astro-cid-yvbahnfj> <aside class="sidebar-left" data-astro-cid-yvbahnfj> <nav class="toc" aria-label="Table of Contents" data-astro-cid-xvrfupwn> <div class="toc-title" data-astro-cid-xvrfupwn>On this page</div> <ul data-astro-cid-xvrfupwn> <li class="d-2" data-astro-cid-xvrfupwn> <a href="#tldr" data-astro-cid-xvrfupwn> TL;DR </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#why-i-left-windows-and-you-probably-should-too" data-astro-cid-xvrfupwn> Why I Left Windows (and You Probably Should Too) </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#the-windows-7-10-migration-when-users-started-saying-no" data-astro-cid-xvrfupwn> The Windows 7 → 10 Migration: When Users Started Saying No </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#telemetry-the-privacy-implosion" data-astro-cid-xvrfupwn> Telemetry: The Privacy Implosion </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#forced-updates-that-delete-your-files" data-astro-cid-xvrfupwn> Forced Updates That Delete Your Files </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#the-trust-deficit" data-astro-cid-xvrfupwn> The Trust Deficit </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#windows-11-when-microsoft-stopped-pretending-to-care" data-astro-cid-xvrfupwn> Windows 11: When Microsoft Stopped Pretending to Care </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#the-tpm-20-catastrophe-500-million-pcs-obsoleted-overnight" data-astro-cid-xvrfupwn> The TPM 2.0 Catastrophe: 500 Million PCs Obsoleted Overnight </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#the-e-waste-apocalypse" data-astro-cid-xvrfupwn> The E-Waste Apocalypse </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#windows-recall-the-ai-surveillance-nightmare" data-astro-cid-xvrfupwn> Windows Recall: The AI Surveillance Nightmare </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#governments-fleeing-to-linux" data-astro-cid-xvrfupwn> Governments Fleeing to Linux </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#linux-market-share-the-5-milestone" data-astro-cid-xvrfupwn> Linux Market Share: The 5% Milestone </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#linux-already-won-servers-ai-and-the-infrastructure" data-astro-cid-xvrfupwn> Linux Already Won: Servers, AI, and the Infrastructure </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#nvidias-linux-strategy-follow-the-money" data-astro-cid-xvrfupwn> NVIDIA&#39;s Linux Strategy: Follow the Money </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#why-most-engineers-still-cant-switch" data-astro-cid-xvrfupwn> Why Most Engineers Still Can&#39;t Switch </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#final-thoughts" data-astro-cid-xvrfupwn> Final Thoughts </a> </li> </ul> </nav>  </aside> <article class="post" data-astro-cid-yvbahnfj> <header class="post-header" data-astro-cid-yvbahnfj> <h1 data-astro-cid-yvbahnfj>Why Engineers Are Ditching Windows: The Great Desktop Migration</h1> <div class="meta" data-astro-cid-yvbahnfj> <time datetime="2025-11-30T00:00:00.000Z" data-astro-cid-yvbahnfj>Sun Nov 30 2025</time> <span data-astro-cid-yvbahnfj>• 10 min read</span> </div> <div class="tag-row" data-astro-cid-yvbahnfj><a class="post-tag " href="/tags/operating-systems/" data-astro-cid-yvbahnfj>Operating Systems</a><a class="post-tag " href="/tags/linux/" data-astro-cid-yvbahnfj>Linux</a><a class="post-tag " href="/tags/windows/" data-astro-cid-yvbahnfj>Windows</a><a class="post-tag " href="/tags/developer-experience/" data-astro-cid-yvbahnfj>Developer Experience</a></div> </header>    <div class="post-body prose" data-astro-cid-yvbahnfj> <h2 id="tldr">TL;DR</h2>
+<p>Windows has become hostile to power users. Between aggressive telemetry, mandatory Microsoft accounts, arbitrary hardware requirements that obsolete 500M PCs, and ads baked into the OS, Microsoft is bleeding users to Linux. Governments in Germany, France, and Denmark are migrating tens of thousands of systems. Desktop Linux hit 5% US market share in 2025, a historic milestone. But here’s the catch: most engineers still can’t switch because Adobe won’t ship for Linux, kernel-level anti-cheat blocks gamers, and enterprise tooling requires Windows. This is the story of why we’re trapped, why some are escaping, and what it means for the next decade of desktop computing.</p>
+<hr>
+<h2 id="why-i-left-windows-and-you-probably-should-too">Why I Left Windows (and You Probably Should Too)</h2>
+<p>I ditched Windows for Linux Mint last year. The reasons were prosaic but cumulative:</p>
+<ul>
+<li><strong>RAM bloat</strong>: Windows 11 idling at ~16GB with 20 browser tabs. Same workload on Mint: ~9GB.</li>
+<li><strong>Installation friction</strong>: Everything on Windows needs an installer, a reboot, and three confirmation dialogs. On Linux: <code>apt install</code> and you’re done.</li>
+<li><strong>Docker’s VM tax</strong>: Running Docker Desktop on Windows means running a VM. On Linux, containers are native.</li>
+<li><strong>Forced ads</strong>: My Start menu advertises Microsoft 365. I paid for this OS.</li>
+<li><strong>Minimal customization</strong>: Want to change how window tiling works? Good luck.</li>
+</ul>
+<p>Gaming improved dramatically (Steam + Proton handles 80% of my library). Office work moved to Google Docs and LibreOffice.</p>
+<p>That said, I chose <strong>Mint over Ubuntu</strong> after Ubuntu corrupted my login three separate times and nuked my home directory (probably my mistake but Mint have been forgiving so far). Always have backups. Always.</p>
+<hr>
+<h2 id="the-windows-7--10-migration-when-users-started-saying-no">The Windows 7 → 10 Migration: When Users Started Saying No</h2>
+<p>Windows 7 remains beloved because it didn’t spy on you, didn’t force updates, and ran on anything. Windows 10 broke all three promises.</p>
+<h3 id="telemetry-the-privacy-implosion">Telemetry: The Privacy Implosion</h3>
+<p>Windows 10 shipped with <strong>Compatibility Telemetry</strong> enabled by default, collecting device configs, software usage, performance metrics, and behavioral data. Unlike 7’s opt-in diagnostics, Windows 10 made opting out deliberately obscure. The tech press called it surveillance. Microsoft called it “improving the user experience.”</p>
+<p>Disabling telemetry required registry hacks, Group Policy changes, and third-party tools. For most users, it was easier to just accept that their OS was now phoning home 24/7.</p>
+<h3 id="forced-updates-that-delete-your-files">Forced Updates That Delete Your Files</h3>
+<p>Windows 10 made updates <strong>mandatory</strong>. No postpone button. No “remind me later.” If Microsoft pushed an update, your machine rebooted whether you wanted it or not.</p>
+<p>The October 2018 Update famously <strong>deleted user files</strong>. Not some files, entire user accounts vanished. Microsoft pulled the update, but the damage was done: users realized “stable” was no longer guaranteed.</p>
+<h3 id="the-trust-deficit">The Trust Deficit</h3>
+<p>Windows 7 users saw Windows 10 as a downgrade: more resource-hungry, less private, less stable. Many refused to upgrade until security patches ended in 2020, and even then, some stayed behind.</p>
+<hr>
+<h2 id="windows-11-when-microsoft-stopped-pretending-to-care">Windows 11: When Microsoft Stopped Pretending to Care</h2>
+<p>If Windows 10 was a warning shot, Windows 11 is full siege mode. <strong>500 million PCs that can run Windows 11 haven’t upgraded</strong>, not because they can’t, but because users <strong>actively refuse</strong>. And for good reason: Windows 11 consumes <strong>50% CPU and 30% RAM at idle</strong> without any user applications running. Background telemetry, indexing, widget feeds, and Microsoft Store pre-loaders chew resources nonstop. People preferred Windows 8, the biggest failure in Windows history, over 11.</p>
+<p>But performance is the least of Windows 11’s sins. The OS now serves <strong>ads in the Start menu</strong> you paid $200 for. “Suggested apps” promote Microsoft services. Fresh installs come with <strong>Candy Crush, trial antivirus, and promotional bloatware</strong>. Why does a premium OS behave like adware?</p>
+<p>Worse still, Windows 11 Home and Pro now <strong>require a Microsoft account during installation</strong>. The “create local account” option was removed. Workarounds existed (<code>OOBE\BYPASSNRO</code>, <code>start ms-cxh:localonly</code>), but Microsoft keeps patching them out. Current builds require registry hacks or third-party tools like Rufus to bypass the requirement. Why? Because Microsoft wants your data, your email, and to lock you into their cloud ecosystem.</p>
+<hr>
+<h2 id="the-tpm-20-catastrophe-500-million-pcs-obsoleted-overnight">The TPM 2.0 Catastrophe: 500 Million PCs Obsoleted Overnight</h2>
+<p>Microsoft’s most destructive decision: Windows 11 requires <strong>TPM 2.0, 8th-gen Intel CPUs (or Ryzen 2000+), and UEFI Secure Boot</strong>. These aren’t security features, they’re <strong>planned obsolescence</strong>.</p>
+<p>The damage:</p>
+<ul>
+<li><strong>500 million functional PCs cannot run Windows 11</strong></li>
+<li>Only <strong>57% of existing PCs meet CPU requirements</strong></li>
+<li>Only <strong>75% have TPM 2.0 chips</strong></li>
+</ul>
+<p>What this means: Enterprises with 10,000-PC fleets must replace 40-50% of their hardware <strong>not because it’s slow, but because Microsoft said so</strong>.</p>
+<h3 id="the-e-waste-apocalypse">The E-Waste Apocalypse</h3>
+<p>Windows 10 support ends October 14, 2025. Microsoft’s answer: “Buy new hardware or pay us for extended support.”</p>
+<p>Estimated fallout:</p>
+<ul>
+<li><strong>240-400 million PCs destined for landfills</strong></li>
+<li><strong>700 million kg of e-waste</strong></li>
+<li>Right to Repair groups call it “the largest case of premature, planned obsolescence in history”</li>
+</ul>
+<p>Microsoft offers Extended Security Updates (ESU), <strong>but now requires a Microsoft account</strong> to purchase them. Offline business PCs? Too bad.</p>
+<hr>
+<h2 id="windows-recall-the-ai-surveillance-nightmare">Windows Recall: The AI Surveillance Nightmare</h2>
+<p>Microsoft’s Copilot+ PCs ship with <strong>Recall</strong>, a feature that screenshots your desktop every 3 seconds, OCRs the content, and builds a searchable AI index of everything you’ve ever seen.</p>
+<p>Security researchers went ballistic:</p>
+<ul>
+<li><strong>Every message in Signal, every password entry, every private document gets indexed</strong></li>
+<li>The database is a “treasure trove for malicious insiders, criminals, or state-sponsored spies”</li>
+<li><strong>Even if you disable Recall, anyone you message who has it enabled will archive your conversation</strong></li>
+</ul>
+<p>Signal added a “Screen Security” setting to block Recall. Microsoft’s response? Silence.</p>
+<p>This is the future Microsoft wants: your OS as a surveillance appliance.</p>
+<hr>
+<h2 id="governments-fleeing-to-linux">Governments Fleeing to Linux</h2>
+<p>Europe is done with Microsoft’s BS. Germany’s Schleswig-Holstein state is migrating <strong>60,000 civil servants and 30,000 teachers</strong> off Microsoft entirely: Windows → Linux (KDE Plasma), Office → LibreOffice, Outlook → Open-Xchange, Teams → anything else. Minister Dirk Schrödter summed it up: <strong>“We’re done with Teams!”</strong> The rationale is <strong>digital sovereignty</strong>, Germany refuses to let US tech companies control government data.</p>
+<p>France went further. The National Gendarmerie has run <strong>GendBuntu</strong> (custom Ubuntu) since the early 2000s. As of 2024, <strong>97% of workstations (103,000+ PCs) are Linux</strong>. It works. It’s been working for 20+ years. Denmark’s Ministry of Digital Affairs joined the exodus, citing a stark concern: <strong>“If we can’t send emails because of a political fallout with the US, that’s a massive problem.”</strong></p>
+<p>A petition for “EU-Linux” now calls for the European Union to <strong>develop and deploy a standardized Linux distribution across all member states</strong>. It’s gaining traction as geopolitical tensions with US tech giants escalate.</p>
+<hr>
+<h2 id="linux-market-share-the-5-milestone">Linux Market Share: The 5% Milestone</h2>
+<p>Desktop Linux hit <strong>5.03% market share in the US</strong> (June 2025), a historic achievement. Add ChromeOS (also Linux), and the Linux family reaches <strong>7.74%</strong>. The growth trajectory is undeniable: 1.5% in 2020, 2% in 2021, 3.12% in 2023, 4%+ in 2024, and now 5%+ in 2025.</p>
+<p>Three forces converged to make this happen: <strong>Steam Deck</strong> (Valve’s Linux-powered handheld normalized Linux gaming for millions), <strong>Proton maturity</strong> (AAA titles now run on Linux without dual-booting), and <strong>Windows hostility</strong> (forced accounts, telemetry, and planned obsolescence finally broke user patience).</p>
+<p>But desktop Linux is only part of the story. Where Linux <strong>truly dominates</strong> is servers, data centers, and AI infrastructure, the computing that actually powers the modern world.</p>
+<hr>
+<h2 id="linux-already-won-servers-ai-and-the-infrastructure">Linux Already Won: Servers, AI, and the Infrastructure</h2>
+<p>While the desktop wars rage on, Linux has <strong>already won</strong> where it matters: the infrastructure running the internet, cloud computing, and AI. The numbers are absurd:</p>
+<ul>
+<li><strong>96.3% of the top one million web servers</strong> run Linux</li>
+<li><strong>90% of cloud infrastructure</strong> (AWS, Azure, Google Cloud) runs on Linux</li>
+<li><strong>91.5% of the world’s top 500 supercomputers</strong> run Linux</li>
+<li><strong>78.3% of all web-facing servers</strong> run Linux</li>
+<li>Among Fortune 500 companies, <strong>72.6% run mission-critical workloads on Linux</strong></li>
+</ul>
+<p>Why the total dominance? <strong>Cost</strong> (zero licensing fees for thousands of servers), <strong>stability</strong> (Linux servers run for years without reboots, decades in some cases), <strong>security</strong> (open-source transparency allows rapid patching), and <strong>scalability</strong> (Linux handles massive distributed workloads better than anything else). Enterprises running 10,000-server data centers save millions annually by avoiding Windows Server licensing costs.</p>
+<p>Even Microsoft admits defeat: <strong>Azure runs more Linux VMs than Windows VMs</strong>. Their own cloud infrastructure relies on Linux.</p>
+<h3 id="nvidias-linux-strategy-follow-the-money">NVIDIA’s Linux Strategy: Follow the Money</h3>
+<p>Here’s the dirty secret desktop Linux users don’t want to hear: <strong>NVIDIA prioritizes Linux, just not for US</strong>. Approximately <strong>89% of NVIDIA’s revenue comes from data centers</strong>, not gaming (which is only 8.7% of revenue). NVIDIA’s actual engineering investment goes into Linux support for AI and HPC workloads, not desktop gamers.</p>
+<p>In enterprise data centers, NVIDIA’s Linux support is <strong>exceptional</strong>:</p>
+<ul>
+<li>CUDA is optimized primarily for Linux servers</li>
+<li>NVIDIA’s container toolkit is “the most reliable way to get GPU acceleration on any OS”</li>
+<li>Enterprise GPUs ship with drivers designed for Red Hat Enterprise Linux</li>
+<li>Many NVIDIA servers ship with DGX OS (a custom Ubuntu variant)</li>
+</ul>
+<p>Desktop Linux gamers complaining about driver quality are missing the point: supporting 273 different Linux distributions for desktop gaming would be enormously expensive for maybe 3-5% of NVIDIA’s gaming revenue. It’s a rounding error. Meanwhile, NVIDIA has invested billions into Linux support for AI infrastructure because <strong>that’s where the actual money is</strong>.</p>
+<p>Large language model training, the most computationally intensive work on Earth, runs almost exclusively on Linux. When Meta trains LLaMA 3 on <strong>16,000+ GPUs across 2,000+ nodes</strong>, they use:</p>
+<ul>
+<li>Linux-based GPU nodes (NVIDIA H100 or A100 accelerators)</li>
+<li>Docker and Kubernetes (Linux-native containerization)</li>
+<li>InfiniBand networks for GPU-to-GPU communication</li>
+<li>Hierarchical checkpointing to prevent training failures</li>
+</ul>
+<p>Windows cannot do this. Training jobs that last weeks cannot afford forced reboots. AI frameworks (TensorFlow, PyTorch, Scikit-Learn) were all built with Linux as the primary target. Ubuntu dominates AI infrastructure because of built-in CUDA support, seamless Docker integration, and a massive community of ML engineers.</p>
+<p>Even developers using Windows locally deploy to Linux servers. The pattern is universal: develop on Windows or macOS, train and deploy on Linux. The entire AI revolution, ChatGPT, Stable Diffusion, autonomous vehicles, drug discovery, runs on Linux infrastructure.</p>
+<hr>
+<h2 id="why-most-engineers-still-cant-switch">Why Most Engineers Still Can’t Switch</h2>
+<p>Here’s the brutal truth: <strong>Linux has fatal gaps that keep most professionals locked into Windows</strong>.</p>
+<p>The single biggest blocker: <strong>Adobe Creative Cloud does not run on Linux</strong>. Period.</p>
+<p>Photoshop, Premiere Pro, After Effects, Illustrator, these are non-negotiable tools for filmmakers, designers, and video editors. Adobe actively blocks Linux (their installers detect the OS and refuse to proceed).</p>
+<p>Wine and Proton don’t cut it for production work. If you’re a professional creative, you’re stuck on Windows or macOS.</p>
+<p>As for Gamers, while Proton fixed most gaming compatibility issues, <strong>kernel-level anti-cheat systems actively ban Linux users</strong>.</p>
+<p>Games that don’t work on Linux:</p>
+<ul>
+<li>Valorant</li>
+<li>Fortnite</li>
+<li>League of Legends</li>
+<li>Lost Ark</li>
+<li>Destiny 2 (deliberately disabled Linux support despite EAC technically supporting it)</li>
+</ul>
+<p>The technical support exists (EAC and BattlEye have Linux builds), but <strong>publishers choose to disable Linux</strong>. This is a business decision, not a technical limitation.</p>
+<p>While for organizations, migrating a 10,000-employee organization off Windows means:</p>
+<ul>
+<li>Rewriting or replacing mission-critical internal apps</li>
+<li>Retraining staff</li>
+<li>Rebuilding authentication and policy management infrastructure</li>
+<li>Potentially losing regulatory compliance</li>
+</ul>
+<p>Cost: millions of dollars. Risk: catastrophic. ROI: unclear.</p>
+<p>Adding to all of it the <strong>Learning Curve and Toxicity Tax</strong>. Linux requires understanding concepts Windows hides: what a distribution is and which one to choose (273 active distros!), why your Wi-Fi card needs proprietary firmware, how package managers work, when you need to edit <code>/etc/fstab</code> or recompile a kernel module. Windows abstracts this. Linux makes you deal with it.</p>
+<p>Even developers report spending hours troubleshooting printer drivers, audio pipelines (PulseAudio vs. PipeWire), and display server issues (X11 vs. Wayland). And when you ask for help on Linux forums, you’ll often get “RTFM,” “sounds like a skill issue,” or ideological gatekeeping about systemd, GNOME, or Red Hat. When newcomers encounter problems and receive hostile responses, they leave permanently. This cultural barrier is as significant as any technical one.</p>
+<hr>
+<h2 id="final-thoughts">Final Thoughts</h2>
+<p>If you’re an <strong>individual developer or power user</strong>:</p>
+<ul>
+<li>Try Linux Mint or Pop!_OS in a VM. Test your workflow.</li>
+<li>Check if your games work on <a href="https://www.protondb.com/">ProtonDB</a>.</li>
+<li>If you need Adobe, you’re stuck, but consider alternatives (DaVinci Resolve, Affinity, Figma).</li>
+</ul>
+<p>If you’re an <strong>engineering manager or CTO</strong>:</p>
+<ul>
+<li>Audit how many Windows-only tools you actually need. Many have Linux replacements.</li>
+<li>Consider a hybrid approach: dev teams on Linux, creative/business teams on Windows.</li>
+<li>Budget for ESU if you can’t upgrade hardware, but know Microsoft will keep raising prices.</li>
+</ul>
+<p>If you’re a <strong>government or large enterprise</strong>:</p>
+<ul>
+<li>Digital sovereignty is real. Dependence on US vendors creates geopolitical risk.</li>
+<li>Linux migrations are expensive upfront but eliminate licensing costs forever.</li>
+<li>France’s Gendarmerie and Germany’s Schleswig-Holstein prove it scales.</li>
+</ul> </div>    <section class="related-posts" data-astro-cid-dpgbfi7r> <h2 data-astro-cid-dpgbfi7r>Related Posts</h2> <div class="related-posts-grid" data-astro-cid-dpgbfi7r> <article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/ai-news/2025-12-07-illusion-of-isolation-in-docker/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>Illusion of isolation in Docker</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>Illusion of isolation in Docker Being a member of the group allows access to the Docker daemon’s Unix socket, enabling…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2025-12-07T00:00:00.000Z" data-astro-cid-dpgbfi7r> Dec 7, 2025 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>1 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/ai-news/2025-12-06-understanding-linux-file-system-ls-ltr-decoded-and-directory-structure-explained/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>Understanding Linux File System: ls -ltr Decoded and Directory Structure Explained</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>Understanding Linux File System: ls -ltr Decoded and Directory Structure Explained The command reveals file types,…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2025-12-06T00:00:00.000Z" data-astro-cid-dpgbfi7r> Dec 6, 2025 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>1 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/ai-news/2025-12-04-linux-in-action-resetting-the-root-password-on-rhel-rhel-9-10/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>Resetting the root Password on RHEL (RHEL 9 &amp; 10)</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>Resetting the root Password on RHEL (RHEL 9 &amp; 10) Resetting the root password on RHEL 9/10 is critical for system…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2025-12-04T00:00:00.000Z" data-astro-cid-dpgbfi7r> Dec 4, 2025 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>1 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/ai-news/2025-11-29-network-namespaces-isolating-vm-networking/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>Network Namespaces: Isolating VM Networking</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>Network Namespaces: Isolating VM Networking Nikita Vakula’s qcontroller tool leverages Linux network namespaces to…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2025-11-29T00:00:00.000Z" data-astro-cid-dpgbfi7r> Nov 29, 2025 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>1 min read</span> </div> </a> </article> </div> </section>  </article> </div> <div class="back-link" data-astro-cid-yvbahnfj><a href="/" data-astro-cid-yvbahnfj>← Back to home</a></div>  </main> <!-- Site Footer --> <footer class="site-footer container"> <p>
+© 2025 AREZKI El Mehdi •
+<a href="https://github.com/earezki">GitHub</a> •
+<a href="/rss.xml">RSS</a> •
+<a href="/tags/">Tags</a> •
+<a href="/sitemap-index.xml">Sitemap</a> •
+<button id="footer-subscribe-btn" class="footer-subscribe-btn" aria-label="Subscribe to newsletter">
+📬 Subscribe
+</button> </p> </footer> <!-- Footer Subscribe Button Handler --> <script type="module">const e=document.getElementById("themeToggle"),o=n=>{if(!e)return;const t=e.querySelector(".theme-icon");t&&(t.textContent=n==="dark"?"☀":"☾")};if(e){const n=document.documentElement.getAttribute("data-theme")||"dark";o(n),e.addEventListener("click",()=>{const t=document.documentElement,c=t.getAttribute("data-theme")==="dark"?"light":"dark";t.setAttribute("data-theme",c),localStorage.setItem("theme",c),o(c)})}</script> <!-- Theme Toggle --> <script type="module">document.addEventListener("DOMContentLoaded",()=>{const e=document.getElementById("footer-subscribe-btn");e&&e.addEventListener("click",n=>{n.preventDefault();const t=document.getElementById("subscription-popup");t&&(t.setAttribute("data-state","visible"),document.body.style.overflow="hidden")})});</script> <!-- Article read/unread tracking --> <script>
+      (function() {
+        const KEY = 'readArticles';
+        
+        function getRead() {
+          try {
+            const d = localStorage.getItem(KEY);
+            return d ? JSON.parse(d) : [];
+          } catch (e) {
+            return [];
+          }
+        }
+        
+        function markRead(url) {
+          try {
+            const read = getRead();
+            if (!read.includes(url)) {
+              read.push(url);
+              localStorage.setItem(KEY, JSON.stringify(read));
+            }
+          } catch (e) {}
+        }
+        
+        function updateCards() {
+          const read = new Set(getRead());
+          const cards = document.querySelectorAll('.post-card[data-article-url]');
+          cards.forEach(function(card) {
+            const url = card.getAttribute('data-article-url');
+            if (!url) return;
+            const isRead = read.has(url);
+            card.classList.toggle('read', isRead);
+            card.classList.toggle('unread', !isRead);
+          });
+        }
+        
+        function markCurrent() {
+          if (document.querySelector('.post-body')) {
+            markRead(window.location.pathname);
+          }
+        }
+        
+        function init() {
+          updateCards();
+          markCurrent();
+        }
+        
+        function clearRead(url) {
+          try {
+            const read = new Set(getRead());
+            if (read.has(url)) {
+              read.delete(url);
+              localStorage.setItem(KEY, JSON.stringify(Array.from(read)));
+              updateCards();
+            }
+          } catch (e) {}
+        }
+        
+        window.clearReadArticle = clearRead;
+        document.addEventListener('DOMContentLoaded', init);
+        window.addEventListener('pageshow', function(e) {
+          if (e.persisted) init();
+        });
+      })();
+    </script> <!-- Clear read button handler --> <script>
+      (function() {
+        document.addEventListener('click', function(e) {
+          var tgt = e.target, btn = null;
+          while (tgt && tgt !== document) {
+            if (tgt.classList && tgt.classList.contains('clear-read-btn')) {
+              btn = tgt;
+              break;
+            }
+            tgt = tgt.parentNode;
+          }
+          if (!btn) return;
+          e.preventDefault();
+          e.stopPropagation();
+          var url = btn.getAttribute('data-article-url');
+          if (url && window.clearReadArticle) window.clearReadArticle(url);
+        });
+      })();
+    </script> <!-- External links open in new tab --> <script>
+      (function() {
+        function makeExternal() {
+          const domain = window.location.hostname;
+          const links = document.querySelectorAll('a[href]');
+          links.forEach(function(link) {
+            const href = link.getAttribute('href');
+            if (!href || link.hasAttribute('target')) return;
+            const isExt = (href.startsWith('http://') || href.startsWith('https://')) && !href.includes(domain);
+            if (isExt) {
+              link.setAttribute('target', '_blank');
+              link.setAttribute('rel', 'noopener noreferrer');
+            }
+          });
+        }
+        document.addEventListener('DOMContentLoaded', makeExternal);
+        if (window.MutationObserver) {
+          const obs = new MutationObserver(function(muts) {
+            muts.forEach(function(mut) {
+              if (mut.addedNodes.length) makeExternal();
+            });
+          });
+          obs.observe(document.body, { childList: true, subtree: true });
+        }
+      })();
+    </script> <!-- Code copy buttons --> <script>
+      (function() {
+        function createBtn() {
+          const btn = document.createElement('button');
+          btn.className = 'copy-code-button';
+          btn.setAttribute('aria-label', 'Copy code to clipboard');
+          btn.innerHTML = `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span>Copy</span>
+          `;
+          return btn;
+        }
+        
+        function checkIcon() {
+          return `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span>Copied!</span>
+          `;
+        }
+        
+        async function copyText(txt) {
+          try {
+            await navigator.clipboard.writeText(txt);
+            return true;
+          } catch (err) {
+            const ta = document.createElement('textarea');
+            ta.value = txt;
+            ta.style.position = 'fixed';
+            ta.style.left = '-999999px';
+            document.body.appendChild(ta);
+            ta.select();
+            try {
+              document.execCommand('copy');
+              document.body.removeChild(ta);
+              return true;
+            } catch (e) {
+              document.body.removeChild(ta);
+              return false;
+            }
+          }
+        }
+        
+        async function handleCopy(btn, code) {
+          const txt = code.textContent || '';
+          const ok = await copyText(txt);
+          if (ok) {
+            const orig = btn.innerHTML;
+            btn.classList.add('copied');
+            btn.innerHTML = checkIcon();
+            setTimeout(function() {
+              btn.classList.remove('copied');
+              btn.innerHTML = orig;
+            }, 2000);
+          }
+        }
+        
+        function addBtns() {
+          const blocks = document.querySelectorAll('.post-body pre');
+          blocks.forEach(function(pre) {
+            if (pre.querySelector('.copy-code-button')) return;
+            const btn = createBtn();
+            const code = pre.querySelector('code');
+            if (code) {
+              btn.addEventListener('click', function() {
+                handleCopy(btn, code);
+              });
+              pre.appendChild(btn);
+            }
+          });
+        }
+        
+        document.addEventListener('DOMContentLoaded', addBtns);
+      })();
+    </script> <!-- Newsletter Subscription Popup --> <div id="subscription-popup" class="subscription-popup" data-state="hidden" data-auto-trigger="true" data-astro-cid-we5gmdnp> <div class="popup-overlay" id="popup-overlay" data-astro-cid-we5gmdnp></div> <div class="popup-container" data-astro-cid-we5gmdnp> <div class="popup-content" data-astro-cid-we5gmdnp> <div class="popup-icon" data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-we5gmdnp> <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" data-astro-cid-we5gmdnp></path> <polyline points="22,6 12,13 2,6" data-astro-cid-we5gmdnp></polyline> </svg> </div> <h2 class="popup-title" data-astro-cid-we5gmdnp>Stay Updated with Dev|Journal</h2> <p class="popup-description" id="popup-description" data-astro-cid-we5gmdnp>
+Join our community of developers and engineers. Get insights on:
+</p> <ul class="popup-features" data-astro-cid-we5gmdnp> <li data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-we5gmdnp> <polyline points="20 6 9 17 4 12" data-astro-cid-we5gmdnp></polyline> </svg>
+Software Architecture & Design Patterns
+</li> <li data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-we5gmdnp> <polyline points="20 6 9 17 4 12" data-astro-cid-we5gmdnp></polyline> </svg>
+Backend Development Best Practices
+</li> <li data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-we5gmdnp> <polyline points="20 6 9 17 4 12" data-astro-cid-we5gmdnp></polyline> </svg>
+AI & Tech Industry Analysis
+</li> </ul> <form id="subscription-form" class="popup-form" data-astro-cid-we5gmdnp> <div class="form-group" data-astro-cid-we5gmdnp> <input type="text" id="subscriber-name" name="name" placeholder="Your name" required autocomplete="name" data-astro-cid-we5gmdnp> </div> <div class="form-group" data-astro-cid-we5gmdnp> <input type="email" id="subscriber-email" name="email" placeholder="your.email@example.com" required autocomplete="email" data-astro-cid-we5gmdnp> </div> <div id="form-message" class="form-message" data-astro-cid-we5gmdnp></div> <div class="popup-actions" data-astro-cid-we5gmdnp> <button type="submit" class="btn btn-primary" id="subscribe-btn" data-astro-cid-we5gmdnp> <span class="btn-text" data-astro-cid-we5gmdnp>Subscribe</span> <span class="btn-loader" data-astro-cid-we5gmdnp> <svg class="spinner" viewBox="0 0 24 24" data-astro-cid-we5gmdnp> <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" data-astro-cid-we5gmdnp></circle> </svg> </span> </button> <button type="button" class="btn btn-secondary" id="not-now-btn" data-astro-cid-we5gmdnp>Not Now</button> <button type="button" class="btn btn-text" id="cancel-btn" data-astro-cid-we5gmdnp>Don't Show Again</button> </div> </form> </div> </div> </div>  <script>
+  // Configuration
+  const CONFIG = {
+    graceDelay: 5000, // 5 seconds delay before showing popup
+    notNowDelay: 24 * 60 * 60 * 1000, // 1 day in milliseconds
+    apiUrl: 'https://api.earezki.com/blog/api',
+  };
+
+  const STORAGE_KEYS = {
+    subscribed: 'newsletter_subscribed',
+    cancelled: 'newsletter_cancelled',
+    notNowUntil: 'newsletter_not_now_until',
+  };
+
+  // State management
+  let popupTimeout = null;
+
+  function showPopup() {
+    const popup = document.getElementById('subscription-popup');
+    if (popup) {
+      popup.setAttribute('data-state', 'visible');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  function hidePopup() {
+    const popup = document.getElementById('subscription-popup');
+    if (popup) {
+      popup.setAttribute('data-state', 'hidden');
+      document.body.style.overflow = '';
+    }
+  }
+
+  function shouldShowPopup() {
+    // Check if user has already subscribed
+    if (localStorage.getItem(STORAGE_KEYS.subscribed) === 'true') {
+      return false;
+    }
+
+    // Check if user clicked "Don't show again"
+    if (localStorage.getItem(STORAGE_KEYS.cancelled) === 'true') {
+      return false;
+    }
+
+    // Check if user clicked "Not now" and delay hasn't passed
+    const notNowUntil = localStorage.getItem(STORAGE_KEYS.notNowUntil);
+    if (notNowUntil) {
+      const notNowTime = parseInt(notNowUntil, 10);
+      if (Date.now() < notNowTime) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  async function getSubscriberStats() {
+    try {
+      const response = await fetch(`${CONFIG.apiUrl}/subscribers/stats`, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+        },
+      });
+      
+      if (!response.ok) {
+        return null;
+      }
+      
+      const data = await response.json();
+      return data.subscriber_count || null;
+    } catch (error) {
+      console.error('Failed to fetch subscriber stats:', error);
+      return null;
+    }
+  }
+
+  async function schedulePopup() {
+    if (!shouldShowPopup()) {
+      return;
+    }
+
+    // Fetch subscriber stats before scheduling popup
+    const subscriberCount = await getSubscriberStats();
+    if (subscriberCount === null) {
+      console.log('Failed to fetch subscriber stats, not showing subscription popup');
+      return;
+    }
+
+    // Update popup with subscriber count
+    updatePopupWithStats(subscriberCount);
+
+    // Show popup after grace period
+    popupTimeout = window.setTimeout(() => {
+      showPopup();
+    }, CONFIG.graceDelay);
+  }
+
+  function updatePopupWithStats(count) {
+    const descriptionEl = document.querySelector('.popup-description');
+    if (descriptionEl) {
+      const formattedCount = new Intl.NumberFormat('en-US').format(count);
+      descriptionEl.innerHTML = `Join a community of <strong>${formattedCount}+</strong> developers and engineers who are growing together. Get insights on:`;
+    }
+  }
+
+  async function handleSubscribe(event) {
+    event.preventDefault();
+    
+    const form = event.target;
+    const nameInput = form.querySelector('#subscriber-name');
+    const emailInput = form.querySelector('#subscriber-email');
+    const submitBtn = form.querySelector('#subscribe-btn');
+    const messageEl = document.getElementById('form-message');
+
+    const name = nameInput.value.trim();
+    const email = emailInput.value.trim();
+
+    if (!name || !email) {
+      if (messageEl) {
+        messageEl.textContent = 'Please fill in all fields.';
+        messageEl.className = 'form-message error';
+      }
+      return;
+    }
+
+    // Show loading state
+    submitBtn.classList.add('loading');
+    submitBtn.disabled = true;
+    if (messageEl) {
+      messageEl.textContent = '';
+      messageEl.className = 'form-message';
+    }
+
+    try {
+      const response = await fetch(`${CONFIG.apiUrl}/subscribe`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, email }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        localStorage.setItem(STORAGE_KEYS.subscribed, 'true');
+        
+        if (messageEl) {
+          messageEl.textContent = '🎉 Successfully subscribed! Thank you for joining us.';
+          messageEl.className = 'form-message success';
+        }
+
+        // Hide popup after 2 seconds
+        setTimeout(() => {
+          hidePopup();
+        }, 2000);
+      } else {
+        if (messageEl) {
+          messageEl.textContent = data.error || 'Subscription failed. Please try again.';
+          messageEl.className = 'form-message error';
+        }
+      }
+    } catch (error) {
+      console.error('Subscription error:', error);
+      if (messageEl) {
+        messageEl.textContent = 'Network error. Please check your connection and try again.';
+        messageEl.className = 'form-message error';
+      }
+    } finally {
+      submitBtn.classList.remove('loading');
+      submitBtn.disabled = false;
+    }
+  }
+
+  function handleNotNow() {
+    const notNowUntil = Date.now() + CONFIG.notNowDelay;
+    localStorage.setItem(STORAGE_KEYS.notNowUntil, notNowUntil.toString());
+    hidePopup();
+  }
+
+  function handleCancel() {
+    localStorage.setItem(STORAGE_KEYS.cancelled, 'true');
+    hidePopup();
+  }
+
+  // Initialize popup
+  document.addEventListener('DOMContentLoaded', () => {
+    const popup = document.getElementById('subscription-popup');
+    const autoTrigger = popup?.getAttribute('data-auto-trigger') === 'true';
+    
+    // Schedule popup to show after grace period only if autoTrigger is enabled
+    if (autoTrigger) {
+      schedulePopup();
+    }
+
+    // Event listeners
+    const form = document.getElementById('subscription-form');
+    const overlay = document.getElementById('popup-overlay');
+    const notNowBtn = document.getElementById('not-now-btn');
+    const cancelBtn = document.getElementById('cancel-btn');
+
+    if (form) {
+      form.addEventListener('submit', handleSubscribe);
+    }
+
+    if (overlay) {
+      overlay.addEventListener('click', handleNotNow);
+    }
+
+    if (notNowBtn) {
+      notNowBtn.addEventListener('click', handleNotNow);
+    }
+
+    if (cancelBtn) {
+      cancelBtn.addEventListener('click', handleCancel);
+    }
+
+    // Clean up on page unload
+    window.addEventListener('beforeunload', () => {
+      if (popupTimeout) {
+        clearTimeout(popupTimeout);
+      }
+    });
+  });
+</script> </body></html> 

@@ -1,0 +1,474 @@
+<!DOCTYPE html><html lang="en" data-theme="dark"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>AI Financial News - Prediction Performance • Dev|Journal</title><meta name="description" content="Track the accuracy and performance of our AI-generated stock predictions over time"><meta name="keywords" content="software architecture, backend development, microservices, Java, Python, Spring Boot, technical blog"><meta name="author" content="El Mehdi Arezki"><meta property="og:type" content="website"><meta property="og:url" content="https://earezki.com"><meta property="og:title" content="AI Financial News - Prediction Performance • Dev|Journal"><meta property="og:site_name" content="Dev|Journal"><meta property="og:description" content="Track the accuracy and performance of our AI-generated stock predictions over time"><meta property="og:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:url" content="https://earezki.com"><meta name="twitter:title" content="AI Financial News - Prediction Performance • Dev|Journal"><meta name="twitter:description" content="Track the accuracy and performance of our AI-generated stock predictions over time"><meta name="twitter:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:creator" content="@earezki"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/x-icon" href="/favicon.ico"><link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"><link rel="dns-prefetch" href="https://cloud.umami.is"><script defer src="https://cloud.umami.is/script.js" data-website-id="4a26531d-1053-4f79-97a6-06a1366aff91"></script><script>
+      (function() {
+        const theme = localStorage.getItem('theme');
+        if (theme) document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script><script>
+!function(){const o=window.location.pathname;if("/"===o)return;if(/\.\w+$/.test(o))return;const n=o.toLowerCase(),i=n!==o,t=!o.endsWith("/");if(i||t){const o=n+(t?"/":""),i=window.location.origin+o+window.location.search+window.location.hash;window.location.replace(i)}}();
+</script><link rel="stylesheet" href="/_astro/_slug_.BZhQT0av.css">
+<link rel="stylesheet" href="/_astro/performance.DWCBmCwu.css"></head> <body> <div id="readingProgress" role="progressbar" aria-label="Reading progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="position:fixed;left:0;top:0;height:3px;background:linear-gradient(90deg,#2563eb,#9333ea);width:0;z-index:999;transition:width .15s ease;"></div> <script type="module">function c(){const t=document.getElementById("readingProgress");if(!t)return;const o=()=>{const e=document.documentElement,r=e.scrollTop||document.body.scrollTop,s=e.scrollHeight-e.clientHeight,n=s>0?r/s*100:0;t.style.width=`${n}%`,t.setAttribute("aria-valuenow",n.toFixed(0))};document.addEventListener("scroll",o,{passive:!0}),o()}c();</script> <header class="site-header container"> <div class="logo-wrap"> <a class="logo" href="/" aria-label="Dev|Journal Home">
+Dev|Journal
+</a> </div> <!-- Search Box in Header --> <div class="header-search" data-search-api-url="https://api.earezki.com/blog/api/q" data-search-timeout="2000"> <div class="search-box" id="search-box"> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon" aria-hidden="true"> <circle cx="11" cy="11" r="8"></circle> <path d="m21 21-4.35-4.35"></path> </svg> <input type="text" id="search-input" placeholder="Search ..." class="search-input" autocomplete="off" aria-label="Search articles" minlength="3"> <button id="clear-search" class="clear-button" style="display: none;" aria-label="Clear search"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <line x1="18" y1="6" x2="6" y2="18"></line> <line x1="6" y1="6" x2="18" y2="18"></line> </svg> </button> </div> <div id="search-results" class="search-results" role="status" aria-live="polite"></div> </div> <script type="module" src="/_astro/SearchBox.astro_astro_type_script_index_0_lang.BNnBPVSN.js"></script> <nav class="main-nav" aria-label="Main navigation"> <a href="/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path> <polyline points="9 22 9 12 15 12 15 22"></polyline> </svg>
+Home
+</a> <a href="/ai-news/" class="ai-news-link ai-gradient-nav"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h-9.5a.5.5 0 0 0-.5.5.5.5 0 0 1-1 0 .5.5 0 0 0-.5-.5H1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"></path> <path d="M7 15v4a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-4"></path> </svg>
+AI News
+</a> <a href="/ai-financial-news/" class="ai-financial-link ai-gradient-nav"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <line x1="12" y1="1" x2="12" y2="23"></line> <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path> </svg>
+AI Financial
+</a> <a href="/about/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <circle cx="12" cy="12" r="10"></circle> <path d="M12 16v-4"></path> <path d="M12 8h.01"></path> </svg>
+About
+</a> <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode"> <span class="theme-icon" aria-hidden="true">☾</span> </button> </nav> </header> <!-- Main Content --> <main class="container content-area">  <div class="performance-dashboard" data-astro-cid-ksdvgo53> <header class="dashboard-header" data-astro-cid-ksdvgo53> <h1 data-astro-cid-ksdvgo53>AI Prediction Performance</h1> <p class="subtitle" data-astro-cid-ksdvgo53>Tracking the accuracy of our AI-generated stock market predictions</p> <p class="last-updated" data-astro-cid-ksdvgo53>Last Updated: 12/10/2025, 10:53:00 AM</p> </header>   <section class="metrics-grid" data-astro-cid-ksdvgo53> <div class="metric-card primary" data-astro-cid-ksdvgo53> <div class="metric-value" data-astro-cid-ksdvgo53>59.3%</div> <div class="metric-label" data-astro-cid-ksdvgo53>Overall Accuracy</div> <div class="metric-detail" data-astro-cid-ksdvgo53> 51 / 86 correct
+</div> </div> <div class="metric-card" data-astro-cid-ksdvgo53> <div class="metric-value" data-astro-cid-ksdvgo53>86</div> <div class="metric-label" data-astro-cid-ksdvgo53>Validated Predictions</div> <div class="metric-detail" data-astro-cid-ksdvgo53> 90.5% of 315 total articles
+</div> </div> <div class="metric-card" data-astro-cid-ksdvgo53> <div class="metric-value" data-astro-cid-ksdvgo53> +14.91%
+</div> <div class="metric-label" data-astro-cid-ksdvgo53>Avg Correct "Increase"</div> <div class="metric-detail" data-astro-cid-ksdvgo53>Average price change when predicted increase correctly</div> </div> <div class="metric-card" data-astro-cid-ksdvgo53> <div class="metric-value" data-astro-cid-ksdvgo53> -9.94%
+</div> <div class="metric-label" data-astro-cid-ksdvgo53>Avg Correct "Decrease"</div> <div class="metric-detail" data-astro-cid-ksdvgo53>Average price change when predicted decrease correctly</div> </div> </section>  <section class="confidence-breakdown" data-astro-cid-ksdvgo53> <h2 data-astro-cid-ksdvgo53>Accuracy by Confidence Level</h2> <p class="section-desc" data-astro-cid-ksdvgo53>How well does our confidence score correlate with actual accuracy?</p> <div class="confidence-grid" data-astro-cid-ksdvgo53> <div class="confidence-item" data-astro-cid-ksdvgo53> <div class="confidence-level" data-astro-cid-ksdvgo53> <span class="level-badge" data-astro-cid-ksdvgo53>9/10</span> </div> <div class="confidence-bar-container" data-astro-cid-ksdvgo53> <div class="confidence-bar" style="width: 75%; background: #10b981" data-astro-cid-ksdvgo53> <span class="bar-label" data-astro-cid-ksdvgo53>75%</span> </div> </div> <div class="confidence-stats" data-astro-cid-ksdvgo53> 3/4 correct
+</div> </div><div class="confidence-item" data-astro-cid-ksdvgo53> <div class="confidence-level" data-astro-cid-ksdvgo53> <span class="level-badge" data-astro-cid-ksdvgo53>8/10</span> </div> <div class="confidence-bar-container" data-astro-cid-ksdvgo53> <div class="confidence-bar" style="width: 73.33%; background: #10b981" data-astro-cid-ksdvgo53> <span class="bar-label" data-astro-cid-ksdvgo53>73.33%</span> </div> </div> <div class="confidence-stats" data-astro-cid-ksdvgo53> 22/30 correct
+</div> </div><div class="confidence-item" data-astro-cid-ksdvgo53> <div class="confidence-level" data-astro-cid-ksdvgo53> <span class="level-badge" data-astro-cid-ksdvgo53>7/10</span> </div> <div class="confidence-bar-container" data-astro-cid-ksdvgo53> <div class="confidence-bar" style="width: 48.28%; background: #ef4444" data-astro-cid-ksdvgo53> <span class="bar-label" data-astro-cid-ksdvgo53>48.28%</span> </div> </div> <div class="confidence-stats" data-astro-cid-ksdvgo53> 14/29 correct
+</div> </div><div class="confidence-item" data-astro-cid-ksdvgo53> <div class="confidence-level" data-astro-cid-ksdvgo53> <span class="level-badge" data-astro-cid-ksdvgo53>6/10</span> </div> <div class="confidence-bar-container" data-astro-cid-ksdvgo53> <div class="confidence-bar" style="width: 52.94%; background: #f59e0b" data-astro-cid-ksdvgo53> <span class="bar-label" data-astro-cid-ksdvgo53>52.94%</span> </div> </div> <div class="confidence-stats" data-astro-cid-ksdvgo53> 9/17 correct
+</div> </div><div class="confidence-item" data-astro-cid-ksdvgo53> <div class="confidence-level" data-astro-cid-ksdvgo53> <span class="level-badge" data-astro-cid-ksdvgo53>4/10</span> </div> <div class="confidence-bar-container" data-astro-cid-ksdvgo53> <div class="confidence-bar" style="width: 100%; background: #10b981" data-astro-cid-ksdvgo53> <span class="bar-label" data-astro-cid-ksdvgo53>100%</span> </div> </div> <div class="confidence-stats" data-astro-cid-ksdvgo53> 2/2 correct
+</div> </div><div class="confidence-item" data-astro-cid-ksdvgo53> <div class="confidence-level" data-astro-cid-ksdvgo53> <span class="level-badge" data-astro-cid-ksdvgo53>3/10</span> </div> <div class="confidence-bar-container" data-astro-cid-ksdvgo53> <div class="confidence-bar" style="width: 25%; background: #ef4444" data-astro-cid-ksdvgo53> <span class="bar-label" data-astro-cid-ksdvgo53>25%</span> </div> </div> <div class="confidence-stats" data-astro-cid-ksdvgo53> 1/4 correct
+</div> </div> </div> </section> <section class="direction-breakdown" data-astro-cid-ksdvgo53> <h2 data-astro-cid-ksdvgo53>Accuracy by Prediction Type</h2> <div class="direction-grid" data-astro-cid-ksdvgo53> <div class="direction-card" data-astro-cid-ksdvgo53> <h3 class="direction-title increase" data-astro-cid-ksdvgo53> 📈 INCREASE </h3> <div class="direction-accuracy" data-astro-cid-ksdvgo53> <div class="accuracy-circle" style="--accuracy: 60.53" data-astro-cid-ksdvgo53> <span class="accuracy-percent" data-astro-cid-ksdvgo53>60.53%</span> </div> </div> <div class="direction-stats" data-astro-cid-ksdvgo53> <div class="stat" data-astro-cid-ksdvgo53> <span class="stat-label" data-astro-cid-ksdvgo53>Correct:</span> <span class="stat-value" data-astro-cid-ksdvgo53>46</span> </div> <div class="stat" data-astro-cid-ksdvgo53> <span class="stat-label" data-astro-cid-ksdvgo53>Total:</span> <span class="stat-value" data-astro-cid-ksdvgo53>76</span> </div> </div> </div><div class="direction-card" data-astro-cid-ksdvgo53> <h3 class="direction-title decrease" data-astro-cid-ksdvgo53> 📉 DECREASE </h3> <div class="direction-accuracy" data-astro-cid-ksdvgo53> <div class="accuracy-circle" style="--accuracy: 50" data-astro-cid-ksdvgo53> <span class="accuracy-percent" data-astro-cid-ksdvgo53>50%</span> </div> </div> <div class="direction-stats" data-astro-cid-ksdvgo53> <div class="stat" data-astro-cid-ksdvgo53> <span class="stat-label" data-astro-cid-ksdvgo53>Correct:</span> <span class="stat-value" data-astro-cid-ksdvgo53>5</span> </div> <div class="stat" data-astro-cid-ksdvgo53> <span class="stat-label" data-astro-cid-ksdvgo53>Total:</span> <span class="stat-value" data-astro-cid-ksdvgo53>10</span> </div> </div> </div> </div> </section> <section class="predictions-table-section" data-astro-cid-ksdvgo53> <h2 data-astro-cid-ksdvgo53>Recent Validated Predictions</h2> <div class="table-container" data-astro-cid-ksdvgo53> <table class="predictions-table" data-astro-cid-ksdvgo53> <thead data-astro-cid-ksdvgo53> <tr data-astro-cid-ksdvgo53> <th data-astro-cid-ksdvgo53>Ticker</th> <th data-astro-cid-ksdvgo53>Date</th> <th data-astro-cid-ksdvgo53>Prediction</th> <th data-astro-cid-ksdvgo53>Confidence</th> <th data-astro-cid-ksdvgo53>Price @ Prediction</th> <th data-astro-cid-ksdvgo53>Price @ Target</th> <th data-astro-cid-ksdvgo53>Change</th> <th data-astro-cid-ksdvgo53>Result</th> </tr> </thead> <tbody data-astro-cid-ksdvgo53> <tr class="incorrect" data-astro-cid-ksdvgo53> <td class="ticker-cell" data-astro-cid-ksdvgo53> <a href="/ai-financial-news?ticker=AMTM" data-astro-cid-ksdvgo53>AMTM</a> </td> <td data-astro-cid-ksdvgo53>11/26/2025</td> <td data-astro-cid-ksdvgo53> <span class="prediction-badge increase" data-astro-cid-ksdvgo53> ↑ increase </span> </td> <td class="confidence-cell" data-astro-cid-ksdvgo53>6/10</td> <td class="price-cell" data-astro-cid-ksdvgo53>$30.00</td> <td class="price-cell" data-astro-cid-ksdvgo53>$28.84</td> <td class="change-cell negative" data-astro-cid-ksdvgo53> -3.87%
+</td> <td class="result-cell" data-astro-cid-ksdvgo53> <span class="result-badge incorrect" data-astro-cid-ksdvgo53> ✗ Wrong </span> </td> </tr><tr class="correct" data-astro-cid-ksdvgo53> <td class="ticker-cell" data-astro-cid-ksdvgo53> <a href="/ai-financial-news?ticker=ANF" data-astro-cid-ksdvgo53>ANF</a> </td> <td data-astro-cid-ksdvgo53>11/26/2025</td> <td data-astro-cid-ksdvgo53> <span class="prediction-badge increase" data-astro-cid-ksdvgo53> ↑ increase </span> </td> <td class="confidence-cell" data-astro-cid-ksdvgo53>8/10</td> <td class="price-cell" data-astro-cid-ksdvgo53>$90.24</td> <td class="price-cell" data-astro-cid-ksdvgo53>$99.96</td> <td class="change-cell positive" data-astro-cid-ksdvgo53> +10.77%
+</td> <td class="result-cell" data-astro-cid-ksdvgo53> <span class="result-badge correct" data-astro-cid-ksdvgo53> ✓ Correct </span> </td> </tr><tr class="correct" data-astro-cid-ksdvgo53> <td class="ticker-cell" data-astro-cid-ksdvgo53> <a href="/ai-financial-news?ticker=BLTE" data-astro-cid-ksdvgo53>BLTE</a> </td> <td data-astro-cid-ksdvgo53>11/26/2025</td> <td data-astro-cid-ksdvgo53> <span class="prediction-badge increase" data-astro-cid-ksdvgo53> ↑ increase </span> </td> <td class="confidence-cell" data-astro-cid-ksdvgo53>6/10</td> <td class="price-cell" data-astro-cid-ksdvgo53>$127.80</td> <td class="price-cell" data-astro-cid-ksdvgo53>$149.13</td> <td class="change-cell positive" data-astro-cid-ksdvgo53> +16.69%
+</td> <td class="result-cell" data-astro-cid-ksdvgo53> <span class="result-badge correct" data-astro-cid-ksdvgo53> ✓ Correct </span> </td> </tr><tr class="correct" data-astro-cid-ksdvgo53> <td class="ticker-cell" data-astro-cid-ksdvgo53> <a href="/ai-financial-news?ticker=BMNR" data-astro-cid-ksdvgo53>BMNR</a> </td> <td data-astro-cid-ksdvgo53>11/26/2025</td> <td data-astro-cid-ksdvgo53> <span class="prediction-badge increase" data-astro-cid-ksdvgo53> ↑ increase </span> </td> <td class="confidence-cell" data-astro-cid-ksdvgo53>7/10</td> <td class="price-cell" data-astro-cid-ksdvgo53>$28.91</td> <td class="price-cell" data-astro-cid-ksdvgo53>$39.21</td> <td class="change-cell positive" data-astro-cid-ksdvgo53> +35.63%
+</td> <td class="result-cell" data-astro-cid-ksdvgo53> <span class="result-badge correct" data-astro-cid-ksdvgo53> ✓ Correct </span> </td> </tr><tr class="correct" data-astro-cid-ksdvgo53> <td class="ticker-cell" data-astro-cid-ksdvgo53> <a href="/ai-financial-news?ticker=BURL" data-astro-cid-ksdvgo53>BURL</a> </td> <td data-astro-cid-ksdvgo53>11/26/2025</td> <td data-astro-cid-ksdvgo53> <span class="prediction-badge increase" data-astro-cid-ksdvgo53> ↑ increase </span> </td> <td class="confidence-cell" data-astro-cid-ksdvgo53>8/10</td> <td class="price-cell" data-astro-cid-ksdvgo53>$249.65</td> <td class="price-cell" data-astro-cid-ksdvgo53>$266.20</td> <td class="change-cell positive" data-astro-cid-ksdvgo53> +6.63%
+</td> <td class="result-cell" data-astro-cid-ksdvgo53> <span class="result-badge correct" data-astro-cid-ksdvgo53> ✓ Correct </span> </td> </tr><tr class="incorrect" data-astro-cid-ksdvgo53> <td class="ticker-cell" data-astro-cid-ksdvgo53> <a href="/ai-financial-news?ticker=GOOGL" data-astro-cid-ksdvgo53>GOOGL</a> </td> <td data-astro-cid-ksdvgo53>11/26/2025</td> <td data-astro-cid-ksdvgo53> <span class="prediction-badge increase" data-astro-cid-ksdvgo53> ↑ increase </span> </td> <td class="confidence-cell" data-astro-cid-ksdvgo53>8/10</td> <td class="price-cell" data-astro-cid-ksdvgo53>$323.44</td> <td class="price-cell" data-astro-cid-ksdvgo53>$317.08</td> <td class="change-cell negative" data-astro-cid-ksdvgo53> -1.97%
+</td> <td class="result-cell" data-astro-cid-ksdvgo53> <span class="result-badge incorrect" data-astro-cid-ksdvgo53> ✗ Wrong </span> </td> </tr><tr class="incorrect" data-astro-cid-ksdvgo53> <td class="ticker-cell" data-astro-cid-ksdvgo53> <a href="/ai-financial-news?ticker=KSS" data-astro-cid-ksdvgo53>KSS</a> </td> <td data-astro-cid-ksdvgo53>11/26/2025</td> <td data-astro-cid-ksdvgo53> <span class="prediction-badge decrease" data-astro-cid-ksdvgo53> ↓ decrease </span> </td> <td class="confidence-cell" data-astro-cid-ksdvgo53>3/10</td> <td class="price-cell" data-astro-cid-ksdvgo53>$22.42</td> <td class="price-cell" data-astro-cid-ksdvgo53>$23.41</td> <td class="change-cell positive" data-astro-cid-ksdvgo53> +4.42%
+</td> <td class="result-cell" data-astro-cid-ksdvgo53> <span class="result-badge incorrect" data-astro-cid-ksdvgo53> ✗ Wrong </span> </td> </tr><tr class="incorrect" data-astro-cid-ksdvgo53> <td class="ticker-cell" data-astro-cid-ksdvgo53> <a href="/ai-financial-news?ticker=MENS" data-astro-cid-ksdvgo53>MENS</a> </td> <td data-astro-cid-ksdvgo53>11/26/2025</td> <td data-astro-cid-ksdvgo53> <span class="prediction-badge increase" data-astro-cid-ksdvgo53> ↑ increase </span> </td> <td class="confidence-cell" data-astro-cid-ksdvgo53>7/10</td> <td class="price-cell" data-astro-cid-ksdvgo53>$30.36</td> <td class="price-cell" data-astro-cid-ksdvgo53>$28.50</td> <td class="change-cell negative" data-astro-cid-ksdvgo53> -6.13%
+</td> <td class="result-cell" data-astro-cid-ksdvgo53> <span class="result-badge incorrect" data-astro-cid-ksdvgo53> ✗ Wrong </span> </td> </tr><tr class="correct" data-astro-cid-ksdvgo53> <td class="ticker-cell" data-astro-cid-ksdvgo53> <a href="/ai-financial-news?ticker=MSFT" data-astro-cid-ksdvgo53>MSFT</a> </td> <td data-astro-cid-ksdvgo53>11/26/2025</td> <td data-astro-cid-ksdvgo53> <span class="prediction-badge increase" data-astro-cid-ksdvgo53> ↑ increase </span> </td> <td class="confidence-cell" data-astro-cid-ksdvgo53>8/10</td> <td class="price-cell" data-astro-cid-ksdvgo53>$476.99</td> <td class="price-cell" data-astro-cid-ksdvgo53>$492.02</td> <td class="change-cell positive" data-astro-cid-ksdvgo53> +3.15%
+</td> <td class="result-cell" data-astro-cid-ksdvgo53> <span class="result-badge correct" data-astro-cid-ksdvgo53> ✓ Correct </span> </td> </tr><tr class="correct" data-astro-cid-ksdvgo53> <td class="ticker-cell" data-astro-cid-ksdvgo53> <a href="/ai-financial-news?ticker=NVDA" data-astro-cid-ksdvgo53>NVDA</a> </td> <td data-astro-cid-ksdvgo53>11/26/2025</td> <td data-astro-cid-ksdvgo53> <span class="prediction-badge increase" data-astro-cid-ksdvgo53> ↑ increase </span> </td> <td class="confidence-cell" data-astro-cid-ksdvgo53>8/10</td> <td class="price-cell" data-astro-cid-ksdvgo53>$177.82</td> <td class="price-cell" data-astro-cid-ksdvgo53>$184.97</td> <td class="change-cell positive" data-astro-cid-ksdvgo53> +4.02%
+</td> <td class="result-cell" data-astro-cid-ksdvgo53> <span class="result-badge correct" data-astro-cid-ksdvgo53> ✓ Correct </span> </td> </tr><tr class="incorrect" data-astro-cid-ksdvgo53> <td class="ticker-cell" data-astro-cid-ksdvgo53> <a href="/ai-financial-news?ticker=ORCL" data-astro-cid-ksdvgo53>ORCL</a> </td> <td data-astro-cid-ksdvgo53>11/26/2025</td> <td data-astro-cid-ksdvgo53> <span class="prediction-badge decrease" data-astro-cid-ksdvgo53> ↓ decrease </span> </td> <td class="confidence-cell" data-astro-cid-ksdvgo53>7/10</td> <td class="price-cell" data-astro-cid-ksdvgo53>$197.03</td> <td class="price-cell" data-astro-cid-ksdvgo53>$221.53</td> <td class="change-cell positive" data-astro-cid-ksdvgo53> +12.43%
+</td> <td class="result-cell" data-astro-cid-ksdvgo53> <span class="result-badge incorrect" data-astro-cid-ksdvgo53> ✗ Wrong </span> </td> </tr><tr class="incorrect" data-astro-cid-ksdvgo53> <td class="ticker-cell" data-astro-cid-ksdvgo53> <a href="/ai-financial-news?ticker=SMR" data-astro-cid-ksdvgo53>SMR</a> </td> <td data-astro-cid-ksdvgo53>11/26/2025</td> <td data-astro-cid-ksdvgo53> <span class="prediction-badge decrease" data-astro-cid-ksdvgo53> ↓ decrease </span> </td> <td class="confidence-cell" data-astro-cid-ksdvgo53>3/10</td> <td class="price-cell" data-astro-cid-ksdvgo53>$18.73</td> <td class="price-cell" data-astro-cid-ksdvgo53>$21.32</td> <td class="change-cell positive" data-astro-cid-ksdvgo53> +13.83%
+</td> <td class="result-cell" data-astro-cid-ksdvgo53> <span class="result-badge incorrect" data-astro-cid-ksdvgo53> ✗ Wrong </span> </td> </tr><tr class="incorrect" data-astro-cid-ksdvgo53> <td class="ticker-cell" data-astro-cid-ksdvgo53> <a href="/ai-financial-news?ticker=SYM" data-astro-cid-ksdvgo53>SYM</a> </td> <td data-astro-cid-ksdvgo53>11/26/2025</td> <td data-astro-cid-ksdvgo53> <span class="prediction-badge increase" data-astro-cid-ksdvgo53> ↑ increase </span> </td> <td class="confidence-cell" data-astro-cid-ksdvgo53>7/10</td> <td class="price-cell" data-astro-cid-ksdvgo53>$77.29</td> <td class="price-cell" data-astro-cid-ksdvgo53>$62.17</td> <td class="change-cell negative" data-astro-cid-ksdvgo53> -19.56%
+</td> <td class="result-cell" data-astro-cid-ksdvgo53> <span class="result-badge incorrect" data-astro-cid-ksdvgo53> ✗ Wrong </span> </td> </tr><tr class="correct" data-astro-cid-ksdvgo53> <td class="ticker-cell" data-astro-cid-ksdvgo53> <a href="/ai-financial-news?ticker=ZIM" data-astro-cid-ksdvgo53>ZIM</a> </td> <td data-astro-cid-ksdvgo53>11/26/2025</td> <td data-astro-cid-ksdvgo53> <span class="prediction-badge increase" data-astro-cid-ksdvgo53> ↑ increase </span> </td> <td class="confidence-cell" data-astro-cid-ksdvgo53>7/10</td> <td class="price-cell" data-astro-cid-ksdvgo53>$19.51</td> <td class="price-cell" data-astro-cid-ksdvgo53>$19.87</td> <td class="change-cell positive" data-astro-cid-ksdvgo53> +1.85%
+</td> <td class="result-cell" data-astro-cid-ksdvgo53> <span class="result-badge correct" data-astro-cid-ksdvgo53> ✓ Correct </span> </td> </tr><tr class="incorrect" data-astro-cid-ksdvgo53> <td class="ticker-cell" data-astro-cid-ksdvgo53> <a href="/ai-financial-news?ticker=ACLX" data-astro-cid-ksdvgo53>ACLX</a> </td> <td data-astro-cid-ksdvgo53>11/25/2025</td> <td data-astro-cid-ksdvgo53> <span class="prediction-badge increase" data-astro-cid-ksdvgo53> ↑ increase </span> </td> <td class="confidence-cell" data-astro-cid-ksdvgo53>6/10</td> <td class="price-cell" data-astro-cid-ksdvgo53>$74.96</td> <td class="price-cell" data-astro-cid-ksdvgo53>$74.08</td> <td class="change-cell negative" data-astro-cid-ksdvgo53> -1.17%
+</td> <td class="result-cell" data-astro-cid-ksdvgo53> <span class="result-badge incorrect" data-astro-cid-ksdvgo53> ✗ Wrong </span> </td> </tr><tr class="correct" data-astro-cid-ksdvgo53> <td class="ticker-cell" data-astro-cid-ksdvgo53> <a href="/ai-financial-news?ticker=AMZN" data-astro-cid-ksdvgo53>AMZN</a> </td> <td data-astro-cid-ksdvgo53>11/25/2025</td> <td data-astro-cid-ksdvgo53> <span class="prediction-badge increase" data-astro-cid-ksdvgo53> ↑ increase </span> </td> <td class="confidence-cell" data-astro-cid-ksdvgo53>8/10</td> <td class="price-cell" data-astro-cid-ksdvgo53>$226.28</td> <td class="price-cell" data-astro-cid-ksdvgo53>$226.89</td> <td class="change-cell positive" data-astro-cid-ksdvgo53> +0.27%
+</td> <td class="result-cell" data-astro-cid-ksdvgo53> <span class="result-badge correct" data-astro-cid-ksdvgo53> ✓ Correct </span> </td> </tr><tr class="incorrect" data-astro-cid-ksdvgo53> <td class="ticker-cell" data-astro-cid-ksdvgo53> <a href="/ai-financial-news?ticker=ANF" data-astro-cid-ksdvgo53>ANF</a> </td> <td data-astro-cid-ksdvgo53>11/25/2025</td> <td data-astro-cid-ksdvgo53> <span class="prediction-badge decrease" data-astro-cid-ksdvgo53> ↓ decrease </span> </td> <td class="confidence-cell" data-astro-cid-ksdvgo53>7/10</td> <td class="price-cell" data-astro-cid-ksdvgo53>$65.61</td> <td class="price-cell" data-astro-cid-ksdvgo53>$95.99</td> <td class="change-cell positive" data-astro-cid-ksdvgo53> +46.3%
+</td> <td class="result-cell" data-astro-cid-ksdvgo53> <span class="result-badge incorrect" data-astro-cid-ksdvgo53> ✗ Wrong </span> </td> </tr><tr class="correct" data-astro-cid-ksdvgo53> <td class="ticker-cell" data-astro-cid-ksdvgo53> <a href="/ai-financial-news?ticker=BMNR" data-astro-cid-ksdvgo53>BMNR</a> </td> <td data-astro-cid-ksdvgo53>11/25/2025</td> <td data-astro-cid-ksdvgo53> <span class="prediction-badge increase" data-astro-cid-ksdvgo53> ↑ increase </span> </td> <td class="confidence-cell" data-astro-cid-ksdvgo53>7/10</td> <td class="price-cell" data-astro-cid-ksdvgo53>$31.10</td> <td class="price-cell" data-astro-cid-ksdvgo53>$35.84</td> <td class="change-cell positive" data-astro-cid-ksdvgo53> +15.24%
+</td> <td class="result-cell" data-astro-cid-ksdvgo53> <span class="result-badge correct" data-astro-cid-ksdvgo53> ✓ Correct </span> </td> </tr><tr class="correct" data-astro-cid-ksdvgo53> <td class="ticker-cell" data-astro-cid-ksdvgo53> <a href="/ai-financial-news?ticker=CCL" data-astro-cid-ksdvgo53>CCL</a> </td> <td data-astro-cid-ksdvgo53>11/25/2025</td> <td data-astro-cid-ksdvgo53> <span class="prediction-badge increase" data-astro-cid-ksdvgo53> ↑ increase </span> </td> <td class="confidence-cell" data-astro-cid-ksdvgo53>8/10</td> <td class="price-cell" data-astro-cid-ksdvgo53>$24.76</td> <td class="price-cell" data-astro-cid-ksdvgo53>$26.01</td> <td class="change-cell positive" data-astro-cid-ksdvgo53> +5.05%
+</td> <td class="result-cell" data-astro-cid-ksdvgo53> <span class="result-badge correct" data-astro-cid-ksdvgo53> ✓ Correct </span> </td> </tr><tr class="incorrect" data-astro-cid-ksdvgo53> <td class="ticker-cell" data-astro-cid-ksdvgo53> <a href="/ai-financial-news?ticker=GOOGL" data-astro-cid-ksdvgo53>GOOGL</a> </td> <td data-astro-cid-ksdvgo53>11/25/2025</td> <td data-astro-cid-ksdvgo53> <span class="prediction-badge increase" data-astro-cid-ksdvgo53> ↑ increase </span> </td> <td class="confidence-cell" data-astro-cid-ksdvgo53>8/10</td> <td class="price-cell" data-astro-cid-ksdvgo53>$318.58</td> <td class="price-cell" data-astro-cid-ksdvgo53>$313.72</td> <td class="change-cell negative" data-astro-cid-ksdvgo53> -1.53%
+</td> <td class="result-cell" data-astro-cid-ksdvgo53> <span class="result-badge incorrect" data-astro-cid-ksdvgo53> ✗ Wrong </span> </td> </tr> </tbody> </table> </div> </section> <section class="methodology" data-astro-cid-ksdvgo53> <h2 data-astro-cid-ksdvgo53>Methodology</h2> <div class="methodology-content" data-astro-cid-ksdvgo53> <p data-astro-cid-ksdvgo53><strong data-astro-cid-ksdvgo53>Prediction Timeframe:</strong> Each prediction is validated 14 days after publication.</p> <p data-astro-cid-ksdvgo53><strong data-astro-cid-ksdvgo53>Success Criteria:</strong> A prediction is marked correct if the actual price movement direction (increase/decrease) matches the predicted direction, regardless of magnitude.</p> <p data-astro-cid-ksdvgo53><strong data-astro-cid-ksdvgo53>Price Source:</strong> Historical prices are fetched from Yahoo Finance. If the exact target date falls on a weekend or holiday, the closest trading day is used.</p> <p data-astro-cid-ksdvgo53><strong data-astro-cid-ksdvgo53>Confidence Calibration:</strong> Ideally, predictions with 7/10 confidence should be correct ~70% of the time. This section helps track if our confidence scores are well-calibrated.</p> </div> </section>  </div>  </main> <!-- Site Footer --> <footer class="site-footer container"> <p>
+© 2025 AREZKI El Mehdi •
+<a href="https://github.com/earezki">GitHub</a> •
+<a href="/rss.xml">RSS</a> •
+<a href="/tags/">Tags</a> •
+<a href="/sitemap-index.xml">Sitemap</a> •
+<button id="footer-subscribe-btn" class="footer-subscribe-btn" aria-label="Subscribe to newsletter">
+📬 Subscribe
+</button> </p> </footer> <!-- Footer Subscribe Button Handler --> <script type="module">const e=document.getElementById("themeToggle"),o=n=>{if(!e)return;const t=e.querySelector(".theme-icon");t&&(t.textContent=n==="dark"?"☀":"☾")};if(e){const n=document.documentElement.getAttribute("data-theme")||"dark";o(n),e.addEventListener("click",()=>{const t=document.documentElement,c=t.getAttribute("data-theme")==="dark"?"light":"dark";t.setAttribute("data-theme",c),localStorage.setItem("theme",c),o(c)})}</script> <!-- Theme Toggle --> <script type="module">document.addEventListener("DOMContentLoaded",()=>{const e=document.getElementById("footer-subscribe-btn");e&&e.addEventListener("click",n=>{n.preventDefault();const t=document.getElementById("subscription-popup");t&&(t.setAttribute("data-state","visible"),document.body.style.overflow="hidden")})});</script> <!-- Article read/unread tracking --> <script>
+      (function() {
+        const KEY = 'readArticles';
+        
+        function getRead() {
+          try {
+            const d = localStorage.getItem(KEY);
+            return d ? JSON.parse(d) : [];
+          } catch (e) {
+            return [];
+          }
+        }
+        
+        function markRead(url) {
+          try {
+            const read = getRead();
+            if (!read.includes(url)) {
+              read.push(url);
+              localStorage.setItem(KEY, JSON.stringify(read));
+            }
+          } catch (e) {}
+        }
+        
+        function updateCards() {
+          const read = new Set(getRead());
+          const cards = document.querySelectorAll('.post-card[data-article-url]');
+          cards.forEach(function(card) {
+            const url = card.getAttribute('data-article-url');
+            if (!url) return;
+            const isRead = read.has(url);
+            card.classList.toggle('read', isRead);
+            card.classList.toggle('unread', !isRead);
+          });
+        }
+        
+        function markCurrent() {
+          if (document.querySelector('.post-body')) {
+            markRead(window.location.pathname);
+          }
+        }
+        
+        function init() {
+          updateCards();
+          markCurrent();
+        }
+        
+        function clearRead(url) {
+          try {
+            const read = new Set(getRead());
+            if (read.has(url)) {
+              read.delete(url);
+              localStorage.setItem(KEY, JSON.stringify(Array.from(read)));
+              updateCards();
+            }
+          } catch (e) {}
+        }
+        
+        window.clearReadArticle = clearRead;
+        document.addEventListener('DOMContentLoaded', init);
+        window.addEventListener('pageshow', function(e) {
+          if (e.persisted) init();
+        });
+      })();
+    </script> <!-- Clear read button handler --> <script>
+      (function() {
+        document.addEventListener('click', function(e) {
+          var tgt = e.target, btn = null;
+          while (tgt && tgt !== document) {
+            if (tgt.classList && tgt.classList.contains('clear-read-btn')) {
+              btn = tgt;
+              break;
+            }
+            tgt = tgt.parentNode;
+          }
+          if (!btn) return;
+          e.preventDefault();
+          e.stopPropagation();
+          var url = btn.getAttribute('data-article-url');
+          if (url && window.clearReadArticle) window.clearReadArticle(url);
+        });
+      })();
+    </script> <!-- External links open in new tab --> <script>
+      (function() {
+        function makeExternal() {
+          const domain = window.location.hostname;
+          const links = document.querySelectorAll('a[href]');
+          links.forEach(function(link) {
+            const href = link.getAttribute('href');
+            if (!href || link.hasAttribute('target')) return;
+            const isExt = (href.startsWith('http://') || href.startsWith('https://')) && !href.includes(domain);
+            if (isExt) {
+              link.setAttribute('target', '_blank');
+              link.setAttribute('rel', 'noopener noreferrer');
+            }
+          });
+        }
+        document.addEventListener('DOMContentLoaded', makeExternal);
+        if (window.MutationObserver) {
+          const obs = new MutationObserver(function(muts) {
+            muts.forEach(function(mut) {
+              if (mut.addedNodes.length) makeExternal();
+            });
+          });
+          obs.observe(document.body, { childList: true, subtree: true });
+        }
+      })();
+    </script> <!-- Code copy buttons --> <script>
+      (function() {
+        function createBtn() {
+          const btn = document.createElement('button');
+          btn.className = 'copy-code-button';
+          btn.setAttribute('aria-label', 'Copy code to clipboard');
+          btn.innerHTML = `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span>Copy</span>
+          `;
+          return btn;
+        }
+        
+        function checkIcon() {
+          return `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span>Copied!</span>
+          `;
+        }
+        
+        async function copyText(txt) {
+          try {
+            await navigator.clipboard.writeText(txt);
+            return true;
+          } catch (err) {
+            const ta = document.createElement('textarea');
+            ta.value = txt;
+            ta.style.position = 'fixed';
+            ta.style.left = '-999999px';
+            document.body.appendChild(ta);
+            ta.select();
+            try {
+              document.execCommand('copy');
+              document.body.removeChild(ta);
+              return true;
+            } catch (e) {
+              document.body.removeChild(ta);
+              return false;
+            }
+          }
+        }
+        
+        async function handleCopy(btn, code) {
+          const txt = code.textContent || '';
+          const ok = await copyText(txt);
+          if (ok) {
+            const orig = btn.innerHTML;
+            btn.classList.add('copied');
+            btn.innerHTML = checkIcon();
+            setTimeout(function() {
+              btn.classList.remove('copied');
+              btn.innerHTML = orig;
+            }, 2000);
+          }
+        }
+        
+        function addBtns() {
+          const blocks = document.querySelectorAll('.post-body pre');
+          blocks.forEach(function(pre) {
+            if (pre.querySelector('.copy-code-button')) return;
+            const btn = createBtn();
+            const code = pre.querySelector('code');
+            if (code) {
+              btn.addEventListener('click', function() {
+                handleCopy(btn, code);
+              });
+              pre.appendChild(btn);
+            }
+          });
+        }
+        
+        document.addEventListener('DOMContentLoaded', addBtns);
+      })();
+    </script> <!-- Newsletter Subscription Popup --> <div id="subscription-popup" class="subscription-popup" data-state="hidden" data-auto-trigger="false" data-astro-cid-we5gmdnp> <div class="popup-overlay" id="popup-overlay" data-astro-cid-we5gmdnp></div> <div class="popup-container" data-astro-cid-we5gmdnp> <div class="popup-content" data-astro-cid-we5gmdnp> <div class="popup-icon" data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-we5gmdnp> <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" data-astro-cid-we5gmdnp></path> <polyline points="22,6 12,13 2,6" data-astro-cid-we5gmdnp></polyline> </svg> </div> <h2 class="popup-title" data-astro-cid-we5gmdnp>Stay Updated with Dev|Journal</h2> <p class="popup-description" id="popup-description" data-astro-cid-we5gmdnp>
+Join our community of developers and engineers. Get insights on:
+</p> <ul class="popup-features" data-astro-cid-we5gmdnp> <li data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-we5gmdnp> <polyline points="20 6 9 17 4 12" data-astro-cid-we5gmdnp></polyline> </svg>
+Software Architecture & Design Patterns
+</li> <li data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-we5gmdnp> <polyline points="20 6 9 17 4 12" data-astro-cid-we5gmdnp></polyline> </svg>
+Backend Development Best Practices
+</li> <li data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-we5gmdnp> <polyline points="20 6 9 17 4 12" data-astro-cid-we5gmdnp></polyline> </svg>
+AI & Tech Industry Analysis
+</li> </ul> <form id="subscription-form" class="popup-form" data-astro-cid-we5gmdnp> <div class="form-group" data-astro-cid-we5gmdnp> <input type="text" id="subscriber-name" name="name" placeholder="Your name" required autocomplete="name" data-astro-cid-we5gmdnp> </div> <div class="form-group" data-astro-cid-we5gmdnp> <input type="email" id="subscriber-email" name="email" placeholder="your.email@example.com" required autocomplete="email" data-astro-cid-we5gmdnp> </div> <div id="form-message" class="form-message" data-astro-cid-we5gmdnp></div> <div class="popup-actions" data-astro-cid-we5gmdnp> <button type="submit" class="btn btn-primary" id="subscribe-btn" data-astro-cid-we5gmdnp> <span class="btn-text" data-astro-cid-we5gmdnp>Subscribe</span> <span class="btn-loader" data-astro-cid-we5gmdnp> <svg class="spinner" viewBox="0 0 24 24" data-astro-cid-we5gmdnp> <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" data-astro-cid-we5gmdnp></circle> </svg> </span> </button> <button type="button" class="btn btn-secondary" id="not-now-btn" data-astro-cid-we5gmdnp>Not Now</button> <button type="button" class="btn btn-text" id="cancel-btn" data-astro-cid-we5gmdnp>Don't Show Again</button> </div> </form> </div> </div> </div>  <script>
+  // Configuration
+  const CONFIG = {
+    graceDelay: 5000, // 5 seconds delay before showing popup
+    notNowDelay: 24 * 60 * 60 * 1000, // 1 day in milliseconds
+    apiUrl: 'https://api.earezki.com/blog/api',
+  };
+
+  const STORAGE_KEYS = {
+    subscribed: 'newsletter_subscribed',
+    cancelled: 'newsletter_cancelled',
+    notNowUntil: 'newsletter_not_now_until',
+  };
+
+  // State management
+  let popupTimeout = null;
+
+  function showPopup() {
+    const popup = document.getElementById('subscription-popup');
+    if (popup) {
+      popup.setAttribute('data-state', 'visible');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  function hidePopup() {
+    const popup = document.getElementById('subscription-popup');
+    if (popup) {
+      popup.setAttribute('data-state', 'hidden');
+      document.body.style.overflow = '';
+    }
+  }
+
+  function shouldShowPopup() {
+    // Check if user has already subscribed
+    if (localStorage.getItem(STORAGE_KEYS.subscribed) === 'true') {
+      return false;
+    }
+
+    // Check if user clicked "Don't show again"
+    if (localStorage.getItem(STORAGE_KEYS.cancelled) === 'true') {
+      return false;
+    }
+
+    // Check if user clicked "Not now" and delay hasn't passed
+    const notNowUntil = localStorage.getItem(STORAGE_KEYS.notNowUntil);
+    if (notNowUntil) {
+      const notNowTime = parseInt(notNowUntil, 10);
+      if (Date.now() < notNowTime) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  async function getSubscriberStats() {
+    try {
+      const response = await fetch(`${CONFIG.apiUrl}/subscribers/stats`, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+        },
+      });
+      
+      if (!response.ok) {
+        return null;
+      }
+      
+      const data = await response.json();
+      return data.subscriber_count || null;
+    } catch (error) {
+      console.error('Failed to fetch subscriber stats:', error);
+      return null;
+    }
+  }
+
+  async function schedulePopup() {
+    if (!shouldShowPopup()) {
+      return;
+    }
+
+    // Fetch subscriber stats before scheduling popup
+    const subscriberCount = await getSubscriberStats();
+    if (subscriberCount === null) {
+      console.log('Failed to fetch subscriber stats, not showing subscription popup');
+      return;
+    }
+
+    // Update popup with subscriber count
+    updatePopupWithStats(subscriberCount);
+
+    // Show popup after grace period
+    popupTimeout = window.setTimeout(() => {
+      showPopup();
+    }, CONFIG.graceDelay);
+  }
+
+  function updatePopupWithStats(count) {
+    const descriptionEl = document.querySelector('.popup-description');
+    if (descriptionEl) {
+      const formattedCount = new Intl.NumberFormat('en-US').format(count);
+      descriptionEl.innerHTML = `Join a community of <strong>${formattedCount}+</strong> developers and engineers who are growing together. Get insights on:`;
+    }
+  }
+
+  async function handleSubscribe(event) {
+    event.preventDefault();
+    
+    const form = event.target;
+    const nameInput = form.querySelector('#subscriber-name');
+    const emailInput = form.querySelector('#subscriber-email');
+    const submitBtn = form.querySelector('#subscribe-btn');
+    const messageEl = document.getElementById('form-message');
+
+    const name = nameInput.value.trim();
+    const email = emailInput.value.trim();
+
+    if (!name || !email) {
+      if (messageEl) {
+        messageEl.textContent = 'Please fill in all fields.';
+        messageEl.className = 'form-message error';
+      }
+      return;
+    }
+
+    // Show loading state
+    submitBtn.classList.add('loading');
+    submitBtn.disabled = true;
+    if (messageEl) {
+      messageEl.textContent = '';
+      messageEl.className = 'form-message';
+    }
+
+    try {
+      const response = await fetch(`${CONFIG.apiUrl}/subscribe`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, email }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        localStorage.setItem(STORAGE_KEYS.subscribed, 'true');
+        
+        if (messageEl) {
+          messageEl.textContent = '🎉 Successfully subscribed! Thank you for joining us.';
+          messageEl.className = 'form-message success';
+        }
+
+        // Hide popup after 2 seconds
+        setTimeout(() => {
+          hidePopup();
+        }, 2000);
+      } else {
+        if (messageEl) {
+          messageEl.textContent = data.error || 'Subscription failed. Please try again.';
+          messageEl.className = 'form-message error';
+        }
+      }
+    } catch (error) {
+      console.error('Subscription error:', error);
+      if (messageEl) {
+        messageEl.textContent = 'Network error. Please check your connection and try again.';
+        messageEl.className = 'form-message error';
+      }
+    } finally {
+      submitBtn.classList.remove('loading');
+      submitBtn.disabled = false;
+    }
+  }
+
+  function handleNotNow() {
+    const notNowUntil = Date.now() + CONFIG.notNowDelay;
+    localStorage.setItem(STORAGE_KEYS.notNowUntil, notNowUntil.toString());
+    hidePopup();
+  }
+
+  function handleCancel() {
+    localStorage.setItem(STORAGE_KEYS.cancelled, 'true');
+    hidePopup();
+  }
+
+  // Initialize popup
+  document.addEventListener('DOMContentLoaded', () => {
+    const popup = document.getElementById('subscription-popup');
+    const autoTrigger = popup?.getAttribute('data-auto-trigger') === 'true';
+    
+    // Schedule popup to show after grace period only if autoTrigger is enabled
+    if (autoTrigger) {
+      schedulePopup();
+    }
+
+    // Event listeners
+    const form = document.getElementById('subscription-form');
+    const overlay = document.getElementById('popup-overlay');
+    const notNowBtn = document.getElementById('not-now-btn');
+    const cancelBtn = document.getElementById('cancel-btn');
+
+    if (form) {
+      form.addEventListener('submit', handleSubscribe);
+    }
+
+    if (overlay) {
+      overlay.addEventListener('click', handleNotNow);
+    }
+
+    if (notNowBtn) {
+      notNowBtn.addEventListener('click', handleNotNow);
+    }
+
+    if (cancelBtn) {
+      cancelBtn.addEventListener('click', handleCancel);
+    }
+
+    // Clean up on page unload
+    window.addEventListener('beforeunload', () => {
+      if (popupTimeout) {
+        clearTimeout(popupTimeout);
+      }
+    });
+  });
+</script> </body></html> 

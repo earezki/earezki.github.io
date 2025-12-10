@@ -1,0 +1,986 @@
+<!DOCTYPE html><html lang="en" data-theme="dark"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Pushing Large Files to GitHub: A Technical Deep Dive (For Educational Purposes) • Dev|Journal</title><meta name="description" content="Pushing Large Files to GitHub: A Technical Deep Dive You've just trained a machine learning model, exported a massive dataset, or compiled a binary that's…"><meta name="keywords" content="Python, GitHub, Git, DevOps, Storage"><meta name="author" content="El Mehdi Arezki"><meta property="og:type" content="website"><meta property="og:url" content="https://earezki.com/how-to-put-large-object-in-github/"><meta property="og:title" content="Pushing Large Files to GitHub: A Technical Deep Dive (For Educational Purposes) • Dev|Journal"><meta property="og:site_name" content="Dev|Journal"><meta property="og:description" content="Pushing Large Files to GitHub: A Technical Deep Dive You've just trained a machine learning model, exported a massive dataset, or compiled a binary that's…"><meta property="og:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:url" content="https://earezki.com/how-to-put-large-object-in-github/"><meta name="twitter:title" content="Pushing Large Files to GitHub: A Technical Deep Dive (For Educational Purposes) • Dev|Journal"><meta name="twitter:description" content="Pushing Large Files to GitHub: A Technical Deep Dive You've just trained a machine learning model, exported a massive dataset, or compiled a binary that's…"><meta name="twitter:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:creator" content="@earezki"><link rel="canonical" href="https://earezki.com/how-to-put-large-object-in-github/"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/x-icon" href="/favicon.ico"><link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"><link rel="dns-prefetch" href="https://cloud.umami.is"><script defer src="https://cloud.umami.is/script.js" data-website-id="4a26531d-1053-4f79-97a6-06a1366aff91"></script><script>
+      (function() {
+        const theme = localStorage.getItem('theme');
+        if (theme) document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script><script>
+!function(){const o=window.location.pathname;if("/"===o)return;if(/\.\w+$/.test(o))return;const n=o.toLowerCase(),i=n!==o,t=!o.endsWith("/");if(i||t){const o=n+(t?"/":""),i=window.location.origin+o+window.location.search+window.location.hash;window.location.replace(i)}}();
+</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Pushing Large Files to GitHub: A Technical Deep Dive (For Educational Purposes)","description":"Pushing Large Files to GitHub: A Technical Deep Dive You've just trained a machine learning model, exported a massive dataset, or compiled a binary that's…","image":"https://earezki.com/assets/og-image-default.jpg","datePublished":"2025-11-23T00:00:00.000Z","dateModified":"2025-11-23T00:00:00.000Z","author":{"@type":"Person","name":"El Mehdi Arezki","url":"https://earezki.com/about","jobTitle":"Lead Software Engineer","sameAs":["https://github.com/earezki","https://www.linkedin.com/in/mehdi-arezki"]},"publisher":{"@type":"Organization","name":"Dev|Journal","url":"https://earezki.com","logo":{"@type":"ImageObject","url":"https://earezki.com/assets/logo.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://earezki.com/how-to-put-large-object-in-github/"}}</script><link rel="stylesheet" href="/_astro/_slug_.BZhQT0av.css">
+<link rel="stylesheet" href="/_astro/_slug_.CFj9bTVJ.css">
+<style>.series-navigation[data-astro-cid-2hl7stop]{margin:2rem 0 3rem;padding:1.5rem;background:linear-gradient(135deg,#2563eb0d,#6366f10d);border:1px solid var(--color-border);border-radius:var(--radius-md)}html[data-theme=dark] .series-navigation[data-astro-cid-2hl7stop]{background:linear-gradient(135deg,#2563eb1a,#6366f11a)}.series-header[data-astro-cid-2hl7stop]{margin-bottom:1.25rem}.series-badge[data-astro-cid-2hl7stop]{display:inline-block;font-size:.75rem;font-weight:600;color:var(--color-accent);background:#2563eb1a;padding:.25rem .75rem;border-radius:var(--radius-pill);margin-bottom:.5rem}.series-header[data-astro-cid-2hl7stop] h3[data-astro-cid-2hl7stop]{margin:.5rem 0 .25rem;font-size:1.25rem;color:var(--color-text)}.series-progress[data-astro-cid-2hl7stop]{font-size:.85rem;color:var(--color-text-alt);margin:0}.series-list[data-astro-cid-2hl7stop]{display:flex;flex-direction:column;gap:.75rem;margin:1.5rem 0}.series-item[data-astro-cid-2hl7stop]{display:flex;align-items:center;gap:.75rem;padding:.75rem;background:var(--color-bg);border:1px solid var(--color-border);border-radius:var(--radius-sm);transition:all var(--transition)}.series-item[data-astro-cid-2hl7stop]:hover{border-color:var(--color-accent)}.series-item[data-astro-cid-2hl7stop].current{background:var(--color-accent);border-color:var(--color-accent)}.series-item[data-astro-cid-2hl7stop].completed{opacity:.7}.series-number[data-astro-cid-2hl7stop]{flex-shrink:0;width:28px;height:28px;display:flex;align-items:center;justify-content:center;background:var(--color-bg-alt);color:var(--color-text-alt);border-radius:50%;font-size:.85rem;font-weight:600}.series-item[data-astro-cid-2hl7stop].current .series-number[data-astro-cid-2hl7stop]{background:#fff3;color:#fff}.series-title[data-astro-cid-2hl7stop]{flex:1;font-size:.95rem;color:var(--color-text);text-decoration:none;transition:color var(--transition)}.series-title[data-astro-cid-2hl7stop]:hover{color:var(--color-accent)}.series-item[data-astro-cid-2hl7stop].current .current-title[data-astro-cid-2hl7stop]{color:#fff;font-weight:600}.check-icon[data-astro-cid-2hl7stop]{flex-shrink:0;color:#10b981;font-size:1.1rem}.series-nav-buttons[data-astro-cid-2hl7stop]{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--color-border)}.series-nav-btn[data-astro-cid-2hl7stop]{display:flex;flex-direction:column;gap:.25rem;padding:1rem;background:var(--color-bg);border:1px solid var(--color-border);border-radius:var(--radius-sm);text-decoration:none;transition:all var(--transition)}.series-nav-btn[data-astro-cid-2hl7stop]:hover{border-color:var(--color-accent);transform:translateY(-2px);box-shadow:var(--shadow-sm)}.series-nav-btn[data-astro-cid-2hl7stop].next{text-align:right}.nav-label[data-astro-cid-2hl7stop]{font-size:.75rem;color:var(--color-text-alt);font-weight:600;text-transform:uppercase;letter-spacing:.05em}.nav-title[data-astro-cid-2hl7stop]{font-size:.9rem;color:var(--color-text);font-weight:500}.series-nav-btn[data-astro-cid-2hl7stop]:hover .nav-title[data-astro-cid-2hl7stop]{color:var(--color-accent)}@media(max-width:680px){.series-navigation[data-astro-cid-2hl7stop]{padding:1rem}.series-nav-buttons[data-astro-cid-2hl7stop]{grid-template-columns:1fr}.series-nav-btn[data-astro-cid-2hl7stop].next{text-align:left}}.post-layout[data-astro-cid-yvbahnfj]{display:grid;grid-template-columns:260px 1fr;gap:2.5rem;width:100%;max-width:100%;box-sizing:border-box}.sidebar-left[data-astro-cid-yvbahnfj]{position:relative;min-width:0;overflow:hidden}@media(max-width:1080px){.post-layout[data-astro-cid-yvbahnfj]{grid-template-columns:1fr;width:100%;max-width:100%;padding:0;margin:0}}@media(max-width:768px){.post-layout[data-astro-cid-yvbahnfj]{display:block;width:100%;max-width:100%;padding:0;margin:0}.sidebar-left[data-astro-cid-yvbahnfj]{display:none}}
+</style></head> <body> <div id="readingProgress" role="progressbar" aria-label="Reading progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="position:fixed;left:0;top:0;height:3px;background:linear-gradient(90deg,#2563eb,#9333ea);width:0;z-index:999;transition:width .15s ease;"></div> <script type="module">function c(){const t=document.getElementById("readingProgress");if(!t)return;const o=()=>{const e=document.documentElement,r=e.scrollTop||document.body.scrollTop,s=e.scrollHeight-e.clientHeight,n=s>0?r/s*100:0;t.style.width=`${n}%`,t.setAttribute("aria-valuenow",n.toFixed(0))};document.addEventListener("scroll",o,{passive:!0}),o()}c();</script> <header class="site-header container"> <div class="logo-wrap"> <a class="logo" href="/" aria-label="Dev|Journal Home">
+Dev|Journal
+</a> </div> <!-- Search Box in Header --> <div class="header-search" data-search-api-url="https://api.earezki.com/blog/api/q" data-search-timeout="2000"> <div class="search-box" id="search-box"> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon" aria-hidden="true"> <circle cx="11" cy="11" r="8"></circle> <path d="m21 21-4.35-4.35"></path> </svg> <input type="text" id="search-input" placeholder="Search ..." class="search-input" autocomplete="off" aria-label="Search articles" minlength="3"> <button id="clear-search" class="clear-button" style="display: none;" aria-label="Clear search"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <line x1="18" y1="6" x2="6" y2="18"></line> <line x1="6" y1="6" x2="18" y2="18"></line> </svg> </button> </div> <div id="search-results" class="search-results" role="status" aria-live="polite"></div> </div> <script type="module" src="/_astro/SearchBox.astro_astro_type_script_index_0_lang.BNnBPVSN.js"></script> <nav class="main-nav" aria-label="Main navigation"> <a href="/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path> <polyline points="9 22 9 12 15 12 15 22"></polyline> </svg>
+Home
+</a> <a href="/ai-news/" class="ai-news-link ai-gradient-nav"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h-9.5a.5.5 0 0 0-.5.5.5.5 0 0 1-1 0 .5.5 0 0 0-.5-.5H1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"></path> <path d="M7 15v4a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-4"></path> </svg>
+AI News
+</a> <a href="/ai-financial-news/" class="ai-financial-link ai-gradient-nav"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <line x1="12" y1="1" x2="12" y2="23"></line> <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path> </svg>
+AI Financial
+</a> <a href="/about/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <circle cx="12" cy="12" r="10"></circle> <path d="M12 16v-4"></path> <path d="M12 8h.01"></path> </svg>
+About
+</a> <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode"> <span class="theme-icon" aria-hidden="true">☾</span> </button> </nav> </header> <!-- Main Content --> <main class="container content-area">  <nav class="breadcrumbs" aria-label="Breadcrumb" data-astro-cid-ilhxcym7> <ol data-astro-cid-ilhxcym7> <li data-astro-cid-ilhxcym7>  <a href="/" data-astro-cid-ilhxcym7>Home</a> <span class="separator" aria-hidden="true" data-astro-cid-ilhxcym7>/</span>  </li><li data-astro-cid-ilhxcym7> <span class="current" aria-current="page" data-astro-cid-ilhxcym7>Pushing Large Files to GitHub: A Technical Deep Dive (For Educational Purposes)</span> </li>  </ol> </nav>  <div class="post-layout" data-astro-cid-yvbahnfj> <aside class="sidebar-left" data-astro-cid-yvbahnfj> <nav class="toc" aria-label="Table of Contents" data-astro-cid-xvrfupwn> <div class="toc-title" data-astro-cid-xvrfupwn>On this page</div> <ul data-astro-cid-xvrfupwn> <li class="d-2" data-astro-cid-xvrfupwn> <a href="#why-would-anyone-want-to-store-large-files-in-git" data-astro-cid-xvrfupwn> Why Would Anyone Want to Store Large Files in Git? </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#the-problem-git-wasnt-built-for-this" data-astro-cid-xvrfupwn> The Problem: Git Wasn&#39;t Built for This </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#1-every-clone-downloads-the-entire-history" data-astro-cid-xvrfupwn> 1. Every Clone Downloads the Entire History </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#2-gits-delta-compression-fails-on-binary-files" data-astro-cid-xvrfupwn> 2. Git&#39;s Delta Compression Fails on Binary Files </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#3-githubs-hard-limits" data-astro-cid-xvrfupwn> 3. GitHub&#39;s Hard Limits </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#what-you-should-actually-use" data-astro-cid-xvrfupwn> What You Should Actually Use </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#git-lfs-large-file-storage" data-astro-cid-xvrfupwn> Git LFS (Large File Storage) </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#cloud-storage-metadata" data-astro-cid-xvrfupwn> Cloud Storage + Metadata </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#the-educational-hack-chunking-github-api" data-astro-cid-xvrfupwn> The Educational Hack: Chunking + GitHub API </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#requirements" data-astro-cid-xvrfupwn> Requirements </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#the-strategy-chunk-upload-reassemble" data-astro-cid-xvrfupwn> The Strategy: Chunk, Upload, Reassemble </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#implementation-the-uploader" data-astro-cid-xvrfupwn> Implementation: The Uploader </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#implementation-the-downloader" data-astro-cid-xvrfupwn> Implementation: The Downloader </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#why-sequential-uploads-not-parallel" data-astro-cid-xvrfupwn> Why Sequential Uploads, Not Parallel? </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#async-downloads-the-faster-alternative" data-astro-cid-xvrfupwn> Async Downloads: The Faster Alternative </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#scaling-up-multiple-repositories" data-astro-cid-xvrfupwn> Scaling Up: Multiple Repositories </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#why-this-is-still-a-terrible-idea" data-astro-cid-xvrfupwn> Why This Is Still a Terrible Idea </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#1-github-will-notice-and-may-ban-you" data-astro-cid-xvrfupwn> 1. GitHub Will Notice (and May Ban You) </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#2-performance-degrades-over-time" data-astro-cid-xvrfupwn> 2. Performance Degrades Over Time </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#3-no-deduplication" data-astro-cid-xvrfupwn> 3. No Deduplication </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#4-api-rate-limits-kill-you" data-astro-cid-xvrfupwn> 4. API Rate Limits Kill You </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#5-its-just-wrong" data-astro-cid-xvrfupwn> 5. It&#39;s Just Wrong </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#when-this-approach-is-actually-allowed" data-astro-cid-xvrfupwn> When This Approach Is Actually Allowed </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#key-takeaways" data-astro-cid-xvrfupwn> Key Takeaways </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#final-thoughts" data-astro-cid-xvrfupwn> Final Thoughts </a> </li> </ul> </nav>  </aside> <article class="post" data-astro-cid-yvbahnfj> <header class="post-header" data-astro-cid-yvbahnfj> <h1 data-astro-cid-yvbahnfj>Pushing Large Files to GitHub: A Technical Deep Dive (For Educational Purposes)</h1> <div class="meta" data-astro-cid-yvbahnfj> <time datetime="2025-11-23T00:00:00.000Z" data-astro-cid-yvbahnfj>Sun Nov 23 2025</time> <span data-astro-cid-yvbahnfj>• 11 min read</span> </div> <div class="tag-row" data-astro-cid-yvbahnfj><a class="post-tag " href="/tags/python/" data-astro-cid-yvbahnfj>Python</a><a class="post-tag " href="/tags/github/" data-astro-cid-yvbahnfj>GitHub</a><a class="post-tag " href="/tags/git/" data-astro-cid-yvbahnfj>Git</a><a class="post-tag " href="/tags/devops/" data-astro-cid-yvbahnfj>DevOps</a><a class="post-tag " href="/tags/storage/" data-astro-cid-yvbahnfj>Storage</a></div> </header>  <div class="banner warning" role="alert" aria-live="polite"> <div class="banner-icon" aria-hidden="true">⚠️</div> <div class="banner-content"> <strong>Important Disclaimer:</strong> <p>This article is for educational purposes only. Using GitHub/GitLab as a general-purpose file storage backend may violate their Acceptable Use Policies. The techniques described here should only be used in self-hosted Git instances within organizations that explicitly permit such usage. The author and publisher are not responsible for any account restrictions or service disruptions. Always review and comply with your Git provider&#39;s Terms of Service.</p> </div> </div>  <div class="post-body prose" data-astro-cid-yvbahnfj> <h1 id="pushing-large-files-to-github-a-technical-deep-dive">Pushing Large Files to GitHub: A Technical Deep Dive</h1>
+<p>You’ve just trained a machine learning model, exported a massive dataset, or compiled a binary that’s north of 100MB. Now you want to push it to GitHub. Git politely refuses with an error about file size limits. Your first instinct might be to find a workaround.</p>
+<p><strong>Stop. This article will show you how, but also why you shouldn’t.</strong></p>
+<h2 id="why-would-anyone-want-to-store-large-files-in-git">Why Would Anyone Want to Store Large Files in Git?</h2>
+<p>The use case is surprisingly common:</p>
+<ul>
+<li><strong>ML practitioners</strong> who want to version models alongside code</li>
+<li><strong>Data scientists</strong> sharing datasets with collaborators</li>
+<li><strong>Game developers</strong> with asset files that exceed 100MB</li>
+<li><strong>Researchers</strong> distributing large binary outputs</li>
+</ul>
+<p>The appeal is obvious: keep everything in one repository, use the same PR workflow, and leverage GitHub’s web interface for access control.</p>
+<h2 id="the-problem-git-wasnt-built-for-this">The Problem: Git Wasn’t Built for This</h2>
+<p>Git is a <strong>version control system</strong>, not a storage engine. Here’s why large files are fundamentally incompatible with Git’s design:</p>
+<h3 id="1-every-clone-downloads-the-entire-history">1. Every Clone Downloads the Entire History</h3>
+<p>When you <code>git clone</code> a repository, you download <strong>every version of every file</strong>. A 50MB model file modified 10 times becomes 500MB in your <code>.git</code> folder. For collaborators with slow connections, this is a nightmare.</p>
+<h3 id="2-gits-delta-compression-fails-on-binary-files">2. Git’s Delta Compression Fails on Binary Files</h3>
+<p>Git compresses file changes using delta encoding. This works beautifully for text diffs but catastrophically for binary files. A single byte change in a 100MB binary creates a new 100MB blob.</p>
+<h3 id="3-githubs-hard-limits">3. GitHub’s Hard Limits</h3>
+<p>GitHub enforces strict limits:</p>
+<ul>
+<li><strong>50MB warning</strong> - Git will warn but allow the push</li>
+<li><strong>100MB rejection</strong> - Git refuses the push entirely</li>
+<li><strong>Repository size</strong> - Repositories over 5GB trigger warnings, 100GB+ risk account restrictions</li>
+</ul>
+<h2 id="what-you-should-actually-use">What You Should Actually Use</h2>
+<p>Before we dive into the “how,” here are the proper solutions:</p>
+<h3 id="git-lfs-large-file-storage">Git LFS (Large File Storage)</h3>
+<pre class="language-bash" data-language="bash"><code is:raw="" class="language-bash"><span class="token comment"># Install Git LFS</span>
+<span class="token function">git</span> lfs <span class="token function">install</span>
+
+<span class="token comment"># Track large files</span>
+<span class="token function">git</span> lfs track <span class="token string">"*.pkl"</span>
+<span class="token function">git</span> lfs track <span class="token string">"*.h5"</span>
+<span class="token function">git</span> lfs track <span class="token string">"models/*"</span>
+
+<span class="token comment"># Add and commit normally</span>
+<span class="token function">git</span> <span class="token function">add</span> .gitattributes
+<span class="token function">git</span> commit <span class="token parameter variable">-m</span> <span class="token string">"Track model files with LFS"</span>
+</code></pre>
+<p><strong>Pros:</strong></p>
+<ul>
+<li>Transparent workflow (feels like regular Git)</li>
+<li>First 1GB of storage is free</li>
+<li>Designed for this exact use case</li>
+</ul>
+<p><strong>Cons:</strong></p>
+<ul>
+<li>Costs money beyond free tier ($5/month per 50GB)</li>
+<li>Requires Git LFS installation on all machines</li>
+</ul>
+<h3 id="cloud-storage--metadata">Cloud Storage + Metadata</h3>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token comment"># Store in S3/GCS, track URL in Git</span>
+<span class="token keyword">import</span> boto3
+
+<span class="token comment"># Upload to S3</span>
+s3 <span class="token operator">=</span> boto3<span class="token punctuation">.</span>client<span class="token punctuation">(</span><span class="token string">'s3'</span><span class="token punctuation">)</span>
+s3<span class="token punctuation">.</span>upload_file<span class="token punctuation">(</span><span class="token string">'model.pkl'</span><span class="token punctuation">,</span> <span class="token string">'my-bucket'</span><span class="token punctuation">,</span> <span class="token string">'models/v1.pkl'</span><span class="token punctuation">)</span>
+
+<span class="token comment"># Store metadata in Git</span>
+metadata <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token string">"model_version"</span><span class="token punctuation">:</span> <span class="token string">"v1"</span><span class="token punctuation">,</span>
+    <span class="token string">"s3_uri"</span><span class="token punctuation">:</span> <span class="token string">"s3://my-bucket/models/v1.pkl"</span><span class="token punctuation">,</span>
+    <span class="token string">"sha256"</span><span class="token punctuation">:</span> <span class="token string">"abc123..."</span><span class="token punctuation">,</span>
+    <span class="token string">"size_mb"</span><span class="token punctuation">:</span> <span class="token number">250</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>This is what production systems actually use.</p>
+<p><strong>Pros:</strong></p>
+<ul>
+<li>Built for ML workflows</li>
+<li>Works with any cloud storage</li>
+<li>Versioning built-in</li>
+</ul>
+<p><strong>Cons:</strong></p>
+<ul>
+<li>Another tool to learn</li>
+<li>Requires cloud storage setup</li>
+</ul>
+<h2 id="the-educational-hack-chunking--github-api">The Educational Hack: Chunking + GitHub API</h2>
+<p><strong>⚠️ WARNING: This is for educational purposes only.</strong> Using GitHub as a general-purpose storage backend violates GitHub’s <a href="https://docs.github.com/en/site-policy/acceptable-use-policies/github-acceptable-use-policies">Acceptable Use Policy</a>. Abuse can result in account suspension.</p>
+<p>That said, understanding how to work around Git’s limitations teaches valuable lessons about API design, chunking strategies, and distributed systems.</p>
+<h3 id="requirements">Requirements</h3>
+<p>Before you start, you need:</p>
+<ol>
+<li>
+<p><strong>GitHub Personal Access Token</strong> with <code>repo</code> scope</p>
+<ul>
+<li>Go to Settings → Developer settings → Personal access tokens → Tokens (classic)</li>
+<li>Generate new token with <code>repo</code> permissions (full control of private repositories)</li>
+<li>Save it securely (you’ll never see it again)</li>
+</ul>
+</li>
+<li>
+<p><strong>A GitHub repository</strong> where you have write access</p>
+</li>
+</ol>
+<h3 id="the-strategy-chunk-upload-reassemble">The Strategy: Chunk, Upload, Reassemble</h3>
+<p>Here’s the workflow in plain terms:</p>
+<p><strong>Saving a large file:</strong></p>
+<ol>
+<li>Take your 150MB file</li>
+<li>Split it into 20MB pieces (chunk_000, chunk_001, chunk_002, etc.)</li>
+<li>Upload each chunk to GitHub one at a time using the API</li>
+<li>Create a manifest.json file that lists where each chunk is stored and in what order</li>
+<li>Upload the manifest to GitHub</li>
+</ol>
+<p><strong>Getting the file back:</strong></p>
+<ol>
+<li>Download the manifest.json</li>
+<li>Download all the chunks</li>
+<li>Put the chunks back together in the right order</li>
+<li>Verify the file matches the original using a hash check</li>
+</ol>
+<h3 id="implementation-the-uploader">Implementation: The Uploader</h3>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token keyword">import</span> os
+<span class="token keyword">import</span> base64
+<span class="token keyword">import</span> hashlib
+<span class="token keyword">import</span> json
+<span class="token keyword">import</span> requests
+<span class="token keyword">from</span> pathlib <span class="token keyword">import</span> Path
+<span class="token keyword">from</span> typing <span class="token keyword">import</span> List<span class="token punctuation">,</span> Dict
+
+<span class="token keyword">class</span> <span class="token class-name">GitHubChunkedUploader</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""
+    Uploads large files to GitHub by splitting into chunks.
+    
+    WARNING: Educational purposes only. Not for production use.
+    May violate GitHub's Acceptable Use Policy if abused.
+    """</span>
+    
+    CHUNK_SIZE <span class="token operator">=</span> <span class="token number">20</span> <span class="token operator">*</span> <span class="token number">1024</span> <span class="token operator">*</span> <span class="token number">1024</span>  <span class="token comment"># 20MB chunks</span>
+    
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> token<span class="token punctuation">:</span> <span class="token builtin">str</span><span class="token punctuation">,</span> repo<span class="token punctuation">:</span> <span class="token builtin">str</span><span class="token punctuation">,</span> branch<span class="token punctuation">:</span> <span class="token builtin">str</span> <span class="token operator">=</span> <span class="token string">"main"</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""
+        Initialize uploader.
+        
+        Args:
+            token: GitHub personal access token (repo scope)
+            repo: Repository in format "username/repo"
+            branch: Target branch (default: main)
+        """</span>
+        self<span class="token punctuation">.</span>token <span class="token operator">=</span> token
+        self<span class="token punctuation">.</span>repo <span class="token operator">=</span> repo
+        self<span class="token punctuation">.</span>branch <span class="token operator">=</span> branch
+        self<span class="token punctuation">.</span>base_url <span class="token operator">=</span> <span class="token string-interpolation"><span class="token string">f"https://api.github.com/repos/</span><span class="token interpolation"><span class="token punctuation">{</span>repo<span class="token punctuation">}</span></span><span class="token string">/contents"</span></span>
+        self<span class="token punctuation">.</span>headers <span class="token operator">=</span> <span class="token punctuation">{</span>
+            <span class="token string">"Authorization"</span><span class="token punctuation">:</span> <span class="token string-interpolation"><span class="token string">f"Bearer </span><span class="token interpolation"><span class="token punctuation">{</span>token<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">,</span>
+            <span class="token string">"Accept"</span><span class="token punctuation">:</span> <span class="token string">"application/vnd.github+json"</span><span class="token punctuation">,</span>
+            <span class="token string">"X-GitHub-Api-Version"</span><span class="token punctuation">:</span> <span class="token string">"2022-11-28"</span>
+        <span class="token punctuation">}</span>
+    
+    <span class="token keyword">def</span> <span class="token function">calculate_sha256</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> filepath<span class="token punctuation">:</span> Path<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">str</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""Calculate SHA-256 hash of file for integrity verification."""</span>
+        sha256_hash <span class="token operator">=</span> hashlib<span class="token punctuation">.</span>sha256<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token keyword">with</span> <span class="token builtin">open</span><span class="token punctuation">(</span>filepath<span class="token punctuation">,</span> <span class="token string">"rb"</span><span class="token punctuation">)</span> <span class="token keyword">as</span> f<span class="token punctuation">:</span>
+            <span class="token keyword">for</span> byte_block <span class="token keyword">in</span> <span class="token builtin">iter</span><span class="token punctuation">(</span><span class="token keyword">lambda</span><span class="token punctuation">:</span> f<span class="token punctuation">.</span>read<span class="token punctuation">(</span><span class="token number">4096</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">b""</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+                sha256_hash<span class="token punctuation">.</span>update<span class="token punctuation">(</span>byte_block<span class="token punctuation">)</span>
+        <span class="token keyword">return</span> sha256_hash<span class="token punctuation">.</span>hexdigest<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    
+    <span class="token keyword">def</span> <span class="token function">split_file</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> filepath<span class="token punctuation">:</span> Path<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> List<span class="token punctuation">[</span><span class="token builtin">bytes</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""
+        Split file into chunks.
+        
+        Returns:
+            List of byte chunks, each ≤ CHUNK_SIZE
+        """</span>
+        chunks <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+        <span class="token keyword">with</span> <span class="token builtin">open</span><span class="token punctuation">(</span>filepath<span class="token punctuation">,</span> <span class="token string">"rb"</span><span class="token punctuation">)</span> <span class="token keyword">as</span> f<span class="token punctuation">:</span>
+            <span class="token keyword">while</span> <span class="token boolean">True</span><span class="token punctuation">:</span>
+                chunk <span class="token operator">=</span> f<span class="token punctuation">.</span>read<span class="token punctuation">(</span>self<span class="token punctuation">.</span>CHUNK_SIZE<span class="token punctuation">)</span>
+                <span class="token keyword">if</span> <span class="token keyword">not</span> chunk<span class="token punctuation">:</span>
+                    <span class="token keyword">break</span>
+                chunks<span class="token punctuation">.</span>append<span class="token punctuation">(</span>chunk<span class="token punctuation">)</span>
+
+        <span class="token comment"># for simplicity the chunks are kept in memory, but it's they should be stored in a tmp directory</span>
+        <span class="token keyword">return</span> chunks
+    
+    <span class="token keyword">def</span> <span class="token function">upload_chunk</span><span class="token punctuation">(</span>
+        self<span class="token punctuation">,</span> 
+        chunk_data<span class="token punctuation">:</span> <span class="token builtin">bytes</span><span class="token punctuation">,</span> 
+        remote_path<span class="token punctuation">:</span> <span class="token builtin">str</span><span class="token punctuation">,</span> 
+        commit_message<span class="token punctuation">:</span> <span class="token builtin">str</span>
+    <span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">str</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""
+        Upload a single chunk to GitHub.
+        
+        Args:
+            chunk_data: Raw bytes to upload
+            remote_path: Path in repository (e.g., "chunks/file_000")
+            commit_message: Git commit message
+            
+        Returns:
+            Download URL for the uploaded chunk
+        """</span>
+        <span class="token comment"># Encode chunk as base64 (GitHub API requirement)</span>
+        content_encoded <span class="token operator">=</span> base64<span class="token punctuation">.</span>b64encode<span class="token punctuation">(</span>chunk_data<span class="token punctuation">)</span><span class="token punctuation">.</span>decode<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        
+        payload <span class="token operator">=</span> <span class="token punctuation">{</span>
+            <span class="token string">"message"</span><span class="token punctuation">:</span> commit_message<span class="token punctuation">,</span>
+            <span class="token string">"branch"</span><span class="token punctuation">:</span> self<span class="token punctuation">.</span>branch<span class="token punctuation">,</span>
+            <span class="token string">"content"</span><span class="token punctuation">:</span> content_encoded
+        <span class="token punctuation">}</span>
+        
+        url <span class="token operator">=</span> <span class="token string-interpolation"><span class="token string">f"</span><span class="token interpolation"><span class="token punctuation">{</span>self<span class="token punctuation">.</span>base_url<span class="token punctuation">}</span></span><span class="token string">/</span><span class="token interpolation"><span class="token punctuation">{</span>remote_path<span class="token punctuation">}</span></span><span class="token string">"</span></span>
+        response <span class="token operator">=</span> requests<span class="token punctuation">.</span>put<span class="token punctuation">(</span>url<span class="token punctuation">,</span> headers<span class="token operator">=</span>self<span class="token punctuation">.</span>headers<span class="token punctuation">,</span> json<span class="token operator">=</span>payload<span class="token punctuation">)</span>
+        
+        <span class="token keyword">if</span> response<span class="token punctuation">.</span>status_code <span class="token keyword">not</span> <span class="token keyword">in</span> <span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span> <span class="token number">201</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            <span class="token keyword">raise</span> Exception<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Upload failed: </span><span class="token interpolation"><span class="token punctuation">{</span>response<span class="token punctuation">.</span>status_code<span class="token punctuation">}</span></span><span class="token string"> - </span><span class="token interpolation"><span class="token punctuation">{</span>response<span class="token punctuation">.</span>text<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+        
+        <span class="token comment"># Return the raw download URL</span>
+        <span class="token keyword">return</span> response<span class="token punctuation">.</span>json<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token string">"content"</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token string">"download_url"</span><span class="token punctuation">]</span>
+    
+    <span class="token keyword">def</span> <span class="token function">upload_large_file</span><span class="token punctuation">(</span>
+        self<span class="token punctuation">,</span> 
+        filepath<span class="token punctuation">:</span> Path<span class="token punctuation">,</span> 
+        remote_dir<span class="token punctuation">:</span> <span class="token builtin">str</span> <span class="token operator">=</span> <span class="token string">"large_files"</span>
+    <span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> Dict<span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""
+        Upload a large file by chunking.
+        
+        Args:
+            filepath: Local file path
+            remote_dir: Directory in repo to store chunks
+            
+        Returns:
+            Manifest dict with chunk URLs and metadata
+        """</span>
+        <span class="token keyword">if</span> <span class="token keyword">not</span> filepath<span class="token punctuation">.</span>exists<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            <span class="token keyword">raise</span> FileNotFoundError<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"File not found: </span><span class="token interpolation"><span class="token punctuation">{</span>filepath<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+        
+        file_size <span class="token operator">=</span> filepath<span class="token punctuation">.</span>stat<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>st_size
+        file_name <span class="token operator">=</span> filepath<span class="token punctuation">.</span>name
+        
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Uploading </span><span class="token interpolation"><span class="token punctuation">{</span>file_name<span class="token punctuation">}</span></span><span class="token string"> (</span><span class="token interpolation"><span class="token punctuation">{</span>file_size <span class="token operator">/</span> <span class="token punctuation">(</span><span class="token number">1024</span><span class="token operator">**</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token format-spec">.2f</span><span class="token punctuation">}</span></span><span class="token string"> MB)"</span></span><span class="token punctuation">)</span>
+        
+        <span class="token comment"># Check if chunking is needed</span>
+        <span class="token keyword">if</span> file_size <span class="token operator">&#x3C;=</span> self<span class="token punctuation">.</span>CHUNK_SIZE<span class="token punctuation">:</span>
+            <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"   File is small enough, uploading directly..."</span><span class="token punctuation">)</span>
+            <span class="token keyword">with</span> <span class="token builtin">open</span><span class="token punctuation">(</span>filepath<span class="token punctuation">,</span> <span class="token string">"rb"</span><span class="token punctuation">)</span> <span class="token keyword">as</span> f<span class="token punctuation">:</span>
+                chunk_data <span class="token operator">=</span> f<span class="token punctuation">.</span>read<span class="token punctuation">(</span><span class="token punctuation">)</span>
+            
+            url <span class="token operator">=</span> self<span class="token punctuation">.</span>upload_chunk<span class="token punctuation">(</span>
+                chunk_data<span class="token punctuation">,</span>
+                <span class="token string-interpolation"><span class="token string">f"</span><span class="token interpolation"><span class="token punctuation">{</span>remote_dir<span class="token punctuation">}</span></span><span class="token string">/</span><span class="token interpolation"><span class="token punctuation">{</span>file_name<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">,</span>
+                <span class="token string-interpolation"><span class="token string">f"Upload </span><span class="token interpolation"><span class="token punctuation">{</span>file_name<span class="token punctuation">}</span></span><span class="token string">"</span></span>
+            <span class="token punctuation">)</span>
+            
+            <span class="token keyword">return</span> <span class="token punctuation">{</span>
+                <span class="token string">"file_name"</span><span class="token punctuation">:</span> file_name<span class="token punctuation">,</span>
+                <span class="token string">"size_bytes"</span><span class="token punctuation">:</span> file_size<span class="token punctuation">,</span>
+                <span class="token string">"sha256"</span><span class="token punctuation">:</span> self<span class="token punctuation">.</span>calculate_sha256<span class="token punctuation">(</span>filepath<span class="token punctuation">)</span><span class="token punctuation">,</span>
+                <span class="token string">"chunks"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>url<span class="token punctuation">]</span><span class="token punctuation">,</span>
+                <span class="token string">"chunk_count"</span><span class="token punctuation">:</span> <span class="token number">1</span>
+            <span class="token punctuation">}</span>
+        
+        <span class="token comment"># Split into chunks</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"   Splitting into chunks..."</span><span class="token punctuation">)</span>
+        chunks <span class="token operator">=</span> self<span class="token punctuation">.</span>split_file<span class="token punctuation">(</span>filepath<span class="token punctuation">)</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"   Created </span><span class="token interpolation"><span class="token punctuation">{</span><span class="token builtin">len</span><span class="token punctuation">(</span>chunks<span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token string"> chunks"</span></span><span class="token punctuation">)</span>
+        
+        <span class="token comment"># Upload chunks sequentially (parallel would cause conflicts!)</span>
+        chunk_urls <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+        <span class="token keyword">for</span> i<span class="token punctuation">,</span> chunk_data <span class="token keyword">in</span> <span class="token builtin">enumerate</span><span class="token punctuation">(</span>chunks<span class="token punctuation">)</span><span class="token punctuation">:</span>
+            chunk_name <span class="token operator">=</span> <span class="token string-interpolation"><span class="token string">f"</span><span class="token interpolation"><span class="token punctuation">{</span>file_name<span class="token punctuation">}</span></span><span class="token string">.chunk_</span><span class="token interpolation"><span class="token punctuation">{</span>i<span class="token punctuation">:</span><span class="token format-spec">03d</span><span class="token punctuation">}</span></span><span class="token string">"</span></span>
+            <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"   Uploading chunk </span><span class="token interpolation"><span class="token punctuation">{</span>i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">}</span></span><span class="token string">/</span><span class="token interpolation"><span class="token punctuation">{</span><span class="token builtin">len</span><span class="token punctuation">(</span>chunks<span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token string"> (</span><span class="token interpolation"><span class="token punctuation">{</span><span class="token builtin">len</span><span class="token punctuation">(</span>chunk_data<span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token punctuation">(</span><span class="token number">1024</span><span class="token operator">**</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token format-spec">.2f</span><span class="token punctuation">}</span></span><span class="token string"> MB)"</span></span><span class="token punctuation">)</span>
+            
+            url <span class="token operator">=</span> self<span class="token punctuation">.</span>upload_chunk<span class="token punctuation">(</span>
+                chunk_data<span class="token punctuation">,</span>
+                <span class="token string-interpolation"><span class="token string">f"</span><span class="token interpolation"><span class="token punctuation">{</span>remote_dir<span class="token punctuation">}</span></span><span class="token string">/</span><span class="token interpolation"><span class="token punctuation">{</span>file_name<span class="token punctuation">}</span></span><span class="token string">_chunks/</span><span class="token interpolation"><span class="token punctuation">{</span>chunk_name<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">,</span>
+                <span class="token string-interpolation"><span class="token string">f"Upload </span><span class="token interpolation"><span class="token punctuation">{</span>chunk_name<span class="token punctuation">}</span></span><span class="token string">"</span></span>
+            <span class="token punctuation">)</span>
+            chunk_urls<span class="token punctuation">.</span>append<span class="token punctuation">(</span>url<span class="token punctuation">)</span>
+        
+        <span class="token comment"># Create manifest</span>
+        manifest <span class="token operator">=</span> <span class="token punctuation">{</span>
+            <span class="token string">"file_name"</span><span class="token punctuation">:</span> file_name<span class="token punctuation">,</span>
+            <span class="token string">"size_bytes"</span><span class="token punctuation">:</span> file_size<span class="token punctuation">,</span>
+            <span class="token string">"sha256"</span><span class="token punctuation">:</span> self<span class="token punctuation">.</span>calculate_sha256<span class="token punctuation">(</span>filepath<span class="token punctuation">)</span><span class="token punctuation">,</span>
+            <span class="token string">"chunks"</span><span class="token punctuation">:</span> chunk_urls<span class="token punctuation">,</span>
+            <span class="token string">"chunk_count"</span><span class="token punctuation">:</span> <span class="token builtin">len</span><span class="token punctuation">(</span>chunks<span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token comment"># Upload manifest</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"   Uploading manifest..."</span><span class="token punctuation">)</span>
+        manifest_json <span class="token operator">=</span> json<span class="token punctuation">.</span>dumps<span class="token punctuation">(</span>manifest<span class="token punctuation">,</span> indent<span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">)</span>
+        manifest_url <span class="token operator">=</span> self<span class="token punctuation">.</span>upload_chunk<span class="token punctuation">(</span>
+            manifest_json<span class="token punctuation">.</span>encode<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+            <span class="token string-interpolation"><span class="token string">f"</span><span class="token interpolation"><span class="token punctuation">{</span>remote_dir<span class="token punctuation">}</span></span><span class="token string">/</span><span class="token interpolation"><span class="token punctuation">{</span>file_name<span class="token punctuation">}</span></span><span class="token string">.manifest.json"</span></span><span class="token punctuation">,</span>
+            <span class="token string-interpolation"><span class="token string">f"Upload manifest for </span><span class="token interpolation"><span class="token punctuation">{</span>file_name<span class="token punctuation">}</span></span><span class="token string">"</span></span>
+        <span class="token punctuation">)</span>
+        manifest<span class="token punctuation">[</span><span class="token string">"manifest_url"</span><span class="token punctuation">]</span> <span class="token operator">=</span> manifest_url
+        
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Upload complete! Manifest: </span><span class="token interpolation"><span class="token punctuation">{</span>manifest_url<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span> manifest
+
+<span class="token comment"># Example usage</span>
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">"__main__"</span><span class="token punctuation">:</span>
+    <span class="token comment"># Initialize uploader</span>
+    uploader <span class="token operator">=</span> GitHubChunkedUploader<span class="token punctuation">(</span>
+        token<span class="token operator">=</span><span class="token string">"ghp_your_token_here"</span><span class="token punctuation">,</span>  <span class="token comment"># Replace with your token</span>
+        repo<span class="token operator">=</span><span class="token string">"username/repo"</span><span class="token punctuation">,</span>          <span class="token comment"># Replace with your repo</span>
+        branch<span class="token operator">=</span><span class="token string">"main"</span>
+    <span class="token punctuation">)</span>
+    
+    <span class="token comment"># Upload a large file</span>
+    manifest <span class="token operator">=</span> uploader<span class="token punctuation">.</span>upload_large_file<span class="token punctuation">(</span>Path<span class="token punctuation">(</span><span class="token string">"large_model.pkl"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    
+    <span class="token comment"># Save manifest locally for later retrieval</span>
+    <span class="token keyword">with</span> <span class="token builtin">open</span><span class="token punctuation">(</span><span class="token string">"manifest.json"</span><span class="token punctuation">,</span> <span class="token string">"w"</span><span class="token punctuation">)</span> <span class="token keyword">as</span> f<span class="token punctuation">:</span>
+        json<span class="token punctuation">.</span>dump<span class="token punctuation">(</span>manifest<span class="token punctuation">,</span> f<span class="token punctuation">,</span> indent<span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">)</span>
+</code></pre>
+<h3 id="implementation-the-downloader">Implementation: The Downloader</h3>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token keyword">import</span> requests
+<span class="token keyword">import</span> hashlib
+<span class="token keyword">from</span> pathlib <span class="token keyword">import</span> Path
+<span class="token keyword">from</span> typing <span class="token keyword">import</span> Dict
+
+<span class="token keyword">class</span> <span class="token class-name">GitHubChunkedDownloader</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""
+    Downloads and reassembles chunked files from GitHub.
+    
+    For better performance, consider using async/await with aiohttp.
+    This implementation uses synchronous requests for simplicity.
+    """</span>
+    
+    <span class="token decorator annotation punctuation">@staticmethod</span>
+    <span class="token keyword">def</span> <span class="token function">download_chunk</span><span class="token punctuation">(</span>url<span class="token punctuation">:</span> <span class="token builtin">str</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">bytes</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""Download a single chunk from GitHub."""</span>
+        response <span class="token operator">=</span> requests<span class="token punctuation">.</span>get<span class="token punctuation">(</span>url<span class="token punctuation">)</span>
+        response<span class="token punctuation">.</span>raise_for_status<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span> response<span class="token punctuation">.</span>content
+    
+    <span class="token decorator annotation punctuation">@staticmethod</span>
+    <span class="token keyword">def</span> <span class="token function">verify_sha256</span><span class="token punctuation">(</span>filepath<span class="token punctuation">:</span> Path<span class="token punctuation">,</span> expected_hash<span class="token punctuation">:</span> <span class="token builtin">str</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">bool</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""Verify downloaded file matches expected SHA-256 hash."""</span>
+        sha256_hash <span class="token operator">=</span> hashlib<span class="token punctuation">.</span>sha256<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token keyword">with</span> <span class="token builtin">open</span><span class="token punctuation">(</span>filepath<span class="token punctuation">,</span> <span class="token string">"rb"</span><span class="token punctuation">)</span> <span class="token keyword">as</span> f<span class="token punctuation">:</span>
+            <span class="token keyword">for</span> byte_block <span class="token keyword">in</span> <span class="token builtin">iter</span><span class="token punctuation">(</span><span class="token keyword">lambda</span><span class="token punctuation">:</span> f<span class="token punctuation">.</span>read<span class="token punctuation">(</span><span class="token number">4096</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">b""</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+                sha256_hash<span class="token punctuation">.</span>update<span class="token punctuation">(</span>byte_block<span class="token punctuation">)</span>
+        <span class="token keyword">return</span> sha256_hash<span class="token punctuation">.</span>hexdigest<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> expected_hash
+    
+    <span class="token keyword">def</span> <span class="token function">download_large_file</span><span class="token punctuation">(</span>
+        self<span class="token punctuation">,</span> 
+        manifest<span class="token punctuation">:</span> Dict<span class="token punctuation">,</span> 
+        output_path<span class="token punctuation">:</span> Path
+    <span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token boolean">None</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""
+        Download and reassemble a chunked file.
+        
+        Args:
+            manifest: Manifest dict from upload (with chunk URLs)
+            output_path: Where to save the reassembled file
+        """</span>
+        file_name <span class="token operator">=</span> manifest<span class="token punctuation">[</span><span class="token string">"file_name"</span><span class="token punctuation">]</span>
+        chunk_urls <span class="token operator">=</span> manifest<span class="token punctuation">[</span><span class="token string">"chunks"</span><span class="token punctuation">]</span>
+        expected_size <span class="token operator">=</span> manifest<span class="token punctuation">[</span><span class="token string">"size_bytes"</span><span class="token punctuation">]</span>
+        expected_hash <span class="token operator">=</span> manifest<span class="token punctuation">[</span><span class="token string">"sha256"</span><span class="token punctuation">]</span>
+        
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Downloading </span><span class="token interpolation"><span class="token punctuation">{</span>file_name<span class="token punctuation">}</span></span><span class="token string"> (</span><span class="token interpolation"><span class="token punctuation">{</span>expected_size <span class="token operator">/</span> <span class="token punctuation">(</span><span class="token number">1024</span><span class="token operator">**</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token format-spec">.2f</span><span class="token punctuation">}</span></span><span class="token string"> MB)"</span></span><span class="token punctuation">)</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"   </span><span class="token interpolation"><span class="token punctuation">{</span><span class="token builtin">len</span><span class="token punctuation">(</span>chunk_urls<span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token string"> chunks to download"</span></span><span class="token punctuation">)</span>
+        
+        <span class="token comment"># Download chunks sequentially</span>
+        <span class="token comment"># NOTE: Async would be much faster here (aiohttp + asyncio.gather)</span>
+        chunks <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+        <span class="token keyword">for</span> i<span class="token punctuation">,</span> url <span class="token keyword">in</span> <span class="token builtin">enumerate</span><span class="token punctuation">(</span>chunk_urls<span class="token punctuation">)</span><span class="token punctuation">:</span>
+            <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"   Downloading chunk </span><span class="token interpolation"><span class="token punctuation">{</span>i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">}</span></span><span class="token string">/</span><span class="token interpolation"><span class="token punctuation">{</span><span class="token builtin">len</span><span class="token punctuation">(</span>chunk_urls<span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token string">..."</span></span><span class="token punctuation">)</span>
+            chunk_data <span class="token operator">=</span> self<span class="token punctuation">.</span>download_chunk<span class="token punctuation">(</span>url<span class="token punctuation">)</span>
+            chunks<span class="token punctuation">.</span>append<span class="token punctuation">(</span>chunk_data<span class="token punctuation">)</span>
+        
+        <span class="token comment"># Reassemble</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"   Reassembling file..."</span><span class="token punctuation">)</span>
+        <span class="token keyword">with</span> <span class="token builtin">open</span><span class="token punctuation">(</span>output_path<span class="token punctuation">,</span> <span class="token string">"wb"</span><span class="token punctuation">)</span> <span class="token keyword">as</span> f<span class="token punctuation">:</span>
+            <span class="token keyword">for</span> chunk <span class="token keyword">in</span> chunks<span class="token punctuation">:</span>
+                f<span class="token punctuation">.</span>write<span class="token punctuation">(</span>chunk<span class="token punctuation">)</span>
+        
+        <span class="token comment"># Verify integrity</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"   Verifying integrity..."</span><span class="token punctuation">)</span>
+        <span class="token keyword">if</span> <span class="token keyword">not</span> self<span class="token punctuation">.</span>verify_sha256<span class="token punctuation">(</span>output_path<span class="token punctuation">,</span> expected_hash<span class="token punctuation">)</span><span class="token punctuation">:</span>
+            <span class="token keyword">raise</span> Exception<span class="token punctuation">(</span><span class="token string">"SHA-256 hash mismatch! File may be corrupted."</span><span class="token punctuation">)</span>
+        
+        actual_size <span class="token operator">=</span> output_path<span class="token punctuation">.</span>stat<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>st_size
+        <span class="token keyword">if</span> actual_size <span class="token operator">!=</span> expected_size<span class="token punctuation">:</span>
+            <span class="token keyword">raise</span> Exception<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Size mismatch! Expected </span><span class="token interpolation"><span class="token punctuation">{</span>expected_size<span class="token punctuation">}</span></span><span class="token string">, got </span><span class="token interpolation"><span class="token punctuation">{</span>actual_size<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+        
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Download complete and verified: </span><span class="token interpolation"><span class="token punctuation">{</span>output_path<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+
+<span class="token comment"># Example usage</span>
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">"__main__"</span><span class="token punctuation">:</span>
+    <span class="token keyword">import</span> json
+    
+    <span class="token comment"># Load manifest from upload</span>
+    <span class="token keyword">with</span> <span class="token builtin">open</span><span class="token punctuation">(</span><span class="token string">"manifest.json"</span><span class="token punctuation">,</span> <span class="token string">"r"</span><span class="token punctuation">)</span> <span class="token keyword">as</span> f<span class="token punctuation">:</span>
+        manifest <span class="token operator">=</span> json<span class="token punctuation">.</span>load<span class="token punctuation">(</span>f<span class="token punctuation">)</span>
+    
+    <span class="token comment"># Download and reassemble</span>
+    downloader <span class="token operator">=</span> GitHubChunkedDownloader<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    downloader<span class="token punctuation">.</span>download_large_file<span class="token punctuation">(</span>manifest<span class="token punctuation">,</span> Path<span class="token punctuation">(</span><span class="token string">"downloaded_model.pkl"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+<h3 id="why-sequential-uploads-not-parallel">Why Sequential Uploads, Not Parallel?</h3>
+<p>You might think: “20MB chunks × 8 threads = 8x faster uploads!” Unfortunately, no.</p>
+<p><strong>Git repositories are stateful.</strong> Each commit depends on the previous commit’s SHA. When you upload chunk_000, GitHub creates commit <code>abc123</code>. When you upload chunk_001, it needs to reference <code>abc123</code> as the parent.</p>
+<p>If you upload in parallel:</p>
+<pre class="language-plaintext" data-language="plaintext"><code is:raw="" class="language-plaintext">Thread 1: Upload chunk_000 → commit abc123
+Thread 2: Upload chunk_001 → expects parent abc123 (not available yet!)
+Thread 3: Upload chunk_002 → expects parent def456 (where is it?)
+</code></pre>
+<p>Result: Merge conflicts, failed pushes, corrupted repository history.</p>
+<p><strong>Sequential uploads ensure clean history.</strong> Boring, but correct.</p>
+<h3 id="async-downloads-the-faster-alternative">Async Downloads: The Faster Alternative</h3>
+<p>Downloading, however, is perfectly parallelizable:</p>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token keyword">import</span> asyncio
+<span class="token keyword">import</span> aiohttp
+<span class="token keyword">from</span> pathlib <span class="token keyword">import</span> Path
+<span class="token keyword">from</span> typing <span class="token keyword">import</span> List<span class="token punctuation">,</span> Dict
+
+<span class="token keyword">async</span> <span class="token keyword">def</span> <span class="token function">download_chunk_async</span><span class="token punctuation">(</span>session<span class="token punctuation">:</span> aiohttp<span class="token punctuation">.</span>ClientSession<span class="token punctuation">,</span> url<span class="token punctuation">:</span> <span class="token builtin">str</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">bytes</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""Download a chunk asynchronously."""</span>
+    <span class="token keyword">async</span> <span class="token keyword">with</span> session<span class="token punctuation">.</span>get<span class="token punctuation">(</span>url<span class="token punctuation">)</span> <span class="token keyword">as</span> response<span class="token punctuation">:</span>
+        response<span class="token punctuation">.</span>raise_for_status<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span> <span class="token keyword">await</span> response<span class="token punctuation">.</span>read<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token keyword">async</span> <span class="token keyword">def</span> <span class="token function">download_large_file</span><span class="token punctuation">(</span>manifest<span class="token punctuation">:</span> Dict<span class="token punctuation">,</span> output_path<span class="token punctuation">:</span> Path<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+
+    <span class="token keyword">async</span> <span class="token keyword">with</span> aiohttp<span class="token punctuation">.</span>ClientSession<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">as</span> session<span class="token punctuation">:</span>
+        <span class="token comment"># Download all chunks concurrently</span>
+        tasks <span class="token operator">=</span> <span class="token punctuation">[</span>download_chunk_async<span class="token punctuation">(</span>session<span class="token punctuation">,</span> url<span class="token punctuation">)</span> <span class="token keyword">for</span> url <span class="token keyword">in</span> chunk_urls<span class="token punctuation">]</span>
+        chunks <span class="token operator">=</span> <span class="token keyword">await</span> asyncio<span class="token punctuation">.</span>gather<span class="token punctuation">(</span><span class="token operator">*</span>tasks<span class="token punctuation">)</span>
+    
+    <span class="token comment"># Reassemble (order preserved by asyncio.gather)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"   Reassembling..."</span><span class="token punctuation">)</span>
+    <span class="token keyword">with</span> <span class="token builtin">open</span><span class="token punctuation">(</span>output_path<span class="token punctuation">,</span> <span class="token string">"wb"</span><span class="token punctuation">)</span> <span class="token keyword">as</span> f<span class="token punctuation">:</span>
+        <span class="token keyword">for</span> chunk <span class="token keyword">in</span> chunks<span class="token punctuation">:</span>
+            f<span class="token punctuation">.</span>write<span class="token punctuation">(</span>chunk<span class="token punctuation">)</span>
+    
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+
+<span class="token comment"># Usage</span>
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">"__main__"</span><span class="token punctuation">:</span>
+    <span class="token keyword">import</span> json
+    
+    <span class="token keyword">with</span> <span class="token builtin">open</span><span class="token punctuation">(</span><span class="token string">"manifest.json"</span><span class="token punctuation">,</span> <span class="token string">"r"</span><span class="token punctuation">)</span> <span class="token keyword">as</span> f<span class="token punctuation">:</span>
+        manifest <span class="token operator">=</span> json<span class="token punctuation">.</span>load<span class="token punctuation">(</span>f<span class="token punctuation">)</span>
+    
+    asyncio<span class="token punctuation">.</span>run<span class="token punctuation">(</span>download_large_file_async<span class="token punctuation">(</span>manifest<span class="token punctuation">,</span> Path<span class="token punctuation">(</span><span class="token string">"model.pkl"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+<p>This downloads 8 chunks simultaneously, saturating your bandwidth. On a 1Gbps connection, I’ve seen 5-7x speedups compared to sequential downloads.</p>
+<h2 id="scaling-up-multiple-repositories">Scaling Up: Multiple Repositories</h2>
+<p>The single-repo approach has problems:</p>
+<ol>
+<li><strong>Repository bloat</strong> - Hundreds of chunks in one repo is ugly</li>
+<li><strong>GitHub API rate limits</strong> - 5,000 requests/hour per token</li>
+<li><strong>Sequential upload bottleneck</strong> - Large files take forever</li>
+</ol>
+<p><strong>Solution: Shard across multiple repositories.</strong></p>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token keyword">class</span> <span class="token class-name">MultiRepoUploader</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""Upload chunks across multiple repositories for parallelism."""</span>
+    
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> token<span class="token punctuation">:</span> <span class="token builtin">str</span><span class="token punctuation">,</span> repos<span class="token punctuation">:</span> List<span class="token punctuation">[</span><span class="token builtin">str</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>uploaders <span class="token operator">=</span> <span class="token punctuation">[</span>
+            GitHubChunkedUploader<span class="token punctuation">(</span>token<span class="token punctuation">,</span> repo<span class="token punctuation">)</span> <span class="token keyword">for</span> repo <span class="token keyword">in</span> repos
+        <span class="token punctuation">]</span>
+    
+    <span class="token keyword">def</span> <span class="token function">upload_large_file_sharded</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> filepath<span class="token punctuation">:</span> Path<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> Dict<span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""Split chunks across repositories for parallel uploads."""</span>
+        chunks <span class="token operator">=</span> self<span class="token punctuation">.</span>split_file<span class="token punctuation">(</span>filepath<span class="token punctuation">)</span>
+        num_repos <span class="token operator">=</span> <span class="token builtin">len</span><span class="token punctuation">(</span>self<span class="token punctuation">.</span>uploaders<span class="token punctuation">)</span>
+        
+        <span class="token comment"># Distribute chunks across repos</span>
+        chunk_urls <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+        <span class="token keyword">for</span> i<span class="token punctuation">,</span> chunk_data <span class="token keyword">in</span> <span class="token builtin">enumerate</span><span class="token punctuation">(</span>chunks<span class="token punctuation">)</span><span class="token punctuation">:</span>
+            repo_idx <span class="token operator">=</span> i <span class="token operator">%</span> num_repos  <span class="token comment"># Round-robin distribution</span>
+            uploader <span class="token operator">=</span> self<span class="token punctuation">.</span>uploaders<span class="token punctuation">[</span>repo_idx<span class="token punctuation">]</span>
+            
+            <span class="token comment"># Now we can upload in parallel per-repo!</span>
+            url <span class="token operator">=</span> uploader<span class="token punctuation">.</span>upload_chunk<span class="token punctuation">(</span>chunk_data<span class="token punctuation">,</span> <span class="token string-interpolation"><span class="token string">f"chunk_</span><span class="token interpolation"><span class="token punctuation">{</span>i<span class="token punctuation">:</span><span class="token format-spec">03d</span><span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">,</span> <span class="token string-interpolation"><span class="token string">f"Upload chunk </span><span class="token interpolation"><span class="token punctuation">{</span>i<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+            chunk_urls<span class="token punctuation">.</span>append<span class="token punctuation">(</span>url<span class="token punctuation">)</span>
+        
+        <span class="token keyword">return</span> <span class="token punctuation">{</span><span class="token string">"chunks"</span><span class="token punctuation">:</span> chunk_urls<span class="token punctuation">,</span> <span class="token string">"file_name"</span><span class="token punctuation">:</span> filepath<span class="token punctuation">.</span>name<span class="token punctuation">}</span>
+</code></pre>
+<p><strong>Benefits:</strong></p>
+<ul>
+<li>Upload to 4 repos in parallel = 4x throughput</li>
+<li>Distribute load across repositories</li>
+<li>Stay under API rate limits</li>
+</ul>
+<p><strong>Drawbacks:</strong></p>
+<ul>
+<li>Managing multiple repos is annoying</li>
+<li>Still doesn’t solve the fundamental “Git isn’t storage” problem</li>
+</ul>
+<h2 id="why-this-is-still-a-terrible-idea">Why This Is Still a Terrible Idea</h2>
+<p>Let’s be brutally honest about why using Git as a storage backend is bad engineering:</p>
+<h3 id="1-github-will-notice-and-may-ban-you">1. GitHub Will Notice (and May Ban You)</h3>
+<p>From GitHub’s <a href="https://docs.github.com/en/site-policy/acceptable-use-policies/github-acceptable-use-policies">Acceptable Use Policy</a>:</p>
+<blockquote>
+<p>“GitHub’s file storage is not intended to be used as a general-purpose file storage platform… Accounts in violation may have access restricted or terminated.”</p>
+</blockquote>
+<p>If you upload hundreds of gigabytes, GitHub’s abuse detection will flag your account. At best, they’ll throttle your API access. At worst, permanent ban.</p>
+<h3 id="2-performance-degrades-over-time">2. Performance Degrades Over Time</h3>
+<p>Each push creates a new commit. After 1,000 commits, <code>git clone</code> downloads 1,000 commit objects. Your repository becomes very slow.</p>
+<h3 id="3-no-deduplication">3. No Deduplication</h3>
+<p>Upload the same 100MB file twice? Git stores it twice. Modify one byte? Entire file stored again. You’ll burn through GitHub’s storage limits fast.</p>
+<h3 id="4-api-rate-limits-kill-you">4. API Rate Limits Kill You</h3>
+<p>GitHub allows 5,000 API requests/hour with authentication. A 1GB file = 50 chunks = 50 API calls. Upload 100 files and you’re rate-limited for an hour.</p>
+<h3 id="5-its-just-wrong">5. It’s Just Wrong</h3>
+<p>Git is version control. S3 is storage. Using a screwdriver as a hammer might work, but why?</p>
+<h2 id="when-this-approach-is-actually-allowed">When This Approach Is Actually Allowed</h2>
+<p>This technique is appropriate in specific organizational contexts:</p>
+<p><strong>Self-Hosted Git Instances:</strong>
+If your organization runs its own GitLab, Gitea, or GitHub Enterprise instance on their own infrastructure, and IT explicitly permits using it for file storage, then this approach is fair game.</p>
+<p><strong>Requirements for legitimate use:</strong></p>
+<ul>
+<li>Self-hosted Git server (not github.com, not gitlab.com)</li>
+<li>Organization owns and operates the infrastructure</li>
+<li>IT policy explicitly allows file storage usage</li>
+<li>You have written approval from infrastructure team</li>
+<li>Storage quotas and limits are clearly defined</li>
+</ul>
+<p><strong>Example scenario:</strong> Your company runs GitLab on internal servers with 10TB of storage allocated for engineering artifacts. IT has approved using it for ML model storage as part of your CI/CD pipeline. In this case, the chunking technique is a valid engineering solution.</p>
+<p><strong>Still not recommended for:</strong></p>
+<ul>
+<li>Public GitHub (github.com)</li>
+<li>Public GitLab (gitlab.com)</li>
+<li>Any hosted Git service you don’t control</li>
+<li>Circumventing organizational policies</li>
+</ul>
+<h2 id="key-takeaways">Key Takeaways</h2>
+<ol>
+<li><strong>Git isn’t storage</strong> - It’s version control.</li>
+<li><strong>Use Git LFS</strong></li>
+<li><strong>Cloud storage exists</strong> - S3.</li>
+<li><strong>The hack works</strong> - But it’s educational, not production-ready.</li>
+<li><strong>GitHub will notice</strong> - Abuse leads to account restrictions.</li>
+<li><strong>Async downloads are fast</strong> - Sequential uploads are mandatory.</li>
+<li><strong>Multiple repos help</strong> - But don’t solve the core problem.</li>
+</ol>
+<h2 id="final-thoughts">Final Thoughts</h2>
+<p><strong>If you learned something from this article, great.</strong> If you’re tempted to use this in production, please reconsider. Your future self (and your GitHub account) will thank you.</p>
+<p>The right tool for the job isn’t always the one you’re already using. Sometimes, it’s worth paying 5 bucks a month for Git LFS or setting up S3. Engineering isn’t about clever hacks, it’s about sustainable systems.</p> </div>    <section class="related-posts" data-astro-cid-dpgbfi7r> <h2 data-astro-cid-dpgbfi7r>Related Posts</h2> <div class="related-posts-grid" data-astro-cid-dpgbfi7r> <article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/stock-weather-ai/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>Stock Weather AI</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>Stock Weather AI — Reading the Market&#39;s Forecast Imagine a weather report for the markets: a short, clear summary about…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2025-10-04T00:00:00.000Z" data-astro-cid-dpgbfi7r> Oct 4, 2025 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>3 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/ai-news/2025-11-25-tech-with-tim-build-deploy-a-python-ai-agent-in-20-minutes/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>Build &amp; Deploy a Python AI Agent in 20 Minutes</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>Build &amp; Deploy a Python AI Agent in 20 Minutes Tim from Tech With Tim demonstrates a rapid workflow for deploying a…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2025-11-25T00:00:00.000Z" data-astro-cid-dpgbfi7r> Nov 25, 2025 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>1 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/valkey-getting-started-complete-guide/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>Valkey Complete Getting Started Guide: Production-Ready in 30 Minutes</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>TL;DR Valkey is the open-source fork of Redis that&#39;s actually faster and uses less memory. This guide takes you from…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2025-11-24T00:00:00.000Z" data-astro-cid-dpgbfi7r> Nov 24, 2025 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>10 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/ai-news/2025-11-07-krish-naik-stop-fighting-with-kubernetes-scale-python-to-1000s-of-machines-with-coiled/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>Coiled: Simplifying Python Scaling Beyond Kubernetes</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>Coiled: A Seamless Solution for Scaling Python Applications Without Kubernetes This article introduces **Coiled**, a…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2025-11-07T00:00:00.000Z" data-astro-cid-dpgbfi7r> Nov 7, 2025 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>2 min read</span> </div> </a> </article> </div> </section>  </article> </div> <div class="back-link" data-astro-cid-yvbahnfj><a href="/" data-astro-cid-yvbahnfj>← Back to home</a></div>  </main> <!-- Site Footer --> <footer class="site-footer container"> <p>
+© 2025 AREZKI El Mehdi •
+<a href="https://github.com/earezki">GitHub</a> •
+<a href="/rss.xml">RSS</a> •
+<a href="/tags/">Tags</a> •
+<a href="/sitemap-index.xml">Sitemap</a> •
+<button id="footer-subscribe-btn" class="footer-subscribe-btn" aria-label="Subscribe to newsletter">
+📬 Subscribe
+</button> </p> </footer> <!-- Footer Subscribe Button Handler --> <script type="module">const e=document.getElementById("themeToggle"),o=n=>{if(!e)return;const t=e.querySelector(".theme-icon");t&&(t.textContent=n==="dark"?"☀":"☾")};if(e){const n=document.documentElement.getAttribute("data-theme")||"dark";o(n),e.addEventListener("click",()=>{const t=document.documentElement,c=t.getAttribute("data-theme")==="dark"?"light":"dark";t.setAttribute("data-theme",c),localStorage.setItem("theme",c),o(c)})}</script> <!-- Theme Toggle --> <script type="module">document.addEventListener("DOMContentLoaded",()=>{const e=document.getElementById("footer-subscribe-btn");e&&e.addEventListener("click",n=>{n.preventDefault();const t=document.getElementById("subscription-popup");t&&(t.setAttribute("data-state","visible"),document.body.style.overflow="hidden")})});</script> <!-- Article read/unread tracking --> <script>
+      (function() {
+        const KEY = 'readArticles';
+        
+        function getRead() {
+          try {
+            const d = localStorage.getItem(KEY);
+            return d ? JSON.parse(d) : [];
+          } catch (e) {
+            return [];
+          }
+        }
+        
+        function markRead(url) {
+          try {
+            const read = getRead();
+            if (!read.includes(url)) {
+              read.push(url);
+              localStorage.setItem(KEY, JSON.stringify(read));
+            }
+          } catch (e) {}
+        }
+        
+        function updateCards() {
+          const read = new Set(getRead());
+          const cards = document.querySelectorAll('.post-card[data-article-url]');
+          cards.forEach(function(card) {
+            const url = card.getAttribute('data-article-url');
+            if (!url) return;
+            const isRead = read.has(url);
+            card.classList.toggle('read', isRead);
+            card.classList.toggle('unread', !isRead);
+          });
+        }
+        
+        function markCurrent() {
+          if (document.querySelector('.post-body')) {
+            markRead(window.location.pathname);
+          }
+        }
+        
+        function init() {
+          updateCards();
+          markCurrent();
+        }
+        
+        function clearRead(url) {
+          try {
+            const read = new Set(getRead());
+            if (read.has(url)) {
+              read.delete(url);
+              localStorage.setItem(KEY, JSON.stringify(Array.from(read)));
+              updateCards();
+            }
+          } catch (e) {}
+        }
+        
+        window.clearReadArticle = clearRead;
+        document.addEventListener('DOMContentLoaded', init);
+        window.addEventListener('pageshow', function(e) {
+          if (e.persisted) init();
+        });
+      })();
+    </script> <!-- Clear read button handler --> <script>
+      (function() {
+        document.addEventListener('click', function(e) {
+          var tgt = e.target, btn = null;
+          while (tgt && tgt !== document) {
+            if (tgt.classList && tgt.classList.contains('clear-read-btn')) {
+              btn = tgt;
+              break;
+            }
+            tgt = tgt.parentNode;
+          }
+          if (!btn) return;
+          e.preventDefault();
+          e.stopPropagation();
+          var url = btn.getAttribute('data-article-url');
+          if (url && window.clearReadArticle) window.clearReadArticle(url);
+        });
+      })();
+    </script> <!-- External links open in new tab --> <script>
+      (function() {
+        function makeExternal() {
+          const domain = window.location.hostname;
+          const links = document.querySelectorAll('a[href]');
+          links.forEach(function(link) {
+            const href = link.getAttribute('href');
+            if (!href || link.hasAttribute('target')) return;
+            const isExt = (href.startsWith('http://') || href.startsWith('https://')) && !href.includes(domain);
+            if (isExt) {
+              link.setAttribute('target', '_blank');
+              link.setAttribute('rel', 'noopener noreferrer');
+            }
+          });
+        }
+        document.addEventListener('DOMContentLoaded', makeExternal);
+        if (window.MutationObserver) {
+          const obs = new MutationObserver(function(muts) {
+            muts.forEach(function(mut) {
+              if (mut.addedNodes.length) makeExternal();
+            });
+          });
+          obs.observe(document.body, { childList: true, subtree: true });
+        }
+      })();
+    </script> <!-- Code copy buttons --> <script>
+      (function() {
+        function createBtn() {
+          const btn = document.createElement('button');
+          btn.className = 'copy-code-button';
+          btn.setAttribute('aria-label', 'Copy code to clipboard');
+          btn.innerHTML = `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span>Copy</span>
+          `;
+          return btn;
+        }
+        
+        function checkIcon() {
+          return `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span>Copied!</span>
+          `;
+        }
+        
+        async function copyText(txt) {
+          try {
+            await navigator.clipboard.writeText(txt);
+            return true;
+          } catch (err) {
+            const ta = document.createElement('textarea');
+            ta.value = txt;
+            ta.style.position = 'fixed';
+            ta.style.left = '-999999px';
+            document.body.appendChild(ta);
+            ta.select();
+            try {
+              document.execCommand('copy');
+              document.body.removeChild(ta);
+              return true;
+            } catch (e) {
+              document.body.removeChild(ta);
+              return false;
+            }
+          }
+        }
+        
+        async function handleCopy(btn, code) {
+          const txt = code.textContent || '';
+          const ok = await copyText(txt);
+          if (ok) {
+            const orig = btn.innerHTML;
+            btn.classList.add('copied');
+            btn.innerHTML = checkIcon();
+            setTimeout(function() {
+              btn.classList.remove('copied');
+              btn.innerHTML = orig;
+            }, 2000);
+          }
+        }
+        
+        function addBtns() {
+          const blocks = document.querySelectorAll('.post-body pre');
+          blocks.forEach(function(pre) {
+            if (pre.querySelector('.copy-code-button')) return;
+            const btn = createBtn();
+            const code = pre.querySelector('code');
+            if (code) {
+              btn.addEventListener('click', function() {
+                handleCopy(btn, code);
+              });
+              pre.appendChild(btn);
+            }
+          });
+        }
+        
+        document.addEventListener('DOMContentLoaded', addBtns);
+      })();
+    </script> <!-- Newsletter Subscription Popup --> <div id="subscription-popup" class="subscription-popup" data-state="hidden" data-auto-trigger="true" data-astro-cid-we5gmdnp> <div class="popup-overlay" id="popup-overlay" data-astro-cid-we5gmdnp></div> <div class="popup-container" data-astro-cid-we5gmdnp> <div class="popup-content" data-astro-cid-we5gmdnp> <div class="popup-icon" data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-we5gmdnp> <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" data-astro-cid-we5gmdnp></path> <polyline points="22,6 12,13 2,6" data-astro-cid-we5gmdnp></polyline> </svg> </div> <h2 class="popup-title" data-astro-cid-we5gmdnp>Stay Updated with Dev|Journal</h2> <p class="popup-description" id="popup-description" data-astro-cid-we5gmdnp>
+Join our community of developers and engineers. Get insights on:
+</p> <ul class="popup-features" data-astro-cid-we5gmdnp> <li data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-we5gmdnp> <polyline points="20 6 9 17 4 12" data-astro-cid-we5gmdnp></polyline> </svg>
+Software Architecture & Design Patterns
+</li> <li data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-we5gmdnp> <polyline points="20 6 9 17 4 12" data-astro-cid-we5gmdnp></polyline> </svg>
+Backend Development Best Practices
+</li> <li data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-we5gmdnp> <polyline points="20 6 9 17 4 12" data-astro-cid-we5gmdnp></polyline> </svg>
+AI & Tech Industry Analysis
+</li> </ul> <form id="subscription-form" class="popup-form" data-astro-cid-we5gmdnp> <div class="form-group" data-astro-cid-we5gmdnp> <input type="text" id="subscriber-name" name="name" placeholder="Your name" required autocomplete="name" data-astro-cid-we5gmdnp> </div> <div class="form-group" data-astro-cid-we5gmdnp> <input type="email" id="subscriber-email" name="email" placeholder="your.email@example.com" required autocomplete="email" data-astro-cid-we5gmdnp> </div> <div id="form-message" class="form-message" data-astro-cid-we5gmdnp></div> <div class="popup-actions" data-astro-cid-we5gmdnp> <button type="submit" class="btn btn-primary" id="subscribe-btn" data-astro-cid-we5gmdnp> <span class="btn-text" data-astro-cid-we5gmdnp>Subscribe</span> <span class="btn-loader" data-astro-cid-we5gmdnp> <svg class="spinner" viewBox="0 0 24 24" data-astro-cid-we5gmdnp> <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" data-astro-cid-we5gmdnp></circle> </svg> </span> </button> <button type="button" class="btn btn-secondary" id="not-now-btn" data-astro-cid-we5gmdnp>Not Now</button> <button type="button" class="btn btn-text" id="cancel-btn" data-astro-cid-we5gmdnp>Don't Show Again</button> </div> </form> </div> </div> </div>  <script>
+  // Configuration
+  const CONFIG = {
+    graceDelay: 5000, // 5 seconds delay before showing popup
+    notNowDelay: 24 * 60 * 60 * 1000, // 1 day in milliseconds
+    apiUrl: 'https://api.earezki.com/blog/api',
+  };
+
+  const STORAGE_KEYS = {
+    subscribed: 'newsletter_subscribed',
+    cancelled: 'newsletter_cancelled',
+    notNowUntil: 'newsletter_not_now_until',
+  };
+
+  // State management
+  let popupTimeout = null;
+
+  function showPopup() {
+    const popup = document.getElementById('subscription-popup');
+    if (popup) {
+      popup.setAttribute('data-state', 'visible');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  function hidePopup() {
+    const popup = document.getElementById('subscription-popup');
+    if (popup) {
+      popup.setAttribute('data-state', 'hidden');
+      document.body.style.overflow = '';
+    }
+  }
+
+  function shouldShowPopup() {
+    // Check if user has already subscribed
+    if (localStorage.getItem(STORAGE_KEYS.subscribed) === 'true') {
+      return false;
+    }
+
+    // Check if user clicked "Don't show again"
+    if (localStorage.getItem(STORAGE_KEYS.cancelled) === 'true') {
+      return false;
+    }
+
+    // Check if user clicked "Not now" and delay hasn't passed
+    const notNowUntil = localStorage.getItem(STORAGE_KEYS.notNowUntil);
+    if (notNowUntil) {
+      const notNowTime = parseInt(notNowUntil, 10);
+      if (Date.now() < notNowTime) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  async function getSubscriberStats() {
+    try {
+      const response = await fetch(`${CONFIG.apiUrl}/subscribers/stats`, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+        },
+      });
+      
+      if (!response.ok) {
+        return null;
+      }
+      
+      const data = await response.json();
+      return data.subscriber_count || null;
+    } catch (error) {
+      console.error('Failed to fetch subscriber stats:', error);
+      return null;
+    }
+  }
+
+  async function schedulePopup() {
+    if (!shouldShowPopup()) {
+      return;
+    }
+
+    // Fetch subscriber stats before scheduling popup
+    const subscriberCount = await getSubscriberStats();
+    if (subscriberCount === null) {
+      console.log('Failed to fetch subscriber stats, not showing subscription popup');
+      return;
+    }
+
+    // Update popup with subscriber count
+    updatePopupWithStats(subscriberCount);
+
+    // Show popup after grace period
+    popupTimeout = window.setTimeout(() => {
+      showPopup();
+    }, CONFIG.graceDelay);
+  }
+
+  function updatePopupWithStats(count) {
+    const descriptionEl = document.querySelector('.popup-description');
+    if (descriptionEl) {
+      const formattedCount = new Intl.NumberFormat('en-US').format(count);
+      descriptionEl.innerHTML = `Join a community of <strong>${formattedCount}+</strong> developers and engineers who are growing together. Get insights on:`;
+    }
+  }
+
+  async function handleSubscribe(event) {
+    event.preventDefault();
+    
+    const form = event.target;
+    const nameInput = form.querySelector('#subscriber-name');
+    const emailInput = form.querySelector('#subscriber-email');
+    const submitBtn = form.querySelector('#subscribe-btn');
+    const messageEl = document.getElementById('form-message');
+
+    const name = nameInput.value.trim();
+    const email = emailInput.value.trim();
+
+    if (!name || !email) {
+      if (messageEl) {
+        messageEl.textContent = 'Please fill in all fields.';
+        messageEl.className = 'form-message error';
+      }
+      return;
+    }
+
+    // Show loading state
+    submitBtn.classList.add('loading');
+    submitBtn.disabled = true;
+    if (messageEl) {
+      messageEl.textContent = '';
+      messageEl.className = 'form-message';
+    }
+
+    try {
+      const response = await fetch(`${CONFIG.apiUrl}/subscribe`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, email }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        localStorage.setItem(STORAGE_KEYS.subscribed, 'true');
+        
+        if (messageEl) {
+          messageEl.textContent = '🎉 Successfully subscribed! Thank you for joining us.';
+          messageEl.className = 'form-message success';
+        }
+
+        // Hide popup after 2 seconds
+        setTimeout(() => {
+          hidePopup();
+        }, 2000);
+      } else {
+        if (messageEl) {
+          messageEl.textContent = data.error || 'Subscription failed. Please try again.';
+          messageEl.className = 'form-message error';
+        }
+      }
+    } catch (error) {
+      console.error('Subscription error:', error);
+      if (messageEl) {
+        messageEl.textContent = 'Network error. Please check your connection and try again.';
+        messageEl.className = 'form-message error';
+      }
+    } finally {
+      submitBtn.classList.remove('loading');
+      submitBtn.disabled = false;
+    }
+  }
+
+  function handleNotNow() {
+    const notNowUntil = Date.now() + CONFIG.notNowDelay;
+    localStorage.setItem(STORAGE_KEYS.notNowUntil, notNowUntil.toString());
+    hidePopup();
+  }
+
+  function handleCancel() {
+    localStorage.setItem(STORAGE_KEYS.cancelled, 'true');
+    hidePopup();
+  }
+
+  // Initialize popup
+  document.addEventListener('DOMContentLoaded', () => {
+    const popup = document.getElementById('subscription-popup');
+    const autoTrigger = popup?.getAttribute('data-auto-trigger') === 'true';
+    
+    // Schedule popup to show after grace period only if autoTrigger is enabled
+    if (autoTrigger) {
+      schedulePopup();
+    }
+
+    // Event listeners
+    const form = document.getElementById('subscription-form');
+    const overlay = document.getElementById('popup-overlay');
+    const notNowBtn = document.getElementById('not-now-btn');
+    const cancelBtn = document.getElementById('cancel-btn');
+
+    if (form) {
+      form.addEventListener('submit', handleSubscribe);
+    }
+
+    if (overlay) {
+      overlay.addEventListener('click', handleNotNow);
+    }
+
+    if (notNowBtn) {
+      notNowBtn.addEventListener('click', handleNotNow);
+    }
+
+    if (cancelBtn) {
+      cancelBtn.addEventListener('click', handleCancel);
+    }
+
+    // Clean up on page unload
+    window.addEventListener('beforeunload', () => {
+      if (popupTimeout) {
+        clearTimeout(popupTimeout);
+      }
+    });
+  });
+</script> </body></html> 

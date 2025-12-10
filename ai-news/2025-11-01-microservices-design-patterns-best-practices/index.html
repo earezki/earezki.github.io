@@ -1,0 +1,931 @@
+<!DOCTYPE html><html lang="en" data-theme="dark"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Microservices Design Patterns: Best Practices for Scalable Systems • Dev|Journal</title><meta name="description" content="Microservices Design Patterns: Best Practices for Scalable Systems Microservices architecture has become the de facto standard for building scalable,…"><meta name="keywords" content="AI News, Technology"><meta name="author" content="El Mehdi Arezki"><meta property="og:type" content="website"><meta property="og:url" content="https://earezki.com/ai-news/2025-11-01-microservices-design-patterns-best-practices/"><meta property="og:title" content="Microservices Design Patterns: Best Practices for Scalable Systems • Dev|Journal"><meta property="og:site_name" content="Dev|Journal"><meta property="og:description" content="Microservices Design Patterns: Best Practices for Scalable Systems Microservices architecture has become the de facto standard for building scalable,…"><meta property="og:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:url" content="https://earezki.com/ai-news/2025-11-01-microservices-design-patterns-best-practices/"><meta name="twitter:title" content="Microservices Design Patterns: Best Practices for Scalable Systems • Dev|Journal"><meta name="twitter:description" content="Microservices Design Patterns: Best Practices for Scalable Systems Microservices architecture has become the de facto standard for building scalable,…"><meta name="twitter:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:creator" content="@earezki"><link rel="canonical" href="https://earezki.com/ai-news/2025-11-01-microservices-design-patterns-best-practices/"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/x-icon" href="/favicon.ico"><link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"><link rel="dns-prefetch" href="https://cloud.umami.is"><script defer src="https://cloud.umami.is/script.js" data-website-id="4a26531d-1053-4f79-97a6-06a1366aff91"></script><script>
+      (function() {
+        const theme = localStorage.getItem('theme');
+        if (theme) document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script><script>
+!function(){const o=window.location.pathname;if("/"===o)return;if(/\.\w+$/.test(o))return;const n=o.toLowerCase(),i=n!==o,t=!o.endsWith("/");if(i||t){const o=n+(t?"/":""),i=window.location.origin+o+window.location.search+window.location.hash;window.location.replace(i)}}();
+</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Microservices Design Patterns: Best Practices for Scalable Systems","description":"Microservices Design Patterns: Best Practices for Scalable Systems Microservices architecture has become the de facto standard for building scalable,…","image":"https://earezki.com/assets/og-image-default.jpg","datePublished":"2025-11-01T00:00:00.000Z","dateModified":"2025-11-01T00:00:00.000Z","author":{"@type":"Person","name":"El Mehdi Arezki","url":"https://earezki.com/about","jobTitle":"Lead Software Engineer","sameAs":["https://github.com/earezki","https://www.linkedin.com/in/mehdi-arezki"]},"publisher":{"@type":"Organization","name":"Dev|Journal","url":"https://earezki.com","logo":{"@type":"ImageObject","url":"https://earezki.com/assets/logo.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://earezki.com/ai-news/2025-11-01-microservices-design-patterns-best-practices/"}}</script><link rel="stylesheet" href="/_astro/_slug_.BZhQT0av.css">
+<link rel="stylesheet" href="/_astro/_slug_.CFj9bTVJ.css">
+<link rel="stylesheet" href="/_astro/_slug_.ICs7ea4X.css"></head> <body> <div id="readingProgress" role="progressbar" aria-label="Reading progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="position:fixed;left:0;top:0;height:3px;background:linear-gradient(90deg,#2563eb,#9333ea);width:0;z-index:999;transition:width .15s ease;"></div> <script type="module">function c(){const t=document.getElementById("readingProgress");if(!t)return;const o=()=>{const e=document.documentElement,r=e.scrollTop||document.body.scrollTop,s=e.scrollHeight-e.clientHeight,n=s>0?r/s*100:0;t.style.width=`${n}%`,t.setAttribute("aria-valuenow",n.toFixed(0))};document.addEventListener("scroll",o,{passive:!0}),o()}c();</script> <header class="site-header container"> <div class="logo-wrap"> <a class="logo" href="/" aria-label="Dev|Journal Home">
+Dev|Journal
+</a> </div> <!-- Search Box in Header --> <div class="header-search" data-search-api-url="https://api.earezki.com/blog/api/q" data-search-timeout="2000"> <div class="search-box" id="search-box"> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon" aria-hidden="true"> <circle cx="11" cy="11" r="8"></circle> <path d="m21 21-4.35-4.35"></path> </svg> <input type="text" id="search-input" placeholder="Search ..." class="search-input" autocomplete="off" aria-label="Search articles" minlength="3"> <button id="clear-search" class="clear-button" style="display: none;" aria-label="Clear search"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <line x1="18" y1="6" x2="6" y2="18"></line> <line x1="6" y1="6" x2="18" y2="18"></line> </svg> </button> </div> <div id="search-results" class="search-results" role="status" aria-live="polite"></div> </div> <script type="module" src="/_astro/SearchBox.astro_astro_type_script_index_0_lang.BNnBPVSN.js"></script> <nav class="main-nav" aria-label="Main navigation"> <a href="/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path> <polyline points="9 22 9 12 15 12 15 22"></polyline> </svg>
+Home
+</a> <a href="/ai-news/" class="ai-news-link ai-gradient-nav"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h-9.5a.5.5 0 0 0-.5.5.5.5 0 0 1-1 0 .5.5 0 0 0-.5-.5H1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"></path> <path d="M7 15v4a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-4"></path> </svg>
+AI News
+</a> <a href="/ai-financial-news/" class="ai-financial-link ai-gradient-nav"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <line x1="12" y1="1" x2="12" y2="23"></line> <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path> </svg>
+AI Financial
+</a> <a href="/about/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <circle cx="12" cy="12" r="10"></circle> <path d="M12 16v-4"></path> <path d="M12 8h.01"></path> </svg>
+About
+</a> <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode"> <span class="theme-icon" aria-hidden="true">☾</span> </button> </nav> </header> <!-- Main Content --> <main class="container content-area">  <nav class="breadcrumbs" aria-label="Breadcrumb" data-astro-cid-ilhxcym7> <ol data-astro-cid-ilhxcym7> <li data-astro-cid-ilhxcym7>  <a href="/" data-astro-cid-ilhxcym7>Home</a> <span class="separator" aria-hidden="true" data-astro-cid-ilhxcym7>/</span>  </li><li data-astro-cid-ilhxcym7>  <a href="/ai-news/" data-astro-cid-ilhxcym7>Ai News</a> <span class="separator" aria-hidden="true" data-astro-cid-ilhxcym7>/</span>  </li><li data-astro-cid-ilhxcym7> <span class="current" aria-current="page" data-astro-cid-ilhxcym7>Microservices Design Patterns: Best Practices for Scalable Systems</span> </li>  </ol> </nav>  <div class="post-layout" data-astro-cid-rkg3zjxi> <aside class="sidebar-left" data-astro-cid-rkg3zjxi> <nav class="toc" aria-label="Table of Contents" data-astro-cid-xvrfupwn> <div class="toc-title" data-astro-cid-xvrfupwn>On this page</div> <ul data-astro-cid-xvrfupwn> <li class="d-2" data-astro-cid-xvrfupwn> <a href="#table-of-contents" data-astro-cid-xvrfupwn> Table of Contents </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#introduction-to-microservices-patterns-introduction" data-astro-cid-xvrfupwn> Introduction to Microservices Patterns {#introduction} </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#why-patterns-matter" data-astro-cid-xvrfupwn> Why Patterns Matter </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#communication-patterns-communication-patterns" data-astro-cid-xvrfupwn> Communication Patterns {#communication-patterns} </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#1-api-gateway-pattern" data-astro-cid-xvrfupwn> 1. API Gateway Pattern </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#2-service-mesh-pattern" data-astro-cid-xvrfupwn> 2. Service Mesh Pattern </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#data-management-patterns-data-management" data-astro-cid-xvrfupwn> Data Management Patterns {#data-management} </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#3-database-per-service-pattern" data-astro-cid-xvrfupwn> 3. Database per Service Pattern </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#4-saga-pattern" data-astro-cid-xvrfupwn> 4. Saga Pattern </a> </li><li class="d-4" data-astro-cid-xvrfupwn> <a href="#choreography-based-saga" data-astro-cid-xvrfupwn> Choreography-Based Saga </a> </li><li class="d-4" data-astro-cid-xvrfupwn> <a href="#orchestration-based-saga" data-astro-cid-xvrfupwn> Orchestration-Based Saga </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#5-cqrs-pattern-command-query-responsibility-segregation" data-astro-cid-xvrfupwn> 5. CQRS Pattern (Command Query Responsibility Segregation) </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#resilience-patterns-resilience-patterns" data-astro-cid-xvrfupwn> Resilience Patterns {#resilience-patterns} </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#6-circuit-breaker-pattern" data-astro-cid-xvrfupwn> 6. Circuit Breaker Pattern </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#7-retry-pattern" data-astro-cid-xvrfupwn> 7. Retry Pattern </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#8-bulkhead-pattern" data-astro-cid-xvrfupwn> 8. Bulkhead Pattern </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#deployment-and-infrastructure-patterns-deployment-patterns" data-astro-cid-xvrfupwn> Deployment and Infrastructure Patterns {#deployment-patterns} </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#9-service-registry-and-discovery" data-astro-cid-xvrfupwn> 9. Service Registry and Discovery </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#10-externalized-configuration" data-astro-cid-xvrfupwn> 10. Externalized Configuration </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#real-world-implementation-examples-examples" data-astro-cid-xvrfupwn> Real-World Implementation Examples {#examples} </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#e-commerce-platform-architecture" data-astro-cid-xvrfupwn> E-Commerce Platform Architecture </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#banking-system-with-saga-pattern" data-astro-cid-xvrfupwn> Banking System with Saga Pattern </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#best-practices-summary" data-astro-cid-xvrfupwn> Best Practices Summary </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#do" data-astro-cid-xvrfupwn> DO: </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#dont" data-astro-cid-xvrfupwn> DON&#39;T: </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#conclusion" data-astro-cid-xvrfupwn> Conclusion </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#further-reading" data-astro-cid-xvrfupwn> Further Reading </a> </li> </ul> </nav>  </aside> <article class="post" data-astro-cid-rkg3zjxi> <header class="post-header" data-astro-cid-rkg3zjxi> <h1 data-astro-cid-rkg3zjxi>Microservices Design Patterns: Best Practices for Scalable Systems</h1> <div class="meta" data-astro-cid-rkg3zjxi> <time datetime="2025-11-01T00:00:00.000Z" data-astro-cid-rkg3zjxi>Sat Nov 01 2025</time> <span data-astro-cid-rkg3zjxi>• 6 min read</span> </div> <div class="tag-row" data-astro-cid-rkg3zjxi><a class="post-tag" href="/tags/software-architecture/" data-astro-cid-rkg3zjxi>Software architecture</a><a class="post-tag" href="/tags/microservices/" data-astro-cid-rkg3zjxi>Microservices</a><a class="post-tag" href="/tags/design-patterns/" data-astro-cid-rkg3zjxi>Design patterns</a></div> </header>    <div class="post-body prose" data-astro-cid-rkg3zjxi> <h1 id="microservices-design-patterns-best-practices-for-scalable-systems">Microservices Design Patterns: Best Practices for Scalable Systems</h1>
+<p>Microservices architecture has become the de facto standard for building scalable, maintainable enterprise applications. However, implementing microservices successfully requires understanding and applying proven design patterns. In this comprehensive guide, we’ll explore the essential patterns that form the foundation of robust microservices systems.</p>
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol>
+<li><a href="#introduction">Introduction to Microservices Patterns</a></li>
+<li><a href="#communication-patterns">Communication Patterns</a></li>
+<li><a href="#data-management">Data Management Patterns</a></li>
+<li><a href="#resilience-patterns">Resilience Patterns</a></li>
+<li><a href="#deployment-patterns">Deployment and Infrastructure Patterns</a></li>
+<li><a href="#examples">Real-World Implementation Examples</a></li>
+</ol>
+<h2 id="introduction-to-microservices-patterns-introduction">Introduction to Microservices Patterns {#introduction}</h2>
+<p>Microservices patterns solve common challenges in distributed systems:</p>
+<ul>
+<li><strong>Service discovery and communication</strong></li>
+<li><strong>Data consistency across services</strong></li>
+<li><strong>Failure handling and resilience</strong></li>
+<li><strong>Monitoring and observability</strong></li>
+<li><strong>Deployment and scaling</strong></li>
+</ul>
+<h3 id="why-patterns-matter">Why Patterns Matter</h3>
+<p>When building microservices, you’ll encounter similar problems repeatedly. Patterns provide battle-tested solutions that:</p>
+<p>✅ Reduce development time
+✅ Improve system reliability
+✅ Enable team collaboration
+✅ Facilitate system evolution</p>
+<h2 id="communication-patterns-communication-patterns">Communication Patterns {#communication-patterns}</h2>
+<h3 id="1-api-gateway-pattern">1. API Gateway Pattern</h3>
+<p>The API Gateway acts as a single entry point for all client requests, routing them to appropriate microservices.</p>
+<p><strong>Benefits:</strong></p>
+<ul>
+<li>Simplified client interface</li>
+<li>Cross-cutting concerns (auth, logging, rate limiting)</li>
+<li>Protocol translation</li>
+<li>Request aggregation</li>
+</ul>
+<p><strong>Implementation Example (Spring Cloud Gateway):</strong></p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token annotation punctuation">@Configuration</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">GatewayConfig</span> <span class="token punctuation">{</span>
+    
+    <span class="token annotation punctuation">@Bean</span>
+    <span class="token keyword">public</span> <span class="token class-name">RouteLocator</span> <span class="token function">customRouteLocator</span><span class="token punctuation">(</span><span class="token class-name">RouteLocatorBuilder</span> builder<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> builder<span class="token punctuation">.</span><span class="token function">routes</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">route</span><span class="token punctuation">(</span><span class="token string">"user-service"</span><span class="token punctuation">,</span> r <span class="token operator">-></span> r
+                <span class="token punctuation">.</span><span class="token function">path</span><span class="token punctuation">(</span><span class="token string">"/api/users/**"</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">filters</span><span class="token punctuation">(</span>f <span class="token operator">-></span> f
+                    <span class="token punctuation">.</span><span class="token function">rewritePath</span><span class="token punctuation">(</span><span class="token string">"/api/users/(?&#x3C;segment>.*)"</span><span class="token punctuation">,</span> <span class="token string">"/${segment}"</span><span class="token punctuation">)</span>
+                    <span class="token punctuation">.</span><span class="token function">addRequestHeader</span><span class="token punctuation">(</span><span class="token string">"X-Gateway-Source"</span><span class="token punctuation">,</span> <span class="token string">"API-Gateway"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">uri</span><span class="token punctuation">(</span><span class="token string">"lb://USER-SERVICE"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">route</span><span class="token punctuation">(</span><span class="token string">"order-service"</span><span class="token punctuation">,</span> r <span class="token operator">-></span> r
+                <span class="token punctuation">.</span><span class="token function">path</span><span class="token punctuation">(</span><span class="token string">"/api/orders/**"</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">filters</span><span class="token punctuation">(</span>f <span class="token operator">-></span> f
+                    <span class="token punctuation">.</span><span class="token function">circuitBreaker</span><span class="token punctuation">(</span>c <span class="token operator">-></span> c
+                        <span class="token punctuation">.</span><span class="token function">setName</span><span class="token punctuation">(</span><span class="token string">"orderServiceCircuitBreaker"</span><span class="token punctuation">)</span>
+                        <span class="token punctuation">.</span><span class="token function">setFallbackUri</span><span class="token punctuation">(</span><span class="token string">"forward:/fallback/orders"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">uri</span><span class="token punctuation">(</span><span class="token string">"lb://ORDER-SERVICE"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p><strong>Best Practices:</strong></p>
+<ul>
+<li>Keep gateway logic thin</li>
+<li>Implement request/response transformation at gateway level</li>
+<li>Use caching for frequently accessed data</li>
+<li>Monitor gateway performance metrics</li>
+</ul>
+<h3 id="2-service-mesh-pattern">2. Service Mesh Pattern</h3>
+<p>Service mesh handles service-to-service communication at the infrastructure level.</p>
+<p><strong>Key Features:</strong></p>
+<ul>
+<li>Load balancing</li>
+<li>Service discovery</li>
+<li>Failure recovery</li>
+<li>Metrics collection</li>
+<li>Distributed tracing</li>
+</ul>
+<p><strong>Popular Implementations:</strong></p>
+<ul>
+<li>Istio</li>
+<li>Linkerd</li>
+<li>Consul Connect</li>
+</ul>
+<h2 id="data-management-patterns-data-management">Data Management Patterns {#data-management}</h2>
+<h3 id="3-database-per-service-pattern">3. Database per Service Pattern</h3>
+<p>Each microservice owns its database, ensuring loose coupling and independent scaling.</p>
+<p><strong>Advantages:</strong></p>
+<ul>
+<li>Service independence</li>
+<li>Technology flexibility</li>
+<li>Easier scaling</li>
+<li>Fault isolation</li>
+</ul>
+<p><strong>Challenges:</strong></p>
+<ul>
+<li>Data consistency</li>
+<li>Complex queries across services</li>
+<li>Increased operational overhead</li>
+</ul>
+<h3 id="4-saga-pattern">4. Saga Pattern</h3>
+<p>Manages distributed transactions across multiple services using a sequence of local transactions.</p>
+<p><strong>Two Implementation Approaches:</strong></p>
+<h4 id="choreography-based-saga">Choreography-Based Saga</h4>
+<p>Services communicate through events:</p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token annotation punctuation">@Service</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">OrderService</span> <span class="token punctuation">{</span>
+    
+    <span class="token annotation punctuation">@Autowired</span>
+    <span class="token keyword">private</span> <span class="token class-name">EventPublisher</span> eventPublisher<span class="token punctuation">;</span>
+    
+    <span class="token annotation punctuation">@Autowired</span>
+    <span class="token keyword">private</span> <span class="token class-name">OrderRepository</span> orderRepository<span class="token punctuation">;</span>
+    
+    <span class="token annotation punctuation">@Transactional</span>
+    <span class="token keyword">public</span> <span class="token class-name">Order</span> <span class="token function">createOrder</span><span class="token punctuation">(</span><span class="token class-name">OrderRequest</span> request<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// Create order</span>
+        <span class="token class-name">Order</span> order <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Order</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        order<span class="token punctuation">.</span><span class="token function">setStatus</span><span class="token punctuation">(</span><span class="token class-name">OrderStatus</span><span class="token punctuation">.</span><span class="token constant">PENDING</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        order<span class="token punctuation">.</span><span class="token function">setCustomerId</span><span class="token punctuation">(</span>request<span class="token punctuation">.</span><span class="token function">getCustomerId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        order<span class="token punctuation">.</span><span class="token function">setTotalAmount</span><span class="token punctuation">(</span>request<span class="token punctuation">.</span><span class="token function">getTotalAmount</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        orderRepository<span class="token punctuation">.</span><span class="token function">save</span><span class="token punctuation">(</span>order<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token comment">// Publish event</span>
+        eventPublisher<span class="token punctuation">.</span><span class="token function">publish</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">OrderCreatedEvent</span><span class="token punctuation">(</span>
+            order<span class="token punctuation">.</span><span class="token function">getId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+            order<span class="token punctuation">.</span><span class="token function">getCustomerId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+            order<span class="token punctuation">.</span><span class="token function">getTotalAmount</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">return</span> order<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token annotation punctuation">@EventListener</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">handlePaymentSucceeded</span><span class="token punctuation">(</span><span class="token class-name">PaymentSucceededEvent</span> event<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">Order</span> order <span class="token operator">=</span> orderRepository<span class="token punctuation">.</span><span class="token function">findById</span><span class="token punctuation">(</span>event<span class="token punctuation">.</span><span class="token function">getOrderId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">orElseThrow</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        order<span class="token punctuation">.</span><span class="token function">setStatus</span><span class="token punctuation">(</span><span class="token class-name">OrderStatus</span><span class="token punctuation">.</span><span class="token constant">CONFIRMED</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        orderRepository<span class="token punctuation">.</span><span class="token function">save</span><span class="token punctuation">(</span>order<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        eventPublisher<span class="token punctuation">.</span><span class="token function">publish</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">OrderConfirmedEvent</span><span class="token punctuation">(</span>order<span class="token punctuation">.</span><span class="token function">getId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token annotation punctuation">@EventListener</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">handlePaymentFailed</span><span class="token punctuation">(</span><span class="token class-name">PaymentFailedEvent</span> event<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">Order</span> order <span class="token operator">=</span> orderRepository<span class="token punctuation">.</span><span class="token function">findById</span><span class="token punctuation">(</span>event<span class="token punctuation">.</span><span class="token function">getOrderId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">orElseThrow</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        order<span class="token punctuation">.</span><span class="token function">setStatus</span><span class="token punctuation">(</span><span class="token class-name">OrderStatus</span><span class="token punctuation">.</span><span class="token constant">CANCELLED</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        orderRepository<span class="token punctuation">.</span><span class="token function">save</span><span class="token punctuation">(</span>order<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h4 id="orchestration-based-saga">Orchestration-Based Saga</h4>
+<p>Central orchestrator coordinates the saga:</p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token annotation punctuation">@Service</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">OrderSagaOrchestrator</span> <span class="token punctuation">{</span>
+    
+    <span class="token annotation punctuation">@Autowired</span>
+    <span class="token keyword">private</span> <span class="token class-name">PaymentService</span> paymentService<span class="token punctuation">;</span>
+    
+    <span class="token annotation punctuation">@Autowired</span>
+    <span class="token keyword">private</span> <span class="token class-name">InventoryService</span> inventoryService<span class="token punctuation">;</span>
+    
+    <span class="token annotation punctuation">@Autowired</span>
+    <span class="token keyword">private</span> <span class="token class-name">ShippingService</span> shippingService<span class="token punctuation">;</span>
+    
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">executeOrderSaga</span><span class="token punctuation">(</span><span class="token class-name">Order</span> order<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            <span class="token comment">// Step 1: Reserve inventory</span>
+            <span class="token class-name">InventoryReservation</span> reservation <span class="token operator">=</span> 
+                inventoryService<span class="token punctuation">.</span><span class="token function">reserveItems</span><span class="token punctuation">(</span>order<span class="token punctuation">.</span><span class="token function">getItems</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            
+            <span class="token comment">// Step 2: Process payment</span>
+            <span class="token class-name">Payment</span> payment <span class="token operator">=</span> 
+                paymentService<span class="token punctuation">.</span><span class="token function">processPayment</span><span class="token punctuation">(</span>order<span class="token punctuation">.</span><span class="token function">getTotalAmount</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            
+            <span class="token comment">// Step 3: Schedule shipping</span>
+            <span class="token class-name">Shipment</span> shipment <span class="token operator">=</span> 
+                shippingService<span class="token punctuation">.</span><span class="token function">scheduleShipment</span><span class="token punctuation">(</span>order<span class="token punctuation">,</span> reservation<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            
+            order<span class="token punctuation">.</span><span class="token function">setStatus</span><span class="token punctuation">(</span><span class="token class-name">OrderStatus</span><span class="token punctuation">.</span><span class="token constant">COMPLETED</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">InventoryException</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">// Handle inventory failure</span>
+            order<span class="token punctuation">.</span><span class="token function">setStatus</span><span class="token punctuation">(</span><span class="token class-name">OrderStatus</span><span class="token punctuation">.</span><span class="token constant">CANCELLED</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">PaymentException</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">// Compensate: Release inventory</span>
+            inventoryService<span class="token punctuation">.</span><span class="token function">releaseReservation</span><span class="token punctuation">(</span>reservation<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            order<span class="token punctuation">.</span><span class="token function">setStatus</span><span class="token punctuation">(</span><span class="token class-name">OrderStatus</span><span class="token punctuation">.</span><span class="token constant">CANCELLED</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">ShippingException</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">// Compensate: Refund payment and release inventory</span>
+            paymentService<span class="token punctuation">.</span><span class="token function">refund</span><span class="token punctuation">(</span>payment<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            inventoryService<span class="token punctuation">.</span><span class="token function">releaseReservation</span><span class="token punctuation">(</span>reservation<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            order<span class="token punctuation">.</span><span class="token function">setStatus</span><span class="token punctuation">(</span><span class="token class-name">OrderStatus</span><span class="token punctuation">.</span><span class="token constant">CANCELLED</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="5-cqrs-pattern-command-query-responsibility-segregation">5. CQRS Pattern (Command Query Responsibility Segregation)</h3>
+<p>Separates read and write operations into different models.</p>
+<p><strong>Implementation Example:</strong></p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token comment">// Command Side</span>
+<span class="token annotation punctuation">@Service</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ProductCommandService</span> <span class="token punctuation">{</span>
+    
+    <span class="token annotation punctuation">@Autowired</span>
+    <span class="token keyword">private</span> <span class="token class-name">ProductWriteRepository</span> writeRepository<span class="token punctuation">;</span>
+    
+    <span class="token annotation punctuation">@Autowired</span>
+    <span class="token keyword">private</span> <span class="token class-name">EventBus</span> eventBus<span class="token punctuation">;</span>
+    
+    <span class="token annotation punctuation">@Transactional</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">createProduct</span><span class="token punctuation">(</span><span class="token class-name">CreateProductCommand</span> command<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">Product</span> product <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Product</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        product<span class="token punctuation">.</span><span class="token function">setName</span><span class="token punctuation">(</span>command<span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        product<span class="token punctuation">.</span><span class="token function">setPrice</span><span class="token punctuation">(</span>command<span class="token punctuation">.</span><span class="token function">getPrice</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        product<span class="token punctuation">.</span><span class="token function">setStock</span><span class="token punctuation">(</span>command<span class="token punctuation">.</span><span class="token function">getStock</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        writeRepository<span class="token punctuation">.</span><span class="token function">save</span><span class="token punctuation">(</span>product<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        eventBus<span class="token punctuation">.</span><span class="token function">publish</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">ProductCreatedEvent</span><span class="token punctuation">(</span>product<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Query Side</span>
+<span class="token annotation punctuation">@Service</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ProductQueryService</span> <span class="token punctuation">{</span>
+    
+    <span class="token annotation punctuation">@Autowired</span>
+    <span class="token keyword">private</span> <span class="token class-name">ProductReadRepository</span> readRepository<span class="token punctuation">;</span>
+    
+    <span class="token keyword">public</span> <span class="token class-name">ProductDTO</span> <span class="token function">getProduct</span><span class="token punctuation">(</span><span class="token class-name">String</span> id<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> readRepository<span class="token punctuation">.</span><span class="token function">findById</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token operator">::</span><span class="token function">toDTO</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">orElseThrow</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">public</span> <span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&#x3C;</span><span class="token class-name">ProductDTO</span><span class="token punctuation">></span></span> <span class="token function">searchProducts</span><span class="token punctuation">(</span><span class="token class-name">SearchCriteria</span> criteria<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> readRepository<span class="token punctuation">.</span><span class="token function">search</span><span class="token punctuation">(</span>criteria<span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token operator">::</span><span class="token function">toDTO</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">collect</span><span class="token punctuation">(</span><span class="token class-name">Collectors</span><span class="token punctuation">.</span><span class="token function">toList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Event Handler to sync read model</span>
+<span class="token annotation punctuation">@Component</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ProductEventHandler</span> <span class="token punctuation">{</span>
+    
+    <span class="token annotation punctuation">@Autowired</span>
+    <span class="token keyword">private</span> <span class="token class-name">ProductReadRepository</span> readRepository<span class="token punctuation">;</span>
+    
+    <span class="token annotation punctuation">@EventListener</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">on</span><span class="token punctuation">(</span><span class="token class-name">ProductCreatedEvent</span> event<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">ProductReadModel</span> model <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ProductReadModel</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        model<span class="token punctuation">.</span><span class="token function">setId</span><span class="token punctuation">(</span>event<span class="token punctuation">.</span><span class="token function">getProductId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        model<span class="token punctuation">.</span><span class="token function">setName</span><span class="token punctuation">(</span>event<span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        model<span class="token punctuation">.</span><span class="token function">setPrice</span><span class="token punctuation">(</span>event<span class="token punctuation">.</span><span class="token function">getPrice</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        readRepository<span class="token punctuation">.</span><span class="token function">save</span><span class="token punctuation">(</span>model<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="resilience-patterns-resilience-patterns">Resilience Patterns {#resilience-patterns}</h2>
+<h3 id="6-circuit-breaker-pattern">6. Circuit Breaker Pattern</h3>
+<p>Prevents cascading failures by stopping calls to failing services.</p>
+<p><strong>States:</strong></p>
+<ul>
+<li><strong>Closed</strong>: Normal operation</li>
+<li><strong>Open</strong>: Requests fail immediately</li>
+<li><strong>Half-Open</strong>: Testing if service recovered</li>
+</ul>
+<p><strong>Implementation with Resilience4j:</strong></p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token annotation punctuation">@Service</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">PaymentService</span> <span class="token punctuation">{</span>
+    
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">CircuitBreaker</span> circuitBreaker<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">RestTemplate</span> restTemplate<span class="token punctuation">;</span>
+    
+    <span class="token keyword">public</span> <span class="token class-name">PaymentService</span><span class="token punctuation">(</span><span class="token class-name">CircuitBreakerRegistry</span> registry<span class="token punctuation">,</span> 
+                         <span class="token class-name">RestTemplate</span> restTemplate<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>circuitBreaker <span class="token operator">=</span> registry<span class="token punctuation">.</span><span class="token function">circuitBreaker</span><span class="token punctuation">(</span><span class="token string">"payment-service"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>restTemplate <span class="token operator">=</span> restTemplate<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">public</span> <span class="token class-name">PaymentResponse</span> <span class="token function">processPayment</span><span class="token punctuation">(</span><span class="token class-name">PaymentRequest</span> request<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> circuitBreaker<span class="token punctuation">.</span><span class="token function">executeSupplier</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-></span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> restTemplate<span class="token punctuation">.</span><span class="token function">postForObject</span><span class="token punctuation">(</span>
+                <span class="token string">"http://payment-service/api/payments"</span><span class="token punctuation">,</span>
+                request<span class="token punctuation">,</span>
+                <span class="token class-name">PaymentResponse</span><span class="token punctuation">.</span><span class="token keyword">class</span>
+            <span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p><strong>Configuration:</strong></p>
+<pre class="language-yaml" data-language="yaml"><code is:raw="" class="language-yaml"><span class="token key atrule">resilience4j</span><span class="token punctuation">:</span>
+  <span class="token key atrule">circuitbreaker</span><span class="token punctuation">:</span>
+    <span class="token key atrule">instances</span><span class="token punctuation">:</span>
+      <span class="token key atrule">payment-service</span><span class="token punctuation">:</span>
+        <span class="token key atrule">register-health-indicator</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+        <span class="token key atrule">sliding-window-size</span><span class="token punctuation">:</span> <span class="token number">10</span>
+        <span class="token key atrule">minimum-number-of-calls</span><span class="token punctuation">:</span> <span class="token number">5</span>
+        <span class="token key atrule">permitted-number-of-calls-in-half-open-state</span><span class="token punctuation">:</span> <span class="token number">3</span>
+        <span class="token key atrule">automatic-transition-from-open-to-half-open-enabled</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+        <span class="token key atrule">wait-duration-in-open-state</span><span class="token punctuation">:</span> 10s
+        <span class="token key atrule">failure-rate-threshold</span><span class="token punctuation">:</span> <span class="token number">50</span>
+        <span class="token key atrule">slow-call-rate-threshold</span><span class="token punctuation">:</span> <span class="token number">100</span>
+        <span class="token key atrule">slow-call-duration-threshold</span><span class="token punctuation">:</span> 2s
+</code></pre>
+<h3 id="7-retry-pattern">7. Retry Pattern</h3>
+<p>Automatically retries failed operations with exponential backoff.</p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token annotation punctuation">@Service</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">OrderService</span> <span class="token punctuation">{</span>
+    
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">Retry</span> retry<span class="token punctuation">;</span>
+    
+    <span class="token keyword">public</span> <span class="token class-name">OrderService</span><span class="token punctuation">(</span><span class="token class-name">RetryRegistry</span> retryRegistry<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>retry <span class="token operator">=</span> retryRegistry<span class="token punctuation">.</span><span class="token function">retry</span><span class="token punctuation">(</span><span class="token string">"order-service"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">public</span> <span class="token class-name">Order</span> <span class="token function">placeOrder</span><span class="token punctuation">(</span><span class="token class-name">OrderRequest</span> request<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> retry<span class="token punctuation">.</span><span class="token function">executeSupplier</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-></span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> externalOrderApi<span class="token punctuation">.</span><span class="token function">createOrder</span><span class="token punctuation">(</span>request<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p><strong>Configuration:</strong></p>
+<pre class="language-yaml" data-language="yaml"><code is:raw="" class="language-yaml"><span class="token key atrule">resilience4j</span><span class="token punctuation">:</span>
+  <span class="token key atrule">retry</span><span class="token punctuation">:</span>
+    <span class="token key atrule">instances</span><span class="token punctuation">:</span>
+      <span class="token key atrule">order-service</span><span class="token punctuation">:</span>
+        <span class="token key atrule">max-attempts</span><span class="token punctuation">:</span> <span class="token number">3</span>
+        <span class="token key atrule">wait-duration</span><span class="token punctuation">:</span> 1s
+        <span class="token key atrule">exponential-backoff-multiplier</span><span class="token punctuation">:</span> <span class="token number">2</span>
+        <span class="token key atrule">retry-exceptions</span><span class="token punctuation">:</span>
+          <span class="token punctuation">-</span> org.springframework.web.client.ResourceAccessException
+          <span class="token punctuation">-</span> java.net.ConnectException
+</code></pre>
+<h3 id="8-bulkhead-pattern">8. Bulkhead Pattern</h3>
+<p>Isolates resources to prevent one failing component from bringing down the entire system.</p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token annotation punctuation">@Service</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ReportService</span> <span class="token punctuation">{</span>
+    
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">Bulkhead</span> bulkhead<span class="token punctuation">;</span>
+    
+    <span class="token keyword">public</span> <span class="token class-name">ReportService</span><span class="token punctuation">(</span><span class="token class-name">BulkheadRegistry</span> registry<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>bulkhead <span class="token operator">=</span> registry<span class="token punctuation">.</span><span class="token function">bulkhead</span><span class="token punctuation">(</span><span class="token string">"report-service"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">public</span> <span class="token class-name">CompletableFuture</span><span class="token generics"><span class="token punctuation">&#x3C;</span><span class="token class-name">Report</span><span class="token punctuation">></span></span> <span class="token function">generateReport</span><span class="token punctuation">(</span><span class="token class-name">ReportRequest</span> request<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> bulkhead<span class="token punctuation">.</span><span class="token function">executeSupplier</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-></span> 
+            <span class="token class-name">CompletableFuture</span><span class="token punctuation">.</span><span class="token function">supplyAsync</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-></span> <span class="token punctuation">{</span>
+                <span class="token comment">// Heavy report generation</span>
+                <span class="token keyword">return</span> reportGenerator<span class="token punctuation">.</span><span class="token function">generate</span><span class="token punctuation">(</span>request<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span><span class="token punctuation">)</span>
+        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="deployment-and-infrastructure-patterns-deployment-patterns">Deployment and Infrastructure Patterns {#deployment-patterns}</h2>
+<h3 id="9-service-registry-and-discovery">9. Service Registry and Discovery</h3>
+<p>Services register themselves and discover other services dynamically.</p>
+<p><strong>Spring Cloud Netflix Eureka Example:</strong></p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token comment">// Eureka Server</span>
+<span class="token annotation punctuation">@SpringBootApplication</span>
+<span class="token annotation punctuation">@EnableEurekaServer</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">DiscoveryServerApplication</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">SpringApplication</span><span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span><span class="token class-name">DiscoveryServerApplication</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">,</span> args<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Service Registration</span>
+<span class="token annotation punctuation">@SpringBootApplication</span>
+<span class="token annotation punctuation">@EnableDiscoveryClient</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">UserServiceApplication</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">SpringApplication</span><span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span><span class="token class-name">UserServiceApplication</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">,</span> args<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="10-externalized-configuration">10. Externalized Configuration</h3>
+<p>Centralize configuration management for all services.</p>
+<p><strong>Spring Cloud Config:</strong></p>
+<pre class="language-yaml" data-language="yaml"><code is:raw="" class="language-yaml"><span class="token comment"># application.yml in config server</span>
+<span class="token key atrule">spring</span><span class="token punctuation">:</span>
+  <span class="token key atrule">cloud</span><span class="token punctuation">:</span>
+    <span class="token key atrule">config</span><span class="token punctuation">:</span>
+      <span class="token key atrule">server</span><span class="token punctuation">:</span>
+        <span class="token key atrule">git</span><span class="token punctuation">:</span>
+          <span class="token key atrule">uri</span><span class="token punctuation">:</span> https<span class="token punctuation">:</span>//github.com/yourorg/config<span class="token punctuation">-</span>repo
+          <span class="token key atrule">search-paths</span><span class="token punctuation">:</span> <span class="token string">'{application}'</span>
+          <span class="token key atrule">default-label</span><span class="token punctuation">:</span> main
+</code></pre>
+<h2 id="real-world-implementation-examples-examples">Real-World Implementation Examples {#examples}</h2>
+<h3 id="e-commerce-platform-architecture">E-Commerce Platform Architecture</h3>
+<pre class="language-text" data-language="text"><code is:raw="" class="language-text">┌─────────────────┐
+│   API Gateway   │
+└────────┬────────┘
+         │
+    ┌────┴────┬─────────┬──────────┐
+    │         │         │          │
+┌───▼───┐ ┌──▼───┐ ┌───▼────┐ ┌──▼─────┐
+│ User  │ │Order │ │Product │ │Payment │
+│Service│ │Svc   │ │Service │ │Service │
+└───┬───┘ └──┬───┘ └───┬────┘ └──┬─────┘
+    │        │         │          │
+┌───▼────────▼─────────▼──────────▼───┐
+│       Event Bus (Kafka/RabbitMQ)    │
+└─────────────────────────────────────┘
+</code></pre>
+<h3 id="banking-system-with-saga-pattern">Banking System with Saga Pattern</h3>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token annotation punctuation">@Component</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">TransferSagaOrchestrator</span> <span class="token punctuation">{</span>
+    
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">executeTransfer</span><span class="token punctuation">(</span><span class="token class-name">TransferRequest</span> request<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">SagaExecution</span> execution <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">SagaExecution</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            <span class="token comment">// Step 1: Debit source account</span>
+            execution<span class="token punctuation">.</span><span class="token function">addStep</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">DebitAccountStep</span><span class="token punctuation">(</span>
+                request<span class="token punctuation">.</span><span class="token function">getSourceAccount</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                request<span class="token punctuation">.</span><span class="token function">getAmount</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            
+            <span class="token comment">// Step 2: Credit destination account</span>
+            execution<span class="token punctuation">.</span><span class="token function">addStep</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">CreditAccountStep</span><span class="token punctuation">(</span>
+                request<span class="token punctuation">.</span><span class="token function">getDestinationAccount</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                request<span class="token punctuation">.</span><span class="token function">getAmount</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            
+            <span class="token comment">// Step 3: Create transaction record</span>
+            execution<span class="token punctuation">.</span><span class="token function">addStep</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">RecordTransactionStep</span><span class="token punctuation">(</span>
+                request
+            <span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            
+            <span class="token comment">// Execute all steps</span>
+            execution<span class="token punctuation">.</span><span class="token function">execute</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">SagaExecutionException</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">// Compensate all completed steps</span>
+            execution<span class="token punctuation">.</span><span class="token function">compensate</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">TransferFailedException</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="best-practices-summary">Best Practices Summary</h2>
+<h3 id="do">DO:</h3>
+<p>✅ Use API Gateway for client-facing APIs
+✅ Implement Circuit Breaker for external calls
+✅ Use Saga pattern for distributed transactions
+✅ Employ CQRS for complex read requirements
+✅ Implement proper monitoring and observability
+✅ Use service mesh for cross-cutting concerns
+✅ Design for failure (defensive programming)</p>
+<h3 id="dont">DON’T:</h3>
+<p>❌ Share databases between services
+❌ Create tightly coupled services
+❌ Implement synchronous call chains
+❌ Ignore failure scenarios
+❌ Skimp on monitoring and logging
+❌ Deploy all services together
+❌ Use distributed transactions (2PC)</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Microservices patterns are essential tools for building robust distributed systems. By understanding and applying these patterns appropriately, you can:</p>
+<ul>
+<li>Build scalable systems that handle millions of requests</li>
+<li>Create resilient architectures that gracefully handle failures</li>
+<li>Enable independent team development and deployment</li>
+<li>Facilitate system evolution and technology migration</li>
+</ul>
+<p>Remember: <strong>patterns are guidelines, not rules</strong>. Always evaluate your specific requirements and constraints before applying any pattern.</p>
+<h2 id="further-reading">Further Reading</h2>
+<ul>
+<li><a href="https://martinfowler.com/microservices/">Martin Fowler’s Microservices Guide</a></li>
+<li><a href="https://microservices.io/patterns/">Microservices.io Patterns</a></li>
+<li><a href="https://www.manning.com/books/cloud-native-patterns">Cloud Native Patterns Book</a></li>
+<li><a href="https://www.oreilly.com/library/view/building-microservices-2nd/9781492034018/">Building Microservices by Sam Newman</a></li>
+</ul>
+<hr>
+<p><em>Have you implemented these patterns in your projects? What challenges did you face? Share your experiences in the comments below!</em></p> </div>  <section class="related-posts" data-astro-cid-dpgbfi7r> <h2 data-astro-cid-dpgbfi7r>Related Posts</h2> <div class="related-posts-grid" data-astro-cid-dpgbfi7r> <article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/ai-news/2025-12-01-podcast-looking-for-root-causes-is-a-false-path-a-conversation-with-david-blank-edelman/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>Reliability Is an Emergent Property, Not a Root Cause</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>Looking for Root Causes is a False Path In a recent podcast, David Blank-Edelman, program lead for Microsoft’s SRE…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2025-12-01T00:00:00.000Z" data-astro-cid-dpgbfi7r> Dec 1, 2025 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>1 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/ai-news/2025-11-21-the-monolith-strikes-back-when-a-monolith-still-beats-microservices/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>The Monolith Strikes Back: When a Monolith Still Beats Microservices</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>The Monolith Strikes Back: When a Monolith Still Beats Microservices Microservices have become a popular architectural…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2025-11-21T00:00:00.000Z" data-astro-cid-dpgbfi7r> Nov 21, 2025 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>1 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/ai-news/2025-11-11-architectural-decisions/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>Architectural Decisions: Balancing Simplicity and Optimization</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>Architectural decisions I recently attended GOTO conference in Copenhagen and would like to share some of the…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2025-11-11T00:00:00.000Z" data-astro-cid-dpgbfi7r> Nov 11, 2025 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>1 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/ai-news/2025-11-10-podcast-architecture-should-model-the-world-as-it-really-is-a-conversation-with-randy-shoup/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>Architecture Should Model the Real World: Lessons from Software Failures and Resilience Strategies</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>Architecture Should Model the Real World: A Conversation with Randy Shoup This podcast delves into the principles of…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2025-11-10T00:00:00.000Z" data-astro-cid-dpgbfi7r> Nov 10, 2025 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>3 min read</span> </div> </a> </article> </div> </section>  </article> </div> <div class="back-link" data-astro-cid-rkg3zjxi><a href="/ai-news/" data-astro-cid-rkg3zjxi>← Back to AI News</a></div>  </main> <!-- Site Footer --> <footer class="site-footer container"> <p>
+© 2025 AREZKI El Mehdi •
+<a href="https://github.com/earezki">GitHub</a> •
+<a href="/rss.xml">RSS</a> •
+<a href="/tags/">Tags</a> •
+<a href="/sitemap-index.xml">Sitemap</a> •
+<button id="footer-subscribe-btn" class="footer-subscribe-btn" aria-label="Subscribe to newsletter">
+📬 Subscribe
+</button> </p> </footer> <!-- Footer Subscribe Button Handler --> <script type="module">const e=document.getElementById("themeToggle"),o=n=>{if(!e)return;const t=e.querySelector(".theme-icon");t&&(t.textContent=n==="dark"?"☀":"☾")};if(e){const n=document.documentElement.getAttribute("data-theme")||"dark";o(n),e.addEventListener("click",()=>{const t=document.documentElement,c=t.getAttribute("data-theme")==="dark"?"light":"dark";t.setAttribute("data-theme",c),localStorage.setItem("theme",c),o(c)})}</script> <!-- Theme Toggle --> <script type="module">document.addEventListener("DOMContentLoaded",()=>{const e=document.getElementById("footer-subscribe-btn");e&&e.addEventListener("click",n=>{n.preventDefault();const t=document.getElementById("subscription-popup");t&&(t.setAttribute("data-state","visible"),document.body.style.overflow="hidden")})});</script> <!-- Article read/unread tracking --> <script>
+      (function() {
+        const KEY = 'readArticles';
+        
+        function getRead() {
+          try {
+            const d = localStorage.getItem(KEY);
+            return d ? JSON.parse(d) : [];
+          } catch (e) {
+            return [];
+          }
+        }
+        
+        function markRead(url) {
+          try {
+            const read = getRead();
+            if (!read.includes(url)) {
+              read.push(url);
+              localStorage.setItem(KEY, JSON.stringify(read));
+            }
+          } catch (e) {}
+        }
+        
+        function updateCards() {
+          const read = new Set(getRead());
+          const cards = document.querySelectorAll('.post-card[data-article-url]');
+          cards.forEach(function(card) {
+            const url = card.getAttribute('data-article-url');
+            if (!url) return;
+            const isRead = read.has(url);
+            card.classList.toggle('read', isRead);
+            card.classList.toggle('unread', !isRead);
+          });
+        }
+        
+        function markCurrent() {
+          if (document.querySelector('.post-body')) {
+            markRead(window.location.pathname);
+          }
+        }
+        
+        function init() {
+          updateCards();
+          markCurrent();
+        }
+        
+        function clearRead(url) {
+          try {
+            const read = new Set(getRead());
+            if (read.has(url)) {
+              read.delete(url);
+              localStorage.setItem(KEY, JSON.stringify(Array.from(read)));
+              updateCards();
+            }
+          } catch (e) {}
+        }
+        
+        window.clearReadArticle = clearRead;
+        document.addEventListener('DOMContentLoaded', init);
+        window.addEventListener('pageshow', function(e) {
+          if (e.persisted) init();
+        });
+      })();
+    </script> <!-- Clear read button handler --> <script>
+      (function() {
+        document.addEventListener('click', function(e) {
+          var tgt = e.target, btn = null;
+          while (tgt && tgt !== document) {
+            if (tgt.classList && tgt.classList.contains('clear-read-btn')) {
+              btn = tgt;
+              break;
+            }
+            tgt = tgt.parentNode;
+          }
+          if (!btn) return;
+          e.preventDefault();
+          e.stopPropagation();
+          var url = btn.getAttribute('data-article-url');
+          if (url && window.clearReadArticle) window.clearReadArticle(url);
+        });
+      })();
+    </script> <!-- External links open in new tab --> <script>
+      (function() {
+        function makeExternal() {
+          const domain = window.location.hostname;
+          const links = document.querySelectorAll('a[href]');
+          links.forEach(function(link) {
+            const href = link.getAttribute('href');
+            if (!href || link.hasAttribute('target')) return;
+            const isExt = (href.startsWith('http://') || href.startsWith('https://')) && !href.includes(domain);
+            if (isExt) {
+              link.setAttribute('target', '_blank');
+              link.setAttribute('rel', 'noopener noreferrer');
+            }
+          });
+        }
+        document.addEventListener('DOMContentLoaded', makeExternal);
+        if (window.MutationObserver) {
+          const obs = new MutationObserver(function(muts) {
+            muts.forEach(function(mut) {
+              if (mut.addedNodes.length) makeExternal();
+            });
+          });
+          obs.observe(document.body, { childList: true, subtree: true });
+        }
+      })();
+    </script> <!-- Code copy buttons --> <script>
+      (function() {
+        function createBtn() {
+          const btn = document.createElement('button');
+          btn.className = 'copy-code-button';
+          btn.setAttribute('aria-label', 'Copy code to clipboard');
+          btn.innerHTML = `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span>Copy</span>
+          `;
+          return btn;
+        }
+        
+        function checkIcon() {
+          return `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span>Copied!</span>
+          `;
+        }
+        
+        async function copyText(txt) {
+          try {
+            await navigator.clipboard.writeText(txt);
+            return true;
+          } catch (err) {
+            const ta = document.createElement('textarea');
+            ta.value = txt;
+            ta.style.position = 'fixed';
+            ta.style.left = '-999999px';
+            document.body.appendChild(ta);
+            ta.select();
+            try {
+              document.execCommand('copy');
+              document.body.removeChild(ta);
+              return true;
+            } catch (e) {
+              document.body.removeChild(ta);
+              return false;
+            }
+          }
+        }
+        
+        async function handleCopy(btn, code) {
+          const txt = code.textContent || '';
+          const ok = await copyText(txt);
+          if (ok) {
+            const orig = btn.innerHTML;
+            btn.classList.add('copied');
+            btn.innerHTML = checkIcon();
+            setTimeout(function() {
+              btn.classList.remove('copied');
+              btn.innerHTML = orig;
+            }, 2000);
+          }
+        }
+        
+        function addBtns() {
+          const blocks = document.querySelectorAll('.post-body pre');
+          blocks.forEach(function(pre) {
+            if (pre.querySelector('.copy-code-button')) return;
+            const btn = createBtn();
+            const code = pre.querySelector('code');
+            if (code) {
+              btn.addEventListener('click', function() {
+                handleCopy(btn, code);
+              });
+              pre.appendChild(btn);
+            }
+          });
+        }
+        
+        document.addEventListener('DOMContentLoaded', addBtns);
+      })();
+    </script> <!-- Newsletter Subscription Popup --> <div id="subscription-popup" class="subscription-popup" data-state="hidden" data-auto-trigger="true" data-astro-cid-we5gmdnp> <div class="popup-overlay" id="popup-overlay" data-astro-cid-we5gmdnp></div> <div class="popup-container" data-astro-cid-we5gmdnp> <div class="popup-content" data-astro-cid-we5gmdnp> <div class="popup-icon" data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-we5gmdnp> <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" data-astro-cid-we5gmdnp></path> <polyline points="22,6 12,13 2,6" data-astro-cid-we5gmdnp></polyline> </svg> </div> <h2 class="popup-title" data-astro-cid-we5gmdnp>Stay Updated with Dev|Journal</h2> <p class="popup-description" id="popup-description" data-astro-cid-we5gmdnp>
+Join our community of developers and engineers. Get insights on:
+</p> <ul class="popup-features" data-astro-cid-we5gmdnp> <li data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-we5gmdnp> <polyline points="20 6 9 17 4 12" data-astro-cid-we5gmdnp></polyline> </svg>
+Software Architecture & Design Patterns
+</li> <li data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-we5gmdnp> <polyline points="20 6 9 17 4 12" data-astro-cid-we5gmdnp></polyline> </svg>
+Backend Development Best Practices
+</li> <li data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-we5gmdnp> <polyline points="20 6 9 17 4 12" data-astro-cid-we5gmdnp></polyline> </svg>
+AI & Tech Industry Analysis
+</li> </ul> <form id="subscription-form" class="popup-form" data-astro-cid-we5gmdnp> <div class="form-group" data-astro-cid-we5gmdnp> <input type="text" id="subscriber-name" name="name" placeholder="Your name" required autocomplete="name" data-astro-cid-we5gmdnp> </div> <div class="form-group" data-astro-cid-we5gmdnp> <input type="email" id="subscriber-email" name="email" placeholder="your.email@example.com" required autocomplete="email" data-astro-cid-we5gmdnp> </div> <div id="form-message" class="form-message" data-astro-cid-we5gmdnp></div> <div class="popup-actions" data-astro-cid-we5gmdnp> <button type="submit" class="btn btn-primary" id="subscribe-btn" data-astro-cid-we5gmdnp> <span class="btn-text" data-astro-cid-we5gmdnp>Subscribe</span> <span class="btn-loader" data-astro-cid-we5gmdnp> <svg class="spinner" viewBox="0 0 24 24" data-astro-cid-we5gmdnp> <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" data-astro-cid-we5gmdnp></circle> </svg> </span> </button> <button type="button" class="btn btn-secondary" id="not-now-btn" data-astro-cid-we5gmdnp>Not Now</button> <button type="button" class="btn btn-text" id="cancel-btn" data-astro-cid-we5gmdnp>Don't Show Again</button> </div> </form> </div> </div> </div>  <script>
+  // Configuration
+  const CONFIG = {
+    graceDelay: 5000, // 5 seconds delay before showing popup
+    notNowDelay: 24 * 60 * 60 * 1000, // 1 day in milliseconds
+    apiUrl: 'https://api.earezki.com/blog/api',
+  };
+
+  const STORAGE_KEYS = {
+    subscribed: 'newsletter_subscribed',
+    cancelled: 'newsletter_cancelled',
+    notNowUntil: 'newsletter_not_now_until',
+  };
+
+  // State management
+  let popupTimeout = null;
+
+  function showPopup() {
+    const popup = document.getElementById('subscription-popup');
+    if (popup) {
+      popup.setAttribute('data-state', 'visible');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  function hidePopup() {
+    const popup = document.getElementById('subscription-popup');
+    if (popup) {
+      popup.setAttribute('data-state', 'hidden');
+      document.body.style.overflow = '';
+    }
+  }
+
+  function shouldShowPopup() {
+    // Check if user has already subscribed
+    if (localStorage.getItem(STORAGE_KEYS.subscribed) === 'true') {
+      return false;
+    }
+
+    // Check if user clicked "Don't show again"
+    if (localStorage.getItem(STORAGE_KEYS.cancelled) === 'true') {
+      return false;
+    }
+
+    // Check if user clicked "Not now" and delay hasn't passed
+    const notNowUntil = localStorage.getItem(STORAGE_KEYS.notNowUntil);
+    if (notNowUntil) {
+      const notNowTime = parseInt(notNowUntil, 10);
+      if (Date.now() < notNowTime) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  async function getSubscriberStats() {
+    try {
+      const response = await fetch(`${CONFIG.apiUrl}/subscribers/stats`, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+        },
+      });
+      
+      if (!response.ok) {
+        return null;
+      }
+      
+      const data = await response.json();
+      return data.subscriber_count || null;
+    } catch (error) {
+      console.error('Failed to fetch subscriber stats:', error);
+      return null;
+    }
+  }
+
+  async function schedulePopup() {
+    if (!shouldShowPopup()) {
+      return;
+    }
+
+    // Fetch subscriber stats before scheduling popup
+    const subscriberCount = await getSubscriberStats();
+    if (subscriberCount === null) {
+      console.log('Failed to fetch subscriber stats, not showing subscription popup');
+      return;
+    }
+
+    // Update popup with subscriber count
+    updatePopupWithStats(subscriberCount);
+
+    // Show popup after grace period
+    popupTimeout = window.setTimeout(() => {
+      showPopup();
+    }, CONFIG.graceDelay);
+  }
+
+  function updatePopupWithStats(count) {
+    const descriptionEl = document.querySelector('.popup-description');
+    if (descriptionEl) {
+      const formattedCount = new Intl.NumberFormat('en-US').format(count);
+      descriptionEl.innerHTML = `Join a community of <strong>${formattedCount}+</strong> developers and engineers who are growing together. Get insights on:`;
+    }
+  }
+
+  async function handleSubscribe(event) {
+    event.preventDefault();
+    
+    const form = event.target;
+    const nameInput = form.querySelector('#subscriber-name');
+    const emailInput = form.querySelector('#subscriber-email');
+    const submitBtn = form.querySelector('#subscribe-btn');
+    const messageEl = document.getElementById('form-message');
+
+    const name = nameInput.value.trim();
+    const email = emailInput.value.trim();
+
+    if (!name || !email) {
+      if (messageEl) {
+        messageEl.textContent = 'Please fill in all fields.';
+        messageEl.className = 'form-message error';
+      }
+      return;
+    }
+
+    // Show loading state
+    submitBtn.classList.add('loading');
+    submitBtn.disabled = true;
+    if (messageEl) {
+      messageEl.textContent = '';
+      messageEl.className = 'form-message';
+    }
+
+    try {
+      const response = await fetch(`${CONFIG.apiUrl}/subscribe`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, email }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        localStorage.setItem(STORAGE_KEYS.subscribed, 'true');
+        
+        if (messageEl) {
+          messageEl.textContent = '🎉 Successfully subscribed! Thank you for joining us.';
+          messageEl.className = 'form-message success';
+        }
+
+        // Hide popup after 2 seconds
+        setTimeout(() => {
+          hidePopup();
+        }, 2000);
+      } else {
+        if (messageEl) {
+          messageEl.textContent = data.error || 'Subscription failed. Please try again.';
+          messageEl.className = 'form-message error';
+        }
+      }
+    } catch (error) {
+      console.error('Subscription error:', error);
+      if (messageEl) {
+        messageEl.textContent = 'Network error. Please check your connection and try again.';
+        messageEl.className = 'form-message error';
+      }
+    } finally {
+      submitBtn.classList.remove('loading');
+      submitBtn.disabled = false;
+    }
+  }
+
+  function handleNotNow() {
+    const notNowUntil = Date.now() + CONFIG.notNowDelay;
+    localStorage.setItem(STORAGE_KEYS.notNowUntil, notNowUntil.toString());
+    hidePopup();
+  }
+
+  function handleCancel() {
+    localStorage.setItem(STORAGE_KEYS.cancelled, 'true');
+    hidePopup();
+  }
+
+  // Initialize popup
+  document.addEventListener('DOMContentLoaded', () => {
+    const popup = document.getElementById('subscription-popup');
+    const autoTrigger = popup?.getAttribute('data-auto-trigger') === 'true';
+    
+    // Schedule popup to show after grace period only if autoTrigger is enabled
+    if (autoTrigger) {
+      schedulePopup();
+    }
+
+    // Event listeners
+    const form = document.getElementById('subscription-form');
+    const overlay = document.getElementById('popup-overlay');
+    const notNowBtn = document.getElementById('not-now-btn');
+    const cancelBtn = document.getElementById('cancel-btn');
+
+    if (form) {
+      form.addEventListener('submit', handleSubscribe);
+    }
+
+    if (overlay) {
+      overlay.addEventListener('click', handleNotNow);
+    }
+
+    if (notNowBtn) {
+      notNowBtn.addEventListener('click', handleNotNow);
+    }
+
+    if (cancelBtn) {
+      cancelBtn.addEventListener('click', handleCancel);
+    }
+
+    // Clean up on page unload
+    window.addEventListener('beforeunload', () => {
+      if (popupTimeout) {
+        clearTimeout(popupTimeout);
+      }
+    });
+  });
+</script> </body></html> 

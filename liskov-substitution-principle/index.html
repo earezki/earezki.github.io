@@ -1,0 +1,1444 @@
+<!DOCTYPE html><html lang="en" data-theme="dark"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>L (Liskov Substitution) from SOLID • Dev|Journal</title><meta name="description" content="The Liskov Substitution Principle: Why Your Inheritance Might Be Lying to You What Is Liskov Substitution, Really? Let me start with a confession: when I first…"><meta name="keywords" content="Software architecture, Software design, SOLID"><meta name="author" content="El Mehdi Arezki"><meta property="og:type" content="website"><meta property="og:url" content="https://earezki.com/liskov-substitution-principle/"><meta property="og:title" content="L (Liskov Substitution) from SOLID • Dev|Journal"><meta property="og:site_name" content="Dev|Journal"><meta property="og:description" content="The Liskov Substitution Principle: Why Your Inheritance Might Be Lying to You What Is Liskov Substitution, Really? Let me start with a confession: when I first…"><meta property="og:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:url" content="https://earezki.com/liskov-substitution-principle/"><meta name="twitter:title" content="L (Liskov Substitution) from SOLID • Dev|Journal"><meta name="twitter:description" content="The Liskov Substitution Principle: Why Your Inheritance Might Be Lying to You What Is Liskov Substitution, Really? Let me start with a confession: when I first…"><meta name="twitter:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:creator" content="@earezki"><link rel="canonical" href="https://earezki.com/liskov-substitution-principle/"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/x-icon" href="/favicon.ico"><link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"><link rel="dns-prefetch" href="https://cloud.umami.is"><script defer src="https://cloud.umami.is/script.js" data-website-id="4a26531d-1053-4f79-97a6-06a1366aff91"></script><script>
+      (function() {
+        const theme = localStorage.getItem('theme');
+        if (theme) document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script><script>
+!function(){const o=window.location.pathname;if("/"===o)return;if(/\.\w+$/.test(o))return;const n=o.toLowerCase(),i=n!==o,t=!o.endsWith("/");if(i||t){const o=n+(t?"/":""),i=window.location.origin+o+window.location.search+window.location.hash;window.location.replace(i)}}();
+</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"L (Liskov Substitution) from SOLID","description":"The Liskov Substitution Principle: Why Your Inheritance Might Be Lying to You What Is Liskov Substitution, Really? Let me start with a confession: when I first…","image":"https://earezki.com/assets/og-image-default.jpg","datePublished":"2024-06-20T00:00:00.000Z","dateModified":"2024-06-20T00:00:00.000Z","author":{"@type":"Person","name":"El Mehdi Arezki","url":"https://earezki.com/about","jobTitle":"Lead Software Engineer","sameAs":["https://github.com/earezki","https://www.linkedin.com/in/mehdi-arezki"]},"publisher":{"@type":"Organization","name":"Dev|Journal","url":"https://earezki.com","logo":{"@type":"ImageObject","url":"https://earezki.com/assets/logo.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://earezki.com/liskov-substitution-principle/"}}</script><link rel="stylesheet" href="/_astro/_slug_.BZhQT0av.css">
+<link rel="stylesheet" href="/_astro/_slug_.CFj9bTVJ.css">
+<style>.series-navigation[data-astro-cid-2hl7stop]{margin:2rem 0 3rem;padding:1.5rem;background:linear-gradient(135deg,#2563eb0d,#6366f10d);border:1px solid var(--color-border);border-radius:var(--radius-md)}html[data-theme=dark] .series-navigation[data-astro-cid-2hl7stop]{background:linear-gradient(135deg,#2563eb1a,#6366f11a)}.series-header[data-astro-cid-2hl7stop]{margin-bottom:1.25rem}.series-badge[data-astro-cid-2hl7stop]{display:inline-block;font-size:.75rem;font-weight:600;color:var(--color-accent);background:#2563eb1a;padding:.25rem .75rem;border-radius:var(--radius-pill);margin-bottom:.5rem}.series-header[data-astro-cid-2hl7stop] h3[data-astro-cid-2hl7stop]{margin:.5rem 0 .25rem;font-size:1.25rem;color:var(--color-text)}.series-progress[data-astro-cid-2hl7stop]{font-size:.85rem;color:var(--color-text-alt);margin:0}.series-list[data-astro-cid-2hl7stop]{display:flex;flex-direction:column;gap:.75rem;margin:1.5rem 0}.series-item[data-astro-cid-2hl7stop]{display:flex;align-items:center;gap:.75rem;padding:.75rem;background:var(--color-bg);border:1px solid var(--color-border);border-radius:var(--radius-sm);transition:all var(--transition)}.series-item[data-astro-cid-2hl7stop]:hover{border-color:var(--color-accent)}.series-item[data-astro-cid-2hl7stop].current{background:var(--color-accent);border-color:var(--color-accent)}.series-item[data-astro-cid-2hl7stop].completed{opacity:.7}.series-number[data-astro-cid-2hl7stop]{flex-shrink:0;width:28px;height:28px;display:flex;align-items:center;justify-content:center;background:var(--color-bg-alt);color:var(--color-text-alt);border-radius:50%;font-size:.85rem;font-weight:600}.series-item[data-astro-cid-2hl7stop].current .series-number[data-astro-cid-2hl7stop]{background:#fff3;color:#fff}.series-title[data-astro-cid-2hl7stop]{flex:1;font-size:.95rem;color:var(--color-text);text-decoration:none;transition:color var(--transition)}.series-title[data-astro-cid-2hl7stop]:hover{color:var(--color-accent)}.series-item[data-astro-cid-2hl7stop].current .current-title[data-astro-cid-2hl7stop]{color:#fff;font-weight:600}.check-icon[data-astro-cid-2hl7stop]{flex-shrink:0;color:#10b981;font-size:1.1rem}.series-nav-buttons[data-astro-cid-2hl7stop]{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--color-border)}.series-nav-btn[data-astro-cid-2hl7stop]{display:flex;flex-direction:column;gap:.25rem;padding:1rem;background:var(--color-bg);border:1px solid var(--color-border);border-radius:var(--radius-sm);text-decoration:none;transition:all var(--transition)}.series-nav-btn[data-astro-cid-2hl7stop]:hover{border-color:var(--color-accent);transform:translateY(-2px);box-shadow:var(--shadow-sm)}.series-nav-btn[data-astro-cid-2hl7stop].next{text-align:right}.nav-label[data-astro-cid-2hl7stop]{font-size:.75rem;color:var(--color-text-alt);font-weight:600;text-transform:uppercase;letter-spacing:.05em}.nav-title[data-astro-cid-2hl7stop]{font-size:.9rem;color:var(--color-text);font-weight:500}.series-nav-btn[data-astro-cid-2hl7stop]:hover .nav-title[data-astro-cid-2hl7stop]{color:var(--color-accent)}@media(max-width:680px){.series-navigation[data-astro-cid-2hl7stop]{padding:1rem}.series-nav-buttons[data-astro-cid-2hl7stop]{grid-template-columns:1fr}.series-nav-btn[data-astro-cid-2hl7stop].next{text-align:left}}.post-layout[data-astro-cid-yvbahnfj]{display:grid;grid-template-columns:260px 1fr;gap:2.5rem;width:100%;max-width:100%;box-sizing:border-box}.sidebar-left[data-astro-cid-yvbahnfj]{position:relative;min-width:0;overflow:hidden}@media(max-width:1080px){.post-layout[data-astro-cid-yvbahnfj]{grid-template-columns:1fr;width:100%;max-width:100%;padding:0;margin:0}}@media(max-width:768px){.post-layout[data-astro-cid-yvbahnfj]{display:block;width:100%;max-width:100%;padding:0;margin:0}.sidebar-left[data-astro-cid-yvbahnfj]{display:none}}
+</style></head> <body> <div id="readingProgress" role="progressbar" aria-label="Reading progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="position:fixed;left:0;top:0;height:3px;background:linear-gradient(90deg,#2563eb,#9333ea);width:0;z-index:999;transition:width .15s ease;"></div> <script type="module">function c(){const t=document.getElementById("readingProgress");if(!t)return;const o=()=>{const e=document.documentElement,r=e.scrollTop||document.body.scrollTop,s=e.scrollHeight-e.clientHeight,n=s>0?r/s*100:0;t.style.width=`${n}%`,t.setAttribute("aria-valuenow",n.toFixed(0))};document.addEventListener("scroll",o,{passive:!0}),o()}c();</script> <header class="site-header container"> <div class="logo-wrap"> <a class="logo" href="/" aria-label="Dev|Journal Home">
+Dev|Journal
+</a> </div> <!-- Search Box in Header --> <div class="header-search" data-search-api-url="https://api.earezki.com/blog/api/q" data-search-timeout="2000"> <div class="search-box" id="search-box"> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon" aria-hidden="true"> <circle cx="11" cy="11" r="8"></circle> <path d="m21 21-4.35-4.35"></path> </svg> <input type="text" id="search-input" placeholder="Search ..." class="search-input" autocomplete="off" aria-label="Search articles" minlength="3"> <button id="clear-search" class="clear-button" style="display: none;" aria-label="Clear search"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <line x1="18" y1="6" x2="6" y2="18"></line> <line x1="6" y1="6" x2="18" y2="18"></line> </svg> </button> </div> <div id="search-results" class="search-results" role="status" aria-live="polite"></div> </div> <script type="module" src="/_astro/SearchBox.astro_astro_type_script_index_0_lang.BNnBPVSN.js"></script> <nav class="main-nav" aria-label="Main navigation"> <a href="/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path> <polyline points="9 22 9 12 15 12 15 22"></polyline> </svg>
+Home
+</a> <a href="/ai-news/" class="ai-news-link ai-gradient-nav"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h-9.5a.5.5 0 0 0-.5.5.5.5 0 0 1-1 0 .5.5 0 0 0-.5-.5H1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"></path> <path d="M7 15v4a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-4"></path> </svg>
+AI News
+</a> <a href="/ai-financial-news/" class="ai-financial-link ai-gradient-nav"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <line x1="12" y1="1" x2="12" y2="23"></line> <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path> </svg>
+AI Financial
+</a> <a href="/about/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <circle cx="12" cy="12" r="10"></circle> <path d="M12 16v-4"></path> <path d="M12 8h.01"></path> </svg>
+About
+</a> <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode"> <span class="theme-icon" aria-hidden="true">☾</span> </button> </nav> </header> <!-- Main Content --> <main class="container content-area">  <nav class="breadcrumbs" aria-label="Breadcrumb" data-astro-cid-ilhxcym7> <ol data-astro-cid-ilhxcym7> <li data-astro-cid-ilhxcym7>  <a href="/" data-astro-cid-ilhxcym7>Home</a> <span class="separator" aria-hidden="true" data-astro-cid-ilhxcym7>/</span>  </li><li data-astro-cid-ilhxcym7> <span class="current" aria-current="page" data-astro-cid-ilhxcym7>L (Liskov Substitution) from SOLID</span> </li>  </ol> </nav>  <div class="post-layout" data-astro-cid-yvbahnfj> <aside class="sidebar-left" data-astro-cid-yvbahnfj> <nav class="toc" aria-label="Table of Contents" data-astro-cid-xvrfupwn> <div class="toc-title" data-astro-cid-xvrfupwn>On this page</div> <ul data-astro-cid-xvrfupwn> <li class="d-2" data-astro-cid-xvrfupwn> <a href="#what-is-liskov-substitution-really" data-astro-cid-xvrfupwn> What Is Liskov Substitution, Really? </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#why-should-you-care-about-lsp" data-astro-cid-xvrfupwn> Why Should You Care About LSP? </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#1-prevents-unexpected-crashes" data-astro-cid-xvrfupwn> 1. **Prevents Unexpected Crashes** </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#2-makes-polymorphism-actually-useful" data-astro-cid-xvrfupwn> 2. **Makes Polymorphism Actually Useful** </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#3-reduces-bug-hunting-time" data-astro-cid-xvrfupwn> 3. **Reduces Bug-Hunting Time** </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#4-enables-confident-refactoring" data-astro-cid-xvrfupwn> 4. **Enables Confident Refactoring** </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#5-improves-code-reusability" data-astro-cid-xvrfupwn> 5. **Improves Code Reusability** </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#the-classic-example-the-square-rectangle-problem" data-astro-cid-xvrfupwn> The Classic Example: The Square-Rectangle Problem </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#the-wrong-way-violating-lsp" data-astro-cid-xvrfupwn> The Wrong Way: Violating LSP </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#a-real-world-example-the-bird-problem" data-astro-cid-xvrfupwn> A Real-World Example: The Bird Problem </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#the-wrong-way-when-inheritance-goes-bad" data-astro-cid-xvrfupwn> The Wrong Way: When Inheritance Goes Bad </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#the-right-way-proper-abstraction" data-astro-cid-xvrfupwn> The Right Way: Proper Abstraction </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#a-business-example-payment-processing" data-astro-cid-xvrfupwn> A Business Example: Payment Processing </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#the-wrong-way-violating-lsp-in-business-logic" data-astro-cid-xvrfupwn> The Wrong Way: Violating LSP in Business Logic </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#the-right-way-respecting-lsp" data-astro-cid-xvrfupwn> The Right Way: Respecting LSP </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#the-lsp-contract-rules" data-astro-cid-xvrfupwn> The LSP Contract Rules </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#rule-1-preconditions-cannot-be-strengthened" data-astro-cid-xvrfupwn> Rule 1: Preconditions Cannot Be Strengthened </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#rule-2-postconditions-cannot-be-weakened" data-astro-cid-xvrfupwn> Rule 2: Postconditions Cannot Be Weakened </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#rule-3-invariants-must-be-preserved" data-astro-cid-xvrfupwn> Rule 3: Invariants Must Be Preserved </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#rule-4-history-constraint" data-astro-cid-xvrfupwn> Rule 4: History Constraint </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#common-lsp-violations-and-how-to-fix-them" data-astro-cid-xvrfupwn> Common LSP Violations and How to Fix Them </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#violation-1-emptythrowing-override-methods" data-astro-cid-xvrfupwn> Violation 1: Empty/Throwing Override Methods </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#violation-2-type-checking-in-client-code" data-astro-cid-xvrfupwn> Violation 2: Type Checking in Client Code </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#violation-3-partial-implementation" data-astro-cid-xvrfupwn> Violation 3: Partial Implementation </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#testing-for-lsp-compliance" data-astro-cid-xvrfupwn> Testing for LSP Compliance </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#practical-tips-for-following-lsp" data-astro-cid-xvrfupwn> Practical Tips for Following LSP </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#when-lsp-seems-impossible" data-astro-cid-xvrfupwn> When LSP Seems Impossible </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#strategy-1-use-interface-segregation" data-astro-cid-xvrfupwn> Strategy 1: Use Interface Segregation </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#strategy-2-use-composition" data-astro-cid-xvrfupwn> Strategy 2: Use Composition </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#conclusion" data-astro-cid-xvrfupwn> Conclusion </a> </li> </ul> </nav>  </aside> <article class="post" data-astro-cid-yvbahnfj> <header class="post-header" data-astro-cid-yvbahnfj> <h1 data-astro-cid-yvbahnfj>L (Liskov Substitution) from SOLID</h1> <div class="meta" data-astro-cid-yvbahnfj> <time datetime="2024-06-20T00:00:00.000Z" data-astro-cid-yvbahnfj>Thu Jun 20 2024</time> <span data-astro-cid-yvbahnfj>• 17 min read</span> </div> <div class="tag-row" data-astro-cid-yvbahnfj><a class="post-tag " href="/tags/software-architecture/" data-astro-cid-yvbahnfj>Software architecture</a><a class="post-tag " href="/tags/software-design/" data-astro-cid-yvbahnfj>Software design</a><a class="post-tag " href="/tags/solid/" data-astro-cid-yvbahnfj>SOLID</a></div> </header>    <div class="post-body prose" data-astro-cid-yvbahnfj> <h1 id="the-liskov-substitution-principle-why-your-inheritance-might-be-lying-to-you">The Liskov Substitution Principle: Why Your Inheritance Might Be Lying to You</h1>
+<h2 id="what-is-liskov-substitution-really">What Is Liskov Substitution, Really?</h2>
+<p>Let me start with a confession: when I first heard about the Liskov Substitution Principle (LSP), I had absolutely no idea what it meant. “Objects of a superclass should be replaceable with objects of a subclass”—what does that even mean in English?</p>
+<p>Here’s the simplest way I can explain it: <strong>If you have code that works with a parent class, it should work exactly the same way with any of its child classes, without knowing or caring about the difference.</strong></p>
+<p>Think of it like this: imagine you ask someone to grab you a “vehicle” from the garage. They might bring you a car, a motorcycle, or a bicycle. Regardless of which one they bring, you should be able to use it to get from point A to point B. If they bring you something that looks like a vehicle but can’t actually move (like a decorative car sculpture), that violates LSP. It looks like a vehicle, claims to be a vehicle, but doesn’t behave like one.</p>
+<p>Barbara Liskov introduced this principle in 1987, and it’s named after her (how cool is that?). The formal definition is intimidating, but the core idea is simple: <strong>child classes must be true substitutes for their parent classes</strong>.</p>
+<h2 id="why-should-you-care-about-lsp">Why Should You Care About LSP?</h2>
+<p>Let me tell you a painful story. Early in my career, I was working on a document management system. We had a <code>Document</code> class with a <code>save()</code> method. Simple enough. Then someone created a <code>ReadOnlyDocument</code> subclass. Guess what the <code>save()</code> method did in that class?</p>
+<p>It threw an exception.</p>
+<p>You can imagine the chaos. Code that worked perfectly with regular documents would randomly crash when it encountered a read-only document. We spent weeks tracking down all the places where this happened and adding special checks. It was a nightmare.</p>
+<p>The problem? <code>ReadOnlyDocument</code> violated LSP. It inherited from <code>Document</code> but couldn’t fulfill the contract that <code>Document</code> established. It looked like a duck and quacked like a duck, but when you asked it to swim, it sank.</p>
+<p>Here’s why LSP matters in real-world development:</p>
+<h3 id="1-prevents-unexpected-crashes">1. <strong>Prevents Unexpected Crashes</strong></h3>
+<p>When child classes properly substitute for parents, you don’t need defensive checks everywhere. Code just works.</p>
+<h3 id="2-makes-polymorphism-actually-useful">2. <strong>Makes Polymorphism Actually Useful</strong></h3>
+<p>The whole point of polymorphism is treating different objects uniformly. LSP is what makes that safe.</p>
+<h3 id="3-reduces-bug-hunting-time">3. <strong>Reduces Bug-Hunting Time</strong></h3>
+<p>Without LSP, bugs hide in unexpected places. With LSP, behavior is predictable.</p>
+<h3 id="4-enables-confident-refactoring">4. <strong>Enables Confident Refactoring</strong></h3>
+<p>You can change which subclass you use without worrying about breaking things.</p>
+<h3 id="5-improves-code-reusability">5. <strong>Improves Code Reusability</strong></h3>
+<p>When classes truly substitute for each other, you can use them interchangeably across your codebase.</p>
+<h2 id="the-classic-example-the-square-rectangle-problem">The Classic Example: The Square-Rectangle Problem</h2>
+<p>This is the famous example that everyone uses to teach LSP, and for good reason—it perfectly illustrates the problem.</p>
+<h3 id="the-wrong-way-violating-lsp">The Wrong Way: Violating LSP</h3>
+<p>In mathematics, a square IS-A rectangle (a rectangle with equal sides). So naturally, many developers try this:</p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Rectangle</span> <span class="token punctuation">{</span>
+    <span class="token keyword">protected</span> <span class="token keyword">int</span> width<span class="token punctuation">;</span>
+    <span class="token keyword">protected</span> <span class="token keyword">int</span> height<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">setWidth</span><span class="token punctuation">(</span><span class="token keyword">int</span> width<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>width <span class="token operator">=</span> width<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">setHeight</span><span class="token punctuation">(</span><span class="token keyword">int</span> height<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>height <span class="token operator">=</span> height<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">getWidth</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> width<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">getHeight</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> height<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">getArea</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> width <span class="token operator">*</span> height<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Square</span> <span class="token keyword">extends</span> <span class="token class-name">Rectangle</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">setWidth</span><span class="token punctuation">(</span><span class="token keyword">int</span> width<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>width <span class="token operator">=</span> width<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>height <span class="token operator">=</span> width<span class="token punctuation">;</span>  <span class="token comment">// Keep it square!</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">setHeight</span><span class="token punctuation">(</span><span class="token keyword">int</span> height<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>width <span class="token operator">=</span> height<span class="token punctuation">;</span>  <span class="token comment">// Keep it square!</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>height <span class="token operator">=</span> height<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Looks reasonable, right? A square maintains equal sides. But watch what happens:</p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ShapeTest</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">testRectangle</span><span class="token punctuation">(</span><span class="token class-name">Rectangle</span> rectangle<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        rectangle<span class="token punctuation">.</span><span class="token function">setWidth</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        rectangle<span class="token punctuation">.</span><span class="token function">setHeight</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">int</span> area <span class="token operator">=</span> rectangle<span class="token punctuation">.</span><span class="token function">getArea</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Expected area: 20, Actual area: "</span> <span class="token operator">+</span> area<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">assert</span> area <span class="token operator">==</span> <span class="token number">20</span> <span class="token operator">:</span> <span class="token string">"Area should be 20!"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">Rectangle</span> rect <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Rectangle</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">testRectangle</span><span class="token punctuation">(</span>rect<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// Works fine: area = 20</span>
+        
+        <span class="token class-name">Rectangle</span> square <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Square</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">testRectangle</span><span class="token punctuation">(</span>square<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// FAILS: area = 16, not 20!</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>The test works perfectly with <code>Rectangle</code> but fails with <code>Square</code>, even though <code>Square</code> is supposedly a valid <code>Rectangle</code>. This violates LSP.</p>
+<p>Why? Because <code>Square</code> changes the behavior that <code>Rectangle</code> promised. When you call <code>setWidth()</code> on a <code>Rectangle</code>, you expect only the width to change. But <code>Square</code> also changes the height. That’s a contract violation.</p>
+<h2 id="a-real-world-example-the-bird-problem">A Real-World Example: The Bird Problem</h2>
+<p>Let me show you a more practical example that you might actually encounter.</p>
+<h3 id="the-wrong-way-when-inheritance-goes-bad">The Wrong Way: When Inheritance Goes Bad</h3>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Bird</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token class-name">String</span> name<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token keyword">int</span> altitude<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token class-name">Bird</span><span class="token punctuation">(</span><span class="token class-name">String</span> name<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>name <span class="token operator">=</span> name<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>altitude <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">fly</span><span class="token punctuation">(</span><span class="token keyword">int</span> targetAltitude<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>name <span class="token operator">+</span> <span class="token string">" is flying to "</span> <span class="token operator">+</span> targetAltitude <span class="token operator">+</span> <span class="token string">" feet"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>altitude <span class="token operator">=</span> targetAltitude<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">land</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>name <span class="token operator">+</span> <span class="token string">" is landing"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>altitude <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">getAltitude</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> altitude<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token class-name">String</span> <span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> name<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Looks innocent enough</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Sparrow</span> <span class="token keyword">extends</span> <span class="token class-name">Bird</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token class-name">Sparrow</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">super</span><span class="token punctuation">(</span><span class="token string">"Sparrow"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Eagle</span> <span class="token keyword">extends</span> <span class="token class-name">Bird</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token class-name">Eagle</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">super</span><span class="token punctuation">(</span><span class="token string">"Eagle"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Uh oh...</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Penguin</span> <span class="token keyword">extends</span> <span class="token class-name">Bird</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token class-name">Penguin</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">super</span><span class="token punctuation">(</span><span class="token string">"Penguin"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">fly</span><span class="token punctuation">(</span><span class="token keyword">int</span> targetAltitude<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">UnsupportedOperationException</span><span class="token punctuation">(</span><span class="token string">"Penguins can't fly!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Ostrich</span> <span class="token keyword">extends</span> <span class="token class-name">Bird</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token class-name">Ostrich</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">super</span><span class="token punctuation">(</span><span class="token string">"Ostrich"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">fly</span><span class="token punctuation">(</span><span class="token keyword">int</span> targetAltitude<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">UnsupportedOperationException</span><span class="token punctuation">(</span><span class="token string">"Ostriches can't fly!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Now imagine this code:</p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">BirdSanctuary</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">relocateBirds</span><span class="token punctuation">(</span><span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&#x3C;</span><span class="token class-name">Bird</span><span class="token punctuation">></span></span> birds<span class="token punctuation">,</span> <span class="token keyword">int</span> distance<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name">Bird</span> bird <span class="token operator">:</span> birds<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">// Make each bird fly to the new location</span>
+            bird<span class="token punctuation">.</span><span class="token function">fly</span><span class="token punctuation">(</span>distance<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment">// ... do the relocation ...</span>
+            bird<span class="token punctuation">.</span><span class="token function">land</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// This works</span>
+<span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&#x3C;</span><span class="token class-name">Bird</span><span class="token punctuation">></span></span> flyingBirds <span class="token operator">=</span> <span class="token class-name">Arrays</span><span class="token punctuation">.</span><span class="token function">asList</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Sparrow</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">Eagle</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+sanctuary<span class="token punctuation">.</span><span class="token function">relocateBirds</span><span class="token punctuation">(</span>flyingBirds<span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// Success!</span>
+
+<span class="token comment">// This crashes</span>
+<span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&#x3C;</span><span class="token class-name">Bird</span><span class="token punctuation">></span></span> allBirds <span class="token operator">=</span> <span class="token class-name">Arrays</span><span class="token punctuation">.</span><span class="token function">asList</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Sparrow</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">Eagle</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">Penguin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">Ostrich</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+sanctuary<span class="token punctuation">.</span><span class="token function">relocateBirds</span><span class="token punctuation">(</span>allBirds<span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// BOOM! UnsupportedOperationException</span>
+</code></pre>
+<p>The <code>Penguin</code> and <code>Ostrich</code> classes violate LSP. They inherit from <code>Bird</code> but can’t fulfill the flying contract that <code>Bird</code> establishes.</p>
+<h3 id="the-right-way-proper-abstraction">The Right Way: Proper Abstraction</h3>
+<p>Let’s fix this by creating better abstractions:</p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token keyword">public</span> <span class="token keyword">abstract</span> <span class="token keyword">class</span> <span class="token class-name">Bird</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">String</span> name<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">String</span> species<span class="token punctuation">;</span>
+
+    <span class="token keyword">protected</span> <span class="token class-name">Bird</span><span class="token punctuation">(</span><span class="token class-name">String</span> name<span class="token punctuation">,</span> <span class="token class-name">String</span> species<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>name <span class="token operator">=</span> name<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>species <span class="token operator">=</span> species<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">abstract</span> <span class="token keyword">void</span> <span class="token function">move</span><span class="token punctuation">(</span><span class="token keyword">int</span> distance<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    <span class="token keyword">public</span> <span class="token class-name">String</span> <span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> name<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token class-name">String</span> <span class="token function">getSpecies</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> species<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> <span class="token keyword">abstract</span> <span class="token keyword">class</span> <span class="token class-name">FlyingBird</span> <span class="token keyword">extends</span> <span class="token class-name">Bird</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">int</span> altitude<span class="token punctuation">;</span>
+
+    <span class="token keyword">protected</span> <span class="token class-name">FlyingBird</span><span class="token punctuation">(</span><span class="token class-name">String</span> name<span class="token punctuation">,</span> <span class="token class-name">String</span> species<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">super</span><span class="token punctuation">(</span>name<span class="token punctuation">,</span> species<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>altitude <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">fly</span><span class="token punctuation">(</span><span class="token keyword">int</span> targetAltitude<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">" is flying to "</span> <span class="token operator">+</span> targetAltitude <span class="token operator">+</span> <span class="token string">" feet"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>altitude <span class="token operator">=</span> targetAltitude<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">land</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">" is landing"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>altitude <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">move</span><span class="token punctuation">(</span><span class="token keyword">int</span> distance<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">fly</span><span class="token punctuation">(</span>distance<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">// Calculate flying distance</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">" flew "</span> <span class="token operator">+</span> distance <span class="token operator">+</span> <span class="token string">" feet"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">land</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">getAltitude</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> altitude<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> <span class="token keyword">abstract</span> <span class="token keyword">class</span> <span class="token class-name">FlightlessBird</span> <span class="token keyword">extends</span> <span class="token class-name">Bird</span> <span class="token punctuation">{</span>
+    <span class="token keyword">protected</span> <span class="token class-name">FlightlessBird</span><span class="token punctuation">(</span><span class="token class-name">String</span> name<span class="token punctuation">,</span> <span class="token class-name">String</span> species<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">super</span><span class="token punctuation">(</span>name<span class="token punctuation">,</span> species<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">walk</span><span class="token punctuation">(</span><span class="token keyword">int</span> distance<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">" is walking "</span> <span class="token operator">+</span> distance <span class="token operator">+</span> <span class="token string">" feet"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">move</span><span class="token punctuation">(</span><span class="token keyword">int</span> distance<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">walk</span><span class="token punctuation">(</span>distance<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Now our concrete classes</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Sparrow</span> <span class="token keyword">extends</span> <span class="token class-name">FlyingBird</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token class-name">Sparrow</span><span class="token punctuation">(</span><span class="token class-name">String</span> name<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">super</span><span class="token punctuation">(</span>name<span class="token punctuation">,</span> <span class="token string">"Sparrow"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Eagle</span> <span class="token keyword">extends</span> <span class="token class-name">FlyingBird</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token class-name">Eagle</span><span class="token punctuation">(</span><span class="token class-name">String</span> name<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">super</span><span class="token punctuation">(</span>name<span class="token punctuation">,</span> <span class="token string">"Eagle"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Penguin</span> <span class="token keyword">extends</span> <span class="token class-name">FlightlessBird</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token class-name">Penguin</span><span class="token punctuation">(</span><span class="token class-name">String</span> name<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">super</span><span class="token punctuation">(</span>name<span class="token punctuation">,</span> <span class="token string">"Penguin"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">swim</span><span class="token punctuation">(</span><span class="token keyword">int</span> distance<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">" is swimming "</span> <span class="token operator">+</span> distance <span class="token operator">+</span> <span class="token string">" feet"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">move</span><span class="token punctuation">(</span><span class="token keyword">int</span> distance<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// Penguins prefer swimming</span>
+        <span class="token function">swim</span><span class="token punctuation">(</span>distance<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Ostrich</span> <span class="token keyword">extends</span> <span class="token class-name">FlightlessBird</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token class-name">Ostrich</span><span class="token punctuation">(</span><span class="token class-name">String</span> name<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">super</span><span class="token punctuation">(</span>name<span class="token punctuation">,</span> <span class="token string">"Ostrich"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token keyword">int</span> distance<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">" is running "</span> <span class="token operator">+</span> distance <span class="token operator">+</span> <span class="token string">" feet"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">move</span><span class="token punctuation">(</span><span class="token keyword">int</span> distance<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// Ostriches are fast runners</span>
+        <span class="token function">run</span><span class="token punctuation">(</span>distance<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Now our sanctuary can work with any bird:</p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">BirdSanctuary</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">relocateBirds</span><span class="token punctuation">(</span><span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&#x3C;</span><span class="token class-name">Bird</span><span class="token punctuation">></span></span> birds<span class="token punctuation">,</span> <span class="token keyword">int</span> distance<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name">Bird</span> bird <span class="token operator">:</span> birds<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">// This works for ALL birds now</span>
+            bird<span class="token punctuation">.</span><span class="token function">move</span><span class="token punctuation">(</span>distance<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">relocateFlyingBirds</span><span class="token punctuation">(</span><span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&#x3C;</span><span class="token class-name">FlyingBird</span><span class="token punctuation">></span></span> birds<span class="token punctuation">,</span> <span class="token keyword">int</span> altitude<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name">FlyingBird</span> bird <span class="token operator">:</span> birds<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">// This is safe - we know these birds can fly</span>
+            bird<span class="token punctuation">.</span><span class="token function">fly</span><span class="token punctuation">(</span>altitude<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            bird<span class="token punctuation">.</span><span class="token function">land</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Now both work perfectly</span>
+<span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&#x3C;</span><span class="token class-name">Bird</span><span class="token punctuation">></span></span> allBirds <span class="token operator">=</span> <span class="token class-name">Arrays</span><span class="token punctuation">.</span><span class="token function">asList</span><span class="token punctuation">(</span>
+    <span class="token keyword">new</span> <span class="token class-name">Sparrow</span><span class="token punctuation">(</span><span class="token string">"Tweety"</span><span class="token punctuation">)</span><span class="token punctuation">,</span> 
+    <span class="token keyword">new</span> <span class="token class-name">Eagle</span><span class="token punctuation">(</span><span class="token string">"Sam"</span><span class="token punctuation">)</span><span class="token punctuation">,</span> 
+    <span class="token keyword">new</span> <span class="token class-name">Penguin</span><span class="token punctuation">(</span><span class="token string">"Skipper"</span><span class="token punctuation">)</span><span class="token punctuation">,</span> 
+    <span class="token keyword">new</span> <span class="token class-name">Ostrich</span><span class="token punctuation">(</span><span class="token string">"Big Bird"</span><span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+sanctuary<span class="token punctuation">.</span><span class="token function">relocateBirds</span><span class="token punctuation">(</span>allBirds<span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// Success! Each moves appropriately</span>
+
+<span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&#x3C;</span><span class="token class-name">FlyingBird</span><span class="token punctuation">></span></span> flyingOnly <span class="token operator">=</span> <span class="token class-name">Arrays</span><span class="token punctuation">.</span><span class="token function">asList</span><span class="token punctuation">(</span>
+    <span class="token keyword">new</span> <span class="token class-name">Sparrow</span><span class="token punctuation">(</span><span class="token string">"Chirpy"</span><span class="token punctuation">)</span><span class="token punctuation">,</span> 
+    <span class="token keyword">new</span> <span class="token class-name">Eagle</span><span class="token punctuation">(</span><span class="token string">"Freedom"</span><span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+sanctuary<span class="token punctuation">.</span><span class="token function">relocateFlyingBirds</span><span class="token punctuation">(</span>flyingOnly<span class="token punctuation">,</span> <span class="token number">5000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// Success! All can fly</span>
+</code></pre>
+<h2 id="a-business-example-payment-processing">A Business Example: Payment Processing</h2>
+<p>Let me show you an example from a typical e-commerce application.</p>
+<h3 id="the-wrong-way-violating-lsp-in-business-logic">The Wrong Way: Violating LSP in Business Logic</h3>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Payment</span> <span class="token punctuation">{</span>
+    <span class="token keyword">protected</span> <span class="token keyword">double</span> amount<span class="token punctuation">;</span>
+    <span class="token keyword">protected</span> <span class="token class-name">String</span> transactionId<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token class-name">Payment</span><span class="token punctuation">(</span><span class="token keyword">double</span> amount<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>amount <span class="token operator">=</span> amount<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token class-name">String</span> <span class="token function">process</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// Process the payment</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>transactionId <span class="token operator">=</span> <span class="token function">generateTransactionId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> transactionId<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">refund</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Refunding transaction: "</span> <span class="token operator">+</span> transactionId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">// Process refund</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">private</span> <span class="token class-name">String</span> <span class="token function">generateTransactionId</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token string">"TXN-"</span> <span class="token operator">+</span> <span class="token class-name">System</span><span class="token punctuation">.</span><span class="token function">currentTimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">double</span> <span class="token function">getAmount</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> amount<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token class-name">String</span> <span class="token function">getTransactionId</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> transactionId<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Seems reasonable...</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">CreditCardPayment</span> <span class="token keyword">extends</span> <span class="token class-name">Payment</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token class-name">String</span> cardNumber<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token class-name">CreditCardPayment</span><span class="token punctuation">(</span><span class="token keyword">double</span> amount<span class="token punctuation">,</span> <span class="token class-name">String</span> cardNumber<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">super</span><span class="token punctuation">(</span>amount<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>cardNumber <span class="token operator">=</span> cardNumber<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token class-name">String</span> <span class="token function">process</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// Charge credit card</span>
+        <span class="token keyword">return</span> <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">process</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// But this violates LSP!</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">GiftCardPayment</span> <span class="token keyword">extends</span> <span class="token class-name">Payment</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">double</span> remainingBalance<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token class-name">GiftCardPayment</span><span class="token punctuation">(</span><span class="token keyword">double</span> amount<span class="token punctuation">,</span> <span class="token keyword">double</span> remainingBalance<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">super</span><span class="token punctuation">(</span>amount<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>remainingBalance <span class="token operator">=</span> remainingBalance<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token class-name">String</span> <span class="token function">process</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>amount <span class="token operator">></span> remainingBalance<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">InsufficientFundsException</span><span class="token punctuation">(</span><span class="token string">"Gift card balance too low"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>remainingBalance <span class="token operator">-=</span> amount<span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">process</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">refund</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// Gift cards can't be refunded!</span>
+        <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">UnsupportedOperationException</span><span class="token punctuation">(</span><span class="token string">"Gift cards cannot be refunded"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Now look at the problem:</p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">OrderProcessor</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">processOrder</span><span class="token punctuation">(</span><span class="token class-name">Order</span> order<span class="token punctuation">,</span> <span class="token class-name">Payment</span> payment<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            <span class="token class-name">String</span> transactionId <span class="token operator">=</span> payment<span class="token punctuation">.</span><span class="token function">process</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            order<span class="token punctuation">.</span><span class="token function">setStatus</span><span class="token punctuation">(</span><span class="token string">"COMPLETED"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            order<span class="token punctuation">.</span><span class="token function">setTransactionId</span><span class="token punctuation">(</span>transactionId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">// If payment fails, refund any partial charges</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>payment<span class="token punctuation">.</span><span class="token function">getTransactionId</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                payment<span class="token punctuation">.</span><span class="token function">refund</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// BOOM! Crashes for GiftCardPayment</span>
+            <span class="token punctuation">}</span>
+            order<span class="token punctuation">.</span><span class="token function">setStatus</span><span class="token punctuation">(</span><span class="token string">"FAILED"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">OrderProcessingException</span><span class="token punctuation">(</span><span class="token string">"Order failed"</span><span class="token punctuation">,</span> e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="the-right-way-respecting-lsp">The Right Way: Respecting LSP</h3>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">Payment</span> <span class="token punctuation">{</span>
+    <span class="token class-name">PaymentResult</span> <span class="token function">process</span><span class="token punctuation">(</span><span class="token keyword">double</span> amount<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">boolean</span> <span class="token function">canProcess</span><span class="token punctuation">(</span><span class="token keyword">double</span> amount<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name">String</span> <span class="token function">getPaymentType</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">Refundable</span> <span class="token punctuation">{</span>
+    <span class="token class-name">RefundResult</span> <span class="token function">refund</span><span class="token punctuation">(</span><span class="token class-name">String</span> transactionId<span class="token punctuation">,</span> <span class="token keyword">double</span> amount<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">boolean</span> <span class="token function">canRefund</span><span class="token punctuation">(</span><span class="token class-name">String</span> transactionId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Credit card payments are refundable</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">CreditCardPayment</span> <span class="token keyword">implements</span> <span class="token class-name">Payment</span><span class="token punctuation">,</span> <span class="token class-name">Refundable</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">String</span> cardNumber<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">CreditCardProcessor</span> processor<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token class-name">CreditCardPayment</span><span class="token punctuation">(</span><span class="token class-name">String</span> cardNumber<span class="token punctuation">,</span> <span class="token class-name">CreditCardProcessor</span> processor<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>cardNumber <span class="token operator">=</span> cardNumber<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>processor <span class="token operator">=</span> processor<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token class-name">PaymentResult</span> <span class="token function">process</span><span class="token punctuation">(</span><span class="token keyword">double</span> amount<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">canProcess</span><span class="token punctuation">(</span>amount<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token class-name">PaymentResult</span><span class="token punctuation">.</span><span class="token function">failure</span><span class="token punctuation">(</span><span class="token string">"Cannot process credit card payment"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            <span class="token class-name">String</span> transactionId <span class="token operator">=</span> processor<span class="token punctuation">.</span><span class="token function">charge</span><span class="token punctuation">(</span>cardNumber<span class="token punctuation">,</span> amount<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span> <span class="token class-name">PaymentResult</span><span class="token punctuation">.</span><span class="token function">success</span><span class="token punctuation">(</span>transactionId<span class="token punctuation">,</span> amount<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token class-name">PaymentResult</span><span class="token punctuation">.</span><span class="token function">failure</span><span class="token punctuation">(</span><span class="token string">"Credit card processing failed: "</span> <span class="token operator">+</span> e<span class="token punctuation">.</span><span class="token function">getMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">canProcess</span><span class="token punctuation">(</span><span class="token keyword">double</span> amount<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> amount <span class="token operator">></span> <span class="token number">0</span> <span class="token operator">&#x26;&#x26;</span> cardNumber <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token class-name">RefundResult</span> <span class="token function">refund</span><span class="token punctuation">(</span><span class="token class-name">String</span> transactionId<span class="token punctuation">,</span> <span class="token keyword">double</span> amount<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            <span class="token class-name">String</span> refundId <span class="token operator">=</span> processor<span class="token punctuation">.</span><span class="token function">refund</span><span class="token punctuation">(</span>transactionId<span class="token punctuation">,</span> amount<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span> <span class="token class-name">RefundResult</span><span class="token punctuation">.</span><span class="token function">success</span><span class="token punctuation">(</span>refundId<span class="token punctuation">,</span> amount<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token class-name">RefundResult</span><span class="token punctuation">.</span><span class="token function">failure</span><span class="token punctuation">(</span><span class="token string">"Refund failed: "</span> <span class="token operator">+</span> e<span class="token punctuation">.</span><span class="token function">getMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">canRefund</span><span class="token punctuation">(</span><span class="token class-name">String</span> transactionId<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> transactionId <span class="token operator">!=</span> <span class="token keyword">null</span> <span class="token operator">&#x26;&#x26;</span> <span class="token operator">!</span>transactionId<span class="token punctuation">.</span><span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token class-name">String</span> <span class="token function">getPaymentType</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token string">"CREDIT_CARD"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Gift card payments are NOT refundable</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">GiftCardPayment</span> <span class="token keyword">implements</span> <span class="token class-name">Payment</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">String</span> giftCardNumber<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">GiftCardService</span> giftCardService<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token class-name">GiftCardPayment</span><span class="token punctuation">(</span><span class="token class-name">String</span> giftCardNumber<span class="token punctuation">,</span> <span class="token class-name">GiftCardService</span> giftCardService<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>giftCardNumber <span class="token operator">=</span> giftCardNumber<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>giftCardService <span class="token operator">=</span> giftCardService<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token class-name">PaymentResult</span> <span class="token function">process</span><span class="token punctuation">(</span><span class="token keyword">double</span> amount<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">canProcess</span><span class="token punctuation">(</span>amount<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token class-name">PaymentResult</span><span class="token punctuation">.</span><span class="token function">failure</span><span class="token punctuation">(</span><span class="token string">"Insufficient gift card balance"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            <span class="token keyword">double</span> balance <span class="token operator">=</span> giftCardService<span class="token punctuation">.</span><span class="token function">getBalance</span><span class="token punctuation">(</span>giftCardNumber<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>amount <span class="token operator">></span> balance<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">return</span> <span class="token class-name">PaymentResult</span><span class="token punctuation">.</span><span class="token function">failure</span><span class="token punctuation">(</span><span class="token string">"Gift card balance too low"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+
+            <span class="token class-name">String</span> transactionId <span class="token operator">=</span> giftCardService<span class="token punctuation">.</span><span class="token function">deduct</span><span class="token punctuation">(</span>giftCardNumber<span class="token punctuation">,</span> amount<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span> <span class="token class-name">PaymentResult</span><span class="token punctuation">.</span><span class="token function">success</span><span class="token punctuation">(</span>transactionId<span class="token punctuation">,</span> amount<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token class-name">PaymentResult</span><span class="token punctuation">.</span><span class="token function">failure</span><span class="token punctuation">(</span><span class="token string">"Gift card processing failed: "</span> <span class="token operator">+</span> e<span class="token punctuation">.</span><span class="token function">getMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">canProcess</span><span class="token punctuation">(</span><span class="token keyword">double</span> amount<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            <span class="token keyword">double</span> balance <span class="token operator">=</span> giftCardService<span class="token punctuation">.</span><span class="token function">getBalance</span><span class="token punctuation">(</span>giftCardNumber<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span> amount <span class="token operator">></span> <span class="token number">0</span> <span class="token operator">&#x26;&#x26;</span> amount <span class="token operator">&#x3C;=</span> balance<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token class-name">String</span> <span class="token function">getPaymentType</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token string">"GIFT_CARD"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// Note: No refund method - gift cards don't implement Refundable</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Supporting classes</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">PaymentResult</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token keyword">boolean</span> success<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">String</span> transactionId<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token keyword">double</span> amount<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">String</span> errorMessage<span class="token punctuation">;</span>
+
+    <span class="token keyword">private</span> <span class="token class-name">PaymentResult</span><span class="token punctuation">(</span><span class="token keyword">boolean</span> success<span class="token punctuation">,</span> <span class="token class-name">String</span> transactionId<span class="token punctuation">,</span> <span class="token keyword">double</span> amount<span class="token punctuation">,</span> <span class="token class-name">String</span> errorMessage<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>success <span class="token operator">=</span> success<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>transactionId <span class="token operator">=</span> transactionId<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>amount <span class="token operator">=</span> amount<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>errorMessage <span class="token operator">=</span> errorMessage<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token class-name">PaymentResult</span> <span class="token function">success</span><span class="token punctuation">(</span><span class="token class-name">String</span> transactionId<span class="token punctuation">,</span> <span class="token keyword">double</span> amount<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">PaymentResult</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">,</span> transactionId<span class="token punctuation">,</span> amount<span class="token punctuation">,</span> <span class="token keyword">null</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token class-name">PaymentResult</span> <span class="token function">failure</span><span class="token punctuation">(</span><span class="token class-name">String</span> errorMessage<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">PaymentResult</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token keyword">null</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> errorMessage<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">isSuccess</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> success<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    <span class="token keyword">public</span> <span class="token class-name">String</span> <span class="token function">getTransactionId</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> transactionId<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    <span class="token keyword">public</span> <span class="token keyword">double</span> <span class="token function">getAmount</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> amount<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    <span class="token keyword">public</span> <span class="token class-name">String</span> <span class="token function">getErrorMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> errorMessage<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">RefundResult</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token keyword">boolean</span> success<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">String</span> refundId<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token keyword">double</span> amount<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">String</span> errorMessage<span class="token punctuation">;</span>
+
+    <span class="token keyword">private</span> <span class="token class-name">RefundResult</span><span class="token punctuation">(</span><span class="token keyword">boolean</span> success<span class="token punctuation">,</span> <span class="token class-name">String</span> refundId<span class="token punctuation">,</span> <span class="token keyword">double</span> amount<span class="token punctuation">,</span> <span class="token class-name">String</span> errorMessage<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>success <span class="token operator">=</span> success<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>refundId <span class="token operator">=</span> refundId<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>amount <span class="token operator">=</span> amount<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>errorMessage <span class="token operator">=</span> errorMessage<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token class-name">RefundResult</span> <span class="token function">success</span><span class="token punctuation">(</span><span class="token class-name">String</span> refundId<span class="token punctuation">,</span> <span class="token keyword">double</span> amount<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">RefundResult</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">,</span> refundId<span class="token punctuation">,</span> amount<span class="token punctuation">,</span> <span class="token keyword">null</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token class-name">RefundResult</span> <span class="token function">failure</span><span class="token punctuation">(</span><span class="token class-name">String</span> errorMessage<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">RefundResult</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token keyword">null</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> errorMessage<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">isSuccess</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> success<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    <span class="token keyword">public</span> <span class="token class-name">String</span> <span class="token function">getRefundId</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> refundId<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    <span class="token keyword">public</span> <span class="token keyword">double</span> <span class="token function">getAmount</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> amount<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    <span class="token keyword">public</span> <span class="token class-name">String</span> <span class="token function">getErrorMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> errorMessage<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Now our order processor can handle all payments safely:</p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">OrderProcessor</span> <span class="token punctuation">{</span>
+    
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">processOrder</span><span class="token punctuation">(</span><span class="token class-name">Order</span> order<span class="token punctuation">,</span> <span class="token class-name">Payment</span> payment<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// Process the payment</span>
+        <span class="token class-name">PaymentResult</span> result <span class="token operator">=</span> payment<span class="token punctuation">.</span><span class="token function">process</span><span class="token punctuation">(</span>order<span class="token punctuation">.</span><span class="token function">getTotal</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>result<span class="token punctuation">.</span><span class="token function">isSuccess</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            order<span class="token punctuation">.</span><span class="token function">setStatus</span><span class="token punctuation">(</span><span class="token string">"COMPLETED"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            order<span class="token punctuation">.</span><span class="token function">setTransactionId</span><span class="token punctuation">(</span>result<span class="token punctuation">.</span><span class="token function">getTransactionId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            order<span class="token punctuation">.</span><span class="token function">setStatus</span><span class="token punctuation">(</span><span class="token string">"FAILED"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">OrderProcessingException</span><span class="token punctuation">(</span>result<span class="token punctuation">.</span><span class="token function">getErrorMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">processRefund</span><span class="token punctuation">(</span><span class="token class-name">Order</span> order<span class="token punctuation">,</span> <span class="token class-name">Payment</span> payment<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// Check if this payment type supports refunds</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token punctuation">(</span>payment <span class="token keyword">instanceof</span> <span class="token class-name">Refundable</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">RefundNotSupportedException</span><span class="token punctuation">(</span>
+                <span class="token string">"Payment type "</span> <span class="token operator">+</span> payment<span class="token punctuation">.</span><span class="token function">getPaymentType</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">" does not support refunds"</span>
+            <span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token class-name">Refundable</span> refundablePayment <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token class-name">Refundable</span><span class="token punctuation">)</span> payment<span class="token punctuation">;</span>
+        
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>refundablePayment<span class="token punctuation">.</span><span class="token function">canRefund</span><span class="token punctuation">(</span>order<span class="token punctuation">.</span><span class="token function">getTransactionId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">RefundNotSupportedException</span><span class="token punctuation">(</span><span class="token string">"Transaction cannot be refunded"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token class-name">RefundResult</span> result <span class="token operator">=</span> refundablePayment<span class="token punctuation">.</span><span class="token function">refund</span><span class="token punctuation">(</span>
+            order<span class="token punctuation">.</span><span class="token function">getTransactionId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> 
+            order<span class="token punctuation">.</span><span class="token function">getTotal</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>result<span class="token punctuation">.</span><span class="token function">isSuccess</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            order<span class="token punctuation">.</span><span class="token function">setStatus</span><span class="token punctuation">(</span><span class="token string">"REFUNDED"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            order<span class="token punctuation">.</span><span class="token function">setRefundId</span><span class="token punctuation">(</span>result<span class="token punctuation">.</span><span class="token function">getRefundId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">RefundProcessingException</span><span class="token punctuation">(</span>result<span class="token punctuation">.</span><span class="token function">getErrorMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Now it’s clear:</p>
+<ul>
+<li>ALL payments can be processed using the <code>Payment</code> interface</li>
+<li>ONLY refundable payments implement <code>Refundable</code></li>
+<li>No surprises, no exceptions, no LSP violations</li>
+</ul>
+<h2 id="the-lsp-contract-rules">The LSP Contract Rules</h2>
+<p>For a subclass to properly substitute for its parent, it must follow these rules:</p>
+<h3 id="rule-1-preconditions-cannot-be-strengthened">Rule 1: Preconditions Cannot Be Strengthened</h3>
+<p>If the parent accepts any positive number, the child can’t suddenly require numbers greater than 10:</p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token comment">// WRONG</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">PaymentProcessor</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">process</span><span class="token punctuation">(</span><span class="token keyword">double</span> amount<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// Accepts any positive amount</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>amount <span class="token operator">&#x3C;=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">IllegalArgumentException</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">// process...</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">PremiumPaymentProcessor</span> <span class="token keyword">extends</span> <span class="token class-name">PaymentProcessor</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">process</span><span class="token punctuation">(</span><span class="token keyword">double</span> amount<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// Strengthens precondition - now requires amount > 100</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>amount <span class="token operator">&#x3C;=</span> <span class="token number">100</span><span class="token punctuation">)</span> <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">IllegalArgumentException</span><span class="token punctuation">(</span><span class="token string">"Minimum $100"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">process</span><span class="token punctuation">(</span>amount<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// RIGHT</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">PaymentProcessor</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">process</span><span class="token punctuation">(</span><span class="token keyword">double</span> amount<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>amount <span class="token operator">&#x3C;=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">IllegalArgumentException</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">// process...</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">PremiumPaymentProcessor</span> <span class="token keyword">extends</span> <span class="token class-name">PaymentProcessor</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">process</span><span class="token punctuation">(</span><span class="token keyword">double</span> amount<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// Same precondition - still accepts any positive amount</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>amount <span class="token operator">&#x3C;=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">IllegalArgumentException</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">// But adds special handling for large amounts</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>amount <span class="token operator">></span> <span class="token number">100</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token function">applyPremiumProcessing</span><span class="token punctuation">(</span>amount<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment">// process...</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="rule-2-postconditions-cannot-be-weakened">Rule 2: Postconditions Cannot Be Weakened</h3>
+<p>If the parent promises to return a non-null value, the child can’t return null:</p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token comment">// WRONG</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">UserRepository</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token class-name">User</span> <span class="token function">findById</span><span class="token punctuation">(</span><span class="token class-name">Long</span> id<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// Always returns a user (throws exception if not found)</span>
+        <span class="token class-name">User</span> user <span class="token operator">=</span> database<span class="token punctuation">.</span><span class="token function">findUser</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>user <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">UserNotFoundException</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> user<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">CachedUserRepository</span> <span class="token keyword">extends</span> <span class="token class-name">UserRepository</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token class-name">User</span> <span class="token function">findById</span><span class="token punctuation">(</span><span class="token class-name">Long</span> id<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// Weakens postcondition - might return null</span>
+        <span class="token keyword">return</span> cache<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// Returns null if not in cache</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// RIGHT</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">CachedUserRepository</span> <span class="token keyword">extends</span> <span class="token class-name">UserRepository</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token class-name">User</span> <span class="token function">findById</span><span class="token punctuation">(</span><span class="token class-name">Long</span> id<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// Maintains postcondition - never returns null</span>
+        <span class="token class-name">User</span> user <span class="token operator">=</span> cache<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>user <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            user <span class="token operator">=</span> <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">findById</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            cache<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span>id<span class="token punctuation">,</span> user<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> user<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="rule-3-invariants-must-be-preserved">Rule 3: Invariants Must Be Preserved</h3>
+<p>If the parent maintains certain invariants (rules that are always true), the child must maintain them too:</p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token comment">// WRONG</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">BankAccount</span> <span class="token punctuation">{</span>
+    <span class="token keyword">protected</span> <span class="token keyword">double</span> balance<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">deposit</span><span class="token punctuation">(</span><span class="token keyword">double</span> amount<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        balance <span class="token operator">+=</span> amount<span class="token punctuation">;</span>
+        <span class="token comment">// Invariant: balance >= 0</span>
+        <span class="token keyword">assert</span> balance <span class="token operator">>=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">OverdraftAccount</span> <span class="token keyword">extends</span> <span class="token class-name">BankAccount</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">deposit</span><span class="token punctuation">(</span><span class="token keyword">double</span> amount<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        balance <span class="token operator">+=</span> amount<span class="token punctuation">;</span>
+        <span class="token comment">// Violates invariant - balance can go negative!</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// RIGHT</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">BankAccount</span> <span class="token punctuation">{</span>
+    <span class="token keyword">protected</span> <span class="token keyword">double</span> balance<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">deposit</span><span class="token punctuation">(</span><span class="token keyword">double</span> amount<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>amount <span class="token operator">&#x3C;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">IllegalArgumentException</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        balance <span class="token operator">+=</span> amount<span class="token punctuation">;</span>
+        <span class="token keyword">assert</span> balance <span class="token operator">>=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">OverdraftAccount</span> <span class="token keyword">extends</span> <span class="token class-name">BankAccount</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">double</span> overdraftLimit<span class="token punctuation">;</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">deposit</span><span class="token punctuation">(</span><span class="token keyword">double</span> amount<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">deposit</span><span class="token punctuation">(</span>amount<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">// Maintains invariant while adding flexibility</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">withdraw</span><span class="token punctuation">(</span><span class="token keyword">double</span> amount<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>balance <span class="token operator">-</span> amount <span class="token operator">&#x3C;</span> <span class="token operator">-</span>overdraftLimit<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">InsufficientFundsException</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        balance <span class="token operator">-=</span> amount<span class="token punctuation">;</span>
+        <span class="token comment">// Note: balance can be negative but within limits</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="rule-4-history-constraint">Rule 4: History Constraint</h3>
+<p>The child shouldn’t allow state changes that the parent doesn’t allow:</p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token comment">// WRONG - Immutable parent, mutable child</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ImmutablePoint</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token keyword">int</span> x<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token keyword">int</span> y<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token class-name">ImmutablePoint</span><span class="token punctuation">(</span><span class="token keyword">int</span> x<span class="token punctuation">,</span> <span class="token keyword">int</span> y<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>x <span class="token operator">=</span> x<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>y <span class="token operator">=</span> y<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">getX</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> x<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">getY</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> y<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MutablePoint</span> <span class="token keyword">extends</span> <span class="token class-name">ImmutablePoint</span> <span class="token punctuation">{</span>
+    <span class="token comment">// This violates LSP - parent promised immutability!</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">setX</span><span class="token punctuation">(</span><span class="token keyword">int</span> x<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment">/* ... */</span> <span class="token punctuation">}</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">setY</span><span class="token punctuation">(</span><span class="token keyword">int</span> y<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment">/* ... */</span> <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="common-lsp-violations-and-how-to-fix-them">Common LSP Violations and How to Fix Them</h2>
+<h3 id="violation-1-emptythrowing-override-methods">Violation 1: Empty/Throwing Override Methods</h3>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token comment">// WRONG</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Bird</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">fly</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment">/* flying logic */</span> <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Penguin</span> <span class="token keyword">extends</span> <span class="token class-name">Bird</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">fly</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">UnsupportedOperationException</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// RIGHT - Use composition or better abstractions</span>
+<span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">Bird</span> <span class="token punctuation">{</span>
+    <span class="token keyword">void</span> <span class="token function">move</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">FlyingBird</span> <span class="token keyword">implements</span> <span class="token class-name">Bird</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">fly</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment">/* flying logic */</span> <span class="token punctuation">}</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">move</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token function">fly</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Penguin</span> <span class="token keyword">implements</span> <span class="token class-name">Bird</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">swim</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment">/* swimming logic */</span> <span class="token punctuation">}</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">move</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token function">swim</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="violation-2-type-checking-in-client-code">Violation 2: Type Checking in Client Code</h3>
+<p>If you find yourself doing this, you’ve violated LSP:</p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token comment">// WRONG - Client needs to know about specific types</span>
+<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">handleShape</span><span class="token punctuation">(</span><span class="token class-name">Shape</span> shape<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>shape <span class="token keyword">instanceof</span> <span class="token class-name">Circle</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// Special handling for circles</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>shape <span class="token keyword">instanceof</span> <span class="token class-name">Square</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// Special handling for squares</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// RIGHT - Polymorphism handles it</span>
+<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">handleShape</span><span class="token punctuation">(</span><span class="token class-name">Shape</span> shape<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    shape<span class="token punctuation">.</span><span class="token function">draw</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// Works for all shapes</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="violation-3-partial-implementation">Violation 3: Partial Implementation</h3>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token comment">// WRONG</span>
+<span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">Repository</span> <span class="token punctuation">{</span>
+    <span class="token keyword">void</span> <span class="token function">save</span><span class="token punctuation">(</span><span class="token class-name">Entity</span> entity<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">void</span> <span class="token function">delete</span><span class="token punctuation">(</span><span class="token class-name">Entity</span> entity<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name">Entity</span> <span class="token function">findById</span><span class="token punctuation">(</span><span class="token class-name">Long</span> id<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ReadOnlyRepository</span> <span class="token keyword">implements</span> <span class="token class-name">Repository</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">save</span><span class="token punctuation">(</span><span class="token class-name">Entity</span> entity<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">UnsupportedOperationException</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">delete</span><span class="token punctuation">(</span><span class="token class-name">Entity</span> entity<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">UnsupportedOperationException</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">public</span> <span class="token class-name">Entity</span> <span class="token function">findById</span><span class="token punctuation">(</span><span class="token class-name">Long</span> id<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// Actual implementation</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// RIGHT - Split interfaces (Interface Segregation Principle)</span>
+<span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">Readable</span> <span class="token punctuation">{</span>
+    <span class="token class-name">Entity</span> <span class="token function">findById</span><span class="token punctuation">(</span><span class="token class-name">Long</span> id<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">Writable</span> <span class="token punctuation">{</span>
+    <span class="token keyword">void</span> <span class="token function">save</span><span class="token punctuation">(</span><span class="token class-name">Entity</span> entity<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">void</span> <span class="token function">delete</span><span class="token punctuation">(</span><span class="token class-name">Entity</span> entity<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">FullRepository</span> <span class="token keyword">implements</span> <span class="token class-name">Readable</span><span class="token punctuation">,</span> <span class="token class-name">Writable</span> <span class="token punctuation">{</span>
+    <span class="token comment">// Full implementation</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ReadOnlyRepository</span> <span class="token keyword">implements</span> <span class="token class-name">Readable</span> <span class="token punctuation">{</span>
+    <span class="token comment">// Only read implementation</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="testing-for-lsp-compliance">Testing for LSP Compliance</h2>
+<p>Here’s how you can test if your classes respect LSP:</p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token keyword">public</span> <span class="token keyword">abstract</span> <span class="token keyword">class</span> <span class="token class-name">PaymentTest</span> <span class="token punctuation">{</span>
+    
+    <span class="token keyword">protected</span> <span class="token keyword">abstract</span> <span class="token class-name">Payment</span> <span class="token function">createPayment</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token annotation punctuation">@Test</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">testProcessPayment_WithValidAmount_Succeeds</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">Payment</span> payment <span class="token operator">=</span> <span class="token function">createPayment</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">PaymentResult</span> result <span class="token operator">=</span> payment<span class="token punctuation">.</span><span class="token function">process</span><span class="token punctuation">(</span><span class="token number">100.0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">assertTrue</span><span class="token punctuation">(</span>result<span class="token punctuation">.</span><span class="token function">isSuccess</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">assertNotNull</span><span class="token punctuation">(</span>result<span class="token punctuation">.</span><span class="token function">getTransactionId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Test</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">testProcessPayment_WithZeroAmount_Fails</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">Payment</span> payment <span class="token operator">=</span> <span class="token function">createPayment</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">PaymentResult</span> result <span class="token operator">=</span> payment<span class="token punctuation">.</span><span class="token function">process</span><span class="token punctuation">(</span><span class="token number">0.0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">assertFalse</span><span class="token punctuation">(</span>result<span class="token punctuation">.</span><span class="token function">isSuccess</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Test</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">testProcessPayment_WithNegativeAmount_Fails</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">Payment</span> payment <span class="token operator">=</span> <span class="token function">createPayment</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">PaymentResult</span> result <span class="token operator">=</span> payment<span class="token punctuation">.</span><span class="token function">process</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">50.0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">assertFalse</span><span class="token punctuation">(</span>result<span class="token punctuation">.</span><span class="token function">isSuccess</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Each implementation gets these tests</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">CreditCardPaymentTest</span> <span class="token keyword">extends</span> <span class="token class-name">PaymentTest</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">protected</span> <span class="token class-name">Payment</span> <span class="token function">createPayment</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">CreditCardPayment</span><span class="token punctuation">(</span><span class="token string">"1234567890123456"</span><span class="token punctuation">,</span> mockProcessor<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// Add credit-card-specific tests</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">GiftCardPaymentTest</span> <span class="token keyword">extends</span> <span class="token class-name">PaymentTest</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">protected</span> <span class="token class-name">Payment</span> <span class="token function">createPayment</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">GiftCardPayment</span><span class="token punctuation">(</span><span class="token string">"GIFT123"</span><span class="token punctuation">,</span> mockService<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// Add gift-card-specific tests</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>If all subclasses pass the parent’s test suite, you’ve got good LSP compliance.</p>
+<h2 id="practical-tips-for-following-lsp">Practical Tips for Following LSP</h2>
+<ol>
+<li>
+<p><strong>Design by Contract</strong>: Clearly define what your parent class promises and requires. Document preconditions, postconditions, and invariants.</p>
+</li>
+<li>
+<p><strong>Favor Composition Over Inheritance</strong>: Sometimes it’s better to have a <code>Bird</code> that contains a <code>MovementStrategy</code> than to force all birds into an inheritance hierarchy.</p>
+</li>
+<li>
+<p><strong>Use Abstract Classes Carefully</strong>: Make abstract methods truly abstract—don’t force subclasses to override with empty or throwing implementations.</p>
+</li>
+<li>
+<p><strong>Think “Is-A” vs “Behaves-Like-A”</strong>: A penguin IS-A bird biologically, but doesn’t BEHAVE-LIKE-A flying bird in your code.</p>
+</li>
+<li>
+<p><strong>Test Substitutability</strong>: If you can’t write tests that treat all subclasses uniformly, you’ve violated LSP.</p>
+</li>
+<li>
+<p><strong>Watch for Type Checking</strong>: If you’re checking <code>instanceof</code> in client code, that’s a red flag.</p>
+</li>
+<li>
+<p><strong>Document Exceptions</strong>: If you must throw exceptions, document them clearly so clients know what to expect.</p>
+</li>
+</ol>
+<h2 id="when-lsp-seems-impossible">When LSP Seems Impossible</h2>
+<p>Sometimes following LSP perfectly seems impossible. Here are strategies:</p>
+<h3 id="strategy-1-use-interface-segregation">Strategy 1: Use Interface Segregation</h3>
+<p>Instead of one big interface, split into smaller ones:</p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">Document</span> <span class="token punctuation">{</span>
+    <span class="token class-name">String</span> <span class="token function">getContent</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name">String</span> <span class="token function">getTitle</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">EditableDocument</span> <span class="token keyword">extends</span> <span class="token class-name">Document</span> <span class="token punctuation">{</span>
+    <span class="token keyword">void</span> <span class="token function">setContent</span><span class="token punctuation">(</span><span class="token class-name">String</span> content<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">void</span> <span class="token function">save</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Now read-only documents don't violate LSP</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ReadOnlyDocument</span> <span class="token keyword">implements</span> <span class="token class-name">Document</span> <span class="token punctuation">{</span>
+    <span class="token comment">// Only implements reading</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">EditableDocument</span> <span class="token keyword">implements</span> <span class="token class-name">EditableDocument</span> <span class="token punctuation">{</span>
+    <span class="token comment">// Implements both reading and writing</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="strategy-2-use-composition">Strategy 2: Use Composition</h3>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Document</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">ContentProvider</span> contentProvider<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">Optional</span><span class="token generics"><span class="token punctuation">&#x3C;</span><span class="token class-name">ContentEditor</span><span class="token punctuation">></span></span> contentEditor<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token class-name">Document</span><span class="token punctuation">(</span><span class="token class-name">ContentProvider</span> provider<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>contentProvider <span class="token operator">=</span> provider<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>contentEditor <span class="token operator">=</span> <span class="token class-name">Optional</span><span class="token punctuation">.</span><span class="token function">empty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token class-name">Document</span><span class="token punctuation">(</span><span class="token class-name">ContentProvider</span> provider<span class="token punctuation">,</span> <span class="token class-name">ContentEditor</span> editor<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>contentProvider <span class="token operator">=</span> provider<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>contentEditor <span class="token operator">=</span> <span class="token class-name">Optional</span><span class="token punctuation">.</span><span class="token function">of</span><span class="token punctuation">(</span>editor<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token class-name">String</span> <span class="token function">getContent</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> contentProvider<span class="token punctuation">.</span><span class="token function">getContent</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">editContent</span><span class="token punctuation">(</span><span class="token class-name">String</span> newContent<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        contentEditor<span class="token punctuation">.</span><span class="token function">orElseThrow</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-></span> 
+            <span class="token keyword">new</span> <span class="token class-name">UnsupportedOperationException</span><span class="token punctuation">(</span><span class="token string">"Document is read-only"</span><span class="token punctuation">)</span>
+        <span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">edit</span><span class="token punctuation">(</span>newContent<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="conclusion">Conclusion</h2>
+<p>The Liskov Substitution Principle is about keeping promises. When a class inherits from another, it’s making a promise to behave like that parent class. Breaking that promise leads to bugs, confusion, and fragile code.</p>
+<p>Think of inheritance like this: if your parent class is making a promise, your child class can promise more, but never less. You can be more generous (accept more inputs, return more detailed results), but you can’t be more restrictive.</p>
+<p>Here’s the key insight: <strong>inheritance is not just about code reuse—it’s about behavioral compatibility</strong>. Just because something shares some code or attributes doesn’t mean it should inherit. Make sure the “is-a” relationship is behavioral, not just structural.</p>
+<p>When you respect LSP:</p>
+<ul>
+<li>Your polymorphic code works without surprises</li>
+<li>You don’t need type checking or special cases</li>
+<li>Your unit tests validate behavior, not types</li>
+<li>Refactoring becomes safer</li>
+<li>Your code becomes more maintainable</li>
+</ul>
+<p>Remember: if it looks like a duck and quacks like a duck, it better actually be able to swim like a duck too. Don’t make penguins pretend to be flying birds.</p> </div>  <section class="series-navigation" data-astro-cid-2hl7stop> <div class="series-header" data-astro-cid-2hl7stop> <span class="series-badge" data-astro-cid-2hl7stop>📚 Series</span> <h3 data-astro-cid-2hl7stop>SOLID Principles</h3> <p class="series-progress" data-astro-cid-2hl7stop>Part 3 of 6</p> </div> <div class="series-list" data-astro-cid-2hl7stop> <div class="series-item  completed" data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>1</span> <a href="/single-responsibility-principle/" class="series-title" data-astro-cid-2hl7stop> S (Single Responsibility) from SOLID </a> <span class="check-icon" title="Completed" data-astro-cid-2hl7stop>✓</span> </div><div class="series-item  completed" data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>2</span> <a href="/open-closed-principle/" class="series-title" data-astro-cid-2hl7stop> O (Open/Closed) from SOLID </a> <span class="check-icon" title="Completed" data-astro-cid-2hl7stop>✓</span> </div><div class="series-item current " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>3</span> <span class="series-title current-title" data-astro-cid-2hl7stop>L (Liskov Substitution) from SOLID</span>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>4</span> <a href="/interface-segregation-principle/" class="series-title" data-astro-cid-2hl7stop> I (Interface Segregation) from SOLID </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>5</span> <a href="/dependency-inversion-principle/" class="series-title" data-astro-cid-2hl7stop> D (Dependency Inversion) from SOLID </a>  </div><div class="series-item  " data-astro-cid-2hl7stop> <span class="series-number" data-astro-cid-2hl7stop>6</span> <a href="/solid-principles/" class="series-title" data-astro-cid-2hl7stop> SOLID </a>  </div> </div> <div class="series-nav-buttons" data-astro-cid-2hl7stop> <a href="/open-closed-principle/" class="series-nav-btn prev" data-astro-cid-2hl7stop> <span class="nav-label" data-astro-cid-2hl7stop>← Previous</span> <span class="nav-title" data-astro-cid-2hl7stop>O (Open/Closed) from SOLID</span> </a> <a href="/interface-segregation-principle/" class="series-nav-btn next" data-astro-cid-2hl7stop> <span class="nav-label" data-astro-cid-2hl7stop>Next →</span> <span class="nav-title" data-astro-cid-2hl7stop>I (Interface Segregation) from SOLID</span> </a> </div> </section>   <section class="related-posts" data-astro-cid-dpgbfi7r> <h2 data-astro-cid-dpgbfi7r>Related Posts</h2> <div class="related-posts-grid" data-astro-cid-dpgbfi7r> <article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/solid-principles/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>SOLID</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r></p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2024-07-25T00:00:00.000Z" data-astro-cid-dpgbfi7r> Jul 25, 2024 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>1 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/dependency-inversion-principle/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>D (Dependency Inversion) from SOLID</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>The Dependency Inversion Principle: Stop Depending on Details What Is Dependency Inversion, Really? Let me ask you a…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2024-06-22T00:00:00.000Z" data-astro-cid-dpgbfi7r> Jun 22, 2024 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>14 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/interface-segregation-principle/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>I (Interface Segregation) from SOLID</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>The Interface Segregation Principle: Why Your Interfaces Are Probably Too Fat What Is Interface Segregation, Really?…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2024-06-21T00:00:00.000Z" data-astro-cid-dpgbfi7r> Jun 21, 2024 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>17 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/open-closed-principle/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>O (Open/Closed) from SOLID</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>The Open/Closed Principle: How to Add Features Without Breaking Everything What Does &quot;Open/Closed&quot; Even Mean? Here&#39;s a…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2024-06-10T00:00:00.000Z" data-astro-cid-dpgbfi7r> Jun 10, 2024 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>15 min read</span> </div> </a> </article> </div> </section>  </article> </div> <div class="back-link" data-astro-cid-yvbahnfj><a href="/" data-astro-cid-yvbahnfj>← Back to home</a></div>  </main> <!-- Site Footer --> <footer class="site-footer container"> <p>
+© 2025 AREZKI El Mehdi •
+<a href="https://github.com/earezki">GitHub</a> •
+<a href="/rss.xml">RSS</a> •
+<a href="/tags/">Tags</a> •
+<a href="/sitemap-index.xml">Sitemap</a> •
+<button id="footer-subscribe-btn" class="footer-subscribe-btn" aria-label="Subscribe to newsletter">
+📬 Subscribe
+</button> </p> </footer> <!-- Footer Subscribe Button Handler --> <script type="module">const e=document.getElementById("themeToggle"),o=n=>{if(!e)return;const t=e.querySelector(".theme-icon");t&&(t.textContent=n==="dark"?"☀":"☾")};if(e){const n=document.documentElement.getAttribute("data-theme")||"dark";o(n),e.addEventListener("click",()=>{const t=document.documentElement,c=t.getAttribute("data-theme")==="dark"?"light":"dark";t.setAttribute("data-theme",c),localStorage.setItem("theme",c),o(c)})}</script> <!-- Theme Toggle --> <script type="module">document.addEventListener("DOMContentLoaded",()=>{const e=document.getElementById("footer-subscribe-btn");e&&e.addEventListener("click",n=>{n.preventDefault();const t=document.getElementById("subscription-popup");t&&(t.setAttribute("data-state","visible"),document.body.style.overflow="hidden")})});</script> <!-- Article read/unread tracking --> <script>
+      (function() {
+        const KEY = 'readArticles';
+        
+        function getRead() {
+          try {
+            const d = localStorage.getItem(KEY);
+            return d ? JSON.parse(d) : [];
+          } catch (e) {
+            return [];
+          }
+        }
+        
+        function markRead(url) {
+          try {
+            const read = getRead();
+            if (!read.includes(url)) {
+              read.push(url);
+              localStorage.setItem(KEY, JSON.stringify(read));
+            }
+          } catch (e) {}
+        }
+        
+        function updateCards() {
+          const read = new Set(getRead());
+          const cards = document.querySelectorAll('.post-card[data-article-url]');
+          cards.forEach(function(card) {
+            const url = card.getAttribute('data-article-url');
+            if (!url) return;
+            const isRead = read.has(url);
+            card.classList.toggle('read', isRead);
+            card.classList.toggle('unread', !isRead);
+          });
+        }
+        
+        function markCurrent() {
+          if (document.querySelector('.post-body')) {
+            markRead(window.location.pathname);
+          }
+        }
+        
+        function init() {
+          updateCards();
+          markCurrent();
+        }
+        
+        function clearRead(url) {
+          try {
+            const read = new Set(getRead());
+            if (read.has(url)) {
+              read.delete(url);
+              localStorage.setItem(KEY, JSON.stringify(Array.from(read)));
+              updateCards();
+            }
+          } catch (e) {}
+        }
+        
+        window.clearReadArticle = clearRead;
+        document.addEventListener('DOMContentLoaded', init);
+        window.addEventListener('pageshow', function(e) {
+          if (e.persisted) init();
+        });
+      })();
+    </script> <!-- Clear read button handler --> <script>
+      (function() {
+        document.addEventListener('click', function(e) {
+          var tgt = e.target, btn = null;
+          while (tgt && tgt !== document) {
+            if (tgt.classList && tgt.classList.contains('clear-read-btn')) {
+              btn = tgt;
+              break;
+            }
+            tgt = tgt.parentNode;
+          }
+          if (!btn) return;
+          e.preventDefault();
+          e.stopPropagation();
+          var url = btn.getAttribute('data-article-url');
+          if (url && window.clearReadArticle) window.clearReadArticle(url);
+        });
+      })();
+    </script> <!-- External links open in new tab --> <script>
+      (function() {
+        function makeExternal() {
+          const domain = window.location.hostname;
+          const links = document.querySelectorAll('a[href]');
+          links.forEach(function(link) {
+            const href = link.getAttribute('href');
+            if (!href || link.hasAttribute('target')) return;
+            const isExt = (href.startsWith('http://') || href.startsWith('https://')) && !href.includes(domain);
+            if (isExt) {
+              link.setAttribute('target', '_blank');
+              link.setAttribute('rel', 'noopener noreferrer');
+            }
+          });
+        }
+        document.addEventListener('DOMContentLoaded', makeExternal);
+        if (window.MutationObserver) {
+          const obs = new MutationObserver(function(muts) {
+            muts.forEach(function(mut) {
+              if (mut.addedNodes.length) makeExternal();
+            });
+          });
+          obs.observe(document.body, { childList: true, subtree: true });
+        }
+      })();
+    </script> <!-- Code copy buttons --> <script>
+      (function() {
+        function createBtn() {
+          const btn = document.createElement('button');
+          btn.className = 'copy-code-button';
+          btn.setAttribute('aria-label', 'Copy code to clipboard');
+          btn.innerHTML = `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span>Copy</span>
+          `;
+          return btn;
+        }
+        
+        function checkIcon() {
+          return `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span>Copied!</span>
+          `;
+        }
+        
+        async function copyText(txt) {
+          try {
+            await navigator.clipboard.writeText(txt);
+            return true;
+          } catch (err) {
+            const ta = document.createElement('textarea');
+            ta.value = txt;
+            ta.style.position = 'fixed';
+            ta.style.left = '-999999px';
+            document.body.appendChild(ta);
+            ta.select();
+            try {
+              document.execCommand('copy');
+              document.body.removeChild(ta);
+              return true;
+            } catch (e) {
+              document.body.removeChild(ta);
+              return false;
+            }
+          }
+        }
+        
+        async function handleCopy(btn, code) {
+          const txt = code.textContent || '';
+          const ok = await copyText(txt);
+          if (ok) {
+            const orig = btn.innerHTML;
+            btn.classList.add('copied');
+            btn.innerHTML = checkIcon();
+            setTimeout(function() {
+              btn.classList.remove('copied');
+              btn.innerHTML = orig;
+            }, 2000);
+          }
+        }
+        
+        function addBtns() {
+          const blocks = document.querySelectorAll('.post-body pre');
+          blocks.forEach(function(pre) {
+            if (pre.querySelector('.copy-code-button')) return;
+            const btn = createBtn();
+            const code = pre.querySelector('code');
+            if (code) {
+              btn.addEventListener('click', function() {
+                handleCopy(btn, code);
+              });
+              pre.appendChild(btn);
+            }
+          });
+        }
+        
+        document.addEventListener('DOMContentLoaded', addBtns);
+      })();
+    </script> <!-- Newsletter Subscription Popup --> <div id="subscription-popup" class="subscription-popup" data-state="hidden" data-auto-trigger="true" data-astro-cid-we5gmdnp> <div class="popup-overlay" id="popup-overlay" data-astro-cid-we5gmdnp></div> <div class="popup-container" data-astro-cid-we5gmdnp> <div class="popup-content" data-astro-cid-we5gmdnp> <div class="popup-icon" data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-we5gmdnp> <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" data-astro-cid-we5gmdnp></path> <polyline points="22,6 12,13 2,6" data-astro-cid-we5gmdnp></polyline> </svg> </div> <h2 class="popup-title" data-astro-cid-we5gmdnp>Stay Updated with Dev|Journal</h2> <p class="popup-description" id="popup-description" data-astro-cid-we5gmdnp>
+Join our community of developers and engineers. Get insights on:
+</p> <ul class="popup-features" data-astro-cid-we5gmdnp> <li data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-we5gmdnp> <polyline points="20 6 9 17 4 12" data-astro-cid-we5gmdnp></polyline> </svg>
+Software Architecture & Design Patterns
+</li> <li data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-we5gmdnp> <polyline points="20 6 9 17 4 12" data-astro-cid-we5gmdnp></polyline> </svg>
+Backend Development Best Practices
+</li> <li data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-we5gmdnp> <polyline points="20 6 9 17 4 12" data-astro-cid-we5gmdnp></polyline> </svg>
+AI & Tech Industry Analysis
+</li> </ul> <form id="subscription-form" class="popup-form" data-astro-cid-we5gmdnp> <div class="form-group" data-astro-cid-we5gmdnp> <input type="text" id="subscriber-name" name="name" placeholder="Your name" required autocomplete="name" data-astro-cid-we5gmdnp> </div> <div class="form-group" data-astro-cid-we5gmdnp> <input type="email" id="subscriber-email" name="email" placeholder="your.email@example.com" required autocomplete="email" data-astro-cid-we5gmdnp> </div> <div id="form-message" class="form-message" data-astro-cid-we5gmdnp></div> <div class="popup-actions" data-astro-cid-we5gmdnp> <button type="submit" class="btn btn-primary" id="subscribe-btn" data-astro-cid-we5gmdnp> <span class="btn-text" data-astro-cid-we5gmdnp>Subscribe</span> <span class="btn-loader" data-astro-cid-we5gmdnp> <svg class="spinner" viewBox="0 0 24 24" data-astro-cid-we5gmdnp> <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" data-astro-cid-we5gmdnp></circle> </svg> </span> </button> <button type="button" class="btn btn-secondary" id="not-now-btn" data-astro-cid-we5gmdnp>Not Now</button> <button type="button" class="btn btn-text" id="cancel-btn" data-astro-cid-we5gmdnp>Don't Show Again</button> </div> </form> </div> </div> </div>  <script>
+  // Configuration
+  const CONFIG = {
+    graceDelay: 5000, // 5 seconds delay before showing popup
+    notNowDelay: 24 * 60 * 60 * 1000, // 1 day in milliseconds
+    apiUrl: 'https://api.earezki.com/blog/api',
+  };
+
+  const STORAGE_KEYS = {
+    subscribed: 'newsletter_subscribed',
+    cancelled: 'newsletter_cancelled',
+    notNowUntil: 'newsletter_not_now_until',
+  };
+
+  // State management
+  let popupTimeout = null;
+
+  function showPopup() {
+    const popup = document.getElementById('subscription-popup');
+    if (popup) {
+      popup.setAttribute('data-state', 'visible');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  function hidePopup() {
+    const popup = document.getElementById('subscription-popup');
+    if (popup) {
+      popup.setAttribute('data-state', 'hidden');
+      document.body.style.overflow = '';
+    }
+  }
+
+  function shouldShowPopup() {
+    // Check if user has already subscribed
+    if (localStorage.getItem(STORAGE_KEYS.subscribed) === 'true') {
+      return false;
+    }
+
+    // Check if user clicked "Don't show again"
+    if (localStorage.getItem(STORAGE_KEYS.cancelled) === 'true') {
+      return false;
+    }
+
+    // Check if user clicked "Not now" and delay hasn't passed
+    const notNowUntil = localStorage.getItem(STORAGE_KEYS.notNowUntil);
+    if (notNowUntil) {
+      const notNowTime = parseInt(notNowUntil, 10);
+      if (Date.now() < notNowTime) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  async function getSubscriberStats() {
+    try {
+      const response = await fetch(`${CONFIG.apiUrl}/subscribers/stats`, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+        },
+      });
+      
+      if (!response.ok) {
+        return null;
+      }
+      
+      const data = await response.json();
+      return data.subscriber_count || null;
+    } catch (error) {
+      console.error('Failed to fetch subscriber stats:', error);
+      return null;
+    }
+  }
+
+  async function schedulePopup() {
+    if (!shouldShowPopup()) {
+      return;
+    }
+
+    // Fetch subscriber stats before scheduling popup
+    const subscriberCount = await getSubscriberStats();
+    if (subscriberCount === null) {
+      console.log('Failed to fetch subscriber stats, not showing subscription popup');
+      return;
+    }
+
+    // Update popup with subscriber count
+    updatePopupWithStats(subscriberCount);
+
+    // Show popup after grace period
+    popupTimeout = window.setTimeout(() => {
+      showPopup();
+    }, CONFIG.graceDelay);
+  }
+
+  function updatePopupWithStats(count) {
+    const descriptionEl = document.querySelector('.popup-description');
+    if (descriptionEl) {
+      const formattedCount = new Intl.NumberFormat('en-US').format(count);
+      descriptionEl.innerHTML = `Join a community of <strong>${formattedCount}+</strong> developers and engineers who are growing together. Get insights on:`;
+    }
+  }
+
+  async function handleSubscribe(event) {
+    event.preventDefault();
+    
+    const form = event.target;
+    const nameInput = form.querySelector('#subscriber-name');
+    const emailInput = form.querySelector('#subscriber-email');
+    const submitBtn = form.querySelector('#subscribe-btn');
+    const messageEl = document.getElementById('form-message');
+
+    const name = nameInput.value.trim();
+    const email = emailInput.value.trim();
+
+    if (!name || !email) {
+      if (messageEl) {
+        messageEl.textContent = 'Please fill in all fields.';
+        messageEl.className = 'form-message error';
+      }
+      return;
+    }
+
+    // Show loading state
+    submitBtn.classList.add('loading');
+    submitBtn.disabled = true;
+    if (messageEl) {
+      messageEl.textContent = '';
+      messageEl.className = 'form-message';
+    }
+
+    try {
+      const response = await fetch(`${CONFIG.apiUrl}/subscribe`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, email }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        localStorage.setItem(STORAGE_KEYS.subscribed, 'true');
+        
+        if (messageEl) {
+          messageEl.textContent = '🎉 Successfully subscribed! Thank you for joining us.';
+          messageEl.className = 'form-message success';
+        }
+
+        // Hide popup after 2 seconds
+        setTimeout(() => {
+          hidePopup();
+        }, 2000);
+      } else {
+        if (messageEl) {
+          messageEl.textContent = data.error || 'Subscription failed. Please try again.';
+          messageEl.className = 'form-message error';
+        }
+      }
+    } catch (error) {
+      console.error('Subscription error:', error);
+      if (messageEl) {
+        messageEl.textContent = 'Network error. Please check your connection and try again.';
+        messageEl.className = 'form-message error';
+      }
+    } finally {
+      submitBtn.classList.remove('loading');
+      submitBtn.disabled = false;
+    }
+  }
+
+  function handleNotNow() {
+    const notNowUntil = Date.now() + CONFIG.notNowDelay;
+    localStorage.setItem(STORAGE_KEYS.notNowUntil, notNowUntil.toString());
+    hidePopup();
+  }
+
+  function handleCancel() {
+    localStorage.setItem(STORAGE_KEYS.cancelled, 'true');
+    hidePopup();
+  }
+
+  // Initialize popup
+  document.addEventListener('DOMContentLoaded', () => {
+    const popup = document.getElementById('subscription-popup');
+    const autoTrigger = popup?.getAttribute('data-auto-trigger') === 'true';
+    
+    // Schedule popup to show after grace period only if autoTrigger is enabled
+    if (autoTrigger) {
+      schedulePopup();
+    }
+
+    // Event listeners
+    const form = document.getElementById('subscription-form');
+    const overlay = document.getElementById('popup-overlay');
+    const notNowBtn = document.getElementById('not-now-btn');
+    const cancelBtn = document.getElementById('cancel-btn');
+
+    if (form) {
+      form.addEventListener('submit', handleSubscribe);
+    }
+
+    if (overlay) {
+      overlay.addEventListener('click', handleNotNow);
+    }
+
+    if (notNowBtn) {
+      notNowBtn.addEventListener('click', handleNotNow);
+    }
+
+    if (cancelBtn) {
+      cancelBtn.addEventListener('click', handleCancel);
+    }
+
+    // Clean up on page unload
+    window.addEventListener('beforeunload', () => {
+      if (popupTimeout) {
+        clearTimeout(popupTimeout);
+      }
+    });
+  });
+</script> </body></html> 
