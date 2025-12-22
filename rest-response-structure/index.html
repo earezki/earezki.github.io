@@ -1,0 +1,575 @@
+<!DOCTYPE html><html lang="en" data-theme="dark"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Stop Sending Nulls in Your API Responses • Dev|Journal</title><meta name="description" content="If you've sat through backend architecture reviews, you've witnessed The Great Null Debate. Someone cleans up a JSON response. Someone else flags it as…"><meta name="keywords" content="API, REST, Performance, Backend"><meta name="author" content="El Mehdi Arezki"><meta property="og:type" content="website"><meta property="og:url" content="https://earezki.com/rest-response-structure/"><meta property="og:title" content="Stop Sending Nulls in Your API Responses • Dev|Journal"><meta property="og:site_name" content="Dev|Journal"><meta property="og:description" content="If you've sat through backend architecture reviews, you've witnessed The Great Null Debate. Someone cleans up a JSON response. Someone else flags it as…"><meta property="og:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:url" content="https://earezki.com/rest-response-structure/"><meta name="twitter:title" content="Stop Sending Nulls in Your API Responses • Dev|Journal"><meta name="twitter:description" content="If you've sat through backend architecture reviews, you've witnessed The Great Null Debate. Someone cleans up a JSON response. Someone else flags it as…"><meta name="twitter:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:creator" content="@earezki"><link rel="canonical" href="https://earezki.com/rest-response-structure/"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/x-icon" href="/favicon.ico"><link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"><link rel="dns-prefetch" href="https://cloud.umami.is"><script defer src="https://cloud.umami.is/script.js" data-website-id="4a26531d-1053-4f79-97a6-06a1366aff91"></script><script>
+      (function() {
+        const theme = localStorage.getItem('theme');
+        if (theme) document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script><script>
+!function(){const o=window.location.pathname;if("/"===o)return;if(/\.\w+$/.test(o))return;const n=o.toLowerCase(),i=n!==o,t=!o.endsWith("/");if(i||t){const o=n+(t?"/":""),i=window.location.origin+o+window.location.search+window.location.hash;window.location.replace(i)}}();
+</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Stop Sending Nulls in Your API Responses","description":"If you've sat through backend architecture reviews, you've witnessed The Great Null Debate. Someone cleans up a JSON response. Someone else flags it as…","image":"https://earezki.com/assets/og-image-default.jpg","datePublished":"2025-12-23T00:00:00.000Z","dateModified":"2025-12-23T00:00:00.000Z","author":{"@type":"Person","name":"El Mehdi Arezki","url":"https://earezki.com/about","jobTitle":"Lead Software Engineer","sameAs":["https://github.com/earezki","https://www.linkedin.com/in/mehdi-arezki"]},"publisher":{"@type":"Organization","name":"Dev|Journal","url":"https://earezki.com","logo":{"@type":"ImageObject","url":"https://earezki.com/assets/logo.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://earezki.com/rest-response-structure/"}}</script><link rel="stylesheet" href="/_astro/_slug_.B_eXuGWa.css">
+<link rel="stylesheet" href="/_astro/_slug_.CFj9bTVJ.css">
+<link rel="stylesheet" href="/_astro/_slug_.BuIxISHP.css"></head> <body> <div id="readingProgress" role="progressbar" aria-label="Reading progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="position:fixed;left:0;top:0;height:3px;background:linear-gradient(90deg,#2563eb,#9333ea);width:0;z-index:999;transition:width .15s ease;"></div> <script type="module">function c(){const t=document.getElementById("readingProgress");if(!t)return;const o=()=>{const e=document.documentElement,r=e.scrollTop||document.body.scrollTop,s=e.scrollHeight-e.clientHeight,n=s>0?r/s*100:0;t.style.width=`${n}%`,t.setAttribute("aria-valuenow",n.toFixed(0))};document.addEventListener("scroll",o,{passive:!0}),o()}c();</script> <header class="site-header container"> <div class="logo-wrap"> <a class="logo" href="/" aria-label="Dev|Journal Home">
+Dev|Journal
+</a> </div> <!-- Search Box in Header --> <div class="header-search" data-search-api-url="https://api.earezki.com/blog/api/q" data-search-timeout="2000"> <div class="search-box" id="search-box"> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon" aria-hidden="true"> <circle cx="11" cy="11" r="8"></circle> <path d="m21 21-4.35-4.35"></path> </svg> <input type="text" id="search-input" placeholder="Search ..." class="search-input" autocomplete="off" aria-label="Search articles" minlength="3"> <button id="clear-search" class="clear-button" style="display: none;" aria-label="Clear search"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <line x1="18" y1="6" x2="6" y2="18"></line> <line x1="6" y1="6" x2="18" y2="18"></line> </svg> </button> </div> <div id="search-results" class="search-results" role="status" aria-live="polite"></div> </div> <script type="module" src="/_astro/SearchBox.astro_astro_type_script_index_0_lang.BNnBPVSN.js"></script> <nav class="main-nav" aria-label="Main navigation"> <a href="/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path> <polyline points="9 22 9 12 15 12 15 22"></polyline> </svg>
+Home
+</a> <a href="/ai-news/" class="ai-news-link ai-gradient-nav"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h-9.5a.5.5 0 0 0-.5.5.5.5 0 0 1-1 0 .5.5 0 0 0-.5-.5H1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"></path> <path d="M7 15v4a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-4"></path> </svg>
+AI News
+</a> <a href="/ai-financial-news/" class="ai-financial-link ai-gradient-nav"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <line x1="12" y1="1" x2="12" y2="23"></line> <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path> </svg>
+AI Financial
+</a> <a href="/about/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <circle cx="12" cy="12" r="10"></circle> <path d="M12 16v-4"></path> <path d="M12 8h.01"></path> </svg>
+About
+</a> <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode"> <span class="theme-icon" aria-hidden="true">☾</span> </button> </nav> </header> <!-- Main Content --> <main class="container content-area">  <nav class="breadcrumbs" aria-label="Breadcrumb" data-astro-cid-ilhxcym7> <ol data-astro-cid-ilhxcym7> <li data-astro-cid-ilhxcym7>  <a href="/" data-astro-cid-ilhxcym7>Home</a> <span class="separator" aria-hidden="true" data-astro-cid-ilhxcym7>/</span>  </li><li data-astro-cid-ilhxcym7> <span class="current" aria-current="page" data-astro-cid-ilhxcym7>Stop Sending Nulls in Your API Responses</span> </li> <li data-astro-cid-ilhxcym7> <span class="new-badge-breadcrumb" data-astro-cid-ilhxcym7>NEW</span> </li> </ol> </nav>  <div class="post-layout" data-astro-cid-yvbahnfj> <aside class="sidebar-left" data-astro-cid-yvbahnfj> <nav class="toc" aria-label="Table of Contents" data-astro-cid-xvrfupwn> <div class="toc-title" data-astro-cid-xvrfupwn>On this page</div> <ul data-astro-cid-xvrfupwn> <li class="d-2" data-astro-cid-xvrfupwn> <a href="#bandwidth-is-money" data-astro-cid-xvrfupwn> Bandwidth Is Money </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#the-scenario" data-astro-cid-xvrfupwn> The Scenario </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#the-math" data-astro-cid-xvrfupwn> The Math </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#the-cost" data-astro-cid-xvrfupwn> The Cost </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#null-is-ambiguous" data-astro-cid-xvrfupwn> Null Is Ambiguous </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#sparse-representation" data-astro-cid-xvrfupwn> Sparse Representation </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#modern-clients-handle-absence-fine" data-astro-cid-xvrfupwn> Modern Clients Handle Absence Fine </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#implementation" data-astro-cid-xvrfupwn> Implementation </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#java-spring-boot-jackson" data-astro-cid-xvrfupwn> Java (Spring Boot / Jackson) </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#the-exception-patch-requests" data-astro-cid-xvrfupwn> The Exception: PATCH Requests </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#conclusion" data-astro-cid-xvrfupwn> Conclusion </a> </li> </ul> </nav>  </aside> <article class="post" data-astro-cid-yvbahnfj> <header class="post-header" data-astro-cid-yvbahnfj> <h1 data-astro-cid-yvbahnfj>Stop Sending Nulls in Your API Responses</h1> <div class="meta" data-astro-cid-yvbahnfj> <time datetime="2025-12-23T00:00:00.000Z" data-astro-cid-yvbahnfj>Tue Dec 23 2025</time> <span data-astro-cid-yvbahnfj>• 4 min read</span> </div> <div class="tag-row" data-astro-cid-yvbahnfj><a class="post-tag  " href="/tags/api/" data-astro-cid-yvbahnfj>API</a><a class="post-tag  " href="/tags/rest/" data-astro-cid-yvbahnfj>REST</a><a class="post-tag  " href="/tags/performance/" data-astro-cid-yvbahnfj>Performance</a><a class="post-tag  " href="/tags/backend/" data-astro-cid-yvbahnfj>Backend</a></div> </header> <div class="banner warning" role="alert"> <div class="banner-icon" aria-hidden="true">⚠️</div> <div class="banner-content"> <strong>This article is not yet published</strong> <p>Publishing tomorrow. This page is accessible but won't appear in post listings until the publication date.</p> </div> </div>  <div class="banner warning" role="alert" aria-live="polite"> <div class="banner-icon" aria-hidden="true">⚠️</div> <div class="banner-content"> <strong>Important Disclaimer:</strong> <p>These are my own opinions based on building APIs that handle real traffic. This is not an industry standard, not a spec, and not a hill I&#39;ll die on. Take what&#39;s useful. Ignore what isn&#39;t.</p> </div> </div>  <div class="post-body prose" data-astro-cid-yvbahnfj> <p>If you’ve sat through backend architecture reviews, you’ve witnessed The Great Null Debate. Someone cleans up a JSON response. Someone else flags it as breaking or bad practice. The argument starts.</p>
+<p>The debate centers on two tiny JSON values: <code>null</code> and empty arrays <code>[]</code>.</p>
+<p>Should your API explicitly state that a field exists but has no value (V1), or should it simply omit the field entirely (V2)?</p>
+<p><strong>V1: The Explicit Approach</strong></p>
+<pre class="language-json" data-language="json"><code is:raw="" class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"id"</span><span class="token operator">:</span> <span class="token string">"user_123"</span><span class="token punctuation">,</span>
+  <span class="token property">"name"</span><span class="token operator">:</span> <span class="token null keyword">null</span><span class="token punctuation">,</span>
+  <span class="token property">"email"</span><span class="token operator">:</span> <span class="token string">"test@example.com"</span><span class="token punctuation">,</span>
+  <span class="token property">"secondary_emails"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token property">"preferences"</span><span class="token operator">:</span> <span class="token null keyword">null</span>
+<span class="token punctuation">}</span>
+
+</code></pre>
+<p><strong>V2: The Sparse Approach</strong></p>
+<pre class="language-json" data-language="json"><code is:raw="" class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"id"</span><span class="token operator">:</span> <span class="token string">"user_123"</span><span class="token punctuation">,</span>
+  <span class="token property">"email"</span><span class="token operator">:</span> <span class="token string">"test@example.com"</span>
+<span class="token punctuation">}</span>
+
+</code></pre>
+<p>“Explicit is better than implicit” works for code logic. It fails for network transport.</p>
+<p>My stance: <strong>Omit null fields and empty collections.</strong> V2 wins.</p>
+<p>This is why, covering economics, semantics, and client reality.</p>
+<h2 id="bandwidth-is-money">Bandwidth Is Money</h2>
+<p>The strongest argument for sparse responses is cost. Not philosophy. Money.</p>
+<p>A few extra bytes in a small internal API? Irrelevant. A few extra bytes multiplied across millions of mobile users? That’s real money leaving your budget.</p>
+<h3 id="the-scenario">The Scenario</h3>
+<p>A social media platform. Feed API returns 20 posts. Each post has 10 fields that are usually <code>null</code> (<code>edited_at</code>, <code>location_tag</code>, <code>co_author</code>, <code>poll_data</code>) and 3 arrays that are usually empty (<code>tags</code>, <code>mentions</code>, <code>attachments</code>).</p>
+<p>A bloated post object (V1) might look like this:</p>
+<pre class="language-json" data-language="json"><code is:raw="" class="language-json"><span class="token comment">// ... inside the timeline list</span>
+<span class="token punctuation">{</span>
+  <span class="token property">"post_id"</span><span class="token operator">:</span> <span class="token string">"p_987"</span><span class="token punctuation">,</span>
+  <span class="token property">"content"</span><span class="token operator">:</span> <span class="token string">"Hello world!"</span><span class="token punctuation">,</span>
+  <span class="token property">"edited_at"</span><span class="token operator">:</span> <span class="token null keyword">null</span><span class="token punctuation">,</span>
+  <span class="token property">"location_tag"</span><span class="token operator">:</span> <span class="token null keyword">null</span><span class="token punctuation">,</span>
+  <span class="token property">"co_author"</span><span class="token operator">:</span> <span class="token null keyword">null</span><span class="token punctuation">,</span>
+  <span class="token comment">// ... 7 more null fields ...</span>
+  <span class="token property">"tags"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token property">"mentions"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token property">"attachments"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+
+</code></pre>
+<p>Roughly <strong>150 bytes</strong> of useless data per post. Field names plus <code>: null,</code> syntax.</p>
+<h3 id="the-math">The Math</h3>
+<ul>
+<li><strong>Waste per post:</strong> ~150 bytes</li>
+<li><strong>Posts per feed request:</strong> 20</li>
+<li><strong>Waste per request:</strong> 150 * 20 = 3,000 bytes (3KB)</li>
+</ul>
+<p>3KB per request sounds negligible. Scale it.</p>
+<ul>
+<li><strong>Daily Active Users:</strong> 10 million</li>
+<li><strong>Feed refreshes per user per day:</strong> 5</li>
+<li><strong>Total requests per day:</strong> 50 million</li>
+</ul>
+<p><strong>Daily waste:</strong>
+50,000,000 × 3KB = <strong>150GB of useless data</strong></p>
+<p><strong>Monthly waste:</strong>
+150GB × 30 = <strong>4,500GB (4.5TB)</strong></p>
+<h3 id="the-cost">The Cost</h3>
+<p>AWS charges for egress. Conservative estimate: $0.05/GB at volume.</p>
+<p>4,500GB × $0.05 = <strong>$225,000/month</strong></p>
+<p>Configure your serializer to omit nulls and save <strong>$2.7 million annually</strong>. Plus reduced CPU on servers serializing it and clients parsing it.</p>
+<p>This is not theoretical optimization. This is budget.</p>
+<h2 id="null-is-ambiguous">Null Is Ambiguous</h2>
+<p>Beyond cost, sending <code>null</code> creates semantic confusion.</p>
+<p>In a database, <code>NULL</code> has meaning. In JSON over HTTP, it’s ambiguous. If an API returns <code>"spouse_name": null</code>, what does that mean?</p>
+<ol>
+<li><strong>Not Applicable:</strong> The user is single.</li>
+<li><strong>Unknown:</strong> The user hasn’t provided this information yet.</li>
+<li><strong>Privacy/Security:</strong> The requestor doesn’t have permission to see this field.</li>
+<li><strong>Partial Response:</strong> The backend simply didn’t join the necessary table for this specific query to save performance.</li>
+</ol>
+<p>Sending <code>null</code> forces the client to guess intent.</p>
+<h3 id="sparse-representation">Sparse Representation</h3>
+<p>Omit the key entirely. The meaning becomes clearer: <em>For this request, this field does not exist.</em></p>
+<p>If the client needs to know why, they check documentation or query a different endpoint. JSON payloads are for data transport, not schema definition.</p>
+<h2 id="modern-clients-handle-absence-fine">Modern Clients Handle Absence Fine</h2>
+<p>Common objection: “But it helps frontend developers know what fields might exist so they don’t get undefined errors.”</p>
+<p>This argument expired years ago.</p>
+<p>TypeScript, Kotlin, Swift—modern languages handle missing data gracefully.</p>
+<p>If you send nulls (V1), the client code often looks like defensive soup:</p>
+<pre class="language-javascript" data-language="javascript"><code is:raw="" class="language-javascript"><span class="token comment">// The old way of handling V1 payloads</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span>user<span class="token punctuation">.</span>addresses <span class="token operator">&#x26;&#x26;</span> user<span class="token punctuation">.</span>addresses <span class="token operator">!==</span> <span class="token keyword">null</span> <span class="token operator">&#x26;&#x26;</span> user<span class="token punctuation">.</span>addresses<span class="token punctuation">.</span>length <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// iterate addresses</span>
+<span class="token punctuation">}</span>
+
+</code></pre>
+<p>If you omit keys (V2), modern clients use robust features like optional chaining:</p>
+<pre class="language-javascript" data-language="javascript"><code is:raw="" class="language-javascript"><span class="token comment">// The modern way of handling V2 payloads</span>
+user<span class="token punctuation">.</span>addresses<span class="token operator">?.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token parameter">addr</span> <span class="token operator">=></span> <span class="token punctuation">{</span> <span class="token operator">...</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+</code></pre>
+<p>If <code>addresses</code> is missing, the code doesn’t run. Cleaner. Safer. Relies on presence, not value.</p>
+<h2 id="implementation">Implementation</h2>
+<p>Sparse APIs are usually configuration, not code.</p>
+<h3 id="java-spring-boot--jackson">Java (Spring Boot / Jackson)</h3>
+<p>Jackson is Spring Boot’s default JSON library. Configure globally:</p>
+<pre class="language-yaml" data-language="yaml"><code is:raw="" class="language-yaml"><span class="token key atrule">spring</span><span class="token punctuation">:</span>
+  <span class="token key atrule">jackson</span><span class="token punctuation">:</span>
+    <span class="token key atrule">default-property-inclusion</span><span class="token punctuation">:</span> non_null
+
+</code></pre>
+<p>Or per-class if you want selective behavior:</p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token keyword">import</span> <span class="token import"><span class="token namespace">com<span class="token punctuation">.</span>fasterxml<span class="token punctuation">.</span>jackson<span class="token punctuation">.</span>annotation<span class="token punctuation">.</span></span><span class="token class-name">JsonInclude</span></span><span class="token punctuation">;</span>
+
+<span class="token annotation punctuation">@JsonInclude</span><span class="token punctuation">(</span><span class="token class-name">JsonInclude<span class="token punctuation">.</span>Include</span><span class="token punctuation">.</span><span class="token constant">NON_NULL</span><span class="token punctuation">)</span> <span class="token comment">// Or NON_EMPTY to catch empty lists too</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">UserDTO</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token class-name">String</span> id<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token class-name">String</span> name<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&#x3C;</span><span class="token class-name">String</span><span class="token punctuation">></span></span> addresses<span class="token punctuation">;</span>
+    <span class="token comment">// getters and setters</span>
+<span class="token punctuation">}</span>
+
+</code></pre>
+<h2 id="the-exception-patch-requests">The Exception: PATCH Requests</h2>
+<p>One scenario where <code>null</code> matters: <strong>input</strong> payloads for <code>PATCH</code> requests.</p>
+<p>GET retrieves state. PATCH modifies it.</p>
+<p>If a client wants to explicitly erase a field (delete a secondary email), sending <code>null</code> signals that intent.</p>
+<p><strong>PATCH Request (Client sending to Server):</strong></p>
+<pre class="language-json" data-language="json"><code is:raw="" class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"secondary_email"</span><span class="token operator">:</span> <span class="token null keyword">null</span>
+<span class="token punctuation">}</span>
+
+</code></pre>
+<p><code>null</code> means “set this to NULL in the database.” Omitting the key means “don’t change this field.”</p>
+<p>But the <strong>response</strong> from that PATCH should still omit nulls.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Explicitly listing every possible field feels “safe.” It’s outdated practice that costs money and complicates clients.</p>
+<p>Omit nulls and empty collections. APIs get faster, cheaper, cleaner. Bandwidth is finite. Respect it.</p> </div>    <section class="related-posts" data-astro-cid-dpgbfi7r> <h2 data-astro-cid-dpgbfi7r>Related Posts</h2> <div class="related-posts-grid" data-astro-cid-dpgbfi7r> <article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/rest-api-design/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>REST API Design: Beyond the Dogma</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>REST is not a protocol. It&#39;s not a standard. It&#39;s a set of architectural constraints that Roy Fielding described in his…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2025-12-22T00:00:00.000Z" data-astro-cid-dpgbfi7r> Dec 22, 2025 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>10 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/fastapi-full-guide/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>FastAPI in Production - Full Guide</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>FastAPI in Production - Full Guide 1. TL;DR - When FastAPI Wins and Loses FastAPI is genuinely excellent for: -…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2025-11-28T00:00:00.000Z" data-astro-cid-dpgbfi7r> Nov 28, 2025 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>45 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/python-sqlite-full-guide/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>Python and SQLite in the Real World</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>TL;DR – When to Use SQLite and When to Run Away SQLite is the most deployed database engine in the world, with billions…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2025-11-22T00:00:00.000Z" data-astro-cid-dpgbfi7r> Nov 22, 2025 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>23 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/ai-news/2025-12-19-i-built-a-29-mo-alternative-to-800-enterprise-social-listening-tools/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>Grok X Intelligence: A $29/mo Alternative to Enterprise Social Listening</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>The Problem with Alternatives Existing enterprise social listening tools are prohibitively expensive, with options like…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2025-12-19T00:00:00.000Z" data-astro-cid-dpgbfi7r> Dec 19, 2025 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>1 min read</span> </div> </a> </article> </div> </section>  </article> </div> <div class="back-link" data-astro-cid-yvbahnfj><a href="/" data-astro-cid-yvbahnfj>← Back to home</a></div>  </main> <!-- Site Footer --> <footer class="site-footer container"> <p>
+© 2025 AREZKI El Mehdi •
+<a href="https://github.com/earezki">GitHub</a> •
+<a href="/rss.xml">RSS</a> •
+<a href="/tags/">Tags</a> •
+<a href="/sitemap-index.xml">Sitemap</a> •
+<button id="footer-subscribe-btn" class="footer-subscribe-btn" aria-label="Subscribe to newsletter">
+📬 Subscribe
+</button> </p> </footer> <!-- Footer Subscribe Button Handler --> <script type="module">const e=document.getElementById("themeToggle"),o=n=>{if(!e)return;const t=e.querySelector(".theme-icon");t&&(t.textContent=n==="dark"?"☀":"☾")};if(e){const n=document.documentElement.getAttribute("data-theme")||"dark";o(n),e.addEventListener("click",()=>{const t=document.documentElement,c=t.getAttribute("data-theme")==="dark"?"light":"dark";t.setAttribute("data-theme",c),localStorage.setItem("theme",c),o(c)})}</script> <!-- Theme Toggle --> <script type="module">document.addEventListener("DOMContentLoaded",()=>{const e=document.getElementById("footer-subscribe-btn");e&&e.addEventListener("click",n=>{n.preventDefault();const t=document.getElementById("subscription-popup");t&&(t.setAttribute("data-state","visible"),document.body.style.overflow="hidden")})});</script> <!-- Article read/unread tracking --> <script>
+      (function() {
+        const KEY = 'readArticles';
+        
+        function getRead() {
+          try {
+            const d = localStorage.getItem(KEY);
+            return d ? JSON.parse(d) : [];
+          } catch (e) {
+            return [];
+          }
+        }
+        
+        function markRead(url) {
+          try {
+            const read = getRead();
+            if (!read.includes(url)) {
+              read.push(url);
+              localStorage.setItem(KEY, JSON.stringify(read));
+            }
+          } catch (e) {}
+        }
+        
+        function updateCards() {
+          const read = new Set(getRead());
+          const cards = document.querySelectorAll('.post-card[data-article-url]');
+          cards.forEach(function(card) {
+            const url = card.getAttribute('data-article-url');
+            if (!url) return;
+            const isRead = read.has(url);
+            card.classList.toggle('read', isRead);
+            card.classList.toggle('unread', !isRead);
+          });
+        }
+        
+        function markCurrent() {
+          if (document.querySelector('.post-body')) {
+            markRead(window.location.pathname);
+          }
+        }
+        
+        function init() {
+          updateCards();
+          markCurrent();
+        }
+        
+        function clearRead(url) {
+          try {
+            const read = new Set(getRead());
+            if (read.has(url)) {
+              read.delete(url);
+              localStorage.setItem(KEY, JSON.stringify(Array.from(read)));
+              updateCards();
+            }
+          } catch (e) {}
+        }
+        
+        window.clearReadArticle = clearRead;
+        document.addEventListener('DOMContentLoaded', init);
+        window.addEventListener('pageshow', function(e) {
+          if (e.persisted) init();
+        });
+      })();
+    </script> <!-- Clear read button handler --> <script>
+      (function() {
+        document.addEventListener('click', function(e) {
+          var tgt = e.target, btn = null;
+          while (tgt && tgt !== document) {
+            if (tgt.classList && tgt.classList.contains('clear-read-btn')) {
+              btn = tgt;
+              break;
+            }
+            tgt = tgt.parentNode;
+          }
+          if (!btn) return;
+          e.preventDefault();
+          e.stopPropagation();
+          var url = btn.getAttribute('data-article-url');
+          if (url && window.clearReadArticle) window.clearReadArticle(url);
+        });
+      })();
+    </script> <!-- External links open in new tab --> <script>
+      (function() {
+        function makeExternal() {
+          const domain = window.location.hostname;
+          const links = document.querySelectorAll('a[href]');
+          links.forEach(function(link) {
+            const href = link.getAttribute('href');
+            if (!href || link.hasAttribute('target')) return;
+            const isExt = (href.startsWith('http://') || href.startsWith('https://')) && !href.includes(domain);
+            if (isExt) {
+              link.setAttribute('target', '_blank');
+              link.setAttribute('rel', 'noopener noreferrer');
+            }
+          });
+        }
+        document.addEventListener('DOMContentLoaded', makeExternal);
+        if (window.MutationObserver) {
+          const obs = new MutationObserver(function(muts) {
+            muts.forEach(function(mut) {
+              if (mut.addedNodes.length) makeExternal();
+            });
+          });
+          obs.observe(document.body, { childList: true, subtree: true });
+        }
+      })();
+    </script> <!-- Code copy buttons --> <script>
+      (function() {
+        function createBtn() {
+          const btn = document.createElement('button');
+          btn.className = 'copy-code-button';
+          btn.setAttribute('aria-label', 'Copy code to clipboard');
+          btn.innerHTML = `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span>Copy</span>
+          `;
+          return btn;
+        }
+        
+        function checkIcon() {
+          return `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span>Copied!</span>
+          `;
+        }
+        
+        async function copyText(txt) {
+          try {
+            await navigator.clipboard.writeText(txt);
+            return true;
+          } catch (err) {
+            const ta = document.createElement('textarea');
+            ta.value = txt;
+            ta.style.position = 'fixed';
+            ta.style.left = '-999999px';
+            document.body.appendChild(ta);
+            ta.select();
+            try {
+              document.execCommand('copy');
+              document.body.removeChild(ta);
+              return true;
+            } catch (e) {
+              document.body.removeChild(ta);
+              return false;
+            }
+          }
+        }
+        
+        async function handleCopy(btn, code) {
+          const txt = code.textContent || '';
+          const ok = await copyText(txt);
+          if (ok) {
+            const orig = btn.innerHTML;
+            btn.classList.add('copied');
+            btn.innerHTML = checkIcon();
+            setTimeout(function() {
+              btn.classList.remove('copied');
+              btn.innerHTML = orig;
+            }, 2000);
+          }
+        }
+        
+        function addBtns() {
+          const blocks = document.querySelectorAll('.post-body pre');
+          blocks.forEach(function(pre) {
+            if (pre.querySelector('.copy-code-button')) return;
+            const btn = createBtn();
+            const code = pre.querySelector('code');
+            if (code) {
+              btn.addEventListener('click', function() {
+                handleCopy(btn, code);
+              });
+              pre.appendChild(btn);
+            }
+          });
+        }
+        
+        document.addEventListener('DOMContentLoaded', addBtns);
+      })();
+    </script> <!-- Newsletter Subscription Popup --> <div id="subscription-popup" class="subscription-popup" data-state="hidden" data-auto-trigger="true" data-astro-cid-we5gmdnp> <div class="popup-overlay" id="popup-overlay" data-astro-cid-we5gmdnp></div> <div class="popup-container" data-astro-cid-we5gmdnp> <div class="popup-content" data-astro-cid-we5gmdnp> <div class="popup-icon" data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-we5gmdnp> <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" data-astro-cid-we5gmdnp></path> <polyline points="22,6 12,13 2,6" data-astro-cid-we5gmdnp></polyline> </svg> </div> <h2 class="popup-title" data-astro-cid-we5gmdnp>Stay Updated with Dev|Journal</h2> <p class="popup-description" id="popup-description" data-astro-cid-we5gmdnp>
+Join our community of developers and engineers. Get insights on:
+</p> <ul class="popup-features" data-astro-cid-we5gmdnp> <li data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-we5gmdnp> <polyline points="20 6 9 17 4 12" data-astro-cid-we5gmdnp></polyline> </svg>
+Software Architecture & Design Patterns
+</li> <li data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-we5gmdnp> <polyline points="20 6 9 17 4 12" data-astro-cid-we5gmdnp></polyline> </svg>
+Backend Development Best Practices
+</li> <li data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-we5gmdnp> <polyline points="20 6 9 17 4 12" data-astro-cid-we5gmdnp></polyline> </svg>
+AI & Tech Industry Analysis
+</li> </ul> <form id="subscription-form" class="popup-form" data-astro-cid-we5gmdnp> <div class="form-group" data-astro-cid-we5gmdnp> <input type="text" id="subscriber-name" name="name" placeholder="Your name" required autocomplete="name" data-astro-cid-we5gmdnp> </div> <div class="form-group" data-astro-cid-we5gmdnp> <input type="email" id="subscriber-email" name="email" placeholder="your.email@example.com" required autocomplete="email" data-astro-cid-we5gmdnp> </div> <div id="form-message" class="form-message" data-astro-cid-we5gmdnp></div> <div class="popup-actions" data-astro-cid-we5gmdnp> <button type="submit" class="btn btn-primary" id="subscribe-btn" data-astro-cid-we5gmdnp> <span class="btn-text" data-astro-cid-we5gmdnp>Subscribe</span> <span class="btn-loader" data-astro-cid-we5gmdnp> <svg class="spinner" viewBox="0 0 24 24" data-astro-cid-we5gmdnp> <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" data-astro-cid-we5gmdnp></circle> </svg> </span> </button> <button type="button" class="btn btn-secondary" id="not-now-btn" data-astro-cid-we5gmdnp>Not Now</button> <button type="button" class="btn btn-text" id="cancel-btn" data-astro-cid-we5gmdnp>Don't Show Again</button> </div> </form> </div> </div> </div>  <script>
+  // Configuration
+  const CONFIG = {
+    graceDelay: 5000, // 5 seconds delay before showing popup
+    notNowDelay: 24 * 60 * 60 * 1000, // 1 day in milliseconds
+    apiUrl: 'https://api.earezki.com/blog/api',
+  };
+
+  const STORAGE_KEYS = {
+    subscribed: 'newsletter_subscribed',
+    cancelled: 'newsletter_cancelled',
+    notNowUntil: 'newsletter_not_now_until',
+  };
+
+  // State management
+  let popupTimeout = null;
+
+  function showPopup() {
+    const popup = document.getElementById('subscription-popup');
+    if (popup) {
+      popup.setAttribute('data-state', 'visible');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  function hidePopup() {
+    const popup = document.getElementById('subscription-popup');
+    if (popup) {
+      popup.setAttribute('data-state', 'hidden');
+      document.body.style.overflow = '';
+    }
+  }
+
+  function shouldShowPopup() {
+    // Check if user has already subscribed
+    if (localStorage.getItem(STORAGE_KEYS.subscribed) === 'true') {
+      return false;
+    }
+
+    // Check if user clicked "Don't show again"
+    if (localStorage.getItem(STORAGE_KEYS.cancelled) === 'true') {
+      return false;
+    }
+
+    // Check if user clicked "Not now" and delay hasn't passed
+    const notNowUntil = localStorage.getItem(STORAGE_KEYS.notNowUntil);
+    if (notNowUntil) {
+      const notNowTime = parseInt(notNowUntil, 10);
+      if (Date.now() < notNowTime) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  async function getSubscriberStats() {
+    try {
+      const response = await fetch(`${CONFIG.apiUrl}/subscribers/stats`, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+        },
+      });
+      
+      if (!response.ok) {
+        return null;
+      }
+      
+      const data = await response.json();
+      return data.subscriber_count || null;
+    } catch (error) {
+      console.error('Failed to fetch subscriber stats:', error);
+      return null;
+    }
+  }
+
+  async function schedulePopup() {
+    if (!shouldShowPopup()) {
+      return;
+    }
+
+    // Fetch subscriber stats before scheduling popup
+    const subscriberCount = await getSubscriberStats();
+    if (subscriberCount === null) {
+      console.log('Failed to fetch subscriber stats, not showing subscription popup');
+      return;
+    }
+
+    // Update popup with subscriber count
+    updatePopupWithStats(subscriberCount);
+
+    // Show popup after grace period
+    popupTimeout = window.setTimeout(() => {
+      showPopup();
+    }, CONFIG.graceDelay);
+  }
+
+  function updatePopupWithStats(count) {
+    const descriptionEl = document.querySelector('.popup-description');
+    if (descriptionEl) {
+      const formattedCount = new Intl.NumberFormat('en-US').format(count);
+      descriptionEl.innerHTML = `Join a community of <strong>${formattedCount}+</strong> developers and engineers who are growing together. Get insights on:`;
+    }
+  }
+
+  async function handleSubscribe(event) {
+    event.preventDefault();
+    
+    const form = event.target;
+    const nameInput = form.querySelector('#subscriber-name');
+    const emailInput = form.querySelector('#subscriber-email');
+    const submitBtn = form.querySelector('#subscribe-btn');
+    const messageEl = document.getElementById('form-message');
+
+    const name = nameInput.value.trim();
+    const email = emailInput.value.trim();
+
+    if (!name || !email) {
+      if (messageEl) {
+        messageEl.textContent = 'Please fill in all fields.';
+        messageEl.className = 'form-message error';
+      }
+      return;
+    }
+
+    // Show loading state
+    submitBtn.classList.add('loading');
+    submitBtn.disabled = true;
+    if (messageEl) {
+      messageEl.textContent = '';
+      messageEl.className = 'form-message';
+    }
+
+    try {
+      const response = await fetch(`${CONFIG.apiUrl}/subscribe`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, email }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        localStorage.setItem(STORAGE_KEYS.subscribed, 'true');
+        
+        if (messageEl) {
+          messageEl.textContent = '🎉 Successfully subscribed! Thank you for joining us.';
+          messageEl.className = 'form-message success';
+        }
+
+        // Hide popup after 2 seconds
+        setTimeout(() => {
+          hidePopup();
+        }, 2000);
+      } else {
+        if (messageEl) {
+          messageEl.textContent = data.error || 'Subscription failed. Please try again.';
+          messageEl.className = 'form-message error';
+        }
+      }
+    } catch (error) {
+      console.error('Subscription error:', error);
+      if (messageEl) {
+        messageEl.textContent = 'Network error. Please check your connection and try again.';
+        messageEl.className = 'form-message error';
+      }
+    } finally {
+      submitBtn.classList.remove('loading');
+      submitBtn.disabled = false;
+    }
+  }
+
+  function handleNotNow() {
+    const notNowUntil = Date.now() + CONFIG.notNowDelay;
+    localStorage.setItem(STORAGE_KEYS.notNowUntil, notNowUntil.toString());
+    hidePopup();
+  }
+
+  function handleCancel() {
+    localStorage.setItem(STORAGE_KEYS.cancelled, 'true');
+    hidePopup();
+  }
+
+  // Initialize popup
+  document.addEventListener('DOMContentLoaded', () => {
+    const popup = document.getElementById('subscription-popup');
+    const autoTrigger = popup?.getAttribute('data-auto-trigger') === 'true';
+    
+    // Schedule popup to show after grace period only if autoTrigger is enabled
+    if (autoTrigger) {
+      schedulePopup();
+    }
+
+    // Event listeners
+    const form = document.getElementById('subscription-form');
+    const overlay = document.getElementById('popup-overlay');
+    const notNowBtn = document.getElementById('not-now-btn');
+    const cancelBtn = document.getElementById('cancel-btn');
+
+    if (form) {
+      form.addEventListener('submit', handleSubscribe);
+    }
+
+    if (overlay) {
+      overlay.addEventListener('click', handleNotNow);
+    }
+
+    if (notNowBtn) {
+      notNowBtn.addEventListener('click', handleNotNow);
+    }
+
+    if (cancelBtn) {
+      cancelBtn.addEventListener('click', handleCancel);
+    }
+
+    // Clean up on page unload
+    window.addEventListener('beforeunload', () => {
+      if (popupTimeout) {
+        clearTimeout(popupTimeout);
+      }
+    });
+  });
+</script> </body></html> 

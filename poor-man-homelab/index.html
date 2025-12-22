@@ -1,0 +1,706 @@
+<!DOCTYPE html><html lang="en" data-theme="dark"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>The Poor Man&#39;s Homelab • Dev|Journal</title><meta name="description" content="I run everything from a closet. One NAS, one server, one switch. No cloud bills. No orchestration platform that needs orchestrating. No vendor telling me how…"><meta name="keywords" content="Homelab, Docker, Networking, Infrastructure"><meta name="author" content="El Mehdi Arezki"><meta property="og:type" content="website"><meta property="og:url" content="https://earezki.com/poor-man-homelab/"><meta property="og:title" content="The Poor Man's Homelab • Dev|Journal"><meta property="og:site_name" content="Dev|Journal"><meta property="og:description" content="I run everything from a closet. One NAS, one server, one switch. No cloud bills. No orchestration platform that needs orchestrating. No vendor telling me how…"><meta property="og:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:url" content="https://earezki.com/poor-man-homelab/"><meta name="twitter:title" content="The Poor Man's Homelab • Dev|Journal"><meta name="twitter:description" content="I run everything from a closet. One NAS, one server, one switch. No cloud bills. No orchestration platform that needs orchestrating. No vendor telling me how…"><meta name="twitter:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:creator" content="@earezki"><link rel="canonical" href="https://earezki.com/poor-man-homelab/"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/x-icon" href="/favicon.ico"><link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"><link rel="dns-prefetch" href="https://cloud.umami.is"><script defer src="https://cloud.umami.is/script.js" data-website-id="4a26531d-1053-4f79-97a6-06a1366aff91"></script><script>
+      (function() {
+        const theme = localStorage.getItem('theme');
+        if (theme) document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script><script>
+!function(){const o=window.location.pathname;if("/"===o)return;if(/\.\w+$/.test(o))return;const n=o.toLowerCase(),i=n!==o,t=!o.endsWith("/");if(i||t){const o=n+(t?"/":""),i=window.location.origin+o+window.location.search+window.location.hash;window.location.replace(i)}}();
+</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"The Poor Man's Homelab","description":"I run everything from a closet. One NAS, one server, one switch. No cloud bills. No orchestration platform that needs orchestrating. No vendor telling me how…","image":"https://earezki.com/assets/og-image-default.jpg","datePublished":"2025-12-21T00:00:00.000Z","dateModified":"2025-12-21T00:00:00.000Z","author":{"@type":"Person","name":"El Mehdi Arezki","url":"https://earezki.com/about","jobTitle":"Lead Software Engineer","sameAs":["https://github.com/earezki","https://www.linkedin.com/in/mehdi-arezki"]},"publisher":{"@type":"Organization","name":"Dev|Journal","url":"https://earezki.com","logo":{"@type":"ImageObject","url":"https://earezki.com/assets/logo.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://earezki.com/poor-man-homelab/"}}</script><link rel="stylesheet" href="/_astro/_slug_.B_eXuGWa.css">
+<link rel="stylesheet" href="/_astro/_slug_.CFj9bTVJ.css">
+<link rel="stylesheet" href="/_astro/_slug_.BuIxISHP.css"></head> <body> <div id="readingProgress" role="progressbar" aria-label="Reading progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="position:fixed;left:0;top:0;height:3px;background:linear-gradient(90deg,#2563eb,#9333ea);width:0;z-index:999;transition:width .15s ease;"></div> <script type="module">function c(){const t=document.getElementById("readingProgress");if(!t)return;const o=()=>{const e=document.documentElement,r=e.scrollTop||document.body.scrollTop,s=e.scrollHeight-e.clientHeight,n=s>0?r/s*100:0;t.style.width=`${n}%`,t.setAttribute("aria-valuenow",n.toFixed(0))};document.addEventListener("scroll",o,{passive:!0}),o()}c();</script> <header class="site-header container"> <div class="logo-wrap"> <a class="logo" href="/" aria-label="Dev|Journal Home">
+Dev|Journal
+</a> </div> <!-- Search Box in Header --> <div class="header-search" data-search-api-url="https://api.earezki.com/blog/api/q" data-search-timeout="2000"> <div class="search-box" id="search-box"> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon" aria-hidden="true"> <circle cx="11" cy="11" r="8"></circle> <path d="m21 21-4.35-4.35"></path> </svg> <input type="text" id="search-input" placeholder="Search ..." class="search-input" autocomplete="off" aria-label="Search articles" minlength="3"> <button id="clear-search" class="clear-button" style="display: none;" aria-label="Clear search"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <line x1="18" y1="6" x2="6" y2="18"></line> <line x1="6" y1="6" x2="18" y2="18"></line> </svg> </button> </div> <div id="search-results" class="search-results" role="status" aria-live="polite"></div> </div> <script type="module" src="/_astro/SearchBox.astro_astro_type_script_index_0_lang.BNnBPVSN.js"></script> <nav class="main-nav" aria-label="Main navigation"> <a href="/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path> <polyline points="9 22 9 12 15 12 15 22"></polyline> </svg>
+Home
+</a> <a href="/ai-news/" class="ai-news-link ai-gradient-nav"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h-9.5a.5.5 0 0 0-.5.5.5.5 0 0 1-1 0 .5.5 0 0 0-.5-.5H1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"></path> <path d="M7 15v4a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-4"></path> </svg>
+AI News
+</a> <a href="/ai-financial-news/" class="ai-financial-link ai-gradient-nav"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <line x1="12" y1="1" x2="12" y2="23"></line> <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path> </svg>
+AI Financial
+</a> <a href="/about/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <circle cx="12" cy="12" r="10"></circle> <path d="M12 16v-4"></path> <path d="M12 8h.01"></path> </svg>
+About
+</a> <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode"> <span class="theme-icon" aria-hidden="true">☾</span> </button> </nav> </header> <!-- Main Content --> <main class="container content-area">  <nav class="breadcrumbs" aria-label="Breadcrumb" data-astro-cid-ilhxcym7> <ol data-astro-cid-ilhxcym7> <li data-astro-cid-ilhxcym7>  <a href="/" data-astro-cid-ilhxcym7>Home</a> <span class="separator" aria-hidden="true" data-astro-cid-ilhxcym7>/</span>  </li><li data-astro-cid-ilhxcym7> <span class="current" aria-current="page" data-astro-cid-ilhxcym7>The Poor Man&#39;s Homelab</span> </li>  </ol> </nav>  <div class="post-layout" data-astro-cid-yvbahnfj> <aside class="sidebar-left" data-astro-cid-yvbahnfj> <nav class="toc" aria-label="Table of Contents" data-astro-cid-xvrfupwn> <div class="toc-title" data-astro-cid-xvrfupwn>On this page</div> <ul data-astro-cid-xvrfupwn> <li class="d-2" data-astro-cid-xvrfupwn> <a href="#the-economics" data-astro-cid-xvrfupwn> The Economics </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#the-hardware" data-astro-cid-xvrfupwn> The Hardware </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#the-split" data-astro-cid-xvrfupwn> The Split </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#docker-compose" data-astro-cid-xvrfupwn> Docker Compose </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#traefik" data-astro-cid-xvrfupwn> Traefik </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#deployment-workflow" data-astro-cid-xvrfupwn> Deployment Workflow </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#tunnels-and-exposure" data-astro-cid-xvrfupwn> Tunnels and Exposure </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#the-vps-strategy" data-astro-cid-xvrfupwn> The VPS Strategy </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#firewalling" data-astro-cid-xvrfupwn> Firewalling </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#cloudflare" data-astro-cid-xvrfupwn> Cloudflare </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#services" data-astro-cid-xvrfupwn> Services </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#backups" data-astro-cid-xvrfupwn> Backups </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#what-gets-backed-up" data-astro-cid-xvrfupwn> What Gets Backed Up </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#encryption-and-retention" data-astro-cid-xvrfupwn> Encryption and Retention </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#failure-scenarios" data-astro-cid-xvrfupwn> Failure Scenarios </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#hardware-reality" data-astro-cid-xvrfupwn> Hardware Reality </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#where-this-breaks" data-astro-cid-xvrfupwn> Where This Breaks </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#performance-myths" data-astro-cid-xvrfupwn> Performance Myths </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#monitoring" data-astro-cid-xvrfupwn> Monitoring </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#what-this-is-not" data-astro-cid-xvrfupwn> What This Is Not </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#why-this-works" data-astro-cid-xvrfupwn> Why This Works </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#what-breaks" data-astro-cid-xvrfupwn> What Breaks </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#what-id-change" data-astro-cid-xvrfupwn> What I&#39;d Change </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#why-not-the-cloud" data-astro-cid-xvrfupwn> Why Not the Cloud </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#what-this-is" data-astro-cid-xvrfupwn> What This Is </a> </li> </ul> </nav>  </aside> <article class="post" data-astro-cid-yvbahnfj> <header class="post-header" data-astro-cid-yvbahnfj> <h1 data-astro-cid-yvbahnfj>The Poor Man&#39;s Homelab</h1> <div class="meta" data-astro-cid-yvbahnfj> <time datetime="2025-12-21T00:00:00.000Z" data-astro-cid-yvbahnfj>Sun Dec 21 2025</time> <span data-astro-cid-yvbahnfj>• 13 min read</span> </div> <div class="tag-row" data-astro-cid-yvbahnfj><a class="post-tag  " href="/tags/homelab/" data-astro-cid-yvbahnfj>Homelab</a><a class="post-tag  " href="/tags/docker/" data-astro-cid-yvbahnfj>Docker</a><a class="post-tag  " href="/tags/networking/" data-astro-cid-yvbahnfj>Networking</a><a class="post-tag  " href="/tags/infrastructure/" data-astro-cid-yvbahnfj>Infrastructure</a></div> </header>     <div class="post-body prose" data-astro-cid-yvbahnfj> <p>I run everything from a closet. One NAS, one server, one switch. No cloud bills. No orchestration platform that needs orchestrating. No vendor telling me how to structure my services.</p>
+<p>This is not a tutorial. This is a report from the field.</p>
+<h2 id="the-economics">The Economics</h2>
+<p>The server pulls about 25W idle, 45W under load. The NAS pulls 15W most of the time. Call it 30W average across both machines.</p>
+<p>30W × 24 hours × 365 days = 262.8 kWh per year.</p>
+<p>At €0.20/kWh (France average), that’s €53 annually. Add another €10 for the switch and peripherals. Round it to €63/year for electricity.</p>
+<p>Hardware cost: €350 for the server (used), €400 for the NAS (motherboard, CPU, RAM, case), €120 for the switch, €400 for drives. Total: €1270 upfront.</p>
+<p>Amortize that over five years because hardware doesn’t die on schedule. €254/year. Add electricity. €317/year total cost.</p>
+<p>Now compare that to running equivalent services in the cloud.</p>
+<p>A modest VPS with 4GB RAM and 100GB storage runs €20-40/month depending on provider. That’s bare minimum. You’re not running PostgreSQL, Valkey, file storage, photo management, and document scanning on that. Scale it properly and you’re looking at €80-120/month for compute alone.</p>
+<p>Add managed PostgreSQL: €15-50/month depending on size and provider.
+Add object storage for photos and documents: €5-20/month depending on volume.
+Add bandwidth charges for accessing your own data: easily €10-30/month if you actually use your services.</p>
+<p>Conservative estimate: €110/month. €1320/year.</p>
+<p>My homelab: €317/year.</p>
+<p>The cloud costs 4× more per year. And that’s before considering that cloud pricing is sticky upward and hardware prices are one-time.</p>
+<p>This math doesn’t include the VPS I rent for €4/month to run frps for remote and WireGuard access. Add that if you want. It doesn’t change the conclusion.</p>
+<p>The cloud makes sense when you have variable load, need geographic distribution, or don’t want to think about hardware. I have consistent load, single-region needs, and hardware doesn’t bother me. The economics are obvious.</p>
+<h2 id="the-hardware">The Hardware</h2>
+<p>Server: Intel i5-9500T, six cores, 16GB RAM. Low TDP, decent single-thread, cheap used. Runs Debian. Bought it for €350 because the previous owner upgraded.</p>
+<p>NAS: Intel N100, four cores, 8GB RAM, two HDD bays, two NVMe slots. Purpose-built low-power board. Runs Open Media Vault. Cost €400 for the board, CPU, RAM, and case. Add drives separately.</p>
+<p>Switch: Basic managed switch with VLAN support. €120. Nothing fancy.</p>
+<p>This is deliberately unimpressive hardware. High-end would cost more and sit idle. Low-end would struggle. This is the correct amount of hardware for me.</p>
+<p>The server handles compute. APIs, Traefik, Valkey, monitoring, background jobs. The NAS handles storage and databases. PostgreSQL runs on NVMe with DRAM cache. Fast enough for anything I throw at it until I throw something genuinely demanding at it.</p>
+<h2 id="the-split">The Split</h2>
+<p>Separating compute and storage is not dogma. It’s practical.</p>
+<p>The server crashes? Data persists on the NAS. The NAS reboots for updates? Services keep running, just without database access until it’s back. This is not high availability. This is basic fault isolation.</p>
+<p>PostgreSQL lives on the NAS because that’s where the fast storage is. NVMe with DRAM cache. Valkey runs on the server for low-latency access. Network latency over a dedicated VLAN is negligible for my usecase.</p>
+<p>Application state lives in the database. User uploads live in datasets on the NAS. Container state lives nowhere because containers are ephemeral. This separation makes backups straightforward and restores possible.</p>
+<h2 id="docker-compose">Docker Compose</h2>
+<p>Kubernetes is for problems I don’t have.</p>
+<p>Every service is a compose file. Traefik, APIs, workers, monitoring. Start with <code>docker compose up -d</code>. Stop with <code>docker compose down</code>. Update with <code>git pull &#x26;&#x26; docker compose up -d --build</code>.</p>
+<pre class="language-yaml" data-language="yaml"><code is:raw="" class="language-yaml"><span class="token key atrule">services</span><span class="token punctuation">:</span>
+  <span class="token key atrule">api</span><span class="token punctuation">:</span>
+    <span class="token key atrule">build</span><span class="token punctuation">:</span> .
+    <span class="token key atrule">restart</span><span class="token punctuation">:</span> unless<span class="token punctuation">-</span>stopped
+    <span class="token key atrule">environment</span><span class="token punctuation">:</span>
+      <span class="token key atrule">DATABASE_URL</span><span class="token punctuation">:</span> postgresql<span class="token punctuation">:</span>//nas.internal<span class="token punctuation">:</span>5432/app
+      <span class="token key atrule">VALKEY_URL</span><span class="token punctuation">:</span> valkey<span class="token punctuation">:</span>//localhost<span class="token punctuation">:</span><span class="token number">6379</span>
+    <span class="token key atrule">labels</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token string">"traefik.enable=true"</span>
+      <span class="token punctuation">-</span> <span class="token string">"traefik.http.routers.api.rule=Host(`api.example.com`)"</span>
+      <span class="token punctuation">-</span> <span class="token string">"traefik.http.routers.api.entrypoints=websecure"</span>
+      <span class="token punctuation">-</span> <span class="token string">"traefik.http.routers.api.tls.certresolver=cloudflare"</span>
+    <span class="token key atrule">networks</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> web
+      <span class="token punctuation">-</span> backend
+</code></pre>
+<p>No Helm. No operators. No custom resources. A container, environment variables, and labels that tell Traefik how to route traffic.</p>
+<p>This scales by running more containers. It load balances through Traefik. It monitors through whatever you can fit in a compose file. Prometheus works. So does a cron job that curls endpoints and emails you if they’re down.</p>
+<h2 id="traefik">Traefik</h2>
+<p>Traefik runs on the server. Handles everything inbound. TLS termination, routing, rate limiting, fail2ban for brute-force protection. Discovers services through Docker labels.</p>
+<p>Add a container with the right labels and it goes live. Remove the container and it’s gone. Configuration is static YAML for the core, dynamic labels for services.</p>
+<h2 id="deployment-workflow">Deployment Workflow</h2>
+<p>Personal projects build through Gitea Actions. Code pushed to local Gitea repository triggers workers that build containers. Watchtower monitors for new images and restarts services automatically. No manual deploys. Push to main, wait two minutes, service updates.</p>
+<p>This is CI/CD without the enterprise overhead. Local repository. Local runners. Local registry. Fast feedback loop.</p>
+<pre class="language-yaml" data-language="yaml"><code is:raw="" class="language-yaml"><span class="token key atrule">services</span><span class="token punctuation">:</span>
+  <span class="token key atrule">traefik</span><span class="token punctuation">:</span>
+    <span class="token key atrule">image</span><span class="token punctuation">:</span> traefik<span class="token punctuation">:</span>latest
+    <span class="token key atrule">restart</span><span class="token punctuation">:</span> unless<span class="token punctuation">-</span>stopped
+    <span class="token key atrule">ports</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token string">"80:80"</span>
+      <span class="token punctuation">-</span> <span class="token string">"443:443"</span>
+    <span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> /var/run/docker.sock<span class="token punctuation">:</span>/var/run/docker.sock<span class="token punctuation">:</span>ro
+      <span class="token punctuation">-</span> ./traefik.yml<span class="token punctuation">:</span>/traefik.yml<span class="token punctuation">:</span>ro
+      <span class="token punctuation">-</span> ./acme.json<span class="token punctuation">:</span>/acme.json
+    <span class="token key atrule">networks</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> web
+</code></pre>
+<p>Let’s Encrypt certificates via DNS challenge through Cloudflare. Renews automatically. HTTP redirects to HTTPS automatically. This is infrastructure that doesn’t need attention.</p>
+<p>Traefik also forwards to NAS services. Paperless, Immich, Gitea, they run on the NAS but Traefik on the server is the entry point. One reverse proxy. One TLS endpoint. One place to check logs when something breaks.</p>
+<pre class="language-yaml" data-language="yaml"><code is:raw="" class="language-yaml"><span class="token comment"># Static route to NAS service</span>
+<span class="token key atrule">http</span><span class="token punctuation">:</span>
+  <span class="token key atrule">routers</span><span class="token punctuation">:</span>
+    <span class="token key atrule">paperless</span><span class="token punctuation">:</span>
+      <span class="token key atrule">rule</span><span class="token punctuation">:</span> <span class="token string">"Host(`docs.internal.example.com`)"</span>
+      <span class="token key atrule">service</span><span class="token punctuation">:</span> paperless<span class="token punctuation">-</span>svc
+      <span class="token key atrule">tls</span><span class="token punctuation">:</span>
+        <span class="token key atrule">certResolver</span><span class="token punctuation">:</span> cloudflare
+  <span class="token key atrule">services</span><span class="token punctuation">:</span>
+    <span class="token key atrule">paperless-svc</span><span class="token punctuation">:</span>
+      <span class="token key atrule">loadBalancer</span><span class="token punctuation">:</span>
+        <span class="token key atrule">servers</span><span class="token punctuation">:</span>
+          <span class="token punctuation">-</span> <span class="token key atrule">url</span><span class="token punctuation">:</span> <span class="token string">"http://nas.internal:8000"</span>
+</code></pre>
+<h2 id="tunnels-and-exposure">Tunnels and Exposure</h2>
+<p>Nothing faces the internet directly. Everything behind NAT.</p>
+<p>Public APIs use cloudflared tunnels. Cloudflare’s edge terminates TLS, handles DDoS, caches GET requests. The tunnel connects outbound from my network to Cloudflare. No port forwarding. No exposed ports. No one knows my home IP.</p>
+<pre class="language-yaml" data-language="yaml"><code is:raw="" class="language-yaml"><span class="token key atrule">services</span><span class="token punctuation">:</span>
+  <span class="token key atrule">cloudflared</span><span class="token punctuation">:</span>
+    <span class="token key atrule">image</span><span class="token punctuation">:</span> cloudflare/cloudflared<span class="token punctuation">:</span>latest
+    <span class="token key atrule">restart</span><span class="token punctuation">:</span> unless<span class="token punctuation">-</span>stopped
+    <span class="token key atrule">command</span><span class="token punctuation">:</span> tunnel <span class="token punctuation">-</span><span class="token punctuation">-</span>no<span class="token punctuation">-</span>autoupdate run
+    <span class="token key atrule">environment</span><span class="token punctuation">:</span>
+      <span class="token key atrule">TUNNEL_TOKEN</span><span class="token punctuation">:</span> $<span class="token punctuation">{</span>TUNNEL_TOKEN<span class="token punctuation">}</span>
+    <span class="token key atrule">networks</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> web
+</code></pre>
+<p>Traffic flows: Internet → Cloudflare edge → tunnel → Traefik → service. Cloudflare caches aggressively. Responses are fast. Origin traffic is low. This is what edge infrastructure is for.</p>
+<p>Personal services, Kavita, Paperless, Immich, Syncthing, don’t need public access. They go through WireGuard. Encrypted point-to-point from my phone or laptop to the homelab.</p>
+<p>But WireGuard needs a public endpoint. That’s the VPS.</p>
+<h2 id="the-vps-strategy">The VPS Strategy</h2>
+<p>A €4/month VPS running frps. That’s it. No services, no data, just a proxy daemon.</p>
+<p>The VPS has a public IP. My home network runs frpc (the client). It connects outbound to the VPS. WireGuard listens on the home server but is accessible through the VPS.</p>
+<pre class="language-plaintext" data-language="plaintext"><code is:raw="" class="language-plaintext">[My Phone] → [VPS:51820] → [frps] → [frpc] → [Home Server:51820] → [WireGuard]
+</code></pre>
+<p>Once WireGuard connects, I’m on the home network. Traefik routes traffic. Services are accessible. The VPS knows nothing about the services. It’s a dumb pipe with a public IP.</p>
+<p>If the VPS dies, spin up another one, update DNS, done. Five minutes.</p>
+<h2 id="firewalling">Firewalling</h2>
+<p>UFW on both machines. Default deny. Explicit allows.</p>
+<pre class="language-bash" data-language="bash"><code is:raw="" class="language-bash"><span class="token comment"># Server</span>
+ufw default deny incoming
+ufw default allow outgoing
+ufw allow from <span class="token number">192.168</span>.10.0/24 to any port <span class="token number">22</span>
+ufw allow from <span class="token number">192.168</span>.10.0/24 to any port <span class="token number">80</span>
+ufw allow from <span class="token number">192.168</span>.10.0/24 to any port <span class="token number">443</span>
+ufw allow <span class="token number">51820</span>/udp
+ufw <span class="token builtin class-name">enable</span>
+</code></pre>
+<p>The NAS is more restrictive. Only the server and my workstation can reach it. No internet-facing services. No exceptions.</p>
+<p>Docker bypasses UFW because it writes its own iptables rules. This is annoying. The fix: bind services to localhost or specific interfaces.</p>
+<pre class="language-yaml" data-language="yaml"><code is:raw="" class="language-yaml"><span class="token key atrule">ports</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token string">"127.0.0.1:5432:5432"</span>
+</code></pre>
+<p>Now PostgreSQL is accessible only from localhost or through Docker networks. Not from the broader network.</p>
+<h2 id="cloudflare">Cloudflare</h2>
+<p>Cloudflare does four things:</p>
+<ol>
+<li>DNS: Fast, free, API-accessible.</li>
+<li>Edge caching: GET requests cached close to users.</li>
+<li>DDoS protection: Someone hammers my API, Cloudflare absorbs it.</li>
+<li>TLS: Let’s Encrypt via DNS challenge.</li>
+</ol>
+<p>The free tier covers all of this. I’m not paying Cloudflare. Cloudflare isn’t paying me. This is just pragmatic use of available infrastructure.</p>
+<p>Cloudflare sees all traffic to public APIs. That’s the trade-off. If that bothers you, run your own edge. It doesn’t bother me enough to justify the complexity.</p>
+<h2 id="services">Services</h2>
+<p>Server runs:</p>
+<ul>
+<li>Traefik</li>
+<li>Valkey</li>
+<li>cloudflared</li>
+<li>frpc</li>
+<li>Public APIs</li>
+<li>Background workers</li>
+<li>Monitoring (Prometheus, Grafana, Uptime Kuma)</li>
+<li>Watchtower (automated container updates)</li>
+<li>Gitea Actions runners</li>
+</ul>
+<p>NAS runs:</p>
+<ul>
+<li>PostgreSQL</li>
+<li>Paperless-ngx</li>
+<li>Immich</li>
+<li>Gitea</li>
+<li>Kavita</li>
+<li>Syncthing</li>
+<li>Automated backups</li>
+</ul>
+<p>Each service isolated. Each can fail, restart, or update independently. This is the correct granularity for infrastructure you maintain alone.</p>
+<h2 id="backups">Backups</h2>
+<p>Backups are not negotiable. They’re the first thing you set up, not the last.</p>
+<p>Two backup targets because one size does not fit all data.</p>
+<p><strong>S3 Glacier</strong>: Photos and media. Large files. Rarely accessed. Cheap storage, expensive retrieval, slow restores. Glacier charges $0.0036/GB/month for storage. Retrieval takes 3-5 hours for standard, 12 hours for bulk. This is acceptable for data I hope to never need but absolutely will need eventually.</p>
+<p><strong>Backblaze B2</strong>: Databases and configuration. Small files. Frequent changes. Fast retrieval. $0.005/GB/month for storage. Download your data and you’re done. No waiting. This is what you use when you need your database backup now, not in four hours.</p>
+<p>The split is deliberate. Photos from 2019? Wait for Glacier. PostgreSQL dump from last night? Backblaze has it ready.</p>
+<h3 id="what-gets-backed-up">What Gets Backed Up</h3>
+<p><strong>Daily</strong>:</p>
+<ul>
+<li>PostgreSQL dumps (compressed, encrypted)</li>
+<li>Application config directories</li>
+<li>Docker Compose files</li>
+<li>Traefik config and certificates</li>
+</ul>
+<p><strong>Weekly</strong>:</p>
+<ul>
+<li>Photos and uploads (incremental)</li>
+<li>Gitea repositories</li>
+<li>Paperless documents</li>
+</ul>
+<p><strong>Never</strong>:</p>
+<ul>
+<li>Containers (rebuild from compose files)</li>
+<li>Caches (Redis, application caches)</li>
+<li>Logs older than 30 days</li>
+<li>System packages</li>
+<li>Media downloaded from external sources</li>
+</ul>
+<p>If I can recreate it in under an hour, I don’t back it up. Storage and bandwidth cost money. Spend them on irreplaceable data.</p>
+<h3 id="encryption-and-retention">Encryption and Retention</h3>
+<p>Everything encrypted before leaving the network. restic handles encryption and deduplication. GPG key on a Yubikey, backup copy on paper in a safe.</p>
+<p>Retention:</p>
+<ul>
+<li>Daily: keep 7</li>
+<li>Weekly: keep 4</li>
+<li>Monthly: keep 12</li>
+<li>Yearly: keep indefinitely</li>
+</ul>
+<p>This gives me a week of daily history, a month of weekly snapshots, a year of monthly snapshots, and long-term yearly archives. Enough to recover from mistakes. Not so much that I’m paying to store redundant backups.</p>
+<h3 id="failure-scenarios">Failure Scenarios</h3>
+<p><strong>NAS dies</strong>: Restore PostgreSQL from Backblaze. Valkey runs on the server so it’s unaffected. Services back online in 2-4 hours. Photos can wait.</p>
+<p><strong>Server dies</strong>: Valkey cache is lost but rebuilds on restart. PostgreSQL on NAS is safe. Spin up replacement server, deploy containers, point to existing database. Downtime: 1-2 hours.</p>
+<p><strong>Data corruption</strong>: Restore from most recent clean backup. Might lose up to 24 hours of data. Acceptable for personal infrastructure.</p>
+<p><strong>Both NAS and all backup targets fail simultaneously</strong>: Accept that catastrophic cascading failures of independent systems mean larger problems exist.</p>
+<p>Backups are boring. They run in the background. You don’t think about them until you need them. Then they’re the only thing that matters.</p>
+<p>Test your restores. I do this every year. Not because I enjoy it. Because restoring for the first time during an emergency is how you discover your backups don’t work.</p>
+<h2 id="hardware-reality">Hardware Reality</h2>
+<p>The i5-9500T has six cores and idles most of the time. Average CPU usage: 12-18%. The bottleneck is never CPU. It’s network or disk or, most commonly, waiting for external APIs.</p>
+<p>16GB RAM is enough because I’m running services, not databases for millions of users. PostgreSQL gets 2GB. Valkey gets 512MB. Everything else shares the rest. zram provides compressed memory when needed. No file swap.</p>
+<p>The N100 on the NAS is even lighter. Four cores, 8GB RAM. Handles PostgreSQL and file operations without stress. This CPU costs €120. It’s designed for low power, not high performance. It’s adequate because the workload is not demanding.</p>
+<p>The NVMe slots on the NAS are critical. NVMe with DRAM cache means database operations are fast. HDD bays are for bulk storage. Photos, documents, media. Speed matters less. Cost per gigabyte matters more.</p>
+<h3 id="where-this-breaks">Where This Breaks</h3>
+<p>Video encoding would choke these machines. So would transcoding multiple 4K streams. So would training ML models or running simulation workloads.</p>
+<p>I don’t do those things. If I did, I’d rent GPU time or buy different hardware. You optimize for your workload, not someone else’s.</p>
+<p>Kubernetes would struggle on this hardware. The control plane alone wants 2GB RAM. etcd wants more. The overhead is not justified by any benefit for single-machine deployments.</p>
+<p>Running databases on the NAS makes sense because the NAS has NVMe. If the NAS had spinning rust only, this would be a different conversation.</p>
+<p>Backups run at 3 AM because they saturate the network and use CPU for compression. During the day, services have priority. At night, backups get the machine to themselves. This is not optimal. This is working within constraints.</p>
+<h3 id="performance-myths">Performance Myths</h3>
+<p>“You need ECC RAM.” For what? On the server, I’m running web services, not financial transactions. Non-ECC is fine. On the NAS, depends on your filesystem and paranoia level.</p>
+<p>“You need 10GbE networking.” For most homelabs, gigabit is plenty. Database queries over NFS work fine. Backups are the only thing that saturates gigabit, and they run when nothing else is happening.</p>
+<p>“Low-power CPUs are too slow.” Too slow for what? If you’re network-bound or I/O-bound, faster CPUs just idle at higher clock speeds.</p>
+<p>The hardware is sufficient because the architecture acknowledges what the hardware can do. Design within your constraints and most constraints stop being limitations.</p>
+<h2 id="monitoring">Monitoring</h2>
+<p>Uptime Kuma pings services every five minutes. HTTP checks, TCP checks, keyword checks. Something down? Notification sent. Something slow? Notification sent. Something returning errors? Notification sent.</p>
+<p>Prometheus scrapes metrics. Grafana displays them. I look at dashboards maybe once a week unless something breaks. Disk usage, memory usage, request rates, error rates.</p>
+<p>No distributed tracing. No APM vendor. No log aggregation platform. Logs go to stdout. Docker captures them. <code>docker compose logs -f service_name</code> when needed.</p>
+<p>This is sufficient. Enterprise monitoring is for enterprises. Homelabs need to know when something is broken and have enough context to fix it. Uptime Kuma and Prometheus provide that.</p>
+<h2 id="what-this-is-not">What This Is Not</h2>
+<p>Not highly available. Single points of failure everywhere. The server dies, services stop. The NAS dies, data access stops. The switch dies, everything stops. Acceptable downtime for personal infrastructure is measured in hours, not seconds.</p>
+<p>Not zero-configuration. You need to understand Docker, networking, DNS, and TLS. If you don’t, acquire that knowledge before running infrastructure that matters.</p>
+<p>Not secure against determined attackers. This is secure against opportunistic scanning and automated exploitation. A targeted attack with resources would succeed. That’s not my threat model.</p>
+<p>Not free. Hardware costs money upfront. Electricity costs money monthly. Time costs opportunity cost. But it’s cheaper than the cloud and I control it entirely.</p>
+<h2 id="why-this-works">Why This Works</h2>
+<p>The cloud optimizes for variable load and horizontal scale. I have consistent load and vertical sufficiency.</p>
+<p>Docker Compose optimizes for services I can understand and deploy myself. Kubernetes optimizes for services deployed by teams with CI/CD pipelines.</p>
+<p>Cloudflare optimizes for protecting public services from the internet. My homelab optimizes for not being on the internet directly.</p>
+<p>WireGuard and frp together solve the NAT traversal problem without punching holes in the firewall or running complex VPN infrastructure.</p>
+<p>The pieces fit because they’re simple pieces solving specific problems. No platforms. No frameworks. No “solutions.”</p>
+<h2 id="what-breaks">What Breaks</h2>
+<p>Cloudflare tunnels disconnect occasionally. They reconnect automatically. Five seconds of downtime. Monthly. I’ve accepted this.</p>
+<p>Docker image updates break things. Pin versions for anything that matters. Watchtower handles the rest.</p>
+<p>Open Media Vault updates require occasional reboots. Reboots mean downtime. Schedule them. Do them at 3 AM.</p>
+<p>Home internet goes down. Everything goes down. I have a 5G failover. It’s slow and capped. It’s better than nothing.</p>
+<p>Power outages happen. UPS on both machines and the switch. Ten minutes runtime. Enough to shut down gracefully or ride out brief outages. Not enough to survive extended outages. I’ve made peace with this.</p>
+<h2 id="what-id-change">What I’d Change</h2>
+<p>Eight-bay NAS instead of two bays. Storage needs grow. More bays bought upfront is cheaper than migrating later.</p>
+<p>Separate physical machine for public services. Current setup mixes them on the server. Works but inelegant. A second low-power box for isolated public workloads would be cleaner.</p>
+<p>Better documentation from day one. I know how it works because I built it. I’ve forgotten details twice. A network diagram and runbook would save time.</p>
+<p>Not much else. This setup evolved through operation. It works. That’s the validation that matters.</p>
+<h2 id="why-not-the-cloud">Why Not the Cloud</h2>
+<p>The cloud is rented capacity. I’m building owned capability.</p>
+<p>The cloud charges for egress. I access my photos constantly. That would cost real money. On the NAS it’s free.</p>
+<p>The cloud optimizes for businesses. I’m not a business. My needs are different. My economics are different.</p>
+<p>The cloud makes sense for some workloads. Bursty traffic. Geographic distribution. Compliance requirements. Avoiding hardware responsibility.</p>
+<p>My workload is steady. Single-region. No compliance beyond “don’t lose my photos.” I’m comfortable with hardware. The cloud doesn’t make sense here.</p>
+<p>This is not ideology. This is economics and engineering.</p>
+<h2 id="what-this-is">What This Is</h2>
+<p>Infrastructure that fits its purpose. Services run. Data persists. Costs stay low. I stay in control.</p>
+<p>A homelab for running services, not cosplaying as a datacenter. Working software, not perfect architecture.</p>
+<p>A setup that acknowledges trade-offs explicitly. High availability costs money and complexity. Geographic redundancy costs more. I’ve chosen low cost and acceptable reliability. That’s valid.</p>
+<p>A reminder that cloud-scale problems need cloud-scale tools. Non-cloud-scale problems do not. Docker Compose is sufficient. A single server is sufficient. A homelab is sufficient.</p>
+<p>It works. It keeps working. That’s all.</p> </div>    <section class="related-posts" data-astro-cid-dpgbfi7r> <h2 data-astro-cid-dpgbfi7r>Related Posts</h2> <div class="related-posts-grid" data-astro-cid-dpgbfi7r> <article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/ai-news/2025-12-19-your-docker-images-are-bigger-than-they-need-to-be/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>Your Docker Images Are Bigger Than They Need to Be</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>Why Image Size Matters Large Docker images significantly impede development velocity and increase operational costs. A…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2025-12-19T00:00:00.000Z" data-astro-cid-dpgbfi7r> Dec 19, 2025 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>1 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/vscode-wokspace/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>Mastering VS Code for Microservices: Dev Containers, Multi-Project Workflows, and Productivity Hacks</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>TL;DR Working across multiple microservices in VS Code without losing your mind requires three things: dev containers…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2025-12-10T00:00:00.000Z" data-astro-cid-dpgbfi7r> Dec 10, 2025 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>12 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/ai-news/2025-12-07-illusion-of-isolation-in-docker/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>Illusion of isolation in Docker</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>Illusion of isolation in Docker Being a member of the group allows access to the Docker daemon’s Unix socket, enabling…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2025-12-07T00:00:00.000Z" data-astro-cid-dpgbfi7r> Dec 7, 2025 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>1 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/ai-news/2025-12-05-working-with-docker-images-from-basics-to-best-practices/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>Working with Docker Images: From Basics to Best Practices</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>Working with Docker Images: From Basics to Best Practices Haripriya Veluchamy outlines Docker image best practices,…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2025-12-05T00:00:00.000Z" data-astro-cid-dpgbfi7r> Dec 5, 2025 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>1 min read</span> </div> </a> </article> </div> </section>  </article> </div> <div class="back-link" data-astro-cid-yvbahnfj><a href="/" data-astro-cid-yvbahnfj>← Back to home</a></div>  </main> <!-- Site Footer --> <footer class="site-footer container"> <p>
+© 2025 AREZKI El Mehdi •
+<a href="https://github.com/earezki">GitHub</a> •
+<a href="/rss.xml">RSS</a> •
+<a href="/tags/">Tags</a> •
+<a href="/sitemap-index.xml">Sitemap</a> •
+<button id="footer-subscribe-btn" class="footer-subscribe-btn" aria-label="Subscribe to newsletter">
+📬 Subscribe
+</button> </p> </footer> <!-- Footer Subscribe Button Handler --> <script type="module">const e=document.getElementById("themeToggle"),o=n=>{if(!e)return;const t=e.querySelector(".theme-icon");t&&(t.textContent=n==="dark"?"☀":"☾")};if(e){const n=document.documentElement.getAttribute("data-theme")||"dark";o(n),e.addEventListener("click",()=>{const t=document.documentElement,c=t.getAttribute("data-theme")==="dark"?"light":"dark";t.setAttribute("data-theme",c),localStorage.setItem("theme",c),o(c)})}</script> <!-- Theme Toggle --> <script type="module">document.addEventListener("DOMContentLoaded",()=>{const e=document.getElementById("footer-subscribe-btn");e&&e.addEventListener("click",n=>{n.preventDefault();const t=document.getElementById("subscription-popup");t&&(t.setAttribute("data-state","visible"),document.body.style.overflow="hidden")})});</script> <!-- Article read/unread tracking --> <script>
+      (function() {
+        const KEY = 'readArticles';
+        
+        function getRead() {
+          try {
+            const d = localStorage.getItem(KEY);
+            return d ? JSON.parse(d) : [];
+          } catch (e) {
+            return [];
+          }
+        }
+        
+        function markRead(url) {
+          try {
+            const read = getRead();
+            if (!read.includes(url)) {
+              read.push(url);
+              localStorage.setItem(KEY, JSON.stringify(read));
+            }
+          } catch (e) {}
+        }
+        
+        function updateCards() {
+          const read = new Set(getRead());
+          const cards = document.querySelectorAll('.post-card[data-article-url]');
+          cards.forEach(function(card) {
+            const url = card.getAttribute('data-article-url');
+            if (!url) return;
+            const isRead = read.has(url);
+            card.classList.toggle('read', isRead);
+            card.classList.toggle('unread', !isRead);
+          });
+        }
+        
+        function markCurrent() {
+          if (document.querySelector('.post-body')) {
+            markRead(window.location.pathname);
+          }
+        }
+        
+        function init() {
+          updateCards();
+          markCurrent();
+        }
+        
+        function clearRead(url) {
+          try {
+            const read = new Set(getRead());
+            if (read.has(url)) {
+              read.delete(url);
+              localStorage.setItem(KEY, JSON.stringify(Array.from(read)));
+              updateCards();
+            }
+          } catch (e) {}
+        }
+        
+        window.clearReadArticle = clearRead;
+        document.addEventListener('DOMContentLoaded', init);
+        window.addEventListener('pageshow', function(e) {
+          if (e.persisted) init();
+        });
+      })();
+    </script> <!-- Clear read button handler --> <script>
+      (function() {
+        document.addEventListener('click', function(e) {
+          var tgt = e.target, btn = null;
+          while (tgt && tgt !== document) {
+            if (tgt.classList && tgt.classList.contains('clear-read-btn')) {
+              btn = tgt;
+              break;
+            }
+            tgt = tgt.parentNode;
+          }
+          if (!btn) return;
+          e.preventDefault();
+          e.stopPropagation();
+          var url = btn.getAttribute('data-article-url');
+          if (url && window.clearReadArticle) window.clearReadArticle(url);
+        });
+      })();
+    </script> <!-- External links open in new tab --> <script>
+      (function() {
+        function makeExternal() {
+          const domain = window.location.hostname;
+          const links = document.querySelectorAll('a[href]');
+          links.forEach(function(link) {
+            const href = link.getAttribute('href');
+            if (!href || link.hasAttribute('target')) return;
+            const isExt = (href.startsWith('http://') || href.startsWith('https://')) && !href.includes(domain);
+            if (isExt) {
+              link.setAttribute('target', '_blank');
+              link.setAttribute('rel', 'noopener noreferrer');
+            }
+          });
+        }
+        document.addEventListener('DOMContentLoaded', makeExternal);
+        if (window.MutationObserver) {
+          const obs = new MutationObserver(function(muts) {
+            muts.forEach(function(mut) {
+              if (mut.addedNodes.length) makeExternal();
+            });
+          });
+          obs.observe(document.body, { childList: true, subtree: true });
+        }
+      })();
+    </script> <!-- Code copy buttons --> <script>
+      (function() {
+        function createBtn() {
+          const btn = document.createElement('button');
+          btn.className = 'copy-code-button';
+          btn.setAttribute('aria-label', 'Copy code to clipboard');
+          btn.innerHTML = `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span>Copy</span>
+          `;
+          return btn;
+        }
+        
+        function checkIcon() {
+          return `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span>Copied!</span>
+          `;
+        }
+        
+        async function copyText(txt) {
+          try {
+            await navigator.clipboard.writeText(txt);
+            return true;
+          } catch (err) {
+            const ta = document.createElement('textarea');
+            ta.value = txt;
+            ta.style.position = 'fixed';
+            ta.style.left = '-999999px';
+            document.body.appendChild(ta);
+            ta.select();
+            try {
+              document.execCommand('copy');
+              document.body.removeChild(ta);
+              return true;
+            } catch (e) {
+              document.body.removeChild(ta);
+              return false;
+            }
+          }
+        }
+        
+        async function handleCopy(btn, code) {
+          const txt = code.textContent || '';
+          const ok = await copyText(txt);
+          if (ok) {
+            const orig = btn.innerHTML;
+            btn.classList.add('copied');
+            btn.innerHTML = checkIcon();
+            setTimeout(function() {
+              btn.classList.remove('copied');
+              btn.innerHTML = orig;
+            }, 2000);
+          }
+        }
+        
+        function addBtns() {
+          const blocks = document.querySelectorAll('.post-body pre');
+          blocks.forEach(function(pre) {
+            if (pre.querySelector('.copy-code-button')) return;
+            const btn = createBtn();
+            const code = pre.querySelector('code');
+            if (code) {
+              btn.addEventListener('click', function() {
+                handleCopy(btn, code);
+              });
+              pre.appendChild(btn);
+            }
+          });
+        }
+        
+        document.addEventListener('DOMContentLoaded', addBtns);
+      })();
+    </script> <!-- Newsletter Subscription Popup --> <div id="subscription-popup" class="subscription-popup" data-state="hidden" data-auto-trigger="true" data-astro-cid-we5gmdnp> <div class="popup-overlay" id="popup-overlay" data-astro-cid-we5gmdnp></div> <div class="popup-container" data-astro-cid-we5gmdnp> <div class="popup-content" data-astro-cid-we5gmdnp> <div class="popup-icon" data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-we5gmdnp> <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" data-astro-cid-we5gmdnp></path> <polyline points="22,6 12,13 2,6" data-astro-cid-we5gmdnp></polyline> </svg> </div> <h2 class="popup-title" data-astro-cid-we5gmdnp>Stay Updated with Dev|Journal</h2> <p class="popup-description" id="popup-description" data-astro-cid-we5gmdnp>
+Join our community of developers and engineers. Get insights on:
+</p> <ul class="popup-features" data-astro-cid-we5gmdnp> <li data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-we5gmdnp> <polyline points="20 6 9 17 4 12" data-astro-cid-we5gmdnp></polyline> </svg>
+Software Architecture & Design Patterns
+</li> <li data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-we5gmdnp> <polyline points="20 6 9 17 4 12" data-astro-cid-we5gmdnp></polyline> </svg>
+Backend Development Best Practices
+</li> <li data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-we5gmdnp> <polyline points="20 6 9 17 4 12" data-astro-cid-we5gmdnp></polyline> </svg>
+AI & Tech Industry Analysis
+</li> </ul> <form id="subscription-form" class="popup-form" data-astro-cid-we5gmdnp> <div class="form-group" data-astro-cid-we5gmdnp> <input type="text" id="subscriber-name" name="name" placeholder="Your name" required autocomplete="name" data-astro-cid-we5gmdnp> </div> <div class="form-group" data-astro-cid-we5gmdnp> <input type="email" id="subscriber-email" name="email" placeholder="your.email@example.com" required autocomplete="email" data-astro-cid-we5gmdnp> </div> <div id="form-message" class="form-message" data-astro-cid-we5gmdnp></div> <div class="popup-actions" data-astro-cid-we5gmdnp> <button type="submit" class="btn btn-primary" id="subscribe-btn" data-astro-cid-we5gmdnp> <span class="btn-text" data-astro-cid-we5gmdnp>Subscribe</span> <span class="btn-loader" data-astro-cid-we5gmdnp> <svg class="spinner" viewBox="0 0 24 24" data-astro-cid-we5gmdnp> <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" data-astro-cid-we5gmdnp></circle> </svg> </span> </button> <button type="button" class="btn btn-secondary" id="not-now-btn" data-astro-cid-we5gmdnp>Not Now</button> <button type="button" class="btn btn-text" id="cancel-btn" data-astro-cid-we5gmdnp>Don't Show Again</button> </div> </form> </div> </div> </div>  <script>
+  // Configuration
+  const CONFIG = {
+    graceDelay: 5000, // 5 seconds delay before showing popup
+    notNowDelay: 24 * 60 * 60 * 1000, // 1 day in milliseconds
+    apiUrl: 'https://api.earezki.com/blog/api',
+  };
+
+  const STORAGE_KEYS = {
+    subscribed: 'newsletter_subscribed',
+    cancelled: 'newsletter_cancelled',
+    notNowUntil: 'newsletter_not_now_until',
+  };
+
+  // State management
+  let popupTimeout = null;
+
+  function showPopup() {
+    const popup = document.getElementById('subscription-popup');
+    if (popup) {
+      popup.setAttribute('data-state', 'visible');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  function hidePopup() {
+    const popup = document.getElementById('subscription-popup');
+    if (popup) {
+      popup.setAttribute('data-state', 'hidden');
+      document.body.style.overflow = '';
+    }
+  }
+
+  function shouldShowPopup() {
+    // Check if user has already subscribed
+    if (localStorage.getItem(STORAGE_KEYS.subscribed) === 'true') {
+      return false;
+    }
+
+    // Check if user clicked "Don't show again"
+    if (localStorage.getItem(STORAGE_KEYS.cancelled) === 'true') {
+      return false;
+    }
+
+    // Check if user clicked "Not now" and delay hasn't passed
+    const notNowUntil = localStorage.getItem(STORAGE_KEYS.notNowUntil);
+    if (notNowUntil) {
+      const notNowTime = parseInt(notNowUntil, 10);
+      if (Date.now() < notNowTime) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  async function getSubscriberStats() {
+    try {
+      const response = await fetch(`${CONFIG.apiUrl}/subscribers/stats`, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+        },
+      });
+      
+      if (!response.ok) {
+        return null;
+      }
+      
+      const data = await response.json();
+      return data.subscriber_count || null;
+    } catch (error) {
+      console.error('Failed to fetch subscriber stats:', error);
+      return null;
+    }
+  }
+
+  async function schedulePopup() {
+    if (!shouldShowPopup()) {
+      return;
+    }
+
+    // Fetch subscriber stats before scheduling popup
+    const subscriberCount = await getSubscriberStats();
+    if (subscriberCount === null) {
+      console.log('Failed to fetch subscriber stats, not showing subscription popup');
+      return;
+    }
+
+    // Update popup with subscriber count
+    updatePopupWithStats(subscriberCount);
+
+    // Show popup after grace period
+    popupTimeout = window.setTimeout(() => {
+      showPopup();
+    }, CONFIG.graceDelay);
+  }
+
+  function updatePopupWithStats(count) {
+    const descriptionEl = document.querySelector('.popup-description');
+    if (descriptionEl) {
+      const formattedCount = new Intl.NumberFormat('en-US').format(count);
+      descriptionEl.innerHTML = `Join a community of <strong>${formattedCount}+</strong> developers and engineers who are growing together. Get insights on:`;
+    }
+  }
+
+  async function handleSubscribe(event) {
+    event.preventDefault();
+    
+    const form = event.target;
+    const nameInput = form.querySelector('#subscriber-name');
+    const emailInput = form.querySelector('#subscriber-email');
+    const submitBtn = form.querySelector('#subscribe-btn');
+    const messageEl = document.getElementById('form-message');
+
+    const name = nameInput.value.trim();
+    const email = emailInput.value.trim();
+
+    if (!name || !email) {
+      if (messageEl) {
+        messageEl.textContent = 'Please fill in all fields.';
+        messageEl.className = 'form-message error';
+      }
+      return;
+    }
+
+    // Show loading state
+    submitBtn.classList.add('loading');
+    submitBtn.disabled = true;
+    if (messageEl) {
+      messageEl.textContent = '';
+      messageEl.className = 'form-message';
+    }
+
+    try {
+      const response = await fetch(`${CONFIG.apiUrl}/subscribe`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, email }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        localStorage.setItem(STORAGE_KEYS.subscribed, 'true');
+        
+        if (messageEl) {
+          messageEl.textContent = '🎉 Successfully subscribed! Thank you for joining us.';
+          messageEl.className = 'form-message success';
+        }
+
+        // Hide popup after 2 seconds
+        setTimeout(() => {
+          hidePopup();
+        }, 2000);
+      } else {
+        if (messageEl) {
+          messageEl.textContent = data.error || 'Subscription failed. Please try again.';
+          messageEl.className = 'form-message error';
+        }
+      }
+    } catch (error) {
+      console.error('Subscription error:', error);
+      if (messageEl) {
+        messageEl.textContent = 'Network error. Please check your connection and try again.';
+        messageEl.className = 'form-message error';
+      }
+    } finally {
+      submitBtn.classList.remove('loading');
+      submitBtn.disabled = false;
+    }
+  }
+
+  function handleNotNow() {
+    const notNowUntil = Date.now() + CONFIG.notNowDelay;
+    localStorage.setItem(STORAGE_KEYS.notNowUntil, notNowUntil.toString());
+    hidePopup();
+  }
+
+  function handleCancel() {
+    localStorage.setItem(STORAGE_KEYS.cancelled, 'true');
+    hidePopup();
+  }
+
+  // Initialize popup
+  document.addEventListener('DOMContentLoaded', () => {
+    const popup = document.getElementById('subscription-popup');
+    const autoTrigger = popup?.getAttribute('data-auto-trigger') === 'true';
+    
+    // Schedule popup to show after grace period only if autoTrigger is enabled
+    if (autoTrigger) {
+      schedulePopup();
+    }
+
+    // Event listeners
+    const form = document.getElementById('subscription-form');
+    const overlay = document.getElementById('popup-overlay');
+    const notNowBtn = document.getElementById('not-now-btn');
+    const cancelBtn = document.getElementById('cancel-btn');
+
+    if (form) {
+      form.addEventListener('submit', handleSubscribe);
+    }
+
+    if (overlay) {
+      overlay.addEventListener('click', handleNotNow);
+    }
+
+    if (notNowBtn) {
+      notNowBtn.addEventListener('click', handleNotNow);
+    }
+
+    if (cancelBtn) {
+      cancelBtn.addEventListener('click', handleCancel);
+    }
+
+    // Clean up on page unload
+    window.addEventListener('beforeunload', () => {
+      if (popupTimeout) {
+        clearTimeout(popupTimeout);
+      }
+    });
+  });
+</script> </body></html> 
