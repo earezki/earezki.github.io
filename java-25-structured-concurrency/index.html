@@ -1,0 +1,585 @@
+<!DOCTYPE html><html lang="en" data-theme="dark"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Java 25 Structured Concurrency: The End of Thread Leaks • Dev|Journal</title><meta name="description" content="TL;DR Java 25's Structured Concurrency (JEP 505, Fifth Preview) finally solves the thread leak problem that's plagued Java since ExecutorService. The new API…"><meta name="keywords" content="Java, Concurrency, Performance, Software Engineering"><meta name="author" content="El Mehdi Arezki"><meta property="og:type" content="website"><meta property="og:url" content="https://earezki.com/java-25-structured-concurrency/"><meta property="og:title" content="Java 25 Structured Concurrency: The End of Thread Leaks • Dev|Journal"><meta property="og:site_name" content="Dev|Journal"><meta property="og:description" content="TL;DR Java 25's Structured Concurrency (JEP 505, Fifth Preview) finally solves the thread leak problem that's plagued Java since ExecutorService. The new API…"><meta property="og:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:url" content="https://earezki.com/java-25-structured-concurrency/"><meta name="twitter:title" content="Java 25 Structured Concurrency: The End of Thread Leaks • Dev|Journal"><meta name="twitter:description" content="TL;DR Java 25's Structured Concurrency (JEP 505, Fifth Preview) finally solves the thread leak problem that's plagued Java since ExecutorService. The new API…"><meta name="twitter:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:creator" content="@earezki"><link rel="canonical" href="https://earezki.com/java-25-structured-concurrency/"><link rel="icon" type="image/png" href="/assets/favicon_48_d.webp"><link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"><link rel="dns-prefetch" href="https://cloud.umami.is"><script defer src="https://cloud.umami.is/script.js" data-website-id="4a26531d-1053-4f79-97a6-06a1366aff91"></script><script>
+      (function() {
+        const theme = localStorage.getItem('theme');
+        if (theme) document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script><script>
+!function(){const o=window.location.pathname;if("/"===o)return;if(/\.\w+$/.test(o))return;const n=o.toLowerCase(),i=n!==o,t=!o.endsWith("/");if(i||t){const o=n+(t?"/":""),i=window.location.origin+o+window.location.search+window.location.hash;window.location.replace(i)}}();
+</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Java 25 Structured Concurrency: The End of Thread Leaks","description":"TL;DR Java 25's Structured Concurrency (JEP 505, Fifth Preview) finally solves the thread leak problem that's plagued Java since ExecutorService. The new API…","image":"https://earezki.com/assets/og-image-default.jpg","datePublished":"2025-12-26T00:00:00.000Z","dateModified":"2025-12-26T00:00:00.000Z","author":{"@type":"Person","name":"El Mehdi Arezki","url":"https://earezki.com/about","jobTitle":"Lead Software Engineer","sameAs":["https://github.com/earezki","https://www.linkedin.com/in/mehdi-arezki"]},"publisher":{"@type":"Organization","name":"Dev|Journal","url":"https://earezki.com","logo":{"@type":"ImageObject","url":"https://earezki.com/assets/logo.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://earezki.com/java-25-structured-concurrency/"}}</script><link rel="stylesheet" href="/_astro/_slug_.B_eXuGWa.css">
+<link rel="stylesheet" href="/_astro/_slug_.CFj9bTVJ.css">
+<link rel="stylesheet" href="/_astro/_slug_.BuIxISHP.css"></head> <body> <div id="readingProgress" role="progressbar" aria-label="Reading progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="position:fixed;left:0;top:0;height:3px;background:linear-gradient(90deg,#2563eb,#9333ea);width:0;z-index:999;transition:width .15s ease;"></div> <script type="module">function c(){const t=document.getElementById("readingProgress");if(!t)return;const o=()=>{const e=document.documentElement,r=e.scrollTop||document.body.scrollTop,s=e.scrollHeight-e.clientHeight,n=s>0?r/s*100:0;t.style.width=`${n}%`,t.setAttribute("aria-valuenow",n.toFixed(0))};document.addEventListener("scroll",o,{passive:!0}),o()}c();</script> <header class="site-header container"> <div class="logo-wrap"> <a class="logo" href="/" aria-label="Dev|Journal Home">
+Dev|Journal
+</a> </div> <!-- Search Box in Header --> <div class="header-search" data-search-api-url="https://api.earezki.com/blog/api/q" data-search-timeout="2000"> <div class="search-box" id="search-box"> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon" aria-hidden="true"> <circle cx="11" cy="11" r="8"></circle> <path d="m21 21-4.35-4.35"></path> </svg> <input type="text" id="search-input" placeholder="Search ..." class="search-input" autocomplete="off" aria-label="Search articles" minlength="3"> <button id="clear-search" class="clear-button" style="display: none;" aria-label="Clear search"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <line x1="18" y1="6" x2="6" y2="18"></line> <line x1="6" y1="6" x2="18" y2="18"></line> </svg> </button> </div> <div id="search-results" class="search-results" role="status" aria-live="polite"></div> </div> <script type="module" src="/_astro/SearchBox.astro_astro_type_script_index_0_lang.BNnBPVSN.js"></script> <nav class="main-nav" aria-label="Main navigation"> <a href="/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path> <polyline points="9 22 9 12 15 12 15 22"></polyline> </svg>
+Home
+</a> <a href="/ai-news/" class="ai-news-link ai-gradient-nav"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h-9.5a.5.5 0 0 0-.5.5.5.5 0 0 1-1 0 .5.5 0 0 0-.5-.5H1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"></path> <path d="M7 15v4a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-4"></path> </svg>
+AI News
+</a> <a href="/ai-financial-news/" class="ai-financial-link ai-gradient-nav"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <line x1="12" y1="1" x2="12" y2="23"></line> <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path> </svg>
+AI Financial
+</a> <a href="/about/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <circle cx="12" cy="12" r="10"></circle> <path d="M12 16v-4"></path> <path d="M12 8h.01"></path> </svg>
+About
+</a> <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode"> <span class="theme-icon" aria-hidden="true">☾</span> </button> </nav> </header> <!-- Main Content --> <main class="container content-area">  <nav class="breadcrumbs" aria-label="Breadcrumb" data-astro-cid-ilhxcym7> <ol data-astro-cid-ilhxcym7> <li data-astro-cid-ilhxcym7>  <a href="/" data-astro-cid-ilhxcym7>Home</a> <span class="separator" aria-hidden="true" data-astro-cid-ilhxcym7>/</span>  </li><li data-astro-cid-ilhxcym7> <span class="current" aria-current="page" data-astro-cid-ilhxcym7>Java 25 Structured Concurrency: The End of Thread Leaks</span> </li> <li data-astro-cid-ilhxcym7> <span class="new-badge-breadcrumb" data-astro-cid-ilhxcym7>NEW</span> </li> </ol> </nav>  <div class="post-layout" data-astro-cid-yvbahnfj> <aside class="sidebar-left" data-astro-cid-yvbahnfj> <nav class="toc" aria-label="Table of Contents" data-astro-cid-xvrfupwn> <div class="toc-title" data-astro-cid-xvrfupwn>On this page</div> <ul data-astro-cid-xvrfupwn> <li class="d-2" data-astro-cid-xvrfupwn> <a href="#tldr" data-astro-cid-xvrfupwn> TL;DR </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#why-executorservice-needs-to-die" data-astro-cid-xvrfupwn> Why ExecutorService Needs to Die </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#what-structured-concurrency-actually-fixes" data-astro-cid-xvrfupwn> What Structured Concurrency Actually Fixes </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#the-jdk-25-api-static-factories-and-joiners" data-astro-cid-xvrfupwn> The JDK 25 API: Static Factories and Joiners </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#static-factories-replace-constructors" data-astro-cid-xvrfupwn> Static Factories Replace Constructors </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#the-joiner-interface" data-astro-cid-xvrfupwn> The Joiner Interface </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#standard-joiners" data-astro-cid-xvrfupwn> Standard Joiners </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#practical-patterns" data-astro-cid-xvrfupwn> Practical Patterns </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#pattern-all-or-nothing-fan-out" data-astro-cid-xvrfupwn> Pattern: All-or-Nothing Fan-Out </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#pattern-redundant-race" data-astro-cid-xvrfupwn> Pattern: Redundant Race </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#pattern-timeouts" data-astro-cid-xvrfupwn> Pattern: Timeouts </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#pattern-custom-quorum-joiner" data-astro-cid-xvrfupwn> Pattern: Custom Quorum Joiner </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#scoped-values-context-propagation-without-threadlocal" data-astro-cid-xvrfupwn> Scoped Values: Context Propagation Without ThreadLocal </a> </li> </ul> </nav>  </aside> <article class="post" data-astro-cid-yvbahnfj> <header class="post-header" data-astro-cid-yvbahnfj> <h1 data-astro-cid-yvbahnfj>Java 25 Structured Concurrency: The End of Thread Leaks</h1> <div class="meta" data-astro-cid-yvbahnfj> <time datetime="2025-12-26T00:00:00.000Z" data-astro-cid-yvbahnfj>Fri Dec 26 2025</time> <span data-astro-cid-yvbahnfj>• 5 min read</span> </div> <div class="tag-row" data-astro-cid-yvbahnfj><a class="post-tag  " href="/tags/java/" data-astro-cid-yvbahnfj>Java</a><a class="post-tag  " href="/tags/concurrency/" data-astro-cid-yvbahnfj>Concurrency</a><a class="post-tag  " href="/tags/performance/" data-astro-cid-yvbahnfj>Performance</a><a class="post-tag  " href="/tags/software-engineering/" data-astro-cid-yvbahnfj>Software Engineering</a></div> </header> <div class="banner warning" role="alert"> <div class="banner-icon" aria-hidden="true">⚠️</div> <div class="banner-content"> <strong>This article is not yet published</strong> <p>Publishing in 2 days. This page is accessible but won't appear in post listings until the publication date.</p> </div> </div>    <div class="post-body prose" data-astro-cid-yvbahnfj> <h2 id="tldr">TL;DR</h2>
+<p>Java 25’s Structured Concurrency (JEP 505, Fifth Preview) finally solves the thread leak problem that’s plagued Java since ExecutorService. The new <code>StructuredTaskScope</code> API binds thread lifetimes to syntactic blocks (like try-with-resources), automatically cancels child tasks when the parent exits, and provides hierarchical thread dumps for debugging. The biggest change: a <code>Joiner</code> interface replaces subclassing for concurrency policies (fail-fast, race, quorum). Combined with Virtual Threads and Scoped Values, this makes Java viable for high-throughput services without the ExecutorService tax. If you’re building anything that needs to fan out requests (microservices, batch jobs, distributed queries), you need this.</p>
+<h2 id="why-executorservice-needs-to-die">Why ExecutorService Needs to Die</h2>
+<p>For 20 years, we’ve dealt with ExecutorService’s fundamental flaw: when you submit a task, the parent-child relationship is severed. If your request handler throws an exception, those background tasks keep running. They’re zombies consuming memory, CPU, and database connections with no one waiting for their results.</p>
+<p>The damage compounds in three ways:</p>
+<p><strong>Thread leaks everywhere.</strong> You submit 10 tasks to fetch user data, one throws <code>NullPointerException</code>, your handler exits, but 9 threads keep hammering the database. In production, these accumulate until you’re out of connections.</p>
+<p><strong>Silent failures.</strong> If a child task fails and you forget to call <code>Future.get()</code>, the exception is swallowed. No logs, no alerts, just missing data in your response. Good luck debugging that in prod when 1 out of 10,000 requests returns incomplete results.</p>
+<p><strong>Manual cancellation hell.</strong> Want “stop everything if one fails” logic? Track every <code>Future</code>, iterate through them, call <code>cancel()</code> on each. Miss one, and you’ve leaked a thread. The boilerplate is brutal and error-prone.</p>
+<p>Thread dumps made this worse. You’d see 10,000 threads in a flat list with no relationship between “Worker-Thread-4532” and “RequestHandler-Thread-89.” Correlating which worker belongs to which request required grepping logs for trace IDs and praying your timestamps aligned.</p>
+<p>Virtual Threads (JDK 21) solved the resource problem, you can spawn millions cheaply. But that made the coordination problem worse. Now you can leak a million threads instead of 200.</p>
+<h2 id="what-structured-concurrency-actually-fixes">What Structured Concurrency Actually Fixes</h2>
+<p>Structured Concurrency treats concurrent tasks like local variables. A thread spawned inside a scope <strong>must</strong> terminate before the scope exits. This is enforced by the JVM, not your discipline.</p>
+<p>Think of it as the GOTO to structured programming transition from the 1960s. GOTO let execution jump anywhere, making code flow unpredictable. Block-structured control flow (if/while/for) confined execution to enter-at-top, exit-at-bottom blocks. Structured Concurrency does the same for threads.</p>
+<p>The API uses <code>try-with-resources</code> to guarantee cleanup. If your scope exits (normally or via exception), the JVM cancels all running child tasks and waits for them to stop. No manual tracking, no forgotten futures, no leaks.</p>
+<h2 id="the-jdk-25-api-static-factories-and-joiners">The JDK 25 API: Static Factories and Joiners</h2>
+<p>JDK 25 (Fifth Preview) makes two major changes from earlier previews.</p>
+<h3 id="static-factories-replace-constructors">Static Factories Replace Constructors</h3>
+<p>Old way (deprecated):</p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token keyword">var</span> scope <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">StructuredTaskScope<span class="token punctuation">.</span>ShutdownOnFailure</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>New way:</p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token keyword">var</span> scope <span class="token operator">=</span> <span class="token class-name">StructuredTaskScope</span><span class="token punctuation">.</span><span class="token keyword">open</span><span class="token punctuation">(</span><span class="token class-name">Joiner</span><span class="token punctuation">.</span><span class="token function">allSuccessfulOrThrow</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>This emphasizes that opening a scope is resource acquisition (like opening a file). It pairs with <code>close()</code> in the try-with-resources contract.</p>
+<h3 id="the-joiner-interface">The Joiner Interface</h3>
+<p>The killer feature in JDK 25 is <code>Joiner&#x3C;T, R></code>. Instead of subclassing <code>StructuredTaskScope</code> to customize behavior, you pass a <code>Joiner</code> that defines the completion policy.</p>
+<p>Three methods matter:</p>
+<ul>
+<li><code>onFork(Subtask&#x3C;T>)</code>: Called when a task is forked.</li>
+<li><code>onComplete(Subtask&#x3C;T>)</code>: Called when a task finishes. Return <code>true</code> to cancel all other tasks.</li>
+<li><code>result()</code>: Called after <code>join()</code> to produce the final result or throw.</li>
+</ul>
+<p>This separates lifecycle (the scope) from policy (the joiner). You can write a custom <code>Joiner</code> for any aggregation pattern without touching thread management internals.</p>
+<h3 id="standard-joiners">Standard Joiners</h3>
+<p><strong><code>Joiner.allSuccessfulOrThrow()</code></strong>: Fail-fast for scatter-gather. If any task fails, cancel the rest and throw <code>FailedException</code>.</p>
+<p><strong><code>Joiner.anySuccessfulResultOrThrow()</code></strong>: Race pattern. First success wins, cancel the rest.</p>
+<p><strong><code>Joiner.awaitAll()</code></strong>: Wait for all tasks regardless of success/failure (batch jobs where you log failures instead of aborting).</p>
+<h2 id="practical-patterns">Practical Patterns</h2>
+<h3 id="pattern-all-or-nothing-fan-out">Pattern: All-or-Nothing Fan-Out</h3>
+<p>You’re building an invoice. You need Order, Customer, and Template. All three or nothing.</p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token keyword">public</span> <span class="token class-name">Invoice</span> <span class="token function">createInvoice</span><span class="token punctuation">(</span><span class="token keyword">int</span> orderId<span class="token punctuation">,</span> <span class="token keyword">int</span> customerId<span class="token punctuation">,</span> <span class="token class-name">String</span> lang<span class="token punctuation">)</span> 
+        <span class="token keyword">throws</span> <span class="token class-name">InterruptedException</span> <span class="token punctuation">{</span>
+    <span class="token keyword">try</span> <span class="token punctuation">(</span><span class="token keyword">var</span> scope <span class="token operator">=</span> <span class="token class-name">StructuredTaskScope</span><span class="token punctuation">.</span><span class="token keyword">open</span><span class="token punctuation">(</span><span class="token class-name">Joiner</span><span class="token punctuation">.</span><span class="token function">allSuccessfulOrThrow</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        
+        <span class="token class-name">Subtask</span><span class="token generics"><span class="token punctuation">&#x3C;</span><span class="token class-name">Order</span><span class="token punctuation">></span></span> orderTask <span class="token operator">=</span> scope<span class="token punctuation">.</span><span class="token function">fork</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-></span> orderService<span class="token punctuation">.</span><span class="token function">getOrder</span><span class="token punctuation">(</span>orderId<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">Subtask</span><span class="token generics"><span class="token punctuation">&#x3C;</span><span class="token class-name">Customer</span><span class="token punctuation">></span></span> custTask <span class="token operator">=</span> scope<span class="token punctuation">.</span><span class="token function">fork</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-></span> customerService<span class="token punctuation">.</span><span class="token function">getCustomer</span><span class="token punctuation">(</span>customerId<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">Subtask</span><span class="token generics"><span class="token punctuation">&#x3C;</span><span class="token class-name">Template</span><span class="token punctuation">></span></span> tmplTask <span class="token operator">=</span> scope<span class="token punctuation">.</span><span class="token function">fork</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-></span> templateService<span class="token punctuation">.</span><span class="token function">getTemplate</span><span class="token punctuation">(</span>lang<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        scope<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// If any fail, throws FailedException and cancels others</span>
+
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Invoice</span><span class="token punctuation">(</span>orderTask<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> custTask<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> tmplTask<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Key insight: If <code>orderService</code> hangs and <code>customerService</code> throws, the scope cancels the hung thread. No infinite wait.</p>
+<h3 id="pattern-redundant-race">Pattern: Redundant Race</h3>
+<p>Query three stock price providers. Take the first response.</p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token keyword">public</span> <span class="token keyword">double</span> <span class="token function">getStockPrice</span><span class="token punctuation">(</span><span class="token class-name">String</span> symbol<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">InterruptedException</span> <span class="token punctuation">{</span>
+    <span class="token keyword">try</span> <span class="token punctuation">(</span><span class="token keyword">var</span> scope <span class="token operator">=</span> <span class="token class-name">StructuredTaskScope</span><span class="token punctuation">.</span><span class="token keyword">open</span><span class="token punctuation">(</span><span class="token class-name">Joiner</span><span class="token punctuation">.</span><span class="token generics"><span class="token punctuation">&#x3C;</span><span class="token class-name">Double</span><span class="token punctuation">></span></span><span class="token function">anySuccessfulResultOrThrow</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        scope<span class="token punctuation">.</span><span class="token function">fork</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-></span> providerA<span class="token punctuation">.</span><span class="token function">getPrice</span><span class="token punctuation">(</span>symbol<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        scope<span class="token punctuation">.</span><span class="token function">fork</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-></span> providerB<span class="token punctuation">.</span><span class="token function">getPrice</span><span class="token punctuation">(</span>symbol<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        scope<span class="token punctuation">.</span><span class="token function">fork</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-></span> providerC<span class="token punctuation">.</span><span class="token function">getPrice</span><span class="token punctuation">(</span>symbol<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">return</span> scope<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// Returns first success, cancels the rest</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Compare this to <code>CompletableFuture.anyOf()</code>, which doesn’t cancel losing tasks. Those keep running, wasting CPU and network. Structured Concurrency’s auto-cancel is a massive win for high-throughput systems.</p>
+<h3 id="pattern-timeouts">Pattern: Timeouts</h3>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token keyword">public</span> <span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&#x3C;</span><span class="token class-name">String</span><span class="token punctuation">></span></span> <span class="token function">fetchWithDeadline</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">InterruptedException</span> <span class="token punctuation">{</span>
+    <span class="token keyword">try</span> <span class="token punctuation">(</span><span class="token keyword">var</span> scope <span class="token operator">=</span> <span class="token class-name">StructuredTaskScope</span><span class="token punctuation">.</span><span class="token keyword">open</span><span class="token punctuation">(</span>
+            <span class="token class-name">Joiner</span><span class="token punctuation">.</span><span class="token function">allSuccessfulOrThrow</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> 
+            config <span class="token operator">-></span> config<span class="token punctuation">.</span><span class="token function">withTimeout</span><span class="token punctuation">(</span><span class="token class-name">Duration</span><span class="token punctuation">.</span><span class="token function">ofSeconds</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        
+        scope<span class="token punctuation">.</span><span class="token function">fork</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-></span> <span class="token function">slowTask</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        scope<span class="token punctuation">.</span><span class="token function">fork</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-></span> <span class="token function">fastTask</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        scope<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// Throws TimeoutException if > 2 seconds</span>
+        
+        <span class="token keyword">return</span> <span class="token class-name">List</span><span class="token punctuation">.</span><span class="token function">of</span><span class="token punctuation">(</span><span class="token comment">/* results */</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">StructuredTaskScope<span class="token punctuation">.</span>TimeoutException</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        log<span class="token punctuation">.</span><span class="token function">warn</span><span class="token punctuation">(</span><span class="token string">"Timed out"</span><span class="token punctuation">,</span> e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token class-name">List</span><span class="token punctuation">.</span><span class="token function">of</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>The timeout is scoped to the block. If it fires, the scope cancels everything.</p>
+<h3 id="pattern-custom-quorum-joiner">Pattern: Custom Quorum Joiner</h3>
+<p>Distributed consensus: query 5 replicas, need 3 successful responses to trust the data.</p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">QuorumJoiner</span><span class="token generics"><span class="token punctuation">&#x3C;</span><span class="token class-name">T</span><span class="token punctuation">></span></span> <span class="token keyword">implements</span> <span class="token class-name">Joiner</span><span class="token generics"><span class="token punctuation">&#x3C;</span><span class="token class-name">T</span><span class="token punctuation">,</span> <span class="token class-name">List</span><span class="token punctuation">&#x3C;</span><span class="token class-name">T</span><span class="token punctuation">></span><span class="token punctuation">></span></span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token keyword">int</span> quorum<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&#x3C;</span><span class="token class-name">T</span><span class="token punctuation">></span></span> successes <span class="token operator">=</span> <span class="token class-name">Collections</span><span class="token punctuation">.</span><span class="token function">synchronizedList</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token generics"><span class="token punctuation">&#x3C;</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">AtomicInteger</span> failures <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">AtomicInteger</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token keyword">int</span> totalTasks<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token class-name">QuorumJoiner</span><span class="token punctuation">(</span><span class="token keyword">int</span> totalTasks<span class="token punctuation">,</span> <span class="token keyword">int</span> quorum<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>totalTasks <span class="token operator">=</span> totalTasks<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>quorum <span class="token operator">=</span> quorum<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">onComplete</span><span class="token punctuation">(</span><span class="token class-name">Subtask</span><span class="token generics"><span class="token punctuation">&#x3C;</span><span class="token class-name">T</span><span class="token punctuation">></span></span> subtask<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>subtask<span class="token punctuation">.</span><span class="token function">state</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token class-name">Subtask<span class="token punctuation">.</span>State</span><span class="token punctuation">.</span><span class="token constant">SUCCESS</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            successes<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>subtask<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span> successes<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">>=</span> quorum<span class="token punctuation">;</span>  <span class="token comment">// Cancel rest if quorum met</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            <span class="token keyword">int</span> maxFailures <span class="token operator">=</span> totalTasks <span class="token operator">-</span> quorum<span class="token punctuation">;</span>
+            <span class="token keyword">return</span> failures<span class="token punctuation">.</span><span class="token function">incrementAndGet</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">></span> maxFailures<span class="token punctuation">;</span>  <span class="token comment">// Fail fast if quorum impossible</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&#x3C;</span><span class="token class-name">T</span><span class="token punctuation">></span></span> <span class="token function">result</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>successes<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">>=</span> quorum<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token generics"><span class="token punctuation">&#x3C;</span><span class="token punctuation">></span></span><span class="token punctuation">(</span>successes<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">StructuredTaskScope<span class="token punctuation">.</span>FailedException</span><span class="token punctuation">(</span>
+            <span class="token keyword">new</span> <span class="token class-name">RuntimeException</span><span class="token punctuation">(</span><span class="token string">"Quorum not reached"</span><span class="token punctuation">)</span>
+        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>This level of control was painful with <code>ExecutorService</code>. You’d need <code>CountDownLatch</code>, manual cancellation, and a lot of synchronized blocks.</p>
+<h2 id="scoped-values-context-propagation-without-threadlocal">Scoped Values: Context Propagation Without ThreadLocal</h2>
+<p><code>ThreadLocal</code> is a disaster with Virtual Threads. It’s mutable, leaks memory in thread pools, and copying maps across millions of threads is expensive.</p>
+<p><code>ScopedValue</code> (JEP 506) is immutable and lexically scoped. When you open a <code>StructuredTaskScope</code>, it captures current scoped values. When you fork a task, those bindings are inherited automatically.</p>
+<pre class="language-java" data-language="java"><code is:raw="" class="language-java"><span class="token keyword">final</span> <span class="token keyword">static</span> <span class="token class-name">ScopedValue</span><span class="token generics"><span class="token punctuation">&#x3C;</span><span class="token class-name">String</span><span class="token punctuation">></span></span> <span class="token constant">TRACE_ID</span> <span class="token operator">=</span> <span class="token class-name">ScopedValue</span><span class="token punctuation">.</span><span class="token function">newInstance</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">void</span> <span class="token function">handleRequest</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token class-name">ScopedValue</span><span class="token punctuation">.</span><span class="token function">where</span><span class="token punctuation">(</span><span class="token constant">TRACE_ID</span><span class="token punctuation">,</span> <span class="token string">"req-8899"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-></span> <span class="token punctuation">{</span>
+        <span class="token keyword">try</span> <span class="token punctuation">(</span><span class="token keyword">var</span> scope <span class="token operator">=</span> <span class="token class-name">StructuredTaskScope</span><span class="token punctuation">.</span><span class="token keyword">open</span><span class="token punctuation">(</span><span class="token class-name">Joiner</span><span class="token punctuation">.</span><span class="token function">awaitAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            scope<span class="token punctuation">.</span><span class="token function">fork</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-></span> <span class="token punctuation">{</span>
+                <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Trace: "</span> <span class="token operator">+</span> <span class="token constant">TRACE_ID</span><span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// Prints "req-8899"</span>
+                <span class="token keyword">return</span> <span class="token function">performDbQuery</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            scope<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>No manual passing of trace IDs, no MDC gymnastics. The JVM handles propagation using structural sharing (basically a linked list on the stack frame), making it near-zero-cost.</p> </div>    <section class="related-posts" data-astro-cid-dpgbfi7r> <h2 data-astro-cid-dpgbfi7r>Related Posts</h2> <div class="related-posts-grid" data-astro-cid-dpgbfi7r> <article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/java-25-gather/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>Java 25 Gather API</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>TL;DR Java 25&#39;s Gather API solves a 15-year-old problem: you can finally write concurrent I/O code that&#39;s both readable…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2025-12-01T00:00:00.000Z" data-astro-cid-dpgbfi7r> Dec 1, 2025 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>7 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/ai-news/2025-12-09-fray-detects-concurrency-issues-in-jvm-languages/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>Fray Detects Concurrency Issues in JVM Languages</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>Fray Detects Concurrency Issues in JVM Languages Carnegie Mellon University has introduced Fray, a concurrency testing…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2025-12-09T00:00:00.000Z" data-astro-cid-dpgbfi7r> Dec 9, 2025 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>1 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/ai-news/2025-11-01-spring-boot-performance-optimization/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>Spring Boot Performance Optimization: Expert Tips and Techniques</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>Spring Boot Performance Optimization: Expert Tips and Techniques Performance is critical for production Spring Boot…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2025-11-01T00:00:00.000Z" data-astro-cid-dpgbfi7r> Nov 1, 2025 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>7 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/ai-news/2025-12-22-podcast-the-latest-in-openjdk-and-jcp-expert-group-insights-with-simon-ritter/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>OpenJDK Advances: Generational Shenandoah, Project Leyden, and a Six-Month Release Cycle</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>Serving on the JCP Expert Group The Java Community Process (JCP) Expert Group is adapting to a faster pace of…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2025-12-22T00:00:00.000Z" data-astro-cid-dpgbfi7r> Dec 22, 2025 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>2 min read</span> </div> </a> </article> </div> </section>  </article> </div> <div class="back-link" data-astro-cid-yvbahnfj><a href="/" data-astro-cid-yvbahnfj>← Back to home</a></div>  </main> <!-- Site Footer --> <footer class="site-footer container"> <p>
+© 2025 AREZKI El Mehdi •
+<a href="https://github.com/earezki">GitHub</a> •
+<a href="/rss.xml">RSS</a> •
+<a href="/tags/">Tags</a> •
+<a href="/sitemap-index.xml">Sitemap</a> •
+<button id="footer-subscribe-btn" class="footer-subscribe-btn" aria-label="Subscribe to newsletter">
+📬 Subscribe
+</button> </p> </footer> <!-- Footer Subscribe Button Handler --> <script type="module">const e=document.getElementById("themeToggle"),o=n=>{if(!e)return;const t=e.querySelector(".theme-icon");t&&(t.textContent=n==="dark"?"☀":"☾")};if(e){const n=document.documentElement.getAttribute("data-theme")||"dark";o(n),e.addEventListener("click",()=>{const t=document.documentElement,c=t.getAttribute("data-theme")==="dark"?"light":"dark";t.setAttribute("data-theme",c),localStorage.setItem("theme",c),o(c)})}</script> <!-- Theme Toggle --> <script type="module">document.addEventListener("DOMContentLoaded",()=>{const e=document.getElementById("footer-subscribe-btn");e&&e.addEventListener("click",n=>{n.preventDefault();const t=document.getElementById("subscription-popup");t&&(t.setAttribute("data-state","visible"),document.body.style.overflow="hidden")})});</script> <!-- Article read/unread tracking --> <script>
+      (function() {
+        const KEY = 'readArticles';
+        
+        function getRead() {
+          try {
+            const d = localStorage.getItem(KEY);
+            return d ? JSON.parse(d) : [];
+          } catch (e) {
+            return [];
+          }
+        }
+        
+        function markRead(url) {
+          try {
+            const read = getRead();
+            if (!read.includes(url)) {
+              read.push(url);
+              localStorage.setItem(KEY, JSON.stringify(read));
+            }
+          } catch (e) {}
+        }
+        
+        function updateCards() {
+          const read = new Set(getRead());
+          const cards = document.querySelectorAll('.post-card[data-article-url]');
+          cards.forEach(function(card) {
+            const url = card.getAttribute('data-article-url');
+            if (!url) return;
+            const isRead = read.has(url);
+            card.classList.toggle('read', isRead);
+            card.classList.toggle('unread', !isRead);
+          });
+        }
+        
+        function markCurrent() {
+          if (document.querySelector('.post-body')) {
+            markRead(window.location.pathname);
+          }
+        }
+        
+        function init() {
+          updateCards();
+          markCurrent();
+        }
+        
+        function clearRead(url) {
+          try {
+            const read = new Set(getRead());
+            if (read.has(url)) {
+              read.delete(url);
+              localStorage.setItem(KEY, JSON.stringify(Array.from(read)));
+              updateCards();
+            }
+          } catch (e) {}
+        }
+        
+        window.clearReadArticle = clearRead;
+        document.addEventListener('DOMContentLoaded', init);
+        window.addEventListener('pageshow', function(e) {
+          if (e.persisted) init();
+        });
+      })();
+    </script> <!-- Clear read button handler --> <script>
+      (function() {
+        document.addEventListener('click', function(e) {
+          var tgt = e.target, btn = null;
+          while (tgt && tgt !== document) {
+            if (tgt.classList && tgt.classList.contains('clear-read-btn')) {
+              btn = tgt;
+              break;
+            }
+            tgt = tgt.parentNode;
+          }
+          if (!btn) return;
+          e.preventDefault();
+          e.stopPropagation();
+          var url = btn.getAttribute('data-article-url');
+          if (url && window.clearReadArticle) window.clearReadArticle(url);
+        });
+      })();
+    </script> <!-- External links open in new tab --> <script>
+      (function() {
+        function makeExternal() {
+          const domain = window.location.hostname;
+          const links = document.querySelectorAll('a[href]');
+          links.forEach(function(link) {
+            const href = link.getAttribute('href');
+            if (!href || link.hasAttribute('target')) return;
+            const isExt = (href.startsWith('http://') || href.startsWith('https://')) && !href.includes(domain);
+            if (isExt) {
+              link.setAttribute('target', '_blank');
+              link.setAttribute('rel', 'noopener noreferrer');
+            }
+          });
+        }
+        document.addEventListener('DOMContentLoaded', makeExternal);
+        if (window.MutationObserver) {
+          const obs = new MutationObserver(function(muts) {
+            muts.forEach(function(mut) {
+              if (mut.addedNodes.length) makeExternal();
+            });
+          });
+          obs.observe(document.body, { childList: true, subtree: true });
+        }
+      })();
+    </script> <!-- Code copy buttons --> <script>
+      (function() {
+        function createBtn() {
+          const btn = document.createElement('button');
+          btn.className = 'copy-code-button';
+          btn.setAttribute('aria-label', 'Copy code to clipboard');
+          btn.innerHTML = `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span>Copy</span>
+          `;
+          return btn;
+        }
+        
+        function checkIcon() {
+          return `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span>Copied!</span>
+          `;
+        }
+        
+        async function copyText(txt) {
+          try {
+            await navigator.clipboard.writeText(txt);
+            return true;
+          } catch (err) {
+            const ta = document.createElement('textarea');
+            ta.value = txt;
+            ta.style.position = 'fixed';
+            ta.style.left = '-999999px';
+            document.body.appendChild(ta);
+            ta.select();
+            try {
+              document.execCommand('copy');
+              document.body.removeChild(ta);
+              return true;
+            } catch (e) {
+              document.body.removeChild(ta);
+              return false;
+            }
+          }
+        }
+        
+        async function handleCopy(btn, code) {
+          const txt = code.textContent || '';
+          const ok = await copyText(txt);
+          if (ok) {
+            const orig = btn.innerHTML;
+            btn.classList.add('copied');
+            btn.innerHTML = checkIcon();
+            setTimeout(function() {
+              btn.classList.remove('copied');
+              btn.innerHTML = orig;
+            }, 2000);
+          }
+        }
+        
+        function addBtns() {
+          const blocks = document.querySelectorAll('.post-body pre');
+          blocks.forEach(function(pre) {
+            if (pre.querySelector('.copy-code-button')) return;
+            const btn = createBtn();
+            const code = pre.querySelector('code');
+            if (code) {
+              btn.addEventListener('click', function() {
+                handleCopy(btn, code);
+              });
+              pre.appendChild(btn);
+            }
+          });
+        }
+        
+        document.addEventListener('DOMContentLoaded', addBtns);
+      })();
+    </script> <!-- Newsletter Subscription Popup --> <div id="subscription-popup" class="subscription-popup" data-state="hidden" data-auto-trigger="true" data-astro-cid-we5gmdnp> <div class="popup-overlay" id="popup-overlay" data-astro-cid-we5gmdnp></div> <div class="popup-container" data-astro-cid-we5gmdnp> <div class="popup-content" data-astro-cid-we5gmdnp> <div class="popup-icon" data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-we5gmdnp> <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" data-astro-cid-we5gmdnp></path> <polyline points="22,6 12,13 2,6" data-astro-cid-we5gmdnp></polyline> </svg> </div> <h2 class="popup-title" data-astro-cid-we5gmdnp>Stay Updated with Dev|Journal</h2> <p class="popup-description" id="popup-description" data-astro-cid-we5gmdnp>
+Join our community of developers and engineers. Get insights on:
+</p> <ul class="popup-features" data-astro-cid-we5gmdnp> <li data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-we5gmdnp> <polyline points="20 6 9 17 4 12" data-astro-cid-we5gmdnp></polyline> </svg>
+Software Architecture & Design Patterns
+</li> <li data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-we5gmdnp> <polyline points="20 6 9 17 4 12" data-astro-cid-we5gmdnp></polyline> </svg>
+Backend Development Best Practices
+</li> <li data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-we5gmdnp> <polyline points="20 6 9 17 4 12" data-astro-cid-we5gmdnp></polyline> </svg>
+AI & Tech Industry Analysis
+</li> </ul> <form id="subscription-form" class="popup-form" data-astro-cid-we5gmdnp> <div class="form-group" data-astro-cid-we5gmdnp> <input type="text" id="subscriber-name" name="name" placeholder="Your name" required autocomplete="name" data-astro-cid-we5gmdnp> </div> <div class="form-group" data-astro-cid-we5gmdnp> <input type="email" id="subscriber-email" name="email" placeholder="your.email@example.com" required autocomplete="email" data-astro-cid-we5gmdnp> </div> <div id="form-message" class="form-message" data-astro-cid-we5gmdnp></div> <div class="popup-actions" data-astro-cid-we5gmdnp> <button type="submit" class="btn btn-primary" id="subscribe-btn" data-astro-cid-we5gmdnp> <span class="btn-text" data-astro-cid-we5gmdnp>Subscribe</span> <span class="btn-loader" data-astro-cid-we5gmdnp> <svg class="spinner" viewBox="0 0 24 24" data-astro-cid-we5gmdnp> <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" data-astro-cid-we5gmdnp></circle> </svg> </span> </button> <button type="button" class="btn btn-secondary" id="not-now-btn" data-astro-cid-we5gmdnp>Not Now</button> <button type="button" class="btn btn-text" id="cancel-btn" data-astro-cid-we5gmdnp>Don't Show Again</button> </div> </form> </div> </div> </div>  <script>
+  // Configuration
+  const CONFIG = {
+    graceDelay: 5000, // 5 seconds delay before showing popup
+    notNowDelay: 24 * 60 * 60 * 1000, // 1 day in milliseconds
+    apiUrl: 'https://api.earezki.com/blog/api',
+  };
+
+  const STORAGE_KEYS = {
+    subscribed: 'newsletter_subscribed',
+    cancelled: 'newsletter_cancelled',
+    notNowUntil: 'newsletter_not_now_until',
+  };
+
+  // State management
+  let popupTimeout = null;
+
+  function showPopup() {
+    const popup = document.getElementById('subscription-popup');
+    if (popup) {
+      popup.setAttribute('data-state', 'visible');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  function hidePopup() {
+    const popup = document.getElementById('subscription-popup');
+    if (popup) {
+      popup.setAttribute('data-state', 'hidden');
+      document.body.style.overflow = '';
+    }
+  }
+
+  function shouldShowPopup() {
+    // Check if user has already subscribed
+    if (localStorage.getItem(STORAGE_KEYS.subscribed) === 'true') {
+      return false;
+    }
+
+    // Check if user clicked "Don't show again"
+    if (localStorage.getItem(STORAGE_KEYS.cancelled) === 'true') {
+      return false;
+    }
+
+    // Check if user clicked "Not now" and delay hasn't passed
+    const notNowUntil = localStorage.getItem(STORAGE_KEYS.notNowUntil);
+    if (notNowUntil) {
+      const notNowTime = parseInt(notNowUntil, 10);
+      if (Date.now() < notNowTime) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  async function getSubscriberStats() {
+    try {
+      const response = await fetch(`${CONFIG.apiUrl}/subscribers/stats`, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+        },
+      });
+      
+      if (!response.ok) {
+        return null;
+      }
+      
+      const data = await response.json();
+      return data.subscriber_count || null;
+    } catch (error) {
+      console.error('Failed to fetch subscriber stats:', error);
+      return null;
+    }
+  }
+
+  async function schedulePopup() {
+    if (!shouldShowPopup()) {
+      return;
+    }
+
+    // Fetch subscriber stats before scheduling popup
+    const subscriberCount = await getSubscriberStats();
+    if (subscriberCount === null) {
+      console.log('Failed to fetch subscriber stats, not showing subscription popup');
+      return;
+    }
+
+    // Update popup with subscriber count
+    updatePopupWithStats(subscriberCount);
+
+    // Show popup after grace period
+    popupTimeout = window.setTimeout(() => {
+      showPopup();
+    }, CONFIG.graceDelay);
+  }
+
+  function updatePopupWithStats(count) {
+    const descriptionEl = document.querySelector('.popup-description');
+    if (descriptionEl) {
+      const formattedCount = new Intl.NumberFormat('en-US').format(count);
+      descriptionEl.innerHTML = `Join a community of <strong>${formattedCount}+</strong> developers and engineers who are growing together. Get insights on:`;
+    }
+  }
+
+  async function handleSubscribe(event) {
+    event.preventDefault();
+    
+    const form = event.target;
+    const nameInput = form.querySelector('#subscriber-name');
+    const emailInput = form.querySelector('#subscriber-email');
+    const submitBtn = form.querySelector('#subscribe-btn');
+    const messageEl = document.getElementById('form-message');
+
+    const name = nameInput.value.trim();
+    const email = emailInput.value.trim();
+
+    if (!name || !email) {
+      if (messageEl) {
+        messageEl.textContent = 'Please fill in all fields.';
+        messageEl.className = 'form-message error';
+      }
+      return;
+    }
+
+    // Show loading state
+    submitBtn.classList.add('loading');
+    submitBtn.disabled = true;
+    if (messageEl) {
+      messageEl.textContent = '';
+      messageEl.className = 'form-message';
+    }
+
+    try {
+      const response = await fetch(`${CONFIG.apiUrl}/subscribe`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, email }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        localStorage.setItem(STORAGE_KEYS.subscribed, 'true');
+        
+        if (messageEl) {
+          messageEl.textContent = '🎉 Successfully subscribed! Thank you for joining us.';
+          messageEl.className = 'form-message success';
+        }
+
+        // Hide popup after 2 seconds
+        setTimeout(() => {
+          hidePopup();
+        }, 2000);
+      } else {
+        if (messageEl) {
+          messageEl.textContent = data.error || 'Subscription failed. Please try again.';
+          messageEl.className = 'form-message error';
+        }
+      }
+    } catch (error) {
+      console.error('Subscription error:', error);
+      if (messageEl) {
+        messageEl.textContent = 'Network error. Please check your connection and try again.';
+        messageEl.className = 'form-message error';
+      }
+    } finally {
+      submitBtn.classList.remove('loading');
+      submitBtn.disabled = false;
+    }
+  }
+
+  function handleNotNow() {
+    const notNowUntil = Date.now() + CONFIG.notNowDelay;
+    localStorage.setItem(STORAGE_KEYS.notNowUntil, notNowUntil.toString());
+    hidePopup();
+  }
+
+  function handleCancel() {
+    localStorage.setItem(STORAGE_KEYS.cancelled, 'true');
+    hidePopup();
+  }
+
+  // Initialize popup
+  document.addEventListener('DOMContentLoaded', () => {
+    const popup = document.getElementById('subscription-popup');
+    const autoTrigger = popup?.getAttribute('data-auto-trigger') === 'true';
+    
+    // Schedule popup to show after grace period only if autoTrigger is enabled
+    if (autoTrigger) {
+      schedulePopup();
+    }
+
+    // Event listeners
+    const form = document.getElementById('subscription-form');
+    const overlay = document.getElementById('popup-overlay');
+    const notNowBtn = document.getElementById('not-now-btn');
+    const cancelBtn = document.getElementById('cancel-btn');
+
+    if (form) {
+      form.addEventListener('submit', handleSubscribe);
+    }
+
+    if (overlay) {
+      overlay.addEventListener('click', handleNotNow);
+    }
+
+    if (notNowBtn) {
+      notNowBtn.addEventListener('click', handleNotNow);
+    }
+
+    if (cancelBtn) {
+      cancelBtn.addEventListener('click', handleCancel);
+    }
+
+    // Clean up on page unload
+    window.addEventListener('beforeunload', () => {
+      if (popupTimeout) {
+        clearTimeout(popupTimeout);
+      }
+    });
+  });
+</script> </body></html> 
