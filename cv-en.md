@@ -147,6 +147,22 @@ systems that make a real difference.
 
 ## 🚀 Personal Projects
 
+🔗 Slui - URL Shortener
+
+Visit App →
+
+Mobile-first Progressive Web App for creating short links with lightning-fast
+performance. Privacy-focused URL shortening with no tracking or cookies, instant
+QR code generation, and beautiful dashboard for managing all your links. PWA
+support enables offline access.
+
+TypeScript
+React
+PWA
+Python
+FastAPI
+QR Codes
+
 🏋️ Swipe Interview App
 
 Visit App →

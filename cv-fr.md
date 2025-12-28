@@ -154,6 +154,23 @@ StackOverflow
 
 ## 🚀 Projets Personnels
 
+🔗 Slui - Raccourcisseur d'URL
+
+Visiter l'app →
+
+Application web progressive mobile-first pour créer des liens courts avec des
+performances ultra-rapides. Service de raccourcissement d'URL axé sur la
+confidentialité sans suivi ni cookies, génération instantanée de codes QR, et
+tableau de bord élégant pour gérer tous vos liens. Support PWA pour l'accès hors
+ligne.
+
+TypeScript
+React
+PWA
+Python
+FastAPI
+QR Codes
+
 🏋️ Swipe Interview App
 
 Visiter l'app →
