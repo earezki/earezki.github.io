@@ -17,7 +17,7 @@ AI News
 AI Financial
 </a> <a href="/about/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <circle cx="12" cy="12" r="10"></circle> <path d="M12 16v-4"></path> <path d="M12 8h.01"></path> </svg>
 About
-</a> <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode"> <span class="theme-icon" aria-hidden="true">☾</span> </button> </nav> </header> <!-- Main Content --> <main class="container content-area">  <nav class="breadcrumbs" aria-label="Breadcrumb" data-astro-cid-ilhxcym7> <ol data-astro-cid-ilhxcym7> <li data-astro-cid-ilhxcym7>  <a href="/" data-astro-cid-ilhxcym7>Home</a> <span class="separator" aria-hidden="true" data-astro-cid-ilhxcym7>/</span>  </li><li data-astro-cid-ilhxcym7> <span class="current" aria-current="page" data-astro-cid-ilhxcym7>Python Modules and Imports - Best Practices and Pitfalls</span> </li> <li data-astro-cid-ilhxcym7> <span class="new-badge-breadcrumb" data-astro-cid-ilhxcym7>NEW</span> </li> </ol> </nav>  <div class="post-layout" data-astro-cid-yvbahnfj> <aside class="sidebar-left" data-astro-cid-yvbahnfj> <nav class="toc" aria-label="Table of Contents" data-astro-cid-xvrfupwn> <div class="toc-title" data-astro-cid-xvrfupwn>On this page</div> <ul data-astro-cid-xvrfupwn> <li class="d-2" data-astro-cid-xvrfupwn> <a href="#1-tldr-the-import-essentials" data-astro-cid-xvrfupwn> 1. TL;DR - The Import Essentials </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#2-understanding-pythons-import-system" data-astro-cid-xvrfupwn> 2. Understanding Python&#39;s Import System </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#how-imports-actually-work" data-astro-cid-xvrfupwn> How Imports Actually Work </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#the-syspath-search-order" data-astro-cid-xvrfupwn> The sys.path Search Order </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#3-import-styles-when-to-use-each" data-astro-cid-xvrfupwn> 3. Import Styles - When to Use Each </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#absolute-imports-recommended" data-astro-cid-xvrfupwn> Absolute Imports (Recommended) </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#relative-imports-use-sparingly" data-astro-cid-xvrfupwn> Relative Imports (Use Sparingly) </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#import-variants" data-astro-cid-xvrfupwn> Import Variants </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#4-best-practices" data-astro-cid-xvrfupwn> 4. Best Practices </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#practice-1-import-at-module-level" data-astro-cid-xvrfupwn> Practice #1: Import at Module Level </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#practice-2-use-typechecking-for-type-hints" data-astro-cid-xvrfupwn> Practice #2: Use TYPE_CHECKING for Type Hints </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#practice-3-organize-imports-pep-8" data-astro-cid-xvrfupwn> Practice #3: Organize Imports (PEP 8) </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#practice-4-avoid-wildcard-imports" data-astro-cid-xvrfupwn> Practice #4: Avoid Wildcard Imports </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#practice-5-use-all-to-define-public-api" data-astro-cid-xvrfupwn> Practice #5: Use `__all__` to Define Public API </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#5-common-pitfalls-and-solutions" data-astro-cid-xvrfupwn> 5. Common Pitfalls and Solutions </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#pitfall-1-circular-imports" data-astro-cid-xvrfupwn> Pitfall #1: Circular Imports </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#pitfall-2-importing-mutable-objects" data-astro-cid-xvrfupwn> Pitfall #2: Importing Mutable Objects </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#pitfall-3-late-import-side-effects" data-astro-cid-xvrfupwn> Pitfall #3: Late Import Side Effects </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#pitfall-4-import-order-dependencies" data-astro-cid-xvrfupwn> Pitfall #4: Import Order Dependencies </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#pitfall-5-namespace-pollution" data-astro-cid-xvrfupwn> Pitfall #5: Namespace Pollution </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#6-performance-considerations" data-astro-cid-xvrfupwn> 6. Performance Considerations </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#import-cost-measurement" data-astro-cid-xvrfupwn> Import Cost Measurement </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#lazy-imports-for-cli-tools" data-astro-cid-xvrfupwn> Lazy Imports for CLI Tools </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#import-caching" data-astro-cid-xvrfupwn> Import Caching </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#7-advanced-patterns" data-astro-cid-xvrfupwn> 7. Advanced Patterns </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#dynamic-imports-with-importlib" data-astro-cid-xvrfupwn> Dynamic Imports with importlib </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#conditional-imports" data-astro-cid-xvrfupwn> Conditional Imports </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#import-hooks-advanced" data-astro-cid-xvrfupwn> Import Hooks (Advanced) </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#8-project-structure-best-practices" data-astro-cid-xvrfupwn> 8. Project Structure Best Practices </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#flat-is-better-than-nested" data-astro-cid-xvrfupwn> Flat is Better Than Nested </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#package-structure" data-astro-cid-xvrfupwn> Package Structure </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#namespace-packages-advanced" data-astro-cid-xvrfupwn> Namespace Packages (Advanced) </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#conclusion" data-astro-cid-xvrfupwn> Conclusion </a> </li> </ul> </nav>  </aside> <article class="post" data-astro-cid-yvbahnfj> <header class="post-header" data-astro-cid-yvbahnfj> <h1 data-astro-cid-yvbahnfj>Python Modules and Imports - Best Practices and Pitfalls</h1> <div class="meta" data-astro-cid-yvbahnfj> <time datetime="2026-01-02T00:00:00.000Z" data-astro-cid-yvbahnfj>Fri Jan 02 2026</time> <span data-astro-cid-yvbahnfj>• 10 min read</span> </div> <div class="tag-row" data-astro-cid-yvbahnfj><a class="post-tag  " href="/tags/python/" data-astro-cid-yvbahnfj>Python</a><a class="post-tag  " href="/tags/best-practices/" data-astro-cid-yvbahnfj>Best Practices</a><a class="post-tag  " href="/tags/software-engineering/" data-astro-cid-yvbahnfj>Software Engineering</a><a class="post-tag  " href="/tags/code-quality/" data-astro-cid-yvbahnfj>Code Quality</a></div> </header> <div class="banner warning" role="alert"> <div class="banner-icon" aria-hidden="true">⚠️</div> <div class="banner-content"> <strong>This article is not yet published</strong> <p>Publishing in 4 days. This page is accessible but won't appear in post listings until the publication date.</p> </div> </div>    <div class="post-body prose" data-astro-cid-yvbahnfj> <h1 id="python-modules-and-imports---best-practices-and-pitfalls">Python Modules and Imports - Best Practices and Pitfalls</h1>
+</a> <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode"> <span class="theme-icon" aria-hidden="true">☾</span> </button> </nav> </header> <!-- Main Content --> <main class="container content-area">  <nav class="breadcrumbs" aria-label="Breadcrumb" data-astro-cid-ilhxcym7> <ol data-astro-cid-ilhxcym7> <li data-astro-cid-ilhxcym7>  <a href="/" data-astro-cid-ilhxcym7>Home</a> <span class="separator" aria-hidden="true" data-astro-cid-ilhxcym7>/</span>  </li><li data-astro-cid-ilhxcym7> <span class="current" aria-current="page" data-astro-cid-ilhxcym7>Python Modules and Imports - Best Practices and Pitfalls</span> </li> <li data-astro-cid-ilhxcym7> <span class="new-badge-breadcrumb" data-astro-cid-ilhxcym7>NEW</span> </li> </ol> </nav>  <div class="post-layout" data-astro-cid-yvbahnfj> <aside class="sidebar-left" data-astro-cid-yvbahnfj> <nav class="toc" aria-label="Table of Contents" data-astro-cid-xvrfupwn> <div class="toc-title" data-astro-cid-xvrfupwn>On this page</div> <ul data-astro-cid-xvrfupwn> <li class="d-2" data-astro-cid-xvrfupwn> <a href="#1-tldr-the-import-essentials" data-astro-cid-xvrfupwn> 1. TL;DR - The Import Essentials </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#2-understanding-pythons-import-system" data-astro-cid-xvrfupwn> 2. Understanding Python&#39;s Import System </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#how-imports-actually-work" data-astro-cid-xvrfupwn> How Imports Actually Work </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#the-syspath-search-order" data-astro-cid-xvrfupwn> The sys.path Search Order </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#3-import-styles-when-to-use-each" data-astro-cid-xvrfupwn> 3. Import Styles - When to Use Each </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#absolute-imports-recommended" data-astro-cid-xvrfupwn> Absolute Imports (Recommended) </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#relative-imports-use-sparingly" data-astro-cid-xvrfupwn> Relative Imports (Use Sparingly) </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#import-variants" data-astro-cid-xvrfupwn> Import Variants </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#4-understanding-initpy" data-astro-cid-xvrfupwn> 4. Understanding `__init__.py` </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#what-is-initpy" data-astro-cid-xvrfupwn> What is `__init__.py`? </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#why-use-initpy" data-astro-cid-xvrfupwn> Why Use `__init__.py`? </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#how-to-use-initpy" data-astro-cid-xvrfupwn> How to Use `__init__.py` </a> </li><li class="d-4" data-astro-cid-xvrfupwn> <a href="#empty-initpy-minimal-approach" data-astro-cid-xvrfupwn> Empty `__init__.py` (Minimal Approach) </a> </li><li class="d-4" data-astro-cid-xvrfupwn> <a href="#expose-public-api" data-astro-cid-xvrfupwn> Expose Public API </a> </li><li class="d-4" data-astro-cid-xvrfupwn> <a href="#package-initialization-code" data-astro-cid-xvrfupwn> Package Initialization Code </a> </li><li class="d-4" data-astro-cid-xvrfupwn> <a href="#conditional-imports-and-compatibility" data-astro-cid-xvrfupwn> Conditional Imports and Compatibility </a> </li><li class="d-4" data-astro-cid-xvrfupwn> <a href="#subpackage-organization" data-astro-cid-xvrfupwn> Subpackage Organization </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#common-patterns" data-astro-cid-xvrfupwn> Common Patterns </a> </li><li class="d-4" data-astro-cid-xvrfupwn> <a href="#pattern-1-re-export-everything-from-submodules" data-astro-cid-xvrfupwn> Pattern 1: Re-export Everything from Submodules </a> </li><li class="d-4" data-astro-cid-xvrfupwn> <a href="#pattern-2-lazy-loading-heavy-modules" data-astro-cid-xvrfupwn> Pattern 2: Lazy Loading Heavy Modules </a> </li><li class="d-4" data-astro-cid-xvrfupwn> <a href="#pattern-3-plugin-discovery" data-astro-cid-xvrfupwn> Pattern 3: Plugin Discovery </a> </li><li class="d-4" data-astro-cid-xvrfupwn> <a href="#pattern-4-deprecation-warnings" data-astro-cid-xvrfupwn> Pattern 4: Deprecation Warnings </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#python-33-namespace-packages" data-astro-cid-xvrfupwn> Python 3.3+ Namespace Packages </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#5-best-practices" data-astro-cid-xvrfupwn> 5. Best Practices </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#practice-1-import-at-module-level" data-astro-cid-xvrfupwn> Practice #1: Import at Module Level </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#practice-2-use-typechecking-for-type-hints" data-astro-cid-xvrfupwn> Practice #2: Use TYPE_CHECKING for Type Hints </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#practice-3-organize-imports-pep-8" data-astro-cid-xvrfupwn> Practice #3: Organize Imports (PEP 8) </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#practice-4-avoid-wildcard-imports" data-astro-cid-xvrfupwn> Practice #4: Avoid Wildcard Imports </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#practice-5-use-all-to-define-public-api" data-astro-cid-xvrfupwn> Practice #5: Use `__all__` to Define Public API </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#6-common-pitfalls-and-solutions" data-astro-cid-xvrfupwn> 6. Common Pitfalls and Solutions </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#pitfall-1-circular-imports" data-astro-cid-xvrfupwn> Pitfall #1: Circular Imports </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#pitfall-2-importing-mutable-objects" data-astro-cid-xvrfupwn> Pitfall #2: Importing Mutable Objects </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#pitfall-3-late-import-side-effects" data-astro-cid-xvrfupwn> Pitfall #3: Late Import Side Effects </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#pitfall-4-import-order-dependencies" data-astro-cid-xvrfupwn> Pitfall #4: Import Order Dependencies </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#pitfall-5-namespace-pollution" data-astro-cid-xvrfupwn> Pitfall #5: Namespace Pollution </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#7-performance-considerations" data-astro-cid-xvrfupwn> 7. Performance Considerations </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#import-cost-measurement" data-astro-cid-xvrfupwn> Import Cost Measurement </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#lazy-imports-for-cli-tools" data-astro-cid-xvrfupwn> Lazy Imports for CLI Tools </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#import-caching" data-astro-cid-xvrfupwn> Import Caching </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#8-advanced-patterns" data-astro-cid-xvrfupwn> 8. Advanced Patterns </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#dynamic-imports-with-importlib" data-astro-cid-xvrfupwn> Dynamic Imports with importlib </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#conditional-imports" data-astro-cid-xvrfupwn> Conditional Imports </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#import-hooks-advanced" data-astro-cid-xvrfupwn> Import Hooks (Advanced) </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#9-project-structure-best-practices" data-astro-cid-xvrfupwn> 9. Project Structure Best Practices </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#flat-is-better-than-nested" data-astro-cid-xvrfupwn> Flat is Better Than Nested </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#package-structure" data-astro-cid-xvrfupwn> Package Structure </a> </li><li class="d-3" data-astro-cid-xvrfupwn> <a href="#namespace-packages-advanced" data-astro-cid-xvrfupwn> Namespace Packages (Advanced) </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#conclusion" data-astro-cid-xvrfupwn> Conclusion </a> </li> </ul> </nav>  </aside> <article class="post" data-astro-cid-yvbahnfj> <header class="post-header" data-astro-cid-yvbahnfj> <h1 data-astro-cid-yvbahnfj>Python Modules and Imports - Best Practices and Pitfalls</h1> <div class="meta" data-astro-cid-yvbahnfj> <time datetime="2026-01-02T00:00:00.000Z" data-astro-cid-yvbahnfj>Fri Jan 02 2026</time> <span data-astro-cid-yvbahnfj>• 13 min read</span> </div> <div class="tag-row" data-astro-cid-yvbahnfj><a class="post-tag  " href="/tags/python/" data-astro-cid-yvbahnfj>Python</a><a class="post-tag  " href="/tags/best-practices/" data-astro-cid-yvbahnfj>Best Practices</a><a class="post-tag  " href="/tags/software-engineering/" data-astro-cid-yvbahnfj>Software Engineering</a><a class="post-tag  " href="/tags/code-quality/" data-astro-cid-yvbahnfj>Code Quality</a></div> </header> <div class="banner warning" role="alert"> <div class="banner-icon" aria-hidden="true">⚠️</div> <div class="banner-content"> <strong>This article is not yet published</strong> <p>Publishing in 3 days. This page is accessible but won't appear in post listings until the publication date.</p> </div> </div>    <div class="post-body prose" data-astro-cid-yvbahnfj> <h1 id="python-modules-and-imports---best-practices-and-pitfalls">Python Modules and Imports - Best Practices and Pitfalls</h1>
 <h2 id="1-tldr---the-import-essentials">1. TL;DR - The Import Essentials</h2>
 <p><strong>What you need to know:</strong></p>
 <ul>
@@ -135,7 +135,250 @@ result <span class="token operator">=</span> sqrt<span class="token punctuation"
 <span class="token comment"># 4. Import everything (DON'T DO THIS)</span>
 <span class="token keyword">from</span> math <span class="token keyword">import</span> <span class="token operator">*</span>  <span class="token comment"># Now sqrt, pi, sin, etc. pollute namespace</span>
 </code></pre>
-<h2 id="4-best-practices">4. Best Practices</h2>
+<h2 id="4-understanding-__init__py">4. Understanding <code>__init__.py</code></h2>
+<h3 id="what-is-__init__py">What is <code>__init__.py</code>?</h3>
+<p><code>__init__.py</code> is a special file that marks a directory as a Python package. When Python sees this file in a directory, it treats that directory as an importable package rather than just a folder.</p>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token comment"># Without __init__.py - NOT a package</span>
+myproject<span class="token operator">/</span>
+  utils<span class="token operator">/</span>          <span class="token comment"># Just a folder</span>
+    helpers<span class="token punctuation">.</span>py    <span class="token comment"># Can't import as: from myproject.utils import helpers</span>
+
+<span class="token comment"># With __init__.py - IS a package</span>
+myproject<span class="token operator">/</span>
+  utils<span class="token operator">/</span>
+    __init__<span class="token punctuation">.</span>py   <span class="token comment"># Makes it a package!</span>
+    helpers<span class="token punctuation">.</span>py    <span class="token comment"># Can import as: from myproject.utils import helpers</span>
+</code></pre>
+<p><strong>Note:</strong> Python 3.3+ introduced “namespace packages” which don’t require <code>__init__.py</code>, but explicit is better than implicit.</p>
+<h3 id="why-use-__init__py">Why Use <code>__init__.py</code>?</h3>
+<p><strong>1. Package Recognition</strong>
+Makes Python recognize the directory as a package for imports.</p>
+<p><strong>2. Package Initialization</strong>
+Runs once when the package is first imported - useful for setup code.</p>
+<p><strong>3. Control Public API</strong>
+Define what gets imported with <code>from package import *</code>.</p>
+<p><strong>4. Simplify Imports</strong>
+Expose commonly used functions/classes at package level.</p>
+<p><strong>5. Namespace Management</strong>
+Organize related modules into logical groups.</p>
+<h3 id="how-to-use-__init__py">How to Use <code>__init__.py</code></h3>
+<h4 id="empty-__init__py-minimal-approach">Empty <code>__init__.py</code> (Minimal Approach)</h4>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token comment"># mypackage/__init__.py</span>
+<span class="token comment"># Empty file - just marks directory as package</span>
+
+<span class="token comment"># Usage:</span>
+<span class="token keyword">from</span> mypackage<span class="token punctuation">.</span>module <span class="token keyword">import</span> function
+</code></pre>
+<h4 id="expose-public-api">Expose Public API</h4>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token comment"># mypackage/</span>
+<span class="token comment">#   __init__.py</span>
+<span class="token comment">#   core.py</span>
+<span class="token comment">#   utils.py</span>
+<span class="token comment">#   _internal.py</span>
+
+<span class="token comment"># mypackage/__init__.py</span>
+<span class="token triple-quoted-string string">"""
+MyPackage - A utility library for data processing.
+"""</span>
+
+<span class="token comment"># Import from submodules</span>
+<span class="token keyword">from</span> <span class="token punctuation">.</span>core <span class="token keyword">import</span> process_data<span class="token punctuation">,</span> DataProcessor
+<span class="token keyword">from</span> <span class="token punctuation">.</span>utils <span class="token keyword">import</span> validate_input<span class="token punctuation">,</span> format_output
+
+<span class="token comment"># Define public API</span>
+__all__ <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'process_data'</span><span class="token punctuation">,</span> <span class="token string">'DataProcessor'</span><span class="token punctuation">,</span> <span class="token string">'validate_input'</span><span class="token punctuation">,</span> <span class="token string">'format_output'</span><span class="token punctuation">]</span>
+
+<span class="token comment"># Package metadata</span>
+__version__ <span class="token operator">=</span> <span class="token string">'1.0.0'</span>
+__author__ <span class="token operator">=</span> <span class="token string">'Your Name'</span>
+
+<span class="token comment"># Users can now do:</span>
+<span class="token comment"># from mypackage import process_data  # Instead of from mypackage.core import process_data</span>
+</code></pre>
+<h4 id="package-initialization-code">Package Initialization Code</h4>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token comment"># database/__init__.py</span>
+<span class="token triple-quoted-string string">"""Database package - handles all database operations."""</span>
+
+<span class="token keyword">import</span> logging
+
+<span class="token comment"># Setup package-level logger</span>
+logger <span class="token operator">=</span> logging<span class="token punctuation">.</span>getLogger<span class="token punctuation">(</span>__name__<span class="token punctuation">)</span>
+logger<span class="token punctuation">.</span>setLevel<span class="token punctuation">(</span>logging<span class="token punctuation">.</span>INFO<span class="token punctuation">)</span>
+
+<span class="token comment"># Initialize connection pool (runs once on first import)</span>
+_connection_pool <span class="token operator">=</span> <span class="token boolean">None</span>
+
+<span class="token keyword">def</span> <span class="token function">get_connection_pool</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""Lazy initialization of connection pool."""</span>
+    <span class="token keyword">global</span> _connection_pool
+    <span class="token keyword">if</span> _connection_pool <span class="token keyword">is</span> <span class="token boolean">None</span><span class="token punctuation">:</span>
+        logger<span class="token punctuation">.</span>info<span class="token punctuation">(</span><span class="token string">"Initializing database connection pool"</span><span class="token punctuation">)</span>
+        _connection_pool <span class="token operator">=</span> create_pool<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> _connection_pool
+
+<span class="token comment"># Expose public API</span>
+<span class="token keyword">from</span> <span class="token punctuation">.</span>models <span class="token keyword">import</span> User<span class="token punctuation">,</span> Post
+<span class="token keyword">from</span> <span class="token punctuation">.</span>queries <span class="token keyword">import</span> get_user<span class="token punctuation">,</span> create_user
+
+__all__ <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'User'</span><span class="token punctuation">,</span> <span class="token string">'Post'</span><span class="token punctuation">,</span> <span class="token string">'get_user'</span><span class="token punctuation">,</span> <span class="token string">'create_user'</span><span class="token punctuation">,</span> <span class="token string">'get_connection_pool'</span><span class="token punctuation">]</span>
+</code></pre>
+<h4 id="conditional-imports-and-compatibility">Conditional Imports and Compatibility</h4>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token comment"># mypackage/__init__.py</span>
+<span class="token triple-quoted-string string">"""Package with optional dependencies."""</span>
+
+<span class="token comment"># Core functionality (always available)</span>
+<span class="token keyword">from</span> <span class="token punctuation">.</span>core <span class="token keyword">import</span> basic_function
+
+__all__ <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'basic_function'</span><span class="token punctuation">]</span>
+
+<span class="token comment"># Optional features</span>
+<span class="token keyword">try</span><span class="token punctuation">:</span>
+    <span class="token keyword">from</span> <span class="token punctuation">.</span>advanced <span class="token keyword">import</span> advanced_feature
+    __all__<span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token string">'advanced_feature'</span><span class="token punctuation">)</span>
+    HAS_ADVANCED <span class="token operator">=</span> <span class="token boolean">True</span>
+<span class="token keyword">except</span> ImportError<span class="token punctuation">:</span>
+    HAS_ADVANCED <span class="token operator">=</span> <span class="token boolean">False</span>
+
+<span class="token comment"># Version-specific imports</span>
+<span class="token keyword">import</span> sys
+<span class="token keyword">if</span> sys<span class="token punctuation">.</span>version_info <span class="token operator">>=</span> <span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">from</span> <span class="token punctuation">.</span>modern <span class="token keyword">import</span> new_feature
+    __all__<span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token string">'new_feature'</span><span class="token punctuation">)</span>
+
+__version__ <span class="token operator">=</span> <span class="token string">'2.1.0'</span>
+</code></pre>
+<h4 id="subpackage-organization">Subpackage Organization</h4>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token comment"># myapp/</span>
+<span class="token comment">#   __init__.py</span>
+<span class="token comment">#   models/</span>
+<span class="token comment">#     __init__.py</span>
+<span class="token comment">#     user.py</span>
+<span class="token comment">#     post.py</span>
+<span class="token comment">#   services/</span>
+<span class="token comment">#     __init__.py</span>
+<span class="token comment">#     user_service.py</span>
+<span class="token comment">#   utils/</span>
+<span class="token comment">#     __init__.py</span>
+<span class="token comment">#     validators.py</span>
+
+<span class="token comment"># myapp/__init__.py</span>
+<span class="token triple-quoted-string string">"""Main application package."""</span>
+<span class="token keyword">from</span> <span class="token punctuation">.</span>models <span class="token keyword">import</span> User<span class="token punctuation">,</span> Post
+<span class="token keyword">from</span> <span class="token punctuation">.</span>services <span class="token keyword">import</span> UserService
+
+__all__ <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'User'</span><span class="token punctuation">,</span> <span class="token string">'Post'</span><span class="token punctuation">,</span> <span class="token string">'UserService'</span><span class="token punctuation">]</span>
+__version__ <span class="token operator">=</span> <span class="token string">'1.0.0'</span>
+
+<span class="token comment"># myapp/models/__init__.py</span>
+<span class="token triple-quoted-string string">"""Data models subpackage."""</span>
+<span class="token keyword">from</span> <span class="token punctuation">.</span>user <span class="token keyword">import</span> User
+<span class="token keyword">from</span> <span class="token punctuation">.</span>post <span class="token keyword">import</span> Post
+
+__all__ <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'User'</span><span class="token punctuation">,</span> <span class="token string">'Post'</span><span class="token punctuation">]</span>
+
+<span class="token comment"># myapp/services/__init__.py</span>
+<span class="token triple-quoted-string string">"""Business logic services."""</span>
+<span class="token keyword">from</span> <span class="token punctuation">.</span>user_service <span class="token keyword">import</span> UserService
+
+__all__ <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'UserService'</span><span class="token punctuation">]</span>
+
+<span class="token comment"># Now users can do:</span>
+<span class="token keyword">from</span> myapp <span class="token keyword">import</span> User<span class="token punctuation">,</span> UserService
+<span class="token comment"># Instead of:</span>
+<span class="token keyword">from</span> myapp<span class="token punctuation">.</span>models<span class="token punctuation">.</span>user <span class="token keyword">import</span> User
+<span class="token keyword">from</span> myapp<span class="token punctuation">.</span>services<span class="token punctuation">.</span>user_service <span class="token keyword">import</span> UserService
+</code></pre>
+<h3 id="common-patterns">Common Patterns</h3>
+<h4 id="pattern-1-re-export-everything-from-submodules">Pattern 1: Re-export Everything from Submodules</h4>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token comment"># mypackage/__init__.py</span>
+<span class="token triple-quoted-string string">"""Convenience imports - expose all submodule contents."""</span>
+
+<span class="token keyword">from</span> <span class="token punctuation">.</span>module_a <span class="token keyword">import</span> <span class="token operator">*</span>
+<span class="token keyword">from</span> <span class="token punctuation">.</span>module_b <span class="token keyword">import</span> <span class="token operator">*</span>
+<span class="token keyword">from</span> <span class="token punctuation">.</span>module_c <span class="token keyword">import</span> <span class="token operator">*</span>
+
+<span class="token comment"># Combine __all__ from all submodules</span>
+<span class="token keyword">from</span> <span class="token punctuation">.</span>module_a <span class="token keyword">import</span> __all__ <span class="token keyword">as</span> all_a
+<span class="token keyword">from</span> <span class="token punctuation">.</span>module_b <span class="token keyword">import</span> __all__ <span class="token keyword">as</span> all_b
+<span class="token keyword">from</span> <span class="token punctuation">.</span>module_c <span class="token keyword">import</span> __all__ <span class="token keyword">as</span> all_c
+
+__all__ <span class="token operator">=</span> all_a <span class="token operator">+</span> all_b <span class="token operator">+</span> all_c
+</code></pre>
+<h4 id="pattern-2-lazy-loading-heavy-modules">Pattern 2: Lazy Loading Heavy Modules</h4>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token comment"># mypackage/__init__.py</span>
+<span class="token triple-quoted-string string">"""Lazy loading for heavy dependencies."""</span>
+
+<span class="token keyword">def</span> <span class="token function">__getattr__</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""Lazy import heavy modules only when accessed."""</span>
+    <span class="token keyword">if</span> name <span class="token operator">==</span> <span class="token string">'heavy_module'</span><span class="token punctuation">:</span>
+        <span class="token keyword">from</span> <span class="token punctuation">.</span> <span class="token keyword">import</span> heavy_module
+        <span class="token keyword">return</span> heavy_module
+    <span class="token keyword">elif</span> name <span class="token operator">==</span> <span class="token string">'MLModel'</span><span class="token punctuation">:</span>
+        <span class="token keyword">from</span> <span class="token punctuation">.</span>ml <span class="token keyword">import</span> MLModel
+        <span class="token keyword">return</span> MLModel
+    <span class="token keyword">raise</span> AttributeError<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"module </span><span class="token interpolation"><span class="token punctuation">{</span>__name__<span class="token conversion-option punctuation">!r</span><span class="token punctuation">}</span></span><span class="token string"> has no attribute </span><span class="token interpolation"><span class="token punctuation">{</span>name<span class="token conversion-option punctuation">!r</span><span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+
+__all__ <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'heavy_module'</span><span class="token punctuation">,</span> <span class="token string">'MLModel'</span><span class="token punctuation">]</span>
+
+<span class="token comment"># Usage:</span>
+<span class="token keyword">import</span> mypackage
+<span class="token comment"># heavy_module not loaded yet...</span>
+mypackage<span class="token punctuation">.</span>heavy_module<span class="token punctuation">.</span>do_something<span class="token punctuation">(</span><span class="token punctuation">)</span>  <span class="token comment"># NOW it's loaded</span>
+</code></pre>
+<h4 id="pattern-3-plugin-discovery">Pattern 3: Plugin Discovery</h4>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token comment"># plugins/__init__.py</span>
+<span class="token triple-quoted-string string">"""Auto-discover and register all plugins."""</span>
+
+<span class="token keyword">import</span> os
+<span class="token keyword">import</span> importlib
+<span class="token keyword">from</span> pathlib <span class="token keyword">import</span> Path
+
+<span class="token comment"># Find all plugin modules</span>
+plugin_dir <span class="token operator">=</span> Path<span class="token punctuation">(</span>__file__<span class="token punctuation">)</span><span class="token punctuation">.</span>parent
+plugin_modules <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+
+<span class="token keyword">for</span> <span class="token builtin">file</span> <span class="token keyword">in</span> plugin_dir<span class="token punctuation">.</span>glob<span class="token punctuation">(</span><span class="token string">'plugin_*.py'</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    module_name <span class="token operator">=</span> <span class="token builtin">file</span><span class="token punctuation">.</span>stem
+    module <span class="token operator">=</span> importlib<span class="token punctuation">.</span>import_module<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f'.</span><span class="token interpolation"><span class="token punctuation">{</span>module_name<span class="token punctuation">}</span></span><span class="token string">'</span></span><span class="token punctuation">,</span> package<span class="token operator">=</span>__name__<span class="token punctuation">)</span>
+    <span class="token keyword">if</span> <span class="token builtin">hasattr</span><span class="token punctuation">(</span>module<span class="token punctuation">,</span> <span class="token string">'register'</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        module<span class="token punctuation">.</span>register<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    plugin_modules<span class="token punctuation">.</span>append<span class="token punctuation">(</span>module<span class="token punctuation">)</span>
+
+__all__ <span class="token operator">=</span> <span class="token punctuation">[</span>m<span class="token punctuation">.</span>__name__<span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token string">'.'</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token keyword">for</span> m <span class="token keyword">in</span> plugin_modules<span class="token punctuation">]</span>
+</code></pre>
+<h4 id="pattern-4-deprecation-warnings">Pattern 4: Deprecation Warnings</h4>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token comment"># mypackage/__init__.py</span>
+<span class="token triple-quoted-string string">"""Package with deprecated functions."""</span>
+
+<span class="token keyword">import</span> warnings
+
+<span class="token keyword">from</span> <span class="token punctuation">.</span>core <span class="token keyword">import</span> new_function
+
+<span class="token comment"># Deprecated function</span>
+<span class="token keyword">def</span> <span class="token function">old_function</span><span class="token punctuation">(</span><span class="token operator">*</span>args<span class="token punctuation">,</span> <span class="token operator">**</span>kwargs<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    warnings<span class="token punctuation">.</span>warn<span class="token punctuation">(</span>
+        <span class="token string">"old_function is deprecated, use new_function instead"</span><span class="token punctuation">,</span>
+        DeprecationWarning<span class="token punctuation">,</span>
+        stacklevel<span class="token operator">=</span><span class="token number">2</span>
+    <span class="token punctuation">)</span>
+    <span class="token keyword">return</span> new_function<span class="token punctuation">(</span><span class="token operator">*</span>args<span class="token punctuation">,</span> <span class="token operator">**</span>kwargs<span class="token punctuation">)</span>
+
+__all__ <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'new_function'</span><span class="token punctuation">,</span> <span class="token string">'old_function'</span><span class="token punctuation">]</span>
+</code></pre>
+<h3 id="python-33-namespace-packages">Python 3.3+ Namespace Packages</h3>
+<p>Since Python 3.3, you can create packages WITHOUT <code>__init__.py</code>:</p>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token comment"># PEP 420 - Namespace packages</span>
+<span class="token comment"># project1/company/</span>
+<span class="token comment">#   module_a.py  # No __init__.py!</span>
+
+<span class="token comment"># project2/company/</span>
+<span class="token comment">#   module_b.py  # No __init__.py!</span>
+
+<span class="token comment"># Both directories combine into one namespace:</span>
+<span class="token keyword">from</span> company <span class="token keyword">import</span> module_a  <span class="token comment"># From project1</span>
+<span class="token keyword">from</span> company <span class="token keyword">import</span> module_b  <span class="token comment"># From project2</span>
+</code></pre>
+<h2 id="5-best-practices">5. Best Practices</h2>
 <h3 id="practice-1-import-at-module-level">Practice #1: Import at Module Level</h3>
 <pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token comment"># GOOD - imports at top</span>
 <span class="token keyword">import</span> json
@@ -261,7 +504,7 @@ __all__ <span class="token operator">=</span> <span class="token punctuation">[<
 <span class="token comment"># Only imports process_data and helper_function</span>
 <span class="token comment"># _private_function is not imported</span>
 </code></pre>
-<h2 id="5-common-pitfalls-and-solutions">5. Common Pitfalls and Solutions</h2>
+<h2 id="6-common-pitfalls-and-solutions">6. Common Pitfalls and Solutions</h2>
 <h3 id="pitfall-1-circular-imports">Pitfall #1: Circular Imports</h3>
 <p><strong>The Problem:</strong></p>
 <pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token comment"># models.py</span>
@@ -431,7 +674,7 @@ conn <span class="token operator">=</span> analytics<span class="token punctuati
     <span class="token triple-quoted-string string">"""Custom wrapper for math.sqrt"""</span>
     <span class="token keyword">return</span> math_sqrt<span class="token punctuation">(</span><span class="token builtin">abs</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment"># Clear which sqrt we're using</span>
 </code></pre>
-<h2 id="6-performance-considerations">6. Performance Considerations</h2>
+<h2 id="7-performance-considerations">7. Performance Considerations</h2>
 <h3 id="import-cost-measurement">Import Cost Measurement</h3>
 <pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token keyword">import</span> time
 
@@ -495,7 +738,7 @@ start <span class="token operator">=</span> time<span class="token punctuation">
 <span class="token comment"># Second import (no cache): 0.081234s</span>
 <span class="token comment"># Third import (cached): 0.000003s</span>
 </code></pre>
-<h2 id="7-advanced-patterns">7. Advanced Patterns</h2>
+<h2 id="8-advanced-patterns">8. Advanced Patterns</h2>
 <h3 id="dynamic-imports-with-importlib">Dynamic Imports with importlib</h3>
 <pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token keyword">import</span> importlib
 
@@ -550,7 +793,7 @@ sys<span class="token punctuation">.</span>meta_path<span class="token punctuati
 <span class="token keyword">import</span> auto_hello
 auto_hello<span class="token punctuation">.</span>greet<span class="token punctuation">(</span><span class="token punctuation">)</span>  <span class="token comment"># "Auto-generated module: auto_hello"</span>
 </code></pre>
-<h2 id="8-project-structure-best-practices">8. Project Structure Best Practices</h2>
+<h2 id="9-project-structure-best-practices">9. Project Structure Best Practices</h2>
 <h3 id="flat-is-better-than-nested">Flat is Better Than Nested</h3>
 <pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token comment"># BAD - over-nested</span>
 project<span class="token operator">/</span>

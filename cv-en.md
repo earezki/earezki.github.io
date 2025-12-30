@@ -147,6 +147,24 @@ systems that make a real difference.
 
 ## 🚀 Personal Projects
 
+🎯 Planning Poker - Made Simple
+
+Visit App →
+
+Real-time collaborative estimation for agile teams. No signup required, no
+tracking, just pure estimation power. Lightning-fast WebSocket connections
+ensure your team stays in sync with instant updates. Privacy-first design with
+no tracking, no cookies, no data storage. Create a session, invite your team
+with a link, and estimate together.
+
+TypeScript
+React
+WebSocket
+Python
+FastAPI
+Real-time
+Agile
+
 🔗 Slui - URL Shortener
 
 Visit App →

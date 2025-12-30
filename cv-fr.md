@@ -154,6 +154,42 @@ StackOverflow
 
 ## 🚀 Projets Personnels
 
+🎯 Planning Poker - Simplifié
+
+Visiter l'app →
+
+Estimation collaborative en temps réel pour les équipes agiles. Aucune
+inscription requise, aucun suivi, juste une puissance d'estimation pure.
+Connexions WebSocket ultra-rapides pour garder votre équipe synchronisée avec
+des mises à jour instantanées. Conception axée sur la confidentialité sans
+suivi, cookies ni stockage de données. Créez une session, invitez votre équipe
+avec un lien et estimez ensemble.
+
+TypeScript
+React
+WebSocket
+Temps réel
+Agile
+
+🎯 Planning Poker - Simplifié
+
+Visiter l'app →
+
+Estimation collaborative en temps réel pour les équipes agiles. Aucune
+inscription requise, aucun suivi, juste une puissance d'estimation pure.
+Connexions WebSocket ultra-rapides pour garder votre équipe synchronisée avec
+des mises à jour instantanées. Conception axée sur la confidentialité sans
+suivi, cookies ni stockage de données. Créez une session, invitez votre équipe
+avec un lien et estimez ensemble.
+
+TypeScript
+React
+WebSocket
+Python
+FastAPI
+Temps réel
+Agile
+
 🔗 Slui - Raccourcisseur d'URL
 
 Visiter l'app →
