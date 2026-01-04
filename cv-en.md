@@ -195,6 +195,22 @@ Tailwind
 Python
 FastAPI
 
+🛠️ DevToolbox
+
+Visit App →
+
+Comprehensive collection of essential developer utilities for daily development
+tasks. Tools for encoding/decoding data, generating secure tokens, testing
+regular expressions, and more. All tools run entirely in your browser with zero
+server tracking - complete privacy guaranteed.
+
+React
+TypeScript
+Vite
+Tailwind CSS
+Monaco Editor
+Zustand
+
 🎭 ZestLoop
 
 Visit App →

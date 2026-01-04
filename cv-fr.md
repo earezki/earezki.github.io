@@ -171,25 +171,6 @@ WebSocket
 Temps réel
 Agile
 
-🎯 Planning Poker - Simplifié
-
-Visiter l'app →
-
-Estimation collaborative en temps réel pour les équipes agiles. Aucune
-inscription requise, aucun suivi, juste une puissance d'estimation pure.
-Connexions WebSocket ultra-rapides pour garder votre équipe synchronisée avec
-des mises à jour instantanées. Conception axée sur la confidentialité sans
-suivi, cookies ni stockage de données. Créez une session, invitez votre équipe
-avec un lien et estimez ensemble.
-
-TypeScript
-React
-WebSocket
-Python
-FastAPI
-Temps réel
-Agile
-
 🔗 Slui - Raccourcisseur d'URL
 
 Visiter l'app →
@@ -220,6 +201,23 @@ React
 Tailwind
 Python
 FastAPI
+
+🛠️ DevToolbox
+
+Visiter l'app →
+
+Collection complète d'utilitaires de développement essentiels pour les tâches de
+développement quotidiennes. Outils pour l'encodage/décodage de données, la
+génération de jetons sécurisés, les tests d'expressions régulières et bien plus
+encore. Tous les outils s'exécutent entièrement dans votre navigateur sans suivi
+de serveur - confidentialité complète garantie.
+
+React
+TypeScript
+Vite
+Tailwind CSS
+Monaco Editor
+Zustand
 
 🎭 ZestLoop
 
