@@ -1,0 +1,957 @@
+<!DOCTYPE html><html lang="en" data-theme="dark"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>AI Agents from Scratch Part 4: Human-in-the-Loop Validation (Research Report Generator) • Dev|Journal</title><meta name="description" content="Previously in This Series We've built tools and memory. Our agent can search the web, extract content, and remember what it's done. But here's the scary part:…"><meta name="keywords" content="ai, agents, python, llm, tutorial, series"><meta name="author" content="El Mehdi Arezki"><meta property="og:type" content="website"><meta property="og:url" content="https://earezki.com/agents-series-part4-human-loop/"><meta property="og:title" content="AI Agents from Scratch Part 4: Human-in-the-Loop Validation (Research Report Generator) • Dev|Journal"><meta property="og:site_name" content="Dev|Journal"><meta property="og:description" content="Previously in This Series We've built tools and memory. Our agent can search the web, extract content, and remember what it's done. But here's the scary part:…"><meta property="og:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:url" content="https://earezki.com/agents-series-part4-human-loop/"><meta name="twitter:title" content="AI Agents from Scratch Part 4: Human-in-the-Loop Validation (Research Report Generator) • Dev|Journal"><meta name="twitter:description" content="Previously in This Series We've built tools and memory. Our agent can search the web, extract content, and remember what it's done. But here's the scary part:…"><meta name="twitter:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:creator" content="@earezki"><link rel="canonical" href="https://earezki.com/agents-series-part4-human-loop/"><link rel="icon" type="image/png" href="/assets/favicon_48_d.webp"><link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"><link rel="dns-prefetch" href="https://cloud.umami.is"><script defer src="https://cloud.umami.is/script.js" data-website-id="4a26531d-1053-4f79-97a6-06a1366aff91"></script><script>
+      (function() {
+        const theme = localStorage.getItem('theme');
+        if (theme) document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script><script>
+!function(){const o=window.location.pathname;if("/"===o)return;if(/\.\w+$/.test(o))return;const n=o.toLowerCase(),i=n!==o,t=!o.endsWith("/");if(i||t){const o=n+(t?"/":""),i=window.location.origin+o+window.location.search+window.location.hash;window.location.replace(i)}}();
+</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"AI Agents from Scratch Part 4: Human-in-the-Loop Validation (Research Report Generator)","description":"Previously in This Series We've built tools and memory. Our agent can search the web, extract content, and remember what it's done. But here's the scary part:…","image":"https://earezki.com/assets/og-image-default.jpg","datePublished":"2026-03-08T00:00:00.000Z","dateModified":"2026-01-29T00:00:00.000Z","author":{"@type":"Person","name":"El Mehdi Arezki","url":"https://earezki.com/about","jobTitle":"Lead Software Engineer","sameAs":["https://github.com/earezki","https://www.linkedin.com/in/mehdi-arezki"]},"publisher":{"@type":"Organization","name":"Dev|Journal","url":"https://earezki.com","logo":{"@type":"ImageObject","url":"https://earezki.com/assets/logo.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://earezki.com/agents-series-part4-human-loop/"}}</script><link rel="stylesheet" href="/_astro/_slug_.AePqE94F.css">
+<link rel="stylesheet" href="/_astro/_slug_.CFj9bTVJ.css">
+<link rel="stylesheet" href="/_astro/_slug_.BuIxISHP.css"></head> <body> <div id="readingProgress" role="progressbar" aria-label="Reading progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="position:fixed;left:0;top:0;height:3px;background:linear-gradient(90deg,#2563eb,#9333ea);width:0;z-index:999;transition:width .15s ease;"></div> <script type="module">function c(){const t=document.getElementById("readingProgress");if(!t)return;const o=()=>{const e=document.documentElement,r=e.scrollTop||document.body.scrollTop,s=e.scrollHeight-e.clientHeight,n=s>0?r/s*100:0;t.style.width=`${n}%`,t.setAttribute("aria-valuenow",n.toFixed(0))};document.addEventListener("scroll",o,{passive:!0}),o()}c();</script> <header class="site-header container"> <div class="logo-wrap"> <a class="logo" href="/" aria-label="Dev|Journal Home">
+Dev|Journal
+</a> </div> <!-- Command Palette in Header --> <!-- Command Palette Trigger Button --><div class="header-search"> <button id="cmd-palette-trigger" class="cmd-palette-trigger" aria-label="Open command palette (Ctrl+K)" type="button"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="trigger-search-icon" aria-hidden="true"> <circle cx="11" cy="11" r="8"></circle> <path d="m21 21-4.35-4.35"></path> </svg> <span class="trigger-text">Search...</span> </button> </div> <!-- Command Palette Modal --> <div id="cmd-palette-overlay" class="cmd-palette-overlay" role="dialog" aria-modal="true" aria-label="Command palette" data-search-api-url="https://api.earezki.com/blog/api/q" data-search-timeout="2000"> <div class="cmd-palette-container"> <!-- Search Header --> <div class="cmd-palette-header"> <div class="cmd-palette-input-wrapper"> <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="cmd-search-icon" aria-hidden="true"> <circle cx="11" cy="11" r="8"></circle> <path d="m21 21-4.35-4.35"></path> </svg> <input type="text" id="cmd-palette-input" class="cmd-palette-input" placeholder="Search articles, navigate, or type a command..." autocomplete="off" aria-label="Search or type a command"> <button id="cmd-palette-close" class="cmd-palette-close" aria-label="Close command palette" type="button"> <kbd>esc</kbd> </button> </div> </div> <!-- Results Area --> <div id="cmd-palette-results" class="cmd-palette-results"> <!-- Quick Actions (shown by default) --> <div id="cmd-quick-actions" class="cmd-section"> <div class="cmd-section-title">Quick Actions</div> <div class="cmd-section-items"> <button class="cmd-item" data-action="navigate" data-url="/"> <div class="cmd-item-icon"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path> <polyline points="9 22 9 12 15 12 15 22"></polyline> </svg> </div> <div class="cmd-item-content"> <span class="cmd-item-title">Go to Home</span> <span class="cmd-item-description">View all posts</span> </div> <kbd class="cmd-item-shortcut">↵</kbd> </button> <button class="cmd-item" data-action="navigate" data-url="/ai-news/"> <div class="cmd-item-icon ai-gradient"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h-9.5a.5.5 0 0 0-.5.5.5.5 0 0 1-1 0 .5.5 0 0 0-.5-.5H1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"></path> <path d="M7 15v4a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-4"></path> </svg> </div> <div class="cmd-item-content"> <span class="cmd-item-title">AI News</span> <span class="cmd-item-description">Latest AI articles</span> </div> <kbd class="cmd-item-shortcut">↵</kbd> </button> <button class="cmd-item" data-action="navigate" data-url="/ai-financial-news/"> <div class="cmd-item-icon financial-gradient"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <line x1="12" y1="1" x2="12" y2="23"></line> <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path> </svg> </div> <div class="cmd-item-content"> <span class="cmd-item-title">AI Financial News</span> <span class="cmd-item-description">Market insights & analysis</span> </div> <kbd class="cmd-item-shortcut">↵</kbd> </button> <button class="cmd-item" data-action="navigate" data-url="/about/"> <div class="cmd-item-icon"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <circle cx="12" cy="12" r="10"></circle> <path d="M12 16v-4"></path> <path d="M12 8h.01"></path> </svg> </div> <div class="cmd-item-content"> <span class="cmd-item-title">About</span> <span class="cmd-item-description">Learn more about the author</span> </div> <kbd class="cmd-item-shortcut">↵</kbd> </button> <button class="cmd-item" data-action="navigate" data-url="/tags/"> <div class="cmd-item-icon"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"></path> <path d="M7 7h.01"></path> </svg> </div> <div class="cmd-item-content"> <span class="cmd-item-title">Browse Tags</span> <span class="cmd-item-description">Explore by topic</span> </div> <kbd class="cmd-item-shortcut">↵</kbd> </button> </div> </div> <div id="cmd-settings-actions" class="cmd-section"> <div class="cmd-section-title">Settings</div> <div class="cmd-section-items"> <button class="cmd-item" data-action="toggle-theme"> <div class="cmd-item-icon theme-icon"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="sun-icon"> <circle cx="12" cy="12" r="5"></circle> <line x1="12" y1="1" x2="12" y2="3"></line> <line x1="12" y1="21" x2="12" y2="23"></line> <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line> <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line> <line x1="1" y1="12" x2="3" y2="12"></line> <line x1="21" y1="12" x2="23" y2="12"></line> <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line> <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line> </svg> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="moon-icon"> <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path> </svg> </div> <div class="cmd-item-content"> <span class="cmd-item-title">Toggle Theme</span> <span class="cmd-item-description">Switch between light and dark mode</span> </div> <kbd class="cmd-item-shortcut">↵</kbd> </button> <button class="cmd-item" data-action="subscribe"> <div class="cmd-item-icon subscribe-icon"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path> <polyline points="22,6 12,13 2,6"></polyline> </svg> </div> <div class="cmd-item-content"> <span class="cmd-item-title">Subscribe to Newsletter</span> <span class="cmd-item-description">Get updates in your inbox</span> </div> <kbd class="cmd-item-shortcut">↵</kbd> </button> </div> </div> <!-- Search Results (shown when searching) --> <div id="cmd-search-results" class="cmd-section" style="display: none;"> <div class="cmd-section-title"> <span id="cmd-results-title">Search Results</span> <span id="cmd-results-badge" class="cmd-results-badge"></span> </div> <div id="cmd-search-items" class="cmd-section-items"></div> </div> <!-- Loading State --> <div id="cmd-loading" class="cmd-loading" style="display: none;"> <div class="cmd-loading-spinner"></div> <span>Searching...</span> </div> <!-- No Results --> <div id="cmd-no-results" class="cmd-no-results" style="display: none;"> <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"> <circle cx="11" cy="11" r="8"></circle> <path d="m21 21-4.35-4.35"></path> <path d="M8 8l6 6"></path> <path d="M14 8l-6 6"></path> </svg> <p>No results found</p> <span>Try different keywords or browse the quick actions above</span> </div> </div> <!-- Footer --> <div class="cmd-palette-footer"> <div class="cmd-footer-hints"> <span><kbd>↑↓</kbd> Navigate</span> <span><kbd>↵</kbd> Select</span> <span><kbd>esc</kbd> Close</span> </div> <div id="cmd-footer-powered" class="cmd-footer-powered" style="display: none;">
+✨ AI-powered search
+</div> </div> </div> </div>  <script type="module" src="/_astro/CommandPalette.astro_astro_type_script_index_0_lang.75wbjTrF.js"></script> <nav class="main-nav" aria-label="Main navigation"> <a href="/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path> <polyline points="9 22 9 12 15 12 15 22"></polyline> </svg>
+Home
+</a> <a href="/ai-news/" class="ai-news-link ai-gradient-nav"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h-9.5a.5.5 0 0 0-.5.5.5.5 0 0 1-1 0 .5.5 0 0 0-.5-.5H1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"></path> <path d="M7 15v4a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-4"></path> </svg>
+AI News
+</a> <a href="/ai-financial-news/" class="ai-financial-link ai-gradient-nav"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <line x1="12" y1="1" x2="12" y2="23"></line> <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path> </svg>
+AI Financial
+</a> <a href="/about/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <circle cx="12" cy="12" r="10"></circle> <path d="M12 16v-4"></path> <path d="M12 8h.01"></path> </svg>
+About
+</a> <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode"> <span class="theme-icon" aria-hidden="true">☾</span> </button> </nav> </header> <!-- Main Content --> <main class="container content-area">  <nav class="breadcrumbs" aria-label="Breadcrumb" data-astro-cid-ilhxcym7> <ol data-astro-cid-ilhxcym7> <li data-astro-cid-ilhxcym7>  <a href="/" data-astro-cid-ilhxcym7>Home</a> <span class="separator" aria-hidden="true" data-astro-cid-ilhxcym7>/</span>  </li><li data-astro-cid-ilhxcym7> <span class="current" aria-current="page" data-astro-cid-ilhxcym7>AI Agents from Scratch Part 4: Human-in-the-Loop Validation (Research Report Generator)</span> </li> <li data-astro-cid-ilhxcym7> <span class="new-badge-breadcrumb" data-astro-cid-ilhxcym7>NEW</span> </li> </ol> </nav>  <div class="post-layout" data-astro-cid-yvbahnfj> <aside class="sidebar-left" data-astro-cid-yvbahnfj> <nav class="toc" aria-label="Table of Contents" data-astro-cid-xvrfupwn> <div class="toc-title" data-astro-cid-xvrfupwn>On this page</div> <ul data-astro-cid-xvrfupwn> <li class="d-2" data-astro-cid-xvrfupwn> <a href="#previously-in-this-series" data-astro-cid-xvrfupwn> Previously in This Series </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#why-autonomous-agents-are-dangerous" data-astro-cid-xvrfupwn> Why Autonomous Agents Are Dangerous </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#where-to-insert-checkpoints" data-astro-cid-xvrfupwn> Where to Insert Checkpoints </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#building-the-checkpoint-system" data-astro-cid-xvrfupwn> Building the Checkpoint System </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#checkpoint-1-plan-approval" data-astro-cid-xvrfupwn> Checkpoint 1: Plan Approval </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#checkpoint-2-source-selection" data-astro-cid-xvrfupwn> Checkpoint 2: Source Selection </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#checkpoint-3-fact-verification" data-astro-cid-xvrfupwn> Checkpoint 3: Fact Verification </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#checkpoint-4-outline-approval" data-astro-cid-xvrfupwn> Checkpoint 4: Outline Approval </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#checkpoint-5-draft-review" data-astro-cid-xvrfupwn> Checkpoint 5: Draft Review </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#utility-methods" data-astro-cid-xvrfupwn> Utility Methods </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#the-flow-with-checkpoints" data-astro-cid-xvrfupwn> The Flow with Checkpoints </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#whats-coming-next" data-astro-cid-xvrfupwn> What&#39;s Coming Next </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#key-takeaways" data-astro-cid-xvrfupwn> Key Takeaways </a> </li> </ul> </nav>  </aside> <article class="post" data-astro-cid-yvbahnfj> <header class="post-header" data-astro-cid-yvbahnfj> <h1 data-astro-cid-yvbahnfj>AI Agents from Scratch Part 4: Human-in-the-Loop Validation (Research Report Generator)</h1> <div class="meta" data-astro-cid-yvbahnfj> <time datetime="2026-03-08T00:00:00.000Z" data-astro-cid-yvbahnfj>Sun Mar 08 2026</time> <span data-astro-cid-yvbahnfj>• 7 min read</span> </div> <div class="tag-row" data-astro-cid-yvbahnfj><a class="post-tag  " href="/tags/ai/" data-astro-cid-yvbahnfj>ai</a><a class="post-tag  " href="/tags/agents/" data-astro-cid-yvbahnfj>agents</a><a class="post-tag  " href="/tags/python/" data-astro-cid-yvbahnfj>python</a><a class="post-tag  " href="/tags/llm/" data-astro-cid-yvbahnfj>llm</a><a class="post-tag  " href="/tags/tutorial/" data-astro-cid-yvbahnfj>tutorial</a><a class="post-tag  " href="/tags/series/" data-astro-cid-yvbahnfj>series</a></div> </header> <div class="banner warning" role="alert"> <div class="banner-icon" aria-hidden="true">⚠️</div> <div class="banner-content"> <strong>This article is not yet published</strong> <p>Scheduled for 3/8/2026. This page is accessible but won't appear in post listings until the publication date.</p> </div> </div>    <div class="post-body prose" data-astro-cid-yvbahnfj> <h2 id="previously-in-this-series">Previously in This Series</h2>
+<p>We’ve built <a href="/agents-series-part2-tool-system">tools</a> and <a href="/agents-series-part3-state-memory">memory</a>. Our agent can search the web, extract content, and remember what it’s done.</p>
+<p>But here’s the scary part: <strong>it runs autonomously.</strong></p>
+<p>What if it searches for the wrong things? What if it extracts incorrect facts? What if the final report misrepresents the sources? Today, we add the guardrails.</p>
+<p><strong>The Series:</strong></p>
+<ol>
+<li><a href="/agents-series-part1-react-pattern">Understanding the ReAct Pattern</a></li>
+<li><a href="/agents-series-part2-tool-system">Building the Tool System</a></li>
+<li><a href="/agents-series-part3-state-memory">State Management &#x26; Memory Architecture</a></li>
+<li><strong>Human-in-the-Loop Validation</strong> (You are here)</li>
+<li><a href="/agents-series-part5-agent-core">The Agent Core &#x26; Loop</a></li>
+<li><a href="/agents-series-part6-complete-agent">Complete Agent &#x26; Best Practices</a></li>
+</ol>
+<hr>
+<h2 id="why-autonomous-agents-are-dangerous">Why Autonomous Agents Are Dangerous</h2>
+<p>Without oversight, agents can:</p>
+<ul>
+<li><strong>Go down rabbit holes</strong> — Wasting time and tokens on irrelevant tangents</li>
+<li><strong>Compound errors</strong> — A wrong assumption early ruins everything downstream</li>
+<li><strong>Lose user trust</strong> — If users can’t see or influence the process, they won’t rely on it</li>
+</ul>
+<p>The solution: <strong>Human-in-the-Loop (HITL)</strong> checkpoints.</p>
+<pre class="language-plaintext" data-language="plaintext"><code is:raw="" class="language-plaintext">┌─────────────────────────────────────────────────────┐
+│           WITHOUT CHECKPOINTS                       │
+├─────────────────────────────────────────────────────┤
+│  User: "Research AI in healthcare"                  │
+│    ↓                                                │
+│  Agent runs for 5 minutes...                        │
+│    ↓                                                │
+│  "Here's a 3000-word report on AI in gaming"       │
+│                                                     │
+│  User: 😤                                           │
+└─────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────┐
+│           WITH CHECKPOINTS                          │
+├─────────────────────────────────────────────────────┤
+│  User: "Research AI in healthcare"                  │
+│    ↓                                                │
+│  Agent: "I'll search for: 'AI gaming trends'..."   │
+│    ↓                                                │
+│  ✋ CHECKPOINT: User reviews plan                   │
+│    ↓                                                │
+│  User: "No, I said HEALTHCARE not gaming"          │
+│    ↓                                                │
+│  Agent: "Got it! Updating search queries..."       │
+│                                                     │
+│  User: 😊                                           │
+└─────────────────────────────────────────────────────┘
+</code></pre>
+<hr>
+<h2 id="where-to-insert-checkpoints">Where to Insert Checkpoints</h2>
+<p>Too few checkpoints = loss of control.<br>
+Too many checkpoints = tedious interruptions.</p>
+<p>The sweet spots:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Checkpoint</th><th>Why It Matters</th></tr></thead><tbody><tr><td><strong>After planning</strong></td><td>Before expensive operations, validate the approach</td></tr><tr><td><strong>Source selection</strong></td><td>Which articles are worth reading in full?</td></tr><tr><td><strong>Fact verification</strong></td><td>Remove incorrect or biased information</td></tr><tr><td><strong>Outline approval</strong></td><td>Ensure the structure matches expectations</td></tr><tr><td><strong>Draft review</strong></td><td>Final chance to request changes</td></tr></tbody></table>
+<hr>
+<h2 id="building-the-checkpoint-system">Building the Checkpoint System</h2>
+<p>We’ll use the <code>rich</code> library for beautiful terminal output:</p>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token comment"># human_loop.py</span>
+<span class="token keyword">from</span> rich<span class="token punctuation">.</span>console <span class="token keyword">import</span> Console
+<span class="token keyword">from</span> rich<span class="token punctuation">.</span>panel <span class="token keyword">import</span> Panel
+<span class="token keyword">from</span> rich<span class="token punctuation">.</span>prompt <span class="token keyword">import</span> Prompt<span class="token punctuation">,</span> Confirm
+<span class="token keyword">from</span> rich<span class="token punctuation">.</span>table <span class="token keyword">import</span> Table
+<span class="token keyword">from</span> rich<span class="token punctuation">.</span>markdown <span class="token keyword">import</span> Markdown
+<span class="token keyword">from</span> typing <span class="token keyword">import</span> Optional
+
+console <span class="token operator">=</span> Console<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token keyword">class</span> <span class="token class-name">HumanCheckpoint</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""
+    Handles human-in-the-loop interactions.
+    Every major decision goes through here.
+    """</span>
+</code></pre>
+<hr>
+<h2 id="checkpoint-1-plan-approval">Checkpoint 1: Plan Approval</h2>
+<p>After the agent creates a research plan, users review it:</p>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token decorator annotation punctuation">@staticmethod</span>
+<span class="token keyword">def</span> <span class="token function">approve_plan</span><span class="token punctuation">(</span>questions<span class="token punctuation">:</span> <span class="token builtin">list</span><span class="token punctuation">[</span><span class="token builtin">str</span><span class="token punctuation">]</span><span class="token punctuation">,</span> queries<span class="token punctuation">:</span> <span class="token builtin">list</span><span class="token punctuation">[</span><span class="token builtin">str</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">tuple</span><span class="token punctuation">[</span><span class="token builtin">list</span><span class="token punctuation">[</span><span class="token builtin">str</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token builtin">list</span><span class="token punctuation">[</span><span class="token builtin">str</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token builtin">bool</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""
+    Show research plan and get user approval/modification.
+    Returns (modified_questions, modified_queries, approved).
+    """</span>
+    console<span class="token punctuation">.</span><span class="token keyword">print</span><span class="token punctuation">(</span>Panel<span class="token punctuation">.</span>fit<span class="token punctuation">(</span>
+        <span class="token string">"[bold cyan]🔬 RESEARCH PLAN[/bold cyan]\n\n"</span>
+        <span class="token string">"The agent has created a research plan. Please review:"</span><span class="token punctuation">,</span>
+        title<span class="token operator">=</span><span class="token string">"Checkpoint 1: Planning"</span>
+    <span class="token punctuation">)</span><span class="token punctuation">)</span>
+    
+    <span class="token comment"># Display questions</span>
+    console<span class="token punctuation">.</span><span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"\n[bold]Research Questions:[/bold]"</span><span class="token punctuation">)</span>
+    <span class="token keyword">for</span> i<span class="token punctuation">,</span> q <span class="token keyword">in</span> <span class="token builtin">enumerate</span><span class="token punctuation">(</span>questions<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        console<span class="token punctuation">.</span><span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"  </span><span class="token interpolation"><span class="token punctuation">{</span>i<span class="token punctuation">}</span></span><span class="token string">. </span><span class="token interpolation"><span class="token punctuation">{</span>q<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+    
+    <span class="token comment"># Display queries</span>
+    console<span class="token punctuation">.</span><span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"\n[bold]Search Queries:[/bold]"</span><span class="token punctuation">)</span>
+    <span class="token keyword">for</span> i<span class="token punctuation">,</span> q <span class="token keyword">in</span> <span class="token builtin">enumerate</span><span class="token punctuation">(</span>queries<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        console<span class="token punctuation">.</span><span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"  </span><span class="token interpolation"><span class="token punctuation">{</span>i<span class="token punctuation">}</span></span><span class="token string">. </span><span class="token interpolation"><span class="token punctuation">{</span>q<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+    
+    console<span class="token punctuation">.</span><span class="token keyword">print</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    
+    <span class="token comment"># User decision</span>
+    choice <span class="token operator">=</span> Prompt<span class="token punctuation">.</span>ask<span class="token punctuation">(</span>
+        <span class="token string">"What would you like to do?"</span><span class="token punctuation">,</span>
+        choices<span class="token operator">=</span><span class="token punctuation">[</span><span class="token string">"approve"</span><span class="token punctuation">,</span> <span class="token string">"modify"</span><span class="token punctuation">,</span> <span class="token string">"add"</span><span class="token punctuation">,</span> <span class="token string">"reject"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+        default<span class="token operator">=</span><span class="token string">"approve"</span>
+    <span class="token punctuation">)</span>
+    
+    <span class="token keyword">if</span> choice <span class="token operator">==</span> <span class="token string">"approve"</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> questions<span class="token punctuation">,</span> queries<span class="token punctuation">,</span> <span class="token boolean">True</span>
+    
+    <span class="token keyword">elif</span> choice <span class="token operator">==</span> <span class="token string">"modify"</span><span class="token punctuation">:</span>
+        console<span class="token punctuation">.</span><span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"\n[dim]Enter new questions (one per line, empty line to finish):[/dim]"</span><span class="token punctuation">)</span>
+        new_questions <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+        <span class="token keyword">while</span> <span class="token boolean">True</span><span class="token punctuation">:</span>
+            q <span class="token operator">=</span> Prompt<span class="token punctuation">.</span>ask<span class="token punctuation">(</span><span class="token string">"Question"</span><span class="token punctuation">,</span> default<span class="token operator">=</span><span class="token string">""</span><span class="token punctuation">)</span>
+            <span class="token keyword">if</span> <span class="token keyword">not</span> q<span class="token punctuation">:</span>
+                <span class="token keyword">break</span>
+            new_questions<span class="token punctuation">.</span>append<span class="token punctuation">(</span>q<span class="token punctuation">)</span>
+        
+        console<span class="token punctuation">.</span><span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"\n[dim]Enter new search queries (one per line, empty line to finish):[/dim]"</span><span class="token punctuation">)</span>
+        new_queries <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+        <span class="token keyword">while</span> <span class="token boolean">True</span><span class="token punctuation">:</span>
+            q <span class="token operator">=</span> Prompt<span class="token punctuation">.</span>ask<span class="token punctuation">(</span><span class="token string">"Query"</span><span class="token punctuation">,</span> default<span class="token operator">=</span><span class="token string">""</span><span class="token punctuation">)</span>
+            <span class="token keyword">if</span> <span class="token keyword">not</span> q<span class="token punctuation">:</span>
+                <span class="token keyword">break</span>
+            new_queries<span class="token punctuation">.</span>append<span class="token punctuation">(</span>q<span class="token punctuation">)</span>
+        
+        <span class="token keyword">return</span> <span class="token punctuation">(</span>
+            new_questions <span class="token keyword">if</span> new_questions <span class="token keyword">else</span> questions<span class="token punctuation">,</span>
+            new_queries <span class="token keyword">if</span> new_queries <span class="token keyword">else</span> queries<span class="token punctuation">,</span>
+            <span class="token boolean">True</span>
+        <span class="token punctuation">)</span>
+    
+    <span class="token keyword">elif</span> choice <span class="token operator">==</span> <span class="token string">"add"</span><span class="token punctuation">:</span>
+        <span class="token comment"># Add to existing lists</span>
+        console<span class="token punctuation">.</span><span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"\n[dim]Add additional questions:[/dim]"</span><span class="token punctuation">)</span>
+        <span class="token keyword">while</span> <span class="token boolean">True</span><span class="token punctuation">:</span>
+            q <span class="token operator">=</span> Prompt<span class="token punctuation">.</span>ask<span class="token punctuation">(</span><span class="token string">"Question (empty to stop)"</span><span class="token punctuation">,</span> default<span class="token operator">=</span><span class="token string">""</span><span class="token punctuation">)</span>
+            <span class="token keyword">if</span> <span class="token keyword">not</span> q<span class="token punctuation">:</span>
+                <span class="token keyword">break</span>
+            questions<span class="token punctuation">.</span>append<span class="token punctuation">(</span>q<span class="token punctuation">)</span>
+        
+        console<span class="token punctuation">.</span><span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"\n[dim]Add additional queries:[/dim]"</span><span class="token punctuation">)</span>
+        <span class="token keyword">while</span> <span class="token boolean">True</span><span class="token punctuation">:</span>
+            q <span class="token operator">=</span> Prompt<span class="token punctuation">.</span>ask<span class="token punctuation">(</span><span class="token string">"Query (empty to stop)"</span><span class="token punctuation">,</span> default<span class="token operator">=</span><span class="token string">""</span><span class="token punctuation">)</span>
+            <span class="token keyword">if</span> <span class="token keyword">not</span> q<span class="token punctuation">:</span>
+                <span class="token keyword">break</span>
+            queries<span class="token punctuation">.</span>append<span class="token punctuation">(</span>q<span class="token punctuation">)</span>
+        
+        <span class="token keyword">return</span> questions<span class="token punctuation">,</span> queries<span class="token punctuation">,</span> <span class="token boolean">True</span>
+    
+    <span class="token keyword">else</span><span class="token punctuation">:</span>  <span class="token comment"># reject</span>
+        <span class="token keyword">return</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token boolean">False</span>
+</code></pre>
+<p>Users can:</p>
+<ul>
+<li>✅ <strong>Approve</strong> — Proceed with the plan</li>
+<li>✏️ <strong>Modify</strong> — Replace questions/queries entirely</li>
+<li>➕ <strong>Add</strong> — Append to existing lists</li>
+<li>❌ <strong>Reject</strong> — Abort and restart</li>
+</ul>
+<hr>
+<h2 id="checkpoint-2-source-selection">Checkpoint 2: Source Selection</h2>
+<p>Not all search results are worth reading. Let users choose:</p>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token decorator annotation punctuation">@staticmethod</span>
+<span class="token keyword">def</span> <span class="token function">select_sources</span><span class="token punctuation">(</span>sources<span class="token punctuation">:</span> <span class="token builtin">list</span><span class="token punctuation">[</span><span class="token builtin">dict</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">list</span><span class="token punctuation">[</span><span class="token builtin">dict</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""Show search results and let user select which to fetch."""</span>
+    console<span class="token punctuation">.</span><span class="token keyword">print</span><span class="token punctuation">(</span>Panel<span class="token punctuation">.</span>fit<span class="token punctuation">(</span>
+        <span class="token string">"[bold cyan]📚 SOURCE SELECTION[/bold cyan]\n\n"</span>
+        <span class="token string">"These sources were found. Select which ones to read in detail:"</span><span class="token punctuation">,</span>
+        title<span class="token operator">=</span><span class="token string">"Checkpoint 2: Source Selection"</span>
+    <span class="token punctuation">)</span><span class="token punctuation">)</span>
+    
+    <span class="token comment"># Build a nice table</span>
+    table <span class="token operator">=</span> Table<span class="token punctuation">(</span>show_header<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span> header_style<span class="token operator">=</span><span class="token string">"bold"</span><span class="token punctuation">)</span>
+    table<span class="token punctuation">.</span>add_column<span class="token punctuation">(</span><span class="token string">"#"</span><span class="token punctuation">,</span> width<span class="token operator">=</span><span class="token number">4</span><span class="token punctuation">)</span>
+    table<span class="token punctuation">.</span>add_column<span class="token punctuation">(</span><span class="token string">"Title"</span><span class="token punctuation">,</span> width<span class="token operator">=</span><span class="token number">40</span><span class="token punctuation">)</span>
+    table<span class="token punctuation">.</span>add_column<span class="token punctuation">(</span><span class="token string">"URL"</span><span class="token punctuation">,</span> width<span class="token operator">=</span><span class="token number">30</span><span class="token punctuation">)</span>
+    table<span class="token punctuation">.</span>add_column<span class="token punctuation">(</span><span class="token string">"Snippet"</span><span class="token punctuation">,</span> width<span class="token operator">=</span><span class="token number">50</span><span class="token punctuation">)</span>
+    
+    <span class="token keyword">for</span> i<span class="token punctuation">,</span> source <span class="token keyword">in</span> <span class="token builtin">enumerate</span><span class="token punctuation">(</span>sources<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        table<span class="token punctuation">.</span>add_row<span class="token punctuation">(</span>
+            <span class="token builtin">str</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">,</span>
+            source<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">"title"</span><span class="token punctuation">,</span> <span class="token string">""</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token number">40</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+            source<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">"url"</span><span class="token punctuation">,</span> <span class="token string">""</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token number">30</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+            source<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">"snippet"</span><span class="token punctuation">,</span> <span class="token string">""</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token number">50</span><span class="token punctuation">]</span>
+        <span class="token punctuation">)</span>
+    
+    console<span class="token punctuation">.</span><span class="token keyword">print</span><span class="token punctuation">(</span>table<span class="token punctuation">)</span>
+    
+    selection <span class="token operator">=</span> Prompt<span class="token punctuation">.</span>ask<span class="token punctuation">(</span>
+        <span class="token string">"\nEnter source numbers to fetch (comma-separated, or 'all')"</span><span class="token punctuation">,</span>
+        default<span class="token operator">=</span><span class="token string">"all"</span>
+    <span class="token punctuation">)</span>
+    
+    <span class="token keyword">if</span> selection<span class="token punctuation">.</span>lower<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token string">"all"</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> sources
+    
+    <span class="token keyword">try</span><span class="token punctuation">:</span>
+        indices <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token builtin">int</span><span class="token punctuation">(</span>x<span class="token punctuation">.</span>strip<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">1</span> <span class="token keyword">for</span> x <span class="token keyword">in</span> selection<span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token string">","</span><span class="token punctuation">)</span><span class="token punctuation">]</span>
+        <span class="token keyword">return</span> <span class="token punctuation">[</span>sources<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token keyword">for</span> i <span class="token keyword">in</span> indices <span class="token keyword">if</span> <span class="token number">0</span> <span class="token operator">&#x3C;=</span> i <span class="token operator">&#x3C;</span> <span class="token builtin">len</span><span class="token punctuation">(</span>sources<span class="token punctuation">)</span><span class="token punctuation">]</span>
+    <span class="token keyword">except</span> <span class="token punctuation">(</span>ValueError<span class="token punctuation">,</span> IndexError<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        console<span class="token punctuation">.</span><span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"[yellow]Invalid selection, using all sources[/yellow]"</span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span> sources
+</code></pre>
+<p>This is huge for efficiency. Instead of fetching 20 pages, users might select 5 that look most relevant.</p>
+<hr>
+<h2 id="checkpoint-3-fact-verification">Checkpoint 3: Fact Verification</h2>
+<p>The agent extracts facts from sources. But LLMs hallucinate. Users verify:</p>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token decorator annotation punctuation">@staticmethod</span>
+<span class="token keyword">def</span> <span class="token function">review_facts</span><span class="token punctuation">(</span>facts<span class="token punctuation">:</span> <span class="token builtin">list</span><span class="token punctuation">[</span><span class="token builtin">dict</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">list</span><span class="token punctuation">[</span><span class="token builtin">dict</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""Show extracted facts for review. User can remove incorrect ones."""</span>
+    console<span class="token punctuation">.</span><span class="token keyword">print</span><span class="token punctuation">(</span>Panel<span class="token punctuation">.</span>fit<span class="token punctuation">(</span>
+        <span class="token string">"[bold cyan]✓ FACT REVIEW[/bold cyan]\n\n"</span>
+        <span class="token string">"Review the extracted facts. Remove any that are incorrect:"</span><span class="token punctuation">,</span>
+        title<span class="token operator">=</span><span class="token string">"Checkpoint 3: Fact Verification"</span>
+    <span class="token punctuation">)</span><span class="token punctuation">)</span>
+    
+    <span class="token keyword">for</span> i<span class="token punctuation">,</span> fact <span class="token keyword">in</span> <span class="token builtin">enumerate</span><span class="token punctuation">(</span>facts<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        console<span class="token punctuation">.</span><span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"\n[bold]Fact </span><span class="token interpolation"><span class="token punctuation">{</span>i<span class="token punctuation">}</span></span><span class="token string">:[/bold]"</span></span><span class="token punctuation">)</span>
+        console<span class="token punctuation">.</span><span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"  </span><span class="token interpolation"><span class="token punctuation">{</span>fact<span class="token punctuation">[</span><span class="token string">'fact'</span><span class="token punctuation">]</span><span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+        console<span class="token punctuation">.</span><span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"  [dim]Source: </span><span class="token interpolation"><span class="token punctuation">{</span>fact<span class="token punctuation">[</span><span class="token string">'source_url'</span><span class="token punctuation">]</span><span class="token punctuation">}</span></span><span class="token string">[/dim]"</span></span><span class="token punctuation">)</span>
+    
+    console<span class="token punctuation">.</span><span class="token keyword">print</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    remove <span class="token operator">=</span> Prompt<span class="token punctuation">.</span>ask<span class="token punctuation">(</span>
+        <span class="token string">"Enter fact numbers to REMOVE (comma-separated, or 'none')"</span><span class="token punctuation">,</span>
+        default<span class="token operator">=</span><span class="token string">"none"</span>
+    <span class="token punctuation">)</span>
+    
+    <span class="token keyword">if</span> remove<span class="token punctuation">.</span>lower<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token string">"none"</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> facts
+    
+    <span class="token keyword">try</span><span class="token punctuation">:</span>
+        remove_indices <span class="token operator">=</span> <span class="token builtin">set</span><span class="token punctuation">(</span><span class="token builtin">int</span><span class="token punctuation">(</span>x<span class="token punctuation">.</span>strip<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">1</span> <span class="token keyword">for</span> x <span class="token keyword">in</span> remove<span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token string">","</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span> <span class="token punctuation">[</span>f <span class="token keyword">for</span> i<span class="token punctuation">,</span> f <span class="token keyword">in</span> <span class="token builtin">enumerate</span><span class="token punctuation">(</span>facts<span class="token punctuation">)</span> <span class="token keyword">if</span> i <span class="token keyword">not</span> <span class="token keyword">in</span> remove_indices<span class="token punctuation">]</span>
+    <span class="token keyword">except</span> ValueError<span class="token punctuation">:</span>
+        <span class="token keyword">return</span> facts
+</code></pre>
+<p>This is <strong>critical for trust</strong>. Users see exactly what goes into the report and can remove anything suspicious.</p>
+<hr>
+<h2 id="checkpoint-4-outline-approval">Checkpoint 4: Outline Approval</h2>
+<p>Before writing, confirm the structure:</p>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token decorator annotation punctuation">@staticmethod</span>
+<span class="token keyword">def</span> <span class="token function">approve_outline</span><span class="token punctuation">(</span>outline<span class="token punctuation">:</span> <span class="token builtin">list</span><span class="token punctuation">[</span><span class="token builtin">str</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">tuple</span><span class="token punctuation">[</span><span class="token builtin">list</span><span class="token punctuation">[</span><span class="token builtin">str</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token builtin">bool</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""Show report outline for approval."""</span>
+    console<span class="token punctuation">.</span><span class="token keyword">print</span><span class="token punctuation">(</span>Panel<span class="token punctuation">.</span>fit<span class="token punctuation">(</span>
+        <span class="token string">"[bold cyan]📝 REPORT OUTLINE[/bold cyan]\n\n"</span>
+        <span class="token string">"Review the proposed structure:"</span><span class="token punctuation">,</span>
+        title<span class="token operator">=</span><span class="token string">"Checkpoint 4: Outline Review"</span>
+    <span class="token punctuation">)</span><span class="token punctuation">)</span>
+    
+    <span class="token keyword">for</span> i<span class="token punctuation">,</span> section <span class="token keyword">in</span> <span class="token builtin">enumerate</span><span class="token punctuation">(</span>outline<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        console<span class="token punctuation">.</span><span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"  </span><span class="token interpolation"><span class="token punctuation">{</span>i<span class="token punctuation">}</span></span><span class="token string">. </span><span class="token interpolation"><span class="token punctuation">{</span>section<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+    
+    choice <span class="token operator">=</span> Prompt<span class="token punctuation">.</span>ask<span class="token punctuation">(</span>
+        <span class="token string">"\nApprove this outline?"</span><span class="token punctuation">,</span>
+        choices<span class="token operator">=</span><span class="token punctuation">[</span><span class="token string">"yes"</span><span class="token punctuation">,</span> <span class="token string">"modify"</span><span class="token punctuation">,</span> <span class="token string">"no"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+        default<span class="token operator">=</span><span class="token string">"yes"</span>
+    <span class="token punctuation">)</span>
+    
+    <span class="token keyword">if</span> choice <span class="token operator">==</span> <span class="token string">"yes"</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> outline<span class="token punctuation">,</span> <span class="token boolean">True</span>
+    <span class="token keyword">elif</span> choice <span class="token operator">==</span> <span class="token string">"modify"</span><span class="token punctuation">:</span>
+        console<span class="token punctuation">.</span><span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"\n[dim]Enter new outline (one section per line, empty to finish):[/dim]"</span><span class="token punctuation">)</span>
+        new_outline <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+        <span class="token keyword">while</span> <span class="token boolean">True</span><span class="token punctuation">:</span>
+            section <span class="token operator">=</span> Prompt<span class="token punctuation">.</span>ask<span class="token punctuation">(</span><span class="token string">"Section"</span><span class="token punctuation">,</span> default<span class="token operator">=</span><span class="token string">""</span><span class="token punctuation">)</span>
+            <span class="token keyword">if</span> <span class="token keyword">not</span> section<span class="token punctuation">:</span>
+                <span class="token keyword">break</span>
+            new_outline<span class="token punctuation">.</span>append<span class="token punctuation">(</span>section<span class="token punctuation">)</span>
+        <span class="token keyword">return</span> new_outline <span class="token keyword">if</span> new_outline <span class="token keyword">else</span> outline<span class="token punctuation">,</span> <span class="token boolean">True</span>
+    <span class="token keyword">else</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> outline<span class="token punctuation">,</span> <span class="token boolean">False</span>
+</code></pre>
+<hr>
+<h2 id="checkpoint-5-draft-review">Checkpoint 5: Draft Review</h2>
+<p>The most interactive checkpoint—users can revise multiple times:</p>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token decorator annotation punctuation">@staticmethod</span>
+<span class="token keyword">def</span> <span class="token function">review_draft</span><span class="token punctuation">(</span>draft<span class="token punctuation">:</span> <span class="token builtin">str</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">tuple</span><span class="token punctuation">[</span><span class="token builtin">str</span><span class="token punctuation">,</span> <span class="token builtin">str</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""Show draft and get feedback. Returns (feedback, action)."""</span>
+    console<span class="token punctuation">.</span><span class="token keyword">print</span><span class="token punctuation">(</span>Panel<span class="token punctuation">.</span>fit<span class="token punctuation">(</span>
+        <span class="token string">"[bold cyan]📄 DRAFT REVIEW[/bold cyan]"</span><span class="token punctuation">,</span>
+        title<span class="token operator">=</span><span class="token string">"Checkpoint 5: Draft Review"</span>
+    <span class="token punctuation">)</span><span class="token punctuation">)</span>
+    
+    <span class="token comment"># Render markdown</span>
+    console<span class="token punctuation">.</span><span class="token keyword">print</span><span class="token punctuation">(</span>Markdown<span class="token punctuation">(</span>draft<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    
+    console<span class="token punctuation">.</span><span class="token keyword">print</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    action <span class="token operator">=</span> Prompt<span class="token punctuation">.</span>ask<span class="token punctuation">(</span>
+        <span class="token string">"What would you like to do?"</span><span class="token punctuation">,</span>
+        choices<span class="token operator">=</span><span class="token punctuation">[</span><span class="token string">"approve"</span><span class="token punctuation">,</span> <span class="token string">"revise"</span><span class="token punctuation">,</span> <span class="token string">"expand"</span><span class="token punctuation">,</span> <span class="token string">"shorten"</span><span class="token punctuation">,</span> <span class="token string">"restart"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+        default<span class="token operator">=</span><span class="token string">"approve"</span>
+    <span class="token punctuation">)</span>
+    
+    feedback <span class="token operator">=</span> <span class="token string">""</span>
+    <span class="token keyword">if</span> action <span class="token keyword">in</span> <span class="token punctuation">[</span><span class="token string">"revise"</span><span class="token punctuation">,</span> <span class="token string">"expand"</span><span class="token punctuation">,</span> <span class="token string">"shorten"</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+        feedback <span class="token operator">=</span> Prompt<span class="token punctuation">.</span>ask<span class="token punctuation">(</span><span class="token string">"Provide specific feedback"</span><span class="token punctuation">)</span>
+    
+    <span class="token keyword">return</span> feedback<span class="token punctuation">,</span> action
+</code></pre>
+<p>Actions available:</p>
+<ul>
+<li>✅ <strong>Approve</strong> — Done, finalize</li>
+<li>✏️ <strong>Revise</strong> — Make specific changes</li>
+<li>➕ <strong>Expand</strong> — Add more detail to sections</li>
+<li>➖ <strong>Shorten</strong> — Condense the content</li>
+<li>🔄 <strong>Restart</strong> — Scrap and redo</li>
+</ul>
+<hr>
+<h2 id="utility-methods">Utility Methods</h2>
+<p>Some helper methods for consistent UI:</p>
+<pre class="language-python" data-language="python"><code is:raw="" class="language-python"><span class="token decorator annotation punctuation">@staticmethod</span>
+<span class="token keyword">def</span> <span class="token function">get_user_input</span><span class="token punctuation">(</span>prompt<span class="token punctuation">:</span> <span class="token builtin">str</span><span class="token punctuation">,</span> default<span class="token punctuation">:</span> <span class="token builtin">str</span> <span class="token operator">=</span> <span class="token string">""</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">str</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""Generic user input with nice formatting."""</span>
+    <span class="token keyword">return</span> Prompt<span class="token punctuation">.</span>ask<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"[bold]</span><span class="token interpolation"><span class="token punctuation">{</span>prompt<span class="token punctuation">}</span></span><span class="token string">[/bold]"</span></span><span class="token punctuation">,</span> default<span class="token operator">=</span>default<span class="token punctuation">)</span>
+
+<span class="token decorator annotation punctuation">@staticmethod</span>
+<span class="token keyword">def</span> <span class="token function">confirm</span><span class="token punctuation">(</span>message<span class="token punctuation">:</span> <span class="token builtin">str</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">bool</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""Yes/no confirmation."""</span>
+    <span class="token keyword">return</span> Confirm<span class="token punctuation">.</span>ask<span class="token punctuation">(</span>message<span class="token punctuation">)</span>
+
+<span class="token decorator annotation punctuation">@staticmethod</span>
+<span class="token keyword">def</span> <span class="token function">show_progress</span><span class="token punctuation">(</span>phase<span class="token punctuation">:</span> <span class="token builtin">str</span><span class="token punctuation">,</span> message<span class="token punctuation">:</span> <span class="token builtin">str</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""Show progress indicator."""</span>
+    console<span class="token punctuation">.</span><span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"[bold blue]⚙ </span><span class="token interpolation"><span class="token punctuation">{</span>phase<span class="token punctuation">}</span></span><span class="token string">:[/bold blue] </span><span class="token interpolation"><span class="token punctuation">{</span>message<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+
+<span class="token decorator annotation punctuation">@staticmethod</span>
+<span class="token keyword">def</span> <span class="token function">show_error</span><span class="token punctuation">(</span>message<span class="token punctuation">:</span> <span class="token builtin">str</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""Show error message."""</span>
+    console<span class="token punctuation">.</span><span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"[bold red]✗ Error:[/bold red] </span><span class="token interpolation"><span class="token punctuation">{</span>message<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+
+<span class="token decorator annotation punctuation">@staticmethod</span>
+<span class="token keyword">def</span> <span class="token function">show_success</span><span class="token punctuation">(</span>message<span class="token punctuation">:</span> <span class="token builtin">str</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""Show success message."""</span>
+    console<span class="token punctuation">.</span><span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"[bold green]✓[/bold green] </span><span class="token interpolation"><span class="token punctuation">{</span>message<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+</code></pre>
+<hr>
+<h2 id="the-flow-with-checkpoints">The Flow with Checkpoints</h2>
+<p>Here’s how the research agent now flows:</p>
+<pre class="language-plaintext" data-language="plaintext"><code is:raw="" class="language-plaintext">┌──────────────────────────────────────────────────────────┐
+│                  AGENT WITH CHECKPOINTS                  │
+├──────────────────────────────────────────────────────────┤
+│                                                          │
+│  User Input: "Research topic..."                         │
+│       ↓                                                  │
+│  [PLANNING] LLM creates questions + queries              │
+│       ↓                                                  │
+│  ✋ CHECKPOINT 1: Approve/modify plan                    │
+│       ↓                                                  │
+│  [SEARCHING] Execute search queries                      │
+│       ↓                                                  │
+│  ✋ CHECKPOINT 2: Select which sources to read           │
+│       ↓                                                  │
+│  [READING] Fetch selected pages                          │
+│       ↓                                                  │
+│  [SYNTHESIZING] Extract facts                            │
+│       ↓                                                  │
+│  ✋ CHECKPOINT 3: Verify/remove facts                    │
+│       ↓                                                  │
+│  [WRITING] Create outline                                │
+│       ↓                                                  │
+│  ✋ CHECKPOINT 4: Approve outline                        │
+│       ↓                                                  │
+│  [WRITING] Write draft                                   │
+│       ↓                                                  │
+│  ✋ CHECKPOINT 5: Review draft (loop until approved)     │
+│       ↓                                                  │
+│  [COMPLETE] Save final report                            │
+│                                                          │
+└──────────────────────────────────────────────────────────┘
+</code></pre>
+<hr>
+<h2 id="whats-coming-next">What’s Coming Next</h2>
+<p>We have all the pieces:</p>
+<ul>
+<li>✅ Tools (Part 2)</li>
+<li>✅ State &#x26; Memory (Part 3)</li>
+<li>✅ Human Checkpoints (Part 4)</li>
+</ul>
+<p>In <strong>Part 5</strong>, we build the <strong>Agent Core</strong>—the actual loop that ties everything together:</p>
+<ul>
+<li>The system prompt that guides the LLM</li>
+<li>Tool execution and result handling</li>
+<li>The ReAct loop in code</li>
+<li>Phase handlers that orchestrate the workflow</li>
+</ul>
+<p>This is where it all comes together into a working agent.</p>
+<hr>
+<h2 id="key-takeaways">Key Takeaways</h2>
+<ol>
+<li><strong>Autonomous agents are risky</strong> — They can go off-track with no way to correct</li>
+<li><strong>Strategic checkpoints</strong> — After planning, before expensive operations, when finalizing</li>
+<li><strong>Give users options</strong> — Approve, modify, add, reject</li>
+<li><strong>Show your work</strong> — Display exactly what the agent found/extracted</li>
+<li><strong>Enable iteration</strong> — Draft review should loop until satisfied</li>
+</ol>
+<p>Ready to build the brain? <a href="/agents-series-part5-agent-core">Continue to Part 5: The Agent Core →</a></p> </div>    <section class="related-posts" data-astro-cid-dpgbfi7r> <h2 data-astro-cid-dpgbfi7r>Related Posts</h2> <div class="related-posts-grid" data-astro-cid-dpgbfi7r> <article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/agents-series-part6-complete-agent/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>AI Agents from Scratch Part 6: Complete Agent &amp; Best Practices (Research Report Generator)</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>The Complete Series We&#39;ve built an AI agent from scratch across five parts: 1. Understanding the ReAct Pattern — The…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2026-03-29T00:00:00.000Z" data-astro-cid-dpgbfi7r> Mar 29, 2026 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>8 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/agents-series-part5-agent-core/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>AI Agents from Scratch Part 5: The Agent Core &amp; Loop (Research Report Generator)</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>Previously in This Series We&#39;ve built all the components: - Tools for interacting with the world - State management for…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2026-03-17T00:00:00.000Z" data-astro-cid-dpgbfi7r> Mar 17, 2026 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>7 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/agents-series-part3-state-memory/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>AI Agents from Scratch Part 3: State Management &amp; Memory (Research Report Generator)</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>Previously in This Series In Part 1, we learned the ReAct pattern. In Part 2, we built tools that let our agent…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2026-02-28T00:00:00.000Z" data-astro-cid-dpgbfi7r> Feb 28, 2026 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>7 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/agents-series-part2-tool-system/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>AI Agents from Scratch Part 2: Building the Tool System (Research Report Generator)</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>Previously in This Series In Part 1, we learned that agents follow the **ReAct pattern**: Reason → Act → Observe →…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2026-02-15T00:00:00.000Z" data-astro-cid-dpgbfi7r> Feb 15, 2026 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>8 min read</span> </div> </a> </article> </div> </section>  </article> </div> <div class="back-link" data-astro-cid-yvbahnfj><a href="/" data-astro-cid-yvbahnfj>← Back to home</a></div>  </main> <!-- Site Footer --> <footer class="site-footer container"> <p>
+© 2026 AREZKI El Mehdi •
+<a href="https://github.com/earezki">GitHub</a> •
+<a href="/rss.xml">RSS</a> •
+<a href="/tags/">Tags</a> •
+<a href="/sitemap-index.xml">Sitemap</a> •
+<button id="footer-subscribe-btn" class="footer-subscribe-btn" aria-label="Subscribe to newsletter">
+📬 Subscribe
+</button> </p> </footer> <!-- Footer Subscribe Button Handler --> <script type="module">const e=document.getElementById("themeToggle"),o=n=>{if(!e)return;const t=e.querySelector(".theme-icon");t&&(t.textContent=n==="dark"?"☀":"☾")};if(e){const n=document.documentElement.getAttribute("data-theme")||"dark";o(n),e.addEventListener("click",()=>{const t=document.documentElement,c=t.getAttribute("data-theme")==="dark"?"light":"dark";t.setAttribute("data-theme",c),localStorage.setItem("theme",c),o(c)})}</script> <!-- Theme Toggle --> <script type="module">document.addEventListener("DOMContentLoaded",()=>{const e=document.getElementById("footer-subscribe-btn");e&&e.addEventListener("click",n=>{n.preventDefault();const t=document.getElementById("subscription-popup");t&&(t.setAttribute("data-state","visible"),document.body.style.overflow="hidden")})});</script> <!-- Article read/unread tracking --> <script>
+      (function() {
+        const KEY = 'readArticles';
+        
+        function getRead() {
+          try {
+            const d = localStorage.getItem(KEY);
+            return d ? JSON.parse(d) : [];
+          } catch (e) {
+            return [];
+          }
+        }
+        
+        function markRead(url) {
+          try {
+            const read = getRead();
+            if (!read.includes(url)) {
+              read.push(url);
+              localStorage.setItem(KEY, JSON.stringify(read));
+            }
+          } catch (e) {}
+        }
+        
+        function updateCards() {
+          const read = new Set(getRead());
+          const cards = document.querySelectorAll('.post-card[data-article-url]');
+          cards.forEach(function(card) {
+            const url = card.getAttribute('data-article-url');
+            if (!url) return;
+            const isRead = read.has(url);
+            card.classList.toggle('read', isRead);
+            card.classList.toggle('unread', !isRead);
+          });
+        }
+        
+        function markCurrent() {
+          if (document.querySelector('.post-body')) {
+            markRead(window.location.pathname);
+          }
+        }
+        
+        function init() {
+          updateCards();
+          markCurrent();
+        }
+        
+        function clearRead(url) {
+          try {
+            const read = new Set(getRead());
+            if (read.has(url)) {
+              read.delete(url);
+              localStorage.setItem(KEY, JSON.stringify(Array.from(read)));
+              updateCards();
+            }
+          } catch (e) {}
+        }
+        
+        window.clearReadArticle = clearRead;
+        document.addEventListener('DOMContentLoaded', init);
+        window.addEventListener('pageshow', function(e) {
+          if (e.persisted) init();
+        });
+      })();
+    </script> <!-- Clear read button handler --> <script>
+      (function() {
+        document.addEventListener('click', function(e) {
+          var tgt = e.target, btn = null;
+          while (tgt && tgt !== document) {
+            if (tgt.classList && tgt.classList.contains('clear-read-btn')) {
+              btn = tgt;
+              break;
+            }
+            tgt = tgt.parentNode;
+          }
+          if (!btn) return;
+          e.preventDefault();
+          e.stopPropagation();
+          var url = btn.getAttribute('data-article-url');
+          if (url && window.clearReadArticle) window.clearReadArticle(url);
+        });
+      })();
+    </script> <!-- External links open in new tab --> <script>
+      (function() {
+        function makeExternal() {
+          const domain = window.location.hostname;
+          const links = document.querySelectorAll('a[href]');
+          links.forEach(function(link) {
+            const href = link.getAttribute('href');
+            if (!href || link.hasAttribute('target')) return;
+            const isExt = (href.startsWith('http://') || href.startsWith('https://')) && !href.includes(domain);
+            if (isExt) {
+              link.setAttribute('target', '_blank');
+              link.setAttribute('rel', 'noopener noreferrer');
+            }
+          });
+        }
+        document.addEventListener('DOMContentLoaded', makeExternal);
+        if (window.MutationObserver) {
+          const obs = new MutationObserver(function(muts) {
+            muts.forEach(function(mut) {
+              if (mut.addedNodes.length) makeExternal();
+            });
+          });
+          obs.observe(document.body, { childList: true, subtree: true });
+        }
+      })();
+    </script> <!-- Code copy buttons --> <script>
+      (function() {
+        function createBtn() {
+          const btn = document.createElement('button');
+          btn.className = 'copy-code-button';
+          btn.setAttribute('aria-label', 'Copy code to clipboard');
+          btn.innerHTML = `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span>Copy</span>
+          `;
+          return btn;
+        }
+        
+        function checkIcon() {
+          return `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span>Copied!</span>
+          `;
+        }
+        
+        async function copyText(txt) {
+          try {
+            await navigator.clipboard.writeText(txt);
+            return true;
+          } catch (err) {
+            const ta = document.createElement('textarea');
+            ta.value = txt;
+            ta.style.position = 'fixed';
+            ta.style.left = '-999999px';
+            document.body.appendChild(ta);
+            ta.select();
+            try {
+              document.execCommand('copy');
+              document.body.removeChild(ta);
+              return true;
+            } catch (e) {
+              document.body.removeChild(ta);
+              return false;
+            }
+          }
+        }
+        
+        async function handleCopy(btn, code) {
+          const txt = code.textContent || '';
+          const ok = await copyText(txt);
+          if (ok) {
+            const orig = btn.innerHTML;
+            btn.classList.add('copied');
+            btn.innerHTML = checkIcon();
+            setTimeout(function() {
+              btn.classList.remove('copied');
+              btn.innerHTML = orig;
+            }, 2000);
+          }
+        }
+        
+        function addBtns() {
+          const blocks = document.querySelectorAll('.post-body pre');
+          blocks.forEach(function(pre) {
+            if (pre.querySelector('.copy-code-button')) return;
+            const btn = createBtn();
+            const code = pre.querySelector('code');
+            if (code) {
+              btn.addEventListener('click', function() {
+                handleCopy(btn, code);
+              });
+              pre.appendChild(btn);
+            }
+          });
+        }
+        
+        document.addEventListener('DOMContentLoaded', addBtns);
+      })();
+    </script> <!-- Newsletter Subscription Popup --> <div id="subscription-popup" class="subscription-popup" data-state="hidden" data-auto-trigger="true" data-astro-cid-we5gmdnp> <div class="popup-overlay" id="popup-overlay" data-astro-cid-we5gmdnp></div> <div class="popup-container" data-astro-cid-we5gmdnp> <div class="popup-content" data-astro-cid-we5gmdnp> <div class="popup-icon" data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-we5gmdnp> <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" data-astro-cid-we5gmdnp></path> <polyline points="22,6 12,13 2,6" data-astro-cid-we5gmdnp></polyline> </svg> </div> <h2 class="popup-title" data-astro-cid-we5gmdnp>Stay Updated with Dev|Journal</h2> <p class="popup-description" id="popup-description" data-astro-cid-we5gmdnp>
+Join our community of developers and engineers. Get insights on:
+</p> <ul class="popup-features" data-astro-cid-we5gmdnp> <li data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-we5gmdnp> <polyline points="20 6 9 17 4 12" data-astro-cid-we5gmdnp></polyline> </svg>
+Software Architecture & Design Patterns
+</li> <li data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-we5gmdnp> <polyline points="20 6 9 17 4 12" data-astro-cid-we5gmdnp></polyline> </svg>
+Backend Development Best Practices
+</li> <li data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-we5gmdnp> <polyline points="20 6 9 17 4 12" data-astro-cid-we5gmdnp></polyline> </svg>
+AI & Tech Industry Analysis
+</li> </ul> <form id="subscription-form" class="popup-form" data-astro-cid-we5gmdnp> <div class="form-group" data-astro-cid-we5gmdnp> <input type="text" id="subscriber-name" name="name" placeholder="Your name" required autocomplete="name" data-astro-cid-we5gmdnp> </div> <div class="form-group" data-astro-cid-we5gmdnp> <input type="email" id="subscriber-email" name="email" placeholder="your.email@example.com" required autocomplete="email" data-astro-cid-we5gmdnp> </div> <div id="form-message" class="form-message" data-astro-cid-we5gmdnp></div> <div class="popup-actions" data-astro-cid-we5gmdnp> <button type="submit" class="btn btn-primary" id="subscribe-btn" data-astro-cid-we5gmdnp> <span class="btn-text" data-astro-cid-we5gmdnp>Subscribe</span> <span class="btn-loader" data-astro-cid-we5gmdnp> <svg class="spinner" viewBox="0 0 24 24" data-astro-cid-we5gmdnp> <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" data-astro-cid-we5gmdnp></circle> </svg> </span> </button> <button type="button" class="btn btn-secondary" id="not-now-btn" data-astro-cid-we5gmdnp>Not Now</button> <button type="button" class="btn btn-text" id="cancel-btn" data-astro-cid-we5gmdnp>Don't Show Again</button> </div> </form> </div> </div> </div>  <script>
+  // Configuration
+  const CONFIG = {
+    graceDelay: 5000, // 5 seconds delay before showing popup
+    notNowDelay: 24 * 60 * 60 * 1000, // 1 day in milliseconds
+    apiUrl: 'https://api.earezki.com/blog/api',
+  };
+
+  const STORAGE_KEYS = {
+    subscribed: 'newsletter_subscribed',
+    cancelled: 'newsletter_cancelled',
+    notNowUntil: 'newsletter_not_now_until',
+    pendingSubscriptions: 'newsletter_pending_subscriptions',
+  };
+
+  // State management
+  let popupTimeout = null;
+
+  function showPopup() {
+    const popup = document.getElementById('subscription-popup');
+    if (popup) {
+      popup.setAttribute('data-state', 'visible');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  function hidePopup() {
+    const popup = document.getElementById('subscription-popup');
+    if (popup) {
+      popup.setAttribute('data-state', 'hidden');
+      document.body.style.overflow = '';
+    }
+  }
+
+  function shouldShowPopup() {
+    // Check if user has already subscribed
+    if (localStorage.getItem(STORAGE_KEYS.subscribed) === 'true') {
+      return false;
+    }
+
+    // Check if user clicked "Don't show again"
+    if (localStorage.getItem(STORAGE_KEYS.cancelled) === 'true') {
+      return false;
+    }
+
+    // Check if user clicked "Not now" and delay hasn't passed
+    const notNowUntil = localStorage.getItem(STORAGE_KEYS.notNowUntil);
+    if (notNowUntil) {
+      const notNowTime = parseInt(notNowUntil, 10);
+      if (Date.now() < notNowTime) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  async function getSubscriberStats() {
+    try {
+      const response = await fetch(`${CONFIG.apiUrl}/subscribers/stats`, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+        },
+      });
+      
+      if (!response.ok) {
+        return null;
+      }
+      
+      const data = await response.json();
+      return data.subscriber_count || null;
+    } catch (error) {
+      console.error('Failed to fetch subscriber stats:', error);
+      return null;
+    }
+  }
+
+  async function schedulePopup() {
+    if (!shouldShowPopup()) {
+      return;
+    }
+
+    // Fetch subscriber stats before scheduling popup
+    const subscriberCount = await getSubscriberStats();
+    if (subscriberCount !== null) {
+      // Update popup with subscriber count if stats were successfully fetched
+      updatePopupWithStats(subscriberCount);
+    } else {
+      console.log('Failed to fetch subscriber stats, showing popup without count');
+    }
+
+    // Show popup after grace period (even if stats failed)
+    popupTimeout = window.setTimeout(() => {
+      showPopup();
+    }, CONFIG.graceDelay);
+  }
+
+  function updatePopupWithStats(count) {
+    const descriptionEl = document.querySelector('.popup-description');
+    if (descriptionEl) {
+      const formattedCount = new Intl.NumberFormat('en-US').format(count);
+      descriptionEl.innerHTML = `Join a community of <strong>${formattedCount}+</strong> developers and engineers who are growing together. Get insights on:`;
+    }
+  }
+
+  function savePendingSubscription(name, email) {
+    try {
+      const pending = JSON.parse(localStorage.getItem(STORAGE_KEYS.pendingSubscriptions) || '[]');
+      pending.push({
+        name,
+        email,
+        timestamp: Date.now(),
+        retries: 0,
+      });
+      localStorage.setItem(STORAGE_KEYS.pendingSubscriptions, JSON.stringify(pending));
+    } catch (error) {
+      console.error('Failed to save pending subscription:', error);
+    }
+  }
+
+  async function retryPendingSubscriptions() {
+    try {
+      const pending = JSON.parse(localStorage.getItem(STORAGE_KEYS.pendingSubscriptions) || '[]');
+      if (pending.length === 0) return;
+
+      const maxRetries = 5;
+      const updatedPending = [];
+
+      for (const subscription of pending) {
+        if (subscription.retries >= maxRetries) {
+          console.log('Max retries reached for subscription:', subscription.email);
+          continue;
+        }
+
+        try {
+          const response = await fetch(`${CONFIG.apiUrl}/subscribe`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ 
+              name: subscription.name, 
+              email: subscription.email 
+            }),
+          });
+
+          const data = await response.json();
+
+          if (data.success) {
+            console.log('Successfully retried subscription for:', subscription.email);
+            localStorage.setItem(STORAGE_KEYS.subscribed, 'true');
+          } else {
+            // Keep for retry if it's a temporary error
+            subscription.retries++;
+            updatedPending.push(subscription);
+          }
+        } catch (error) {
+          console.error('Retry failed for subscription:', subscription.email, error);
+          subscription.retries++;
+          updatedPending.push(subscription);
+        }
+      }
+
+      // Update localStorage with remaining pending subscriptions
+      localStorage.setItem(STORAGE_KEYS.pendingSubscriptions, JSON.stringify(updatedPending));
+    } catch (error) {
+      console.error('Failed to process pending subscriptions:', error);
+    }
+  }
+
+  async function handleSubscribe(event) {
+    event.preventDefault();
+    
+    const form = event.target;
+    const nameInput = form.querySelector('#subscriber-name');
+    const emailInput = form.querySelector('#subscriber-email');
+    const submitBtn = form.querySelector('#subscribe-btn');
+    const messageEl = document.getElementById('form-message');
+
+    const name = nameInput.value.trim();
+    const email = emailInput.value.trim();
+
+    if (!name || !email) {
+      if (messageEl) {
+        messageEl.textContent = 'Please fill in all fields.';
+        messageEl.className = 'form-message error';
+      }
+      return;
+    }
+
+    // Show loading state
+    submitBtn.classList.add('loading');
+    submitBtn.disabled = true;
+    if (messageEl) {
+      messageEl.textContent = '';
+      messageEl.className = 'form-message';
+    }
+
+    try {
+      const response = await fetch(`${CONFIG.apiUrl}/subscribe`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, email }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        localStorage.setItem(STORAGE_KEYS.subscribed, 'true');
+        
+        if (messageEl) {
+          messageEl.textContent = '🎉 Successfully subscribed! Thank you for joining us.';
+          messageEl.className = 'form-message success';
+        }
+
+        // Hide popup after 2 seconds
+        setTimeout(() => {
+          hidePopup();
+        }, 2000);
+      } else {
+        if (messageEl) {
+          messageEl.textContent = data.error || 'Subscription failed. Please try again.';
+          messageEl.className = 'form-message error';
+        }
+      }
+    } catch (error) {
+      console.error('Subscription error:', error);
+      
+      // Save subscription for later retry
+      savePendingSubscription(name, email);
+      
+      if (messageEl) {
+        messageEl.textContent = '⏳ Connection issue detected. Your subscription will be processed automatically. Thank you!';
+        messageEl.className = 'form-message success';
+      }
+
+      // Hide popup after showing message
+      setTimeout(() => {
+        hidePopup();
+      }, 3000);
+      
+      // Trigger retry in the background
+      setTimeout(() => {
+        retryPendingSubscriptions();
+      }, 5000);
+    } finally {
+      submitBtn.classList.remove('loading');
+      submitBtn.disabled = false;
+    }
+  }
+
+  function handleNotNow() {
+    const notNowUntil = Date.now() + CONFIG.notNowDelay;
+    localStorage.setItem(STORAGE_KEYS.notNowUntil, notNowUntil.toString());
+    hidePopup();
+  }
+
+  function handleCancel() {
+    localStorage.setItem(STORAGE_KEYS.cancelled, 'true');
+    hidePopup();
+  }
+
+  // Initialize popup
+  document.addEventListener('DOMContentLoaded', () => {
+    const popup = document.getElementById('subscription-popup');
+    const autoTrigger = popup?.getAttribute('data-auto-trigger') === 'true';
+    
+    // Retry any pending subscriptions from previous sessions
+    retryPendingSubscriptions();
+    
+    // Schedule popup to show after grace period only if autoTrigger is enabled
+    if (autoTrigger) {
+      schedulePopup();
+    }
+
+    // Event listeners
+    const form = document.getElementById('subscription-form');
+    const overlay = document.getElementById('popup-overlay');
+    const notNowBtn = document.getElementById('not-now-btn');
+    const cancelBtn = document.getElementById('cancel-btn');
+
+    if (form) {
+      form.addEventListener('submit', handleSubscribe);
+    }
+
+    if (overlay) {
+      overlay.addEventListener('click', handleNotNow);
+    }
+
+    if (notNowBtn) {
+      notNowBtn.addEventListener('click', handleNotNow);
+    }
+
+    if (cancelBtn) {
+      cancelBtn.addEventListener('click', handleCancel);
+    }
+
+    // Clean up on page unload
+    window.addEventListener('beforeunload', () => {
+      if (popupTimeout) {
+        clearTimeout(popupTimeout);
+      }
+    });
+  });
+</script> </body></html> 
