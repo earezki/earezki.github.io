@@ -1,363 +1,278 @@
 
 
-EA
+👨‍💻
+About Me
 
-El Mehdi AREZKI
-🚀 Lead Software Engineer & System Architect
-📍 Île-de-France, France
+**Passionate about software architecture and technical innovation**, I'm a Lead Software Engineer building large-scale distributed backend solutions **since 2017 professionally** and **since 2012 personally**.
 
-✉️
+**My Mission**: Transform complex ideas into robust, scalable, and performant systems that make a real difference.
 
-**Online CV:** https://earezki.com/about
-
-arezki.elmehdi@gmail.com
-
-💼
-LinkedIn
-
-🐙
-GitHub
-
-📝
-Blog
-
-💡
-StackOverflow
-
----
-
-## 👨‍💻 About
-
-**Passionate about software architecture and technical innovation**, I'm a Lead Software Engineer **since 2017 professionally** and **since 2012 personally** building large-scale distributed backend solutions.
-
-🎯 **My Mission**: Transform complex ideas into robust, scalable, and performant
-systems that make a real difference.
-
-💡 **What Sets Me Apart**:
+**What Sets Me Apart**:
 - Technical leadership of international teams
 - Expertise in cloud-native architecture and microservices
 - Passion for code quality and best practices
-- Ability to bridge the gap between technical and business
+- Bridging technical and business requirements
 
----
+💼
+Professional Experience
 
-## 💼 Professional Experience
+Lead Software Engineer
+European Banking Group
 
-### Company A (European Banking Group) 📍 Île-de-France
+📅 04-2023 – Present
+📍 Île-de-France
 
-#### 🎖️ Lead Software Engineer
-**📅 04-2023 – Present**
+Large-scale Project Leadership: Led development of next-gen banking application
+(v3), built from scratch to modernize legacy system
+International Leadership: Daily coordination of distributed teams (France &
+Poland) including developers, Business Analysts, and Product Owners
+Technical Excellence: Technical spec writing, active participation in business
+rule definition, and functional workshop facilitation
+DevOps & Infrastructure: Complete CI/CD pipeline setup (Jenkins, ArgoCD) and
+Kubernetes orchestration
+Innovation & R&D: Comparative POCs (Redis vs Apache Ignite, Oracle vs MongoDB,
+audit solutions)
+Mentorship: Technical coaching, code reviews, and team best practices definition
+Performance: Performance optimization and proactive production incident
+management
 
-🏆 **Key Achievements**:
-- 🚀 **Large-scale Project Leadership**: Led development of next-gen banking
-  application (v3), built from scratch to modernize legacy system
-- 🌍 **International Leadership**: Daily coordination of distributed teams
-  (France & Poland) including developers, Business Analysts, and Product Owners
-- 📋 **Technical Excellence**: Technical spec writing, active participation in
-  business rule definition, and functional workshop facilitation
-- 🔧 **DevOps & Infrastructure**: Complete CI/CD pipeline setup (Jenkins,
-  ArgoCD) and Kubernetes orchestration
-- 🔬 **Innovation & R&D**: Comparative POCs (Redis vs Apache Ignite, Oracle vs
-  MongoDB, audit solutions)
-- 👨‍🏫 **Mentorship**: Technical coaching, code reviews, and team best
-  practices definition
-- ⚡ **Performance**: Performance optimization and proactive production incident
-  management
+Java 21
+Spring Boot
+Python
+FastAPI
+OpenAPI
+Redis
+Apache Ignite
+Oracle
+MongoDB
+Jenkins
+ArgoCD
+Kubernetes
+RabbitMQ
+IBM MQ
+Docker
 
-**Technologies:** Java 21 • Spring Boot • OpenAPI • Redis • Apache Ignite • Oracle • MongoDB • Jenkins • ArgoCD • Kubernetes • RabbitMQ • IBM MQ • Docker • Python • FastAPI
+Senior Software Engineer
+European Banking Group
 
----
+📅 06-2021 – 04-2023
+📍 Île-de-France
 
-#### 🎯 Senior Software Engineer
-**📅 06-2021 – 04-2023**
+From-scratch Architecture: Design and implementation of modern banking platform
+application architecture
+Regulatory Project: Development of regulatory reporting application for Banque
+de France, replacing legacy COBOL system
+CI/CD Excellence: GitLab CI pipeline implementation, deployment automation
+Cross-cutting Components: Development of audit, authorization, security, and
+OAuth2 authentication modules
+Quality Assurance: Technical and functional quality guardian, team mentoring
 
-🏆 **Key Achievements**:
-- 🏗️ **From-scratch Architecture**: Design and implementation of modern banking
-  platform application architecture
-- 🏦 **Regulatory Project**: Development of regulatory reporting application for
-  Banque de France, replacing legacy COBOL system
-- 🔄 **CI/CD Excellence**: GitLab CI pipeline implementation, deployment
-  automation
-- 🛡️ **Cross-cutting Components**: Development of audit, authorization,
-  security, and OAuth2 authentication modules
-- ✅ **Quality Assurance**: Technical and functional quality guardian, team
-  mentoring
+Java 11
+Spring Boot
+DDD
+Hexagonal Architecture
+Docker
+Kubernetes
+PostgreSQL
+GitLab CI
+OAuth2
 
-**Technologies:** Java 11 • Spring Boot • DDD • Hexagonal Architecture • Docker • Kubernetes • PostgreSQL • GitLab CI • OAuth2
+Senior Software Engineer
+European Banking Group (via IT Consulting)
 
----
+📅 07-2019 – 06-2021
+📍 Île-de-France
 
-### Company B (European Banking Group) 📍 Île-de-France
+R&D & Innovation: Technical POC study and execution for new strategic projects
+Microservices Architecture: Complete microservices infrastructure design and
+implementation
+K8s Migration: Successful migration from Docker Swarm to Kubernetes
+Security: OAuth2 server setup and electronic signature service
+Optimization: Significant application and SQL performance improvements, APM
+integration
+Load Testing: Performance test development with Locust (Python)
 
-#### 🎯 Senior Software Engineer
-**📅 07-2019 – 06-2021**
+Java 11
+Spring Boot
+Docker Swarm
+Kubernetes
+PostgreSQL
+MongoDB
+Apache Camel
+Locust
+OAuth2
 
-🏆 **Key Achievements**:
-- 🔬 **R&D & Innovation**: Technical POC study and execution for new strategic
-  projects
-- 🏗️ **Microservices Architecture**: Complete microservices infrastructure
-  design and implementation
-- 🚢 **K8s Migration**: Successful migration from Docker Swarm to Kubernetes
-- 🔐 **Security**: OAuth2 server setup and electronic signature service
-- ⚡ **Optimization**: Significant application and SQL performance improvements,
-  APM integration
-- 🧪 **Load Testing**: Performance test development with Locust (Python)
-- 👨‍🏫 **Training**: Junior and intern coaching and training
+Software Engineer
+IT Consulting - E-commerce Client
 
-**Technologies:** Java 8 • Spring Boot • Docker • Kubernetes • PostgreSQL • RabbitMQ • Jenkins • ReactJS • ELK • Python
+📅 04-2017 – 07-2019
+📍 Île-de-France
 
----
+Microservices Development: Backend development for multi-channel commerce
+platform
+Delivery Optimization: Delivery module enhancements with geolocation and carrier
+integration
+Kafka Integration: Event-driven communication implementation with Apache Kafka
+Search Engine: Elasticsearch product search implementation
+SAP Integration: Data exchange between commerce platform and SAP ERP
 
-### Company C (International Online Bank) 📍 Paris
+Java 8
+Spring Boot
+Apache Kafka
+Elasticsearch
+SAP
+Microservices
 
-#### 💻 Java Developer/Designer
-**📅 09-2018 – 06-2019**
+🚀
+Side Projects
 
-🏆 **Key Achievements**:
-- 📋 **Full Cycle Management**: Change Request specification to acceptance
-  testing
-- 🏦 **PSD2 APIs**: Analysis and development of PSD2 APIs (SCA, AIS, PIS)
-- 🔐 **Strong Authentication**: SCA module implementation and fraud detection
-  system
-- 🎨 **Front-end**: Polymer 2 component development and REST/SOAP integration
-- 🎯 **Technical Expertise**: Active participation in technical choices and code
-  reviews
-
-**Technologies:** Java 8 • Spring MVC • Spring Boot • JAX-RS • AngularJS • Polymer 2 • Jenkins
-
----
-
-### Company D (International E-Commerce) 📍 Rabat
-
-#### 💻 Java Developer/Designer
-**📅 02-2017 – 09-2018**
-
-🏆 **Key Achievements**:
-- 🛒 **Large-scale E-commerce**: Development and estimation of new features
-- 🔄 **Modernization**: Migration from monolith to microservices architecture
-- 🛍️ **New Microservice**: From-scratch shopping cart management service
-  development
-- 🏗️ **Technical Design**: Design and implementation with continuous
-  integration
-- 👨‍🏫 **Mentoring**: Code reviews and new developer training
-
-**Technologies:** Java 8 • SAP Hybris • Spring Boot • AngularJS • Docker • Jenkins • PostgreSQL
-
----
-
-## 🚀 Personal Projects
-
-🎯 Planning Poker - Made Simple
-
-Visit App →
-
-Real-time collaborative estimation for agile teams. No signup required, no
-tracking, just pure estimation power. Lightning-fast WebSocket connections
-ensure your team stays in sync with instant updates. Privacy-first design with
-no tracking, no cookies, no data storage. Create a session, invite your team
-with a link, and estimate together.
+Planning Poker
+Real-time collaborative estimation for agile teams. No signup, no tracking, just
+pure estimation power with lightning-fast WebSocket connections.
 
 TypeScript
 React
 WebSocket
-Python
 FastAPI
-Real-time
-Agile
 
-🔗 Slui - URL Shortener
-
-Visit App →
-
-Mobile-first Progressive Web App for creating short links with lightning-fast
-performance. Privacy-focused URL shortening with no tracking or cookies, instant
-QR code generation, and beautiful dashboard for managing all your links. PWA
-support enables offline access.
+Slui URL Shortener
+Mobile-first PWA for creating short links with lightning-fast performance.
+Privacy-focused with instant QR code generation.
 
 TypeScript
 React
-PWA
-Python
 FastAPI
-QR Codes
+PWA
 
-🏋️ Swipe Interview App
-
-Visit App →
-
-Progressive Web App for interview preparation with interview questions and
-detailed explanations. Features progress tracking, daily challenges, and an
-intuitive swiping interface to learn and practice.
+Swipe Interview
+PWA for interview preparation with progress tracking and daily challenges
+through an engaging swiping interface.
 
 TypeScript
 React
 Tailwind
-Python
-FastAPI
+PWA
 
-🛠️ DevToolbox
-
-Visit App →
-
-Comprehensive collection of essential developer utilities for daily development
-tasks. Tools for encoding/decoding data, generating secure tokens, testing
-regular expressions, and more. All tools run entirely in your browser with zero
-server tracking - complete privacy guaranteed.
+DevToolbox
+Essential developer utilities for daily tasks. Encoding, decoding, token
+generation, regex testing. All client-side for privacy.
 
 React
 TypeScript
-Vite
-Tailwind CSS
-Monaco Editor
-Zustand
+Monaco
 
-🎭 ZestLoop
-
-Visit App →
-
-AI-powered content platform delivering dynamic categories: jokes, affirmations,
-quotes, stories, and bedtime tales. Full-stack application with Flutter frontend
-and FastAPI backend, featuring intelligent content generation.
+ZestLoop
+AI-powered content platform delivering jokes, affirmations, quotes, stories, and
+bedtime tales.
 
 Flutter
-Python
 FastAPI
-AI Content
+AI
 
-🤖 Stock Weather AI
-
-View Code →
-
-AI-powered financial market analysis application. Uses machine learning to
-predict market trends and provide real-time insights.
+Stock Weather AI
+AI-powered financial market analysis using machine learning to predict trends
+and provide real-time insights.
 
 Python
 LangChain
-AI/ML
-Finance
+Anthropic
+GitHub Actions
 
-☁️ AltCloud
+earezki.com
+Personal blog with AI-powered features: automated content generation, semantic
+search, market predictions.
 
-View Code →
+Astro
+FastAPI
+LangChain
+GitHub Actions
 
-Alternative secure cloud storage solution. Distributed architecture with
-end-to-end encryption for maximum confidentiality.
+AltCloud
+Self-hosted cloud solution: photo storage, e-reader, calendar, personal API
+platform.
 
-Flutter
-Cloud
-Storage
-Security
+Kotlin
+Spring Boot
+React
+S3
 
-🛒 CartsAPI
+🛠️
+Technical Skills
 
-View Code →
+🏗️ Architecture
 
-Modern RESTful API for e-commerce cart management. Microservices architecture
-with high availability and scalability.
-
-Java
-Quarkus
-E-Commerce
-
----
-
-## 🛠️ Technical Skills
-
-### 🏗️ Software Architecture & Design
-
-**🎨 Paradigms:** Microservices • Domain-Driven Design (DDD) • Event-Driven Architecture • API-First • Hexagonal Architecture
+Microservices
+DDD
+Event-Driven
+API-First
+Hexagonal
 
 💻 Languages
 
-Java 25
+Java 21+
 Python
 TypeScript
-JavaScript
+Kotlin
 
 🚀 Frameworks
 
 Spring Boot
 FastAPI
 LangChain
-Apache Camel
 React
-Hibernate
+Apache Camel
 
-### ☁️ Cloud Native & DevOps
+☁️ Cloud & DevOps
 
-**🎼 Orchestration:** Kubernetes • Docker • Docker Swarm
-
-🔄 CI/CD
-
+Kubernetes
+Docker
 Jenkins
 GitLab CI
 ArgoCD
 GitHub Actions
 
-📦 Methodologies
+💾 Databases
 
-Infrastructure as Code
-GitOps
-Continuous Delivery
-
-### 💾 Data & Messaging Systems
-
-**🗄️ Databases:** PostgreSQL • Oracle • MongoDB • S3
-
-⚡ Caching
-
+PostgreSQL
+Oracle
+MongoDB
 Redis
-Apache Ignite
+Elasticsearch
 
-📨 Message Queues
+📨 Messaging
 
-RabbitMQ
 Apache Kafka
+RabbitMQ
 IBM MQ
 
-### 🎯 Leadership & Quality
+🎯
+Domain Expertise
 
-**👥 Leadership:** Team Management • Technical Mentoring • Agile Planning • Stakeholder Coordination
+🏦
+Banking & Finance
 
-✅ Quality
-
-Performance Testing (Locust)
-E2E Testing (Cucumber)
-Code Review
-TDD
-
----
-
-## 🎓 Functional Skills
+PSD2 (SCA, AIS, PIS)
+Wire Transfers
+Fraud Detection
+KYC/AML Compliance
 
 🛍️
 E-Commerce
 
-Product catalog management
-Delivery systems
-Recurring payments
-Omnichannel experience
-
-🏦
-Banking
-
-PSD2: SCA, AIS, PIS, CAF
-Wire transfers
-Fraud detection
-Structured products
-Compliance: KYC, AML, ETP, CTP
+Product Catalog
+Delivery Systems
+Payment Processing
+Omnichannel
 
 📄
 Document Management
 
-Document management
-Audit systems
-Advanced versioning
-Complete traceability
+Versioning Systems
+Audit Trails
+Compliance Tracking
 
----
-
-## 🌍 Languages
+🌍
+Languages
 
 🇫🇷 French
 🇬🇧 English

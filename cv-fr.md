@@ -1,373 +1,285 @@
 
 
-EA
+👨‍💻
+À Propos
 
-El Mehdi AREZKI
-🚀 Lead Software Engineer & System Architect
-📍 Île-de-France, France
+**Passionné par l'architecture logicielle et l'innovation technique**, je suis Lead Software Engineer dans la création de solutions backend distribuées à grande échelle **depuis 2017 professionnellement** et **depuis 2012 personnellement**.
 
-✉️
+**Ma Mission** : Transformer des idées complexes en systèmes robustes, évolutifs et performants qui font la différence.
 
-**CV en ligne :** https://earezki.com/about
-
-arezki.elmehdi@gmail.com
-
-💼
-LinkedIn
-
-🐙
-GitHub
-
-📝
-Blog
-
-💡
-StackOverflow
-
----
-
-## 👨‍💻 À Propos
-
-**Passionné par l'architecture logicielle et l'innovation technique**, je suis un Lead Software Engineer **depuis 2017 professionnellement** et **depuis 2012 personnellement** dans la création de solutions backend distribuées à grande échelle.
-
-🎯 **Ma mission** : Transformer des idées complexes en systèmes robustes,
-évolutifs et performants qui font la différence.
-
-💡 **Ce qui me distingue** :
+**Ce qui me distingue** :
 - Leadership technique d'équipes internationales
 - Expertise en architecture cloud-native et microservices
 - Passion pour la qualité du code et les bonnes pratiques
 - Capacité à naviguer entre technique et business
 
----
+💼
+Expériences Professionnelles
 
-## 💼 Expériences Professionnelles
+Lead Software Engineer
+Groupe Bancaire Européen
 
-### Entreprise A (Groupe Bancaire Européen) 📍 Île-de-France
+📅 04-2023 – Aujourd'hui
+📍 Île-de-France
 
-#### 🎖️ Lead Software Engineer
-**📅 04-2023 – Aujourd'hui**
+Pilotage de projet d'envergure : Direction du développement d'une application
+bancaire next-gen (v3), construite from scratch pour moderniser un système
+legacy
+Leadership international : Coordination quotidienne d'équipes distribuées
+(France & Pologne) incluant développeurs, Business Analysts et Product Owners
+Excellence technique : Rédaction de specs techniques, participation active à la
+définition des règles métier et animation d'ateliers fonctionnels
+DevOps & Infrastructure : Mise en place complète des pipelines CI/CD (Jenkins,
+ArgoCD) et orchestration Kubernetes
+Innovation & R&D : Réalisation de POCs comparatifs (Redis vs Apache Ignite,
+Oracle vs MongoDB, solutions d'audit)
+Mentorat : Encadrement technique, code reviews, et définition des bonnes
+pratiques d'équipe
+Performance : Optimisation des performances et gestion proactive des incidents
+en production
 
-🏆 **Réalisations clés** :
-- 🚀 **Pilotage de projet d'envergure** : Direction du développement d'une
-  application bancaire next-gen (v3), construite from scratch pour moderniser un
-  système legacy
-- 🌍 **Leadership international** : Coordination quotidienne d'équipes
-  distribuées (France & Pologne) incluant développeurs, Business Analysts et
-  Product Owners
-- 📋 **Excellence technique** : Rédaction de specs techniques, participation
-  active à la définition des règles métier et animation d'ateliers fonctionnels
-- 🔧 **DevOps & Infrastructure** : Mise en place complète des pipelines CI/CD
-  (Jenkins, ArgoCD) et orchestration Kubernetes
-- 🔬 **Innovation & R&D** : Réalisation de POCs comparatifs (Redis vs Apache
-  Ignite, Oracle vs MongoDB, solutions d'audit)
-- 👨‍🏫 **Mentorat** : Encadrement technique, code reviews, et définition des
-  bonnes pratiques d'équipe
-- ⚡ **Performance** : Optimisation des performances et gestion proactive des
-  incidents en production
+Java 21
+Spring Boot
+Python
+FastAPI
+OpenAPI
+Redis
+Apache Ignite
+Oracle
+MongoDB
+Jenkins
+ArgoCD
+Kubernetes
+RabbitMQ
+IBM MQ
+Docker
 
-**Technologies:** Java 21 • Spring Boot • OpenAPI • Redis • Apache Ignite • Oracle • MongoDB • Jenkins • ArgoCD • Kubernetes • RabbitMQ • IBM MQ • Docker • Python • FastAPI
+Senior Software Engineer
+Groupe Bancaire Européen
 
----
+📅 06-2021 – 04-2023
+📍 Île-de-France
 
-#### 🎯 Senior Software Engineer
-**📅 06-2021 – 04-2023**
+Architecture from scratch : Conception et implémentation de l'architecture
+applicative d'une plateforme bancaire moderne
+Projet réglementaire : Développement d'une application de reporting pour la
+Banque de France, remplacement d'un système COBOL legacy
+CI/CD Excellence : Mise en œuvre de pipelines GitLab CI, automatisation des
+déploiements
+Composants transverses : Développement de modules d'audit, habilitations,
+sécurité et authentification OAuth2
+Garantie qualité : Garant de la qualité technique et fonctionnelle, mentorat
+d'équipe
 
-🏆 **Réalisations clés** :
-- 🏗️ **Architecture from scratch** : Conception et implémentation de
-  l'architecture applicative d'une plateforme bancaire moderne
-- 🏦 **Projet réglementaire** : Développement d'une application de reporting
-  pour la Banque de France, remplacement d'un système COBOL legacy
-- 🔄 **CI/CD Excellence** : Mise en œuvre de pipelines GitLab CI, automatisation
-  des déploiements
-- 🛡️ **Composants transverses** : Développement de modules d'audit,
-  habilitations, sécurité et authentification OAuth2
-- ✅ **Garantie qualité** : Garant de la qualité technique et fonctionnelle,
-  mentorat d'équipe
+Java 11
+Spring Boot
+DDD
+Hexagonal Architecture
+Docker
+Kubernetes
+PostgreSQL
+GitLab CI
+OAuth2
 
-**Technologies:** Java 11 • Spring Boot • DDD • Hexagonal Architecture • Docker • Kubernetes • PostgreSQL • GitLab CI • OAuth2
+Senior Software Engineer
+Groupe Bancaire Européen (via ESN)
 
----
+📅 07-2019 – 06-2021
+📍 Île-de-France
 
-### Entreprise B (Groupe Bancaire Européen) 📍 Île-de-France
+R&D & Innovation : Étude et réalisation de POCs techniques pour nouveaux projets
+stratégiques
+Architecture microservices : Conception et implémentation d'une infrastructure
+microservices complète
+Migration K8s : Migration réussie de Docker Swarm vers Kubernetes
+Sécurité : Mise en place d'un serveur OAuth2 et service de signature
+électronique
+Optimisation : Amélioration significative des performances applicatives et SQL,
+intégration APM
+Tests de charge : Développement de tests de performance avec Locust (Python)
 
-#### 🎯 Senior Software Engineer
-**📅 07-2019 – 06-2021**
+Java 11
+Spring Boot
+Docker Swarm
+Kubernetes
+PostgreSQL
+MongoDB
+Apache Camel
+Locust
+OAuth2
 
-🏆 **Réalisations clés** :
-- 🔬 **R&D & Innovation** : Étude et réalisation de POCs techniques pour
-  nouveaux projets stratégiques
-- 🏗️ **Architecture microservices** : Conception et implémentation d'une
-  infrastructure microservices complète
-- 🚢 **Migration K8s** : Migration réussie de Docker Swarm vers Kubernetes
-- 🔐 **Sécurité** : Mise en place d'un serveur OAuth2 et service de signature
-  électronique
-- ⚡ **Optimisation** : Amélioration significative des performances applicatives
-  et SQL, intégration APM
-- 🧪 **Tests de charge** : Développement de tests de performance avec Locust
-  (Python)
-- 👨‍🏫 **Formation** : Accompagnement et formation des juniors et stagiaires
+Software Engineer
+ESN - Client E-commerce
 
-**Technologies:** Java 8 • Spring Boot • Docker • Kubernetes • PostgreSQL • RabbitMQ • Jenkins • ReactJS • ELK • Python
+📅 04-2017 – 07-2019
+📍 Île-de-France
 
----
+Développement Microservices : Développement backend pour plateforme commerce
+multi-canal
+Optimisation livraison : Amélioration du module livraison avec géolocalisation
+et intégration transporteurs
+Intégration Kafka : Implémentation de communication event-driven avec Apache
+Kafka
+Moteur de recherche : Implémentation de recherche produits avec Elasticsearch
+Intégration SAP : Échange de données entre plateforme commerce et SAP ERP
 
-### Entreprise C (Banque en Ligne Internationale) 📍 Paris
+Java 8
+Spring Boot
+Apache Kafka
+Elasticsearch
+SAP
+Microservices
 
-#### 💻 Développeur Concepteur Java
-**📅 09-2018 – 06-2019**
+🚀
+Projets Personnels
 
-🏆 **Réalisations clés** :
-- 📋 **Gestion complète du cycle** : De la spécification à la recette des Change
-  Requests
-- 🏦 **APIs PSD2** : Analyse et développement des API PSD2 (SCA, AIS, PIS)
-- 🔐 **Authentification forte** : Implémentation module SCA et système de
-  détection de fraude
-- 🎨 **Front-end** : Développement de composants Polymer 2 et intégration
-  REST/SOAP
-- 🎯 **Expertise technique** : Participation active aux choix techniques et code
-  reviews
-
-**Technologies:** Java 8 • Spring MVC • Spring Boot • JAX-RS • AngularJS • Polymer 2 • Jenkins
-
----
-
-### Entreprise D (E-Commerce International) 📍 Rabat
-
-#### 💻 Développeur Concepteur Java
-**📅 02-2017 – 09-2018**
-
-🏆 **Réalisations clés** :
-- 🛒 **E-commerce à grande échelle** : Développement et chiffrage de nouvelles
-  fonctionnalités
-- 🔄 **Modernisation** : Migration d'un monolithe vers architecture
-  microservices
-- 🛍️ **Nouveau microservice** : Développement du service de gestion de panier
-  from scratch
-- 🏗️ **Conception technique** : Design et implémentation avec intégration
-  continue
-- 👨‍🏫 **Mentorat** : Code reviews et formation des nouveaux développeurs
-
-**Technologies:** Java 8 • SAP Hybris • Spring Boot • AngularJS • Docker • Jenkins • PostgreSQL
-
----
-
-## 🚀 Projets Personnels
-
-🎯 Planning Poker - Simplifié
-
-Visiter l'app →
-
-Estimation collaborative en temps réel pour les équipes agiles. Aucune
-inscription requise, aucun suivi, juste une puissance d'estimation pure.
-Connexions WebSocket ultra-rapides pour garder votre équipe synchronisée avec
-des mises à jour instantanées. Conception axée sur la confidentialité sans
-suivi, cookies ni stockage de données. Créez une session, invitez votre équipe
-avec un lien et estimez ensemble.
+Planning Poker
+Estimation collaborative en temps réel pour équipes agiles. Sans inscription,
+sans tracking, connexions WebSocket ultra-rapides.
 
 TypeScript
 React
 WebSocket
-Temps réel
-Agile
+FastAPI
 
-🔗 Slui - Raccourcisseur d'URL
-
-Visiter l'app →
-
-Application web progressive mobile-first pour créer des liens courts avec des
-performances ultra-rapides. Service de raccourcissement d'URL axé sur la
-confidentialité sans suivi ni cookies, génération instantanée de codes QR, et
-tableau de bord élégant pour gérer tous vos liens. Support PWA pour l'accès hors
-ligne.
+Slui URL Shortener
+PWA mobile-first pour créer des liens courts. Respectueux de la vie privée avec
+génération instantanée de QR codes.
 
 TypeScript
 React
-PWA
-Python
 FastAPI
-QR Codes
+PWA
 
-🏋️ Swipe Interview App
-
-Visiter l'app →
-
-Application web progressive pour la préparation aux entretiens avec questions
-d'interview et explications détaillées. Inclut un suivi de progression et des
-défis quotidiens pour apprendre et s'entraîner.
+Swipe Interview
+PWA de préparation aux entretiens avec suivi de progression et défis quotidiens
+via une interface de swipe engageante.
 
 TypeScript
 React
 Tailwind
-Python
-FastAPI
+PWA
 
-🛠️ DevToolbox
-
-Visiter l'app →
-
-Collection complète d'utilitaires de développement essentiels pour les tâches de
-développement quotidiennes. Outils pour l'encodage/décodage de données, la
-génération de jetons sécurisés, les tests d'expressions régulières et bien plus
-encore. Tous les outils s'exécutent entièrement dans votre navigateur sans suivi
-de serveur - confidentialité complète garantie.
+DevToolbox
+Utilitaires essentiels pour développeurs. Encodage, décodage, génération de
+tokens, test regex. 100% client-side.
 
 React
 TypeScript
-Vite
-Tailwind CSS
-Monaco Editor
-Zustand
+Monaco
 
-🎭 ZestLoop
-
-Visiter l'app →
-
-Plateforme de contenu propulsée par l'IA offrant des catégories dynamiques :
-blagues, affirmations, citations, histoires et contes pour s'endormir.
-Application full-stack avec frontend Flutter et backend Python FastAPI, avec
-génération de contenu intelligente.
+ZestLoop
+Plateforme de contenu IA : blagues, affirmations, citations, histoires et contes
+pour enfants.
 
 Flutter
-Python
 FastAPI
-AI Content
+AI
 
-🤖 Stock Weather AI
-
-Voir le code →
-
-Application d'analyse des marchés financiers propulsée par l'IA. Utilise le
-machine learning pour prédire les tendances du marché et fournir des insights en
-temps réel.
+Stock Weather AI
+Analyse de marché financier par IA utilisant le machine learning pour
+prédictions et insights en temps réel.
 
 Python
 LangChain
-AI/ML
-Finance
+Anthropic
+GitHub Actions
 
-☁️ AltCloud
+earezki.com
+Blog personnel avec fonctionnalités IA : génération de contenu automatisée,
+recherche sémantique, prédictions de marché.
 
-Voir le code →
+Astro
+FastAPI
+LangChain
+GitHub Actions
 
-Solution de stockage cloud alternative et sécurisée. Architecture distribuée
-avec chiffrement de bout en bout pour une confidentialité maximale.
+AltCloud
+Solution cloud auto-hébergée : stockage photos, liseuse, calendrier, plateforme
+API personnelle.
 
-Flutter
-Cloud
-Storage
-Security
+Kotlin
+Spring Boot
+React
+S3
 
-🛒 CartsAPI
+🛠️
+Compétences Techniques
 
-Voir le code →
+🏗️ Architecture
 
-API RESTful moderne pour la gestion de paniers e-commerce. Architecture
-microservices avec haute disponibilité et scalabilité.
-
-Java
-Quarkus
-E-Commerce
-
----
-
-## 🛠️ Compétences Techniques
-
-### 🏗️ Architecture Logicielle & Conception
-
-**🎨 Paradigmes:** Microservices • Domain-Driven Design (DDD) • Event-Driven Architecture • API-First • Hexagonal Architecture
+Microservices
+DDD
+Event-Driven
+API-First
+Hexagonal
 
 💻 Langages
 
-Java 25
+Java 21+
 Python
 TypeScript
-JavaScript
+Kotlin
 
 🚀 Frameworks
 
 Spring Boot
 FastAPI
 LangChain
-Apache Camel
 React
-Hibernate
+Apache Camel
 
-### ☁️ Cloud Native & DevOps
+☁️ Cloud & DevOps
 
-**🎼 Orchestration:** Kubernetes • Docker • Docker Swarm
-
-🔄 CI/CD
-
+Kubernetes
+Docker
 Jenkins
 GitLab CI
 ArgoCD
 GitHub Actions
 
-📦 Méthodologies
+💾 Bases de données
 
-Infrastructure as Code
-GitOps
-Continuous Delivery
-
-### 💾 Systèmes de Données & Messaging
-
-**🗄️ Bases de données:** PostgreSQL • Oracle • MongoDB • S3
-
-⚡ Caching
-
+PostgreSQL
+Oracle
+MongoDB
 Redis
-Apache Ignite
+Elasticsearch
 
-📨 Files de messages
+📨 Messaging
 
-RabbitMQ
 Apache Kafka
+RabbitMQ
 IBM MQ
 
-### 🎯 Leadership & Qualité
+🎯
+Expertise Métier
 
-**👥 Leadership:** Gestion d'équipe • Mentorat technique • Planification Agile • Coordination stakeholders
+🏦
+Banque & Finance
 
-✅ Qualité
-
-Tests de performance (Locust)
-Tests E2E (Cucumber)
-Code Review
-TDD
-
----
-
-## 🎓 Compétences Fonctionnelles
+PSD2 (SCA, AIS, PIS)
+Virements bancaires
+Détection de fraude
+Conformité KYC/AML
 
 🛍️
 E-Commerce
 
-Gestion de catalogue produits
+Catalogue produits
 Systèmes de livraison
-Paiements récurrents
-Expérience omnicanale
-
-🏦
-Bancaire
-
-PSD2 : SCA, AIS, PIS, CAF
-Virements et transferts
-Détection de fraude
-Produits structurés
-Conformité : KYC, AML, ETP, CTP
+Traitement paiements
+Omnicanal
 
 📄
-GED
+Gestion Documentaire
 
-Gestion documentaire
-Systèmes d'audit
-Versioning avancé
-Traçabilité complète
+Systèmes de versioning
+Pistes d'audit
+Suivi conformité
 
----
-
-## 🌍 Langues
+🌍
+Langues
 
 🇫🇷 Français
 🇬🇧 Anglais
