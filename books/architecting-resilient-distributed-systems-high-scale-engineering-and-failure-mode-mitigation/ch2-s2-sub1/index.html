@@ -34,8 +34,7 @@ About
 <p>NGINX implements load shedding via &#39;limit_req&#39; and &#39;limit_conn&#39; directives [1, 2]. Common HTTP status codes for shed requests are 429 (Too Many Requests) and 503 (Service Unavailable) [2]. The Vegas algorithm for concurrency limits uses a delay-based approach where the bottleneck queue is estimated as L * (1 - minRTT/sampleRtt) [10]. Adaptive limits increase the limit by 1 if the queue &lt; alpha, and decrease by 1 if queue &gt; beta [10].</p>
 <h2>Conclusion</h2>
 <p>In conclusion, load shedding and backpressure are essential mechanisms for maintaining system stability under high load. By implementing admission control, using Little&#39;s Law to estimate concurrency limits, and applying algorithms such as Token Bucket and Leaky Bucket, systems can prevent overload and ensure that they can handle incoming requests without compromising their performance.</p>
-<h2>Sources</h2>
-<p></p><div class="sources-list"><div class="source-item">[1] <a href="https://umatechnology.org/load-shedding-rules-for-nginx-ingress-layers-made-for-99-999-slas/">https://umatechnology.org/load-shedding-rules-for-nginx-ingress-layers-made-for-99-999-slas/</a></div>
+<h2>Sources</h2></p><div class="sources-list"><div class="source-item">[1] <a href="https://umatechnology.org/load-shedding-rules-for-nginx-ingress-layers-made-for-99-999-slas/">https://umatechnology.org/load-shedding-rules-for-nginx-ingress-layers-made-for-99-999-slas/</a></div>
 <div class="source-item">[2] <a href="https://github.com/Netflix/concurrency-limits">https://github.com/Netflix/concurrency-limits</a></div>
 <div class="source-item">[6] <a href="https://github.com/Netflix/concurrency-limits">https://github.com/Netflix/concurrency-limits</a></div>
 <div class="source-item">[10] <a href="https://github.com/Netflix/concurrency-limits">https://github.com/Netflix/concurrency-limits</a></div></div>
