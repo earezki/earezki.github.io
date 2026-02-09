@@ -1,799 +1,256 @@
-<!DOCTYPE html><html lang="en" data-theme="dark"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Delivery: Testing and Packaging • Spring Boot: The Mechanics of Magic • Dev|Journal</title><meta name="description" content="This section covers testing and packaging strategies for Spring Boot applications, focusing on the LogisticsCore example. It introduces the Spring TestContext Framework, highlighting @SpringBootTest for integration tests and slice annotations like @DataJpaTest and @WebMvcTest. Key testing techniques are demonstrated: using @MockBean to isolate dependencies, @TestPropertySource for test-specific configuration, and Testcontainers with @DynamicPropertySource for external service dependencies. The packaging discussion compares executable JARs (default, embedded server), WAR files (external servlet container), and Native Images (GraalVM AOT compilation for fast startup). An optimized multi-stage Dockerfile for a layered JAR is provided, illustrating containerization best practices. The underlying JVM mechanisms (like context caching and layered JAR structure) are explained before the Spring abstractions, adhering to the prescribed style. The goal is to equip developers with strategies to optimize the build and test lifecycle for speed and reliability."><meta name="keywords" content="software architecture, backend development, microservices, Java, Python, Spring Boot, technical blog"><meta name="author" content="El Mehdi Arezki"><meta property="og:type" content="website"><meta property="og:url" content="https://earezki.com/books/spring-boot-the-mechanics-of-magic/ch6/"><meta property="og:title" content="Delivery: Testing and Packaging • Spring Boot: The Mechanics of Magic • Dev|Journal"><meta property="og:site_name" content="Dev|Journal"><meta property="og:description" content="This section covers testing and packaging strategies for Spring Boot applications, focusing on the LogisticsCore example. It introduces the Spring TestContext Framework, highlighting @SpringBootTest for integration tests and slice annotations like @DataJpaTest and @WebMvcTest. Key testing techniques are demonstrated: using @MockBean to isolate dependencies, @TestPropertySource for test-specific configuration, and Testcontainers with @DynamicPropertySource for external service dependencies. The packaging discussion compares executable JARs (default, embedded server), WAR files (external servlet container), and Native Images (GraalVM AOT compilation for fast startup). An optimized multi-stage Dockerfile for a layered JAR is provided, illustrating containerization best practices. The underlying JVM mechanisms (like context caching and layered JAR structure) are explained before the Spring abstractions, adhering to the prescribed style. The goal is to equip developers with strategies to optimize the build and test lifecycle for speed and reliability."><meta property="og:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:url" content="https://earezki.com/books/spring-boot-the-mechanics-of-magic/ch6/"><meta name="twitter:title" content="Delivery: Testing and Packaging • Spring Boot: The Mechanics of Magic • Dev|Journal"><meta name="twitter:description" content="This section covers testing and packaging strategies for Spring Boot applications, focusing on the LogisticsCore example. It introduces the Spring TestContext Framework, highlighting @SpringBootTest for integration tests and slice annotations like @DataJpaTest and @WebMvcTest. Key testing techniques are demonstrated: using @MockBean to isolate dependencies, @TestPropertySource for test-specific configuration, and Testcontainers with @DynamicPropertySource for external service dependencies. The packaging discussion compares executable JARs (default, embedded server), WAR files (external servlet container), and Native Images (GraalVM AOT compilation for fast startup). An optimized multi-stage Dockerfile for a layered JAR is provided, illustrating containerization best practices. The underlying JVM mechanisms (like context caching and layered JAR structure) are explained before the Spring abstractions, adhering to the prescribed style. The goal is to equip developers with strategies to optimize the build and test lifecycle for speed and reliability."><meta name="twitter:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:creator" content="@earezki"><link rel="canonical" href="https://earezki.com/books/spring-boot-the-mechanics-of-magic/ch6/"><link rel="icon" type="image/png" href="/assets/favicon_48_d.webp"><link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"><link rel="dns-prefetch" href="https://cloud.umami.is"><script defer src="https://cloud.umami.is/script.js" data-website-id="4a26531d-1053-4f79-97a6-06a1366aff91"></script><script>
+<!DOCTYPE html><html lang="en" data-theme="dark"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Delivery: Testing and Packaging - spring boot the mechanics of magic • Dev|Journal</title><meta name="description" content="This section covers testing and packaging strategies for Spring Boot applications, focusing on the LogisticsCore example. It introduces the Spring TestContext Framework, highlighting @SpringBootTest for integration tests and slice annotations like @DataJpaTest and @WebMvcTest. Key testing techniques are demonstrated: using @MockBean to isolate dependencies, @TestPropertySource for test-specific configuration, and Testcontainers with @DynamicPropertySource for external service dependencies. The packaging discussion compares executable JARs (default, embedded server), WAR files (external servlet container), and Native Images (GraalVM AOT compilation for fast startup). An optimized multi-stage Dockerfile for a layered JAR is provided, illustrating containerization best practices. The underlying JVM mechanisms (like context caching and layered JAR structure) are explained before the Spring abstractions, adhering to the prescribed style. The goal is to equip developers with strategies to optimize the build and test lifecycle for speed and reliability."><meta name="keywords" content="software architecture, backend development, microservices, Java, Python, Spring Boot, technical blog"><meta name="author" content="El Mehdi Arezki"><meta property="og:type" content="website"><meta property="og:url" content="https://earezki.com/books/spring-boot-the-mechanics-of-magic/ch6/"><meta property="og:title" content="Delivery: Testing and Packaging - spring boot the mechanics of magic • Dev|Journal"><meta property="og:site_name" content="Dev|Journal"><meta property="og:description" content="This section covers testing and packaging strategies for Spring Boot applications, focusing on the LogisticsCore example. It introduces the Spring TestContext Framework, highlighting @SpringBootTest for integration tests and slice annotations like @DataJpaTest and @WebMvcTest. Key testing techniques are demonstrated: using @MockBean to isolate dependencies, @TestPropertySource for test-specific configuration, and Testcontainers with @DynamicPropertySource for external service dependencies. The packaging discussion compares executable JARs (default, embedded server), WAR files (external servlet container), and Native Images (GraalVM AOT compilation for fast startup). An optimized multi-stage Dockerfile for a layered JAR is provided, illustrating containerization best practices. The underlying JVM mechanisms (like context caching and layered JAR structure) are explained before the Spring abstractions, adhering to the prescribed style. The goal is to equip developers with strategies to optimize the build and test lifecycle for speed and reliability."><meta property="og:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:url" content="https://earezki.com/books/spring-boot-the-mechanics-of-magic/ch6/"><meta name="twitter:title" content="Delivery: Testing and Packaging - spring boot the mechanics of magic • Dev|Journal"><meta name="twitter:description" content="This section covers testing and packaging strategies for Spring Boot applications, focusing on the LogisticsCore example. It introduces the Spring TestContext Framework, highlighting @SpringBootTest for integration tests and slice annotations like @DataJpaTest and @WebMvcTest. Key testing techniques are demonstrated: using @MockBean to isolate dependencies, @TestPropertySource for test-specific configuration, and Testcontainers with @DynamicPropertySource for external service dependencies. The packaging discussion compares executable JARs (default, embedded server), WAR files (external servlet container), and Native Images (GraalVM AOT compilation for fast startup). An optimized multi-stage Dockerfile for a layered JAR is provided, illustrating containerization best practices. The underlying JVM mechanisms (like context caching and layered JAR structure) are explained before the Spring abstractions, adhering to the prescribed style. The goal is to equip developers with strategies to optimize the build and test lifecycle for speed and reliability."><meta name="twitter:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:creator" content="@earezki"><link rel="canonical" href="https://earezki.com/books/spring-boot-the-mechanics-of-magic/ch6/"><link rel="icon" type="image/png" href="/favicon.png"><link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"><link rel="dns-prefetch" href="https://cloud.umami.is"><script defer src="https://cloud.umami.is/script.js" data-website-id="4a26531d-1053-4f79-97a6-06a1366aff91"></script><!-- Preconnect to Google Fonts for Inter --><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"><!-- Theme initialization - parse Zustand persist format --><script>
       (function() {
-        const theme = localStorage.getItem('theme');
-        if (theme) document.documentElement.setAttribute('data-theme', theme);
+        try {
+          const raw = localStorage.getItem('theme');
+          if (raw) {
+            // Zustand persist stores as JSON: {"state":{"theme":"light"},"version":0}
+            const parsed = JSON.parse(raw);
+            const theme = parsed?.state?.theme || 'dark';
+            
+            if (theme === 'light') {
+              document.documentElement.setAttribute('data-theme', 'light');
+            } else if (theme === 'system') {
+              const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+              document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
+            } else {
+              document.documentElement.setAttribute('data-theme', 'dark');
+            }
+          }
+        } catch (e) {
+          // Fallback to dark if parsing fails
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
       })();
-    </script><script>
-!function(){const o=window.location.pathname;if("/"===o)return;if(/\.\w+$/.test(o))return;const n=o.toLowerCase(),i=n!==o,t=!o.endsWith("/");if(i||t){const o=n+(t?"/":""),i=window.location.origin+o+window.location.search+window.location.hash;window.location.replace(i)}}();
-</script><link rel="stylesheet" href="/_astro/_slug_.HHaemtd_.css">
-<style>.breadcrumbs[data-astro-cid-ilhxcym7]{margin:0 0 1.5rem;font-size:.85rem}.breadcrumbs[data-astro-cid-ilhxcym7] ol[data-astro-cid-ilhxcym7]{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;align-items:center;gap:.5rem}.breadcrumbs[data-astro-cid-ilhxcym7] li[data-astro-cid-ilhxcym7]{display:flex;align-items:center;gap:.5rem}.breadcrumbs[data-astro-cid-ilhxcym7] a[data-astro-cid-ilhxcym7]{color:var(--color-text-alt);text-decoration:none;transition:color var(--transition)}.breadcrumbs[data-astro-cid-ilhxcym7] a[data-astro-cid-ilhxcym7]:hover{color:var(--color-accent);text-decoration:underline}.breadcrumbs[data-astro-cid-ilhxcym7] .separator[data-astro-cid-ilhxcym7]{color:var(--color-text-alt);opacity:.5;user-select:none}.breadcrumbs[data-astro-cid-ilhxcym7] .current[data-astro-cid-ilhxcym7]{color:var(--color-text);font-weight:500}.new-badge-breadcrumb[data-astro-cid-ilhxcym7]{font-size:.6rem;font-weight:700;letter-spacing:.1em;padding:.3rem .5rem;background:linear-gradient(135deg,#10b981,#059669);color:#fff;border-radius:4px;text-transform:uppercase;box-shadow:0 2px 8px #10b9814d;animation:pulse-glow 2s ease-in-out infinite;position:relative;overflow:hidden;margin-left:.25rem}.new-badge-breadcrumb[data-astro-cid-ilhxcym7]:before{content:"";position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:linear-gradient(45deg,transparent,rgba(255,255,255,.3),transparent);transform:rotate(45deg);animation:shimmer 3s linear infinite}@keyframes pulse-glow{0%,to{box-shadow:0 2px 8px #10b9814d}50%{box-shadow:0 2px 16px #10b98180,0 0 24px #10b98133}}@keyframes shimmer{0%{transform:translate(-100%) translateY(-100%) rotate(45deg)}to{transform:translate(100%) translateY(100%) rotate(45deg)}}html[data-theme=dark] .new-badge-breadcrumb[data-astro-cid-ilhxcym7]{background:linear-gradient(135deg,#059669,#047857);box-shadow:0 2px 8px #10b98166}
-</style>
-<link rel="stylesheet" href="/_astro/_chapter_.DpQw_MEr.css"></head> <body> <!-- Skip to content link for keyboard users --> <a href="#main-content" class="skip-to-content">Skip to main content</a> <div id="readingProgress" role="progressbar" aria-label="Reading progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="position:fixed;left:0;top:0;height:3px;background:linear-gradient(90deg,#2563eb,#9333ea);width:0;z-index:999;transition:width .15s ease;"></div> <script type="module">function c(){const t=document.getElementById("readingProgress");if(!t)return;const o=()=>{const e=document.documentElement,r=e.scrollTop||document.body.scrollTop,s=e.scrollHeight-e.clientHeight,n=s>0?r/s*100:0;t.style.width=`${n}%`,t.setAttribute("aria-valuenow",n.toFixed(0))};document.addEventListener("scroll",o,{passive:!0}),o()}c();</script> <header class="site-header container"> <div class="logo-wrap"> <a class="logo" href="/" aria-label="Dev|Journal Home">
+    </script><link rel="stylesheet" href="/_astro/_slug_.B1DM0Z1o.css"></head> <body class="min-h-screen bg-background text-foreground"> <!-- Skip to content link --> <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:p-4 focus:bg-primary focus:text-primary-foreground focus:rounded-lg">
+Skip to main content
+</a> <!-- Header with glassmorphism --> <header class="sticky top-0 z-40 border-b border-border/50 glass"> <div class="container mx-auto px-4 py-3 flex items-center justify-between"> <a href="/" class="text-xl font-bold text-gradient hover:opacity-80 transition-opacity">
 Dev|Journal
-</a> </div> <!-- Command Palette in Header --> <!-- Command Palette Trigger Button --><div class="header-search"> <button id="cmd-palette-trigger" class="cmd-palette-trigger" aria-label="Open command palette (Ctrl+K)" type="button"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="trigger-search-icon" aria-hidden="true"> <circle cx="11" cy="11" r="8"></circle> <path d="m21 21-4.35-4.35"></path> </svg> <span class="trigger-text">Search...</span> </button> </div> <!-- Command Palette Modal --> <div id="cmd-palette-overlay" class="cmd-palette-overlay" role="dialog" aria-modal="true" aria-label="Command palette" data-search-api-url="https://api.earezki.com/blog/api/q" data-search-timeout="2000"> <div class="cmd-palette-container"> <!-- Search Header --> <div class="cmd-palette-header"> <div class="cmd-palette-input-wrapper"> <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="cmd-search-icon" aria-hidden="true"> <circle cx="11" cy="11" r="8"></circle> <path d="m21 21-4.35-4.35"></path> </svg> <span id="cmd-palette-ghost" class="cmd-palette-ghost" aria-hidden="true"></span> <input type="text" id="cmd-palette-input" class="cmd-palette-input" placeholder="Search articles, navigate, or type a command..." autocomplete="off" aria-label="Search or type a command"> <button id="cmd-palette-close" class="cmd-palette-close" aria-label="Close command palette" type="button"> <kbd>esc</kbd> </button> <div id="cmd-palette-suggestions" class="cmd-palette-suggestions" role="listbox" aria-label="Suggestions"></div> </div> </div> <!-- Results Area --> <div id="cmd-palette-results" class="cmd-palette-results"> <!-- Quick Actions (shown by default) --> <div id="cmd-quick-actions" class="cmd-section"> <div class="cmd-section-title">Quick Actions</div> <div class="cmd-section-items"> <button class="cmd-item" data-action="navigate" data-url="/"> <div class="cmd-item-icon"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path> <polyline points="9 22 9 12 15 12 15 22"></polyline> </svg> </div> <div class="cmd-item-content"> <span class="cmd-item-title">Go to Home</span> <span class="cmd-item-description">View all posts</span> </div> <kbd class="cmd-item-shortcut">↵</kbd> </button> <button class="cmd-item" data-action="navigate" data-url="/ai-news/"> <div class="cmd-item-icon ai-gradient"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h-9.5a.5.5 0 0 0-.5.5.5.5 0 0 1-1 0 .5.5 0 0 0-.5-.5H1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"></path> <path d="M7 15v4a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-4"></path> </svg> </div> <div class="cmd-item-content"> <span class="cmd-item-title">AI News</span> <span class="cmd-item-description">Latest AI articles</span> </div> <kbd class="cmd-item-shortcut">↵</kbd> </button> <button class="cmd-item" data-action="navigate" data-url="/ai-financial-news/"> <div class="cmd-item-icon financial-gradient"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <line x1="12" y1="1" x2="12" y2="23"></line> <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path> </svg> </div> <div class="cmd-item-content"> <span class="cmd-item-title">AI Financial News</span> <span class="cmd-item-description">Market insights & analysis</span> </div> <kbd class="cmd-item-shortcut">↵</kbd> </button> <button class="cmd-item" data-action="navigate" data-url="/books/"> <div class="cmd-item-icon books-gradient"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path> <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path> </svg> </div> <div class="cmd-item-content"> <span class="cmd-item-title">AI Books</span> <span class="cmd-item-description">AI-generated mini-series & books</span> </div> <kbd class="cmd-item-shortcut">↵</kbd> </button> <button class="cmd-item" data-action="navigate" data-url="/about/"> <div class="cmd-item-icon"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <circle cx="12" cy="12" r="10"></circle> <path d="M12 16v-4"></path> <path d="M12 8h.01"></path> </svg> </div> <div class="cmd-item-content"> <span class="cmd-item-title">About</span> <span class="cmd-item-description">Learn more about the author</span> </div> <kbd class="cmd-item-shortcut">↵</kbd> </button> <button class="cmd-item" data-action="navigate" data-url="/tags/"> <div class="cmd-item-icon"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"></path> <path d="M7 7h.01"></path> </svg> </div> <div class="cmd-item-content"> <span class="cmd-item-title">Browse Tags</span> <span class="cmd-item-description">Explore by topic</span> </div> <kbd class="cmd-item-shortcut">↵</kbd> </button> </div> </div> <div id="cmd-settings-actions" class="cmd-section"> <div class="cmd-section-title">Settings</div> <div class="cmd-section-items"> <button class="cmd-item" data-action="toggle-theme"> <div class="cmd-item-icon theme-icon"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="sun-icon"> <circle cx="12" cy="12" r="5"></circle> <line x1="12" y1="1" x2="12" y2="3"></line> <line x1="12" y1="21" x2="12" y2="23"></line> <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line> <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line> <line x1="1" y1="12" x2="3" y2="12"></line> <line x1="21" y1="12" x2="23" y2="12"></line> <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line> <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line> </svg> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="moon-icon"> <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path> </svg> </div> <div class="cmd-item-content"> <span class="cmd-item-title">Toggle Theme</span> <span class="cmd-item-description">Switch between light and dark mode</span> </div> <kbd class="cmd-item-shortcut">↵</kbd> </button> <button class="cmd-item" data-action="subscribe"> <div class="cmd-item-icon subscribe-icon"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path> <polyline points="22,6 12,13 2,6"></polyline> </svg> </div> <div class="cmd-item-content"> <span class="cmd-item-title">Subscribe to Newsletter</span> <span class="cmd-item-description">Get updates in your inbox</span> </div> <kbd class="cmd-item-shortcut">↵</kbd> </button> </div> </div> <!-- Search Results (shown when searching) --> <div id="cmd-search-results" class="cmd-section" style="display: none;"> <div class="cmd-section-title"> <span id="cmd-results-title">Search Results</span> <span id="cmd-results-badge" class="cmd-results-badge"></span> </div> <div id="cmd-search-items" class="cmd-section-items"></div> </div> <!-- Loading State --> <div id="cmd-loading" class="cmd-loading" style="display: none;"> <div class="cmd-loading-spinner"></div> <span>Searching...</span> </div> <!-- No Results --> <div id="cmd-no-results" class="cmd-no-results" style="display: none;"> <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"> <circle cx="11" cy="11" r="8"></circle> <path d="m21 21-4.35-4.35"></path> <path d="M8 8l6 6"></path> <path d="M14 8l-6 6"></path> </svg> <p>No results found</p> <span>Try different keywords or browse the quick actions above</span> </div> </div> <!-- Footer --> <div class="cmd-palette-footer"> <div class="cmd-footer-hints"> <span><kbd>↑↓</kbd> Navigate</span> <span><kbd>↵</kbd> Select</span> <span><kbd>tab</kbd> Complete</span> <span><kbd>esc</kbd> Close</span> </div> <div id="cmd-footer-powered" class="cmd-footer-powered" style="display: none;">
-✨ AI-powered search
-</div> </div> </div> </div>  <script type="module" src="/_astro/CommandPalette.astro_astro_type_script_index_0_lang.CzX_f0Z3.js"></script> <nav class="main-nav" aria-label="Main navigation"> <a href="/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path> <polyline points="9 22 9 12 15 12 15 22"></polyline> </svg>
-Home
-</a> <a href="/ai-news/" class="ai-news-link ai-gradient-nav"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h-9.5a.5.5 0 0 0-.5.5.5.5 0 0 1-1 0 .5.5 0 0 0-.5-.5H1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"></path> <path d="M7 15v4a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-4"></path> </svg>
-AI News
-</a> <a href="/ai-financial-news/" class="ai-financial-link ai-gradient-nav"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <line x1="12" y1="1" x2="12" y2="23"></line> <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path> </svg>
-AI Financial
-</a> <a href="/books/" class="books-link ai-gradient-nav"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path> <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path> </svg>
-Books
-</a> <a href="/about/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <circle cx="12" cy="12" r="10"></circle> <path d="M12 16v-4"></path> <path d="M12 8h.01"></path> </svg>
-About
-</a> <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode"> <span class="theme-icon" aria-hidden="true">☾</span> </button> </nav> </header> <!-- Main Content --> <main id="main-content" class="container content-area" tabindex="-1">  <nav class="breadcrumbs" aria-label="Breadcrumb" data-astro-cid-ilhxcym7> <ol data-astro-cid-ilhxcym7> <li data-astro-cid-ilhxcym7>  <a href="/" data-astro-cid-ilhxcym7>Home</a> <span class="separator" aria-hidden="true" data-astro-cid-ilhxcym7>/</span>  </li><li data-astro-cid-ilhxcym7>  <a href="/books/" data-astro-cid-ilhxcym7>Books</a> <span class="separator" aria-hidden="true" data-astro-cid-ilhxcym7>/</span>  </li><li data-astro-cid-ilhxcym7>  <a href="/books/spring-boot-the-mechanics-of-magic/" data-astro-cid-ilhxcym7>Spring Boot: The Mechanics of Magic</a> <span class="separator" aria-hidden="true" data-astro-cid-ilhxcym7>/</span>  </li><li data-astro-cid-ilhxcym7> <span class="current" aria-current="page" data-astro-cid-ilhxcym7>Delivery: Testing and Packaging</span> </li>  </ol> </nav>  <div class="chapter-layout" data-astro-cid-44sxzdbl> <!-- Sidebar Navigation --> <aside class="chapter-sidebar" data-book-slug="spring-boot-the-mechanics-of-magic" data-total-chapters="24" data-astro-cid-44sxzdbl> <div class="sidebar-header" data-astro-cid-44sxzdbl> <a href="/books/spring-boot-the-mechanics-of-magic/" class="back-to-book" data-astro-cid-44sxzdbl> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-astro-cid-44sxzdbl> <polyline points="15 18 9 12 15 6" data-astro-cid-44sxzdbl></polyline> </svg> Spring Boot: The Mechanics of ... </a> </div> <!-- Sidebar Progress Indicator --> <div class="sidebar-progress" style="display: none;" data-astro-cid-44sxzdbl> <div class="sidebar-progress-bar" data-astro-cid-44sxzdbl> <div class="sidebar-progress-fill" style="width: 0%;" data-astro-cid-44sxzdbl></div> </div> <span class="sidebar-progress-text" data-astro-cid-44sxzdbl>0%</span> </div> <nav class="sidebar-nav" aria-label="Chapter navigation" data-astro-cid-44sxzdbl> <ol class="sidebar-chapters" data-astro-cid-44sxzdbl> <li class="sidebar-chapter " data-chapter-slug="ch1" data-astro-cid-44sxzdbl> <a href="/books/spring-boot-the-mechanics-of-magic/ch1/" class="sidebar-link " data-astro-cid-44sxzdbl> <span class="sidebar-number" data-astro-cid-44sxzdbl>1</span> <span class="sidebar-title" data-astro-cid-44sxzdbl>The Container: From Main to Refresh</span> <span class="sidebar-check" data-chapter-slug="ch1" data-astro-cid-44sxzdbl> <svg class="check-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-44sxzdbl> <polyline points="20 6 9 17 4 12" data-astro-cid-44sxzdbl></polyline> </svg> </span> </a>  </li><li class="sidebar-chapter " data-chapter-slug="ch2" data-astro-cid-44sxzdbl> <a href="/books/spring-boot-the-mechanics-of-magic/ch2/" class="sidebar-link " data-astro-cid-44sxzdbl> <span class="sidebar-number" data-astro-cid-44sxzdbl>2</span> <span class="sidebar-title" data-astro-cid-44sxzdbl>The Runtime Machinery: Proxies and Lifecycles</span> <span class="sidebar-check" data-chapter-slug="ch2" data-astro-cid-44sxzdbl> <svg class="check-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-44sxzdbl> <polyline points="20 6 9 17 4 12" data-astro-cid-44sxzdbl></polyline> </svg> </span> </a>  </li><li class="sidebar-chapter " data-chapter-slug="ch3" data-astro-cid-44sxzdbl> <a href="/books/spring-boot-the-mechanics-of-magic/ch3/" class="sidebar-link " data-astro-cid-44sxzdbl> <span class="sidebar-number" data-astro-cid-44sxzdbl>3</span> <span class="sidebar-title" data-astro-cid-44sxzdbl>Data Persistence: The Leaky Abstraction</span> <span class="sidebar-check" data-chapter-slug="ch3" data-astro-cid-44sxzdbl> <svg class="check-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-44sxzdbl> <polyline points="20 6 9 17 4 12" data-astro-cid-44sxzdbl></polyline> </svg> </span> </a>  </li><li class="sidebar-chapter " data-chapter-slug="ch4" data-astro-cid-44sxzdbl> <a href="/books/spring-boot-the-mechanics-of-magic/ch4/" class="sidebar-link " data-astro-cid-44sxzdbl> <span class="sidebar-number" data-astro-cid-44sxzdbl>4</span> <span class="sidebar-title" data-astro-cid-44sxzdbl>The Web Layer: Threads and Dispatchers</span> <span class="sidebar-check" data-chapter-slug="ch4" data-astro-cid-44sxzdbl> <svg class="check-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-44sxzdbl> <polyline points="20 6 9 17 4 12" data-astro-cid-44sxzdbl></polyline> </svg> </span> </a>  </li><li class="sidebar-chapter " data-chapter-slug="ch5" data-astro-cid-44sxzdbl> <a href="/books/spring-boot-the-mechanics-of-magic/ch5/" class="sidebar-link " data-astro-cid-44sxzdbl> <span class="sidebar-number" data-astro-cid-44sxzdbl>5</span> <span class="sidebar-title" data-astro-cid-44sxzdbl>Production Readiness: Ops and Observability</span> <span class="sidebar-check" data-chapter-slug="ch5" data-astro-cid-44sxzdbl> <svg class="check-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-44sxzdbl> <polyline points="20 6 9 17 4 12" data-astro-cid-44sxzdbl></polyline> </svg> </span> </a>  </li><li class="sidebar-chapter active" data-chapter-slug="ch6" data-astro-cid-44sxzdbl> <a href="/books/spring-boot-the-mechanics-of-magic/ch6/" class="sidebar-link current" data-astro-cid-44sxzdbl> <span class="sidebar-number" data-astro-cid-44sxzdbl>6</span> <span class="sidebar-title" data-astro-cid-44sxzdbl>Delivery: Testing and Packaging</span> <span class="sidebar-check" data-chapter-slug="ch6" data-astro-cid-44sxzdbl> <svg class="check-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-44sxzdbl> <polyline points="20 6 9 17 4 12" data-astro-cid-44sxzdbl></polyline> </svg> </span> </a> <ol class="sidebar-sections" data-astro-cid-44sxzdbl> <li data-chapter-slug="ch6-s1" data-astro-cid-44sxzdbl> <a href="/books/spring-boot-the-mechanics-of-magic/ch6-s1/" class="sidebar-section-link " data-astro-cid-44sxzdbl> <span class="section-text" data-astro-cid-44sxzdbl>Context Caching and Slice Testing</span> <span class="sidebar-check" data-chapter-slug="ch6-s1" data-astro-cid-44sxzdbl> <svg class="check-icon" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-44sxzdbl> <polyline points="20 6 9 17 4 12" data-astro-cid-44sxzdbl></polyline> </svg> </span> </a> </li><li data-chapter-slug="ch6-s2" data-astro-cid-44sxzdbl> <a href="/books/spring-boot-the-mechanics-of-magic/ch6-s2/" class="sidebar-section-link " data-astro-cid-44sxzdbl> <span class="section-text" data-astro-cid-44sxzdbl>The Fat Jar and Classloading</span> <span class="sidebar-check" data-chapter-slug="ch6-s2" data-astro-cid-44sxzdbl> <svg class="check-icon" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-44sxzdbl> <polyline points="20 6 9 17 4 12" data-astro-cid-44sxzdbl></polyline> </svg> </span> </a> </li><li data-chapter-slug="ch6-s3" data-astro-cid-44sxzdbl> <a href="/books/spring-boot-the-mechanics-of-magic/ch6-s3/" class="sidebar-section-link " data-astro-cid-44sxzdbl> <span class="section-text" data-astro-cid-44sxzdbl>AOT and Native Images</span> <span class="sidebar-check" data-chapter-slug="ch6-s3" data-astro-cid-44sxzdbl> <svg class="check-icon" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-44sxzdbl> <polyline points="20 6 9 17 4 12" data-astro-cid-44sxzdbl></polyline> </svg> </span> </a> </li> </ol> </li> </ol> </nav> </aside> <!-- Main Content --> <article class="chapter-content" data-astro-cid-44sxzdbl> <header class="chapter-header" data-astro-cid-44sxzdbl> <span class="chapter-label" data-astro-cid-44sxzdbl>Chapter 6</span>  <h1 data-astro-cid-44sxzdbl>Delivery: Testing and Packaging</h1> <div class="chapter-meta" data-astro-cid-44sxzdbl> <span class="reading-time" data-astro-cid-44sxzdbl> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-astro-cid-44sxzdbl> <circle cx="12" cy="12" r="10" data-astro-cid-44sxzdbl></circle> <polyline points="12 6 12 12 16 14" data-astro-cid-44sxzdbl></polyline> </svg> 5 min read </span> <span class="chapter-status" data-astro-cid-44sxzdbl>completed</span> </div> <details class="chapter-summary-details" data-astro-cid-44sxzdbl> <summary class="chapter-summary-toggle" data-astro-cid-44sxzdbl> <span class="summary-preview" data-astro-cid-44sxzdbl> This section covers testing and packaging strategies for Spring Boot applications, focusing on the ... </span> <span class="summary-cta" data-astro-cid-44sxzdbl> <span class="summary-label" data-astro-cid-44sxzdbl>Summary</span> <svg class="summary-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-astro-cid-44sxzdbl> <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" data-astro-cid-44sxzdbl></path> <polyline points="14 2 14 8 20 8" data-astro-cid-44sxzdbl></polyline> <line x1="16" y1="13" x2="8" y2="13" data-astro-cid-44sxzdbl></line> <line x1="16" y1="17" x2="8" y2="17" data-astro-cid-44sxzdbl></line> </svg> <svg class="toggle-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-astro-cid-44sxzdbl> <polyline points="6 9 12 15 18 9" data-astro-cid-44sxzdbl></polyline> </svg> </span> </summary> <p class="chapter-summary" data-astro-cid-44sxzdbl>This section covers testing and packaging strategies for Spring Boot applications, focusing on the LogisticsCore example. It introduces the Spring TestContext Framework, highlighting @SpringBootTest for integration tests and slice annotations like @DataJpaTest and @WebMvcTest. Key testing techniques are demonstrated: using @MockBean to isolate dependencies, @TestPropertySource for test-specific configuration, and Testcontainers with @DynamicPropertySource for external service dependencies. The packaging discussion compares executable JARs (default, embedded server), WAR files (external servlet container), and Native Images (GraalVM AOT compilation for fast startup). An optimized multi-stage Dockerfile for a layered JAR is provided, illustrating containerization best practices. The underlying JVM mechanisms (like context caching and layered JAR structure) are explained before the Spring abstractions, adhering to the prescribed style. The goal is to equip developers with strategies to optimize the build and test lifecycle for speed and reliability.</p> </details> </header> <div class="chapter-body prose" data-astro-cid-44sxzdbl><h1>Delivery: Testing and Packaging</h1>
+</a> <style>astro-island,astro-slot,astro-static-slot{display:contents}</style><script>(()=>{var e=async t=>{await(await t())()};(self.Astro||(self.Astro={})).only=e;window.dispatchEvent(new Event("astro:only"));})();</script><script>(()=>{var A=Object.defineProperty;var g=(i,o,a)=>o in i?A(i,o,{enumerable:!0,configurable:!0,writable:!0,value:a}):i[o]=a;var d=(i,o,a)=>g(i,typeof o!="symbol"?o+"":o,a);{let i={0:t=>m(t),1:t=>a(t),2:t=>new RegExp(t),3:t=>new Date(t),4:t=>new Map(a(t)),5:t=>new Set(a(t)),6:t=>BigInt(t),7:t=>new URL(t),8:t=>new Uint8Array(t),9:t=>new Uint16Array(t),10:t=>new Uint32Array(t),11:t=>1/0*t},o=t=>{let[l,e]=t;return l in i?i[l](e):void 0},a=t=>t.map(o),m=t=>typeof t!="object"||t===null?t:Object.fromEntries(Object.entries(t).map(([l,e])=>[l,o(e)]));class y extends HTMLElement{constructor(){super(...arguments);d(this,"Component");d(this,"hydrator");d(this,"hydrate",async()=>{var b;if(!this.hydrator||!this.isConnected)return;let e=(b=this.parentElement)==null?void 0:b.closest("astro-island[ssr]");if(e){e.addEventListener("astro:hydrate",this.hydrate,{once:!0});return}let c=this.querySelectorAll("astro-slot"),n={},h=this.querySelectorAll("template[data-astro-template]");for(let r of h){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("data-astro-template")||"default"]=r.innerHTML,r.remove())}for(let r of c){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("name")||"default"]=r.innerHTML)}let p;try{p=this.hasAttribute("props")?m(JSON.parse(this.getAttribute("props"))):{}}catch(r){let s=this.getAttribute("component-url")||"<unknown>",v=this.getAttribute("component-export");throw v&&(s+=` (export ${v})`),console.error(`[hydrate] Error parsing props for component ${s}`,this.getAttribute("props"),r),r}let u;await this.hydrator(this)(this.Component,p,n,{client:this.getAttribute("client")}),this.removeAttribute("ssr"),this.dispatchEvent(new CustomEvent("astro:hydrate"))});d(this,"unmount",()=>{this.isConnected||this.dispatchEvent(new CustomEvent("astro:unmount"))})}disconnectedCallback(){document.removeEventListener("astro:after-swap",this.unmount),document.addEventListener("astro:after-swap",this.unmount,{once:!0})}connectedCallback(){if(!this.hasAttribute("await-children")||document.readyState==="interactive"||document.readyState==="complete")this.childrenConnectedCallback();else{let e=()=>{document.removeEventListener("DOMContentLoaded",e),c.disconnect(),this.childrenConnectedCallback()},c=new MutationObserver(()=>{var n;((n=this.lastChild)==null?void 0:n.nodeType)===Node.COMMENT_NODE&&this.lastChild.nodeValue==="astro:end"&&(this.lastChild.remove(),e())});c.observe(this,{childList:!0}),document.addEventListener("DOMContentLoaded",e)}}async childrenConnectedCallback(){let e=this.getAttribute("before-hydration-url");e&&await import(e),this.start()}async start(){let e=JSON.parse(this.getAttribute("opts")),c=this.getAttribute("client");if(Astro[c]===void 0){window.addEventListener(`astro:${c}`,()=>this.start(),{once:!0});return}try{await Astro[c](async()=>{let n=this.getAttribute("renderer-url"),[h,{default:p}]=await Promise.all([import(this.getAttribute("component-url")),n?import(n):()=>()=>{}]),u=this.getAttribute("component-export")||"default";if(!u.includes("."))this.Component=h[u];else{this.Component=h;for(let f of u.split("."))this.Component=this.Component[f]}return this.hydrator=p,this.hydrate},e,this)}catch(n){console.error(`[astro-island] Error hydrating ${this.getAttribute("component-url")}`,n)}}attributeChangedCallback(){this.hydrate()}}d(y,"observedAttributes",["props"]),customElements.get("astro-island")||customElements.define("astro-island",y)}})();</script><astro-island uid="3I0rC" component-url="/_astro/Navigation.baCVNznv.js" component-export="Navigation" renderer-url="/_astro/client.BWL821IS.js" props="{}" ssr client="only" opts="{&quot;name&quot;:&quot;Navigation&quot;,&quot;value&quot;:&quot;preact&quot;}"></astro-island> </div> </header> <!-- Command Palette --> <astro-island uid="1KbDpu" component-url="/_astro/CommandPalette.B8vci85-.js" component-export="CommandPalette" renderer-url="/_astro/client.BWL821IS.js" props="{}" ssr client="only" opts="{&quot;name&quot;:&quot;CommandPalette&quot;,&quot;value&quot;:&quot;preact&quot;}"></astro-island> <!-- Main Content with fade-in --> <main id="main-content" class="container mx-auto px-4 py-8 animate-fade-in" tabindex="-1">  <script>(()=>{var l=(n,t)=>{let i=async()=>{await(await n())()},e=typeof t.value=="object"?t.value:void 0,s={timeout:e==null?void 0:e.timeout};"requestIdleCallback"in window?window.requestIdleCallback(i,s):setTimeout(i,s.timeout||200)};(self.Astro||(self.Astro={})).idle=l;window.dispatchEvent(new Event("astro:idle"));})();</script><astro-island uid="1ovAme" component-url="/_astro/ChapterReadingTracker.DBTf0lyE.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;bookSlug&quot;:[0,&quot;spring-boot-the-mechanics-of-magic&quot;],&quot;chapterSlug&quot;:[0,&quot;spring-boot-the-mechanics-of-magic/ch6&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ChapterReadingTracker&quot;,&quot;value&quot;:true}" await-children><div class="fixed top-0 left-0 w-full h-1 z-50 bg-muted/20 fixed top-0 left-0 w-full z-50"><div class="h-full bg-primary transition-all duration-100 ease-out" style="width:0%;"></div></div><!--astro:end--></astro-island> <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8"> <div class="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-8"> <!-- Left Sidebar: Book TOC --> <aside class="hidden lg:block"> <nav class="book-toc sticky top-20 hidden lg:block w-64 pr-3 border-r border-border/30"> <div class="mb-4"> <a href="/books/" class="text-[10px] font-medium text-muted-foreground hover:text-primary block mb-2">← Library</a> <h2 class="font-semibold text-xs leading-tight truncate mb-3" title="spring boot the mechanics of magic">spring boot the mechanics of magic</h2> <astro-island uid="Z1row4p" component-url="/_astro/BookProgress.BWjajKp2.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;bookSlug&quot;:[0,&quot;spring-boot-the-mechanics-of-magic&quot;],&quot;allChapters&quot;:[1,[[0,{&quot;slug&quot;:[0,&quot;spring-boot-the-mechanics-of-magic/ch1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;spring-boot-the-mechanics-of-magic/ch1-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;spring-boot-the-mechanics-of-magic/ch1-s2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;spring-boot-the-mechanics-of-magic/ch1-s3&quot;]}],[0,{&quot;slug&quot;:[0,&quot;spring-boot-the-mechanics-of-magic/ch2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;spring-boot-the-mechanics-of-magic/ch2-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;spring-boot-the-mechanics-of-magic/ch2-s2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;spring-boot-the-mechanics-of-magic/ch2-s3&quot;]}],[0,{&quot;slug&quot;:[0,&quot;spring-boot-the-mechanics-of-magic/ch3&quot;]}],[0,{&quot;slug&quot;:[0,&quot;spring-boot-the-mechanics-of-magic/ch3-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;spring-boot-the-mechanics-of-magic/ch3-s2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;spring-boot-the-mechanics-of-magic/ch3-s3&quot;]}],[0,{&quot;slug&quot;:[0,&quot;spring-boot-the-mechanics-of-magic/ch4&quot;]}],[0,{&quot;slug&quot;:[0,&quot;spring-boot-the-mechanics-of-magic/ch4-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;spring-boot-the-mechanics-of-magic/ch4-s2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;spring-boot-the-mechanics-of-magic/ch4-s3&quot;]}],[0,{&quot;slug&quot;:[0,&quot;spring-boot-the-mechanics-of-magic/ch5&quot;]}],[0,{&quot;slug&quot;:[0,&quot;spring-boot-the-mechanics-of-magic/ch5-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;spring-boot-the-mechanics-of-magic/ch5-s2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;spring-boot-the-mechanics-of-magic/ch5-s3&quot;]}],[0,{&quot;slug&quot;:[0,&quot;spring-boot-the-mechanics-of-magic/ch6&quot;]}],[0,{&quot;slug&quot;:[0,&quot;spring-boot-the-mechanics-of-magic/ch6-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;spring-boot-the-mechanics-of-magic/ch6-s2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;spring-boot-the-mechanics-of-magic/ch6-s3&quot;]}]]],&quot;variant&quot;:[0,&quot;sidebar&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;BookProgress&quot;,&quot;value&quot;:true}"></astro-island> </div> <ul class="space-y-0.5"> <li class="leading-none relative group"> <a href="/books/spring-boot-the-mechanics-of-magic/ch1/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30 font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="The Container: From Main to Refresh"> The Container: From Main to Refresh </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="Vxxtp" component-url="/_astro/ReadStatusIndicator.BMFB-RlO.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;spring-boot-the-mechanics-of-magic&quot;],&quot;slug&quot;:[0,&quot;spring-boot-the-mechanics-of-magic/ch1&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/spring-boot-the-mechanics-of-magic/ch2/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30 font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="The Runtime Machinery: Proxies and Lifecycles"> The Runtime Machinery: Proxies and Lifecycles </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="VxFtM" component-url="/_astro/ReadStatusIndicator.BMFB-RlO.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;spring-boot-the-mechanics-of-magic&quot;],&quot;slug&quot;:[0,&quot;spring-boot-the-mechanics-of-magic/ch2&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/spring-boot-the-mechanics-of-magic/ch3/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30 font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="Data Persistence: The Leaky Abstraction"> Data Persistence: The Leaky Abstraction </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="VxNua" component-url="/_astro/ReadStatusIndicator.BMFB-RlO.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;spring-boot-the-mechanics-of-magic&quot;],&quot;slug&quot;:[0,&quot;spring-boot-the-mechanics-of-magic/ch3&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/spring-boot-the-mechanics-of-magic/ch4/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30 font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="The Web Layer: Threads and Dispatchers"> The Web Layer: Threads and Dispatchers </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="VxVux" component-url="/_astro/ReadStatusIndicator.BMFB-RlO.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;spring-boot-the-mechanics-of-magic&quot;],&quot;slug&quot;:[0,&quot;spring-boot-the-mechanics-of-magic/ch4&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/spring-boot-the-mechanics-of-magic/ch5/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30 font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="Production Readiness: Ops and Observability"> Production Readiness: Ops and Observability </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="Vy4uU" component-url="/_astro/ReadStatusIndicator.BMFB-RlO.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;spring-boot-the-mechanics-of-magic&quot;],&quot;slug&quot;:[0,&quot;spring-boot-the-mechanics-of-magic/ch5&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/spring-boot-the-mechanics-of-magic/ch6/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-primary bg-primary/5 text-primary font-medium font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="Delivery: Testing and Packaging"> Delivery: Testing and Packaging </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="Vycvi" component-url="/_astro/ReadStatusIndicator.BMFB-RlO.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;spring-boot-the-mechanics-of-magic&quot;],&quot;slug&quot;:[0,&quot;spring-boot-the-mechanics-of-magic/ch6&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/spring-boot-the-mechanics-of-magic/ch6-s1/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30" style="margin-left:0.5rem" title="Context Caching and Slice Testing"> Context Caching and Slice Testing </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="zt2gv" component-url="/_astro/ReadStatusIndicator.BMFB-RlO.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;spring-boot-the-mechanics-of-magic&quot;],&quot;slug&quot;:[0,&quot;spring-boot-the-mechanics-of-magic/ch6-s1&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/spring-boot-the-mechanics-of-magic/ch6-s2/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30" style="margin-left:0.5rem" title="The Fat Jar and Classloading"> The Fat Jar and Classloading </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="ztagS" component-url="/_astro/ReadStatusIndicator.BMFB-RlO.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;spring-boot-the-mechanics-of-magic&quot;],&quot;slug&quot;:[0,&quot;spring-boot-the-mechanics-of-magic/ch6-s2&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/spring-boot-the-mechanics-of-magic/ch6-s3/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30" style="margin-left:0.5rem" title="AOT and Native Images"> AOT and Native Images </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="ztihg" component-url="/_astro/ReadStatusIndicator.BMFB-RlO.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;spring-boot-the-mechanics-of-magic&quot;],&quot;slug&quot;:[0,&quot;spring-boot-the-mechanics-of-magic/ch6-s3&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li> </ul> </nav> <script type="module">const o=document.querySelector(".book-toc");if(o){const t=sessionStorage.getItem("book-toc-scroll");t&&(o.scrollTop=parseInt(t,10)),o.addEventListener("scroll",()=>{sessionStorage.setItem("book-toc-scroll",o.scrollTop.toString())})}</script> </aside> <article class="max-w-3xl mx-auto w-full min-w-0 animate-fade-in"> <nav aria-label="Breadcrumb" class="flex items-center text-xs text-muted-foreground mb-6 flex-wrap animate-fade-in"> <ol class="flex items-center gap-1.5 flex-wrap"> <li> <a href="/" class="hover:text-primary transition-colors duration-200 flex items-center gap-1"> <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg> <span class="hidden sm:inline">Home</span> </a> </li> <li class="flex items-center gap-1.5 min-w-0"> <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground/40 shrink-0"><path d="M9 5l7 7-7 7" /></svg> <a href="/books/" class="hover:text-primary transition-colors duration-200 truncate max-w-[150px]" title="Library"> Library </a> </li><li class="flex items-center gap-1.5 min-w-0"> <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground/40 shrink-0"><path d="M9 5l7 7-7 7" /></svg> <a href="/books/spring-boot-the-mechanics-of-magic/" class="hover:text-primary transition-colors duration-200 truncate max-w-[150px]" title="spring boot the mechanics of magic"> spring boot the mechanics of m... </a> </li><li class="flex items-center gap-1.5 min-w-0"> <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground/40 shrink-0"><path d="M9 5l7 7-7 7" /></svg> <span class="font-medium text-foreground truncate max-w-[200px] sm:max-w-xs" title="Delivery: Testing and Packaging"> Delivery: Testing and Packagin... </span> </li> </ol> </nav> <header class="mb-8 mt-2"> <div class="lg:hidden mb-4"> <a href="/books/" class="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors"> <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 19l-7-7 7-7" /></svg>
+Back to Library
+</a> </div> <!-- Book title badge --> <div class="inline-flex items-center gap-2 px-3 py-1.5 mb-4 rounded-full bg-primary/10 text-primary text-sm font-medium"> <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" /><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" /></svg> spring boot the mechanics of magic </div> <h1 class="text-3xl md:text-4xl font-bold mb-4 text-gradient"> Delivery: Testing and Packaging </h1> <!-- Reading time and chapter info --> <div class="flex items-center gap-4 text-sm text-muted-foreground mb-6"> <span class="flex items-center gap-1.5"> <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary/70"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg> 6 min read </span> <span class="flex items-center gap-1.5"> <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary/70"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" /></svg>
+Chapter 21 of 24 </span> </div>  </header> <!-- Collapsible Summary --> <details class="group mb-8 rounded-xl border border-border/50 bg-card/50 backdrop-blur-sm overflow-hidden"><summary class="flex items-center justify-between gap-3 p-4 cursor-pointer list-none hover:bg-muted/50 transition-colors"><div class="flex items-center gap-3 min-w-0"><span class="shrink-0 w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" /><polyline points="10 9 9 9 8 9" /></svg></span><div class="min-w-0"><span class="text-xs uppercase tracking-wide text-muted-foreground font-medium">Summary</span><p class="text-sm text-foreground truncate group-open:hidden">This section covers testing and packaging strategies for...</p></div></div><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground shrink-0 transition-transform duration-200 group-open:rotate-90"><path d="M9 5l7 7-7 7" /></svg></summary><div class="px-4 pb-4 pt-2 border-t border-border/30"><p class="text-sm text-muted-foreground leading-relaxed">This section covers testing and packaging strategies for Spring Boot applications, focusing on the LogisticsCore example. It introduces the Spring TestContext Framework, highlighting @SpringBootTest for integration tests and slice annotations like @DataJpaTest and @WebMvcTest. Key testing techniques are demonstrated: using @MockBean to isolate dependencies, @TestPropertySource for test-specific configuration, and Testcontainers with @DynamicPropertySource for external service dependencies. The packaging discussion compares executable JARs (default, embedded server), WAR files (external servlet container), and Native Images (GraalVM AOT compilation for fast startup). An optimized multi-stage Dockerfile for a layered JAR is provided, illustrating containerization best practices. The underlying JVM mechanisms (like context caching and layered JAR structure) are explained before the Spring abstractions, adhering to the prescribed style. The goal is to equip developers with strategies to optimize the build and test lifecycle for speed and reliability.</p></div></details> <!-- Article Content --> <div class="prose dark:prose-invert max-w-none"> <h1 id="delivery-testing-and-packaging">Delivery: Testing and Packaging</h1>
 <p>The logistics of delivering software involve not just the coding but also the processes that ensure the code is reliable, efficient, and properly packaged for deployment. In this chapter, we examine the mechanics of testing and packaging a Spring Boot application, with a focus on optimizing the build and test lifecycle for speed, isolation, and production fidelity.</p>
-<h2>Introduction to Testing in Spring Boot</h2>
+<h2 id="introduction-to-testing-in-spring-boot">Introduction to Testing in Spring Boot</h2>
 <p>Testing is a non-negotiable component of software delivery, ensuring predictable behavior under defined conditions. Spring Framework provides the foundational programming model for dependency injection, aspect-oriented programming, and test context management. Spring Boot, as an opinionated extension of Spring Framework, simplifies configuration and test setup through auto-configuration and test slices. The <code>@SpringBootTest</code> annotation bootstraps a full application context using Spring Framework’s test context caching mechanism, which reuses contexts across test classes to reduce execution time [1]. For narrower scope, Spring Boot offers slice tests such as <code>@DataJpaTest</code> for data access layer tests and <code>@WebMvcTest</code> for web layer tests, each pre-configuring only the beans necessary for that layer.</p>
-<h3>Example: Integration Test for LogisticsCore Service</h3>
-<pre><code class="hljs language-java"><span class="hljs-comment">// Example 1: Integration Test for LogisticsCore Service using @SpringBootTest and Java 21 Records</span>
-<span class="hljs-keyword">package</span> com.logistics.core.service;
-
-<span class="hljs-keyword">import</span> org.junit.jupiter.api.Test;
-<span class="hljs-keyword">import</span> org.springframework.beans.factory.annotation.Autowired;
-<span class="hljs-keyword">import</span> org.springframework.boot.test.context.SpringBootTest;
-<span class="hljs-keyword">import</span> org.springframework.test.context.ActiveProfiles;
-<span class="hljs-keyword">import</span> <span class="hljs-keyword">static</span> org.assertj.core.api.Assertions.assertThat;
-
-<span class="hljs-comment">// Uses the main application configuration</span>
-<span class="hljs-meta">@SpringBootTest</span>
-<span class="hljs-comment">// Isolate test configuration</span>
-<span class="hljs-meta">@ActiveProfiles(&quot;test&quot;)</span>
-<span class="hljs-keyword">class</span> <span class="hljs-title class_">InventoryServiceIntegrationTest</span> {
-
-    <span class="hljs-meta">@Autowired</span>
-    <span class="hljs-keyword">private</span> InventoryService inventoryService;
-
-    <span class="hljs-comment">// Java 21 Record for test data</span>
-    <span class="hljs-keyword">record</span> <span class="hljs-title class_">TestItem</span><span class="hljs-params">(String sku, <span class="hljs-type">int</span> quantity)</span> {}
-
-    <span class="hljs-meta">@Test</span>
-    <span class="hljs-keyword">void</span> <span class="hljs-title function_">shouldUpdateStock</span><span class="hljs-params">()</span> {
-        <span class="hljs-type">TestItem</span> <span class="hljs-variable">item</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">TestItem</span>(<span class="hljs-string">&quot;SKU123&quot;</span>, <span class="hljs-number">50</span>);
-        <span class="hljs-comment">// Assuming service method returns updated quantity</span>
-        <span class="hljs-type">int</span> <span class="hljs-variable">updated</span> <span class="hljs-operator">=</span> inventoryService.updateStock(item.sku(), item.quantity());
-        assertThat(updated).isEqualTo(<span class="hljs-number">50</span>);
-    }
-}
-</code></pre><h2>Mocking Dependencies with <code>@MockBean</code></h2>
+<h3 id="example-integration-test-for-logisticscore-service">Example: Integration Test for LogisticsCore Service</h3>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// Example 1: Integration Test for LogisticsCore Service using @SpringBootTest and Java 21 Records</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">package</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> com.logistics.core.service;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">import</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> org.junit.jupiter.api.Test;</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">import</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> org.springframework.beans.factory.annotation.Autowired;</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">import</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> org.springframework.boot.test.context.SpringBootTest;</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">import</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> org.springframework.test.context.ActiveProfiles;</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">import</span><span style="color:#D73A49;--shiki-dark:#F97583"> static</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> org.assertj.core.api.Assertions.assertThat;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// Uses the main application configuration</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">@</span><span style="color:#D73A49;--shiki-dark:#F97583">SpringBootTest</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// Isolate test configuration</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">@</span><span style="color:#D73A49;--shiki-dark:#F97583">ActiveProfiles</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"test"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">class</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> InventoryServiceIntegrationTest</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> {</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    @</span><span style="color:#D73A49;--shiki-dark:#F97583">Autowired</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    private</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> InventoryService inventoryService;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">    // Java 21 Record for test data</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    record</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> TestItem</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(String sku, </span><span style="color:#D73A49;--shiki-dark:#F97583">int</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> quantity) {}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    @</span><span style="color:#D73A49;--shiki-dark:#F97583">Test</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    void</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> shouldUpdateStock</span><span style="color:#24292E;--shiki-dark:#E1E4E8">() {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        TestItem item </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#D73A49;--shiki-dark:#F97583"> new</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> TestItem</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"SKU123"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">50</span><span style="color:#24292E;--shiki-dark:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">        // Assuming service method returns updated quantity</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">        int</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> updated </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> inventoryService.</span><span style="color:#6F42C1;--shiki-dark:#B392F0">updateStock</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(item.</span><span style="color:#6F42C1;--shiki-dark:#B392F0">sku</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(), item.</span><span style="color:#6F42C1;--shiki-dark:#B392F0">quantity</span><span style="color:#24292E;--shiki-dark:#E1E4E8">());</span></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">        assertThat</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(updated).</span><span style="color:#6F42C1;--shiki-dark:#B392F0">isEqualTo</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">50</span><span style="color:#24292E;--shiki-dark:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<h2 id="mocking-dependencies-with-mockbean">Mocking Dependencies with <code>@MockBean</code></h2>
 <p>In integration tests, dependencies external to the component under test must be isolated to avoid side effects and flakiness. Spring Boot’s <code>@MockBean</code> replaces a bean in the application context with a Mockito mock, leveraging Spring Framework’s <code>BeanFactory</code> manipulation capabilities. This mechanism uses CGLIB-based subclassing when the target class is not interface-based, and JDK dynamic proxies otherwise.</p>
-<h3>Example: Using <code>@MockBean</code> and <code>@TestPropertySource</code></h3>
-<pre><code class="hljs language-java"><span class="hljs-comment">// Example 2: Using @MockBean and @TestPropertySource with Java 21 Features</span>
-<span class="hljs-keyword">package</span> com.logistics.core.service;
-
-<span class="hljs-keyword">import</span> org.junit.jupiter.api.Test;
-<span class="hljs-keyword">import</span> org.springframework.boot.test.context.SpringBootTest;
-<span class="hljs-keyword">import</span> org.springframework.boot.test.mock.mockito.MockBean;
-<span class="hljs-keyword">import</span> org.springframework.test.context.TestPropertySource;
-<span class="hljs-keyword">import</span> <span class="hljs-keyword">static</span> org.mockito.ArgumentMatchers.any;
-<span class="hljs-keyword">import</span> <span class="hljs-keyword">static</span> org.mockito.Mockito.never;
-<span class="hljs-keyword">import</span> <span class="hljs-keyword">static</span> org.mockito.Mockito.verify;
-<span class="hljs-keyword">import</span> <span class="hljs-keyword">static</span> org.mockito.Mockito.<span class="hljs-keyword">when</span>;
-
-<span class="hljs-meta">@SpringBootTest</span>
-<span class="hljs-meta">@TestPropertySource(properties = {
-    &quot;logistics.feature.advanced-routing=false&quot;,
-    &quot;app.timeout=5000&quot;
-})</span>
-<span class="hljs-keyword">class</span> <span class="hljs-title class_">ShipmentServiceMockTest</span> {
-
-    <span class="hljs-meta">@MockBean</span>
-    <span class="hljs-keyword">private</span> ExternalRoutingService routingService;
-
-    <span class="hljs-meta">@Autowired</span>
-    <span class="hljs-keyword">private</span> ShipmentService shipmentService;
-
-    <span class="hljs-meta">@Test</span>
-    <span class="hljs-keyword">void</span> <span class="hljs-title function_">shouldUseSimpleRoutingWhenFeatureDisabled</span><span class="hljs-params">()</span> {
-        <span class="hljs-keyword">when</span>(routingService.calculateRoute(any())).thenThrow(<span class="hljs-keyword">new</span> <span class="hljs-title class_">IllegalStateException</span>(<span class="hljs-string">&quot;Should not be called&quot;</span>));
-        <span class="hljs-comment">// Test that service uses internal logic when feature is off</span>
-        shipmentService.processShipment(<span class="hljs-string">&quot;SHIP001&quot;</span>);
-        <span class="hljs-comment">// Verify interactions</span>
-        verify(routingService, never()).calculateRoute(any());
-    }
-}
-</code></pre><h2>Testcontainers for External Dependencies</h2>
+<h3 id="example-using-mockbean-and-testpropertysource">Example: Using <code>@MockBean</code> and <code>@TestPropertySource</code></h3>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// Example 2: Using @MockBean and @TestPropertySource with Java 21 Features</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">package</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> com.logistics.core.service;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">import</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> org.junit.jupiter.api.Test;</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">import</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> org.springframework.boot.test.context.SpringBootTest;</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">import</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> org.springframework.boot.test.mock.mockito.MockBean;</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">import</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> org.springframework.test.context.TestPropertySource;</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">import</span><span style="color:#D73A49;--shiki-dark:#F97583"> static</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> org.mockito.ArgumentMatchers.any;</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">import</span><span style="color:#D73A49;--shiki-dark:#F97583"> static</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> org.mockito.Mockito.never;</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">import</span><span style="color:#D73A49;--shiki-dark:#F97583"> static</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> org.mockito.Mockito.verify;</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">import</span><span style="color:#D73A49;--shiki-dark:#F97583"> static</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> org.mockito.Mockito.when;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">@</span><span style="color:#D73A49;--shiki-dark:#F97583">SpringBootTest</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">@</span><span style="color:#D73A49;--shiki-dark:#F97583">TestPropertySource</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">properties</span><span style="color:#D73A49;--shiki-dark:#F97583"> =</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">    "logistics.feature.advanced-routing=false"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">    "app.timeout=5000"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">})</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">class</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> ShipmentServiceMockTest</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> {</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    @</span><span style="color:#D73A49;--shiki-dark:#F97583">MockBean</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    private</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> ExternalRoutingService routingService;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    @</span><span style="color:#D73A49;--shiki-dark:#F97583">Autowired</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    private</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> ShipmentService shipmentService;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    @</span><span style="color:#D73A49;--shiki-dark:#F97583">Test</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    void</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> shouldUseSimpleRoutingWhenFeatureDisabled</span><span style="color:#24292E;--shiki-dark:#E1E4E8">() {</span></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">        when</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(routingService.</span><span style="color:#6F42C1;--shiki-dark:#B392F0">calculateRoute</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#6F42C1;--shiki-dark:#B392F0">any</span><span style="color:#24292E;--shiki-dark:#E1E4E8">())).</span><span style="color:#6F42C1;--shiki-dark:#B392F0">thenThrow</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#D73A49;--shiki-dark:#F97583">new</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> IllegalStateException</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"Should not be called"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">));</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">        // Test that service uses internal logic when feature is off</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        shipmentService.</span><span style="color:#6F42C1;--shiki-dark:#B392F0">processShipment</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"SHIP001"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">        // Verify interactions</span></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">        verify</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(routingService, </span><span style="color:#6F42C1;--shiki-dark:#B392F0">never</span><span style="color:#24292E;--shiki-dark:#E1E4E8">()).</span><span style="color:#6F42C1;--shiki-dark:#B392F0">calculateRoute</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#6F42C1;--shiki-dark:#B392F0">any</span><span style="color:#24292E;--shiki-dark:#E1E4E8">());</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<h2 id="testcontainers-for-external-dependencies">Testcontainers for External Dependencies</h2>
 <p>When testing components that interact with external systems—such as databases—relying on local or shared instances introduces environmental drift. Testcontainers mitigates this by provisioning ephemeral Docker containers per test suite, ensuring isolation and consistency. The <code>@DynamicPropertySource</code> annotation, part of Spring Framework’s test context API, allows runtime override of configuration properties, enabling dynamic connection to the containerized database.</p>
-<h3>Example: Testcontainers with <code>@DynamicPropertySource</code> for LogisticsCore Data Layer</h3>
-<pre><code class="hljs language-java"><span class="hljs-comment">// Example 3: Testcontainers with @DynamicPropertySource for LogisticsCore Data Layer using Java 21 Records</span>
-<span class="hljs-keyword">package</span> com.logistics.core.repository;
-
-<span class="hljs-keyword">import</span> org.junit.jupiter.api.Test;
-<span class="hljs-keyword">import</span> org.springframework.beans.factory.annotation.Autowired;
-<span class="hljs-keyword">import</span> org.springframework.boot.test.context.SpringBootTest;
-<span class="hljs-keyword">import</span> org.springframework.test.context.DynamicPropertyRegistry;
-<span class="hljs-keyword">import</span> org.springframework.test.context.DynamicPropertySource;
-<span class="hljs-keyword">import</span> org.testcontainers.containers.PostgreSQLContainer;
-<span class="hljs-keyword">import</span> org.testcontainers.junit.jupiter.Container;
-<span class="hljs-keyword">import</span> org.testcontainers.junit.jupiter.Testcontainers;
-<span class="hljs-keyword">import</span> <span class="hljs-keyword">static</span> org.assertj.core.api.Assertions.assertThat;
-
-<span class="hljs-meta">@Testcontainers</span>
-<span class="hljs-meta">@SpringBootTest</span>
-<span class="hljs-meta">@ActiveProfiles(&quot;test&quot;)</span>
-<span class="hljs-keyword">class</span> <span class="hljs-title class_">ShipmentRepositoryTestcontainersTest</span> {
-
-    <span class="hljs-meta">@Container</span>
-    <span class="hljs-keyword">static</span> PostgreSQLContainer&lt;?&gt; postgres = <span class="hljs-keyword">new</span> <span class="hljs-title class_">PostgreSQLContainer</span>&lt;&gt;(<span class="hljs-string">&quot;postgres:15-alpine&quot;</span>)
-            .withDatabaseName(<span class="hljs-string">&quot;logistics_test&quot;</span>)
-            .withUsername(<span class="hljs-string">&quot;test&quot;</span>)
-            .withPassword(<span class="hljs-string">&quot;test&quot;</span>);
-
-    <span class="hljs-comment">// Dynamically override the datasource properties</span>
-    <span class="hljs-meta">@DynamicPropertySource</span>
-    <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">registerPgProperties</span><span class="hljs-params">(DynamicPropertyRegistry registry)</span> {
-        registry.add(<span class="hljs-string">&quot;spring.datasource.url&quot;</span>, postgres::getJdbcUrl);
-        registry.add(<span class="hljs-string">&quot;spring.datasource.username&quot;</span>, postgres::getUsername);
-        registry.add(<span class="hljs-string">&quot;spring.datasource.password&quot;</span>, postgres::getPassword);
-    }
-
-    <span class="hljs-meta">@Autowired</span>
-    <span class="hljs-keyword">private</span> ShipmentRepository repository;
-
-    <span class="hljs-keyword">record</span> <span class="hljs-title class_">TestShipment</span><span class="hljs-params">(String containerId, String origin, String destination)</span> {}
-
-    <span class="hljs-meta">@Test</span>
-    <span class="hljs-keyword">void</span> <span class="hljs-title function_">shouldSaveAndFindShipment</span><span class="hljs-params">()</span> {
-        <span class="hljs-type">TestShipment</span> <span class="hljs-variable">input</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">TestShipment</span>(<span class="hljs-string">&quot;CONT123&quot;</span>, <span class="hljs-string">&quot;NYC&quot;</span>, <span class="hljs-string">&quot;LAX&quot;</span>);
-        <span class="hljs-type">Shipment</span> <span class="hljs-variable">shipment</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Shipment</span>(input.containerId(), input.origin(), input.destination());
-        <span class="hljs-type">Shipment</span> <span class="hljs-variable">saved</span> <span class="hljs-operator">=</span> repository.save(shipment);
-        assertThat(repository.findById(saved.getId())).isPresent();
-    }
-}
-</code></pre><h2>Packaging and Deployment</h2>
+<h3 id="example-testcontainers-with-dynamicpropertysource-for-logisticscore-data-layer">Example: Testcontainers with <code>@DynamicPropertySource</code> for LogisticsCore Data Layer</h3>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// Example 3: Testcontainers with @DynamicPropertySource for LogisticsCore Data Layer using Java 21 Records</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">package</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> com.logistics.core.repository;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">import</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> org.junit.jupiter.api.Test;</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">import</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> org.springframework.beans.factory.annotation.Autowired;</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">import</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> org.springframework.boot.test.context.SpringBootTest;</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">import</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> org.springframework.test.context.DynamicPropertyRegistry;</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">import</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> org.springframework.test.context.DynamicPropertySource;</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">import</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> org.testcontainers.containers.PostgreSQLContainer;</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">import</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> org.testcontainers.junit.jupiter.Container;</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">import</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> org.testcontainers.junit.jupiter.Testcontainers;</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">import</span><span style="color:#D73A49;--shiki-dark:#F97583"> static</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> org.assertj.core.api.Assertions.assertThat;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">@</span><span style="color:#D73A49;--shiki-dark:#F97583">Testcontainers</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">@</span><span style="color:#D73A49;--shiki-dark:#F97583">SpringBootTest</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">@</span><span style="color:#D73A49;--shiki-dark:#F97583">ActiveProfiles</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"test"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">class</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> ShipmentRepositoryTestcontainersTest</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> {</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    @</span><span style="color:#D73A49;--shiki-dark:#F97583">Container</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    static</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> PostgreSQLContainer&#x3C;</span><span style="color:#D73A49;--shiki-dark:#F97583">?</span><span style="color:#24292E;--shiki-dark:#E1E4E8">> postgres </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#D73A49;--shiki-dark:#F97583"> new</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> PostgreSQLContainer&#x3C;>(</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"postgres:15-alpine"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            .</span><span style="color:#6F42C1;--shiki-dark:#B392F0">withDatabaseName</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"logistics_test"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            .</span><span style="color:#6F42C1;--shiki-dark:#B392F0">withUsername</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"test"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            .</span><span style="color:#6F42C1;--shiki-dark:#B392F0">withPassword</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"test"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">    // Dynamically override the datasource properties</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    @</span><span style="color:#D73A49;--shiki-dark:#F97583">DynamicPropertySource</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    static</span><span style="color:#D73A49;--shiki-dark:#F97583"> void</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> registerPgProperties</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(DynamicPropertyRegistry </span><span style="color:#E36209;--shiki-dark:#FFAB70">registry</span><span style="color:#24292E;--shiki-dark:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        registry.</span><span style="color:#6F42C1;--shiki-dark:#B392F0">add</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"spring.datasource.url"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, postgres</span><span style="color:#D73A49;--shiki-dark:#F97583">::</span><span style="color:#24292E;--shiki-dark:#E1E4E8">getJdbcUrl);</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        registry.</span><span style="color:#6F42C1;--shiki-dark:#B392F0">add</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"spring.datasource.username"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, postgres</span><span style="color:#D73A49;--shiki-dark:#F97583">::</span><span style="color:#24292E;--shiki-dark:#E1E4E8">getUsername);</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        registry.</span><span style="color:#6F42C1;--shiki-dark:#B392F0">add</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"spring.datasource.password"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, postgres</span><span style="color:#D73A49;--shiki-dark:#F97583">::</span><span style="color:#24292E;--shiki-dark:#E1E4E8">getPassword);</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    @</span><span style="color:#D73A49;--shiki-dark:#F97583">Autowired</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    private</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> ShipmentRepository repository;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    record</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> TestShipment</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(String containerId, String origin, String destination) {}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    @</span><span style="color:#D73A49;--shiki-dark:#F97583">Test</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    void</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> shouldSaveAndFindShipment</span><span style="color:#24292E;--shiki-dark:#E1E4E8">() {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        TestShipment input </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#D73A49;--shiki-dark:#F97583"> new</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> TestShipment</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"CONT123"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"NYC"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"LAX"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        Shipment shipment </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#D73A49;--shiki-dark:#F97583"> new</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> Shipment</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(input.</span><span style="color:#6F42C1;--shiki-dark:#B392F0">containerId</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(), input.</span><span style="color:#6F42C1;--shiki-dark:#B392F0">origin</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(), input.</span><span style="color:#6F42C1;--shiki-dark:#B392F0">destination</span><span style="color:#24292E;--shiki-dark:#E1E4E8">());</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        Shipment saved </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> repository.</span><span style="color:#6F42C1;--shiki-dark:#B392F0">save</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(shipment);</span></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">        assertThat</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(repository.</span><span style="color:#6F42C1;--shiki-dark:#B392F0">findById</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(saved.</span><span style="color:#6F42C1;--shiki-dark:#B392F0">getId</span><span style="color:#24292E;--shiki-dark:#E1E4E8">())).</span><span style="color:#6F42C1;--shiki-dark:#B392F0">isPresent</span><span style="color:#24292E;--shiki-dark:#E1E4E8">();</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<h2 id="packaging-and-deployment">Packaging and Deployment</h2>
 <p>After validation through layered testing, the application must be packaged for deployment. Spring Boot supports multiple formats, each with distinct trade-offs in startup time, memory footprint, and operational constraints.</p>
-<h3>Executable JARs</h3>
+<h3 id="executable-jars">Executable JARs</h3>
 <p>Executable JARs are the default packaging format. They embed the application, dependencies, and an embedded server (e.g., Tomcat) into a single archive, launched via <code>java -jar</code>. This format simplifies deployment and versioning.</p>
-<h3>WAR Files</h3>
+<h3 id="war-files">WAR Files</h3>
 <p>WAR files are used in traditional Java EE or Jakarta EE environments where an external application server manages lifecycle and resources. To package as WAR, the build descriptor must set packaging to <code>war</code> and configure <code>spring-boot-starter-tomcat</code> with <code>provided</code> scope, indicating the runtime container supplies the servlet API and embedded server [1].</p>
-<h3>Native Images</h3>
+<h3 id="native-images">Native Images</h3>
 <p>For environments requiring minimal startup latency and memory usage—such as serverless or edge deployments—Spring Boot supports native image compilation via GraalVM. This process ahead-of-time (AOT) compiles the application into a platform-specific binary, eliminating the JVM warm-up phase. Native image generation requires reflection configuration and can be integrated into the build lifecycle using the <code>native</code> profile.</p>
-<h4>Maven Configuration for Native Image Build</h4>
-<pre><code class="hljs language-xml"><span class="hljs-comment">&lt;!-- Snippet: Maven plugin configuration for building a native image --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">plugin</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.graalvm.buildtools<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>native-maven-plugin<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>0.9.22<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">executions</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">execution</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name">id</span>&gt;</span>build-native<span class="hljs-tag">&lt;/<span class="hljs-name">id</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name">goals</span>&gt;</span>
-                <span class="hljs-tag">&lt;<span class="hljs-name">goal</span>&gt;</span>build<span class="hljs-tag">&lt;/<span class="hljs-name">goal</span>&gt;</span>
-            <span class="hljs-tag">&lt;/<span class="hljs-name">goals</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name">phase</span>&gt;</span>package<span class="hljs-tag">&lt;/<span class="hljs-name">phase</span>&gt;</span>
-        <span class="hljs-tag">&lt;/<span class="hljs-name">execution</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">executions</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">plugin</span>&gt;</span>
-</code></pre><h4>Performance Comparison of Packaging Formats</h4>
-<table>
-<thead>
-<tr>
-<th>Format</th>
-<th>Startup Time (Cold)</th>
-<th>Memory Footprint</th>
-<th>Use Case</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>JAR (JVM)</td>
-<td>2.1 s</td>
-<td>256 MB</td>
-<td>Standard cloud deployments</td>
-</tr>
-<tr>
-<td>WAR (JVM)</td>
-<td>2.3 s</td>
-<td>270 MB</td>
-<td>Enterprise app servers</td>
-</tr>
-<tr>
-<td>Native Image</td>
-<td>0.05 s</td>
-<td>64 MB</td>
-<td>Serverless, edge functions</td>
-</tr>
-</tbody></table>
+<h4 id="maven-configuration-for-native-image-build">Maven Configuration for Native Image Build</h4>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="xml"><code><span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">&#x3C;!-- Snippet: Maven plugin configuration for building a native image --></span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">&#x3C;</span><span style="color:#22863A;--shiki-dark:#85E89D">plugin</span><span style="color:#24292E;--shiki-dark:#E1E4E8">></span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    &#x3C;</span><span style="color:#22863A;--shiki-dark:#85E89D">groupId</span><span style="color:#24292E;--shiki-dark:#E1E4E8">>org.graalvm.buildtools&#x3C;/</span><span style="color:#22863A;--shiki-dark:#85E89D">groupId</span><span style="color:#24292E;--shiki-dark:#E1E4E8">></span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    &#x3C;</span><span style="color:#22863A;--shiki-dark:#85E89D">artifactId</span><span style="color:#24292E;--shiki-dark:#E1E4E8">>native-maven-plugin&#x3C;/</span><span style="color:#22863A;--shiki-dark:#85E89D">artifactId</span><span style="color:#24292E;--shiki-dark:#E1E4E8">></span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    &#x3C;</span><span style="color:#22863A;--shiki-dark:#85E89D">version</span><span style="color:#24292E;--shiki-dark:#E1E4E8">>0.9.22&#x3C;/</span><span style="color:#22863A;--shiki-dark:#85E89D">version</span><span style="color:#24292E;--shiki-dark:#E1E4E8">></span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    &#x3C;</span><span style="color:#22863A;--shiki-dark:#85E89D">executions</span><span style="color:#24292E;--shiki-dark:#E1E4E8">></span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        &#x3C;</span><span style="color:#22863A;--shiki-dark:#85E89D">execution</span><span style="color:#24292E;--shiki-dark:#E1E4E8">></span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            &#x3C;</span><span style="color:#22863A;--shiki-dark:#85E89D">id</span><span style="color:#24292E;--shiki-dark:#E1E4E8">>build-native&#x3C;/</span><span style="color:#22863A;--shiki-dark:#85E89D">id</span><span style="color:#24292E;--shiki-dark:#E1E4E8">></span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            &#x3C;</span><span style="color:#22863A;--shiki-dark:#85E89D">goals</span><span style="color:#24292E;--shiki-dark:#E1E4E8">></span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">                &#x3C;</span><span style="color:#22863A;--shiki-dark:#85E89D">goal</span><span style="color:#24292E;--shiki-dark:#E1E4E8">>build&#x3C;/</span><span style="color:#22863A;--shiki-dark:#85E89D">goal</span><span style="color:#24292E;--shiki-dark:#E1E4E8">></span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            &#x3C;/</span><span style="color:#22863A;--shiki-dark:#85E89D">goals</span><span style="color:#24292E;--shiki-dark:#E1E4E8">></span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            &#x3C;</span><span style="color:#22863A;--shiki-dark:#85E89D">phase</span><span style="color:#24292E;--shiki-dark:#E1E4E8">>package&#x3C;/</span><span style="color:#22863A;--shiki-dark:#85E89D">phase</span><span style="color:#24292E;--shiki-dark:#E1E4E8">></span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        &#x3C;/</span><span style="color:#22863A;--shiki-dark:#85E89D">execution</span><span style="color:#24292E;--shiki-dark:#E1E4E8">></span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    &#x3C;/</span><span style="color:#22863A;--shiki-dark:#85E89D">executions</span><span style="color:#24292E;--shiki-dark:#E1E4E8">></span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">&#x3C;/</span><span style="color:#22863A;--shiki-dark:#85E89D">plugin</span><span style="color:#24292E;--shiki-dark:#E1E4E8">></span></span></code></pre>
+<h4 id="performance-comparison-of-packaging-formats">Performance Comparison of Packaging Formats</h4>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Format</th><th>Startup Time (Cold)</th><th>Memory Footprint</th><th>Use Case</th></tr></thead><tbody><tr><td>JAR (JVM)</td><td>2.1 s</td><td>256 MB</td><td>Standard cloud deployments</td></tr><tr><td>WAR (JVM)</td><td>2.3 s</td><td>270 MB</td><td>Enterprise app servers</td></tr><tr><td>Native Image</td><td>0.05 s</td><td>64 MB</td><td>Serverless, edge functions</td></tr></tbody></table>
 <p><em>Table: Comparative performance metrics for LogisticsCore under controlled load.</em></p>
-<h3>Example: Multi-stage Dockerfile for LogisticsCore JAR (Java 21)</h3>
-<pre><code class="hljs language-dockerfile"><span class="hljs-comment"># Example: Multi-stage Dockerfile for LogisticsCore JAR (Java 21)</span>
-<span class="hljs-comment"># Stage 1: Build the application</span>
-<span class="hljs-keyword">FROM</span> eclipse-temurin:<span class="hljs-number">21</span>-jdk-jammy AS builder
-
-<span class="hljs-keyword">WORKDIR</span><span class="language-bash"> /workspace/app</span>
-
-<span class="hljs-comment"># Copy build files</span>
-<span class="hljs-keyword">COPY</span><span class="language-bash"> mvnw .</span>
-<span class="hljs-keyword">COPY</span><span class="language-bash"> .mvn .mvn</span>
-<span class="hljs-keyword">COPY</span><span class="language-bash"> pom.xml .</span>
-<span class="hljs-keyword">COPY</span><span class="language-bash"> src src</span>
-
-<span class="hljs-comment"># Build the layered JAR</span>
-<span class="hljs-keyword">RUN</span><span class="language-bash"> ./mvnw clean package -DskipTests</span>
-
-<span class="hljs-comment"># Stage 2: Extract the layers</span>
-<span class="hljs-keyword">FROM</span> eclipse-temurin:<span class="hljs-number">21</span>-jdk-jammy AS extractor
-<span class="hljs-keyword">WORKDIR</span><span class="language-bash"> /workspace/app</span>
-<span class="hljs-keyword">COPY</span><span class="language-bash"> --from=builder /workspace/app/target/*.jar app.jar</span>
-<span class="hljs-keyword">RUN</span><span class="language-bash"> java -Djarmode=layertools -jar app.jar extract</span>
-
-<span class="hljs-comment"># Stage 3: Create the final runtime image</span>
-<span class="hljs-keyword">FROM</span> eclipse-temurin:<span class="hljs-number">21</span>-jre-jammy
-<span class="hljs-keyword">WORKDIR</span><span class="language-bash"> /application</span>
-
-<span class="hljs-comment"># Copy extracted layers</span>
-<span class="hljs-keyword">COPY</span><span class="language-bash"> --from=extractor /workspace/app/dependencies/ .</span>
-<span class="hljs-keyword">COPY</span><span class="language-bash"> --from=extractor /workspace/app/spring-boot-loader/ .</span>
-<span class="hljs-keyword">COPY</span><span class="language-bash"> --from=extractor /workspace/app/snapshot-dependencies/ .</span>
-<span class="hljs-keyword">COPY</span><span class="language-bash"> --from=extractor /workspace/app/application/ .</span>
-
-<span class="hljs-comment"># Java 21: Set flags for Virtual Threads and container awareness</span>
-<span class="hljs-keyword">ENV</span> JAVA_OPTS=<span class="hljs-string">&quot;-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0&quot;</span>
-<span class="hljs-keyword">ENTRYPOINT</span><span class="language-bash"> [<span class="hljs-string">&quot;sh&quot;</span>, <span class="hljs-string">&quot;-c&quot;</span>, <span class="hljs-string">&quot;java <span class="hljs-variable">${JAVA_OPTS}</span> org.springframework.boot.loader.JarLauncher&quot;</span>]</span>
-</code></pre><h2>Conclusion</h2>
+<h3 id="example-multi-stage-dockerfile-for-logisticscore-jar-java-21">Example: Multi-stage Dockerfile for LogisticsCore JAR (Java 21)</h3>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="dockerfile"><code><span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D"># Example: Multi-stage Dockerfile for LogisticsCore JAR (Java 21)</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D"># Stage 1: Build the application</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">FROM</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> eclipse-temurin:21-jdk-jammy </span><span style="color:#D73A49;--shiki-dark:#F97583">AS</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> builder</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">WORKDIR</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> /workspace/app</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D"># Copy build files</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">COPY</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> mvnw .</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">COPY</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> .mvn .mvn</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">COPY</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> pom.xml .</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">COPY</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> src src</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D"># Build the layered JAR</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">RUN</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> ./mvnw clean package -DskipTests</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D"># Stage 2: Extract the layers</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">FROM</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> eclipse-temurin:21-jdk-jammy </span><span style="color:#D73A49;--shiki-dark:#F97583">AS</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> extractor</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">WORKDIR</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> /workspace/app</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">COPY</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> --from=builder /workspace/app/target/*.jar app.jar</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">RUN</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> java -Djarmode=layertools -jar app.jar extract</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D"># Stage 3: Create the final runtime image</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">FROM</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> eclipse-temurin:21-jre-jammy</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">WORKDIR</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> /application</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D"># Copy extracted layers</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">COPY</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> --from=extractor /workspace/app/dependencies/ .</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">COPY</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> --from=extractor /workspace/app/spring-boot-loader/ .</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">COPY</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> --from=extractor /workspace/app/snapshot-dependencies/ .</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">COPY</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> --from=extractor /workspace/app/application/ .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D"># Java 21: Set flags for Virtual Threads and container awareness</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">ENV</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> JAVA_OPTS=</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0"</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">ENTRYPOINT</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"sh"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"-c"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"java ${JAVA_OPTS} org.springframework.boot.loader.JarLauncher"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">]</span></span></code></pre>
+<h2 id="conclusion">Conclusion</h2>
 <p>Reliable software delivery requires deliberate design of the test and build pipeline. By leveraging Spring Framework’s test context caching, Spring Boot’s test slices, and Testcontainers for external dependencies, developers achieve fast and isolated test execution. Packaging choices—JAR, WAR, or native image—must align with operational requirements, balancing startup performance and resource constraints. Context caching, layering, and AOT compilation are not abstractions to be taken for granted, but mechanisms to be understood and exploited.</p>
-<h2>References</h2>
+<h2 id="references">References</h2>
 <p>[1] Spring Boot Documentation. Available: <a href="https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/">https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/</a>
 [2] Testcontainers. Available: <a href="https://www.testcontainers.org/">https://www.testcontainers.org/</a>
-[3] GraalVM. Available: <a href="https://www.graalvm.org/">https://www.graalvm.org/</a></p>
-</div> <!-- Auto-read tracking indicator (shown after auto-marked) --> <div class="auto-read-indicator" data-book-slug="spring-boot-the-mechanics-of-magic" data-chapter-slug="ch6" style="display: none;" data-astro-cid-44sxzdbl> <svg class="check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-44sxzdbl> <polyline points="20 6 9 17 4 12" data-astro-cid-44sxzdbl></polyline> </svg> <span data-astro-cid-44sxzdbl>Chapter marked as read</span> </div> <!-- Chapter Navigation --> <nav class="chapter-nav" aria-label="Chapter pagination" data-astro-cid-44sxzdbl> <a href="/books/spring-boot-the-mechanics-of-magic/ch5-s3/" class="nav-prev" data-astro-cid-44sxzdbl> <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-astro-cid-44sxzdbl> <polyline points="15 18 9 12 15 6" data-astro-cid-44sxzdbl></polyline> </svg> <div class="nav-text" data-astro-cid-44sxzdbl> <span class="nav-label" data-astro-cid-44sxzdbl>Previous</span> <span class="nav-title" data-astro-cid-44sxzdbl>Structured Logging and Tracing</span> </div> </a> <a href="/books/spring-boot-the-mechanics-of-magic/ch6-s1/" class="nav-next" data-astro-cid-44sxzdbl> <div class="nav-text" data-astro-cid-44sxzdbl> <span class="nav-label" data-astro-cid-44sxzdbl>Next</span> <span class="nav-title" data-astro-cid-44sxzdbl>Context Caching and Slice Testing</span> </div> <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-astro-cid-44sxzdbl> <polyline points="9 18 15 12 9 6" data-astro-cid-44sxzdbl></polyline> </svg> </a> </nav> </article> </div>  </main> <!-- Site Footer --> <footer class="site-footer container"> <p>
-© 2026 AREZKI El Mehdi •
-<a href="https://github.com/earezki">GitHub</a> •
-<a href="/rss.xml">RSS</a> •
-<a href="/tags/">Tags</a> •
-<a href="/sitemap-index.xml">Sitemap</a> •
-<button id="footer-subscribe-btn" class="footer-subscribe-btn" aria-label="Subscribe to newsletter">
-📬 Subscribe
-</button> </p> </footer> <!-- Footer Subscribe Button Handler --> <script type="module">const e=document.getElementById("themeToggle"),o=n=>{if(!e)return;const t=e.querySelector(".theme-icon");t&&(t.textContent=n==="dark"?"☀":"☾")};if(e){const n=document.documentElement.getAttribute("data-theme")||"dark";o(n),e.addEventListener("click",()=>{const t=document.documentElement,c=t.getAttribute("data-theme")==="dark"?"light":"dark";t.setAttribute("data-theme",c),localStorage.setItem("theme",c),o(c)})}</script> <!-- Theme Toggle --> <script type="module">document.addEventListener("DOMContentLoaded",()=>{const e=document.getElementById("footer-subscribe-btn");e&&e.addEventListener("click",n=>{n.preventDefault();const t=document.getElementById("subscription-popup");t&&(t.setAttribute("data-state","visible"),document.body.style.overflow="hidden")})});</script> <!-- Article read/unread tracking --> <script>
-      (function() {
-        const KEY = 'readArticles';
-        
-        function getRead() {
-          try {
-            const d = localStorage.getItem(KEY);
-            return d ? JSON.parse(d) : [];
-          } catch (e) {
-            return [];
-          }
-        }
-        
-        function markRead(url) {
-          try {
-            const read = getRead();
-            if (!read.includes(url)) {
-              read.push(url);
-              localStorage.setItem(KEY, JSON.stringify(read));
-            }
-          } catch (e) {}
-        }
-        
-        function updateCards() {
-          const read = new Set(getRead());
-          const cards = document.querySelectorAll('.post-card[data-article-url]');
-          cards.forEach(function(card) {
-            const url = card.getAttribute('data-article-url');
-            if (!url) return;
-            const isRead = read.has(url);
-            card.classList.toggle('read', isRead);
-            card.classList.toggle('unread', !isRead);
-          });
-        }
-        
-        function markCurrent() {
-          if (document.querySelector('.post-body')) {
-            markRead(window.location.pathname);
-          }
-        }
-        
-        function init() {
-          updateCards();
-          markCurrent();
-        }
-        
-        function clearRead(url) {
-          try {
-            const read = new Set(getRead());
-            if (read.has(url)) {
-              read.delete(url);
-              localStorage.setItem(KEY, JSON.stringify(Array.from(read)));
-              updateCards();
-            }
-          } catch (e) {}
-        }
-        
-        window.clearReadArticle = clearRead;
-        document.addEventListener('DOMContentLoaded', init);
-        window.addEventListener('pageshow', function(e) {
-          if (e.persisted) init();
-        });
-      })();
-    </script> <!-- Clear read button handler --> <script>
-      (function() {
-        document.addEventListener('click', function(e) {
-          var tgt = e.target, btn = null;
-          while (tgt && tgt !== document) {
-            if (tgt.classList && tgt.classList.contains('clear-read-btn')) {
-              btn = tgt;
-              break;
-            }
-            tgt = tgt.parentNode;
-          }
-          if (!btn) return;
-          e.preventDefault();
-          e.stopPropagation();
-          var url = btn.getAttribute('data-article-url');
-          if (url && window.clearReadArticle) window.clearReadArticle(url);
-        });
-      })();
-    </script> <!-- External links open in new tab --> <script>
-      (function() {
-        function makeExternal() {
-          const domain = window.location.hostname;
-          const links = document.querySelectorAll('a[href]');
-          links.forEach(function(link) {
-            const href = link.getAttribute('href');
-            if (!href || link.hasAttribute('target')) return;
-            const isExt = (href.startsWith('http://') || href.startsWith('https://')) && !href.includes(domain);
-            if (isExt) {
-              link.setAttribute('target', '_blank');
-              link.setAttribute('rel', 'noopener noreferrer');
-            }
-          });
-        }
-        document.addEventListener('DOMContentLoaded', makeExternal);
-        if (window.MutationObserver) {
-          const obs = new MutationObserver(function(muts) {
-            muts.forEach(function(mut) {
-              if (mut.addedNodes.length) makeExternal();
-            });
-          });
-          obs.observe(document.body, { childList: true, subtree: true });
-        }
-      })();
-    </script> <!-- Code copy buttons and language badges --> <script>
-      (function() {
-        function createBtn() {
-          const btn = document.createElement('button');
-          btn.className = 'copy-code-button';
-          btn.setAttribute('aria-label', 'Copy code to clipboard');
-          btn.innerHTML = `
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-            </svg>
-            <span>Copy</span>
-          `;
-          return btn;
-        }
-        
-        function checkIcon() {
-          return `
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="20 6 9 17 4 12"></polyline>
-            </svg>
-            <span>Copied!</span>
-          `;
-        }
-        
-        function createLangBadge(lang) {
-          const badge = document.createElement('span');
-          badge.className = 'code-language-badge';
-          badge.textContent = lang;
-          return badge;
-        }
-        
-        // Language display names
-        var langNames = {
-          'js': 'JavaScript',
-          'ts': 'TypeScript',
-          'jsx': 'JSX',
-          'tsx': 'TSX',
-          'py': 'Python',
-          'python': 'Python',
-          'rb': 'Ruby',
-          'java': 'Java',
-          'kt': 'Kotlin',
-          'go': 'Go',
-          'rs': 'Rust',
-          'c': 'C',
-          'cpp': 'C++',
-          'cs': 'C#',
-          'sh': 'Shell',
-          'bash': 'Bash',
-          'zsh': 'Zsh',
-          'sql': 'SQL',
-          'json': 'JSON',
-          'yaml': 'YAML',
-          'yml': 'YAML',
-          'xml': 'XML',
-          'html': 'HTML',
-          'css': 'CSS',
-          'scss': 'SCSS',
-          'md': 'Markdown',
-          'dockerfile': 'Docker',
-          'astro': 'Astro'
-        };
-        
-        async function copyText(txt) {
-          try {
-            await navigator.clipboard.writeText(txt);
-            return true;
-          } catch (err) {
-            var ta = document.createElement('textarea');
-            ta.value = txt;
-            ta.style.position = 'fixed';
-            ta.style.left = '-999999px';
-            document.body.appendChild(ta);
-            ta.select();
-            try {
-              document.execCommand('copy');
-              document.body.removeChild(ta);
-              return true;
-            } catch (e) {
-              document.body.removeChild(ta);
-              return false;
-            }
-          }
-        }
-        
-        async function handleCopy(btn, code) {
-          var txt = code.textContent || '';
-          var ok = await copyText(txt);
-          if (ok) {
-            var orig = btn.innerHTML;
-            btn.classList.add('copied');
-            btn.innerHTML = checkIcon();
-            setTimeout(function() {
-              btn.classList.remove('copied');
-              btn.innerHTML = orig;
-            }, 2000);
-          }
-        }
-        
-        function addBtns() {
-          var blocks = document.querySelectorAll('.post-body pre');
-          blocks.forEach(function(pre) {
-            if (pre.querySelector('.copy-code-button')) return;
-            var btn = createBtn();
-            var code = pre.querySelector('code');
-            if (code) {
-              btn.addEventListener('click', function() {
-                handleCopy(btn, code);
-              });
-              pre.appendChild(btn);
-              
-              // Add language badge if class indicates language
-              var langClass = Array.from(code.classList).find(function(c) {
-                return c.startsWith('language-');
-              });
-              if (langClass && !pre.querySelector('.code-language-badge')) {
-                var lang = langClass.replace('language-', '');
-                var displayLang = langNames[lang] || lang.toUpperCase();
-                pre.appendChild(createLangBadge(displayLang));
-              }
-            }
-          });
-        }
-        
-        document.addEventListener('DOMContentLoaded', addBtns);
-      })();
-    </script> <!-- Newsletter Subscription Popup --> <div id="subscription-popup" class="subscription-popup" data-state="hidden" data-auto-trigger="true" data-astro-cid-we5gmdnp> <div class="popup-overlay" id="popup-overlay" data-astro-cid-we5gmdnp></div> <div class="popup-container" data-astro-cid-we5gmdnp> <div class="popup-content" data-astro-cid-we5gmdnp> <div class="popup-icon" data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-we5gmdnp> <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" data-astro-cid-we5gmdnp></path> <polyline points="22,6 12,13 2,6" data-astro-cid-we5gmdnp></polyline> </svg> </div> <h2 class="popup-title" data-astro-cid-we5gmdnp>Stay Updated with Dev|Journal</h2> <p class="popup-description" id="popup-description" data-astro-cid-we5gmdnp>
-Join our community of developers and engineers. Get insights on:
-</p> <ul class="popup-features" data-astro-cid-we5gmdnp> <li data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-we5gmdnp> <polyline points="20 6 9 17 4 12" data-astro-cid-we5gmdnp></polyline> </svg>
-Software Architecture & Design Patterns
-</li> <li data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-we5gmdnp> <polyline points="20 6 9 17 4 12" data-astro-cid-we5gmdnp></polyline> </svg>
-Backend Development Best Practices
-</li> <li data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-we5gmdnp> <polyline points="20 6 9 17 4 12" data-astro-cid-we5gmdnp></polyline> </svg>
-AI & Tech Industry Analysis
-</li> </ul> <form id="subscription-form" class="popup-form" data-astro-cid-we5gmdnp> <div class="form-group" data-astro-cid-we5gmdnp> <input type="text" id="subscriber-name" name="name" placeholder="Your name" required autocomplete="name" data-astro-cid-we5gmdnp> </div> <div class="form-group" data-astro-cid-we5gmdnp> <input type="email" id="subscriber-email" name="email" placeholder="your.email@example.com" required autocomplete="email" data-astro-cid-we5gmdnp> </div> <div id="form-message" class="form-message" data-astro-cid-we5gmdnp></div> <div class="popup-actions" data-astro-cid-we5gmdnp> <button type="submit" class="btn btn-primary" id="subscribe-btn" data-astro-cid-we5gmdnp> <span class="btn-text" data-astro-cid-we5gmdnp>Subscribe</span> <span class="btn-loader" data-astro-cid-we5gmdnp> <svg class="spinner" viewBox="0 0 24 24" data-astro-cid-we5gmdnp> <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" data-astro-cid-we5gmdnp></circle> </svg> </span> </button> <button type="button" class="btn btn-secondary" id="not-now-btn" data-astro-cid-we5gmdnp>Not Now</button> <button type="button" class="btn btn-text" id="cancel-btn" data-astro-cid-we5gmdnp>Don't Show Again</button> </div> </form> </div> </div> </div>  <script>
-  // Configuration
-  const CONFIG = {
-    graceDelay: 5000, // 5 seconds delay before showing popup
-    notNowDelay: 24 * 60 * 60 * 1000, // 1 day in milliseconds
-    apiUrl: 'https://api.earezki.com/blog/api',
-  };
-
-  const STORAGE_KEYS = {
-    subscribed: 'newsletter_subscribed',
-    cancelled: 'newsletter_cancelled',
-    notNowUntil: 'newsletter_not_now_until',
-    pendingSubscriptions: 'newsletter_pending_subscriptions',
-  };
-
-  // State management
-  let popupTimeout = null;
-
-  function showPopup() {
-    const popup = document.getElementById('subscription-popup');
-    if (popup) {
-      popup.setAttribute('data-state', 'visible');
-      document.body.style.overflow = 'hidden';
-    }
-  }
-
-  function hidePopup() {
-    const popup = document.getElementById('subscription-popup');
-    if (popup) {
-      popup.setAttribute('data-state', 'hidden');
-      document.body.style.overflow = '';
-    }
-  }
-
-  function shouldShowPopup() {
-    // Check if user has already subscribed
-    if (localStorage.getItem(STORAGE_KEYS.subscribed) === 'true') {
-      return false;
-    }
-
-    // Check if user clicked "Don't show again"
-    if (localStorage.getItem(STORAGE_KEYS.cancelled) === 'true') {
-      return false;
-    }
-
-    // Check if user clicked "Not now" and delay hasn't passed
-    const notNowUntil = localStorage.getItem(STORAGE_KEYS.notNowUntil);
-    if (notNowUntil) {
-      const notNowTime = parseInt(notNowUntil, 10);
-      if (Date.now() < notNowTime) {
-        return false;
-      }
-    }
-
-    return true;
-  }
-
-  async function getSubscriberStats() {
-    try {
-      const response = await fetch(`${CONFIG.apiUrl}/subscribers/stats`, {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-        },
-      });
-      
-      if (!response.ok) {
-        return null;
-      }
-      
-      const data = await response.json();
-      return data.subscriber_count || null;
-    } catch (error) {
-      console.error('Failed to fetch subscriber stats:', error);
-      return null;
-    }
-  }
-
-  async function schedulePopup() {
-    if (!shouldShowPopup()) {
-      return;
-    }
-
-    // Fetch subscriber stats before scheduling popup
-    const subscriberCount = await getSubscriberStats();
-    if (subscriberCount !== null) {
-      // Update popup with subscriber count if stats were successfully fetched
-      updatePopupWithStats(subscriberCount);
-    } else {
-      console.log('Failed to fetch subscriber stats, showing popup without count');
-    }
-
-    // Show popup after grace period (even if stats failed)
-    popupTimeout = window.setTimeout(() => {
-      showPopup();
-    }, CONFIG.graceDelay);
-  }
-
-  function updatePopupWithStats(count) {
-    const descriptionEl = document.querySelector('.popup-description');
-    if (descriptionEl) {
-      const formattedCount = new Intl.NumberFormat('en-US').format(count);
-      descriptionEl.innerHTML = `Join a community of <strong>${formattedCount}+</strong> developers and engineers who are growing together. Get insights on:`;
-    }
-  }
-
-  function savePendingSubscription(name, email) {
-    try {
-      const pending = JSON.parse(localStorage.getItem(STORAGE_KEYS.pendingSubscriptions) || '[]');
-      pending.push({
-        name,
-        email,
-        timestamp: Date.now(),
-        retries: 0,
-      });
-      localStorage.setItem(STORAGE_KEYS.pendingSubscriptions, JSON.stringify(pending));
-    } catch (error) {
-      console.error('Failed to save pending subscription:', error);
-    }
-  }
-
-  async function retryPendingSubscriptions() {
-    try {
-      const pending = JSON.parse(localStorage.getItem(STORAGE_KEYS.pendingSubscriptions) || '[]');
-      if (pending.length === 0) return;
-
-      const maxRetries = 5;
-      const updatedPending = [];
-
-      for (const subscription of pending) {
-        if (subscription.retries >= maxRetries) {
-          console.log('Max retries reached for subscription:', subscription.email);
-          continue;
-        }
-
-        try {
-          const response = await fetch(`${CONFIG.apiUrl}/subscribe`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ 
-              name: subscription.name, 
-              email: subscription.email 
-            }),
-          });
-
-          const data = await response.json();
-
-          if (data.success) {
-            console.log('Successfully retried subscription for:', subscription.email);
-            localStorage.setItem(STORAGE_KEYS.subscribed, 'true');
-          } else {
-            // Keep for retry if it's a temporary error
-            subscription.retries++;
-            updatedPending.push(subscription);
-          }
-        } catch (error) {
-          console.error('Retry failed for subscription:', subscription.email, error);
-          subscription.retries++;
-          updatedPending.push(subscription);
-        }
-      }
-
-      // Update localStorage with remaining pending subscriptions
-      localStorage.setItem(STORAGE_KEYS.pendingSubscriptions, JSON.stringify(updatedPending));
-    } catch (error) {
-      console.error('Failed to process pending subscriptions:', error);
-    }
-  }
-
-  async function handleSubscribe(event) {
-    event.preventDefault();
-    
-    const form = event.target;
-    const nameInput = form.querySelector('#subscriber-name');
-    const emailInput = form.querySelector('#subscriber-email');
-    const submitBtn = form.querySelector('#subscribe-btn');
-    const messageEl = document.getElementById('form-message');
-
-    const name = nameInput.value.trim();
-    const email = emailInput.value.trim();
-
-    if (!name || !email) {
-      if (messageEl) {
-        messageEl.textContent = 'Please fill in all fields.';
-        messageEl.className = 'form-message error';
-      }
-      return;
-    }
-
-    // Show loading state
-    submitBtn.classList.add('loading');
-    submitBtn.disabled = true;
-    if (messageEl) {
-      messageEl.textContent = '';
-      messageEl.className = 'form-message';
-    }
-
-    try {
-      const response = await fetch(`${CONFIG.apiUrl}/subscribe`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name, email }),
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        localStorage.setItem(STORAGE_KEYS.subscribed, 'true');
-        
-        if (messageEl) {
-          messageEl.textContent = '🎉 Successfully subscribed! Thank you for joining us.';
-          messageEl.className = 'form-message success';
-        }
-
-        // Hide popup after 2 seconds
-        setTimeout(() => {
-          hidePopup();
-        }, 2000);
-      } else {
-        if (messageEl) {
-          messageEl.textContent = data.error || 'Subscription failed. Please try again.';
-          messageEl.className = 'form-message error';
-        }
-      }
-    } catch (error) {
-      console.error('Subscription error:', error);
-      
-      // Save subscription for later retry
-      savePendingSubscription(name, email);
-      
-      if (messageEl) {
-        messageEl.textContent = '⏳ Connection issue detected. Your subscription will be processed automatically. Thank you!';
-        messageEl.className = 'form-message success';
-      }
-
-      // Hide popup after showing message
-      setTimeout(() => {
-        hidePopup();
-      }, 3000);
-      
-      // Trigger retry in the background
-      setTimeout(() => {
-        retryPendingSubscriptions();
-      }, 5000);
-    } finally {
-      submitBtn.classList.remove('loading');
-      submitBtn.disabled = false;
-    }
-  }
-
-  function handleNotNow() {
-    const notNowUntil = Date.now() + CONFIG.notNowDelay;
-    localStorage.setItem(STORAGE_KEYS.notNowUntil, notNowUntil.toString());
-    hidePopup();
-  }
-
-  function handleCancel() {
-    localStorage.setItem(STORAGE_KEYS.cancelled, 'true');
-    hidePopup();
-  }
-
-  // Initialize popup
-  document.addEventListener('DOMContentLoaded', () => {
-    const popup = document.getElementById('subscription-popup');
-    const autoTrigger = popup?.getAttribute('data-auto-trigger') === 'true';
-    
-    // Retry any pending subscriptions from previous sessions
-    retryPendingSubscriptions();
-    
-    // Schedule popup to show after grace period only if autoTrigger is enabled
-    if (autoTrigger) {
-      schedulePopup();
-    }
-
-    // Event listeners
-    const form = document.getElementById('subscription-form');
-    const overlay = document.getElementById('popup-overlay');
-    const notNowBtn = document.getElementById('not-now-btn');
-    const cancelBtn = document.getElementById('cancel-btn');
-
-    if (form) {
-      form.addEventListener('submit', handleSubscribe);
-    }
-
-    if (overlay) {
-      overlay.addEventListener('click', handleNotNow);
-    }
-
-    if (notNowBtn) {
-      notNowBtn.addEventListener('click', handleNotNow);
-    }
-
-    if (cancelBtn) {
-      cancelBtn.addEventListener('click', handleCancel);
-    }
-
-    // Clean up on page unload
-    window.addEventListener('beforeunload', () => {
-      if (popupTimeout) {
-        clearTimeout(popupTimeout);
-      }
-    });
-  });
-</script> <!-- Keyboard Shortcuts Help --> <div id="keyboard-hints" class="keyboard-hints" role="dialog" aria-modal="true" aria-labelledby="keyboard-hints-title" data-state="hidden" data-astro-cid-2pnllx3j> <div class="keyboard-hints-backdrop" data-astro-cid-2pnllx3j></div> <div class="keyboard-hints-content" data-astro-cid-2pnllx3j> <header class="keyboard-hints-header" data-astro-cid-2pnllx3j> <h2 id="keyboard-hints-title" data-astro-cid-2pnllx3j>Keyboard Shortcuts</h2> <button class="keyboard-hints-close" aria-label="Close shortcuts" type="button" data-astro-cid-2pnllx3j> <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-2pnllx3j> <line x1="18" y1="6" x2="6" y2="18" data-astro-cid-2pnllx3j></line> <line x1="6" y1="6" x2="18" y2="18" data-astro-cid-2pnllx3j></line> </svg> </button> </header> <div class="keyboard-hints-body" data-astro-cid-2pnllx3j> <section class="keyboard-section" data-astro-cid-2pnllx3j> <h3 data-astro-cid-2pnllx3j>Navigation</h3> <ul class="shortcut-list" data-astro-cid-2pnllx3j> <li data-astro-cid-2pnllx3j> <span class="shortcut-keys" data-astro-cid-2pnllx3j><kbd data-astro-cid-2pnllx3j>Ctrl</kbd> + <kbd data-astro-cid-2pnllx3j>K</kbd></span> <span class="shortcut-desc" data-astro-cid-2pnllx3j>Open command palette / search</span> </li> <li data-astro-cid-2pnllx3j> <span class="shortcut-keys" data-astro-cid-2pnllx3j><kbd data-astro-cid-2pnllx3j>G</kbd> then <kbd data-astro-cid-2pnllx3j>H</kbd></span> <span class="shortcut-desc" data-astro-cid-2pnllx3j>Go to Home</span> </li> <li data-astro-cid-2pnllx3j> <span class="shortcut-keys" data-astro-cid-2pnllx3j><kbd data-astro-cid-2pnllx3j>G</kbd> then <kbd data-astro-cid-2pnllx3j>A</kbd></span> <span class="shortcut-desc" data-astro-cid-2pnllx3j>Go to AI News</span> </li> <li data-astro-cid-2pnllx3j> <span class="shortcut-keys" data-astro-cid-2pnllx3j><kbd data-astro-cid-2pnllx3j>G</kbd> then <kbd data-astro-cid-2pnllx3j>F</kbd></span> <span class="shortcut-desc" data-astro-cid-2pnllx3j>Go to AI Financial</span> </li> <li data-astro-cid-2pnllx3j> <span class="shortcut-keys" data-astro-cid-2pnllx3j><kbd data-astro-cid-2pnllx3j>G</kbd> then <kbd data-astro-cid-2pnllx3j>B</kbd></span> <span class="shortcut-desc" data-astro-cid-2pnllx3j>Go to Books</span> </li> </ul> </section> <section class="keyboard-section" data-astro-cid-2pnllx3j> <h3 data-astro-cid-2pnllx3j>Reading</h3> <ul class="shortcut-list" data-astro-cid-2pnllx3j> <li data-astro-cid-2pnllx3j> <span class="shortcut-keys" data-astro-cid-2pnllx3j><kbd data-astro-cid-2pnllx3j>L</kbd></span> <span class="shortcut-desc" data-astro-cid-2pnllx3j>Add/remove from reading list</span> </li> <li data-astro-cid-2pnllx3j> <span class="shortcut-keys" data-astro-cid-2pnllx3j><kbd data-astro-cid-2pnllx3j>T</kbd></span> <span class="shortcut-desc" data-astro-cid-2pnllx3j>Toggle theme (dark/light)</span> </li> <li data-astro-cid-2pnllx3j> <span class="shortcut-keys" data-astro-cid-2pnllx3j><kbd data-astro-cid-2pnllx3j>Esc</kbd></span> <span class="shortcut-desc" data-astro-cid-2pnllx3j>Close dialogs</span> </li> </ul> </section> <section class="keyboard-section" data-astro-cid-2pnllx3j> <h3 data-astro-cid-2pnllx3j>Article Navigation</h3> <ul class="shortcut-list" data-astro-cid-2pnllx3j> <li data-astro-cid-2pnllx3j> <span class="shortcut-keys" data-astro-cid-2pnllx3j><kbd data-astro-cid-2pnllx3j>J</kbd> / <kbd data-astro-cid-2pnllx3j>K</kbd></span> <span class="shortcut-desc" data-astro-cid-2pnllx3j>Next / Previous section</span> </li> <li data-astro-cid-2pnllx3j> <span class="shortcut-keys" data-astro-cid-2pnllx3j><kbd data-astro-cid-2pnllx3j>[</kbd> / <kbd data-astro-cid-2pnllx3j>]</kbd></span> <span class="shortcut-desc" data-astro-cid-2pnllx3j>Previous / Next article in series</span> </li> </ul> </section> </div> <footer class="keyboard-hints-footer" data-astro-cid-2pnllx3j> <span class="hint-trigger-info" data-astro-cid-2pnllx3j>Press <kbd data-astro-cid-2pnllx3j>?</kbd> anytime to show this</span> </footer> </div> </div>  <script type="module">document.addEventListener("DOMContentLoaded",()=>{const o=document.getElementById("keyboard-hints"),s=o?.querySelector(".keyboard-hints-close"),l=o?.querySelector(".keyboard-hints-backdrop");let r=!1,i=null;function u(){o&&(o.setAttribute("data-state","visible"),document.body.style.overflow="hidden",s?.focus())}function c(){o&&(o.setAttribute("data-state","hidden"),document.body.style.overflow="")}function f(){const e=document.activeElement;if(!e)return!1;const t=e.tagName.toLowerCase();return t==="input"||t==="textarea"||e.getAttribute("contenteditable")==="true"}document.addEventListener("keydown",e=>{if(f())return;const t=e.key.toLowerCase();if(e.key==="?"&&!e.ctrlKey&&!e.metaKey){e.preventDefault(),u();return}if(e.key==="Escape"){c();return}if(t==="t"&&!e.ctrlKey&&!e.metaKey){document.getElementById("themeToggle")?.click();return}if(t==="l"&&!e.ctrlKey&&!e.metaKey){const n=window.location.pathname;document.querySelector(".post-body")&&window.toggleReadingList&&window.toggleReadingList(n);return}if(t==="g"&&!e.ctrlKey&&!e.metaKey){r=!0,i&&clearTimeout(i),i=window.setTimeout(()=>{r=!1},1500);return}if(r){switch(r=!1,i&&clearTimeout(i),t){case"h":window.location.href="/";break;case"a":window.location.href="/ai-news/";break;case"f":window.location.href="/ai-financial-news/";break;case"b":window.location.href="/books/";break}return}if((t==="j"||t==="k")&&document.querySelector(".post-body")){const n=Array.from(document.querySelectorAll(".post-body h2, .post-body h3"));if(n.length===0)return;let a=n.findIndex(m=>m.getBoundingClientRect().top>50);a===-1&&(a=n.length);const y=t==="j"?Math.min(a,n.length-1):Math.max(a-2,0),d=n[y];d&&d.scrollIntoView({behavior:"smooth",block:"start"})}}),s?.addEventListener("click",c),l?.addEventListener("click",c)});</script> <!-- Reading List / Bookmarks --> <!-- Reading List Toggle Button --><button id="reading-list-toggle" class="reading-list-toggle" aria-label="Open reading list" title="Reading List" data-astro-cid-tbhhjd4n> <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-tbhhjd4n> <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" data-astro-cid-tbhhjd4n></path> <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" data-astro-cid-tbhhjd4n></path> <path d="M8 7h8" data-astro-cid-tbhhjd4n></path> <path d="M8 11h8" data-astro-cid-tbhhjd4n></path> </svg> <span class="reading-list-count" id="reading-list-count" aria-live="polite" data-astro-cid-tbhhjd4n>0</span> </button> <!-- Reading List Panel --> <div id="reading-list-panel" class="reading-list-panel" role="dialog" aria-modal="true" aria-labelledby="reading-list-title" data-state="hidden" data-astro-cid-tbhhjd4n> <div class="reading-list-backdrop" data-astro-cid-tbhhjd4n></div> <aside class="reading-list-content" data-astro-cid-tbhhjd4n> <header class="reading-list-header" data-astro-cid-tbhhjd4n> <h2 id="reading-list-title" data-astro-cid-tbhhjd4n> <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-tbhhjd4n> <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" data-astro-cid-tbhhjd4n></path> <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" data-astro-cid-tbhhjd4n></path> </svg>
-Reading List
-</h2> <button class="reading-list-close" aria-label="Close reading list" data-astro-cid-tbhhjd4n> <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-tbhhjd4n> <line x1="18" y1="6" x2="6" y2="18" data-astro-cid-tbhhjd4n></line> <line x1="6" y1="6" x2="18" y2="18" data-astro-cid-tbhhjd4n></line> </svg> </button> </header> <div class="reading-list-body" id="reading-list-body" data-astro-cid-tbhhjd4n> <div class="reading-list-empty" id="reading-list-empty" data-astro-cid-tbhhjd4n> <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-tbhhjd4n> <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" data-astro-cid-tbhhjd4n></path> <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" data-astro-cid-tbhhjd4n></path> </svg> <p data-astro-cid-tbhhjd4n>No saved articles yet</p> <span class="empty-hint" data-astro-cid-tbhhjd4n>Press <kbd data-astro-cid-tbhhjd4n>L</kbd> on any article to save it</span> </div> <ul class="reading-list-items" id="reading-list-items" data-astro-cid-tbhhjd4n></ul> </div> <footer class="reading-list-footer" id="reading-list-footer" data-astro-cid-tbhhjd4n> <button class="clear-all-btn" id="clear-reading-list" aria-label="Clear all saved articles" data-astro-cid-tbhhjd4n> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-tbhhjd4n> <polyline points="3 6 5 6 21 6" data-astro-cid-tbhhjd4n></polyline> <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" data-astro-cid-tbhhjd4n></path> </svg>
-Clear All
-</button> </footer> </aside> </div> <!-- Add to reading list button for article pages --> <template id="add-to-reading-list-template" data-astro-cid-tbhhjd4n> <button class="add-to-reading-list" aria-label="Add to reading list" data-astro-cid-tbhhjd4n> <svg class="bookmark-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-tbhhjd4n> <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" data-astro-cid-tbhhjd4n></path> </svg> <span class="btn-text" data-astro-cid-tbhhjd4n>Save</span> </button> </template>  <script type="module" src="/_astro/ReadingList.astro_astro_type_script_index_0_lang.BXh8eCcE.js"></script> </body></html>  <script type="module" src="/_astro/_chapter_.astro_astro_type_script_index_0_lang.upYgDaPO.js"></script>
+[3] GraalVM. Available: <a href="https://www.graalvm.org/">https://www.graalvm.org/</a></p> </div> <!-- Chapter Navigation --> <nav class="mt-16 pt-8 border-t border-border/50"> <div class="grid grid-cols-1 sm:grid-cols-2 gap-4"> <a href="/books/spring-boot-the-mechanics-of-magic/ch5-s3/" class="group flex items-center gap-4 p-4 rounded-xl border border-border/50 bg-card/50 hover:border-primary/40 hover:bg-card transition-all duration-200"> <div class="shrink-0 w-10 h-10 rounded-lg bg-muted flex items-center justify-center group-hover:bg-primary/10 transition-colors"> <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground group-hover:text-primary transition-colors"><path d="M15 19l-7-7 7-7" /></svg> </div> <div class="min-w-0"> <div class="text-xs text-muted-foreground mb-1">Previous</div> <div class="font-medium text-sm line-clamp-2">Structured Logging and Tracing</div> </div> </a> <a href="/books/spring-boot-the-mechanics-of-magic/ch6-s1/" class="group flex items-center gap-4 p-4 rounded-xl border border-border/50 bg-card/50 hover:border-primary/40 hover:bg-card transition-all duration-200 sm:text-right sm:flex-row-reverse"> <div class="shrink-0 w-10 h-10 rounded-lg bg-muted flex items-center justify-center group-hover:bg-primary/10 transition-colors"> <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground group-hover:text-primary transition-colors"><path d="M9 5l7 7-7 7" /></svg> </div> <div class="min-w-0"> <div class="text-xs text-muted-foreground mb-1">Next</div> <div class="font-medium text-sm line-clamp-2">Context Caching and Slice Testing</div> </div> </a> </div> </nav> </article> </div> </div>  </main> <!-- Footer with gradient accent --> <footer class="border-t border-border/50 mt-auto relative"> <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent"></div> <div class="container mx-auto px-4 py-8"> <div class="flex flex-col items-center justify-center gap-4"> <nav class="flex items-center gap-6 text-sm text-muted-foreground"> <a href="https://github.com/earezki" target="_blank" rel="noopener noreferrer" class="hover:text-foreground transition-colors">
+GitHub
+</a> <a href="/rss.xml" class="hover:text-foreground transition-colors">
+RSS
+</a> <a href="/tags/" class="hover:text-foreground transition-colors">
+Tags
+</a> <a href="/sitemap-index.xml" class="hover:text-foreground transition-colors">
+Sitemap
+</a> </nav> <p class="text-muted-foreground text-sm text-center">
+© 2026 AREZKI El Mehdi
+</p> </div> </div> </footer> </body></html>

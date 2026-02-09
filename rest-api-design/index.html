@@ -1,41 +1,54 @@
-<!DOCTYPE html><html lang="en" data-theme="dark"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>REST API Design: Beyond the Dogma • Dev|Journal</title><meta name="description" content="REST is not a protocol. It's not a standard. It's a set of architectural constraints that Roy Fielding described in his dissertation, and most APIs calling…"><meta name="keywords" content="API, REST, Architecture, Backend"><meta name="author" content="El Mehdi Arezki"><meta property="og:type" content="website"><meta property="og:url" content="https://earezki.com/rest-api-design/"><meta property="og:title" content="REST API Design: Beyond the Dogma • Dev|Journal"><meta property="og:site_name" content="Dev|Journal"><meta property="og:description" content="REST is not a protocol. It's not a standard. It's a set of architectural constraints that Roy Fielding described in his dissertation, and most APIs calling…"><meta property="og:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:url" content="https://earezki.com/rest-api-design/"><meta name="twitter:title" content="REST API Design: Beyond the Dogma • Dev|Journal"><meta name="twitter:description" content="REST is not a protocol. It's not a standard. It's a set of architectural constraints that Roy Fielding described in his dissertation, and most APIs calling…"><meta name="twitter:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:creator" content="@earezki"><link rel="canonical" href="https://earezki.com/rest-api-design/"><link rel="icon" type="image/png" href="/assets/favicon_48_d.webp"><link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"><link rel="dns-prefetch" href="https://cloud.umami.is"><script defer src="https://cloud.umami.is/script.js" data-website-id="4a26531d-1053-4f79-97a6-06a1366aff91"></script><script>
+<!DOCTYPE html><html lang="en" data-theme="dark"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>REST API Design: Beyond the Dogma • Dev|Journal</title><meta name="description" content="A pragmatic look at REST API design for developers who've already made mistakes and want to stop making them."><meta name="keywords" content="software architecture, backend development, microservices, Java, Python, Spring Boot, technical blog"><meta name="author" content="El Mehdi Arezki"><meta property="og:type" content="website"><meta property="og:url" content="https://earezki.com/rest-api-design/"><meta property="og:title" content="REST API Design: Beyond the Dogma • Dev|Journal"><meta property="og:site_name" content="Dev|Journal"><meta property="og:description" content="A pragmatic look at REST API design for developers who've already made mistakes and want to stop making them."><meta property="og:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:url" content="https://earezki.com/rest-api-design/"><meta name="twitter:title" content="REST API Design: Beyond the Dogma • Dev|Journal"><meta name="twitter:description" content="A pragmatic look at REST API design for developers who've already made mistakes and want to stop making them."><meta name="twitter:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:creator" content="@earezki"><link rel="canonical" href="https://earezki.com/rest-api-design/"><link rel="icon" type="image/png" href="/favicon.png"><link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"><link rel="dns-prefetch" href="https://cloud.umami.is"><script defer src="https://cloud.umami.is/script.js" data-website-id="4a26531d-1053-4f79-97a6-06a1366aff91"></script><!-- Preconnect to Google Fonts for Inter --><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"><!-- Theme initialization - parse Zustand persist format --><script>
       (function() {
-        const theme = localStorage.getItem('theme');
-        if (theme) document.documentElement.setAttribute('data-theme', theme);
+        try {
+          const raw = localStorage.getItem('theme');
+          if (raw) {
+            // Zustand persist stores as JSON: {"state":{"theme":"light"},"version":0}
+            const parsed = JSON.parse(raw);
+            const theme = parsed?.state?.theme || 'dark';
+            
+            if (theme === 'light') {
+              document.documentElement.setAttribute('data-theme', 'light');
+            } else if (theme === 'system') {
+              const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+              document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
+            } else {
+              document.documentElement.setAttribute('data-theme', 'dark');
+            }
+          }
+        } catch (e) {
+          // Fallback to dark if parsing fails
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
       })();
-    </script><script>
-!function(){const o=window.location.pathname;if("/"===o)return;if(/\.\w+$/.test(o))return;const n=o.toLowerCase(),i=n!==o,t=!o.endsWith("/");if(i||t){const o=n+(t?"/":""),i=window.location.origin+o+window.location.search+window.location.hash;window.location.replace(i)}}();
-</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"REST API Design: Beyond the Dogma","description":"REST is not a protocol. It's not a standard. It's a set of architectural constraints that Roy Fielding described in his dissertation, and most APIs calling…","image":"https://earezki.com/assets/og-image-default.jpg","datePublished":"2025-12-22T00:00:00.000Z","dateModified":"2025-12-22T00:00:00.000Z","author":{"@type":"Person","name":"El Mehdi Arezki","url":"https://earezki.com/about","jobTitle":"Lead Software Engineer","sameAs":["https://github.com/earezki","https://www.linkedin.com/in/mehdi-arezki"]},"publisher":{"@type":"Organization","name":"Dev|Journal","url":"https://earezki.com","logo":{"@type":"ImageObject","url":"https://earezki.com/assets/logo.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://earezki.com/rest-api-design/"}}</script><link rel="stylesheet" href="/_astro/_slug_.HHaemtd_.css">
-<style>.toc[data-astro-cid-xvrfupwn]{position:sticky;top:90px;max-height:calc(100vh - 120px);overflow:auto;padding:1rem 1rem 1.2rem;background:var(--color-bg-alt);border:1px solid var(--color-border);border-radius:var(--radius-md);font-size:.8rem;line-height:1.3}.toc-title[data-astro-cid-xvrfupwn]{font-weight:600;font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.6rem;color:var(--color-text-alt)}.toc[data-astro-cid-xvrfupwn] ul[data-astro-cid-xvrfupwn]{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.35rem}.toc[data-astro-cid-xvrfupwn] a[data-astro-cid-xvrfupwn]{text-decoration:none;color:var(--color-text-alt);transition:color var(--transition)}.toc[data-astro-cid-xvrfupwn] a[data-astro-cid-xvrfupwn]:hover{color:var(--color-accent)}.toc[data-astro-cid-xvrfupwn] li[data-astro-cid-xvrfupwn][class*=d-3]{margin-left:.75rem}.toc[data-astro-cid-xvrfupwn] li[data-astro-cid-xvrfupwn][class*=d-4]{margin-left:1.4rem}@media(max-width:1080px){.toc[data-astro-cid-xvrfupwn]{display:none}}.related-posts[data-astro-cid-dpgbfi7r]{margin:3rem 0;padding-top:2rem;border-top:2px solid var(--color-border)}.related-posts[data-astro-cid-dpgbfi7r] h2[data-astro-cid-dpgbfi7r]{font-size:1.5rem;margin:0 0 1.5rem;color:var(--color-text)}.related-posts-grid[data-astro-cid-dpgbfi7r]{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem}.related-post-card[data-astro-cid-dpgbfi7r]{background:var(--color-bg-alt);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;transition:all var(--transition)}.related-post-card[data-astro-cid-dpgbfi7r]:hover{border-color:var(--color-accent);transform:translateY(-2px);box-shadow:var(--shadow-md)}.related-post-link[data-astro-cid-dpgbfi7r]{text-decoration:none;color:inherit;display:block}.related-post-card[data-astro-cid-dpgbfi7r] h3[data-astro-cid-dpgbfi7r]{margin:0 0 .75rem;font-size:1.1rem;font-weight:600;color:var(--color-text);line-height:1.3}.related-post-link[data-astro-cid-dpgbfi7r]:hover h3[data-astro-cid-dpgbfi7r]{color:var(--color-accent)}.related-excerpt[data-astro-cid-dpgbfi7r]{font-size:.85rem;color:var(--color-text-alt);line-height:1.5;margin:0 0 .75rem}.related-meta[data-astro-cid-dpgbfi7r]{font-size:.75rem;color:var(--color-text-alt);display:flex;gap:.5rem;align-items:center}@media(max-width:680px){.related-posts-grid[data-astro-cid-dpgbfi7r]{grid-template-columns:1fr}}
-.breadcrumbs[data-astro-cid-ilhxcym7]{margin:0 0 1.5rem;font-size:.85rem}.breadcrumbs[data-astro-cid-ilhxcym7] ol[data-astro-cid-ilhxcym7]{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;align-items:center;gap:.5rem}.breadcrumbs[data-astro-cid-ilhxcym7] li[data-astro-cid-ilhxcym7]{display:flex;align-items:center;gap:.5rem}.breadcrumbs[data-astro-cid-ilhxcym7] a[data-astro-cid-ilhxcym7]{color:var(--color-text-alt);text-decoration:none;transition:color var(--transition)}.breadcrumbs[data-astro-cid-ilhxcym7] a[data-astro-cid-ilhxcym7]:hover{color:var(--color-accent);text-decoration:underline}.breadcrumbs[data-astro-cid-ilhxcym7] .separator[data-astro-cid-ilhxcym7]{color:var(--color-text-alt);opacity:.5;user-select:none}.breadcrumbs[data-astro-cid-ilhxcym7] .current[data-astro-cid-ilhxcym7]{color:var(--color-text);font-weight:500}.new-badge-breadcrumb[data-astro-cid-ilhxcym7]{font-size:.6rem;font-weight:700;letter-spacing:.1em;padding:.3rem .5rem;background:linear-gradient(135deg,#10b981,#059669);color:#fff;border-radius:4px;text-transform:uppercase;box-shadow:0 2px 8px #10b9814d;animation:pulse-glow 2s ease-in-out infinite;position:relative;overflow:hidden;margin-left:.25rem}.new-badge-breadcrumb[data-astro-cid-ilhxcym7]:before{content:"";position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:linear-gradient(45deg,transparent,rgba(255,255,255,.3),transparent);transform:rotate(45deg);animation:shimmer 3s linear infinite}@keyframes pulse-glow{0%,to{box-shadow:0 2px 8px #10b9814d}50%{box-shadow:0 2px 16px #10b98180,0 0 24px #10b98133}}@keyframes shimmer{0%{transform:translate(-100%) translateY(-100%) rotate(45deg)}to{transform:translate(100%) translateY(100%) rotate(45deg)}}html[data-theme=dark] .new-badge-breadcrumb[data-astro-cid-ilhxcym7]{background:linear-gradient(135deg,#059669,#047857);box-shadow:0 2px 8px #10b98166}
-</style>
-<link rel="stylesheet" href="/_astro/_slug_.BuIxISHP.css"></head> <body> <!-- Skip to content link for keyboard users --> <a href="#main-content" class="skip-to-content">Skip to main content</a> <div id="readingProgress" role="progressbar" aria-label="Reading progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="position:fixed;left:0;top:0;height:3px;background:linear-gradient(90deg,#2563eb,#9333ea);width:0;z-index:999;transition:width .15s ease;"></div> <script type="module">function c(){const t=document.getElementById("readingProgress");if(!t)return;const o=()=>{const e=document.documentElement,r=e.scrollTop||document.body.scrollTop,s=e.scrollHeight-e.clientHeight,n=s>0?r/s*100:0;t.style.width=`${n}%`,t.setAttribute("aria-valuenow",n.toFixed(0))};document.addEventListener("scroll",o,{passive:!0}),o()}c();</script> <header class="site-header container"> <div class="logo-wrap"> <a class="logo" href="/" aria-label="Dev|Journal Home">
+    </script><link rel="stylesheet" href="/_astro/_slug_.B1DM0Z1o.css">
+<style>html{scroll-behavior:smooth;scroll-padding-top:5rem}
+</style></head> <body class="min-h-screen bg-background text-foreground"> <!-- Skip to content link --> <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:p-4 focus:bg-primary focus:text-primary-foreground focus:rounded-lg">
+Skip to main content
+</a> <!-- Header with glassmorphism --> <header class="sticky top-0 z-40 border-b border-border/50 glass"> <div class="container mx-auto px-4 py-3 flex items-center justify-between"> <a href="/" class="text-xl font-bold text-gradient hover:opacity-80 transition-opacity">
 Dev|Journal
-</a> </div> <!-- Command Palette in Header --> <!-- Command Palette Trigger Button --><div class="header-search"> <button id="cmd-palette-trigger" class="cmd-palette-trigger" aria-label="Open command palette (Ctrl+K)" type="button"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="trigger-search-icon" aria-hidden="true"> <circle cx="11" cy="11" r="8"></circle> <path d="m21 21-4.35-4.35"></path> </svg> <span class="trigger-text">Search...</span> </button> </div> <!-- Command Palette Modal --> <div id="cmd-palette-overlay" class="cmd-palette-overlay" role="dialog" aria-modal="true" aria-label="Command palette" data-search-api-url="https://api.earezki.com/blog/api/q" data-search-timeout="2000"> <div class="cmd-palette-container"> <!-- Search Header --> <div class="cmd-palette-header"> <div class="cmd-palette-input-wrapper"> <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="cmd-search-icon" aria-hidden="true"> <circle cx="11" cy="11" r="8"></circle> <path d="m21 21-4.35-4.35"></path> </svg> <span id="cmd-palette-ghost" class="cmd-palette-ghost" aria-hidden="true"></span> <input type="text" id="cmd-palette-input" class="cmd-palette-input" placeholder="Search articles, navigate, or type a command..." autocomplete="off" aria-label="Search or type a command"> <button id="cmd-palette-close" class="cmd-palette-close" aria-label="Close command palette" type="button"> <kbd>esc</kbd> </button> <div id="cmd-palette-suggestions" class="cmd-palette-suggestions" role="listbox" aria-label="Suggestions"></div> </div> </div> <!-- Results Area --> <div id="cmd-palette-results" class="cmd-palette-results"> <!-- Quick Actions (shown by default) --> <div id="cmd-quick-actions" class="cmd-section"> <div class="cmd-section-title">Quick Actions</div> <div class="cmd-section-items"> <button class="cmd-item" data-action="navigate" data-url="/"> <div class="cmd-item-icon"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path> <polyline points="9 22 9 12 15 12 15 22"></polyline> </svg> </div> <div class="cmd-item-content"> <span class="cmd-item-title">Go to Home</span> <span class="cmd-item-description">View all posts</span> </div> <kbd class="cmd-item-shortcut">↵</kbd> </button> <button class="cmd-item" data-action="navigate" data-url="/ai-news/"> <div class="cmd-item-icon ai-gradient"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h-9.5a.5.5 0 0 0-.5.5.5.5 0 0 1-1 0 .5.5 0 0 0-.5-.5H1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"></path> <path d="M7 15v4a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-4"></path> </svg> </div> <div class="cmd-item-content"> <span class="cmd-item-title">AI News</span> <span class="cmd-item-description">Latest AI articles</span> </div> <kbd class="cmd-item-shortcut">↵</kbd> </button> <button class="cmd-item" data-action="navigate" data-url="/ai-financial-news/"> <div class="cmd-item-icon financial-gradient"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <line x1="12" y1="1" x2="12" y2="23"></line> <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path> </svg> </div> <div class="cmd-item-content"> <span class="cmd-item-title">AI Financial News</span> <span class="cmd-item-description">Market insights & analysis</span> </div> <kbd class="cmd-item-shortcut">↵</kbd> </button> <button class="cmd-item" data-action="navigate" data-url="/books/"> <div class="cmd-item-icon books-gradient"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path> <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path> </svg> </div> <div class="cmd-item-content"> <span class="cmd-item-title">AI Books</span> <span class="cmd-item-description">AI-generated mini-series & books</span> </div> <kbd class="cmd-item-shortcut">↵</kbd> </button> <button class="cmd-item" data-action="navigate" data-url="/about/"> <div class="cmd-item-icon"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <circle cx="12" cy="12" r="10"></circle> <path d="M12 16v-4"></path> <path d="M12 8h.01"></path> </svg> </div> <div class="cmd-item-content"> <span class="cmd-item-title">About</span> <span class="cmd-item-description">Learn more about the author</span> </div> <kbd class="cmd-item-shortcut">↵</kbd> </button> <button class="cmd-item" data-action="navigate" data-url="/tags/"> <div class="cmd-item-icon"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"></path> <path d="M7 7h.01"></path> </svg> </div> <div class="cmd-item-content"> <span class="cmd-item-title">Browse Tags</span> <span class="cmd-item-description">Explore by topic</span> </div> <kbd class="cmd-item-shortcut">↵</kbd> </button> </div> </div> <div id="cmd-settings-actions" class="cmd-section"> <div class="cmd-section-title">Settings</div> <div class="cmd-section-items"> <button class="cmd-item" data-action="toggle-theme"> <div class="cmd-item-icon theme-icon"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="sun-icon"> <circle cx="12" cy="12" r="5"></circle> <line x1="12" y1="1" x2="12" y2="3"></line> <line x1="12" y1="21" x2="12" y2="23"></line> <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line> <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line> <line x1="1" y1="12" x2="3" y2="12"></line> <line x1="21" y1="12" x2="23" y2="12"></line> <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line> <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line> </svg> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="moon-icon"> <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path> </svg> </div> <div class="cmd-item-content"> <span class="cmd-item-title">Toggle Theme</span> <span class="cmd-item-description">Switch between light and dark mode</span> </div> <kbd class="cmd-item-shortcut">↵</kbd> </button> <button class="cmd-item" data-action="subscribe"> <div class="cmd-item-icon subscribe-icon"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path> <polyline points="22,6 12,13 2,6"></polyline> </svg> </div> <div class="cmd-item-content"> <span class="cmd-item-title">Subscribe to Newsletter</span> <span class="cmd-item-description">Get updates in your inbox</span> </div> <kbd class="cmd-item-shortcut">↵</kbd> </button> </div> </div> <!-- Search Results (shown when searching) --> <div id="cmd-search-results" class="cmd-section" style="display: none;"> <div class="cmd-section-title"> <span id="cmd-results-title">Search Results</span> <span id="cmd-results-badge" class="cmd-results-badge"></span> </div> <div id="cmd-search-items" class="cmd-section-items"></div> </div> <!-- Loading State --> <div id="cmd-loading" class="cmd-loading" style="display: none;"> <div class="cmd-loading-spinner"></div> <span>Searching...</span> </div> <!-- No Results --> <div id="cmd-no-results" class="cmd-no-results" style="display: none;"> <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"> <circle cx="11" cy="11" r="8"></circle> <path d="m21 21-4.35-4.35"></path> <path d="M8 8l6 6"></path> <path d="M14 8l-6 6"></path> </svg> <p>No results found</p> <span>Try different keywords or browse the quick actions above</span> </div> </div> <!-- Footer --> <div class="cmd-palette-footer"> <div class="cmd-footer-hints"> <span><kbd>↑↓</kbd> Navigate</span> <span><kbd>↵</kbd> Select</span> <span><kbd>tab</kbd> Complete</span> <span><kbd>esc</kbd> Close</span> </div> <div id="cmd-footer-powered" class="cmd-footer-powered" style="display: none;">
-✨ AI-powered search
-</div> </div> </div> </div>  <script type="module" src="/_astro/CommandPalette.astro_astro_type_script_index_0_lang.CzX_f0Z3.js"></script> <nav class="main-nav" aria-label="Main navigation"> <a href="/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path> <polyline points="9 22 9 12 15 12 15 22"></polyline> </svg>
-Home
-</a> <a href="/ai-news/" class="ai-news-link ai-gradient-nav"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h-9.5a.5.5 0 0 0-.5.5.5.5 0 0 1-1 0 .5.5 0 0 0-.5-.5H1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"></path> <path d="M7 15v4a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-4"></path> </svg>
-AI News
-</a> <a href="/ai-financial-news/" class="ai-financial-link ai-gradient-nav"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <line x1="12" y1="1" x2="12" y2="23"></line> <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path> </svg>
-AI Financial
-</a> <a href="/books/" class="books-link ai-gradient-nav"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path> <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path> </svg>
-Books
-</a> <a href="/about/"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"> <circle cx="12" cy="12" r="10"></circle> <path d="M12 16v-4"></path> <path d="M12 8h.01"></path> </svg>
-About
-</a> <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode"> <span class="theme-icon" aria-hidden="true">☾</span> </button> </nav> </header> <!-- Main Content --> <main id="main-content" class="container content-area" tabindex="-1">  <nav class="breadcrumbs" aria-label="Breadcrumb" data-astro-cid-ilhxcym7> <ol data-astro-cid-ilhxcym7> <li data-astro-cid-ilhxcym7>  <a href="/" data-astro-cid-ilhxcym7>Home</a> <span class="separator" aria-hidden="true" data-astro-cid-ilhxcym7>/</span>  </li><li data-astro-cid-ilhxcym7> <span class="current" aria-current="page" data-astro-cid-ilhxcym7>REST API Design: Beyond the Dogma</span> </li>  </ol> </nav>  <div class="post-layout" data-astro-cid-yvbahnfj> <aside class="sidebar-left" data-astro-cid-yvbahnfj> <nav class="toc" aria-label="Table of Contents" data-astro-cid-xvrfupwn> <div class="toc-title" data-astro-cid-xvrfupwn>On this page</div> <ul data-astro-cid-xvrfupwn> <li class="d-2" data-astro-cid-xvrfupwn> <a href="#urls-are-interfaces" data-astro-cid-xvrfupwn> URLs Are Interfaces </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#http-verbs-use-them-or-lose-credibility" data-astro-cid-xvrfupwn> HTTP Verbs: Use Them or Lose Credibility </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#status-codes-matter" data-astro-cid-xvrfupwn> Status Codes Matter </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#error-design-is-where-you-show-your-empathy" data-astro-cid-xvrfupwn> Error Design Is Where You Show Your Empathy </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#pagination-is-non-negotiable" data-astro-cid-xvrfupwn> Pagination Is Non-Negotiable </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#filtering-sorting-and-searching" data-astro-cid-xvrfupwn> Filtering, Sorting, and Searching </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#versioning-" data-astro-cid-xvrfupwn> Versioning: </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#authentication-" data-astro-cid-xvrfupwn> Authentication: </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#hateoas-the-unrealized-dream" data-astro-cid-xvrfupwn> HATEOAS: The Unrealized Dream </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#documentation-is-part-of-the-api" data-astro-cid-xvrfupwn> Documentation Is Part of the API </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#what-you-send-back-matters" data-astro-cid-xvrfupwn> What You Send Back Matters </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#idempotency-" data-astro-cid-xvrfupwn> Idempotency: </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#the-things-nobody-talks-about" data-astro-cid-xvrfupwn> The Things Nobody Talks About </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#when-to-break-the-rules" data-astro-cid-xvrfupwn> When to Break the Rules </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#what-matters-more-than-rest" data-astro-cid-xvrfupwn> What Matters More Than REST </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#the-real-constraints" data-astro-cid-xvrfupwn> The Real Constraints </a> </li><li class="d-2" data-astro-cid-xvrfupwn> <a href="#build-apis-youd-want-to-use" data-astro-cid-xvrfupwn> Build APIs You&#39;d Want to Use </a> </li> </ul> </nav>  </aside> <article class="post" data-astro-cid-yvbahnfj> <header class="post-header" data-astro-cid-yvbahnfj> <h1 data-astro-cid-yvbahnfj>REST API Design: Beyond the Dogma</h1> <div class="meta" data-astro-cid-yvbahnfj> <time datetime="2025-12-22T00:00:00.000Z" data-astro-cid-yvbahnfj>Mon Dec 22 2025</time> <span data-astro-cid-yvbahnfj>• 10 min read</span> </div> <div class="tag-row" data-astro-cid-yvbahnfj><a class="post-tag  " href="/tags/api/" data-astro-cid-yvbahnfj>API</a><a class="post-tag  " href="/tags/rest/" data-astro-cid-yvbahnfj>REST</a><a class="post-tag  " href="/tags/architecture/" data-astro-cid-yvbahnfj>Architecture</a><a class="post-tag  " href="/tags/backend/" data-astro-cid-yvbahnfj>Backend</a></div> </header>     <div class="post-body prose" data-astro-cid-yvbahnfj> <p>REST is not a protocol. It’s not a standard. It’s a set of architectural constraints that Roy Fielding described in his dissertation, and most APIs calling themselves RESTful violate half of them. That’s fine. You’re not writing an academic paper. You’re building something people need to use.</p>
+</a> <style>astro-island,astro-slot,astro-static-slot{display:contents}</style><script>(()=>{var e=async t=>{await(await t())()};(self.Astro||(self.Astro={})).only=e;window.dispatchEvent(new Event("astro:only"));})();</script><script>(()=>{var A=Object.defineProperty;var g=(i,o,a)=>o in i?A(i,o,{enumerable:!0,configurable:!0,writable:!0,value:a}):i[o]=a;var d=(i,o,a)=>g(i,typeof o!="symbol"?o+"":o,a);{let i={0:t=>m(t),1:t=>a(t),2:t=>new RegExp(t),3:t=>new Date(t),4:t=>new Map(a(t)),5:t=>new Set(a(t)),6:t=>BigInt(t),7:t=>new URL(t),8:t=>new Uint8Array(t),9:t=>new Uint16Array(t),10:t=>new Uint32Array(t),11:t=>1/0*t},o=t=>{let[l,e]=t;return l in i?i[l](e):void 0},a=t=>t.map(o),m=t=>typeof t!="object"||t===null?t:Object.fromEntries(Object.entries(t).map(([l,e])=>[l,o(e)]));class y extends HTMLElement{constructor(){super(...arguments);d(this,"Component");d(this,"hydrator");d(this,"hydrate",async()=>{var b;if(!this.hydrator||!this.isConnected)return;let e=(b=this.parentElement)==null?void 0:b.closest("astro-island[ssr]");if(e){e.addEventListener("astro:hydrate",this.hydrate,{once:!0});return}let c=this.querySelectorAll("astro-slot"),n={},h=this.querySelectorAll("template[data-astro-template]");for(let r of h){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("data-astro-template")||"default"]=r.innerHTML,r.remove())}for(let r of c){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("name")||"default"]=r.innerHTML)}let p;try{p=this.hasAttribute("props")?m(JSON.parse(this.getAttribute("props"))):{}}catch(r){let s=this.getAttribute("component-url")||"<unknown>",v=this.getAttribute("component-export");throw v&&(s+=` (export ${v})`),console.error(`[hydrate] Error parsing props for component ${s}`,this.getAttribute("props"),r),r}let u;await this.hydrator(this)(this.Component,p,n,{client:this.getAttribute("client")}),this.removeAttribute("ssr"),this.dispatchEvent(new CustomEvent("astro:hydrate"))});d(this,"unmount",()=>{this.isConnected||this.dispatchEvent(new CustomEvent("astro:unmount"))})}disconnectedCallback(){document.removeEventListener("astro:after-swap",this.unmount),document.addEventListener("astro:after-swap",this.unmount,{once:!0})}connectedCallback(){if(!this.hasAttribute("await-children")||document.readyState==="interactive"||document.readyState==="complete")this.childrenConnectedCallback();else{let e=()=>{document.removeEventListener("DOMContentLoaded",e),c.disconnect(),this.childrenConnectedCallback()},c=new MutationObserver(()=>{var n;((n=this.lastChild)==null?void 0:n.nodeType)===Node.COMMENT_NODE&&this.lastChild.nodeValue==="astro:end"&&(this.lastChild.remove(),e())});c.observe(this,{childList:!0}),document.addEventListener("DOMContentLoaded",e)}}async childrenConnectedCallback(){let e=this.getAttribute("before-hydration-url");e&&await import(e),this.start()}async start(){let e=JSON.parse(this.getAttribute("opts")),c=this.getAttribute("client");if(Astro[c]===void 0){window.addEventListener(`astro:${c}`,()=>this.start(),{once:!0});return}try{await Astro[c](async()=>{let n=this.getAttribute("renderer-url"),[h,{default:p}]=await Promise.all([import(this.getAttribute("component-url")),n?import(n):()=>()=>{}]),u=this.getAttribute("component-export")||"default";if(!u.includes("."))this.Component=h[u];else{this.Component=h;for(let f of u.split("."))this.Component=this.Component[f]}return this.hydrator=p,this.hydrate},e,this)}catch(n){console.error(`[astro-island] Error hydrating ${this.getAttribute("component-url")}`,n)}}attributeChangedCallback(){this.hydrate()}}d(y,"observedAttributes",["props"]),customElements.get("astro-island")||customElements.define("astro-island",y)}})();</script><astro-island uid="3I0rC" component-url="/_astro/Navigation.baCVNznv.js" component-export="Navigation" renderer-url="/_astro/client.BWL821IS.js" props="{}" ssr client="only" opts="{&quot;name&quot;:&quot;Navigation&quot;,&quot;value&quot;:&quot;preact&quot;}"></astro-island> </div> </header> <!-- Command Palette --> <astro-island uid="1KbDpu" component-url="/_astro/CommandPalette.B8vci85-.js" component-export="CommandPalette" renderer-url="/_astro/client.BWL821IS.js" props="{}" ssr client="only" opts="{&quot;name&quot;:&quot;CommandPalette&quot;,&quot;value&quot;:&quot;preact&quot;}"></astro-island> <!-- Main Content with fade-in --> <main id="main-content" class="container mx-auto px-4 py-8 animate-fade-in" tabindex="-1">  <script>(()=>{var l=(n,t)=>{let i=async()=>{await(await n())()},e=typeof t.value=="object"?t.value:void 0,s={timeout:e==null?void 0:e.timeout};"requestIdleCallback"in window?window.requestIdleCallback(i,s):setTimeout(i,s.timeout||200)};(self.Astro||(self.Astro={})).idle=l;window.dispatchEvent(new Event("astro:idle"));})();</script><astro-island uid="1LCpfm" component-url="/_astro/ArticleReadingTracker.grbQ2llb.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;url&quot;:[0,&quot;/rest-api-design/&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ArticleReadingTracker&quot;,&quot;value&quot;:true}" await-children><div class="fixed top-0 left-0 w-full h-1 z-50 bg-muted/20 fixed top-0 left-0 w-full z-50"><div class="h-full bg-primary transition-all duration-100 ease-out" style="width:0%;"></div></div><!--astro:end--></astro-island> <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"> <div class="grid grid-cols-1 lg:grid-cols-[250px_1fr] gap-8"> <!-- Table of Contents Sidebar (Left) --> <aside class="hidden lg:block order-2 lg:order-1"> <nav class="toc-container sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto hidden lg:block w-64 text-sm pr-4" data-astro-cid-xvrfupwn><div class="flex items-center gap-2 mb-4" data-astro-cid-xvrfupwn><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><path d="M4 6h16M4 12h16M4 18h7" /></svg><h2 class="font-semibold text-xs text-foreground tracking-wide uppercase" data-astro-cid-xvrfupwn>On This Page</h2></div><ul class="space-y-0.5 border-l border-border/50" data-astro-cid-xvrfupwn><li class="toc-item depth-2 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#urls-are-interfaces" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:0.75rem" data-astro-cid-xvrfupwn>URLs Are Interfaces</a></li><li class="toc-item depth-2 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#http-verbs-use-them-or-lose-credibility" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:0.75rem" data-astro-cid-xvrfupwn>HTTP Verbs: Use Them or Lose Credibility</a></li><li class="toc-item depth-2 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#status-codes-matter" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:0.75rem" data-astro-cid-xvrfupwn>Status Codes Matter</a></li><li class="toc-item depth-2 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#error-design-is-where-you-show-your-empathy" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:0.75rem" data-astro-cid-xvrfupwn>Error Design Is Where You Show Your Empathy</a></li><li class="toc-item depth-2 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#pagination-is-non-negotiable" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:0.75rem" data-astro-cid-xvrfupwn>Pagination Is Non-Negotiable</a></li><li class="toc-item depth-2 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#filtering-sorting-and-searching" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:0.75rem" data-astro-cid-xvrfupwn>Filtering, Sorting, and Searching</a></li><li class="toc-item depth-2 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#versioning" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:0.75rem" data-astro-cid-xvrfupwn>Versioning:</a></li><li class="toc-item depth-2 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#authentication" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:0.75rem" data-astro-cid-xvrfupwn>Authentication:</a></li><li class="toc-item depth-2 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#hateoas-the-unrealized-dream" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:0.75rem" data-astro-cid-xvrfupwn>HATEOAS: The Unrealized Dream</a></li><li class="toc-item depth-2 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#documentation-is-part-of-the-api" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:0.75rem" data-astro-cid-xvrfupwn>Documentation Is Part of the API</a></li><li class="toc-item depth-2 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#what-you-send-back-matters" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:0.75rem" data-astro-cid-xvrfupwn>What You Send Back Matters</a></li><li class="toc-item depth-2 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#idempotency" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:0.75rem" data-astro-cid-xvrfupwn>Idempotency:</a></li><li class="toc-item depth-2 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#the-things-nobody-talks-about" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:0.75rem" data-astro-cid-xvrfupwn>The Things Nobody Talks About</a></li><li class="toc-item depth-2 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#when-to-break-the-rules" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:0.75rem" data-astro-cid-xvrfupwn>When to Break the Rules</a></li><li class="toc-item depth-2 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#what-matters-more-than-rest" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:0.75rem" data-astro-cid-xvrfupwn>What Matters More Than REST</a></li><li class="toc-item depth-2 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#the-real-constraints" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:0.75rem" data-astro-cid-xvrfupwn>The Real Constraints</a></li><li class="toc-item depth-2 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#build-apis-youd-want-to-use" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:0.75rem" data-astro-cid-xvrfupwn>Build APIs You’d Want to Use</a></li></ul><style>
+      .toc-container::-webkit-scrollbar {
+        width: 4px;
+      }
+      .toc-container::-webkit-scrollbar-thumb {
+        background: hsl(var(--muted-foreground) / 0.3);
+        border-radius: 4px;
+      }
+      .toc-container::-webkit-scrollbar-track {
+        background: transparent;
+      }
+    </style></nav><script type="module">const s=new IntersectionObserver(r=>{r.forEach(t=>{const i=t.target.getAttribute("id"),e=document.querySelector(`.toc-container a[href="#${i}"]`);t.isIntersecting&&(document.querySelectorAll(".toc-container a").forEach(o=>{o.classList.remove("text-primary","font-medium","border-primary"),o.classList.add("border-transparent")}),e&&(e.classList.add("text-primary","font-medium","border-primary"),e.classList.remove("border-transparent")))})},{rootMargin:"-100px 0px -66% 0px"});document.querySelectorAll("h2[id], h3[id]").forEach(r=>s.observe(r));</script> </aside> <article class="max-w-3xl w-full order-1 lg:order-2"> <nav aria-label="Breadcrumb" class="flex items-center text-xs text-muted-foreground mb-6 flex-wrap animate-fade-in"> <ol class="flex items-center gap-1.5 flex-wrap"> <li> <a href="/" class="hover:text-primary transition-colors duration-200 flex items-center gap-1"> <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg> <span class="hidden sm:inline">Home</span> </a> </li> <li class="flex items-center gap-1.5 min-w-0"> <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground/40 shrink-0"><path d="M9 5l7 7-7 7" /></svg> <a href="/" class="hover:text-primary transition-colors duration-200 truncate max-w-[150px]" title="Blog"> Blog </a> </li><li class="flex items-center gap-1.5 min-w-0"> <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground/40 shrink-0"><path d="M9 5l7 7-7 7" /></svg> <span class="font-medium text-foreground truncate max-w-[200px] sm:max-w-xs" title="REST API Design: Beyond the Dogma"> REST API Design: Beyond the Do... </span> </li> </ol> </nav> <!-- Article Header --> <header class="mb-8 mt-6">  <div class="flex flex-wrap gap-2 mb-4"> <a href="/tags/api/" class="inline-flex items-center px-2.5 py-0.5 text-xs font-medium rounded-full bg-muted text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors"> API </a><a href="/tags/rest/" class="inline-flex items-center px-2.5 py-0.5 text-xs font-medium rounded-full bg-muted text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors"> REST </a><a href="/tags/architecture/" class="inline-flex items-center px-2.5 py-0.5 text-xs font-medium rounded-full bg-muted text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors"> Architecture </a><a href="/tags/backend/" class="inline-flex items-center px-2.5 py-0.5 text-xs font-medium rounded-full bg-muted text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors"> Backend </a> </div> <h1 class="text-3xl md:text-4xl font-bold mb-4">REST API Design: Beyond the Dogma</h1> <div class="flex items-center gap-4 text-sm text-muted-foreground"> <time datetime="2025-12-22T00:00:00.000Z"> December 22, 2025 </time> <span>•</span> <span>12 min read</span> </div>  </header> <!-- Article Content --> <div class="prose dark:prose-invert max-w-none"> <p>REST is not a protocol. It’s not a standard. It’s a set of architectural constraints that Roy Fielding described in his dissertation, and most APIs calling themselves RESTful violate half of them. That’s fine. You’re not writing an academic paper. You’re building something people need to use.</p>
 <p>The real question isn’t “is this truly REST?” It’s “can another developer figure out how to use this in five minutes, and will they curse your name when requirements change?”</p>
 <h2 id="urls-are-interfaces">URLs Are Interfaces</h2>
 <p>Your URL structure is a promise. Change it and you break that promise. Design URLs like you’re carving them in stone because once you ship them, they might as well be.</p>
 <p>Start with resources, not actions. Resources are nouns. If your URL has a verb in it, you’re probably doing it wrong.</p>
-<pre class="language-plaintext" data-language="plaintext"><code is:raw="" class="language-plaintext">Bad:  POST /api/createUser
-Good: POST /api/users
-</code></pre>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plaintext"><code><span class="line"><span>Bad:  POST /api/createUser</span></span>
+<span class="line"><span>Good: POST /api/users</span></span></code></pre>
 <p>The exception: actions that don’t map cleanly to CRUD. Sometimes you need <code>/api/users/123/activate</code> or <code>/api/orders/456/cancel</code>. That’s reality. The purists will tell you to model these as state changes on a resource. They’re not wrong, but they’re also not paying your bills. Do what makes sense for your team.</p>
 <p>Nesting is seductive. It feels organized. But <code>GET /users/123/posts/456/comments/789/likes</code> is a maintenance nightmare. You’ve encoded a rigid hierarchy that will break the moment your data model evolves. Flat is better than nested. If you need relationships, use query parameters or separate endpoints.</p>
-<pre class="language-plaintext" data-language="plaintext"><code is:raw="" class="language-plaintext">Better: GET /comments/789
-Best:   GET /comments/789?include=post,user,likes
-</code></pre>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plaintext"><code><span class="line"><span>Better: GET /comments/789</span></span>
+<span class="line"><span>Best:   GET /comments/789?include=post,user,likes</span></span></code></pre>
 <p>Plurals for collections, always. <code>/users</code> not <code>/user</code>. Yes, even when English grammar makes it weird (<code>/people</code> not <code>/person</code>). Consistency beats correctness.</p>
 <h2 id="http-verbs-use-them-or-lose-credibility">HTTP Verbs: Use Them or Lose Credibility</h2>
 <p>GET is for reading. POST is for creating. PUT is for replacing. PATCH is for updating. DELETE is for deleting. This isn’t controversial. Yet somehow half the APIs I’ve integrated with use POST for everything because “it’s simpler.”</p>
@@ -60,89 +73,79 @@ Best:   GET /comments/789?include=post,user,likes
 <h2 id="error-design-is-where-you-show-your-empathy">Error Design Is Where You Show Your Empathy</h2>
 <p>Errors are not edge cases. They’re the normal case. Networks fail. Users mistype. Services go down. Your error responses should be as carefully designed as your success responses.</p>
 <p>Return machine-readable error codes. HTTP status codes aren’t enough. You need application-level codes.</p>
-<pre class="language-json" data-language="json"><code is:raw="" class="language-json"><span class="token punctuation">{</span>
-  <span class="token property">"error"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
-    <span class="token property">"code"</span><span class="token operator">:</span> <span class="token string">"INVALID_EMAIL"</span><span class="token punctuation">,</span>
-    <span class="token property">"message"</span><span class="token operator">:</span> <span class="token string">"Email address is not valid"</span><span class="token punctuation">,</span>
-    <span class="token property">"field"</span><span class="token operator">:</span> <span class="token string">"email"</span><span class="token punctuation">,</span>
-    <span class="token property">"documentation"</span><span class="token operator">:</span> <span class="token string">"https://api.example.com/docs/errors/INVALID_EMAIL"</span>
-  <span class="token punctuation">}</span>
-<span class="token punctuation">}</span>
-</code></pre>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">  "error"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">    "code"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"INVALID_EMAIL"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">    "message"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"Email address is not valid"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">    "field"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"email"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">    "documentation"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"https://api.example.com/docs/errors/INVALID_EMAIL"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
 <p>Don’t leak implementation details. Stack traces in production are a security risk and useless to API consumers. Log them server-side. Return something actionable.</p>
 <p>Don’t use error codes like “ERROR_1234”. Use codes that mean something: <code>RESOURCE_NOT_FOUND</code>, <code>DUPLICATE_EMAIL</code>, <code>RATE_LIMIT_EXCEEDED</code>. Your clients will thank you.</p>
 <p>Multiple validation errors? Return them all at once. Don’t make me fix one field, resubmit, and discover five more problems. That’s sadism.</p>
-<pre class="language-json" data-language="json"><code is:raw="" class="language-json"><span class="token punctuation">{</span>
-  <span class="token property">"error"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
-    <span class="token property">"code"</span><span class="token operator">:</span> <span class="token string">"VALIDATION_FAILED"</span><span class="token punctuation">,</span>
-    <span class="token property">"message"</span><span class="token operator">:</span> <span class="token string">"Request validation failed"</span><span class="token punctuation">,</span>
-    <span class="token property">"details"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
-      <span class="token punctuation">{</span>
-        <span class="token property">"field"</span><span class="token operator">:</span> <span class="token string">"email"</span><span class="token punctuation">,</span>
-        <span class="token property">"code"</span><span class="token operator">:</span> <span class="token string">"INVALID_FORMAT"</span><span class="token punctuation">,</span>
-        <span class="token property">"message"</span><span class="token operator">:</span> <span class="token string">"Email address is not valid"</span>
-      <span class="token punctuation">}</span><span class="token punctuation">,</span>
-      <span class="token punctuation">{</span>
-        <span class="token property">"field"</span><span class="token operator">:</span> <span class="token string">"age"</span><span class="token punctuation">,</span>
-        <span class="token property">"code"</span><span class="token operator">:</span> <span class="token string">"OUT_OF_RANGE"</span><span class="token punctuation">,</span>
-        <span class="token property">"message"</span><span class="token operator">:</span> <span class="token string">"Age must be between 18 and 120"</span>
-      <span class="token punctuation">}</span>
-    <span class="token punctuation">]</span>
-  <span class="token punctuation">}</span>
-<span class="token punctuation">}</span>
-</code></pre>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">  "error"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">    "code"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"VALIDATION_FAILED"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">    "message"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"Request validation failed"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">    "details"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: [</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      {</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">        "field"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"email"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">        "code"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"INVALID_FORMAT"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">        "message"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"Email address is not valid"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      },</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      {</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">        "field"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"age"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">        "code"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"OUT_OF_RANGE"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">        "message"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"Age must be between 18 and 120"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    ]</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
 <h2 id="pagination-is-non-negotiable">Pagination Is Non-Negotiable</h2>
 <p>Never return unbounded collections. Ever. Your database will grow. Your response times will degrade. Your users will complain.</p>
 <p>Offset-based pagination is simple but dangerous at scale. Page 500 of a million-record table is slow. Use it anyway if your data is small and you need simplicity.</p>
-<pre class="language-plaintext" data-language="plaintext"><code is:raw="" class="language-plaintext">GET /users?page=2&#x26;per_page=50
-</code></pre>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plaintext"><code><span class="line"><span>GET /users?page=2&#x26;per_page=50</span></span></code></pre>
 <p>Cursor-based pagination is better for large datasets. Less intuitive, but it performs consistently regardless of position.</p>
-<pre class="language-plaintext" data-language="plaintext"><code is:raw="" class="language-plaintext">GET /users?cursor=eyJpZCI6MTIzfQ&#x26;limit=50
-</code></pre>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plaintext"><code><span class="line"><span>GET /users?cursor=eyJpZCI6MTIzfQ&#x26;limit=50</span></span></code></pre>
 <p>Return metadata. Tell clients what they’re looking at.</p>
-<pre class="language-json" data-language="json"><code is:raw="" class="language-json"><span class="token punctuation">{</span>
-  <span class="token property">"data"</span><span class="token operator">:</span> <span class="token punctuation">[</span>...<span class="token punctuation">]</span><span class="token punctuation">,</span>
-  <span class="token property">"pagination"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
-    <span class="token property">"total"</span><span class="token operator">:</span> <span class="token number">10543</span><span class="token punctuation">,</span>
-    <span class="token property">"page"</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
-    <span class="token property">"per_page"</span><span class="token operator">:</span> <span class="token number">50</span><span class="token punctuation">,</span>
-    <span class="token property">"total_pages"</span><span class="token operator">:</span> <span class="token number">211</span><span class="token punctuation">,</span>
-    <span class="token property">"next_page"</span><span class="token operator">:</span> <span class="token string">"/users?page=3&#x26;per_page=50"</span><span class="token punctuation">,</span>
-    <span class="token property">"prev_page"</span><span class="token operator">:</span> <span class="token string">"/users?page=1&#x26;per_page=50"</span>
-  <span class="token punctuation">}</span>
-<span class="token punctuation">}</span>
-</code></pre>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">  "data"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: [</span><span style="color:#B31D28;--shiki-light-font-style:italic;--shiki-dark:#FDAEB7;--shiki-dark-font-style:italic">...</span><span style="color:#24292E;--shiki-dark:#E1E4E8">],</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">  "pagination"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">    "total"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#005CC5;--shiki-dark:#79B8FF">10543</span><span style="color:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">    "page"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#005CC5;--shiki-dark:#79B8FF">2</span><span style="color:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">    "per_page"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#005CC5;--shiki-dark:#79B8FF">50</span><span style="color:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">    "total_pages"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#005CC5;--shiki-dark:#79B8FF">211</span><span style="color:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">    "next_page"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"/users?page=3&#x26;per_page=50"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">    "prev_page"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"/users?page=1&#x26;per_page=50"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
 <p>For cursor-based, return <code>next_cursor</code> and <code>prev_cursor</code>. Don’t make clients reverse-engineer your cursor format.</p>
 <h2 id="filtering-sorting-and-searching">Filtering, Sorting, and Searching</h2>
 <p>Query parameters for filtering. Not path parameters, not POST bodies. Query parameters.</p>
-<pre class="language-plaintext" data-language="plaintext"><code is:raw="" class="language-plaintext">GET /users?role=admin&#x26;status=active&#x26;created_after=2024-01-01
-</code></pre>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plaintext"><code><span class="line"><span>GET /users?role=admin&#x26;status=active&#x26;created_after=2024-01-01</span></span></code></pre>
 <p>Be explicit about operators. <code>?age=25</code> is ambiguous. Is that exact match? Minimum? Use clear names.</p>
-<pre class="language-plaintext" data-language="plaintext"><code is:raw="" class="language-plaintext">GET /products?price_min=10&#x26;price_max=100&#x26;category=electronics
-</code></pre>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plaintext"><code><span class="line"><span>GET /products?price_min=10&#x26;price_max=100&#x26;category=electronics</span></span></code></pre>
 <p>Sorting: use a <code>sort</code> parameter. Support multiple fields. Use <code>-</code> for descending order.</p>
-<pre class="language-plaintext" data-language="plaintext"><code is:raw="" class="language-plaintext">GET /articles?sort=-published_at,title
-</code></pre>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plaintext"><code><span class="line"><span>GET /articles?sort=-published_at,title</span></span></code></pre>
 <p>Full-text search doesn’t belong in query parameters when it gets complex. Use POST with a search endpoint.</p>
-<pre class="language-plaintext" data-language="plaintext"><code is:raw="" class="language-plaintext">POST /articles/search
-{
-  "query": "REST API design",
-  "filters": {
-    "tags": ["api", "architecture"],
-    "published_after": "2024-01-01"
-  },
-  "sort": ["-relevance", "-published_at"],
-  "page": 1,
-  "per_page": 20
-}
-</code></pre>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plaintext"><code><span class="line"><span>POST /articles/search</span></span>
+<span class="line"><span>{</span></span>
+<span class="line"><span>  "query": "REST API design",</span></span>
+<span class="line"><span>  "filters": {</span></span>
+<span class="line"><span>    "tags": ["api", "architecture"],</span></span>
+<span class="line"><span>    "published_after": "2024-01-01"</span></span>
+<span class="line"><span>  },</span></span>
+<span class="line"><span>  "sort": ["-relevance", "-published_at"],</span></span>
+<span class="line"><span>  "page": 1,</span></span>
+<span class="line"><span>  "per_page": 20</span></span>
+<span class="line"><span>}</span></span></code></pre>
 <p>Yes, POST for reads feels wrong. Get over it. GET requests with complex JSON bodies are worse. Some proxies strip them. Some clients can’t send them easily. POST at least works everywhere.</p>
 <h2 id="versioning">Versioning:</h2>
 <p>You will change your API. Plan for it.</p>
 <p>URL versioning is ugly but honest. <code>/v1/users</code> and <code>/v2/users</code> coexist. It’s explicit. It’s cache-friendly. It’s easy to route.</p>
-<pre class="language-plaintext" data-language="plaintext"><code is:raw="" class="language-plaintext">GET /v1/users/123
-GET /v2/users/123
-</code></pre>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plaintext"><code><span class="line"><span>GET /v1/users/123</span></span>
+<span class="line"><span>GET /v2/users/123</span></span></code></pre>
 <p>Header versioning is cleaner but hidden. Clients need to remember to set <code>Accept: application/vnd.api+json; version=2</code>. Debugging is harder. Caching is trickier.</p>
 <p>Neither is wrong. Both work. Pick one and stick with it.</p>
 <p>Don’t version for every tiny change. Minor additions (new optional fields, new endpoints) shouldn’t bump versions. Breaking changes (removing fields, changing behavior, renaming things) should.</p>
@@ -151,29 +154,25 @@ GET /v2/users/123
 <p>Use established standards. OAuth 2.0 for user authentication. API keys for service-to-service. JWT for stateless auth.</p>
 <p>Don’t invent your own signature scheme. Don’t use Basic Auth over HTTP. Don’t store passwords in plain text. These aren’t opinions. These are baseline competence.</p>
 <p>API keys go in headers, not query parameters. Query parameters get logged everywhere. Logs leak.</p>
-<pre class="language-plaintext" data-language="plaintext"><code is:raw="" class="language-plaintext">Authorization: Bearer YOUR_API_KEY
-</code></pre>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plaintext"><code><span class="line"><span>Authorization: Bearer YOUR_API_KEY</span></span></code></pre>
 <p>Rate limit by API key or user. Return current limits in headers.</p>
-<pre class="language-plaintext" data-language="plaintext"><code is:raw="" class="language-plaintext">X-RateLimit-Limit: 1000
-X-RateLimit-Remaining: 432
-X-RateLimit-Reset: 1640000000
-</code></pre>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plaintext"><code><span class="line"><span>X-RateLimit-Limit: 1000</span></span>
+<span class="line"><span>X-RateLimit-Remaining: 432</span></span>
+<span class="line"><span>X-RateLimit-Reset: 1640000000</span></span></code></pre>
 <p>When rate limited, return 429 Too Many Requests and tell them when to retry.</p>
-<pre class="language-plaintext" data-language="plaintext"><code is:raw="" class="language-plaintext">Retry-After: 60
-</code></pre>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plaintext"><code><span class="line"><span>Retry-After: 60</span></span></code></pre>
 <h2 id="hateoas-the-unrealized-dream">HATEOAS: The Unrealized Dream</h2>
 <p>Hypermedia as the Engine of Application State. It’s a core REST principle. Almost nobody implements it. You probably shouldn’t either.</p>
 <p>The idea: responses include links to related resources and available actions. Clients follow links instead of constructing URLs.</p>
-<pre class="language-json" data-language="json"><code is:raw="" class="language-json"><span class="token punctuation">{</span>
-  <span class="token property">"id"</span><span class="token operator">:</span> <span class="token number">123</span><span class="token punctuation">,</span>
-  <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"John Doe"</span><span class="token punctuation">,</span>
-  <span class="token property">"links"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
-    <span class="token property">"self"</span><span class="token operator">:</span> <span class="token string">"/users/123"</span><span class="token punctuation">,</span>
-    <span class="token property">"posts"</span><span class="token operator">:</span> <span class="token string">"/users/123/posts"</span><span class="token punctuation">,</span>
-    <span class="token property">"avatar"</span><span class="token operator">:</span> <span class="token string">"/users/123/avatar"</span>
-  <span class="token punctuation">}</span>
-<span class="token punctuation">}</span>
-</code></pre>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">  "id"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#005CC5;--shiki-dark:#79B8FF">123</span><span style="color:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">  "name"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"John Doe"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">  "links"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">    "self"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"/users/123"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">    "posts"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"/users/123/posts"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">    "avatar"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"/users/123/avatar"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
 <p>It’s elegant in theory. In practice, it adds overhead, complicates responses, and most client developers ignore it anyway. They hardcode URLs. They read documentation, not responses.</p>
 <p>Use HATEOAS if you’re building a genuinely hypermedia-driven application. Otherwise, write good documentation and move on.</p>
 <h2 id="documentation-is-part-of-the-api">Documentation Is Part of the API</h2>
@@ -181,58 +180,54 @@ X-RateLimit-Reset: 1640000000
 <p>OpenAPI is the standard. Generate it from code or write it by hand, but have it. Interactive documentation is table stakes now.</p>
 <p>Document error responses. Document rate limits. Document authentication. Document pagination. Document every query parameter and what it does.</p>
 <p>Show examples. Real ones. Not “string” and “integer” in a schema, but actual requests and responses.</p>
-<pre class="language-plaintext" data-language="plaintext"><code is:raw="" class="language-plaintext">POST /users
-Content-Type: application/json
-
-{
-  "email": "jane@example.com",
-  "name": "Jane Smith",
-  "role": "admin"
-}
-
-Response: 201 Created
-Location: /users/456
-
-{
-  "id": 456,
-  "email": "jane@example.com",
-  "name": "Jane Smith",
-  "role": "admin",
-  "created_at": "2024-12-22T10:30:00Z"
-}
-</code></pre>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plaintext"><code><span class="line"><span>POST /users</span></span>
+<span class="line"><span>Content-Type: application/json</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>{</span></span>
+<span class="line"><span>  "email": "jane@example.com",</span></span>
+<span class="line"><span>  "name": "Jane Smith",</span></span>
+<span class="line"><span>  "role": "admin"</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Response: 201 Created</span></span>
+<span class="line"><span>Location: /users/456</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>{</span></span>
+<span class="line"><span>  "id": 456,</span></span>
+<span class="line"><span>  "email": "jane@example.com",</span></span>
+<span class="line"><span>  "name": "Jane Smith",</span></span>
+<span class="line"><span>  "role": "admin",</span></span>
+<span class="line"><span>  "created_at": "2024-12-22T10:30:00Z"</span></span>
+<span class="line"><span>}</span></span></code></pre>
 <p>Keep documentation up to date. Out-of-date documentation is worse than no documentation because it’s actively misleading.</p>
 <h2 id="what-you-send-back-matters">What You Send Back Matters</h2>
 <p>JSON is the default. Don’t fight it. XML lost. If you need XML for legacy reasons, support both, but make JSON the default.</p>
 <p>Use camelCase or snake_case consistently. Not both. JavaScript developers expect camelCase. Python and Ruby developers expect snake_case. Pick your audience.</p>
 <p>ISO 8601 for dates. Always. UTC preferred. Include timezone info if you must use local time.</p>
-<pre class="language-plaintext" data-language="plaintext"><code is:raw="" class="language-plaintext">"created_at": "2024-12-22T10:30:00Z"
-</code></pre>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plaintext"><code><span class="line"><span>"created_at": "2024-12-22T10:30:00Z"</span></span></code></pre>
 <p>Don’t stringify numbers. <code>"id": "123"</code> should be <code>"id": 123</code>. JSON supports numbers. Use them.</p>
 <p>Omit missing values entirely. Be consistent. Returning <code>""</code> for missing strings and <code>0</code> for missing numbers is confusing.</p>
 <p>Envelope or no envelope?</p>
-<pre class="language-json" data-language="json"><code is:raw="" class="language-json"><span class="token comment">// Envelope</span>
-<span class="token punctuation">{</span>
-  <span class="token property">"data"</span><span class="token operator">:</span> <span class="token punctuation">{</span> <span class="token property">"id"</span><span class="token operator">:</span> <span class="token number">123</span><span class="token punctuation">,</span> <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"John"</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
-  <span class="token property">"meta"</span><span class="token operator">:</span> <span class="token punctuation">{</span> <span class="token property">"timestamp"</span><span class="token operator">:</span> <span class="token string">"2024-12-22T10:30:00Z"</span> <span class="token punctuation">}</span>
-<span class="token punctuation">}</span>
-
-<span class="token comment">// No envelope</span>
-<span class="token punctuation">{</span> <span class="token property">"id"</span><span class="token operator">:</span> <span class="token number">123</span><span class="token punctuation">,</span> <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"John"</span> <span class="token punctuation">}</span>
-</code></pre>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// Envelope</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">  "data"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: { </span><span style="color:#005CC5;--shiki-dark:#79B8FF">"id"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#005CC5;--shiki-dark:#79B8FF">123</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">"name"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"John"</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> },</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">  "meta"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: { </span><span style="color:#005CC5;--shiki-dark:#79B8FF">"timestamp"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"2024-12-22T10:30:00Z"</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// No envelope</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">{ </span><span style="color:#005CC5;--shiki-dark:#79B8FF">"id"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#005CC5;--shiki-dark:#79B8FF">123</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">"name"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"John"</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> }</span></span></code></pre>
 <p>Envelopes let you add metadata without polluting the resource. But they add nesting. I prefer no envelope for simple cases, envelope when you need metadata or are returning errors.</p>
 <h2 id="idempotency">Idempotency:</h2>
 <p>GET, PUT, and DELETE should be idempotent. Make the same request twice and the result should be the same.</p>
 <p>POST is the odd one out. Two identical POST requests might create two resources. That’s a problem for unreliable networks.</p>
 <p>Idempotency keys solve this. Client sends a unique key with each request. Server checks if it’s seen that key before.</p>
-<pre class="language-plaintext" data-language="plaintext"><code is:raw="" class="language-plaintext">POST /orders
-Idempotency-Key: a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6
-
-{
-  "product_id": 789,
-  "quantity": 2
-}
-</code></pre>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plaintext"><code><span class="line"><span>POST /orders</span></span>
+<span class="line"><span>Idempotency-Key: a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>{</span></span>
+<span class="line"><span>  "product_id": 789,</span></span>
+<span class="line"><span>  "quantity": 2</span></span>
+<span class="line"><span>}</span></span></code></pre>
 <p>If the server has seen that key, it returns the previous response instead of creating a duplicate order. Financial transactions, email sending, any irreversible operation benefits from this.</p>
 <p>Stripe and Twilio does this. You should too if you’re doing anything important.</p>
 <h2 id="the-things-nobody-talks-about">The Things Nobody Talks About</h2>
@@ -241,8 +236,7 @@ Idempotency-Key: a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6
 <p><strong>ETags and conditional requests</strong>: Support <code>If-None-Match</code> and <code>If-Modified-Since</code>. Let clients cache effectively. Reduce server load. Barely anyone uses them, but when they do, you look professional.</p>
 <p><strong>Webhook alternatives</strong>: Polling is wasteful. Webhooks are finicky. Server-sent events (SSE) or WebSockets might be better if you control both ends.</p>
 <p><strong>Request IDs</strong>: Generate a unique ID for every request. Return it in responses. Log it everywhere. When something breaks, clients can give you the request ID and you can trace exactly what happened.</p>
-<pre class="language-plaintext" data-language="plaintext"><code is:raw="" class="language-plaintext">X-Request-ID: a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6
-</code></pre>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plaintext"><code><span class="line"><span>X-Request-ID: a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6</span></span></code></pre>
 <h2 id="when-to-break-the-rules">When to Break the Rules</h2>
 <p>Pragmatism beats purity.</p>
 <p>Need to download a file? <code>GET /files/123/download</code> is clearer than trying to make it purely resourceful.</p>
@@ -264,564 +258,22 @@ Idempotency-Key: a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6
 <p>The best API design advice is simple: build something you wouldn’t hate to integrate with.</p>
 <p>Clear URLs. Sensible status codes. Useful error messages. Good documentation. Consistent patterns. Those things aren’t REST-specific. They’re basic respect for whoever has to use what you built.</p>
 <p>REST gives you a framework for making those decisions. It’s not the only framework. It’s not always the best framework. But it’s a decent starting point, and most APIs would be better if they at least tried to follow it.</p>
-<p>Design your API like you’re going to maintain it for a decade and document it for someone who will curse your name when you’re gone. That’s the real constraint that matters.</p> </div>    <section class="related-posts" data-astro-cid-dpgbfi7r> <h2 data-astro-cid-dpgbfi7r>Related Posts</h2> <div class="related-posts-grid" data-astro-cid-dpgbfi7r> <article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/rest-response-structure/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>Stop Sending Nulls in Your API Responses</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>If you&#39;ve sat through backend architecture reviews, you&#39;ve witnessed The Great Null Debate. Someone cleans up a JSON…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2025-12-23T00:00:00.000Z" data-astro-cid-dpgbfi7r> Dec 23, 2025 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>4 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/hexagonal-architecture-python-fastapi/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>Hexagonal Architecture with FastAPI: Database, Valkey Cache, Messaging</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>Hexagonal Architecture for FastAPI Document Systems 1. TL;DR - Hexagonal Architecture (ports &amp; adapters) keeps the…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2025-12-26T00:00:00.000Z" data-astro-cid-dpgbfi7r> Dec 26, 2025 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>13 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/ai-news/2026-01-24-googles-universal-commerce-protocol-ucp-powers-agentic-shopping/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>Google’s Universal Commerce Protocol (UCP) Powers Agentic Shopping</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>Google’s Universal Commerce Protocol (UCP) Powers Agentic Shopping Google recently launched the Universal Commerce…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2026-01-24T00:00:00.000Z" data-astro-cid-dpgbfi7r> Jan 24, 2026 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>1 min read</span> </div> </a> </article><article class="related-post-card" data-astro-cid-dpgbfi7r> <a href="/ai-news/2026-01-21-is-that-allowed-authentication-and-authorization-in-model-context-protocol/" class="related-post-link" data-astro-cid-dpgbfi7r> <h3 data-astro-cid-dpgbfi7r>Is That Allowed? Authentication and Authorization in Model Context Protocol</h3> <p class="related-excerpt" data-astro-cid-dpgbfi7r>Authentication and authorization’s current status Model Context Protocol (MCP), released in late 2024, is an emerging…</p> <div class="related-meta" data-astro-cid-dpgbfi7r> <time datetime="2026-01-21T00:00:00.000Z" data-astro-cid-dpgbfi7r> Jan 21, 2026 </time> <span data-astro-cid-dpgbfi7r>•</span> <span data-astro-cid-dpgbfi7r>1 min read</span> </div> </a> </article> </div> </section>  </article> </div> <div class="back-link" data-astro-cid-yvbahnfj><a href="/" data-astro-cid-yvbahnfj>← Back to home</a></div>  </main> <!-- Site Footer --> <footer class="site-footer container"> <p>
-© 2026 AREZKI El Mehdi •
-<a href="https://github.com/earezki">GitHub</a> •
-<a href="/rss.xml">RSS</a> •
-<a href="/tags/">Tags</a> •
-<a href="/sitemap-index.xml">Sitemap</a> •
-<button id="footer-subscribe-btn" class="footer-subscribe-btn" aria-label="Subscribe to newsletter">
-📬 Subscribe
-</button> </p> </footer> <!-- Footer Subscribe Button Handler --> <script type="module">const e=document.getElementById("themeToggle"),o=n=>{if(!e)return;const t=e.querySelector(".theme-icon");t&&(t.textContent=n==="dark"?"☀":"☾")};if(e){const n=document.documentElement.getAttribute("data-theme")||"dark";o(n),e.addEventListener("click",()=>{const t=document.documentElement,c=t.getAttribute("data-theme")==="dark"?"light":"dark";t.setAttribute("data-theme",c),localStorage.setItem("theme",c),o(c)})}</script> <!-- Theme Toggle --> <script type="module">document.addEventListener("DOMContentLoaded",()=>{const e=document.getElementById("footer-subscribe-btn");e&&e.addEventListener("click",n=>{n.preventDefault();const t=document.getElementById("subscription-popup");t&&(t.setAttribute("data-state","visible"),document.body.style.overflow="hidden")})});</script> <!-- Article read/unread tracking --> <script>
-      (function() {
-        const KEY = 'readArticles';
-        
-        function getRead() {
-          try {
-            const d = localStorage.getItem(KEY);
-            return d ? JSON.parse(d) : [];
-          } catch (e) {
-            return [];
-          }
-        }
-        
-        function markRead(url) {
-          try {
-            const read = getRead();
-            if (!read.includes(url)) {
-              read.push(url);
-              localStorage.setItem(KEY, JSON.stringify(read));
-            }
-          } catch (e) {}
-        }
-        
-        function updateCards() {
-          const read = new Set(getRead());
-          const cards = document.querySelectorAll('.post-card[data-article-url]');
-          cards.forEach(function(card) {
-            const url = card.getAttribute('data-article-url');
-            if (!url) return;
-            const isRead = read.has(url);
-            card.classList.toggle('read', isRead);
-            card.classList.toggle('unread', !isRead);
-          });
-        }
-        
-        function markCurrent() {
-          if (document.querySelector('.post-body')) {
-            markRead(window.location.pathname);
-          }
-        }
-        
-        function init() {
-          updateCards();
-          markCurrent();
-        }
-        
-        function clearRead(url) {
-          try {
-            const read = new Set(getRead());
-            if (read.has(url)) {
-              read.delete(url);
-              localStorage.setItem(KEY, JSON.stringify(Array.from(read)));
-              updateCards();
-            }
-          } catch (e) {}
-        }
-        
-        window.clearReadArticle = clearRead;
-        document.addEventListener('DOMContentLoaded', init);
-        window.addEventListener('pageshow', function(e) {
-          if (e.persisted) init();
-        });
-      })();
-    </script> <!-- Clear read button handler --> <script>
-      (function() {
-        document.addEventListener('click', function(e) {
-          var tgt = e.target, btn = null;
-          while (tgt && tgt !== document) {
-            if (tgt.classList && tgt.classList.contains('clear-read-btn')) {
-              btn = tgt;
-              break;
-            }
-            tgt = tgt.parentNode;
-          }
-          if (!btn) return;
-          e.preventDefault();
-          e.stopPropagation();
-          var url = btn.getAttribute('data-article-url');
-          if (url && window.clearReadArticle) window.clearReadArticle(url);
-        });
-      })();
-    </script> <!-- External links open in new tab --> <script>
-      (function() {
-        function makeExternal() {
-          const domain = window.location.hostname;
-          const links = document.querySelectorAll('a[href]');
-          links.forEach(function(link) {
-            const href = link.getAttribute('href');
-            if (!href || link.hasAttribute('target')) return;
-            const isExt = (href.startsWith('http://') || href.startsWith('https://')) && !href.includes(domain);
-            if (isExt) {
-              link.setAttribute('target', '_blank');
-              link.setAttribute('rel', 'noopener noreferrer');
-            }
-          });
-        }
-        document.addEventListener('DOMContentLoaded', makeExternal);
-        if (window.MutationObserver) {
-          const obs = new MutationObserver(function(muts) {
-            muts.forEach(function(mut) {
-              if (mut.addedNodes.length) makeExternal();
-            });
-          });
-          obs.observe(document.body, { childList: true, subtree: true });
-        }
-      })();
-    </script> <!-- Code copy buttons and language badges --> <script>
-      (function() {
-        function createBtn() {
-          const btn = document.createElement('button');
-          btn.className = 'copy-code-button';
-          btn.setAttribute('aria-label', 'Copy code to clipboard');
-          btn.innerHTML = `
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-            </svg>
-            <span>Copy</span>
-          `;
-          return btn;
-        }
-        
-        function checkIcon() {
-          return `
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="20 6 9 17 4 12"></polyline>
-            </svg>
-            <span>Copied!</span>
-          `;
-        }
-        
-        function createLangBadge(lang) {
-          const badge = document.createElement('span');
-          badge.className = 'code-language-badge';
-          badge.textContent = lang;
-          return badge;
-        }
-        
-        // Language display names
-        var langNames = {
-          'js': 'JavaScript',
-          'ts': 'TypeScript',
-          'jsx': 'JSX',
-          'tsx': 'TSX',
-          'py': 'Python',
-          'python': 'Python',
-          'rb': 'Ruby',
-          'java': 'Java',
-          'kt': 'Kotlin',
-          'go': 'Go',
-          'rs': 'Rust',
-          'c': 'C',
-          'cpp': 'C++',
-          'cs': 'C#',
-          'sh': 'Shell',
-          'bash': 'Bash',
-          'zsh': 'Zsh',
-          'sql': 'SQL',
-          'json': 'JSON',
-          'yaml': 'YAML',
-          'yml': 'YAML',
-          'xml': 'XML',
-          'html': 'HTML',
-          'css': 'CSS',
-          'scss': 'SCSS',
-          'md': 'Markdown',
-          'dockerfile': 'Docker',
-          'astro': 'Astro'
-        };
-        
-        async function copyText(txt) {
-          try {
-            await navigator.clipboard.writeText(txt);
-            return true;
-          } catch (err) {
-            var ta = document.createElement('textarea');
-            ta.value = txt;
-            ta.style.position = 'fixed';
-            ta.style.left = '-999999px';
-            document.body.appendChild(ta);
-            ta.select();
-            try {
-              document.execCommand('copy');
-              document.body.removeChild(ta);
-              return true;
-            } catch (e) {
-              document.body.removeChild(ta);
-              return false;
-            }
-          }
-        }
-        
-        async function handleCopy(btn, code) {
-          var txt = code.textContent || '';
-          var ok = await copyText(txt);
-          if (ok) {
-            var orig = btn.innerHTML;
-            btn.classList.add('copied');
-            btn.innerHTML = checkIcon();
-            setTimeout(function() {
-              btn.classList.remove('copied');
-              btn.innerHTML = orig;
-            }, 2000);
-          }
-        }
-        
-        function addBtns() {
-          var blocks = document.querySelectorAll('.post-body pre');
-          blocks.forEach(function(pre) {
-            if (pre.querySelector('.copy-code-button')) return;
-            var btn = createBtn();
-            var code = pre.querySelector('code');
-            if (code) {
-              btn.addEventListener('click', function() {
-                handleCopy(btn, code);
-              });
-              pre.appendChild(btn);
-              
-              // Add language badge if class indicates language
-              var langClass = Array.from(code.classList).find(function(c) {
-                return c.startsWith('language-');
-              });
-              if (langClass && !pre.querySelector('.code-language-badge')) {
-                var lang = langClass.replace('language-', '');
-                var displayLang = langNames[lang] || lang.toUpperCase();
-                pre.appendChild(createLangBadge(displayLang));
-              }
-            }
-          });
-        }
-        
-        document.addEventListener('DOMContentLoaded', addBtns);
-      })();
-    </script> <!-- Newsletter Subscription Popup --> <div id="subscription-popup" class="subscription-popup" data-state="hidden" data-auto-trigger="true" data-astro-cid-we5gmdnp> <div class="popup-overlay" id="popup-overlay" data-astro-cid-we5gmdnp></div> <div class="popup-container" data-astro-cid-we5gmdnp> <div class="popup-content" data-astro-cid-we5gmdnp> <div class="popup-icon" data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-we5gmdnp> <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" data-astro-cid-we5gmdnp></path> <polyline points="22,6 12,13 2,6" data-astro-cid-we5gmdnp></polyline> </svg> </div> <h2 class="popup-title" data-astro-cid-we5gmdnp>Stay Updated with Dev|Journal</h2> <p class="popup-description" id="popup-description" data-astro-cid-we5gmdnp>
-Join our community of developers and engineers. Get insights on:
-</p> <ul class="popup-features" data-astro-cid-we5gmdnp> <li data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-we5gmdnp> <polyline points="20 6 9 17 4 12" data-astro-cid-we5gmdnp></polyline> </svg>
-Software Architecture & Design Patterns
-</li> <li data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-we5gmdnp> <polyline points="20 6 9 17 4 12" data-astro-cid-we5gmdnp></polyline> </svg>
-Backend Development Best Practices
-</li> <li data-astro-cid-we5gmdnp> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-we5gmdnp> <polyline points="20 6 9 17 4 12" data-astro-cid-we5gmdnp></polyline> </svg>
-AI & Tech Industry Analysis
-</li> </ul> <form id="subscription-form" class="popup-form" data-astro-cid-we5gmdnp> <div class="form-group" data-astro-cid-we5gmdnp> <input type="text" id="subscriber-name" name="name" placeholder="Your name" required autocomplete="name" data-astro-cid-we5gmdnp> </div> <div class="form-group" data-astro-cid-we5gmdnp> <input type="email" id="subscriber-email" name="email" placeholder="your.email@example.com" required autocomplete="email" data-astro-cid-we5gmdnp> </div> <div id="form-message" class="form-message" data-astro-cid-we5gmdnp></div> <div class="popup-actions" data-astro-cid-we5gmdnp> <button type="submit" class="btn btn-primary" id="subscribe-btn" data-astro-cid-we5gmdnp> <span class="btn-text" data-astro-cid-we5gmdnp>Subscribe</span> <span class="btn-loader" data-astro-cid-we5gmdnp> <svg class="spinner" viewBox="0 0 24 24" data-astro-cid-we5gmdnp> <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" data-astro-cid-we5gmdnp></circle> </svg> </span> </button> <button type="button" class="btn btn-secondary" id="not-now-btn" data-astro-cid-we5gmdnp>Not Now</button> <button type="button" class="btn btn-text" id="cancel-btn" data-astro-cid-we5gmdnp>Don't Show Again</button> </div> </form> </div> </div> </div>  <script>
-  // Configuration
-  const CONFIG = {
-    graceDelay: 5000, // 5 seconds delay before showing popup
-    notNowDelay: 24 * 60 * 60 * 1000, // 1 day in milliseconds
-    apiUrl: 'https://api.earezki.com/blog/api',
-  };
-
-  const STORAGE_KEYS = {
-    subscribed: 'newsletter_subscribed',
-    cancelled: 'newsletter_cancelled',
-    notNowUntil: 'newsletter_not_now_until',
-    pendingSubscriptions: 'newsletter_pending_subscriptions',
-  };
-
-  // State management
-  let popupTimeout = null;
-
-  function showPopup() {
-    const popup = document.getElementById('subscription-popup');
-    if (popup) {
-      popup.setAttribute('data-state', 'visible');
-      document.body.style.overflow = 'hidden';
-    }
-  }
-
-  function hidePopup() {
-    const popup = document.getElementById('subscription-popup');
-    if (popup) {
-      popup.setAttribute('data-state', 'hidden');
-      document.body.style.overflow = '';
-    }
-  }
-
-  function shouldShowPopup() {
-    // Check if user has already subscribed
-    if (localStorage.getItem(STORAGE_KEYS.subscribed) === 'true') {
-      return false;
-    }
-
-    // Check if user clicked "Don't show again"
-    if (localStorage.getItem(STORAGE_KEYS.cancelled) === 'true') {
-      return false;
-    }
-
-    // Check if user clicked "Not now" and delay hasn't passed
-    const notNowUntil = localStorage.getItem(STORAGE_KEYS.notNowUntil);
-    if (notNowUntil) {
-      const notNowTime = parseInt(notNowUntil, 10);
-      if (Date.now() < notNowTime) {
-        return false;
-      }
-    }
-
-    return true;
-  }
-
-  async function getSubscriberStats() {
-    try {
-      const response = await fetch(`${CONFIG.apiUrl}/subscribers/stats`, {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-        },
-      });
-      
-      if (!response.ok) {
-        return null;
-      }
-      
-      const data = await response.json();
-      return data.subscriber_count || null;
-    } catch (error) {
-      console.error('Failed to fetch subscriber stats:', error);
-      return null;
-    }
-  }
-
-  async function schedulePopup() {
-    if (!shouldShowPopup()) {
-      return;
-    }
-
-    // Fetch subscriber stats before scheduling popup
-    const subscriberCount = await getSubscriberStats();
-    if (subscriberCount !== null) {
-      // Update popup with subscriber count if stats were successfully fetched
-      updatePopupWithStats(subscriberCount);
-    } else {
-      console.log('Failed to fetch subscriber stats, showing popup without count');
-    }
-
-    // Show popup after grace period (even if stats failed)
-    popupTimeout = window.setTimeout(() => {
-      showPopup();
-    }, CONFIG.graceDelay);
-  }
-
-  function updatePopupWithStats(count) {
-    const descriptionEl = document.querySelector('.popup-description');
-    if (descriptionEl) {
-      const formattedCount = new Intl.NumberFormat('en-US').format(count);
-      descriptionEl.innerHTML = `Join a community of <strong>${formattedCount}+</strong> developers and engineers who are growing together. Get insights on:`;
-    }
-  }
-
-  function savePendingSubscription(name, email) {
-    try {
-      const pending = JSON.parse(localStorage.getItem(STORAGE_KEYS.pendingSubscriptions) || '[]');
-      pending.push({
-        name,
-        email,
-        timestamp: Date.now(),
-        retries: 0,
-      });
-      localStorage.setItem(STORAGE_KEYS.pendingSubscriptions, JSON.stringify(pending));
-    } catch (error) {
-      console.error('Failed to save pending subscription:', error);
-    }
-  }
-
-  async function retryPendingSubscriptions() {
-    try {
-      const pending = JSON.parse(localStorage.getItem(STORAGE_KEYS.pendingSubscriptions) || '[]');
-      if (pending.length === 0) return;
-
-      const maxRetries = 5;
-      const updatedPending = [];
-
-      for (const subscription of pending) {
-        if (subscription.retries >= maxRetries) {
-          console.log('Max retries reached for subscription:', subscription.email);
-          continue;
-        }
-
-        try {
-          const response = await fetch(`${CONFIG.apiUrl}/subscribe`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ 
-              name: subscription.name, 
-              email: subscription.email 
-            }),
-          });
-
-          const data = await response.json();
-
-          if (data.success) {
-            console.log('Successfully retried subscription for:', subscription.email);
-            localStorage.setItem(STORAGE_KEYS.subscribed, 'true');
-          } else {
-            // Keep for retry if it's a temporary error
-            subscription.retries++;
-            updatedPending.push(subscription);
-          }
-        } catch (error) {
-          console.error('Retry failed for subscription:', subscription.email, error);
-          subscription.retries++;
-          updatedPending.push(subscription);
-        }
-      }
-
-      // Update localStorage with remaining pending subscriptions
-      localStorage.setItem(STORAGE_KEYS.pendingSubscriptions, JSON.stringify(updatedPending));
-    } catch (error) {
-      console.error('Failed to process pending subscriptions:', error);
-    }
-  }
-
-  async function handleSubscribe(event) {
-    event.preventDefault();
-    
-    const form = event.target;
-    const nameInput = form.querySelector('#subscriber-name');
-    const emailInput = form.querySelector('#subscriber-email');
-    const submitBtn = form.querySelector('#subscribe-btn');
-    const messageEl = document.getElementById('form-message');
-
-    const name = nameInput.value.trim();
-    const email = emailInput.value.trim();
-
-    if (!name || !email) {
-      if (messageEl) {
-        messageEl.textContent = 'Please fill in all fields.';
-        messageEl.className = 'form-message error';
-      }
-      return;
-    }
-
-    // Show loading state
-    submitBtn.classList.add('loading');
-    submitBtn.disabled = true;
-    if (messageEl) {
-      messageEl.textContent = '';
-      messageEl.className = 'form-message';
-    }
-
-    try {
-      const response = await fetch(`${CONFIG.apiUrl}/subscribe`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name, email }),
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        localStorage.setItem(STORAGE_KEYS.subscribed, 'true');
-        
-        if (messageEl) {
-          messageEl.textContent = '🎉 Successfully subscribed! Thank you for joining us.';
-          messageEl.className = 'form-message success';
-        }
-
-        // Hide popup after 2 seconds
-        setTimeout(() => {
-          hidePopup();
-        }, 2000);
-      } else {
-        if (messageEl) {
-          messageEl.textContent = data.error || 'Subscription failed. Please try again.';
-          messageEl.className = 'form-message error';
-        }
-      }
-    } catch (error) {
-      console.error('Subscription error:', error);
-      
-      // Save subscription for later retry
-      savePendingSubscription(name, email);
-      
-      if (messageEl) {
-        messageEl.textContent = '⏳ Connection issue detected. Your subscription will be processed automatically. Thank you!';
-        messageEl.className = 'form-message success';
-      }
-
-      // Hide popup after showing message
-      setTimeout(() => {
-        hidePopup();
-      }, 3000);
-      
-      // Trigger retry in the background
-      setTimeout(() => {
-        retryPendingSubscriptions();
-      }, 5000);
-    } finally {
-      submitBtn.classList.remove('loading');
-      submitBtn.disabled = false;
-    }
-  }
-
-  function handleNotNow() {
-    const notNowUntil = Date.now() + CONFIG.notNowDelay;
-    localStorage.setItem(STORAGE_KEYS.notNowUntil, notNowUntil.toString());
-    hidePopup();
-  }
-
-  function handleCancel() {
-    localStorage.setItem(STORAGE_KEYS.cancelled, 'true');
-    hidePopup();
-  }
-
-  // Initialize popup
-  document.addEventListener('DOMContentLoaded', () => {
-    const popup = document.getElementById('subscription-popup');
-    const autoTrigger = popup?.getAttribute('data-auto-trigger') === 'true';
-    
-    // Retry any pending subscriptions from previous sessions
-    retryPendingSubscriptions();
-    
-    // Schedule popup to show after grace period only if autoTrigger is enabled
-    if (autoTrigger) {
-      schedulePopup();
-    }
-
-    // Event listeners
-    const form = document.getElementById('subscription-form');
-    const overlay = document.getElementById('popup-overlay');
-    const notNowBtn = document.getElementById('not-now-btn');
-    const cancelBtn = document.getElementById('cancel-btn');
-
-    if (form) {
-      form.addEventListener('submit', handleSubscribe);
-    }
-
-    if (overlay) {
-      overlay.addEventListener('click', handleNotNow);
-    }
-
-    if (notNowBtn) {
-      notNowBtn.addEventListener('click', handleNotNow);
-    }
-
-    if (cancelBtn) {
-      cancelBtn.addEventListener('click', handleCancel);
-    }
-
-    // Clean up on page unload
-    window.addEventListener('beforeunload', () => {
-      if (popupTimeout) {
-        clearTimeout(popupTimeout);
-      }
-    });
-  });
-</script> <!-- Keyboard Shortcuts Help --> <div id="keyboard-hints" class="keyboard-hints" role="dialog" aria-modal="true" aria-labelledby="keyboard-hints-title" data-state="hidden" data-astro-cid-2pnllx3j> <div class="keyboard-hints-backdrop" data-astro-cid-2pnllx3j></div> <div class="keyboard-hints-content" data-astro-cid-2pnllx3j> <header class="keyboard-hints-header" data-astro-cid-2pnllx3j> <h2 id="keyboard-hints-title" data-astro-cid-2pnllx3j>Keyboard Shortcuts</h2> <button class="keyboard-hints-close" aria-label="Close shortcuts" type="button" data-astro-cid-2pnllx3j> <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-2pnllx3j> <line x1="18" y1="6" x2="6" y2="18" data-astro-cid-2pnllx3j></line> <line x1="6" y1="6" x2="18" y2="18" data-astro-cid-2pnllx3j></line> </svg> </button> </header> <div class="keyboard-hints-body" data-astro-cid-2pnllx3j> <section class="keyboard-section" data-astro-cid-2pnllx3j> <h3 data-astro-cid-2pnllx3j>Navigation</h3> <ul class="shortcut-list" data-astro-cid-2pnllx3j> <li data-astro-cid-2pnllx3j> <span class="shortcut-keys" data-astro-cid-2pnllx3j><kbd data-astro-cid-2pnllx3j>Ctrl</kbd> + <kbd data-astro-cid-2pnllx3j>K</kbd></span> <span class="shortcut-desc" data-astro-cid-2pnllx3j>Open command palette / search</span> </li> <li data-astro-cid-2pnllx3j> <span class="shortcut-keys" data-astro-cid-2pnllx3j><kbd data-astro-cid-2pnllx3j>G</kbd> then <kbd data-astro-cid-2pnllx3j>H</kbd></span> <span class="shortcut-desc" data-astro-cid-2pnllx3j>Go to Home</span> </li> <li data-astro-cid-2pnllx3j> <span class="shortcut-keys" data-astro-cid-2pnllx3j><kbd data-astro-cid-2pnllx3j>G</kbd> then <kbd data-astro-cid-2pnllx3j>A</kbd></span> <span class="shortcut-desc" data-astro-cid-2pnllx3j>Go to AI News</span> </li> <li data-astro-cid-2pnllx3j> <span class="shortcut-keys" data-astro-cid-2pnllx3j><kbd data-astro-cid-2pnllx3j>G</kbd> then <kbd data-astro-cid-2pnllx3j>F</kbd></span> <span class="shortcut-desc" data-astro-cid-2pnllx3j>Go to AI Financial</span> </li> <li data-astro-cid-2pnllx3j> <span class="shortcut-keys" data-astro-cid-2pnllx3j><kbd data-astro-cid-2pnllx3j>G</kbd> then <kbd data-astro-cid-2pnllx3j>B</kbd></span> <span class="shortcut-desc" data-astro-cid-2pnllx3j>Go to Books</span> </li> </ul> </section> <section class="keyboard-section" data-astro-cid-2pnllx3j> <h3 data-astro-cid-2pnllx3j>Reading</h3> <ul class="shortcut-list" data-astro-cid-2pnllx3j> <li data-astro-cid-2pnllx3j> <span class="shortcut-keys" data-astro-cid-2pnllx3j><kbd data-astro-cid-2pnllx3j>L</kbd></span> <span class="shortcut-desc" data-astro-cid-2pnllx3j>Add/remove from reading list</span> </li> <li data-astro-cid-2pnllx3j> <span class="shortcut-keys" data-astro-cid-2pnllx3j><kbd data-astro-cid-2pnllx3j>T</kbd></span> <span class="shortcut-desc" data-astro-cid-2pnllx3j>Toggle theme (dark/light)</span> </li> <li data-astro-cid-2pnllx3j> <span class="shortcut-keys" data-astro-cid-2pnllx3j><kbd data-astro-cid-2pnllx3j>Esc</kbd></span> <span class="shortcut-desc" data-astro-cid-2pnllx3j>Close dialogs</span> </li> </ul> </section> <section class="keyboard-section" data-astro-cid-2pnllx3j> <h3 data-astro-cid-2pnllx3j>Article Navigation</h3> <ul class="shortcut-list" data-astro-cid-2pnllx3j> <li data-astro-cid-2pnllx3j> <span class="shortcut-keys" data-astro-cid-2pnllx3j><kbd data-astro-cid-2pnllx3j>J</kbd> / <kbd data-astro-cid-2pnllx3j>K</kbd></span> <span class="shortcut-desc" data-astro-cid-2pnllx3j>Next / Previous section</span> </li> <li data-astro-cid-2pnllx3j> <span class="shortcut-keys" data-astro-cid-2pnllx3j><kbd data-astro-cid-2pnllx3j>[</kbd> / <kbd data-astro-cid-2pnllx3j>]</kbd></span> <span class="shortcut-desc" data-astro-cid-2pnllx3j>Previous / Next article in series</span> </li> </ul> </section> </div> <footer class="keyboard-hints-footer" data-astro-cid-2pnllx3j> <span class="hint-trigger-info" data-astro-cid-2pnllx3j>Press <kbd data-astro-cid-2pnllx3j>?</kbd> anytime to show this</span> </footer> </div> </div>  <script type="module">document.addEventListener("DOMContentLoaded",()=>{const o=document.getElementById("keyboard-hints"),s=o?.querySelector(".keyboard-hints-close"),l=o?.querySelector(".keyboard-hints-backdrop");let r=!1,i=null;function u(){o&&(o.setAttribute("data-state","visible"),document.body.style.overflow="hidden",s?.focus())}function c(){o&&(o.setAttribute("data-state","hidden"),document.body.style.overflow="")}function f(){const e=document.activeElement;if(!e)return!1;const t=e.tagName.toLowerCase();return t==="input"||t==="textarea"||e.getAttribute("contenteditable")==="true"}document.addEventListener("keydown",e=>{if(f())return;const t=e.key.toLowerCase();if(e.key==="?"&&!e.ctrlKey&&!e.metaKey){e.preventDefault(),u();return}if(e.key==="Escape"){c();return}if(t==="t"&&!e.ctrlKey&&!e.metaKey){document.getElementById("themeToggle")?.click();return}if(t==="l"&&!e.ctrlKey&&!e.metaKey){const n=window.location.pathname;document.querySelector(".post-body")&&window.toggleReadingList&&window.toggleReadingList(n);return}if(t==="g"&&!e.ctrlKey&&!e.metaKey){r=!0,i&&clearTimeout(i),i=window.setTimeout(()=>{r=!1},1500);return}if(r){switch(r=!1,i&&clearTimeout(i),t){case"h":window.location.href="/";break;case"a":window.location.href="/ai-news/";break;case"f":window.location.href="/ai-financial-news/";break;case"b":window.location.href="/books/";break}return}if((t==="j"||t==="k")&&document.querySelector(".post-body")){const n=Array.from(document.querySelectorAll(".post-body h2, .post-body h3"));if(n.length===0)return;let a=n.findIndex(m=>m.getBoundingClientRect().top>50);a===-1&&(a=n.length);const y=t==="j"?Math.min(a,n.length-1):Math.max(a-2,0),d=n[y];d&&d.scrollIntoView({behavior:"smooth",block:"start"})}}),s?.addEventListener("click",c),l?.addEventListener("click",c)});</script> <!-- Reading List / Bookmarks --> <!-- Reading List Toggle Button --><button id="reading-list-toggle" class="reading-list-toggle" aria-label="Open reading list" title="Reading List" data-astro-cid-tbhhjd4n> <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-tbhhjd4n> <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" data-astro-cid-tbhhjd4n></path> <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" data-astro-cid-tbhhjd4n></path> <path d="M8 7h8" data-astro-cid-tbhhjd4n></path> <path d="M8 11h8" data-astro-cid-tbhhjd4n></path> </svg> <span class="reading-list-count" id="reading-list-count" aria-live="polite" data-astro-cid-tbhhjd4n>0</span> </button> <!-- Reading List Panel --> <div id="reading-list-panel" class="reading-list-panel" role="dialog" aria-modal="true" aria-labelledby="reading-list-title" data-state="hidden" data-astro-cid-tbhhjd4n> <div class="reading-list-backdrop" data-astro-cid-tbhhjd4n></div> <aside class="reading-list-content" data-astro-cid-tbhhjd4n> <header class="reading-list-header" data-astro-cid-tbhhjd4n> <h2 id="reading-list-title" data-astro-cid-tbhhjd4n> <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-tbhhjd4n> <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" data-astro-cid-tbhhjd4n></path> <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" data-astro-cid-tbhhjd4n></path> </svg>
-Reading List
-</h2> <button class="reading-list-close" aria-label="Close reading list" data-astro-cid-tbhhjd4n> <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-tbhhjd4n> <line x1="18" y1="6" x2="6" y2="18" data-astro-cid-tbhhjd4n></line> <line x1="6" y1="6" x2="18" y2="18" data-astro-cid-tbhhjd4n></line> </svg> </button> </header> <div class="reading-list-body" id="reading-list-body" data-astro-cid-tbhhjd4n> <div class="reading-list-empty" id="reading-list-empty" data-astro-cid-tbhhjd4n> <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-tbhhjd4n> <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" data-astro-cid-tbhhjd4n></path> <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" data-astro-cid-tbhhjd4n></path> </svg> <p data-astro-cid-tbhhjd4n>No saved articles yet</p> <span class="empty-hint" data-astro-cid-tbhhjd4n>Press <kbd data-astro-cid-tbhhjd4n>L</kbd> on any article to save it</span> </div> <ul class="reading-list-items" id="reading-list-items" data-astro-cid-tbhhjd4n></ul> </div> <footer class="reading-list-footer" id="reading-list-footer" data-astro-cid-tbhhjd4n> <button class="clear-all-btn" id="clear-reading-list" aria-label="Clear all saved articles" data-astro-cid-tbhhjd4n> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-tbhhjd4n> <polyline points="3 6 5 6 21 6" data-astro-cid-tbhhjd4n></polyline> <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" data-astro-cid-tbhhjd4n></path> </svg>
-Clear All
-</button> </footer> </aside> </div> <!-- Add to reading list button for article pages --> <template id="add-to-reading-list-template" data-astro-cid-tbhhjd4n> <button class="add-to-reading-list" aria-label="Add to reading list" data-astro-cid-tbhhjd4n> <svg class="bookmark-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-tbhhjd4n> <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" data-astro-cid-tbhhjd4n></path> </svg> <span class="btn-text" data-astro-cid-tbhhjd4n>Save</span> </button> </template>  <script type="module" src="/_astro/ReadingList.astro_astro_type_script_index_0_lang.BXh8eCcE.js"></script> </body></html> 
+<p>Design your API like you’re going to maintain it for a decade and document it for someone who will curse your name when you’re gone. That’s the real constraint that matters.</p> </div> <!-- Related Posts (Smart) --> <section class="mt-16 pt-10 border-t border-border/50 relative"><div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent"></div><h2 class="text-xl font-semibold mb-6 flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><path d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+Related Content
+</h2><div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3"><a href="/rest-response-structure/" class="group block rounded-xl border border-border/50 bg-card/80 overflow-hidden backdrop-blur-sm transition-all duration-300 ease-out hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 hover:-translate-y-1 animate-fade-up opacity-0 stagger-1"><div class="p-5"><div class="text-xs text-muted-foreground mb-2">Dec 23, 2025</div><h3 class="text-base font-semibold mb-2 group-hover:text-primary transition-colors duration-200 line-clamp-2">Stop Sending Nulls in Your API Responses</h3><p class="text-sm text-muted-foreground line-clamp-2 mb-3">Why omitting null fields and empty arrays makes your REST APIs faster, cheaper, and cleaner. Personal opinions, not gospel.</p><div class="text-sm font-medium text-primary flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+Read article
+<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-x-0.5 transition-transform"><path d="M5 12h14" /><path d="M12 5l7 7-7 7" /></svg></div></div></a><a href="/hexagonal-architecture-python-fastapi/" class="group block rounded-xl border border-border/50 bg-card/80 overflow-hidden backdrop-blur-sm transition-all duration-300 ease-out hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 hover:-translate-y-1 animate-fade-up opacity-0 stagger-2"><div class="p-5"><div class="text-xs text-muted-foreground mb-2">Dec 26, 2025</div><h3 class="text-base font-semibold mb-2 group-hover:text-primary transition-colors duration-200 line-clamp-2">Hexagonal Architecture with FastAPI: Database, Valkey Cache, Messaging</h3><p class="text-sm text-muted-foreground line-clamp-2 mb-3">Code-heavy walkthrough of a document management platform built with Hexagonal Architecture in Python. Includes FastAPI adapters, SQLAlchemy persistence, Valkey caching, and message publishing.</p><div class="text-sm font-medium text-primary flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+Read article
+<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-x-0.5 transition-transform"><path d="M5 12h14" /><path d="M12 5l7 7-7 7" /></svg></div></div></a><a href="/book-writing-agent/" class="group block rounded-xl border border-border/50 bg-card/80 overflow-hidden backdrop-blur-sm transition-all duration-300 ease-out hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 hover:-translate-y-1 animate-fade-up opacity-0 stagger-3"><div class="p-5"><div class="text-xs text-muted-foreground mb-2">Mar 28, 2026</div><h3 class="text-base font-semibold mb-2 group-hover:text-primary transition-colors duration-200 line-clamp-2">How I Built an AI System That Writes Full-Length Books</h3><p class="text-sm text-muted-foreground line-clamp-2 mb-3">A multi-agent pipeline that autonomously generates complete books—from technical manuals to fantasy novels—with built-in research, quality control, and hallucination prevention.</p><div class="text-sm font-medium text-primary flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+Read article
+<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-x-0.5 transition-transform"><path d="M5 12h14" /><path d="M12 5l7 7-7 7" /></svg></div></div></a></div></section> </article> </div> </div>  </main> <!-- Footer with gradient accent --> <footer class="border-t border-border/50 mt-auto relative"> <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent"></div> <div class="container mx-auto px-4 py-8"> <div class="flex flex-col items-center justify-center gap-4"> <nav class="flex items-center gap-6 text-sm text-muted-foreground"> <a href="https://github.com/earezki" target="_blank" rel="noopener noreferrer" class="hover:text-foreground transition-colors">
+GitHub
+</a> <a href="/rss.xml" class="hover:text-foreground transition-colors">
+RSS
+</a> <a href="/tags/" class="hover:text-foreground transition-colors">
+Tags
+</a> <a href="/sitemap-index.xml" class="hover:text-foreground transition-colors">
+Sitemap
+</a> </nav> <p class="text-muted-foreground text-sm text-center">
+© 2026 AREZKI El Mehdi
+</p> </div> </div> </footer> </body></html>
