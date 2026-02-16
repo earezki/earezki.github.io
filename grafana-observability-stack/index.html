@@ -1,0 +1,664 @@
+<!DOCTYPE html><html lang="en" data-theme="dark"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>The Grafana Observability Stack: A Pragmatic Deep Dive • Dev|Journal</title><meta name="description" content="A comprehensive, technically rigorous guide to Grafana, Prometheus, Loki, Tempo, and Alertmanager — from architecture and design philosophy to production deployment, Kubernetes operations, and an honest comparison with the Elastic stack."><meta name="keywords" content="software architecture, backend development, microservices, Java, Python, Spring Boot, technical blog"><meta name="author" content="El Mehdi Arezki"><meta property="og:type" content="website"><meta property="og:url" content="https://earezki.com/grafana-observability-stack/"><meta property="og:title" content="The Grafana Observability Stack: A Pragmatic Deep Dive • Dev|Journal"><meta property="og:site_name" content="Dev|Journal"><meta property="og:description" content="A comprehensive, technically rigorous guide to Grafana, Prometheus, Loki, Tempo, and Alertmanager — from architecture and design philosophy to production deployment, Kubernetes operations, and an honest comparison with the Elastic stack."><meta property="og:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:url" content="https://earezki.com/grafana-observability-stack/"><meta name="twitter:title" content="The Grafana Observability Stack: A Pragmatic Deep Dive • Dev|Journal"><meta name="twitter:description" content="A comprehensive, technically rigorous guide to Grafana, Prometheus, Loki, Tempo, and Alertmanager — from architecture and design philosophy to production deployment, Kubernetes operations, and an honest comparison with the Elastic stack."><meta name="twitter:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:creator" content="@earezki"><link rel="canonical" href="https://earezki.com/grafana-observability-stack/"><link rel="icon" type="image/png" href="/favicon.png"><link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"><link rel="dns-prefetch" href="https://cloud.umami.is"><script defer src="https://cloud.umami.is/script.js" data-website-id="4a26531d-1053-4f79-97a6-06a1366aff91"></script><!-- Preconnect to Google Fonts for Inter --><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"><!-- KaTeX styles for rendering LaTeX math in Markdown --><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css"><!-- Theme initialization - parse Zustand persist format --><script>
+      (function() {
+        try {
+          const raw = localStorage.getItem('theme');
+          if (raw) {
+            // Zustand persist stores as JSON: {"state":{"theme":"light"},"version":0}
+            const parsed = JSON.parse(raw);
+            const theme = parsed?.state?.theme || 'dark';
+            
+            if (theme === 'light') {
+              document.documentElement.setAttribute('data-theme', 'light');
+            } else if (theme === 'system') {
+              const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+              document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
+            } else {
+              document.documentElement.setAttribute('data-theme', 'dark');
+            }
+          }
+        } catch (e) {
+          // Fallback to dark if parsing fails
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      })();
+    </script><link rel="stylesheet" href="/_astro/_slug_.CvMFoQ21.css">
+<style>html{scroll-behavior:smooth;scroll-padding-top:5rem}
+</style></head> <body class="min-h-screen flex flex-col bg-background text-foreground"> <!-- Skip to content link --> <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:p-4 focus:bg-primary focus:text-primary-foreground focus:rounded-lg">
+Skip to main content
+</a> <!-- Smart Header with hide/show on scroll --> <style>astro-island,astro-slot,astro-static-slot{display:contents}</style><script>(()=>{var e=async t=>{await(await t())()};(self.Astro||(self.Astro={})).only=e;window.dispatchEvent(new Event("astro:only"));})();</script><script>(()=>{var A=Object.defineProperty;var g=(i,o,a)=>o in i?A(i,o,{enumerable:!0,configurable:!0,writable:!0,value:a}):i[o]=a;var d=(i,o,a)=>g(i,typeof o!="symbol"?o+"":o,a);{let i={0:t=>m(t),1:t=>a(t),2:t=>new RegExp(t),3:t=>new Date(t),4:t=>new Map(a(t)),5:t=>new Set(a(t)),6:t=>BigInt(t),7:t=>new URL(t),8:t=>new Uint8Array(t),9:t=>new Uint16Array(t),10:t=>new Uint32Array(t),11:t=>1/0*t},o=t=>{let[l,e]=t;return l in i?i[l](e):void 0},a=t=>t.map(o),m=t=>typeof t!="object"||t===null?t:Object.fromEntries(Object.entries(t).map(([l,e])=>[l,o(e)]));class y extends HTMLElement{constructor(){super(...arguments);d(this,"Component");d(this,"hydrator");d(this,"hydrate",async()=>{var b;if(!this.hydrator||!this.isConnected)return;let e=(b=this.parentElement)==null?void 0:b.closest("astro-island[ssr]");if(e){e.addEventListener("astro:hydrate",this.hydrate,{once:!0});return}let c=this.querySelectorAll("astro-slot"),n={},h=this.querySelectorAll("template[data-astro-template]");for(let r of h){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("data-astro-template")||"default"]=r.innerHTML,r.remove())}for(let r of c){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("name")||"default"]=r.innerHTML)}let p;try{p=this.hasAttribute("props")?m(JSON.parse(this.getAttribute("props"))):{}}catch(r){let s=this.getAttribute("component-url")||"<unknown>",v=this.getAttribute("component-export");throw v&&(s+=` (export ${v})`),console.error(`[hydrate] Error parsing props for component ${s}`,this.getAttribute("props"),r),r}let u;await this.hydrator(this)(this.Component,p,n,{client:this.getAttribute("client")}),this.removeAttribute("ssr"),this.dispatchEvent(new CustomEvent("astro:hydrate"))});d(this,"unmount",()=>{this.isConnected||this.dispatchEvent(new CustomEvent("astro:unmount"))})}disconnectedCallback(){document.removeEventListener("astro:after-swap",this.unmount),document.addEventListener("astro:after-swap",this.unmount,{once:!0})}connectedCallback(){if(!this.hasAttribute("await-children")||document.readyState==="interactive"||document.readyState==="complete")this.childrenConnectedCallback();else{let e=()=>{document.removeEventListener("DOMContentLoaded",e),c.disconnect(),this.childrenConnectedCallback()},c=new MutationObserver(()=>{var n;((n=this.lastChild)==null?void 0:n.nodeType)===Node.COMMENT_NODE&&this.lastChild.nodeValue==="astro:end"&&(this.lastChild.remove(),e())});c.observe(this,{childList:!0}),document.addEventListener("DOMContentLoaded",e)}}async childrenConnectedCallback(){let e=this.getAttribute("before-hydration-url");e&&await import(e),this.start()}async start(){let e=JSON.parse(this.getAttribute("opts")),c=this.getAttribute("client");if(Astro[c]===void 0){window.addEventListener(`astro:${c}`,()=>this.start(),{once:!0});return}try{await Astro[c](async()=>{let n=this.getAttribute("renderer-url"),[h,{default:p}]=await Promise.all([import(this.getAttribute("component-url")),n?import(n):()=>()=>{}]),u=this.getAttribute("component-export")||"default";if(!u.includes("."))this.Component=h[u];else{this.Component=h;for(let f of u.split("."))this.Component=this.Component[f]}return this.hydrator=p,this.hydrate},e,this)}catch(n){console.error(`[astro-island] Error hydrating ${this.getAttribute("component-url")}`,n)}}attributeChangedCallback(){this.hydrate()}}d(y,"observedAttributes",["props"]),customElements.get("astro-island")||customElements.define("astro-island",y)}})();</script><astro-island uid="1YpyxB" component-url="/_astro/SmartHeader.ChnTP97I.js" component-export="SmartHeader" renderer-url="/_astro/client.BWL821IS.js" props="{}" ssr client="only" opts="{&quot;name&quot;:&quot;SmartHeader&quot;,&quot;value&quot;:&quot;preact&quot;}"></astro-island> <!-- Command Palette --> <astro-island uid="1KbDpu" component-url="/_astro/CommandPalette.Cqas4tI_.js" component-export="CommandPalette" renderer-url="/_astro/client.BWL821IS.js" props="{}" ssr client="only" opts="{&quot;name&quot;:&quot;CommandPalette&quot;,&quot;value&quot;:&quot;preact&quot;}"></astro-island> <!-- Main Content with fade-in --> <main id="main-content" class="flex-1 container mx-auto px-4 py-8 animate-fade-in" tabindex="-1">  <script>(()=>{var l=(n,t)=>{let i=async()=>{await(await n())()},e=typeof t.value=="object"?t.value:void 0,s={timeout:e==null?void 0:e.timeout};"requestIdleCallback"in window?window.requestIdleCallback(i,s):setTimeout(i,s.timeout||200)};(self.Astro||(self.Astro={})).idle=l;window.dispatchEvent(new Event("astro:idle"));})();</script><astro-island uid="Z8C6e5" component-url="/_astro/ArticleReadingTracker.grbQ2llb.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;url&quot;:[0,&quot;/grafana-observability-stack/&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ArticleReadingTracker&quot;,&quot;value&quot;:true}" await-children><div class="fixed top-0 left-0 w-full h-1 z-50 bg-muted/20 fixed top-0 left-0 w-full z-50"><div style="width:0%;" class="h-full bg-primary transition-all duration-100 ease-out"></div></div><!--astro:end--></astro-island> <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"> <div class="grid grid-cols-1 lg:grid-cols-[250px_1fr] gap-8"> <!-- Table of Contents Sidebar (Left) --> <aside class="hidden lg:block order-2 lg:order-1"> <nav class="toc-container sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto hidden lg:block w-64 text-sm pr-4" data-astro-cid-xvrfupwn><div class="flex items-center gap-2 mb-4" data-astro-cid-xvrfupwn><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><path d="M4 6h16M4 12h16M4 18h7" /></svg><h2 class="font-semibold text-xs text-foreground tracking-wide uppercase" data-astro-cid-xvrfupwn>On This Page</h2></div><ul class="space-y-0.5 border-l border-border/50" data-astro-cid-xvrfupwn><li class="toc-item depth-2 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#what-observability-actually-means" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:0.75rem" data-astro-cid-xvrfupwn>What Observability Actually Means</a></li><li class="toc-item depth-2 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#where-the-grafana-stack-fits" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:0.75rem" data-astro-cid-xvrfupwn>Where the Grafana Stack Fits</a></li><li class="toc-item depth-2 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#core-components-explained" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:0.75rem" data-astro-cid-xvrfupwn>Core Components Explained</a></li><li class="toc-item depth-3 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#grafana-the-glass" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:1.5rem" data-astro-cid-xvrfupwn>Grafana: The Glass</a></li><li class="toc-item depth-3 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#prometheus-the-metrics-engine" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:1.5rem" data-astro-cid-xvrfupwn>Prometheus: The Metrics Engine</a></li><li class="toc-item depth-3 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#loki-the-log-aggregator" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:1.5rem" data-astro-cid-xvrfupwn>Loki: The Log Aggregator</a></li><li class="toc-item depth-3 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#tempo-the-tracing-backend" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:1.5rem" data-astro-cid-xvrfupwn>Tempo: The Tracing Backend</a></li><li class="toc-item depth-3 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#alertmanager-the-alert-router" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:1.5rem" data-astro-cid-xvrfupwn>Alertmanager: The Alert Router</a></li><li class="toc-item depth-3 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#data-flow" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:1.5rem" data-astro-cid-xvrfupwn>Data Flow</a></li><li class="toc-item depth-3 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#design-philosophy" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:1.5rem" data-astro-cid-xvrfupwn>Design Philosophy</a></li><li class="toc-item depth-2 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#architecture-deep-dive" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:0.75rem" data-astro-cid-xvrfupwn>Architecture Deep Dive</a></li><li class="toc-item depth-3 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#pull-vs-push" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:1.5rem" data-astro-cid-xvrfupwn>Pull vs Push</a></li><li class="toc-item depth-3 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#storage-backends" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:1.5rem" data-astro-cid-xvrfupwn>Storage Backends</a></li><li class="toc-item depth-3 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#lokis-index-less-logs-concept" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:1.5rem" data-astro-cid-xvrfupwn>Loki’s “Index-Less Logs” Concept</a></li><li class="toc-item depth-3 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#scalability-and-high-availability" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:1.5rem" data-astro-cid-xvrfupwn>Scalability and High Availability</a></li><li class="toc-item depth-2 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#from-local-development-to-production" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:0.75rem" data-astro-cid-xvrfupwn>From Local Development to Production</a></li><li class="toc-item depth-3 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#running-locally" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:1.5rem" data-astro-cid-xvrfupwn>Running Locally</a></li><li class="toc-item depth-3 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#single-node-vs-multi-node" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:1.5rem" data-astro-cid-xvrfupwn>Single-Node vs Multi-Node</a></li><li class="toc-item depth-3 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#development-vs-staging-vs-production-concerns" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:1.5rem" data-astro-cid-xvrfupwn>Development vs Staging vs Production Concerns</a></li><li class="toc-item depth-3 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#configuration-management-and-secrets" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:1.5rem" data-astro-cid-xvrfupwn>Configuration Management and Secrets</a></li><li class="toc-item depth-2 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#containers-and-kubernetes" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:0.75rem" data-astro-cid-xvrfupwn>Containers and Kubernetes</a></li><li class="toc-item depth-3 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#running-the-stack-in-containers" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:1.5rem" data-astro-cid-xvrfupwn>Running the Stack in Containers</a></li><li class="toc-item depth-3 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#kubernetes-native-deployment" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:1.5rem" data-astro-cid-xvrfupwn>Kubernetes-Native Deployment</a></li><li class="toc-item depth-3 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#helm-charts-and-operators" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:1.5rem" data-astro-cid-xvrfupwn>Helm Charts and Operators</a></li><li class="toc-item depth-3 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#resource-sizing" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:1.5rem" data-astro-cid-xvrfupwn>Resource Sizing</a></li><li class="toc-item depth-3 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#multi-cluster-observability" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:1.5rem" data-astro-cid-xvrfupwn>Multi-Cluster Observability</a></li><li class="toc-item depth-3 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#common-pitfalls-in-kubernetes" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:1.5rem" data-astro-cid-xvrfupwn>Common Pitfalls in Kubernetes</a></li><li class="toc-item depth-2 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#operational-concerns" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:0.75rem" data-astro-cid-xvrfupwn>Operational Concerns</a></li><li class="toc-item depth-3 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#performance-tuning" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:1.5rem" data-astro-cid-xvrfupwn>Performance Tuning</a></li><li class="toc-item depth-3 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#storage-cost-management" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:1.5rem" data-astro-cid-xvrfupwn>Storage Cost Management</a></li><li class="toc-item depth-3 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#retention-strategies" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:1.5rem" data-astro-cid-xvrfupwn>Retention Strategies</a></li><li class="toc-item depth-3 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#alert-fatigue-and-alert-design" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:1.5rem" data-astro-cid-xvrfupwn>Alert Fatigue and Alert Design</a></li><li class="toc-item depth-3 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#security" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:1.5rem" data-astro-cid-xvrfupwn>Security</a></li><li class="toc-item depth-3 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#backup-and-disaster-recovery" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:1.5rem" data-astro-cid-xvrfupwn>Backup and Disaster Recovery</a></li><li class="toc-item depth-2 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#grafana-stack-vs-elastic-stack" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:0.75rem" data-astro-cid-xvrfupwn>Grafana Stack vs Elastic Stack</a></li><li class="toc-item depth-3 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#philosophical-differences" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:1.5rem" data-astro-cid-xvrfupwn>Philosophical Differences</a></li><li class="toc-item depth-3 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#loki-vs-elasticsearch-for-logs" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:1.5rem" data-astro-cid-xvrfupwn>Loki vs Elasticsearch for Logs</a></li><li class="toc-item depth-3 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#prometheus-vs-elastic-metrics" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:1.5rem" data-astro-cid-xvrfupwn>Prometheus vs Elastic Metrics</a></li><li class="toc-item depth-3 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#tempo-vs-elastic-apm" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:1.5rem" data-astro-cid-xvrfupwn>Tempo vs Elastic APM</a></li><li class="toc-item depth-3 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#cost-model-comparison" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:1.5rem" data-astro-cid-xvrfupwn>Cost Model Comparison</a></li><li class="toc-item depth-3 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#operational-complexity" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:1.5rem" data-astro-cid-xvrfupwn>Operational Complexity</a></li><li class="toc-item depth-2 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#use-cases-and-real-world-scenarios" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:0.75rem" data-astro-cid-xvrfupwn>Use Cases and Real-World Scenarios</a></li><li class="toc-item depth-3 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#microservices" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:1.5rem" data-astro-cid-xvrfupwn>Microservices</a></li><li class="toc-item depth-3 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#kubernetes-heavy-platforms" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:1.5rem" data-astro-cid-xvrfupwn>Kubernetes-Heavy Platforms</a></li><li class="toc-item depth-3 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#cost-sensitive-startups" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:1.5rem" data-astro-cid-xvrfupwn>Cost-Sensitive Startups</a></li><li class="toc-item depth-3 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#large-enterprises" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:1.5rem" data-astro-cid-xvrfupwn>Large Enterprises</a></li><li class="toc-item depth-3 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#hybrid-and-cloud-native-systems" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:1.5rem" data-astro-cid-xvrfupwn>Hybrid and Cloud-Native Systems</a></li><li class="toc-item depth-2 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#limitations-and-trade-offs" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:0.75rem" data-astro-cid-xvrfupwn>Limitations and Trade-offs</a></li><li class="toc-item depth-3 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#what-the-grafana-stack-does-poorly" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:1.5rem" data-astro-cid-xvrfupwn>What the Grafana Stack Does Poorly</a></li><li class="toc-item depth-3 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#when-elastic-or-other-tools-outperform" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:1.5rem" data-astro-cid-xvrfupwn>When Elastic or Other Tools Outperform</a></li><li class="toc-item depth-3 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#common-misconceptions" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:1.5rem" data-astro-cid-xvrfupwn>Common Misconceptions</a></li><li class="toc-item depth-2 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#conclusion" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:0.75rem" data-astro-cid-xvrfupwn>Conclusion</a></li></ul><style>
+      .toc-container::-webkit-scrollbar {
+        width: 4px;
+      }
+      .toc-container::-webkit-scrollbar-thumb {
+        background: hsl(var(--muted-foreground) / 0.3);
+        border-radius: 4px;
+      }
+      .toc-container::-webkit-scrollbar-track {
+        background: transparent;
+      }
+    </style></nav><script type="module">const s=new IntersectionObserver(r=>{r.forEach(t=>{const i=t.target.getAttribute("id"),e=document.querySelector(`.toc-container a[href="#${i}"]`);t.isIntersecting&&(document.querySelectorAll(".toc-container a").forEach(o=>{o.classList.remove("text-primary","font-medium","border-primary"),o.classList.add("border-transparent")}),e&&(e.classList.add("text-primary","font-medium","border-primary"),e.classList.remove("border-transparent")))})},{rootMargin:"-100px 0px -66% 0px"});document.querySelectorAll("h2[id], h3[id]").forEach(r=>s.observe(r));</script> </aside> <article class="max-w-3xl w-full order-1 lg:order-2"> <nav aria-label="Breadcrumb" class="flex items-center text-xs text-muted-foreground mb-6 flex-wrap animate-fade-in"> <ol class="flex items-center gap-1.5 flex-wrap"> <li> <a href="/" class="hover:text-primary transition-colors duration-200 flex items-center gap-1"> <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg> <span class="hidden sm:inline">Home</span> </a> </li> <li class="flex items-center gap-1.5 min-w-0"> <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground/40 shrink-0"><path d="M9 5l7 7-7 7" /></svg> <a href="/" class="hover:text-primary transition-colors duration-200 truncate max-w-[150px]" title="Blog"> Blog </a> </li><li class="flex items-center gap-1.5 min-w-0"> <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground/40 shrink-0"><path d="M9 5l7 7-7 7" /></svg> <span class="font-medium text-foreground truncate max-w-[200px] sm:max-w-xs" title="The Grafana Observability Stack: A Pragmatic Deep Dive"> The Grafana Observability Stac... </span> </li> </ol> </nav> <!-- Article Header --> <header class="mb-8 mt-6"> <div class="bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 border border-yellow-500/20 rounded-lg p-4 mb-8 flex items-start gap-3"> <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 flex-shrink-0"> <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path> <polyline points="14 2 14 8 20 8"></polyline> <line x1="12" y1="18" x2="12" y2="18"></line> <line x1="12" y1="12" x2="12" y2="16"></line> </svg> <div> <h3 class="font-semibold text-sm mb-1">Draft / Scheduled Content</h3> <p class="text-sm opacity-90">
+This article is a draft or scheduled for future publication. The content is subject to change.
+</p> </div> </div> <div class="flex flex-wrap gap-2 mb-4"> <a href="/tags/observability/" class="inline-flex items-center px-2.5 py-0.5 text-xs font-medium rounded-full bg-muted text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors"> observability </a><a href="/tags/devops/" class="inline-flex items-center px-2.5 py-0.5 text-xs font-medium rounded-full bg-muted text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors"> devops </a><a href="/tags/infrastructure/" class="inline-flex items-center px-2.5 py-0.5 text-xs font-medium rounded-full bg-muted text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors"> infrastructure </a><a href="/tags/kubernetes/" class="inline-flex items-center px-2.5 py-0.5 text-xs font-medium rounded-full bg-muted text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors"> kubernetes </a><a href="/tags/monitoring/" class="inline-flex items-center px-2.5 py-0.5 text-xs font-medium rounded-full bg-muted text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors"> monitoring </a> </div> <h1 class="text-3xl md:text-4xl font-bold mb-4">The Grafana Observability Stack: A Pragmatic Deep Dive</h1> <div class="flex items-center gap-4 text-sm text-muted-foreground"> <time datetime="2026-03-17T00:00:00.000Z"> March 17, 2026 </time> <span>•</span> <span>35 min read</span> </div>  </header> <!-- Article Content --> <div class="prose dark:prose-invert max-w-none"> <p>Something broke in production at 2 AM. The on-call engineer opens Slack, sees a firing alert, clicks the dashboard link, stares at a spike in error rate, pivots to the logs for the failing service, finds a trace ID, follows it across six microservices, and discovers a database connection pool exhaustion caused by a deployment three hours ago that changed a timeout value.</p>
+<p>That entire workflow — alert to dashboard to logs to trace to root cause — is what an observability stack does. Not monitoring. Not logging. Observability.</p>
+<p>The distinction matters. Monitoring tells you <em>when</em> something is wrong. Observability tells you <em>why</em>.</p>
+<h2 id="what-observability-actually-means">What Observability Actually Means</h2>
+<p>Observability rests on three pillars, each answering a different question:</p>
+<p><strong>Metrics</strong> answer “what is happening right now?” They are numeric time-series data points. CPU usage over time. Request rate per endpoint. Error count per status code. Metrics are cheap to store, fast to query, and excellent for alerting. They tell you the system’s vital signs.</p>
+<p><strong>Logs</strong> answer “what happened?” They are timestamped text records of discrete events. A request was received. A query was executed. An error was thrown. Logs are rich in detail but expensive to store and slow to search at scale because they are unstructured or semi-structured text.</p>
+<p><strong>Traces</strong> answer “how did it happen?” They are records of a single request’s journey through a distributed system. This service called that service, which called a database, which timed out. Traces connect the dots that metrics and logs leave scattered.</p>
+<p>Each pillar alone is insufficient. Metrics without logs means you know something is slow but not why. Logs without traces means you know a query failed but not which user request triggered it. Traces without metrics means you can debug individual requests but can’t see systemic patterns.</p>
+<p>Modern distributed systems — microservices communicating over networks, stateless containers spinning up and dying, asynchronous message queues decoupling producers and consumers — make all three pillars mandatory. A monolith’s stack trace tells you the full story. A distributed system’s stack trace tells you one chapter.</p>
+<h2 id="where-the-grafana-stack-fits">Where the Grafana Stack Fits</h2>
+<p>The observability ecosystem is crowded. Commercial SaaS platforms (Datadog, New Relic, Splunk) offer turnkey solutions at significant cost. The Elastic stack (ELK) has been the open-source default for a decade. Cloud providers offer native tools (CloudWatch, Cloud Monitoring, Azure Monitor) that are deeply integrated but lock you in.</p>
+<p>The Grafana stack occupies a specific niche: <strong>open-source, composable, cost-conscious, and cloud-native</strong>. It is not a monolithic platform. It is a collection of purpose-built tools that share design principles and integrate tightly. You can adopt pieces independently. You can swap components. You can run it on a single machine or across multiple Kubernetes clusters.</p>
+<p>The core components:</p>
+<ul>
+<li><strong>Grafana</strong>: Visualization and dashboards</li>
+<li><strong>Prometheus</strong>: Metrics collection and storage</li>
+<li><strong>Loki</strong>: Log aggregation</li>
+<li><strong>Tempo</strong>: Distributed tracing</li>
+<li><strong>Alertmanager</strong>: Alert routing and deduplication</li>
+</ul>
+<p>Each has a distinct job. Each was designed to do that job well and nothing else. This modularity is the stack’s greatest strength and, sometimes, its most frustrating characteristic.</p>
+<h2 id="core-components-explained">Core Components Explained</h2>
+<h3 id="grafana-the-glass">Grafana: The Glass</h3>
+<p>Grafana is the visualization layer. It does not collect data. It does not store data. It queries data sources and renders dashboards.</p>
+<p>This is an important architectural decision. By decoupling visualization from storage, Grafana can query Prometheus, Loki, Tempo, Elasticsearch, PostgreSQL, InfluxDB, CloudWatch, and dozens of other data sources from a single interface. Your dashboards are not trapped inside a vendor’s ecosystem.</p>
+<p>A Grafana dashboard is a collection of panels. Each panel runs a query against a data source and renders the result as a graph, table, stat, heatmap, or other visualization. Dashboards are JSON documents, version-controllable, and shareable.</p>
+<p>Grafana’s query editor adapts to each data source. For Prometheus, you write PromQL. For Loki, you write LogQL. For Tempo, you search by trace ID or use TraceQL. The experience is consistent even though the underlying query languages differ.</p>
+<p>Beyond dashboards, Grafana provides:</p>
+<ul>
+<li><strong>Explore mode</strong>: Ad-hoc querying for debugging, distinct from curated dashboards</li>
+<li><strong>Alerting</strong>: Grafana has its own alerting engine (separate from Alertmanager) that can evaluate queries and fire alerts</li>
+<li><strong>Annotations</strong>: Mark events on graphs (deployments, incidents) for correlation</li>
+<li><strong>Correlations</strong>: Link from a metric panel to related logs, or from a log line to a trace</li>
+</ul>
+<p>Grafana is free and open-source (AGPLv3). Grafana Labs offers a commercial cloud version (Grafana Cloud) with managed backends, but the open-source version is fully functional.</p>
+<h3 id="prometheus-the-metrics-engine">Prometheus: The Metrics Engine</h3>
+<p>Prometheus is a time-series database (TSDB) purpose-built for metrics. It was the second project to graduate from the Cloud Native Computing Foundation (CNCF), after Kubernetes. It is the de facto standard for metrics in cloud-native environments.</p>
+<p><strong>Data Model</strong>: Prometheus stores metrics as time-series identified by a metric name and a set of key-value labels. For example:</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plaintext"><code><span class="line"><span>http_requests_total{method="GET", endpoint="/api/users", status="200"} 1547</span></span></code></pre>
+<p>This is a counter named <code>http_requests_total</code> with three labels. The labels are the dimensions for this metric. You can query “all requests to /api/users” or “all 200 responses across all endpoints” by selecting on labels.</p>
+<p>Labels are Prometheus’s superpower. They replace the need for metric name hierarchies (like <code>servers.web01.requests.get.200</code>) with flat, queryable dimensions. But they are also Prometheus’s foot-gun: high-cardinality labels (like user IDs or request IDs) cause combinatorial explosion in stored time-series, consuming memory and disk.</p>
+<p><strong>PromQL</strong>: Prometheus has its own query language. It is functional, composable, and powerful once you internalize the model.</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span># Request rate per second over the last 5 minutes</span></span>
+<span class="line"><span>rate(http_requests_total[5m])</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># 99th percentile latency</span></span>
+<span class="line"><span>histogram_quantile(0.99, rate(http_request_duration_seconds_bucket[5m]))</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># Error rate as percentage</span></span>
+<span class="line"><span>sum(rate(http_requests_total{status=~"5.."}[5m]))</span></span>
+<span class="line"><span>/</span></span>
+<span class="line"><span>sum(rate(http_requests_total[5m]))</span></span>
+<span class="line"><span>* 100</span></span></code></pre>
+<p>PromQL is not intuitive at first. The distinction between instant vectors and range vectors, the behavior of <code>rate()</code> versus <code>increase()</code>, and the mechanics of histogram quantile calculation all require study. But once learned, it is expressive enough for almost any metrics query.</p>
+<p><strong>Pull Model</strong>: Prometheus scrapes targets. It does not receive pushed data. Every 15 seconds (configurable), Prometheus sends HTTP GET requests to each target’s <code>/metrics</code> endpoint and ingests the response.</p>
+<p>This pull model has consequences:</p>
+<ul>
+<li><strong>Service discovery</strong>: Prometheus needs to know what to scrape. It integrates with Kubernetes, Consul, DNS, EC2, and many other discovery mechanisms.</li>
+<li><strong>Firewall direction</strong>: Prometheus initiates connections outward, which simplifies firewall rules in many environments.</li>
+<li><strong>Short-lived processes</strong>: Jobs that start, do work, and exit may complete between scrape intervals. Prometheus offers a Pushgateway for this case, but it is considered a band-aid, not a primary ingestion path.</li>
+</ul>
+<p><strong>Storage</strong>: Prometheus stores data locally on disk in a custom time-series format. It compresses efficiently (around 1.5 bytes per sample with default settings). Local storage is fast and reliable but has limitations: it is not replicated, and scaling requires careful planning.</p>
+<p>For long-term storage, Prometheus supports remote write and remote read protocols. Tools like Thanos, Cortex, and Mimir extend Prometheus with durable object storage, global query views across multiple Prometheus instances, and compaction. Grafana Mimir is Grafana Labs’ offering for this.</p>
+<h3 id="loki-the-log-aggregator">Loki: The Log Aggregator</h3>
+<p>Loki is Grafana Labs’ answer to Elasticsearch for log aggregation. Its design philosophy can be summarized in one sentence: <strong>index the metadata, not the content</strong>.</p>
+<p>Traditional log aggregation systems (Elasticsearch, Splunk) build full-text indices on log content. This enables powerful search but requires significant CPU during ingestion and substantial disk for the indices. The index can be larger than the raw log data.</p>
+<p>Loki takes a different approach. It indexes only the <strong>labels</strong> (metadata) attached to log streams, not the log content itself. When you query, Loki identifies relevant streams by label selectors, then performs a brute-force grep through the log chunks for those streams.</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span># Find all error logs from the payment service in production</span></span>
+<span class="line"><span>{namespace="production", app="payment-service"} |= "error"</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># Parse structured logs and filter</span></span>
+<span class="line"><span>{app="api-gateway"} | json | status >= 500 | line_format "{{.method}} {{.path}} {{.status}}"</span></span></code></pre>
+<p>This design has profound implications:</p>
+<ul>
+<li><strong>Ingestion is cheap</strong>: No tokenization, no inverted index construction. Compress logs and write them to object storage.</li>
+<li><strong>Storage is cheap</strong>: Logs are stored as compressed chunks in object storage (S3, GCS, MinIO). Labels are indexed in a small index (BoltDB, or more recently, TSDB-based indexing).</li>
+<li><strong>Full-text search is slow</strong>: Grep across compressed chunks is not fast. Loki compensates by parallelizing the scan across many workers, but it will never match ElasticSearch’s full-text query speed.</li>
+</ul>
+<p>The trade-off is explicit: Loki is optimized for “I know roughly what I’m looking for and where it is” rather than “search everything for this keyword.” If you know the service name and time window, Loki is fast. If you want to search all logs from all services for a stack trace fragment, Loki is slow compared to a full-text index.</p>
+<p><strong>LogQL</strong>: Loki’s query language mirrors PromQL but extends it with log-specific operations: line filtering (<code>|=</code>, <code>!=</code>, <code>|~</code>, <code>!~</code>), parsing (<code>json</code>, <code>logfmt</code>, <code>regexp</code>), and formatting. It can also produce metrics from logs:</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span># Count error log lines per minute</span></span>
+<span class="line"><span>count_over_time({app="payment-service"} |= "error" [1m])</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># Average response time from structured logs</span></span>
+<span class="line"><span>avg_over_time({app="api-gateway"} | json | unwrap response_time [5m])</span></span></code></pre>
+<p>This is powerful because it lets you derive metrics from logs without running a separate metrics pipeline. But it is slower than dedicated metrics and should not replace Prometheus for high-frequency queries.</p>
+<p><strong>Agents</strong>: Loki does not scrape logs. Agents push logs to Loki. The primary agents are:</p>
+<ul>
+<li><strong>Promtail</strong>: The original Loki agent, purpose-built for log collection</li>
+<li><strong>Grafana Alloy</strong> (formerly Grafana Agent): A unified telemetry collector that replaces Promtail, Prometheus agent, and OpenTelemetry Collector in a single binary</li>
+<li><strong>Fluent Bit / Fluentd</strong>: Popular alternatives with Loki output plugins</li>
+</ul>
+<h3 id="tempo-the-tracing-backend">Tempo: The Tracing Backend</h3>
+<p>Tempo is Grafana Labs’ distributed tracing backend. Like Loki’s approach to logs, Tempo’s philosophy is: <strong>store traces cheaply, index minimally</strong>.</p>
+<p>Traditional tracing backends (Jaeger with Elasticsearch/Cassandra, Zipkin with Cassandra) index trace data for search. Tempo stores traces in object storage and indexes only the trace ID and a few key attributes. Finding a trace by ID is fast. Searching for traces by arbitrary attributes requires the newer TraceQL or integration with other tools.</p>
+<p>Tempo accepts traces in multiple formats:</p>
+<ul>
+<li>OpenTelemetry (OTLP)</li>
+<li>Jaeger (Thrift, gRPC)</li>
+<li>Zipkin</li>
+</ul>
+<p>This multi-format support means you can adopt Tempo without changing your instrumentation. If your services already emit Jaeger spans, point them at Tempo.</p>
+<p><strong>TraceQL</strong>: Tempo’s query language for searching traces by attributes:</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span># Find traces where the HTTP status is 500 and duration exceeds 2 seconds</span></span>
+<span class="line"><span>{span.http.status_code = 500 &#x26;&#x26; duration > 2s}</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># Find traces involving a specific service</span></span>
+<span class="line"><span>{resource.service.name = "payment-service"}</span></span></code></pre>
+<p>TraceQL is newer and less mature than PromQL or LogQL, but it fills a critical gap: finding traces without already having a trace ID.</p>
+<p><strong>Correlations</strong>: Tempo’s value multiplies when connected to Grafana, Prometheus, and Loki. The workflow becomes:</p>
+<ol>
+<li>See a latency spike in a Prometheus metric graph</li>
+<li>Click “exemplars” to jump to a specific trace</li>
+<li>View the trace in Tempo, see which span is slow</li>
+<li>Click from a span to the Loki logs for that service during that time window</li>
+</ol>
+<p>This integrated debugging workflow is the primary argument for using the full Grafana stack rather than mixing vendors.</p>
+<h3 id="alertmanager-the-alert-router">Alertmanager: The Alert Router</h3>
+<p>Alertmanager is a Prometheus project, not a Grafana project, but it is integral to the stack.</p>
+<p>Prometheus evaluates alerting rules against metric data and fires alerts to Alertmanager. Alertmanager handles the rest:</p>
+<ul>
+<li><strong>Grouping</strong>: Combine related alerts into single notifications. If 50 pods are failing the same health check, you get one alert, not 50.</li>
+<li><strong>Inhibition</strong>: Suppress certain alerts when others are firing. If the entire cluster is down, suppress individual service alerts.</li>
+<li><strong>Silencing</strong>: Temporarily mute alerts during maintenance windows.</li>
+<li><strong>Routing</strong>: Send alerts to different receivers (Slack, PagerDuty, email, webhooks) based on labels.</li>
+</ul>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">route</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">  receiver</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">'slack-default'</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">  group_by</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: [</span><span style="color:#032F62;--shiki-dark:#9ECBFF">'alertname'</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#032F62;--shiki-dark:#9ECBFF">'namespace'</span><span style="color:#24292E;--shiki-dark:#E1E4E8">]</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">  group_wait</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">30s</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">  group_interval</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">5m</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">  repeat_interval</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">4h</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">  routes</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    - </span><span style="color:#22863A;--shiki-dark:#85E89D">match</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">        severity</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">critical</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">      receiver</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">'pagerduty-oncall'</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    - </span><span style="color:#22863A;--shiki-dark:#85E89D">match</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">        severity</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">warning</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">      receiver</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">'slack-warnings'</span></span></code></pre>
+<p>Alert design is more important than alert tooling. An Alertmanager that routes 200 noisy alerts to PagerDuty will burn out your on-call engineers regardless of how elegantly it deduplicates them. We’ll address this later.</p>
+<h3 id="data-flow">Data Flow</h3>
+<p>The typical data flow in a Grafana stack deployment:</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plaintext"><code><span class="line"><span>Application Services</span></span>
+<span class="line"><span>  ├── Expose /metrics endpoint ──► Prometheus scrapes ──► Prometheus TSDB</span></span>
+<span class="line"><span>  ├── Write logs to stdout ──► Agent (Alloy) collects ──► Push to Loki ──► Object Storage</span></span>
+<span class="line"><span>  └── Emit traces (OTLP) ──► Tempo receives ──► Object Storage</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Prometheus</span></span>
+<span class="line"><span>  ├── Evaluates alert rules ──► Fires to Alertmanager ──► Routes to Slack/PagerDuty</span></span>
+<span class="line"><span>  └── Serves PromQL queries ──► Grafana dashboards</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Loki</span></span>
+<span class="line"><span>  └── Serves LogQL queries ──► Grafana Explore / dashboards</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Tempo</span></span>
+<span class="line"><span>  └── Serves trace queries ──► Grafana Explore / trace view</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Grafana</span></span>
+<span class="line"><span>  └── Queries all three backends ──► Unified dashboards and Explore</span></span></code></pre>
+<h3 id="design-philosophy">Design Philosophy</h3>
+<p>Three principles unify the stack:</p>
+<p><strong>Label-based</strong>: Everything is organized by labels. Prometheus metrics have labels. Loki log streams have labels. Tempo traces have resource attributes that function like labels. Labels are the common language for querying, grouping, and routing across all three pillars.</p>
+<p><strong>Cost-efficient by default</strong>: Loki and Tempo are designed to run on commodity object storage (S3, GCS, MinIO). They avoid expensive full-text indexing. This makes them dramatically cheaper to operate than Elasticsearch-based alternatives at scale, at the cost of raw query performance.</p>
+<p><strong>Cloud-native</strong>: Every component is designed to run in containers, scale horizontally, and integrate with Kubernetes. Service discovery, configuration, and deployment all assume a container orchestration environment.</p>
+<h2 id="architecture-deep-dive">Architecture Deep Dive</h2>
+<h3 id="pull-vs-push">Pull vs Push</h3>
+<p>The stack uses both models:</p>
+<p><strong>Pull (Prometheus)</strong>: Prometheus scrapes targets on a configurable interval. Targets expose a <code>/metrics</code> HTTP endpoint that returns the current value of all metrics in Prometheus exposition format. The target is stateless — it does not buffer data, send retries, or manage a connection to Prometheus. This simplicity is valuable.</p>
+<p>Pull requires that Prometheus can reach targets over the network. In environments with strict network segmentation, VPCs, or NAT, this can be problematic. Remote write (push) mode exists for these scenarios, using Prometheus Agent mode or Grafana Alloy to scrape locally and forward to a remote Prometheus-compatible backend.</p>
+<p><strong>Push (Loki, Tempo)</strong>: Logs and traces are pushed by agents. Applications emit traces to Tempo’s endpoint. Agents (Alloy, Promtail) tail log files or capture container stdout and push batches to Loki.</p>
+<p>Push is natural for logs and traces because these are event-driven data. You cannot “scrape” a log line — it exists when it happens and must be captured immediately. Push also handles short-lived processes better because the process pushes its data before exiting.</p>
+<h3 id="storage-backends">Storage Backends</h3>
+<p><strong>Prometheus</strong>:</p>
+<ul>
+<li><em>Local disk</em>: Default. Fast, simple, no external dependencies. Limited by disk size. Not replicated.</li>
+<li><em>Remote write to Mimir/Thanos/Cortex</em>: For long-term retention and global queries. Mimir stores blocks in object storage (S3/GCS/Azure Blob), compacts them, and serves queries across a distributed cluster.</li>
+</ul>
+<p><strong>Loki</strong>:</p>
+<ul>
+<li><em>Filesystem</em>: For development and small deployments. Stores chunks and index on local disk.</li>
+<li><em>Object storage + index</em>: Production configuration. Log chunks are stored in S3/GCS/MinIO. The index (which maps labels to chunk locations) is stored in BoltDB-shipper (being deprecated) or the newer TSDB index format that also uses object storage.</li>
+<li><em>Single-store (TSDB)</em>: The current recommended setup. Both index and chunks go to object storage. No separate index database needed.</li>
+</ul>
+<p><strong>Tempo</strong>:</p>
+<ul>
+<li><em>Local disk</em>: For development.</li>
+<li><em>Object storage</em>: Production. Traces are stored as blocks in S3/GCS/MinIO. The backend is append-only; traces are written and later compacted.</li>
+</ul>
+<p>Object storage is the unifying theme for production deployments. S3-compatible storage (including MinIO for on-premises) is the lowest common denominator. This keeps storage costs low and decouples compute from storage, allowing each to scale independently.</p>
+<h3 id="lokis-index-less-logs-concept">Loki’s “Index-Less Logs” Concept</h3>
+<p>This is the most frequently misunderstood aspect of the Grafana stack.</p>
+<p>Loki is not truly index-less. It does maintain an index, but the index maps <strong>label sets to chunk references</strong>, not <strong>words to log lines</strong>. The distinction is critical.</p>
+<p>In Elasticsearch, when you ingest a log line like <code>"Connection timeout to database host db-01 after 30s"</code>, the system tokenizes it and creates inverted index entries for “Connection”, “timeout”, “database”, “host”, “db-01”, ”30s”, and so on. Any of these tokens can be searched efficiently.</p>
+<p>In Loki, that same log line is compressed and written to a chunk associated with its label set (e.g., <code>{app="payment-service", env="production"}</code>). The index records that this chunk exists for this label set during this time range. That is all.</p>
+<p>When you query <code>{app="payment-service"} |= "timeout"</code>:</p>
+<ol>
+<li>Loki finds all chunks for <code>{app="payment-service"}</code> in the relevant time range (fast index lookup)</li>
+<li>Loki decompresses those chunks and greps for “timeout” (brute-force scan)</li>
+</ol>
+<p>Step 1 is fast. Step 2 depends on how many chunks match and how much data they contain.</p>
+<p>This is why Loki queries must always include a label selector. Querying <code>{} |= "timeout"</code> across all streams is prohibitively expensive — it would scan every chunk from every stream. Good label design is essential.</p>
+<h3 id="scalability-and-high-availability">Scalability and High Availability</h3>
+<p><strong>Prometheus HA</strong>: Run two identical Prometheus instances scraping the same targets. They independently scrape, store, and alert. Alertmanager deduplicates alerts from both. For query deduplication, use Thanos Query or Mimir as a fan-out layer.</p>
+<p>This approach is simple but wastes resources (double ingestion, double storage). It is the standard recommendation because the alternative — clustered Prometheus — does not exist natively. Mimir and Thanos solve this at the cost of additional infrastructure.</p>
+<p><strong>Loki scaling modes</strong>:</p>
+<ul>
+<li><em>Monolithic</em>: All components in one process. Good for up to ~100GB/day of log volume.</li>
+<li><em>Simple Scalable Deployment (SSD)</em>: Read path and write path separated into two targets. Scales to ~1TB/day.</li>
+<li><em>Microservices mode</em>: Each component (distributor, ingester, querier, query-frontend, compactor, ruler) runs as a separate service. Scales well beyond 1TB/day. Complex to operate.</li>
+</ul>
+<p><strong>Tempo scaling modes</strong>: Similar to Loki. Monolithic for small deployments, microservices for large ones. Key components: distributor, ingester, compactor, querier.</p>
+<p><strong>Grafana HA</strong>: Grafana is stateless (assuming external database for dashboard storage). Run multiple replicas behind a load balancer. Use PostgreSQL or MySQL for dashboard and user storage instead of the default SQLite.</p>
+<h2 id="from-local-development-to-production">From Local Development to Production</h2>
+<h3 id="running-locally">Running Locally</h3>
+<p>Docker Compose is the standard path for local development. Grafana Labs maintains example configurations in their documentation.</p>
+<p>A minimal local stack:</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">services</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">  prometheus</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">    image</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">prom/prometheus:latest</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">    volumes</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      - </span><span style="color:#032F62;--shiki-dark:#9ECBFF">./prometheus.yml:/etc/prometheus/prometheus.yml</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">    ports</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      - </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"9090:9090"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">  loki</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">    image</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">grafana/loki:latest</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">    volumes</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      - </span><span style="color:#032F62;--shiki-dark:#9ECBFF">./loki-config.yml:/etc/loki/local-config.yaml</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">    ports</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      - </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"3100:3100"</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">    command</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">-config.file=/etc/loki/local-config.yaml</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">  tempo</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">    image</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">grafana/tempo:latest</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">    volumes</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      - </span><span style="color:#032F62;--shiki-dark:#9ECBFF">./tempo-config.yml:/etc/tempo/tempo.yaml</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">    ports</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      - </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"3200:3200"</span><span style="color:#6A737D;--shiki-dark:#6A737D">   # Tempo API</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      - </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"4317:4317"</span><span style="color:#6A737D;--shiki-dark:#6A737D">   # OTLP gRPC</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      - </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"4318:4318"</span><span style="color:#6A737D;--shiki-dark:#6A737D">   # OTLP HTTP</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">    command</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">-config.file=/etc/tempo/tempo.yaml</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">  grafana</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">    image</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">grafana/grafana:latest</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">    environment</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      - </span><span style="color:#032F62;--shiki-dark:#9ECBFF">GF_AUTH_ANONYMOUS_ENABLED=true</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      - </span><span style="color:#032F62;--shiki-dark:#9ECBFF">GF_AUTH_ANONYMOUS_ORG_ROLE=Admin</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">    volumes</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      - </span><span style="color:#032F62;--shiki-dark:#9ECBFF">./grafana-datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">    ports</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      - </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"3000:3000"</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">    depends_on</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      - </span><span style="color:#032F62;--shiki-dark:#9ECBFF">prometheus</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      - </span><span style="color:#032F62;--shiki-dark:#9ECBFF">loki</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      - </span><span style="color:#032F62;--shiki-dark:#9ECBFF">tempo</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">  alloy</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">    image</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">grafana/alloy:latest</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">    volumes</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      - </span><span style="color:#032F62;--shiki-dark:#9ECBFF">./alloy-config.alloy:/etc/alloy/config.alloy</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      - </span><span style="color:#032F62;--shiki-dark:#9ECBFF">/var/log:/var/log:ro</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">    command</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">run /etc/alloy/config.alloy</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">    depends_on</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      - </span><span style="color:#032F62;--shiki-dark:#9ECBFF">loki</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      - </span><span style="color:#032F62;--shiki-dark:#9ECBFF">prometheus</span></span></code></pre>
+<p>This gives you the full stack on a single machine. Point your application’s metrics endpoint at Prometheus, send OTLP traces to <code>localhost:4317</code>, and configure Alloy to tail your application’s log files.</p>
+<h3 id="single-node-vs-multi-node">Single-Node vs Multi-Node</h3>
+<p>Single-node is appropriate for:</p>
+<ul>
+<li>Local development</li>
+<li>Small teams (fewer than 10 services)</li>
+<li>Low data volume (under 10GB/day of logs, under 100k active time-series)</li>
+</ul>
+<p>Move to multi-node when:</p>
+<ul>
+<li>Data volumes exceed single-disk capacity</li>
+<li>You need high availability (cannot tolerate single-machine failure)</li>
+<li>Query latency becomes unacceptable</li>
+<li>You need to scale read and write paths independently</li>
+</ul>
+<h3 id="development-vs-staging-vs-production-concerns">Development vs Staging vs Production Concerns</h3>
+<p><strong>Development</strong>: Optimize for fast startup and zero maintenance. Use monolithic mode for all components. Store data locally. Disable authentication. Short retention (24 hours).</p>
+<p><strong>Staging</strong>: Mirror production topology at smaller scale. Run the same deployment mode (SSD or microservices) as production. Test alerting rules. Validate dashboards with realistic data volume.</p>
+<p><strong>Production</strong>: Full HA deployment. Object storage backends. Authentication and authorization enabled. Long retention (30-90 days for hot, years for cold). Backup configurations. Proper resource limits. Network policies.</p>
+<h3 id="configuration-management-and-secrets">Configuration Management and Secrets</h3>
+<p>Every component in the stack is configured via YAML files. Store these in version control. Use templating (Helm values, Kustomize overlays, environment variable substitution) for environment-specific values.</p>
+<p>Secrets (API keys, object storage credentials, database passwords) must not be in version control. Options:</p>
+<ul>
+<li>Kubernetes Secrets (base64-encoded, not encrypted by default — enable encryption at rest)</li>
+<li>External secret stores (HashiCorp Vault, AWS Secrets Manager) with Kubernetes operators (External Secrets Operator)</li>
+<li>SOPS for encrypted secrets in Git</li>
+</ul>
+<p>Grafana dashboards should be provisioned as code (JSON files in a provisioning directory or using Grafonnet/Jsonnet), not hand-crafted in the UI. Dashboard drift between environments is a real operational problem.</p>
+<h2 id="containers-and-kubernetes">Containers and Kubernetes</h2>
+<h3 id="running-the-stack-in-containers">Running the Stack in Containers</h3>
+<p>Every component of the Grafana stack is distributed as a container image. Grafana Labs publishes images to Docker Hub and their own registry. Images are multi-arch (amd64, arm64) and follow semantic versioning.</p>
+<p>Container considerations:</p>
+<ul>
+<li><strong>Resource limits are mandatory</strong>. Prometheus and Loki ingesters are memory-hungry. Without limits, a single component can OOM-kill other pods.</li>
+<li><strong>Persistent volumes for stateful components</strong>. Prometheus needs PVCs for its TSDB. Loki ingesters need PVCs for their WAL (write-ahead log). Tempo ingesters need PVCs for in-flight traces.</li>
+<li><strong>Graceful shutdown matters</strong>. Ingesters need time to flush data to long-term storage before terminating. Set <code>terminationGracePeriodSeconds</code> appropriately (60-120 seconds).</li>
+</ul>
+<h3 id="kubernetes-native-deployment">Kubernetes-Native Deployment</h3>
+<p>The Grafana stack is designed for Kubernetes. Key integration points:</p>
+<p><strong>Service discovery</strong>: Prometheus discovers scrape targets through the Kubernetes API. Pod annotations (<code>prometheus.io/scrape: "true"</code>, <code>prometheus.io/port: "8080"</code>) or ServiceMonitor custom resources (from Prometheus Operator) tell Prometheus what to scrape.</p>
+<p><strong>Namespace-based multi-tenancy</strong>: Run separate instances per namespace, or use Loki/Mimir’s native multi-tenancy with tenant IDs injected from namespace labels.</p>
+<p><strong>Network policies</strong>: Restrict traffic so that only Prometheus can reach application metrics endpoints. Restrict Loki/Tempo ingress to only the agent. Restrict Grafana egress to only the backends.</p>
+<h3 id="helm-charts-and-operators">Helm Charts and Operators</h3>
+<p><strong>kube-prometheus-stack</strong>: The widely used Helm chart that deploys Prometheus, Alertmanager, Grafana, node-exporter, and kube-state-metrics with pre-configured dashboards and alerting rules. It is comprehensive but complex — the chart has hundreds of configurable values.</p>
+<p><strong>Loki Helm chart</strong>: Grafana Labs maintains official Helm charts for Loki in all three deployment modes (monolithic, SSD, microservices). The SSD mode chart is recommended for most production deployments.</p>
+<p><strong>Tempo Helm chart</strong>: Similar structure to Loki. A distributed chart for microservices mode.</p>
+<p><strong>Grafana Alloy Helm chart</strong>: Deploys Alloy as a DaemonSet (for node-level log/metric collection) or a Deployment (for centralized collection).</p>
+<p><strong>Prometheus Operator</strong>: Extends Kubernetes with custom resources:</p>
+<ul>
+<li><code>ServiceMonitor</code>: Declares what services Prometheus should scrape</li>
+<li><code>PodMonitor</code>: Declares what pods Prometheus should scrape</li>
+<li><code>PrometheusRule</code>: Declares alerting and recording rules</li>
+<li><code>AlertmanagerConfig</code>: Declares alert routing</li>
+</ul>
+<p>These CRDs let application teams define their monitoring configuration alongside their application manifests. This is the recommended approach for organizations with multiple teams.</p>
+<h3 id="resource-sizing">Resource Sizing</h3>
+<p>Rules of thumb (adjust based on actual workload):</p>
+<p><strong>Prometheus</strong>:</p>
+<ul>
+<li>Memory: ~2-3 bytes per active time-series for the in-memory index. 1 million active series ≈ 2-3 GB RAM. Add headroom for queries.</li>
+<li>Disk: ~1.5 bytes per sample after compaction. 1 million series scraped every 15s for 15 days ≈ 130 GB.</li>
+<li>CPU: Low for ingestion. Spikes during compaction and complex queries.</li>
+</ul>
+<p><strong>Loki</strong>:</p>
+<ul>
+<li>Ingesters: Memory-proportional to active streams. Each active stream consumes memory for its chunk buffer. Start with 2 GB per ingester, scale based on stream count.</li>
+<li>Queriers: Memory-proportional to query scope. Wide-range queries over many streams consume more memory.</li>
+<li>Object storage: Roughly 60-70% of raw log volume after compression, depending on log content.</li>
+</ul>
+<p><strong>Tempo</strong>:</p>
+<ul>
+<li>Ingesters: Memory-proportional to in-flight traces (traces not yet flushed to backend).</li>
+<li>Queriers: Memory-proportional to trace size during retrieval.</li>
+<li>Object storage: Roughly 50-60% of raw trace size after compression.</li>
+</ul>
+<p><strong>Grafana</strong>:</p>
+<ul>
+<li>Lightweight. 256 MB RAM and 0.5 CPU is sufficient for moderate use. Scale horizontally for many concurrent users.</li>
+</ul>
+<h3 id="multi-cluster-observability">Multi-Cluster Observability</h3>
+<p>For organizations with multiple Kubernetes clusters:</p>
+<p><strong>Federation model</strong>: Each cluster runs its own Prometheus, Loki, and Tempo. A central Grafana queries all of them, or a central Mimir/multi-tenant Loki aggregates data from all clusters.</p>
+<p><strong>Remote-write model</strong>: Each cluster’s Prometheus writes to a central Mimir. Each cluster’s Alloy pushes logs to a central Loki and traces to a central Tempo. The central stack handles storage, querying, and alerting.</p>
+<p><strong>Considerations</strong>:</p>
+<ul>
+<li>Network bandwidth between clusters and central stack</li>
+<li>Latency for cross-cluster queries</li>
+<li>Tenant isolation if clusters belong to different teams</li>
+<li>Failure modes: if the central stack is down, clusters lose observability (buffer locally or accept data loss)</li>
+</ul>
+<h3 id="common-pitfalls-in-kubernetes">Common Pitfalls in Kubernetes</h3>
+<p><strong>1. High-cardinality labels</strong>: Adding Kubernetes labels like <code>pod</code> or <code>container_id</code> to metrics creates a new time-series for every pod restart. In a deployment with 100 replicas that restart daily, this creates thousands of stale time-series. Use <code>relabel_configs</code> to drop unnecessary labels.</p>
+<p><strong>2. Log volume explosion</strong>: A single application logging at DEBUG level can produce more data than the rest of the cluster combined. Rate-limit logs at the application level. Use Alloy’s pipeline stages to drop or sample verbose streams before they reach Loki.</p>
+<p><strong>3. Resource under-provisioning</strong>: The observability stack itself consumes cluster resources. Budget 10-15% of cluster resources for observability. Under-provisioned Prometheus OOMs during compaction. Under-provisioned Loki ingesters drop logs.</p>
+<p><strong>4. Missing PersistentVolumeClaims</strong>: Running Prometheus or Loki ingesters without persistent storage means data loss on pod restart. Always configure PVCs for stateful components.</p>
+<p><strong>5. Scrape interval mismatch</strong>: Setting Prometheus scrape interval to 5 seconds “for more granularity” on 200 targets generates 40x more data than a 15-second interval. The default 15-second interval is sufficient for most use cases.</p>
+<p><strong>6. Alert storms during cluster operations</strong>: Node drains, rolling updates, and cluster upgrades trigger cascading alerts. Use Alertmanager silences for planned maintenance. Design alerts that are resilient to expected transient failures (e.g., <code>for: 5m</code> instead of instant-fire).</p>
+<h2 id="operational-concerns">Operational Concerns</h2>
+<h3 id="performance-tuning">Performance Tuning</h3>
+<p><strong>Prometheus</strong>:</p>
+<ul>
+<li>Use recording rules to pre-compute expensive queries. A dashboard querying <code>histogram_quantile(0.99, rate(http_request_duration_seconds_bucket[5m]))</code> across 1000 series every refresh is expensive. A recording rule computes it once per evaluation interval.</li>
+<li>Enable WAL compression to reduce disk usage.</li>
+<li>Tune <code>--storage.tsdb.retention.time</code> and <code>--storage.tsdb.retention.size</code> to bound local storage.</li>
+</ul>
+<p><strong>Loki</strong>:</p>
+<ul>
+<li>Choose appropriate chunk encoding (gzip vs snappy vs zstd). Snappy is faster; gzip/zstd compress more.</li>
+<li>Tune <code>max_chunk_age</code> and <code>chunk_idle_period</code> to balance flush frequency against chunk size. Larger chunks compress better but delay query availability.</li>
+<li>Use bloom filters (experimental/newer feature) for faster content filtering.</li>
+<li>Limit query lookback periods in Grafana to prevent users from accidentally querying months of data.</li>
+</ul>
+<p><strong>Tempo</strong>:</p>
+<ul>
+<li>Tune <code>max_bytes_per_trace</code> to prevent a single pathological trace from consuming excessive resources.</li>
+<li>Enable search (TraceQL) only if needed — it adds overhead to the compaction process.</li>
+</ul>
+<h3 id="storage-cost-management">Storage Cost Management</h3>
+<p>Object storage is cheap but not free at scale. Strategies:</p>
+<ul>
+<li><strong>Tiered retention</strong>: Keep recent data (7-30 days) in hot storage with fast query access. Move older data to cheaper tiers (S3 Infrequent Access, GCS Coldline). Delete data beyond a maximum retention period.</li>
+<li><strong>Sampling</strong>: For tracing, sample a percentage of traces in production (e.g., 10% of successful requests, 100% of errors). This dramatically reduces Tempo storage.</li>
+<li><strong>Log filtering</strong>: Not all logs need to reach Loki. Filter out health check logs, verbose DEBUG logs, and other noise at the agent level.</li>
+<li><strong>Metric aggregation</strong>: Use recording rules to downsample high-resolution metrics for long-term storage. Keep 15-second resolution for 7 days, 1-minute resolution for 30 days, 5-minute resolution for a year.</li>
+</ul>
+<h3 id="retention-strategies">Retention Strategies</h3>
+<p>Each component handles retention differently:</p>
+<ul>
+<li><strong>Prometheus</strong>: <code>--storage.tsdb.retention.time=15d</code> or <code>--storage.tsdb.retention.size=50GB</code>. Local storage only. Long-term handled by Mimir with per-tenant retention policies.</li>
+<li><strong>Loki</strong>: Table-based retention. Configure <code>retention_period</code> in the compactor. Can be set per-tenant.</li>
+<li><strong>Tempo</strong>: Block-based retention. Configure <code>max_block_duration</code> and compactor retention in the backend.</li>
+<li><strong>Grafana</strong>: Dashboards don’t expire. Annotations can be configured with max age.</li>
+</ul>
+<h3 id="alert-fatigue-and-alert-design">Alert Fatigue and Alert Design</h3>
+<p>Alert fatigue kills on-call culture faster than any technical failure. Principles:</p>
+<p><strong>Alert on symptoms, not causes</strong>: Alert on “error rate exceeds 1%” rather than “CPU usage above 80%.” High CPU might be normal during batch processing. High error rate always matters.</p>
+<p><strong>Use <code>for</code> durations</strong>: <code>for: 5m</code> means the condition must be true for 5 continuous minutes before firing. This eliminates transient spikes from noise.</p>
+<p><strong>Tier severity levels</strong>:</p>
+<ul>
+<li><strong>Critical</strong>: Requires immediate human action. Pages on-call. Examples: service down, data loss, SLA breach.</li>
+<li><strong>Warning</strong>: Requires action within business hours. Sends to Slack. Examples: disk filling up, certificate expiring in 7 days.</li>
+<li><strong>Info</strong>: No action required. Logged for context. Examples: deployment completed, backup finished.</li>
+</ul>
+<p><strong>Use runbooks</strong>: Every alert should link to documentation explaining what it means, why it fires, and how to resolve it. An alert without a runbook is a puzzle delivered at 3 AM.</p>
+<p><strong>Review alerts quarterly</strong>: If an alert fires frequently and is always ignored, either fix the underlying issue or delete the alert. An alert that nobody reads is worse than no alert because it normalizes ignoring alerts.</p>
+<h3 id="security">Security</h3>
+<p><strong>Authentication</strong>: Grafana supports local accounts, LDAP, OAuth (Google, GitHub, Azure AD, Okta), and SAML. Use SSO in production.</p>
+<p><strong>Authorization / RBAC</strong>: Grafana has organization-level and folder-level permissions. Editors can modify dashboards in their folders. Viewers can only read. Admins manage data sources and users.</p>
+<p><strong>Multi-tenancy</strong>: Loki, Mimir, and Tempo support multi-tenancy via an <code>X-Scope-OrgID</code> HTTP header. Each tenant’s data is isolated. Tenants cannot query other tenants’ data. This is enforced at the storage level.</p>
+<p><strong>Network security</strong>: Use TLS for all internal communication. Use mTLS between components in zero-trust environments. Restrict network access with Kubernetes NetworkPolicies or service mesh (Istio, Linkerd).</p>
+<p><strong>Data sensitivity</strong>: Logs often contain PII, API keys, passwords, and other sensitive data. Scrub sensitive fields at the agent level before data reaches Loki. Do not rely on access controls alone.</p>
+<h3 id="backup-and-disaster-recovery">Backup and Disaster Recovery</h3>
+<p><strong>Prometheus</strong>: Back up the data directory or use remote write to a durable backend. Alerting rules and configuration should be in version control.</p>
+<p><strong>Loki and Tempo</strong>: Data in object storage is inherently durable (S3 provides 99.999999999% durability). Back up the configuration and index if using BoltDB. With TSDB index in object storage, the entire state is in the object store.</p>
+<p><strong>Grafana</strong>: Back up the database (PostgreSQL/MySQL). If using provisioning-from-code, dashboards can be recreated from Git. User preferences and annotations may be lost without database backup.</p>
+<p><strong>Configuration</strong>: All YAML configurations, Helm values, and Terraform/Pulumi definitions should be in version control. The stack should be rebuildable from code.</p>
+<h2 id="grafana-stack-vs-elastic-stack">Grafana Stack vs Elastic Stack</h2>
+<p>This comparison is inevitable and important. Both stacks are used for observability. They make fundamentally different trade-offs.</p>
+<h3 id="philosophical-differences">Philosophical Differences</h3>
+<p>The Elastic stack (Elasticsearch, Logstash/Beats, Kibana) started as a <strong>log search engine</strong>. Elasticsearch is a general-purpose search and analytics engine built on Apache Lucene. It evolved into an observability platform by adding metrics (Metricbeat), APM (Elastic APM), and security analytics.</p>
+<p>The Grafana stack started as a <strong>metrics visualization tool</strong>. Grafana was born to visualize Prometheus metrics. Loki and Tempo were added later to round out the three pillars, designed from the ground up with specific trade-offs (no full-text indexing) that Elasticsearch would never make.</p>
+<p><strong>Elastic thinks search-first</strong>: Everything is a document. Every field is indexed by default. Query anything.</p>
+<p><strong>Grafana thinks labels-first</strong>: Everything is a stream. Identify the stream by labels. Search within the stream.</p>
+<h3 id="loki-vs-elasticsearch-for-logs">Loki vs Elasticsearch for Logs</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Dimension</th><th>Loki</th><th>Elasticsearch</th></tr></thead><tbody><tr><td>Indexing</td><td>Labels only (metadata)</td><td>Full-text inverted index</td></tr><tr><td>Query speed (keyword search)</td><td>Slower (brute-force scan within streams)</td><td>Faster (index lookup)</td></tr><tr><td>Query speed (known stream + time)</td><td>Fast (label selector + time range)</td><td>Fast (but overkill)</td></tr><tr><td>Ingestion cost</td><td>Low (compress and write)</td><td>High (tokenize, index, store)</td></tr><tr><td>Storage cost</td><td>Low (compressed chunks in object storage)</td><td>High (data + index, typically 1.5-3x raw size)</td></tr><tr><td>Operations</td><td>Simpler (object storage backend)</td><td>Complex (cluster management, shard allocation, rebalancing)</td></tr><tr><td>Query language</td><td>LogQL (PromQL-like)</td><td>Lucene / KQL / ES</td></tr><tr><td>Full-text search</td><td>Limited (grep-like)</td><td>Excellent (fuzzy, stemming, relevance scoring)</td></tr><tr><td>Aggregations</td><td>Basic (count, rate, avg from log content)</td><td>Advanced (nested, pipeline, matrix)</td></tr><tr><td>Schema management</td><td>None (schema-free)</td><td>Dynamic mapping (can cause mapping explosions)</td></tr></tbody></table>
+<p><strong>When Loki wins</strong>: You know which service’s logs you need. You want cheap storage. You already run Prometheus and Grafana. Your primary workflow is “check logs for a specific service during a time window.”</p>
+<p><strong>When Elasticsearch wins</strong>: You need to search across all logs for an arbitrary string. You need advanced text analytics (tokenization, stemming, fuzzy matching). You need complex aggregations on structured log fields. Your primary workflow is “find the needle in the haystack.”</p>
+<h3 id="prometheus-vs-elastic-metrics">Prometheus vs Elastic Metrics</h3>
+<p>Prometheus is purpose-built for metrics. Elasticsearch handles metrics through Metricbeat and the data streams feature, but it is a general-purpose engine applying search-oriented architecture to metric storage.</p>
+<p>Prometheus advantages:</p>
+<ul>
+<li>PromQL is more expressive for metrics than KQL</li>
+<li>Pull model with native Kubernetes service discovery</li>
+<li>Efficient time-series storage format (~1.5 bytes per sample)</li>
+<li>Massive ecosystem of exporters</li>
+</ul>
+<p>Elasticsearch advantages:</p>
+<ul>
+<li>Unified storage with logs (no context switching between backends)</li>
+<li>Better at high-cardinality metrics (tag-based with document model)</li>
+<li>Cross-index queries combining logs and metrics</li>
+</ul>
+<p>In practice, Prometheus is the better metrics engine. Elastic’s strength is unification: if you already run Elasticsearch for logs, adding metrics avoids a second system.</p>
+<h3 id="tempo-vs-elastic-apm">Tempo vs Elastic APM</h3>
+<p>Tempo is a trace storage backend. Elastic APM is a broader Application Performance Monitoring solution that includes tracing, profiling, error tracking, and service maps.</p>
+<p>Tempo advantages:</p>
+<ul>
+<li>Accepts any trace format (OTLP, Jaeger, Zipkin)</li>
+<li>Cheap storage (object storage, minimal indexing)</li>
+<li>Simple to operate</li>
+</ul>
+<p>Elastic APM advantages:</p>
+<ul>
+<li>Richer feature set (service maps, anomaly detection, correlations)</li>
+<li>Integrated with the rest of Elastic for cross-referencing</li>
+<li>Auto-instrumentation agents for many languages</li>
+<li>More mature search capabilities for traces</li>
+</ul>
+<p>If you need a tracing <em>backend</em>, Tempo is simpler and cheaper. If you need a full <em>APM platform</em>, Elastic APM offers more out of the box.</p>
+<h3 id="cost-model-comparison">Cost Model Comparison</h3>
+<p><strong>Elasticsearch cost drivers</strong>:</p>
+<ul>
+<li>Compute: CPU-heavy indexing. Budget significant CPU for ingest nodes.</li>
+<li>Memory: JVM heap per node (typically 50% of available RAM). A 3-node cluster with 32 GB each costs real money.</li>
+<li>Disk: Data + indices. Plan for 1.5-3x raw data volume. SSD expected for acceptable query performance.</li>
+<li>Operations: Shard management, index lifecycle policies, cluster health monitoring. Requires dedicated expertise.</li>
+</ul>
+<p><strong>Grafana stack cost drivers</strong>:</p>
+<ul>
+<li>Object storage: The primary cost. Cheap per GB ($0.023/GB/month for S3 Standard). Compression reduces it further.</li>
+<li>Compute: Ingesters and queriers need memory. Less than Elasticsearch for equivalent data volumes.</li>
+<li>Disk: Minimal. Used for WAL and caching, not primary storage.</li>
+<li>Operations: Simpler per-component, but multiple components to manage.</li>
+</ul>
+<p>At scale (terabytes per day of logs), the Grafana stack’s cost advantage is substantial — often 5-10x cheaper than Elasticsearch for log storage. The gap narrows for smaller deployments where operational complexity dominates cost.</p>
+<h3 id="operational-complexity">Operational Complexity</h3>
+<p><strong>Elasticsearch</strong>:</p>
+<ul>
+<li>Cluster management (master nodes, data nodes, ingest nodes)</li>
+<li>Shard sizing and rebalancing</li>
+<li>Index lifecycle management</li>
+<li>JVM tuning (heap size, GC settings)</li>
+<li>Mapping explosions from uncontrolled log schemas</li>
+<li>Upgrade procedures (rolling upgrades with shard allocation control)</li>
+<li>Single system to manage but that system is complex</li>
+</ul>
+<p><strong>Grafana stack</strong>:</p>
+<ul>
+<li>Multiple independent systems (Prometheus, Loki, Tempo, Grafana, Alertmanager)</li>
+<li>Each system has its own configuration, scaling model, and failure modes</li>
+<li>More moving parts but each part is simpler</li>
+<li>Object storage management (lifecycle rules, cost monitoring)</li>
+<li>Upgrade procedures per-component (stagger upgrades, test compatibility)</li>
+</ul>
+<p>Neither is “simple.” Elasticsearch concentrates complexity in one system. The Grafana stack distributes it across several. Choose your preferred flavor of complexity.</p>
+<h2 id="use-cases-and-real-world-scenarios">Use Cases and Real-World Scenarios</h2>
+<h3 id="microservices">Microservices</h3>
+<p>The Grafana stack was designed for this. Prometheus excels at per-service metrics with label-based aggregation. Loki naturally segments logs by service (Kubernetes labels map directly to Loki labels). Tempo connects requests across service boundaries. The integrated Grafana workflow (metric → trace → log) is purpose-built for debugging distributed request flows.</p>
+<h3 id="kubernetes-heavy-platforms">Kubernetes-Heavy Platforms</h3>
+<p>Native Kubernetes integration in every component. Service discovery, pod-level metrics, container log collection, and namespace-based tenancy all work out of the box. The <code>kube-prometheus-stack</code> Helm chart provides a ready-made monitoring solution for any Kubernetes cluster.</p>
+<h3 id="cost-sensitive-startups">Cost-Sensitive Startups</h3>
+<p>Loki and Tempo’s object-storage-first architecture makes them ideal for startups that need observability without the hardware cost of an Elasticsearch cluster. A small team can run the monolithic deployment mode on a single machine and scale to SSD mode when data volumes grow. Grafana Cloud’s free tier (50 GB logs, 10k metrics series, 50 GB traces) is sufficient for small projects.</p>
+<h3 id="large-enterprises">Large Enterprises</h3>
+<p>Enterprises benefit from multi-tenancy (isolating teams’ data), RBAC (controlling who sees what), and SSO (integrating with corporate identity providers). Grafana’s folder-based permissions and Loki/Mimir’s tenant isolation support organizational structures. Grafana Cloud and Grafana Enterprise add features like auditing, SLA reporting, and support contracts.</p>
+<h3 id="hybrid-and-cloud-native-systems">Hybrid and Cloud-Native Systems</h3>
+<p>Grafana’s data source model shines in hybrid environments. A single Grafana instance can query Prometheus in Kubernetes, CloudWatch in AWS, and an on-premises Elasticsearch cluster simultaneously. This makes Grafana a natural “single pane of glass” even in heterogeneous environments.</p>
+<h2 id="limitations-and-trade-offs">Limitations and Trade-offs</h2>
+<h3 id="what-the-grafana-stack-does-poorly">What the Grafana Stack Does Poorly</h3>
+<p><strong>Full-text log search</strong>: Loki is not a search engine. If your primary use case is “search all logs for this error message across all services,” Loki will be slower than Elasticsearch. Significantly slower for broad queries.</p>
+<p><strong>Complex log analytics</strong>: Aggregations, statistical analysis, and machine learning on log data are not Loki’s strengths. Elasticsearch’s aggregation framework is far more powerful.</p>
+<p><strong>Out-of-the-box APM</strong>: Tempo is a tracing backend, not an APM platform. Features like auto-instrumentation, service maps, error tracking, and anomaly detection require additional tools or manual implementation. Elastic APM and commercial platforms (Datadog, New Relic) provide these out of the box.</p>
+<p><strong>Unified query language</strong>: PromQL, LogQL, and TraceQL are three different languages. Correlation between metrics, logs, and traces requires manual navigation in Grafana. Elastic’s single query language across all data types is more convenient for users who want to query everything in one place.</p>
+<p><strong>Long-term metrics without additional tooling</strong>: Prometheus alone has limited local retention. For months or years of metrics, you need Mimir, Thanos, or Cortex — additional systems to deploy and manage.</p>
+<p><strong>Ease of initial setup</strong>: For someone unfamiliar with the ecosystem, setting up Prometheus + Loki + Tempo + Grafana + Alertmanager + Alloy + object storage is more daunting than deploying a single Elasticsearch cluster (though the latter’s operational complexity catches up quickly).</p>
+<h3 id="when-elastic-or-other-tools-outperform">When Elastic or Other Tools Outperform</h3>
+<ul>
+<li><strong>Security analytics and SIEM</strong>: Elastic Security is a mature product. The Grafana stack has no equivalent.</li>
+<li><strong>Business analytics on logs</strong>: When logs are a source of business intelligence, Elasticsearch’s aggregation capabilities are superior.</li>
+<li><strong>When you need one system</strong>: If operational simplicity (fewer systems to manage) outweighs cost, Elasticsearch’s all-in-one model is appealing.</li>
+<li><strong>When search flexibility is paramount</strong>: Ad-hoc, free-form search across all data is Elasticsearch’s core strength.</li>
+</ul>
+<h3 id="common-misconceptions">Common Misconceptions</h3>
+<p><strong>“Loki is free Elasticsearch”</strong>: No. Loki makes fundamentally different trade-offs. It is cheaper but less capable for search-heavy workloads.</p>
+<p><strong>“Prometheus handles everything metrics”</strong>: Prometheus is powerful but not unlimited. High-cardinality metrics, long-term retention, and global aggregation require additional tools (Mimir, Thanos).</p>
+<p><strong>“The Grafana stack is simple”</strong>: Simpler per-component, but the total system complexity of five or more components is non-trivial. It requires understanding each component’s architecture, failure modes, and tuning parameters.</p>
+<p><strong>“You must use all the components”</strong>: You can use Grafana with Elasticsearch. You can use Prometheus without Loki. You can adopt incrementally. The components are designed to work together but do not require each other.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>The Grafana observability stack is a compelling choice for organizations that prioritize cost efficiency, cloud-native architecture, and composability. Its label-based philosophy unifies metrics, logs, and traces under a consistent mental model. Its object-storage-first design for Loki and Tempo keeps costs low at scale. Its separation of concerns (one tool per pillar) means you adopt only what you need.</p>
+<p>Its weaknesses are real. Loki is not a search engine. Tempo is not an APM platform. The ecosystem requires understanding multiple components with different configuration models. Full-text log search will always be slower than Elasticsearch.</p>
+<p><strong>Choose the Grafana stack when</strong>:</p>
+<ul>
+<li>You operate in Kubernetes-native environments</li>
+<li>Cost efficiency at scale matters more than query flexibility</li>
+<li>You need metrics-first observability with logs and traces as supporting pillars</li>
+<li>Your team is comfortable managing multiple focused tools rather than one large platform</li>
+<li>You want to avoid vendor lock-in (open-source core, portable data formats)</li>
+</ul>
+<p><strong>Choose the Elastic stack when</strong>:</p>
+<ul>
+<li>Log search and analytics is your primary use case</li>
+<li>You need security analytics (SIEM)</li>
+<li>You prefer a single system over multiple components</li>
+<li>Full-text search flexibility is non-negotiable</li>
+<li>You need advanced APM features out of the box</li>
+</ul>
+<p><strong>Consider commercial platforms (Datadog, New Relic) when</strong>:</p>
+<ul>
+<li>You want zero operational burden for the observability infrastructure itself</li>
+<li>Developer experience and ease of onboarding are top priorities</li>
+<li>The cost (which can be substantial) is acceptable relative to engineering time saved</li>
+</ul>
+<p>The observability landscape is converging. OpenTelemetry is standardizing telemetry collection. Grafana is adding more Elasticsearch-like features (bloom filters, structured metadata). Elastic is adding more Prometheus-like features (TSDB data streams). The gap between stacks is narrowing.</p>
+<p>But architectural philosophies don’t converge easily. Loki will never build full-text indices. Elasticsearch will never drop them. The choice between indexing everything and indexing only metadata is a fundamental design decision, not a feature gap to be closed.</p>
+<p>Choose based on your workload, your team’s expertise, and your cost model. Not based on hype.</p> </div> <!-- Related Posts (Smart) -->  </article> </div> </div>  </main> <!-- Footer with gradient accent --> <footer class="border-t border-border/50 mt-auto relative bg-background/50 backdrop-blur-sm"> <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent"></div> <div class="container mx-auto px-4 py-8"> <div class="flex flex-col md:flex-row items-center justify-between gap-6">  <div class="flex flex-col items-center md:items-start gap-4"> <nav class="flex flex-wrap items-center justify-center md:justify-start gap-x-6 gap-y-2 text-sm text-muted-foreground"> <a href="/about" class="hover:text-foreground transition-colors">About</a> <a href="/terms" class="hover:text-foreground transition-colors">Terms & License</a> <a href="mailto:arezki.elmehdi@gmail.com?subject=Hello%20Dev|Journal&body=Hi%20Mehdi," class="hover:text-foreground transition-colors">Contact</a> <div class="hidden md:block w-px h-3 bg-border"></div> <a href="https://github.com/earezki" target="_blank" rel="noopener noreferrer" class="hover:text-foreground transition-colors">GitHub</a> <a href="/rss.xml" class="hover:text-foreground transition-colors">RSS</a> <a href="/tags/" class="hover:text-foreground transition-colors">Tags</a> <a href="/sitemap-index.xml" class="hover:text-foreground transition-colors">Sitemap</a> <a href="/subscribe" class="hover:text-foreground transition-colors">Subscribe</a> </nav> <p class="text-muted-foreground text-sm text-center md:text-left">
+© 2026 AREZKI El Mehdi
+</p> </div>  <div class="w-full md:w-auto"> <form class="relative group" onsubmit="event.preventDefault();"> <div class="absolute -inset-0.5 bg-gradient-to-r from-primary via-purple-500 to-pink-500 rounded-lg blur opacity-75 animate-pulse group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div> <div class="relative flex items-center bg-background rounded-lg p-1 border border-border/50"> <input type="email" placeholder="Subscribe to newsletter" class="bg-transparent border-none focus:ring-0 text-sm px-3 py-1.5 w-full md:w-64 outline-none placeholder:text-muted-foreground/50 text-foreground" required> <button type="submit" class="px-4 py-1.5 bg-primary text-primary-foreground rounded-md text-sm font-medium hover:bg-primary/90 transition-colors shadow-sm">
+Join
+</button> </div> </form> </div> </div> </div> </footer> </body></html>
