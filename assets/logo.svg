@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 32" width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
+    <defs>
+        <linearGradient id="brand-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#3b82f6">
+                <animate attributeName="stop-color" values="#3b82f6; #8b5cf6; #3b82f6" dur="8s" repeatCount="indefinite" />
+            </stop>
+            <stop offset="50%" stop-color="#6366f1">
+                <animate attributeName="stop-color" values="#6366f1; #a855f7; #6366f1" dur="8s" repeatCount="indefinite" />
+            </stop>
+            <stop offset="100%" stop-color="#8b5cf6">
+                <animate attributeName="stop-color" values="#8b5cf6; #3b82f6; #8b5cf6" dur="8s" repeatCount="indefinite" />
+            </stop>
+        </linearGradient>
+
+        <linearGradient id="shine-grad" x1="-100%" y1="-100%" x2="0%" y2="0%">
+            <stop offset="0%" stop-color="transparent" />
+            <stop offset="50%" stop-color="rgba(255, 255, 255, 0.9)" />
+            <stop offset="100%" stop-color="transparent" />
+            <animate attributeName="x1" values="-100%; 200%; 200%" dur="7s" repeatCount="indefinite" />
+            <animate attributeName="x2" values="0%; 300%; 300%" dur="7s" repeatCount="indefinite" />
+            <animate attributeName="y1" values="-100%; 200%; 200%" dur="7s" repeatCount="indefinite" />
+            <animate attributeName="y2" values="0%; 300%; 300%" dur="7s" repeatCount="indefinite" />
+        </linearGradient>
+
+        <mask id="text-mask">
+            <g transform="translate(2, 24)">
+                <text x="0" y="0" font-family="system-ui, -apple-system, sans-serif" font-weight="800" font-size="20" fill="white" letter-spacing="-0.5"><tspan class="char d-1">D</tspan><tspan class="char d-2">e</tspan><tspan class="char d-3">v</tspan></text>
+                
+                <line x1="40" y1="-16" x2="40" y2="2" stroke="white" stroke-width="2.5" stroke-linecap="round" class="anim-line" />
+                
+                <text x="48" y="0" font-family="system-ui, -apple-system, sans-serif" font-weight="300" font-size="20" fill="white" letter-spacing="0.5"><tspan class="char d-4">J</tspan><tspan class="char d-5">o</tspan><tspan class="char d-6">u</tspan><tspan class="char d-7">r</tspan><tspan class="char d-8">n</tspan><tspan class="char d-9">a</tspan><tspan class="char d-10">l</tspan></text>
+            </g>
+        </mask>
+    </defs>
+
+    <style>
+        .char {
+            opacity: 0;
+            filter: blur(4px);
+            animation: focusReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        
+        .d-1 { animation-delay: 0.1s; }
+        .d-2 { animation-delay: 0.2s; }
+        .d-3 { animation-delay: 0.3s; }
+        .d-4 { animation-delay: 0.50s; }
+        .d-5 { animation-delay: 0.55s; }
+        .d-6 { animation-delay: 0.60s; }
+        .d-7 { animation-delay: 0.65s; }
+        .d-8 { animation-delay: 0.70s; }
+        .d-9 { animation-delay: 0.75s; }
+        .d-10 { animation-delay: 0.80s; }
+        
+        @keyframes focusReveal {
+            0% { opacity: 0; filter: blur(4px); }
+            100% { opacity: 1; filter: blur(0px); }
+        }
+
+        .anim-line {
+            stroke-dasharray: 20;
+            stroke-dashoffset: 20;
+            animation: 
+                draw 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.4s,
+                cursorPulse 4s ease-in-out infinite 1s;
+        }
+        
+        @keyframes draw {
+            to { stroke-dashoffset: 0; }
+        }
+
+        @keyframes cursorPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+        
+        .overlay-blend {
+            mix-blend-mode: overlay;
+        }
+    </style>
+
+    <rect x="0" y="0" width="100%" height="100%" fill="url(#brand-grad)" mask="url(#text-mask)" />
+    
+    <rect class="overlay-blend" x="0" y="0" width="100%" height="100%" fill="url(#shine-grad)" mask="url(#text-mask)" />
+</svg>
