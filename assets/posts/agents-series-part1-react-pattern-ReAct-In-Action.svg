@@ -1,0 +1,165 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 920" preserveAspectRatio="xMidYMid meet">
+    <style>
+        svg {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: transparent;
+            filter: drop-shadow(0 0 10px rgba(0,0,0,0.2));
+        }
+
+        /* Base element styling */
+        .text-bold { font-weight: 700; }
+        .text-mono { font-family: 'Fira Code', 'Courier New', Courier, monospace; }
+        .text-italic { font-style: italic; }
+
+        /* Tracing Animation */
+        @keyframes traceFade {
+            0%, 5% { opacity: 0; transform: translateY(-10px); }
+            10%, 90% { opacity: 1; transform: translateY(0); }
+            95%, 100% { opacity: 0; transform: translateY(0); }
+        }
+
+        .step {
+            opacity: 0;
+            animation: traceFade 14s infinite ease-out;
+        }
+
+        /* Sequential Delays */
+        .step-in  { animation-delay: 0.5s; }
+        
+        /* Iteration 1 */
+        .step-1   { animation-delay: 1.5s; }
+        .step-2   { animation-delay: 2.5s; }
+        .step-3   { animation-delay: 3.5s; }
+        
+        /* Iteration 2 */
+        .step-4   { animation-delay: 5.0s; }
+        .step-5   { animation-delay: 6.0s; }
+        .step-6   { animation-delay: 7.0s; }
+        
+        /* Iteration 3 */
+        .step-7   { animation-delay: 8.5s; }
+        .step-8   { animation-delay: 9.5s; }
+        
+        /* Final Output */
+        .step-out { animation-delay: 11.0s; }
+
+        /* Track line animation */
+        @keyframes lineGrow {
+            0%, 5% { stroke-dashoffset: 500; }
+            90% { stroke-dashoffset: 0; }
+            100% { stroke-dashoffset: 0; }
+        }
+        .track-line {
+            stroke-dasharray: 500;
+            stroke-dashoffset: 500;
+            animation: lineGrow 14s infinite ease-out;
+        }
+    </style>
+
+    <defs>
+        <!-- Arrowhead -->
+        <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#475569" />
+        </marker>
+        <marker id="arrow-green" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#10b981" />
+        </marker>
+    </defs>
+
+    <!-- User Input -->
+    <g class="step step-in">
+        <rect x="150" y="40" width="500" height="60" rx="8" fill="#334155" />
+        <text x="400" y="76" text-anchor="middle" fill="#f8fafc" font-size="16" class="text-bold">User: "Research quantum computing in finance"</text>
+        <path d="M 400 100 L 400 130" stroke="#475569" stroke-width="3" marker-end="url(#arrow)" />
+    </g>
+
+    <!-- Execution Container -->
+    <rect x="50" y="140" width="700" height="630" rx="12" fill="#0f172a" stroke="#334155" stroke-width="2" />
+    <text x="400" y="170" text-anchor="middle" fill="#64748b" font-size="12" font-weight="bold" letter-spacing="2">LLM TRACE LOOP</text>
+
+    <!-- Central Timeline Track -->
+    <line x1="120" y1="210" x2="120" y2="710" stroke="#334155" stroke-width="3" class="track-line" />
+
+    <!-- ITERATION 1 -->
+    <!-- Thought -->
+    <g class="step step-1">
+        <circle cx="120" cy="210" r="8" fill="#0ea5e9" />
+        <path d="M 128 210 L 150 210" stroke="#334155" stroke-width="2" />
+        <rect x="150" y="185" width="550" height="50" rx="8" fill="#082f49" stroke="#0ea5e9" stroke-width="1" />
+        <text x="170" y="215" fill="#38bdf8" font-size="14" class="text-bold">THOUGHT:</text>
+        <text x="270" y="215" fill="#e0f2fe" font-size="14">I need to search for recent articles</text>
+    </g>
+
+    <!-- Action -->
+    <g class="step step-2">
+        <circle cx="120" cy="270" r="8" fill="#10b981" />
+        <path d="M 128 270 L 150 270" stroke="#334155" stroke-width="2" />
+        <rect x="150" y="245" width="550" height="50" rx="8" fill="#064e3b" stroke="#10b981" stroke-width="1" />
+        <text x="170" y="275" fill="#34d399" font-size="14" class="text-bold">ACTION:</text>
+        <text x="270" y="275" fill="#d1fae5" font-size="14" class="text-mono">web_search("quantum computing finance")</text>
+    </g>
+
+    <!-- Observe -->
+    <g class="step step-3">
+        <circle cx="120" cy="330" r="8" fill="#8b5cf6" />
+        <path d="M 128 330 L 150 330" stroke="#334155" stroke-width="2" />
+        <rect x="150" y="305" width="550" height="50" rx="8" fill="#2e1065" stroke="#8b5cf6" stroke-width="1" />
+        <text x="170" y="335" fill="#a78bfa" font-size="14" class="text-bold">OBSERVE:</text>
+        <text x="270" y="335" fill="#ede9fe" font-size="14" class="text-italic">[5 results returned]</text>
+    </g>
+
+    <!-- ITERATION 2 -->
+    <!-- Thought -->
+    <g class="step step-4">
+        <circle cx="120" cy="430" r="8" fill="#0ea5e9" />
+        <path d="M 128 430 L 150 430" stroke="#334155" stroke-width="2" />
+        <rect x="150" y="405" width="550" height="50" rx="8" fill="#082f49" stroke="#0ea5e9" stroke-width="1" />
+        <text x="170" y="435" fill="#38bdf8" font-size="14" class="text-bold">THOUGHT:</text>
+        <text x="270" y="435" fill="#e0f2fe" font-size="14">Good results. Let me read the first one</text>
+    </g>
+
+    <!-- Action -->
+    <g class="step step-5">
+        <circle cx="120" cy="490" r="8" fill="#10b981" />
+        <path d="M 128 490 L 150 490" stroke="#334155" stroke-width="2" />
+        <rect x="150" y="465" width="550" height="50" rx="8" fill="#064e3b" stroke="#10b981" stroke-width="1" />
+        <text x="170" y="495" fill="#34d399" font-size="14" class="text-bold">ACTION:</text>
+        <text x="270" y="495" fill="#d1fae5" font-size="14" class="text-mono">fetch_webpage(url)</text>
+    </g>
+
+    <!-- Observe -->
+    <g class="step step-6">
+        <circle cx="120" cy="550" r="8" fill="#8b5cf6" />
+        <path d="M 128 550 L 150 550" stroke="#334155" stroke-width="2" />
+        <rect x="150" y="525" width="550" height="50" rx="8" fill="#2e1065" stroke="#8b5cf6" stroke-width="1" />
+        <text x="170" y="555" fill="#a78bfa" font-size="14" class="text-bold">OBSERVE:</text>
+        <text x="270" y="555" fill="#ede9fe" font-size="14" class="text-italic">[article content extracted]</text>
+    </g>
+
+    <!-- ITERATION 3 -->
+    <!-- Thought -->
+    <g class="step step-7">
+        <circle cx="120" cy="650" r="8" fill="#0ea5e9" />
+        <path d="M 128 650 L 150 650" stroke="#334155" stroke-width="2" />
+        <rect x="150" y="625" width="550" height="50" rx="8" fill="#082f49" stroke="#0ea5e9" stroke-width="1" />
+        <text x="170" y="655" fill="#38bdf8" font-size="14" class="text-bold">THOUGHT:</text>
+        <text x="270" y="655" fill="#e0f2fe" font-size="14">I have enough info to start the report</text>
+    </g>
+
+    <!-- Action -->
+    <g class="step step-8">
+        <circle cx="120" cy="710" r="8" fill="#10b981" />
+        <path d="M 128 710 L 150 710" stroke="#334155" stroke-width="2" />
+        <rect x="150" y="685" width="550" height="50" rx="8" fill="#064e3b" stroke="#10b981" stroke-width="1" />
+        <text x="170" y="715" fill="#34d399" font-size="14" class="text-bold">ACTION:</text>
+        <text x="270" y="715" fill="#d1fae5" font-size="14" class="text-mono">(no tool needed - generate response)</text>
+    </g>
+
+    <!-- Final Output -->
+    <g class="step step-out">
+        <path d="M 400 770 L 400 800" stroke="#10b981" stroke-width="3" marker-end="url(#arrow-green)" />
+        <rect x="150" y="810" width="500" height="60" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="2" />
+        <text x="400" y="846" text-anchor="middle" fill="#f8fafc" font-size="16" class="text-bold">Agent: "Here's your research report..."</text>
+    </g>
+
+</svg>

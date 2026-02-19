@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" preserveAspectRatio="xMidYMid meet">
+    <style>
+        svg {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: transparent;
+        }
+        .text-bold { font-weight: 700; }
+        .text-mono { font-family: 'Fira Code', 'Courier New', Courier, monospace; font-size: 12px; }
+    </style>
+
+    <defs>
+        <marker id="arrow-bi" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b" />
+        </marker>
+    </defs>
+
+    <!-- Title -->
+    <text x="450" y="35" text-anchor="middle" fill="#f8fafc" font-size="20" class="text-bold">Memory Architecture</text>
+    <text x="450" y="60" text-anchor="middle" fill="#94a3b8" font-size="14">Short-term (in-session) vs Long-term (persistent) memory</text>
+
+    <!-- Main Container -->
+    <rect x="50" y="90" width="800" height="470" rx="12" fill="#0f172a" stroke="#334155" stroke-width="2" />
+
+    <!-- Left Side: Short-term Memory -->
+    <g>
+        <!-- Header -->
+        <rect x="80" y="120" width="340" height="40" rx="6" fill="#1e3a8a" />
+        <text x="250" y="145" text-anchor="middle" fill="#93c5fd" font-size="15" class="text-bold">SHORT-TERM (In-Session)</text>
+
+        <!-- Content Box -->
+        <rect x="80" y="170" width="340" height="280" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="2" />
+        
+        <text x="100" y="200" fill="#dbeafe" font-size="14" class="text-bold">messages: [</text>
+        <text x="120" y="225" fill="#93c5fd" class="text-mono">{role: "user",</text>
+        <text x="120" y="245" fill="#93c5fd" class="text-mono"> content: "..."},</text>
+        
+        <text x="120" y="275" fill="#93c5fd" class="text-mono">{role: "assistant",</text>
+        <text x="120" y="295" fill="#93c5fd" class="text-mono"> content: "..."},</text>
+        
+        <text x="120" y="325" fill="#93c5fd" class="text-mono">{role: "tool",</text>
+        <text x="120" y="345" fill="#93c5fd" class="text-mono"> name: "web_search",</text>
+        <text x="120" y="365" fill="#93c5fd" class="text-mono"> content: "..."},</text>
+        
+        <text x="120" y="395" fill="#64748b" class="text-mono">...</text>
+        <text x="100" y="420" fill="#dbeafe" font-size="14" class="text-bold">]</text>
+
+        <!-- Limit Badge -->
+        <rect x="90" y="465" width="320" height="30" rx="6" fill="#7c2d12" stroke="#f97316" stroke-width="1" />
+        <text x="250" y="485" text-anchor="middle" fill="#fed7aa" font-size="13" class="text-bold">Context Window Limit (~128K tokens)</text>
+    </g>
+
+    <!-- Bidirectional Arrow -->
+    <g>
+        <path d="M 420 300 L 480 300" stroke="#64748b" stroke-width="3" marker-end="url(#arrow-bi)" />
+        <path d="M 480 320 L 420 320" stroke="#64748b" stroke-width="3" marker-end="url(#arrow-bi)" />
+        <text x="450" y="350" text-anchor="middle" fill="#94a3b8" font-size="12" class="text-bold">save/</text>
+        <text x="450" y="365" text-anchor="middle" fill="#94a3b8" font-size="12" class="text-bold">load</text>
+    </g>
+
+    <!-- Right Side: Long-term Memory -->
+    <g>
+        <!-- Header -->
+        <rect x="480" y="120" width="340" height="40" rx="6" fill="#166534" />
+        <text x="650" y="145" text-anchor="middle" fill="#86efac" font-size="15" class="text-bold">LONG-TERM (Persistent)</text>
+
+        <!-- Content Box -->
+        <rect x="480" y="170" width="340" height="280" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="2" />
+        
+        <text x="500" y="200" fill="#d1fae5" font-size="14" class="text-bold">agent_state.json</text>
+        
+        <text x="520" y="230" fill="#6ee7b7" class="text-mono">- topic</text>
+        <text x="520" y="255" fill="#6ee7b7" class="text-mono">- requirements</text>
+        <text x="520" y="280" fill="#6ee7b7" class="text-mono">- phase</text>
+        <text x="520" y="305" fill="#6ee7b7" class="text-mono">- research_questions</text>
+        <text x="520" y="330" fill="#6ee7b7" class="text-mono">- extracted_facts</text>
+        <text x="520" y="355" fill="#6ee7b7" class="text-mono">- feedback_history</text>
+        <text x="520" y="380" fill="#6ee7b7" class="text-mono">- report_draft</text>
+        <text x="520" y="405" fill="#6ee7b7" class="text-mono">- completed work</text>
+        <text x="520" y="430" fill="#64748b" class="text-mono">...</text>
+
+        <!-- Limit Badge -->
+        <rect x="490" y="465" width="320" height="30" rx="6" fill="#064e3b" stroke="#10b981" stroke-width="1" />
+        <text x="650" y="485" text-anchor="middle" fill="#d1fae5" font-size="13" class="text-bold">No Size Limit (disk storage)</text>
+    </g>
+
+</svg>

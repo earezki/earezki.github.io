@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 980" preserveAspectRatio="xMidYMid meet">
+    <style>
+        svg {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: transparent;
+        }
+        .text-bold { font-weight: 700; }
+        .text-mono { font-family: 'Fira Code', 'Courier New', Courier, monospace; }
+    </style>
+
+    <defs>
+        <marker id="arrow-flow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#3b82f6" />
+        </marker>
+        <marker id="arrow-checkpoint" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#f59e0b" />
+        </marker>
+    </defs>
+
+    <!-- Title -->
+    <text x="400" y="35" text-anchor="middle" fill="#f8fafc" font-size="20" class="text-bold">Agent Workflow with Checkpoints</text>
+    <text x="400" y="60" text-anchor="middle" fill="#94a3b8" font-size="14">Human oversight at each critical decision point</text>
+
+    <!-- Main Container -->
+    <rect x="50" y="90" width="700" height="850" rx="12" fill="#0f172a" stroke="#334155" stroke-width="2" />
+
+    <!-- User Input -->
+    <rect x="150" y="120" width="500" height="40" rx="6" fill="#1e3a8a" />
+    <text x="400" y="145" text-anchor="middle" fill="#bfdbfe" font-size="14" class="text-bold">User Input: "Research topic..."</text>
+    <path d="M 400 160 L 400 185" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrow-flow)" />
+
+    <!-- Phase: Planning -->
+    <rect x="150" y="185" width="500" height="35" rx="6" fill="#064e3b" stroke="#10b981" stroke-width="1" />
+    <text x="170" y="208" fill="#6ee7b7" font-size="13" class="text-bold">[PLANNING]</text>
+    <text x="280" y="208" fill="#d1fae5" font-size="13">LLM creates questions + queries</text>
+    <path d="M 400 220 L 400 245" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrow-flow)" />
+
+    <!-- Checkpoint 1 -->
+    <rect x="120" y="245" width="560" height="35" rx="6" fill="#422006" stroke="#f59e0b" stroke-width="2" />
+    <text x="400" y="268" text-anchor="middle" fill="#fbbf24" font-size="13" class="text-bold">✋ CHECKPOINT 1: Approve/modify plan</text>
+    <path d="M 400 280 L 400 305" stroke="#f59e0b" stroke-width="2" marker-end="url(#arrow-checkpoint)" />
+
+    <!-- Phase: Searching -->
+    <rect x="150" y="305" width="500" height="35" rx="6" fill="#064e3b" stroke="#10b981" stroke-width="1" />
+    <text x="170" y="328" fill="#6ee7b7" font-size="13" class="text-bold">[SEARCHING]</text>
+    <text x="285" y="328" fill="#d1fae5" font-size="13">Execute search queries</text>
+    <path d="M 400 340 L 400 365" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrow-flow)" />
+
+    <!-- Checkpoint 2 -->
+    <rect x="120" y="365" width="560" height="35" rx="6" fill="#422006" stroke="#f59e0b" stroke-width="2" />
+    <text x="400" y="388" text-anchor="middle" fill="#fbbf24" font-size="13" class="text-bold">✋ CHECKPOINT 2: Select which sources to read</text>
+    <path d="M 400 400 L 400 425" stroke="#f59e0b" stroke-width="2" marker-end="url(#arrow-checkpoint)" />
+
+    <!-- Phase: Reading -->
+    <rect x="150" y="425" width="500" height="35" rx="6" fill="#064e3b" stroke="#10b981" stroke-width="1" />
+    <text x="170" y="448" fill="#6ee7b7" font-size="13" class="text-bold">[READING]</text>
+    <text x="270" y="448" fill="#d1fae5" font-size="13">Fetch selected pages</text>
+    <path d="M 400 460 L 400 485" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrow-flow)" />
+
+    <!-- Phase: Synthesizing -->
+    <rect x="150" y="485" width="500" height="35" rx="6" fill="#064e3b" stroke="#10b981" stroke-width="1" />
+    <text x="170" y="508" fill="#6ee7b7" font-size="13" class="text-bold">[SYNTHESIZING]</text>
+    <text x="300" y="508" fill="#d1fae5" font-size="13">Extract facts</text>
+    <path d="M 400 520 L 400 545" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrow-flow)" />
+
+    <!-- Checkpoint 3 -->
+    <rect x="120" y="545" width="560" height="35" rx="6" fill="#422006" stroke="#f59e0b" stroke-width="2" />
+    <text x="400" y="568" text-anchor="middle" fill="#fbbf24" font-size="13" class="text-bold">✋ CHECKPOINT 3: Verify/remove facts</text>
+    <path d="M 400 580 L 400 605" stroke="#f59e0b" stroke-width="2" marker-end="url(#arrow-checkpoint)" />
+
+    <!-- Phase: Writing (Outline) -->
+    <rect x="150" y="605" width="500" height="35" rx="6" fill="#064e3b" stroke="#10b981" stroke-width="1" />
+    <text x="170" y="628" fill="#6ee7b7" font-size="13" class="text-bold">[WRITING]</text>
+    <text x="270" y="628" fill="#d1fae5" font-size="13">Create outline</text>
+    <path d="M 400 640 L 400 665" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrow-flow)" />
+
+    <!-- Checkpoint 4 -->
+    <rect x="120" y="665" width="560" height="35" rx="6" fill="#422006" stroke="#f59e0b" stroke-width="2" />
+    <text x="400" y="688" text-anchor="middle" fill="#fbbf24" font-size="13" class="text-bold">✋ CHECKPOINT 4: Approve outline</text>
+    <path d="M 400 700 L 400 725" stroke="#f59e0b" stroke-width="2" marker-end="url(#arrow-checkpoint)" />
+
+    <!-- Phase: Writing (Draft) -->
+    <rect x="150" y="725" width="500" height="35" rx="6" fill="#064e3b" stroke="#10b981" stroke-width="1" />
+    <text x="170" y="748" fill="#6ee7b7" font-size="13" class="text-bold">[WRITING]</text>
+    <text x="270" y="748" fill="#d1fae5" font-size="13">Write draft</text>
+    <path d="M 400 760 L 400 785" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrow-flow)" />
+
+    <!-- Checkpoint 5 (with loop) -->
+    <rect x="120" y="785" width="560" height="45" rx="6" fill="#422006" stroke="#f59e0b" stroke-width="2" />
+    <text x="400" y="805" text-anchor="middle" fill="#fbbf24" font-size="13" class="text-bold">✋ CHECKPOINT 5: Review draft</text>
+    <text x="400" y="822" text-anchor="middle" fill="#fde68a" font-size="11" class="text-mono">(loop until approved)</text>
+    <path d="M 400 830 L 400 855" stroke="#f59e0b" stroke-width="2" marker-end="url(#arrow-checkpoint)" />
+
+    <!-- Final: Complete -->
+    <rect x="150" y="855" width="500" height="40" rx="6" fill="#1e3a8a" stroke="#3b82f6" stroke-width="2" />
+    <text x="400" y="880" text-anchor="middle" fill="#bfdbfe" font-size="14" class="text-bold">[COMPLETE] Save final report</text>
+
+</svg>

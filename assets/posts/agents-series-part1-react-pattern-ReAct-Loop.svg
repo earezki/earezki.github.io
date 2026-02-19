@@ -1,0 +1,169 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 675" preserveAspectRatio="xMidYMid meet">
+    <style>
+        /* Embedded CSS - Executes directly in the SVG renderer */
+        svg {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            filter: drop-shadow(0 0 10px rgba(0,0,0,0.1));
+            background: transparent;
+        }
+
+        /* Node Animations */
+        .node-box {
+            fill: #1e293b;
+            stroke: #334155;
+            stroke-width: 2;
+            rx: 12;
+            transition: all 0.3s ease;
+        }
+
+        .node-reason .node-box { animation: pulse-reason 6s infinite; }
+        .node-act .node-box { animation: pulse-act 6s infinite; }
+        .node-observe .node-box { animation: pulse-observe 6s infinite; }
+
+        @keyframes pulse-reason {
+            0%, 25% { fill: #1e293b; stroke: #0ea5e9; filter: drop-shadow(0 0 15px rgba(14, 165, 233, 0.6)); }
+            30%, 100% { fill: #1e293b; stroke: #334155; filter: none; }
+        }
+
+        @keyframes pulse-act {
+            0%, 30% { fill: #1e293b; stroke: #334155; filter: none; }
+            33%, 58% { fill: #1e293b; stroke: #10b981; filter: drop-shadow(0 0 15px rgba(16, 185, 129, 0.6)); }
+            63%, 100% { fill: #1e293b; stroke: #334155; filter: none; }
+        }
+
+        @keyframes pulse-observe {
+            0%, 63% { fill: #1e293b; stroke: #334155; filter: none; }
+            66%, 95% { fill: #1e293b; stroke: #8b5cf6; filter: drop-shadow(0 0 15px rgba(139, 92, 246, 0.6)); }
+            100% { fill: #1e293b; stroke: #334155; filter: none; }
+        }
+
+        /* Text styling */
+        .title {
+            font-size: 20px;
+            font-weight: 700;
+            fill: #f8fafc;
+            letter-spacing: 1px;
+        }
+        
+        .desc {
+            font-size: 14px;
+            fill: #94a3b8;
+        }
+
+        .node-reason .title { animation: text-reason 6s infinite; }
+        .node-act .title { animation: text-act 6s infinite; }
+        .node-observe .title { animation: text-observe 6s infinite; }
+
+        @keyframes text-reason { 0%, 25% { fill: #38bdf8; } 30%, 100% { fill: #f8fafc; } }
+        @keyframes text-act { 33%, 58% { fill: #34d399; } 0%, 30%, 63%, 100% { fill: #f8fafc; } }
+        @keyframes text-observe { 66%, 95% { fill: #a78bfa; } 0%, 63%, 100% { fill: #f8fafc; } }
+
+        /* Connections */
+        .connection {
+            fill: none;
+            stroke: #334155;
+            stroke-width: 3;
+            stroke-dasharray: 8 6;
+            animation: flow-dash 20s linear infinite;
+        }
+
+        @keyframes flow-dash {
+            from { stroke-dashoffset: 200; }
+            to { stroke-dashoffset: 0; }
+        }
+
+        .data-packet {
+            fill: #fff;
+            filter: drop-shadow(0 0 8px #fff);
+        }
+
+        /* Center Hub */
+        .hub-text {
+            font-size: 28px;
+            font-weight: 800;
+            fill: #475569;
+            text-anchor: middle;
+            letter-spacing: 4px;
+        }
+        
+        .hub-sub {
+            font-size: 12px;
+            fill: #334155;
+            text-anchor: middle;
+            letter-spacing: 2px;
+        }
+    </style>
+
+    <defs>
+        <!-- Arrow Markers -->
+        <marker id="arrow-blue" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#0ea5e9" />
+        </marker>
+        <marker id="arrow-green" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#10b981" />
+        </marker>
+        <marker id="arrow-purple" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#8b5cf6" />
+        </marker>
+    </defs>
+
+    <!-- Center Hub Text -->
+    <text x="450" y="340" class="hub-text">ReAct</text>
+    <text x="450" y="365" class="hub-sub">AGENT LOOP</text>
+
+    <!-- Connection Paths -->
+    <path id="path-r-a" class="connection" d="M 570 180 C 720 180, 750 300, 750 420" stroke-linecap="round"/>
+    <path id="path-a-o" class="connection" d="M 630 460 C 500 520, 400 520, 270 460" stroke-linecap="round"/>
+    <path id="path-o-r" class="connection" d="M 150 420 C 150 300, 180 180, 330 180" stroke-linecap="round"/>
+
+    <!-- Animated Data Packets (SMIL Native Animation) -->
+    <circle class="data-packet" r="6" fill="#0ea5e9">
+        <animateMotion dur="6s" repeatCount="infinite" keyTimes="0;0.33;1" keyPoints="0;1;1" calcMode="linear">
+            <mpath href="#path-r-a"/>
+        </animateMotion>
+        <animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.32;0.33;1" dur="6s" repeatCount="infinite" />
+    </circle>
+
+    <circle class="data-packet" r="6" fill="#10b981">
+        <animateMotion dur="6s" repeatCount="infinite" keyTimes="0;0.33;0.66;1" keyPoints="0;0;1;1" calcMode="linear">
+            <mpath href="#path-a-o"/>
+        </animateMotion>
+        <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.32;0.33;0.65;0.66;1" dur="6s" repeatCount="infinite" />
+    </circle>
+
+    <circle class="data-packet" r="6" fill="#8b5cf6">
+        <animateMotion dur="6s" repeatCount="infinite" keyTimes="0;0.66;1" keyPoints="0;0;1" calcMode="linear">
+            <mpath href="#path-o-r"/>
+        </animateMotion>
+        <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.65;0.66;1" dur="6s" repeatCount="infinite" />
+    </circle>
+
+    <!-- NODES -->
+    <!-- 1. REASON Node -->
+    <g class="node-reason" transform="translate(330, 120)">
+        <rect class="node-box" x="0" y="0" width="240" height="90" />
+        <path d="M35 30 C35 20, 55 20, 55 30 C65 30, 65 45, 55 45 C60 55, 45 65, 35 55 C25 65, 10 55, 15 45 C5 45, 5 30, 15 30 C15 20, 35 20, 35 30 Z" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linejoin="round"/>
+        <path d="M35 25 L35 55 M25 35 L45 35 M25 45 L45 45" stroke="#94a3b8" stroke-width="1.5"/>
+        <text x="75" y="40" class="title">1. REASON</text>
+        <text x="75" y="65" class="desc">Analyze context &amp; decide</text>
+    </g>
+
+    <!-- 2. ACT Node -->
+    <g class="node-act" transform="translate(630, 420)">
+        <rect class="node-box" x="0" y="0" width="240" height="90" />
+        <path d="M20 60 L40 40 C45 35, 50 38, 55 35 C60 30, 60 20, 55 15 C50 10, 40 10, 35 15 C32 20, 35 25, 30 30 L10 50 C5 55, 15 65, 20 60 Z" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linejoin="round"/>
+        <circle cx="45" cy="25" r="3" fill="#94a3b8"/>
+        <text x="75" y="40" class="title">2. ACT</text>
+        <text x="75" y="65" class="desc">Execute chosen tool</text>
+    </g>
+
+    <!-- 3. OBSERVE Node -->
+    <g class="node-observe" transform="translate(30, 420)">
+        <rect class="node-box" x="0" y="0" width="240" height="90" />
+        <path d="M15 45 C25 25, 55 25, 65 45 C55 65, 25 65, 15 45 Z" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linejoin="round"/>
+        <circle cx="40" cy="45" r="8" fill="none" stroke="#94a3b8" stroke-width="2"/>
+        <circle cx="40" cy="45" r="3" fill="#94a3b8"/>
+        <text x="75" y="40" class="title">3. OBSERVE</text>
+        <text x="75" y="65" class="desc">Parse &amp; feed back result</text>
+    </g>
+</svg>

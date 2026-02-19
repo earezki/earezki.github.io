@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 520" preserveAspectRatio="xMidYMid meet">
+    <style>
+        svg {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: transparent;
+        }
+        .text-bold { font-weight: 700; }
+        .emoji { font-size: 28px; }
+    </style>
+
+    <!-- Title -->
+    <text x="500" y="35" text-anchor="middle" fill="#f8fafc" font-size="20" class="text-bold">Impact of Human Checkpoints</text>
+    <text x="500" y="60" text-anchor="middle" fill="#94a3b8" font-size="14">Autonomous agents vs Human-in-the-Loop control</text>
+
+    <!-- Left Side: WITHOUT CHECKPOINTS (Bad) -->
+    <g>
+        <rect x="30" y="90" width="460" height="380" rx="12" fill="#0f172a" stroke="#ef4444" stroke-width="3" />
+        
+        <!-- Header -->
+        <rect x="50" y="110" width="420" height="35" rx="6" fill="#7f1d1d" />
+        <text x="260" y="135" text-anchor="middle" fill="#fca5a5" font-size="16" class="text-bold">WITHOUT CHECKPOINTS</text>
+
+        <!-- Flow -->
+        <text x="70" y="180" fill="#e2e8f0" font-size="14" class="text-bold">User:</text>
+        <text x="130" y="180" fill="#cbd5e1" font-size="14">"Research AI in healthcare"</text>
+
+        <!-- Arrow -->
+        <path d="M 260 190 L 260 210" stroke="#ef4444" stroke-width="2" />
+        <polygon points="260,210 255,200 265,200" fill="#ef4444" />
+
+        <!-- Agent runs -->
+        <rect x="100" y="220" width="320" height="40" rx="6" fill="#1e293b" stroke="#64748b" stroke-width="1" />
+        <text x="260" y="245" text-anchor="middle" fill="#94a3b8" font-size="14" class="text-italic">Agent runs for 5 minutes...</text>
+
+        <!-- Arrow -->
+        <path d="M 260 260 L 260 280" stroke="#ef4444" stroke-width="2" />
+        <polygon points="260,280 255,270 265,270" fill="#ef4444" />
+
+        <!-- Wrong output -->
+        <rect x="80" y="290" width="360" height="50" rx="6" fill="#7f1d1d" stroke="#ef4444" stroke-width="2" />
+        <text x="260" y="315" text-anchor="middle" fill="#fca5a5" font-size="13">"Here's a 3000-word report on</text>
+        <text x="260" y="332" text-anchor="middle" fill="#fca5a5" font-size="13" class="text-bold">AI in gaming"</text>
+
+        <!-- Sad emoji -->
+        <text x="260" y="400" text-anchor="middle" fill="#fca5a5" class="emoji">😤</text>
+        <text x="260" y="430" text-anchor="middle" fill="#f87171" font-size="13" class="text-bold">User frustrated</text>
+        <text x="260" y="448" text-anchor="middle" fill="#dc2626" font-size="12">No control, wrong output, wasted time</text>
+    </g>
+
+    <!-- Right Side: WITH CHECKPOINTS (Good) -->
+    <g>
+        <rect x="510" y="90" width="460" height="380" rx="12" fill="#0f172a" stroke="#10b981" stroke-width="3" />
+        
+        <!-- Header -->
+        <rect x="530" y="110" width="420" height="35" rx="6" fill="#064e3b" />
+        <text x="740" y="135" text-anchor="middle" fill="#6ee7b7" font-size="16" class="text-bold">WITH CHECKPOINTS</text>
+
+        <!-- Flow -->
+        <text x="550" y="180" fill="#e2e8f0" font-size="14" class="text-bold">User:</text>
+        <text x="610" y="180" fill="#cbd5e1" font-size="14">"Research AI in healthcare"</text>
+
+        <!-- Arrow -->
+        <path d="M 740 190 L 740 210" stroke="#10b981" stroke-width="2" />
+        <polygon points="740,210 735,200 745,200" fill="#10b981" />
+
+        <!-- Agent proposes -->
+        <rect x="570" y="220" width="340" height="35" rx="6" fill="#1e293b" stroke="#64748b" stroke-width="1" />
+        <text x="740" y="242" text-anchor="middle" fill="#94a3b8" font-size="13">Agent: "I'll search for: 'AI gaming trends'..."</text>
+
+        <!-- Checkpoint -->
+        <rect x="580" y="265" width="320" height="30" rx="6" fill="#422006" stroke="#f59e0b" stroke-width="2" />
+        <text x="740" y="285" text-anchor="middle" fill="#fbbf24" font-size="13" class="text-bold">✋ CHECKPOINT: User reviews plan</text>
+
+        <!-- Arrow -->
+        <path d="M 740 295 L 740 308" stroke="#10b981" stroke-width="2" />
+        <polygon points="740,308 735,298 745,298" fill="#10b981" />
+
+        <!-- User correction -->
+        <rect x="580" y="318" width="320" height="35" rx="6" fill="#064e3b" stroke="#10b981" stroke-width="2" />
+        <text x="740" y="340" text-anchor="middle" fill="#d1fae5" font-size="13">User: "No, I said HEALTHCARE not gaming"</text>
+
+        <!-- Arrow -->
+        <path d="M 740 353 L 740 370" stroke="#10b981" stroke-width="2" />
+        <polygon points="740,370 735,360 745,360" fill="#10b981" />
+
+        <!-- Agent adapts -->
+        <rect x="600" y="380" width="280" height="35" rx="6" fill="#1e293b" stroke="#64748b" stroke-width="1" />
+        <text x="740" y="402" text-anchor="middle" fill="#94a3b8" font-size="13">Agent: "Got it! Updating search queries..."</text>
+
+        <!-- Happy emoji -->
+        <text x="740" y="450" text-anchor="middle" fill="#6ee7b7" class="emoji">😊</text>
+    </g>
+
+</svg>
