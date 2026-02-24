@@ -27,96 +27,91 @@ Skip to main content
 Back to Library
 </a> </div> <!-- Book title badge --> <div class="inline-flex items-center gap-2 px-3 py-1.5 mb-4 rounded-full bg-primary/10 text-primary text-sm font-medium"> <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" /><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" /></svg> python database internals building a persistent engine from scratch </div> <h1 class="text-3xl md:text-4xl font-bold mb-4 text-gradient"> The Disk vs. Memory Dichotomy </h1> <!-- Reading time and chapter info --> <div class="flex items-center gap-4 text-sm text-muted-foreground mb-6"> <span class="flex items-center gap-1.5"> <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary/70"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg> 5 min read </span> <span class="flex items-center gap-1.5"> <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary/70"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" /></svg>
 Chapter 2 of 21 </span> </div>  </header> <!-- Collapsible Summary --> <details class="group mb-8 rounded-xl border border-border bg-card overflow-hidden"><summary class="flex items-center justify-between gap-3 p-4 cursor-pointer list-none hover:bg-muted/50 transition-colors"><div class="flex items-center gap-3 min-w-0"><span class="shrink-0 w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" /><polyline points="10 9 9 9 8 9" /></svg></span><div class="min-w-0"><span class="text-xs uppercase tracking-wide text-muted-foreground font-medium">Summary</span><p class="text-sm text-foreground truncate group-open:hidden">This section explains the necessity of a custom...</p></div></div><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground shrink-0 transition-transform duration-200 group-open:rotate-90"><path d="M9 5l7 7-7 7" /></svg></summary><div class="px-4 pb-4 pt-2 border-t border-border/30"><p class="text-sm text-muted-foreground leading-relaxed">This section explains the necessity of a custom memory manager, the Pager, in database systems due to the disk vs. memory dichotomy. It introduces volatile storage (e.g., RAM, ~100 ns access) for temporary data and non-volatile storage (e.g., disk, ~10 ms access) for persistence. The Pager manages fixed-size pages (4KB) as atomic units for I/O optimization, bridging volatile and non-volatile layers. A layered architecture overview includes REPL, Parser, Virtual Machine, B-Tree, Pager, and OS Interface. The memory hierarchy—from CPU caches to disk—highlights latency gaps requiring custom caching. A comparison table details storage types by speed, volatility, and database applications. Python 3.12+ code examples demonstrate low-level page manipulation using struct and memoryview. Key terms defined include Page (fixed-size data block), Volatile Storage (losses data without power), and Non-volatile Storage (retains data). The Pager ensures predictable performance through page allocation, caching, and eviction, critical for database efficiency.</p></div></details> <!-- Article Content --> <div class="prose dark:prose-invert max-w-none break-words [overflow-wrap:break-word]"> <h1 id="the-disk-vs-memory-dichotomy">The Disk vs. Memory Dichotomy</h1>
-<p>In the realm of database management systems, understanding the underlying architecture is crucial for designing and implementing efficient and scalable solutions. This section delves into the high-level architecture of a database management system, exploring its components and their interactions. We will also examine the critical role of the Pager component in managing the dichotomy between disk and memory storage, enabling databases to optimize performance by bridging the gap between volatile and non-volatile storage.</p>
-<h2 id="overview-of-the-architecture">Overview of the Architecture</h2>
-<p>The database architecture follows a layered approach, consisting of the following components:</p>
+<p>Your program’s variables live in RAM. RAM is fast — a read takes roughly 100 nanoseconds — but it is <strong>volatile</strong>. Kill the process, pull the power cord, and every byte vanishes. A database that only lived in RAM would be useless for any workload that requires durability.</p>
+<p>Disk (whether spinning rust or flash) is the opposite: <strong>non-volatile</strong>, meaning data survives power loss, but agonizingly slow by comparison. A single random read from an SSD takes around 100 microseconds — a thousand times slower than RAM. A spinning HDD is worse: 10 milliseconds per seek, or a hundred thousand times slower.</p>
+<p>This gap — five to six orders of magnitude — is the central tension in every storage engine. Our entire architecture exists to hide it.</p>
+<h2 id="the-memory-hierarchy">The Memory Hierarchy</h2>
+<p>To appreciate why we need a custom Pager, look at the full latency landscape:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Storage Level</th><th>Typical Latency</th><th>Volatile?</th><th>Capacity</th></tr></thead><tbody><tr><td>CPU L1 Cache</td><td>~1 ns</td><td>Yes</td><td>64 KB</td></tr><tr><td>CPU L3 Cache</td><td>~10 ns</td><td>Yes</td><td>8–32 MB</td></tr><tr><td>RAM (DDR5)</td><td>~100 ns</td><td>Yes</td><td>8–256 GB</td></tr><tr><td>NVMe SSD</td><td>~100 μs</td><td>No</td><td>256 GB – 4 TB</td></tr><tr><td>SATA SSD</td><td>~500 μs</td><td>No</td><td>256 GB – 4 TB</td></tr><tr><td>HDD (7200 RPM)</td><td>~10 ms</td><td>No</td><td>1–20 TB</td></tr></tbody></table>
+<p>The jump from RAM to SSD is a <strong>1000× cliff</strong>. Everything above the cliff is volatile; everything below is persistent. A database engine must keep hot data above the cliff (in RAM) while ensuring all committed data eventually reaches below the cliff (on disk). That is the Pager’s job.</p>
+<h2 id="why-not-let-the-os-handle-it">Why Not Let the OS Handle It?</h2>
+<p>Modern operating systems already cache file data in the <strong>page cache</strong> (also called the buffer cache). When you <code>read()</code> a file, the kernel may serve the data from RAM without touching the disk at all. So why build our own caching layer?</p>
+<p>Three reasons:</p>
 <ol>
-<li><strong>REPL (Read-Eval-Print Loop)</strong>: Handles user interaction by reading commands, evaluating them, and printing results.</li>
-<li><strong>Parser</strong>: Transforms SQL queries into an internal representation for the Virtual Machine.</li>
-<li><strong>Virtual Machine</strong>: Executes bytecode operations to manipulate database state.</li>
-<li><strong>B-Tree</strong>: Organizes data for rapid access and indexing.</li>
-<li><strong>Pager</strong>: Manages page-based storage, optimizing disk I/O through caching.</li>
-<li><strong>OS Interface</strong>: Abstracts system calls to ensure portability across operating systems.</li>
+<li>
+<p><strong>Eviction control.</strong> The OS page cache uses a general-purpose LRU policy. It has no idea which of our database pages are “hot” (frequently queried) versus “cold.” It might evict a critical B-Tree root page to make room for a log file some other process is writing. Our Pager can pin important pages and evict strategically.</p>
+</li>
+<li>
+<p><strong>Write ordering.</strong> Durability requires that we write the WAL (Write-Ahead Log) record <em>before</em> the modified data page. The OS buffer cache provides no such ordering guarantee — it can flush dirty pages in any sequence. We need explicit <code>fsync()</code> calls at precise moments, which means we must control when and what gets written.</p>
+</li>
+<li>
+<p><strong>Page-aligned I/O.</strong> If we always read and write in exact multiples of <code>PAGE_SIZE</code>, every I/O operation maps cleanly to OS pages. No partial reads, no read-modify-write cycles in the kernel. The OS page cache works best when the application cooperates with it, not when it fights against it.</p>
+</li>
 </ol>
-<p>This layered approach promotes modularity, with each layer having a distinct responsibility. The flow of data and control between these layers is critical to understanding how the database management system operates.</p>
-<h2 id="the-need-for-custom-memory-management">The Need for Custom Memory Management</h2>
-<p>Databases require a custom memory manager, such as the Pager, to optimize performance. This is because databases have specific needs that are not met by general-purpose operating system file caching mechanisms. For instance, databases need to ensure that data is handled in a predictable and efficient manner, which is not guaranteed by OS caching.</p>
-<p>Moreover, databases need to manage data in fixed-size blocks, known as pages, to optimize disk I/O operations. This requires a custom caching strategy that can handle page allocation, caching, and eviction, which is not typically provided by OS file caching.</p>
-<h2 id="page-based-storage-management">Page-Based Storage Management</h2>
-<p>The Pager component is responsible for managing page-based storage. It allocates, caches, and evicts pages as needed to optimize disk I/O operations. The Pager uses a combination of volatile and non-volatile storage to achieve this goal.</p>
-<p>Volatile storage, such as RAM, is used for temporary data processing, while non-volatile storage, such as disk, is used for long-term data persistence. The Pager manages the mapping between disk pages and memory pages, ensuring that data is handled efficiently and predictably.</p>
-<h2 id="example-code-creating-and-parsing-pages">Example Code: Creating and Parsing Pages</h2>
-<p>To illustrate the concept of page-based storage management, let’s consider an example code snippet that creates and parses pages using the <code>struct</code> and <code>memoryview</code> modules in Python:</p>
-<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">import</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> struct</span></span>
-<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">from</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> typing </span><span style="color:#D73A49;--shiki-dark:#F97583">import</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> Final, Tuple</span></span>
-<span class="line"></span>
-<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">PAGE_SIZE</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: Final </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> 4096</span><span style="color:#6A737D;--shiki-dark:#6A737D">  # 4KB page size</span></span>
-<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">PAGE_HEADER_FORMAT</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: Final </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#032F62;--shiki-dark:#9ECBFF"> "&#x3C;I I"</span><span style="color:#6A737D;--shiki-dark:#6A737D">  # Little-endian: page number and data length</span></span>
-<span class="line"></span>
-<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">def</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> create_page</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(page_num: </span><span style="color:#005CC5;--shiki-dark:#79B8FF">int</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, data: </span><span style="color:#005CC5;--shiki-dark:#79B8FF">bytes</span><span style="color:#24292E;--shiki-dark:#E1E4E8">) -> </span><span style="color:#005CC5;--shiki-dark:#79B8FF">bytes</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
-<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">    """Create a page with header and padded data."""</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    header </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> struct.pack(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">PAGE_HEADER_FORMAT</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, page_num, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">len</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(data))</span></span>
-<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    if</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> len</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(data) </span><span style="color:#D73A49;--shiki-dark:#F97583">></span><span style="color:#005CC5;--shiki-dark:#79B8FF"> PAGE_SIZE</span><span style="color:#D73A49;--shiki-dark:#F97583"> -</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> struct.calcsize(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">PAGE_HEADER_FORMAT</span><span style="color:#24292E;--shiki-dark:#E1E4E8">):</span></span>
-<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">        raise</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> ValueError</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"Data too large for page"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    page_data </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> header </span><span style="color:#D73A49;--shiki-dark:#F97583">+</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> data.ljust(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">PAGE_SIZE</span><span style="color:#D73A49;--shiki-dark:#F97583"> -</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> len</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(header), </span><span style="color:#D73A49;--shiki-dark:#F97583">b</span><span style="color:#032F62;--shiki-dark:#9ECBFF">'</span><span style="color:#005CC5;--shiki-dark:#79B8FF">\x00</span><span style="color:#032F62;--shiki-dark:#9ECBFF">'</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span></span>
-<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    return</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> page_data</span></span>
-<span class="line"></span>
-<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">def</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> parse_page</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(page_data: </span><span style="color:#005CC5;--shiki-dark:#79B8FF">bytes</span><span style="color:#24292E;--shiki-dark:#E1E4E8">) -> Tuple[</span><span style="color:#005CC5;--shiki-dark:#79B8FF">int</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">int</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">memoryview</span><span style="color:#24292E;--shiki-dark:#E1E4E8">]:</span></span>
-<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">    """Parse a page to extract header and data view."""</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    header_size </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> struct.calcsize(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">PAGE_HEADER_FORMAT</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    header </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> memoryview</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(page_data[:header_size])</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    page_num, data_length </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> struct.unpack(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">PAGE_HEADER_FORMAT</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, header)</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    data_view </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> memoryview</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(page_data[header_size:header_size </span><span style="color:#D73A49;--shiki-dark:#F97583">+</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> data_length])</span></span>
-<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    return</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> page_num, data_length, data_view</span></span></code></pre>
-<p>This code snippet demonstrates how to create and parse pages using the <code>struct</code> and <code>memoryview</code> modules. The <code>create_page</code> function creates a page with a header and padded data, while the <code>parse_page</code> function extracts the header and data view from a given page.</p>
-<h2 id="memory-hierarchy-and-latency">Memory Hierarchy and Latency</h2>
-<p>The memory hierarchy plays a critical role in determining the performance of a database management system. The memory hierarchy consists of the following levels:</p>
-<ol>
-<li><strong>CPU Registers</strong>: The fastest level of memory, with access times in the order of nanoseconds.</li>
-<li><strong>L1/L2/L3 Caches</strong>: Successively larger and slower caches, with access times in the order of nanoseconds to microseconds.</li>
-<li><strong>RAM</strong>: Volatile memory with access times in the order of nanoseconds.</li>
-<li><strong>Disk</strong>: Non-volatile memory with access times in the order of milliseconds.</li>
-</ol>
-<p>Understanding the memory hierarchy and latency is essential for optimizing database performance. By using a custom memory manager like the Pager, databases can optimize disk I/O operations and reduce latency.</p>
-<h2 id="comparison-of-storage-types">Comparison of Storage Types</h2>
-<p>The following table compares the different storage types based on their access speed, volatility, and use case in databases:</p>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<table><thead><tr><th>Storage Type</th><th>Typical Access Speed</th><th>Volatility</th><th>Use Case in Databases</th></tr></thead><tbody><tr><td>RAM</td><td>~100 nanoseconds</td><td>Volatile</td><td>Active data caching, query processing</td></tr><tr><td>SSD</td><td>~100 microseconds</td><td>Non-volatile</td><td>Persistent storage, faster than HDD</td></tr><tr><td>HDD</td><td>~10 milliseconds</td><td>Non-volatile</td><td>Bulk storage, cost-effective</td></tr><tr><td>CPU Cache</td><td>~1-10 nanoseconds</td><td>Volatile</td><td>Temporary data for CPU operations</td></tr></tbody></table>
-<p>In conclusion, the Pager component plays a critical role in managing the dichotomy between disk and memory storage in databases. By optimizing disk I/O operations and reducing latency, the Pager enables databases to achieve high performance and scalability. Understanding the memory hierarchy and latency is essential for optimizing database performance, and using a custom memory manager like the Pager is crucial for achieving this goal.</p> </div> <!-- Chapter Navigation --> <nav class="mt-16 pt-8 border-t border-border/50"> <div class="grid grid-cols-1 sm:grid-cols-2 gap-4"> <a href="/books/python-database-internals-building-a-persistent-engine-from-scratch/ch1/" class="group flex items-center gap-4 p-4 rounded-xl border border-border/50 bg-card/50 hover:border-primary/40 hover:bg-card transition-all duration-200"> <div class="shrink-0 w-10 h-10 rounded-lg bg-muted flex items-center justify-center group-hover:bg-primary/10 transition-colors"> <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground group-hover:text-primary transition-colors"><path d="M15 19l-7-7 7-7" /></svg> </div> <div class="min-w-0"> <div class="text-xs text-muted-foreground mb-1">Previous</div> <div class="font-medium text-sm line-clamp-2">The Architecture of Persistence</div> </div> </a> <a href="/books/python-database-internals-building-a-persistent-engine-from-scratch/ch1-s2/" class="group flex items-center gap-4 p-4 rounded-xl border border-border/50 bg-card/50 hover:border-primary/40 hover:bg-card transition-all duration-200 sm:text-right sm:flex-row-reverse"> <div class="shrink-0 w-10 h-10 rounded-lg bg-muted flex items-center justify-center group-hover:bg-primary/10 transition-colors"> <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground group-hover:text-primary transition-colors"><path d="M9 5l7 7-7 7" /></svg> </div> <div class="min-w-0"> <div class="text-xs text-muted-foreground mb-1">Next</div> <div class="font-medium text-sm line-clamp-2">Defining the Row Format</div> </div> </a> </div> </nav> </article> </div> </div>  </main> <!-- Footer with gradient accent --> <footer class="border-t border-border/50 mt-auto relative bg-background/50 backdrop-blur-sm"> <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent"></div> <div class="container mx-auto px-4 py-8"> <div class="flex flex-col md:flex-row items-center justify-between gap-6">  <div class="flex flex-col items-center md:items-start gap-4"> <nav class="flex flex-wrap items-center justify-center md:justify-start gap-x-6 gap-y-2 text-sm text-muted-foreground"> <a href="/about" class="hover:text-foreground transition-colors">About</a> <a href="/terms" class="hover:text-foreground transition-colors">Terms & License</a> <a href="mailto:arezki.elmehdi@gmail.com?subject=Hello%20Dev|Journal&body=Hi%20Mehdi," class="hover:text-foreground transition-colors">Contact</a> <div class="hidden md:block w-px h-3 bg-border"></div> <a href="https://github.com/earezki" target="_blank" rel="noopener noreferrer" class="hover:text-foreground transition-colors">GitHub</a> <a href="/rss.xml" class="hover:text-foreground transition-colors">RSS</a> <a href="/tags/" class="hover:text-foreground transition-colors">Tags</a> <a href="/sitemap-index.xml" class="hover:text-foreground transition-colors">Sitemap</a> <a href="/subscribe" class="hover:text-foreground transition-colors">Subscribe</a> </nav> <p class="text-muted-foreground text-sm text-center md:text-left">
+<h2 id="the-page-atomic-unit-of-transfer">The Page: Atomic Unit of Transfer</h2>
+<p>We define a <strong>page</strong> as a fixed-size block of <code>PAGE_SIZE</code> (4096) bytes. Every transfer between memory and disk moves exactly one page. No more, no less.</p>
+<p>This constraint gives us three properties:</p>
+<ul>
+<li><strong>Alignment.</strong> Every page starts at a file offset that is a multiple of 4096. The OS can map it directly to a virtual memory page without splitting.</li>
+<li><strong>Atomicity (best-effort).</strong> On most filesystems, a 4 KB aligned write is atomic — it either fully succeeds or fully fails. This is not guaranteed by POSIX, but it holds on ext4 and APFS for single-sector writes. We will reinforce it with the WAL in Chapter 6.</li>
+<li><strong>Simplicity.</strong> The Pager never needs to deal with variable-length reads. Given a page number <code>n</code>, the byte offset is always <code>n * PAGE_SIZE</code>. Given a byte offset, the page number is always <code>offset // PAGE_SIZE</code>.</li>
+</ul>
+<p>Think of the database file as an array of pages:</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plaintext"><code><span class="line"><span>File on disk:</span></span>
+<span class="line"><span>┌──────────┬──────────┬──────────┬──────────┬─────┐</span></span>
+<span class="line"><span>│  Page 0  │  Page 1  │  Page 2  │  Page 3  │ ... │</span></span>
+<span class="line"><span>│ 4096 B   │ 4096 B   │ 4096 B   │ 4096 B   │     │</span></span>
+<span class="line"><span>└──────────┴──────────┴──────────┴──────────┴─────┘</span></span>
+<span class="line"><span>offset: 0      4096      8192      12288</span></span></code></pre>
+<p>The Pager’s responsibility is to make this array feel like it lives in memory. When the B-Tree asks for page 7, the Pager checks its cache. On a hit, it returns a <code>memoryview</code> instantly. On a miss, it seeks to offset <code>7 * 4096</code>, reads 4096 bytes, stores them in the cache, and returns the view. The B-Tree never knows whether the data came from RAM or disk.</p>
+<p>This is the abstraction we will build in the next chapter. For now, the takeaway is this: the Pager exists because the speed gap between RAM and disk is too large to ignore, the OS page cache is too general to rely on, and fixed-size pages give us the alignment and simplicity needed to build everything else on top.</p> </div> <!-- Chapter Navigation --> <nav class="mt-16 pt-8 border-t border-border/50"> <div class="grid grid-cols-1 sm:grid-cols-2 gap-4"> <a href="/books/python-database-internals-building-a-persistent-engine-from-scratch/ch1/" class="group flex items-center gap-4 p-4 rounded-xl border border-border/50 bg-card/50 hover:border-primary/40 hover:bg-card transition-all duration-200"> <div class="shrink-0 w-10 h-10 rounded-lg bg-muted flex items-center justify-center group-hover:bg-primary/10 transition-colors"> <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground group-hover:text-primary transition-colors"><path d="M15 19l-7-7 7-7" /></svg> </div> <div class="min-w-0"> <div class="text-xs text-muted-foreground mb-1">Previous</div> <div class="font-medium text-sm line-clamp-2">The Architecture of Persistence</div> </div> </a> <a href="/books/python-database-internals-building-a-persistent-engine-from-scratch/ch1-s2/" class="group flex items-center gap-4 p-4 rounded-xl border border-border/50 bg-card/50 hover:border-primary/40 hover:bg-card transition-all duration-200 sm:text-right sm:flex-row-reverse"> <div class="shrink-0 w-10 h-10 rounded-lg bg-muted flex items-center justify-center group-hover:bg-primary/10 transition-colors"> <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground group-hover:text-primary transition-colors"><path d="M9 5l7 7-7 7" /></svg> </div> <div class="min-w-0"> <div class="text-xs text-muted-foreground mb-1">Next</div> <div class="font-medium text-sm line-clamp-2">Defining the Row Format</div> </div> </a> </div> </nav> </article> </div> </div>  </main> <!-- Footer with gradient accent --> <footer class="border-t border-border/50 mt-auto relative bg-background/50 backdrop-blur-sm"> <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent"></div> <div class="container mx-auto px-4 py-8"> <div class="flex flex-col md:flex-row items-center justify-between gap-6">  <div class="flex flex-col items-center md:items-start gap-4"> <nav class="flex flex-wrap items-center justify-center md:justify-start gap-x-6 gap-y-2 text-sm text-muted-foreground"> <a href="/about" class="hover:text-foreground transition-colors">About</a> <a href="/terms" class="hover:text-foreground transition-colors">Terms & License</a> <a href="mailto:arezki.elmehdi@gmail.com?subject=Hello%20Dev|Journal&body=Hi%20Mehdi," class="hover:text-foreground transition-colors">Contact</a> <div class="hidden md:block w-px h-3 bg-border"></div> <a href="https://github.com/earezki" target="_blank" rel="noopener noreferrer" class="hover:text-foreground transition-colors">GitHub</a> <a href="/rss.xml" class="hover:text-foreground transition-colors">RSS</a> <a href="/tags/" class="hover:text-foreground transition-colors">Tags</a> <a href="/sitemap-index.xml" class="hover:text-foreground transition-colors">Sitemap</a> <a href="/subscribe" class="hover:text-foreground transition-colors">Subscribe</a> </nav> <p class="text-muted-foreground text-sm text-center md:text-left">
 © 2026 AREZKI El Mehdi
 </p> </div>  <div class="w-full md:w-auto"> <form id="footer-subscribe-form" class="relative group" onsubmit="event.preventDefault();"> <div class="absolute -inset-0.5 bg-gradient-to-r from-primary via-purple-500 to-pink-500 rounded-lg blur opacity-75 animate-pulse group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div> <div class="relative flex items-center bg-background rounded-lg p-1 border border-border/50"> <input id="footer-subscribe-email" type="email" placeholder="Subscribe to newsletter" class="bg-transparent border-none focus:ring-0 text-sm px-3 py-1.5 w-full md:w-64 outline-none placeholder:text-muted-foreground/50 text-foreground" required> <button type="submit" class="px-4 py-1.5 bg-primary text-primary-foreground rounded-md text-sm font-medium hover:bg-primary/90 transition-colors shadow-sm">
 Join
