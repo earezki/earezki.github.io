@@ -1,0 +1,169 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 500" width="840" height="500" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <filter id="shadow" x="-4%" y="-4%" width="108%" height="108%">
+      <feDropShadow dx="1" dy="2" stdDeviation="3" flood-opacity="0.15"/>
+    </filter>
+    <marker id="arr" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#6b7280"/>
+    </marker>
+  </defs>
+
+  <rect width="840" height="500" fill="#f8fafc" rx="8"/>
+
+  <!-- Title -->
+  <text x="420" y="34" text-anchor="middle" font-size="20" font-weight="700" fill="#1e293b">Propensity Score Matching</text>
+
+  <!-- ===== LEFT: Unmatched ===== -->
+  <g filter="url(#shadow)">
+    <rect x="20" y="56" width="230" height="310" rx="10" fill="white" stroke="#ef4444" stroke-width="2"/>
+    <rect x="20" y="56" width="230" height="34" rx="10" fill="#ef4444" opacity="0.1"/>
+    <text x="135" y="78" text-anchor="middle" font-size="15" font-weight="700" fill="#991b1b">Unmatched Groups</text>
+  </g>
+
+  <!-- Treated group (unmatched) - clustered high -->
+  <text x="40" y="110" font-size="12" font-weight="600" fill="#3b82f6">Treated (n=50)</text>
+  <!-- Dots representing treated, clustered higher -->
+  <circle cx="55" cy="130" r="5" fill="#3b82f6" opacity="0.7"/>
+  <circle cx="75" cy="125" r="5" fill="#3b82f6" opacity="0.7"/>
+  <circle cx="95" cy="135" r="5" fill="#3b82f6" opacity="0.7"/>
+  <circle cx="115" cy="128" r="5" fill="#3b82f6" opacity="0.7"/>
+  <circle cx="135" cy="132" r="5" fill="#3b82f6" opacity="0.7"/>
+  <circle cx="155" cy="126" r="5" fill="#3b82f6" opacity="0.7"/>
+  <circle cx="175" cy="130" r="5" fill="#3b82f6" opacity="0.7"/>
+  <circle cx="195" cy="124" r="5" fill="#3b82f6" opacity="0.7"/>
+  <circle cx="80" cy="145" r="5" fill="#3b82f6" opacity="0.7"/>
+  <circle cx="120" cy="148" r="5" fill="#3b82f6" opacity="0.7"/>
+  <circle cx="160" cy="142" r="5" fill="#3b82f6" opacity="0.7"/>
+
+  <!-- Control group (unmatched) - spread differently -->
+  <text x="40" y="190" font-size="12" font-weight="600" fill="#f59e0b">Control (n=200)</text>
+  <circle cx="45" cy="215" r="4" fill="#f59e0b" opacity="0.6"/>
+  <circle cx="60" cy="225" r="4" fill="#f59e0b" opacity="0.6"/>
+  <circle cx="75" cy="210" r="4" fill="#f59e0b" opacity="0.6"/>
+  <circle cx="90" cy="235" r="4" fill="#f59e0b" opacity="0.6"/>
+  <circle cx="105" cy="220" r="4" fill="#f59e0b" opacity="0.6"/>
+  <circle cx="120" cy="240" r="4" fill="#f59e0b" opacity="0.6"/>
+  <circle cx="135" cy="205" r="4" fill="#f59e0b" opacity="0.6"/>
+  <circle cx="150" cy="230" r="4" fill="#f59e0b" opacity="0.6"/>
+  <circle cx="165" cy="248" r="4" fill="#f59e0b" opacity="0.6"/>
+  <circle cx="180" cy="212" r="4" fill="#f59e0b" opacity="0.6"/>
+  <circle cx="195" cy="242" r="4" fill="#f59e0b" opacity="0.6"/>
+  <circle cx="55" cy="252" r="4" fill="#f59e0b" opacity="0.6"/>
+  <circle cx="85" cy="258" r="4" fill="#f59e0b" opacity="0.6"/>
+  <circle cx="115" cy="262" r="4" fill="#f59e0b" opacity="0.6"/>
+  <circle cx="145" cy="268" r="4" fill="#f59e0b" opacity="0.6"/>
+  <circle cx="175" cy="256" r="4" fill="#f59e0b" opacity="0.6"/>
+
+  <!-- SMD bar (unmatched) -->
+  <text x="40" y="300" font-size="11" font-weight="600" fill="#374151">Covariate Balance (SMD)</text>
+  <text x="40" y="316" font-size="10" fill="#6b7280">Age</text>
+  <rect x="70" y="308" width="120" height="10" rx="3" fill="#ef4444" opacity="0.6"/>
+  <text x="196" y="318" font-size="10" fill="#ef4444" font-weight="600">0.45</text>
+  <text x="40" y="334" font-size="10" fill="#6b7280">Income</text>
+  <rect x="70" y="326" width="160" height="10" rx="3" fill="#ef4444" opacity="0.6"/>
+  <text x="236" y="336" font-size="10" fill="#ef4444" font-weight="600">0.62</text>
+  <text x="40" y="352" font-size="10" fill="#6b7280">Education</text>
+  <rect x="70" y="344" width="90" height="10" rx="3" fill="#ef4444" opacity="0.6"/>
+  <text x="166" y="354" font-size="10" fill="#ef4444" font-weight="600">0.35</text>
+
+  <!-- ===== CENTER: Propensity Score Computation ===== -->
+  <line x1="250" y1="210" x2="298" y2="210" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <g filter="url(#shadow)">
+    <rect x="305" y="110" width="230" height="200" rx="10" fill="white" stroke="#8b5cf6" stroke-width="2"/>
+    <rect x="305" y="110" width="230" height="34" rx="10" fill="#8b5cf6" opacity="0.1"/>
+    <text x="420" y="133" text-anchor="middle" font-size="14" font-weight="700" fill="#5b21b6">Propensity Score</text>
+  </g>
+
+  <!-- Logistic regression formula -->
+  <text x="420" y="170" text-anchor="middle" font-size="13" font-weight="600" fill="#374151">P(T=1 | X)</text>
+  <text x="420" y="192" text-anchor="middle" font-size="12" fill="#6b7280">Logistic Regression</text>
+
+  <!-- Features list -->
+  <text x="320" y="218" font-size="11" fill="#6b7280">Features: Age, Income,</text>
+  <text x="320" y="234" font-size="11" fill="#6b7280">Education, Region, …</text>
+
+  <!-- Score output -->
+  <text x="320" y="262" font-size="12" font-weight="600" fill="#5b21b6">Scores:</text>
+  <text x="320" y="280" font-size="11" fill="#374151">Patient A: 0.72</text>
+  <text x="320" y="296" font-size="11" fill="#374151">Patient B: 0.74   ← match</text>
+
+  <!-- Arrow to right -->
+  <line x1="535" y1="210" x2="578" y2="210" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="557" y="200" text-anchor="middle" font-size="11" fill="#6b7280">match</text>
+
+  <!-- ===== RIGHT: Matched ===== -->
+  <g filter="url(#shadow)">
+    <rect x="585" y="56" width="240" height="310" rx="10" fill="white" stroke="#10b981" stroke-width="2"/>
+    <rect x="585" y="56" width="240" height="34" rx="10" fill="#10b981" opacity="0.1"/>
+    <text x="705" y="78" text-anchor="middle" font-size="15" font-weight="700" fill="#065f46">Matched Pairs</text>
+  </g>
+
+  <!-- Matched pairs visualization -->
+  <!-- Pair 1 -->
+  <circle cx="625" cy="110" r="5" fill="#3b82f6" opacity="0.8"/>
+  <line x1="630" y1="110" x2="665" y2="110" stroke="#6b7280" stroke-width="1" stroke-dasharray="3,2"/>
+  <circle cx="670" cy="110" r="5" fill="#f59e0b" opacity="0.8"/>
+  <text x="690" y="114" font-size="10" fill="#6b7280">p=0.72</text>
+
+  <!-- Pair 2 -->
+  <circle cx="625" cy="135" r="5" fill="#3b82f6" opacity="0.8"/>
+  <line x1="630" y1="135" x2="665" y2="135" stroke="#6b7280" stroke-width="1" stroke-dasharray="3,2"/>
+  <circle cx="670" cy="135" r="5" fill="#f59e0b" opacity="0.8"/>
+  <text x="690" y="139" font-size="10" fill="#6b7280">p=0.65</text>
+
+  <!-- Pair 3 -->
+  <circle cx="625" cy="160" r="5" fill="#3b82f6" opacity="0.8"/>
+  <line x1="630" y1="160" x2="665" y2="160" stroke="#6b7280" stroke-width="1" stroke-dasharray="3,2"/>
+  <circle cx="670" cy="160" r="5" fill="#f59e0b" opacity="0.8"/>
+  <text x="690" y="164" font-size="10" fill="#6b7280">p=0.51</text>
+
+  <!-- Pair 4 -->
+  <circle cx="625" cy="185" r="5" fill="#3b82f6" opacity="0.8"/>
+  <line x1="630" y1="185" x2="665" y2="185" stroke="#6b7280" stroke-width="1" stroke-dasharray="3,2"/>
+  <circle cx="670" cy="185" r="5" fill="#f59e0b" opacity="0.8"/>
+  <text x="690" y="189" font-size="10" fill="#6b7280">p=0.43</text>
+
+  <!-- Pair 5 -->
+  <circle cx="625" cy="210" r="5" fill="#3b82f6" opacity="0.8"/>
+  <line x1="630" y1="210" x2="665" y2="210" stroke="#6b7280" stroke-width="1" stroke-dasharray="3,2"/>
+  <circle cx="670" cy="210" r="5" fill="#f59e0b" opacity="0.8"/>
+  <text x="690" y="214" font-size="10" fill="#6b7280">p=0.38</text>
+
+  <!-- More pairs indicator -->
+  <text x="650" y="240" text-anchor="middle" font-size="14" fill="#6b7280">⋮</text>
+
+  <!-- Legend for pairs -->
+  <circle cx="605" cy="260" r="5" fill="#3b82f6"/>
+  <text x="616" y="264" font-size="11" fill="#374151">Treated</text>
+  <circle cx="680" cy="260" r="5" fill="#f59e0b"/>
+  <text x="691" y="264" font-size="11" fill="#374151">Control</text>
+
+  <!-- SMD bar (matched) -->
+  <text x="600" y="295" font-size="11" font-weight="600" fill="#374151">Covariate Balance (SMD)</text>
+  <text x="600" y="312" font-size="10" fill="#6b7280">Age</text>
+  <rect x="640" y="304" width="12" height="10" rx="3" fill="#10b981" opacity="0.6"/>
+  <text x="658" y="314" font-size="10" fill="#10b981" font-weight="600">0.04</text>
+  <text x="600" y="330" font-size="10" fill="#6b7280">Income</text>
+  <rect x="640" y="322" width="18" height="10" rx="3" fill="#10b981" opacity="0.6"/>
+  <text x="664" y="332" font-size="10" fill="#10b981" font-weight="600">0.07</text>
+  <text x="600" y="348" font-size="10" fill="#6b7280">Education</text>
+  <rect x="640" y="340" width="8" height="10" rx="3" fill="#10b981" opacity="0.6"/>
+  <text x="654" y="350" font-size="10" fill="#10b981" font-weight="600">0.02</text>
+
+  <!-- Bottom: Summary -->
+  <g filter="url(#shadow)">
+    <rect x="70" y="400" width="700" height="80" rx="10" fill="white" stroke="#6b7280" stroke-width="1"/>
+
+    <text x="420" y="424" text-anchor="middle" font-size="14" font-weight="700" fill="#374151">After Matching</text>
+
+    <text x="150" y="450" text-anchor="middle" font-size="12" fill="#6b7280">Comparable groups</text>
+    <text x="150" y="468" text-anchor="middle" font-size="12" font-weight="600" fill="#10b981">✅ Balanced covariates</text>
+
+    <text x="420" y="450" text-anchor="middle" font-size="12" fill="#6b7280">Simple comparison</text>
+    <text x="420" y="468" text-anchor="middle" font-size="12" font-weight="600" fill="#10b981">✅ ATT estimable</text>
+
+    <text x="660" y="450" text-anchor="middle" font-size="12" fill="#6b7280">Trade-off</text>
+    <text x="660" y="468" text-anchor="middle" font-size="12" font-weight="600" fill="#f59e0b">⚠️ Reduced sample size</text>
+  </g>
+</svg>

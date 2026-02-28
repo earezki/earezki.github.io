@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520" width="800" height="520" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <filter id="shadow" x="-4%" y="-4%" width="108%" height="108%">
+      <feDropShadow dx="1" dy="2" stdDeviation="3" flood-opacity="0.15"/>
+    </filter>
+    <marker id="arr" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#6b7280"/>
+    </marker>
+    <marker id="arrowUp" viewBox="0 0 10 10" refX="5" refY="0" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M 0 10 L 5 0 L 10 10 z" fill="#10b981"/>
+    </marker>
+  </defs>
+
+  <rect width="800" height="520" fill="#f8fafc" rx="8"/>
+
+  <!-- Title -->
+  <text x="400" y="34" text-anchor="middle" font-size="20" font-weight="700" fill="#1e293b">Difference-in-Differences</text>
+
+  <!-- Plot area -->
+  <g transform="translate(100, 60)">
+    <!-- Plot background -->
+    <rect width="580" height="340" fill="white" stroke="#e5e7eb" stroke-width="1" rx="4" filter="url(#shadow)"/>
+
+    <!-- Grid -->
+    <line x1="0" y1="68" x2="580" y2="68" stroke="#f3f4f6" stroke-width="1"/>
+    <line x1="0" y1="136" x2="580" y2="136" stroke="#f3f4f6" stroke-width="1"/>
+    <line x1="0" y1="204" x2="580" y2="204" stroke="#f3f4f6" stroke-width="1"/>
+    <line x1="0" y1="272" x2="580" y2="272" stroke="#f3f4f6" stroke-width="1"/>
+
+    <!-- Intervention line -->
+    <line x1="290" y1="0" x2="290" y2="340" stroke="#ef4444" stroke-width="2" stroke-dasharray="6,4"/>
+    <text x="290" y="-8" text-anchor="middle" font-size="13" font-weight="700" fill="#ef4444">Intervention</text>
+
+    <!-- Before / After labels -->
+    <text x="145" y="330" text-anchor="middle" font-size="13" font-weight="600" fill="#6b7280">Pre-Treatment</text>
+    <text x="435" y="330" text-anchor="middle" font-size="13" font-weight="600" fill="#6b7280">Post-Treatment</text>
+
+    <!-- ===== Control Group (continues same trend) ===== -->
+    <!-- Pre-treatment: starts at ~270, goes to ~220 at intervention -->
+    <line x1="30" y1="268" x2="290" y2="220" stroke="#6b7280" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- Post-treatment: continues same slope -->
+    <line x1="290" y1="220" x2="550" y2="172" stroke="#6b7280" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- Dots at key points -->
+    <circle cx="30" cy="268" r="5" fill="#6b7280"/>
+    <circle cx="160" cy="244" r="5" fill="#6b7280"/>
+    <circle cx="290" cy="220" r="5" fill="#6b7280"/>
+    <circle cx="420" cy="196" r="5" fill="#6b7280"/>
+    <circle cx="550" cy="172" r="5" fill="#6b7280"/>
+    <text x="560" y="168" font-size="12" font-weight="600" fill="#6b7280">Control</text>
+
+    <!-- ===== Treatment Group ===== -->
+    <!-- Pre-treatment: starts at ~200, goes to ~150 at intervention (parallel to control) -->
+    <line x1="30" y1="200" x2="290" y2="152" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- Post-treatment: changes slope more steeply (treatment effect) -->
+    <line x1="290" y1="152" x2="550" y2="64" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- Dots -->
+    <circle cx="30" cy="200" r="5" fill="#3b82f6"/>
+    <circle cx="160" cy="176" r="5" fill="#3b82f6"/>
+    <circle cx="290" cy="152" r="5" fill="#3b82f6"/>
+    <circle cx="420" cy="108" r="5" fill="#3b82f6"/>
+    <circle cx="550" cy="64" r="5" fill="#3b82f6"/>
+    <text x="560" y="60" font-size="12" font-weight="600" fill="#3b82f6">Treatment</text>
+
+    <!-- ===== Counterfactual (dashed) ===== -->
+    <!-- Same slope as pre-treatment, extending post-treatment (parallel to control post) -->
+    <line x1="290" y1="152" x2="550" y2="104" stroke="#8b5cf6" stroke-width="2" stroke-dasharray="8,4" stroke-linecap="round"/>
+    <text x="555" y="108" font-size="11" fill="#8b5cf6">Counterfactual</text>
+    <text x="555" y="122" font-size="10" fill="#8b5cf6">(without treatment)</text>
+
+    <!-- DiD Effect Arrow -->
+    <line x1="490" y1="92" x2="490" y2="76" stroke="#10b981" stroke-width="2.5"/>
+    <line x1="490" y1="76" x2="490" y2="54" stroke="none"/>
+    <!-- Vertical arrow for treatment effect -->
+    <line x1="485" y1="92" x2="485" y2="76" stroke="#10b981" stroke-width="0"/>
+    <!-- Arrow body -->
+    <rect x="484" y="76" width="12" height="2" rx="1" fill="#10b981"/>
+    <rect x="484" y="92" width="12" height="2" rx="1" fill="#10b981"/>
+    <line x1="490" y1="76" x2="490" y2="92" stroke="#10b981" stroke-width="2.5"/>
+    <!-- Arrow head pointing up at actual treatment line -->
+    <polygon points="490,70 484,80 496,80" fill="#10b981"/>
+    <!-- Arrow head pointing down at counterfactual -->
+    <polygon points="490,98 484,88 496,88" fill="#10b981"/>
+
+    <text x="504" y="88" font-size="12" font-weight="700" fill="#10b981">DiD</text>
+    <text x="504" y="101" font-size="11" fill="#10b981">Effect</text>
+
+    <!-- Parallel trends annotation -->
+    <g transform="translate(30, 285)">
+      <rect x="-5" y="-14" width="200" height="36" rx="6" fill="#fefce8" stroke="#f59e0b" stroke-width="1"/>
+      <text font-size="11" font-weight="600" fill="#92400e">⚠️ Parallel Trends Assumption:</text>
+      <text y="16" font-size="10" fill="#92400e">Same slope before intervention</text>
+    </g>
+
+    <!-- Y-axis labels -->
+    <text x="-15" y="274" text-anchor="end" font-size="11" fill="#6b7280">Low</text>
+    <text x="-15" y="10" text-anchor="end" font-size="11" fill="#6b7280">High</text>
+
+    <!-- Y-axis title -->
+    <text x="-50" y="170" text-anchor="middle" font-size="14" font-weight="600" fill="#374151" transform="rotate(-90, -50, 170)">Outcome</text>
+
+    <!-- X-axis title -->
+    <text x="290" y="360" text-anchor="middle" font-size="14" font-weight="600" fill="#374151">Time</text>
+  </g>
+
+  <!-- Footer explanation -->
+  <g transform="translate(50, 440)">
+    <rect width="700" height="65" rx="10" fill="white" stroke="#e5e7eb" stroke-width="1" filter="url(#shadow)"/>
+
+    <text x="20" y="22" font-size="13" font-weight="700" fill="#374151">DiD Formula:</text>
+    <text x="20" y="42" font-size="12" fill="#374151">Treatment Effect = (Y₁ᵗ − Y₀ᵗ) − (Y₁ᶜ − Y₀ᶜ)</text>
+    <text x="20" y="56" font-size="11" fill="#6b7280">Change in treatment group minus change in control group</text>
+
+    <g transform="translate(400, 10)">
+      <line x1="0" y1="8" x2="30" y2="8" stroke="#3b82f6" stroke-width="2.5"/>
+      <text x="36" y="12" font-size="12" fill="#374151">Treatment</text>
+      <line x1="0" y1="28" x2="30" y2="28" stroke="#6b7280" stroke-width="2.5"/>
+      <text x="36" y="32" font-size="12" fill="#374151">Control</text>
+      <line x1="0" y1="48" x2="30" y2="48" stroke="#8b5cf6" stroke-width="2" stroke-dasharray="6,3"/>
+      <text x="36" y="52" font-size="12" fill="#374151">Counterfactual</text>
+
+      <line x1="180" y1="8" x2="210" y2="8" stroke="#ef4444" stroke-width="2" stroke-dasharray="6,4"/>
+      <text x="216" y="12" font-size="12" fill="#374151">Intervention</text>
+    </g>
+  </g>
+</svg>

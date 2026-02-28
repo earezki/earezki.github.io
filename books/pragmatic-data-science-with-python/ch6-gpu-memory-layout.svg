@@ -1,0 +1,152 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 560" width="860" height="560">
+  <defs>
+    <filter id="shadow" x="-5%" y="-5%" width="115%" height="115%">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.15"/>
+    </filter>
+    <linearGradient id="headerGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#ef4444"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="860" height="560" rx="12" fill="#f8fafc"/>
+  <rect x="0" y="0" width="860" height="56" rx="12" fill="url(#headerGrad)"/>
+  <rect x="0" y="30" width="860" height="26" fill="url(#headerGrad)"/>
+  <text x="430" y="37" text-anchor="middle" font-family="system-ui, sans-serif" font-size="22" font-weight="700" fill="#ffffff">GPU Memory Layout During Training</text>
+
+  <!-- GPU VRAM bar label -->
+  <text x="430" y="87" text-anchor="middle" font-family="system-ui, sans-serif" font-size="16" font-weight="700" fill="#334155">GPU VRAM — 24 GB Total (e.g., RTX 4090)</text>
+
+  <!-- Total GPU VRAM bar (outer container) -->
+  <g filter="url(#shadow)">
+    <rect x="30" y="100" width="800" height="80" rx="10" fill="#1e293b" stroke="#475569" stroke-width="2"/>
+  </g>
+
+  <!-- Segment 1: Model Parameters (2GB = ~67px per GB → 133px) -->
+  <rect x="32" y="102" width="130" height="76" rx="8" fill="#3b82f6"/>
+  <text x="97" y="132" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="#ffffff">Parameters</text>
+  <text x="97" y="152" text-anchor="middle" font-family="system-ui, sans-serif" font-size="16" font-weight="700" fill="#dbeafe">2 GB</text>
+  <text x="97" y="168" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" fill="#93c5fd">FP32 weights</text>
+
+  <!-- Segment 2: Gradients (2GB) -->
+  <rect x="164" y="102" width="130" height="76" rx="0" fill="#10b981"/>
+  <text x="229" y="132" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="#ffffff">Gradients</text>
+  <text x="229" y="152" text-anchor="middle" font-family="system-ui, sans-serif" font-size="16" font-weight="700" fill="#bbf7d0">2 GB</text>
+  <text x="229" y="168" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" fill="#86efac">same size</text>
+
+  <!-- Segment 3: Optimizer States (8GB for Adam) -->
+  <rect x="296" y="102" width="260" height="76" rx="0" fill="#f59e0b"/>
+  <text x="426" y="128" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="#ffffff">Optimizer States (Adam)</text>
+  <text x="426" y="152" text-anchor="middle" font-family="system-ui, sans-serif" font-size="16" font-weight="700" fill="#fef3c7">8 GB</text>
+  <text x="426" y="168" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" fill="#fde68a">momentum + variance (2× params each)</text>
+
+  <!-- Segment 4: Activations (variable) -->
+  <rect x="558" y="102" width="170" height="76" rx="0" fill="#ef4444"/>
+  <text x="643" y="132" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="#ffffff">Activations</text>
+  <text x="643" y="152" text-anchor="middle" font-family="system-ui, sans-serif" font-size="16" font-weight="700" fill="#fecaca">~8 GB</text>
+  <text x="643" y="168" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" fill="#fca5a5">varies w/ batch size</text>
+
+  <!-- Segment 5: Free -->
+  <rect x="730" y="102" width="98" height="76" rx="8" fill="#334155"/>
+  <text x="779" y="135" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="#94a3b8">Free</text>
+  <text x="779" y="158" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="#64748b">4 GB</text>
+
+  <!-- Size ratio annotations -->
+  <text x="97" y="196" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#3b82f6" font-weight="600">1×</text>
+  <text x="229" y="196" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#10b981" font-weight="600">1×</text>
+  <text x="426" y="196" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#f59e0b" font-weight="600">4× (Adam)</text>
+  <text x="643" y="196" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#ef4444" font-weight="600">variable</text>
+
+  <!-- Big insight callout -->
+  <g filter="url(#shadow)">
+    <rect x="30" y="215" width="800" height="55" rx="10" fill="#fef2f2" stroke="#fca5a5" stroke-width="1.5"/>
+    <text x="430" y="238" text-anchor="middle" font-family="system-ui, sans-serif" font-size="15" font-weight="700" fill="#dc2626">⚠ Why a 7B parameter model needs 56 GB+ for training</text>
+    <text x="430" y="258" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" fill="#7f1d1d">7B × 4 bytes (FP32) = 28 GB for params alone → ×2 for gradients → ×2 more for Adam states = 28 + 28 + 56 = 112 GB minimum</text>
+  </g>
+
+  <!-- Strategies section -->
+  <text x="430" y="300" text-anchor="middle" font-family="system-ui, sans-serif" font-size="18" font-weight="700" fill="#334155">Strategies to Reduce Each Segment</text>
+
+  <!-- Strategy 1: Reduce Parameters -->
+  <g filter="url(#shadow)">
+    <rect x="30" y="315" width="192" height="228" rx="10" fill="#ffffff" stroke="#bfdbfe" stroke-width="1.5"/>
+    <rect x="30" y="315" width="192" height="36" rx="10" fill="#3b82f6"/>
+    <rect x="30" y="337" width="192" height="14" fill="#3b82f6"/>
+    <text x="126" y="339" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="#ffffff">Parameters</text>
+  </g>
+
+  <text x="126" y="375" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="600" fill="#1d4ed8">Quantization</text>
+  <rect x="45" y="382" width="162" height="42" rx="6" fill="#eff6ff"/>
+  <text x="126" y="398" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#475569">FP32 → FP16: 2× smaller</text>
+  <text x="126" y="414" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#475569">FP32 → INT8: 4× smaller</text>
+
+  <text x="126" y="445" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="600" fill="#1d4ed8">LoRA / QLoRA</text>
+  <rect x="45" y="452" width="162" height="42" rx="6" fill="#eff6ff"/>
+  <text x="126" y="468" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#475569">Freeze most params,</text>
+  <text x="126" y="484" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#475569">train low-rank adapters</text>
+
+  <text x="126" y="515" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#10b981">↓ Up to 4× reduction</text>
+
+  <!-- Strategy 2: Reduce Gradients -->
+  <g filter="url(#shadow)">
+    <rect x="234" y="315" width="192" height="228" rx="10" fill="#ffffff" stroke="#bbf7d0" stroke-width="1.5"/>
+    <rect x="234" y="315" width="192" height="36" rx="10" fill="#10b981"/>
+    <rect x="234" y="337" width="192" height="14" fill="#10b981"/>
+    <text x="330" y="339" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="#ffffff">Gradients</text>
+  </g>
+
+  <text x="330" y="375" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="600" fill="#166534">Gradient Checkpointing</text>
+  <rect x="249" y="382" width="162" height="55" rx="6" fill="#f0fdf4"/>
+  <text x="330" y="398" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#475569">Recompute activations</text>
+  <text x="330" y="414" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#475569">during backward instead</text>
+  <text x="330" y="428" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#475569">of storing them all</text>
+
+  <text x="330" y="458" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="600" fill="#166534">Gradient Accumulation</text>
+  <rect x="249" y="465" width="162" height="42" rx="6" fill="#f0fdf4"/>
+  <text x="330" y="481" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#475569">Smaller micro-batches,</text>
+  <text x="330" y="497" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#475569">accumulate over N steps</text>
+
+  <text x="330" y="527" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#10b981">↓ Trade compute for memory</text>
+
+  <!-- Strategy 3: Reduce Optimizer -->
+  <g filter="url(#shadow)">
+    <rect x="438" y="315" width="192" height="228" rx="10" fill="#ffffff" stroke="#fde68a" stroke-width="1.5"/>
+    <rect x="438" y="315" width="192" height="36" rx="10" fill="#f59e0b"/>
+    <rect x="438" y="337" width="192" height="14" fill="#f59e0b"/>
+    <text x="534" y="339" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="#ffffff">Optimizer States</text>
+  </g>
+
+  <text x="534" y="375" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="600" fill="#92400e">Use SGD instead</text>
+  <rect x="453" y="382" width="162" height="42" rx="6" fill="#fffbeb"/>
+  <text x="534" y="398" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#475569">SGD: 0× extra states</text>
+  <text x="534" y="414" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#475569">Adam: 2× extra states</text>
+
+  <text x="534" y="445" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="600" fill="#92400e">8-bit Adam</text>
+  <rect x="453" y="452" width="162" height="42" rx="6" fill="#fffbeb"/>
+  <text x="534" y="468" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#475569">bitsandbytes library</text>
+  <text x="534" y="484" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#475569">Keeps Adam, 4× less RAM</text>
+
+  <text x="534" y="527" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#10b981">↓ Up to 4× reduction</text>
+
+  <!-- Strategy 4: Reduce Activations -->
+  <g filter="url(#shadow)">
+    <rect x="642" y="315" width="192" height="228" rx="10" fill="#ffffff" stroke="#fca5a5" stroke-width="1.5"/>
+    <rect x="642" y="315" width="192" height="36" rx="10" fill="#ef4444"/>
+    <rect x="642" y="337" width="192" height="14" fill="#ef4444"/>
+    <text x="738" y="339" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="#ffffff">Activations</text>
+  </g>
+
+  <text x="738" y="375" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="600" fill="#dc2626">Mixed Precision (AMP)</text>
+  <rect x="657" y="382" width="162" height="55" rx="6" fill="#fef2f2"/>
+  <text x="738" y="398" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#475569">Forward: FP16 (fast)</text>
+  <text x="738" y="414" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#475569">Loss scale: FP32 (stable)</text>
+  <text x="738" y="428" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#475569">torch.amp.autocast</text>
+
+  <text x="738" y="458" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="600" fill="#dc2626">Reduce Batch Size</text>
+  <rect x="657" y="465" width="162" height="42" rx="6" fill="#fef2f2"/>
+  <text x="738" y="481" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#475569">Linear relationship:</text>
+  <text x="738" y="497" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#475569">½ batch = ½ activations</text>
+
+  <text x="738" y="527" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#10b981">↓ 2× with mixed precision</text>
+</svg>

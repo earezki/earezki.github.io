@@ -1,0 +1,163 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 950 450" width="950" height="450">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#f1f5f9"/>
+    </linearGradient>
+    <linearGradient id="grayGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#64748b"/>
+      <stop offset="100%" stop-color="#475569"/>
+    </linearGradient>
+    <linearGradient id="purpleGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#7c3aed"/>
+    </linearGradient>
+    <linearGradient id="blueGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#2563eb"/>
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+    <linearGradient id="amberGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#d97706"/>
+    </linearGradient>
+    <linearGradient id="redGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ef4444"/>
+      <stop offset="100%" stop-color="#dc2626"/>
+    </linearGradient>
+    <filter id="shadow" x="-4%" y="-4%" width="108%" height="112%">
+      <feDropShadow dx="1" dy="2" stdDeviation="3" flood-opacity="0.13" flood-color="#334155"/>
+    </filter>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+    <marker id="arrowLoop" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#ef4444"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="950" height="450" rx="12" fill="url(#bg)" stroke="#e2e8f0" stroke-width="1"/>
+
+  <!-- Title -->
+  <text x="475" y="30" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="16" font-weight="700" fill="#1e293b">LLM Inference: What Actually Happens When AI Generates Code</text>
+
+  <!-- Step numbers reference line -->
+  <!-- Y baseline for boxes: 80, box height ~110 -->
+
+  <!-- ===== STEP 1: Prompt Text ===== -->
+  <rect x="18" y="62" width="110" height="50" rx="8" fill="url(#grayGrad)" filter="url(#shadow)"/>
+  <text x="73" y="82" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#fff">1. Prompt Text</text>
+  <text x="73" y="100" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="9" fill="#e2e8f0">"Write a function"</text>
+
+  <!-- Arrow 1→2 -->
+  <line x1="128" y1="87" x2="146" y2="87" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- ===== STEP 2: Tokenizer ===== -->
+  <rect x="150" y="55" width="130" height="65" rx="8" fill="url(#purpleGrad)" filter="url(#shadow)"/>
+  <text x="215" y="74" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#fff">2. Tokenizer (BPE)</text>
+  <text x="215" y="92" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="8" fill="#e9d5ff">"Write a function" →</text>
+  <text x="215" y="108" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="9" font-weight="600" fill="#fef3c7">[15043, 264, 734, 5765]</text>
+
+  <!-- Arrow 2→3 -->
+  <line x1="280" y1="87" x2="298" y2="87" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- ===== STEP 3: Embedding Layer ===== -->
+  <rect x="302" y="55" width="130" height="65" rx="8" fill="url(#blueGrad)" filter="url(#shadow)"/>
+  <text x="367" y="72" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#fff">3. Embedding Layer</text>
+  <text x="367" y="88" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="8" fill="#bfdbfe">Tokens → Vectors</text>
+  <text x="367" y="104" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="8" font-weight="600" fill="#fef3c7">[15043] →</text>
+  <text x="367" y="114" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="8" font-weight="600" fill="#fef3c7">[0.23, -0.47, 0.81, ...]</text>
+
+  <!-- Arrow 3→4 -->
+  <line x1="432" y1="87" x2="450" y2="87" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- ===== STEP 4: Transformer Blocks ===== -->
+  <rect x="454" y="46" width="200" height="130" rx="10" fill="url(#greenGrad)" filter="url(#shadow)"/>
+  <text x="554" y="65" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#fff">4. Transformer Blocks ×N</text>
+
+  <!-- Sub-blocks inside transformer -->
+  <rect x="468" y="76" width="172" height="22" rx="4" fill="rgba(255,255,255,0.2)"/>
+  <text x="554" y="91" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="9" fill="#fff">Self-Attention</text>
+  <text x="554" y="111" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="8" fill="#d1fae5">↓ Add &amp; Norm</text>
+
+  <rect x="468" y="118" width="172" height="22" rx="4" fill="rgba(255,255,255,0.2)"/>
+  <text x="554" y="133" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="9" fill="#fff">Feed Forward</text>
+  <text x="554" y="153" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="8" fill="#d1fae5">↓ Add &amp; Norm</text>
+
+  <text x="554" y="172" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="8" font-style="italic" fill="#a7f3d0">96 layers in GPT-4</text>
+
+  <!-- Arrow 4→5 -->
+  <line x1="654" y1="87" x2="672" y2="87" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- ===== STEP 5: Output Distribution ===== -->
+  <rect x="676" y="46" width="120" height="130" rx="8" fill="url(#amberGrad)" filter="url(#shadow)"/>
+  <text x="736" y="64" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#fff">5. Softmax</text>
+  <text x="736" y="78" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="8" fill="#fef3c7">Output Distribution</text>
+
+  <!-- Probability bars -->
+  <text x="693" y="100" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="8" fill="#fff">def</text>
+  <rect x="713" y="91" width="68" height="10" rx="2" fill="rgba(255,255,255,0.3)"/>
+  <rect x="713" y="91" width="48" height="10" rx="2" fill="#fff" opacity="0.7"/>
+  <text x="766" y="100" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="7" fill="#fff">.34</text>
+
+  <text x="693" y="116" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="8" fill="#fff">func</text>
+  <rect x="713" y="107" width="68" height="10" rx="2" fill="rgba(255,255,255,0.3)"/>
+  <rect x="713" y="107" width="38" height="10" rx="2" fill="#fff" opacity="0.7"/>
+  <text x="756" y="116" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="7" fill="#fff">.28</text>
+
+  <text x="693" y="132" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="8" fill="#fff">async</text>
+  <rect x="718" y="123" width="63" height="10" rx="2" fill="rgba(255,255,255,0.3)"/>
+  <rect x="718" y="123" width="20" height="10" rx="2" fill="#fff" opacity="0.7"/>
+  <text x="743" y="132" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="7" fill="#fff">.15</text>
+
+  <text x="693" y="148" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="8" fill="#fff">class</text>
+  <rect x="718" y="139" width="63" height="10" rx="2" fill="rgba(255,255,255,0.3)"/>
+  <rect x="718" y="139" width="11" height="10" rx="2" fill="#fff" opacity="0.7"/>
+  <text x="734" y="148" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="7" fill="#fff">.08</text>
+
+  <text x="693" y="164" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="8" font-style="italic" fill="#fef3c7">…</text>
+
+  <!-- Arrow 5→6 -->
+  <line x1="796" y1="87" x2="814" y2="87" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- ===== STEP 6: Sampling → Next Token ===== -->
+  <rect x="818" y="55" width="115" height="65" rx="8" fill="url(#redGrad)" filter="url(#shadow)"/>
+  <text x="875" y="74" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#fff">6. Sampling</text>
+  <text x="875" y="88" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="8" fill="#fecaca">temperature, top-p</text>
+  <text x="875" y="108" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#fff">→ "def"</text>
+
+  <!-- Autoregressive loop arrow -->
+  <path d="M875,120 L875,200 Q875,210 865,210 L367,210 Q357,210 357,200 L357,125"
+        fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="6,3" marker-end="url(#arrowLoop)"/>
+  <text x="620" y="228" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="9" font-weight="600" fill="#ef4444">Autoregressive loop: feed token back as input</text>
+
+  <!-- Pipeline flow labels -->
+  <text x="140" y="148" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="8" fill="#94a3b8">text → ints</text>
+  <text x="292" y="148" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="8" fill="#94a3b8">ints → vecs</text>
+  <text x="454" y="192" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="8" fill="#94a3b8">context mixing</text>
+  <text x="736" y="188" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="8" fill="#94a3b8">logits → probs</text>
+  <text x="875" y="148" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="8" fill="#94a3b8">pick one</text>
+
+  <!-- Bottom note -->
+  <rect x="140" y="260" width="670" height="38" rx="8" fill="#fef2f2" stroke="#fecaca" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="475" y="276" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11" fill="#991b1b">⚠</text>
+  <text x="475" y="290" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#991b1b">No "understanding" — just P(next_token | all_previous_tokens)</text>
+
+  <!-- Step flow labels at top -->
+  <rect x="200" y="320" width="550" height="110" rx="8" fill="#fff" stroke="#e2e8f0" stroke-width="1" filter="url(#shadow)"/>
+  <text x="475" y="342" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#334155">Pipeline Summary</text>
+  <text x="475" y="362" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10" fill="#64748b">
+    <tspan fill="#64748b" font-weight="600">Input:</tspan> Raw text string
+  </text>
+  <text x="475" y="378" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10" fill="#64748b">
+    <tspan fill="#64748b" font-weight="600">Flow:</tspan> Text → Token IDs → Vectors → Attention + FFN (×N) → Probabilities → Sample
+  </text>
+  <text x="475" y="394" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10" fill="#64748b">
+    <tspan fill="#64748b" font-weight="600">Output:</tspan> One token at a time, repeated until done
+  </text>
+  <text x="475" y="416" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="9" font-style="italic" fill="#94a3b8">Every token generated becomes input for the next — no parallel generation</text>
+</svg>

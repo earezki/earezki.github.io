@@ -1,0 +1,182 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 540" width="860" height="540">
+  <defs>
+    <filter id="shadow" x="-5%" y="-5%" width="115%" height="115%">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.15"/>
+    </filter>
+    <linearGradient id="headerGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#ef4444"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="860" height="540" rx="12" fill="#f8fafc"/>
+  <rect x="0" y="0" width="860" height="56" rx="12" fill="url(#headerGrad)"/>
+  <rect x="0" y="30" width="860" height="26" fill="url(#headerGrad)"/>
+  <text x="430" y="37" text-anchor="middle" font-family="system-ui, sans-serif" font-size="22" font-weight="700" fill="#ffffff">Imbalanced Data Strategies Comparison</text>
+
+  <!-- === PANEL 1: SMOTE === -->
+  <g filter="url(#shadow)">
+    <rect x="15" y="72" width="270" height="370" rx="10" fill="#ffffff" stroke="#fde68a" stroke-width="2"/>
+    <rect x="15" y="72" width="270" height="40" rx="10" fill="#f59e0b"/>
+    <rect x="15" y="97" width="270" height="15" fill="#f59e0b"/>
+    <text x="150" y="98" text-anchor="middle" font-family="system-ui, sans-serif" font-size="15" font-weight="700" fill="#ffffff">SMOTE</text>
+  </g>
+
+  <text x="150" y="135" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#475569">Synthetic Minority Over-sampling</text>
+
+  <!-- SMOTE Visualization -->
+  <rect x="35" y="148" width="230" height="165" rx="8" fill="#fffbeb" stroke="#fde68a"/>
+
+  <!-- Majority class (gray circles) -->
+  <circle cx="90" cy="190" r="5" fill="#94a3b8"/>
+  <circle cx="110" cy="175" r="5" fill="#94a3b8"/>
+  <circle cx="130" cy="195" r="5" fill="#94a3b8"/>
+  <circle cx="85" cy="210" r="5" fill="#94a3b8"/>
+  <circle cx="105" cy="230" r="5" fill="#94a3b8"/>
+  <circle cx="125" cy="215" r="5" fill="#94a3b8"/>
+  <circle cx="150" cy="180" r="5" fill="#94a3b8"/>
+  <circle cx="145" cy="205" r="5" fill="#94a3b8"/>
+  <circle cx="100" cy="250" r="5" fill="#94a3b8"/>
+  <circle cx="120" cy="240" r="5" fill="#94a3b8"/>
+  <circle cx="75" cy="230" r="5" fill="#94a3b8"/>
+  <circle cx="140" cy="235" r="5" fill="#94a3b8"/>
+
+  <!-- Minority class (orange circles) -->
+  <circle cx="190" cy="270" r="6" fill="#f59e0b" stroke="#d97706" stroke-width="1.5"/>
+  <circle cx="215" cy="285" r="6" fill="#f59e0b" stroke="#d97706" stroke-width="1.5"/>
+  <circle cx="225" cy="260" r="6" fill="#f59e0b" stroke="#d97706" stroke-width="1.5"/>
+
+  <!-- Synthetic points (dashed border) -->
+  <circle cx="200" cy="275" r="5" fill="#fbbf24" stroke="#f59e0b" stroke-width="1" stroke-dasharray="2,2"/>
+  <circle cx="210" cy="268" r="5" fill="#fbbf24" stroke="#f59e0b" stroke-width="1" stroke-dasharray="2,2"/>
+  <circle cx="205" cy="282" r="5" fill="#fbbf24" stroke="#f59e0b" stroke-width="1" stroke-dasharray="2,2"/>
+  <circle cx="218" cy="275" r="5" fill="#fbbf24" stroke="#f59e0b" stroke-width="1" stroke-dasharray="2,2"/>
+
+  <!-- Connecting lines (interpolation) -->
+  <line x1="190" y1="270" x2="215" y2="285" stroke="#f59e0b" stroke-width="1" stroke-dasharray="3,2" opacity="0.5"/>
+  <line x1="215" y1="285" x2="225" y2="260" stroke="#f59e0b" stroke-width="1" stroke-dasharray="3,2" opacity="0.5"/>
+  <line x1="190" y1="270" x2="225" y2="260" stroke="#f59e0b" stroke-width="1" stroke-dasharray="3,2" opacity="0.5"/>
+
+  <!-- Legend -->
+  <circle cx="50" cy="170" r="4" fill="#94a3b8"/>
+  <text x="60" y="174" font-family="system-ui, sans-serif" font-size="9" fill="#6b7280">Majority</text>
+  <circle cx="50" cy="185" r="4" fill="#f59e0b"/>
+  <text x="60" y="189" font-family="system-ui, sans-serif" font-size="9" fill="#6b7280">Minority</text>
+  <circle cx="50" cy="200" r="4" fill="#fbbf24" stroke="#f59e0b" stroke-dasharray="2,2"/>
+  <text x="60" y="204" font-family="system-ui, sans-serif" font-size="9" fill="#6b7280">Synthetic</text>
+
+  <!-- SMOTE description -->
+  <text x="150" y="330" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#475569">Creates synthetic points along</text>
+  <text x="150" y="345" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#475569">lines between minority samples</text>
+
+  <rect x="35" y="355" width="230" height="35" rx="6" fill="#fef3c7" stroke="#fde68a"/>
+  <text x="150" y="370" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#92400e">⚠ Can create noise in overlap</text>
+  <text x="150" y="383" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#92400e">regions between classes</text>
+
+  <!-- SMOTE rating -->
+  <rect x="35" y="400" width="230" height="30" rx="6" fill="#fefce8"/>
+  <circle cx="55" cy="415" r="8" fill="#f59e0b"/>
+  <text x="150" y="419" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#92400e">Sometimes Works — Use Carefully</text>
+
+  <!-- === PANEL 2: Class Weights === -->
+  <g filter="url(#shadow)">
+    <rect x="295" y="72" width="270" height="370" rx="10" fill="#ffffff" stroke="#bbf7d0" stroke-width="2"/>
+    <rect x="295" y="72" width="270" height="40" rx="10" fill="#10b981"/>
+    <rect x="295" y="97" width="270" height="15" fill="#10b981"/>
+    <text x="430" y="98" text-anchor="middle" font-family="system-ui, sans-serif" font-size="15" font-weight="700" fill="#ffffff">Class Weights</text>
+  </g>
+
+  <text x="430" y="135" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#475569">Weighted Loss Function</text>
+
+  <!-- Class Weights Visualization -->
+  <rect x="315" y="148" width="230" height="165" rx="8" fill="#f0fdf4" stroke="#bbf7d0"/>
+
+  <!-- Loss function visual -->
+  <text x="430" y="172" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#334155">Loss Function</text>
+
+  <!-- Majority sample with small weight -->
+  <rect x="330" y="182" width="200" height="50" rx="6" fill="#ffffff" stroke="#e2e8f0"/>
+  <text x="430" y="200" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#475569">Majority sample misclassified:</text>
+  <text x="430" y="218" text-anchor="middle" font-family="monospace" font-size="12" fill="#6b7280">loss × w₀ = loss × 1.0</text>
+  <rect x="330" y="225" width="40" height="5" rx="2" fill="#94a3b8"/>
+
+  <!-- Minority sample with large weight -->
+  <rect x="330" y="240" width="200" height="50" rx="6" fill="#f0fdf4" stroke="#10b981" stroke-width="1.5"/>
+  <text x="430" y="258" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#166534" font-weight="600">Minority sample misclassified:</text>
+  <text x="430" y="276" text-anchor="middle" font-family="monospace" font-size="12" fill="#166534" font-weight="700">loss × w₁ = loss × 10.0</text>
+  <rect x="330" y="285" width="200" height="5" rx="2" fill="#10b981"/>
+
+  <!-- Arrow showing penalty -->
+  <text x="430" y="300" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#10b981" font-weight="600">↑ 10× penalty for minority errors</text>
+
+  <!-- Description -->
+  <text x="430" y="330" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#475569">Model penalized more for missing</text>
+  <text x="430" y="345" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#475569">minority class — no synthetic data</text>
+
+  <rect x="315" y="355" width="230" height="35" rx="6" fill="#f0fdf4" stroke="#86efac"/>
+  <text x="430" y="370" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#166534">✓ Built into most classifiers</text>
+  <text x="430" y="383" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#166534">class_weight='balanced'</text>
+
+  <!-- Class Weights rating -->
+  <rect x="315" y="400" width="230" height="30" rx="6" fill="#f0fdf4"/>
+  <circle cx="335" cy="415" r="8" fill="#10b981"/>
+  <text x="430" y="419" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#166534">Reliable — First Choice</text>
+
+  <!-- === PANEL 3: Threshold Tuning === -->
+  <g filter="url(#shadow)">
+    <rect x="575" y="72" width="270" height="370" rx="10" fill="#ffffff" stroke="#bbf7d0" stroke-width="2"/>
+    <rect x="575" y="72" width="270" height="40" rx="10" fill="#10b981"/>
+    <rect x="575" y="97" width="270" height="15" fill="#10b981"/>
+    <text x="710" y="98" text-anchor="middle" font-family="system-ui, sans-serif" font-size="15" font-weight="700" fill="#ffffff">Threshold Tuning</text>
+  </g>
+
+  <text x="710" y="135" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#475569">Optimize Decision Threshold</text>
+
+  <!-- Threshold Visualization: PR Curve -->
+  <rect x="595" y="148" width="230" height="165" rx="8" fill="#f0fdf4" stroke="#bbf7d0"/>
+  <text x="710" y="172" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#334155">Precision-Recall Curve</text>
+
+  <!-- Axes -->
+  <line x1="620" y1="295" x2="800" y2="295" stroke="#cbd5e1" stroke-width="1"/>
+  <line x1="620" y1="185" x2="620" y2="295" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="710" y="308" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" fill="#94a3b8">Recall</text>
+  <text x="608" y="240" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" fill="#94a3b8" transform="rotate(-90, 608, 240)">Precision</text>
+
+  <!-- PR Curve -->
+  <path d="M 625,190 C 650,192 680,200 700,215 C 720,230 740,255 760,275 C 775,285 790,290 800,293" fill="none" stroke="#10b981" stroke-width="2.5"/>
+
+  <!-- Optimal point -->
+  <circle cx="700" cy="215" r="7" fill="#ef4444" stroke="#ffffff" stroke-width="2"/>
+  <line x1="700" y1="222" x2="700" y2="295" stroke="#ef4444" stroke-width="1" stroke-dasharray="4,3"/>
+
+  <!-- Label for optimal -->
+  <rect x="710" y="210" width="85" height="30" rx="4" fill="#fef2f2" stroke="#fca5a5"/>
+  <text x="752" y="222" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="600" fill="#dc2626">Optimal</text>
+  <text x="752" y="234" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#dc2626">threshold=0.35</text>
+
+  <!-- Default threshold annotation -->
+  <circle cx="645" cy="192" r="4" fill="#94a3b8"/>
+  <text x="660" y="190" font-family="system-ui, sans-serif" font-size="9" fill="#6b7280">t=0.5</text>
+
+  <!-- Description -->
+  <text x="710" y="330" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#475569">Default threshold (0.5) is rarely</text>
+  <text x="710" y="345" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#475569">optimal for imbalanced data</text>
+
+  <rect x="595" y="355" width="230" height="35" rx="6" fill="#f0fdf4" stroke="#86efac"/>
+  <text x="710" y="370" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#166534">✓ Post-training, no refit needed</text>
+  <text x="710" y="383" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#166534">Use validation set to find optimal t</text>
+
+  <!-- Threshold rating -->
+  <rect x="595" y="400" width="230" height="30" rx="6" fill="#f0fdf4"/>
+  <circle cx="615" cy="415" r="8" fill="#10b981"/>
+  <text x="710" y="419" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#166534">Reliable — Always Try This</text>
+
+  <!-- Bottom recommendation -->
+  <g filter="url(#shadow)">
+    <rect x="15" y="458" width="830" height="68" rx="10" fill="#ffffff" stroke="#e2e8f0"/>
+    <text x="430" y="483" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="#334155">💡 Recommended Strategy</text>
+    <text x="430" y="503" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" fill="#475569">1. Start with class_weight='balanced'  →  2. Tune decision threshold on val set  →  3. Try SMOTE only if still underperforming</text>
+    <text x="430" y="519" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#64748b">Always evaluate with Precision-Recall AUC (not ROC AUC) for imbalanced problems</text>
+  </g>
+</svg>

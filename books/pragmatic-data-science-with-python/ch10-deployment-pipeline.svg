@@ -1,0 +1,138 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" width="900" height="520" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <filter id="shadow" x="-4%" y="-4%" width="108%" height="116%">
+      <feDropShadow dx="1" dy="2" stdDeviation="3" flood-opacity="0.15"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 7" refX="10" refY="3.5" markerWidth="10" markerHeight="7" orient="auto-start-auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#6b7280"/>
+    </marker>
+    <marker id="arrowGreen" viewBox="0 0 10 7" refX="10" refY="3.5" markerWidth="10" markerHeight="7" orient="auto-start-auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#10b981"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="520" rx="12" fill="#f8fafc"/>
+
+  <!-- Title -->
+  <text x="450" y="38" text-anchor="middle" font-size="20" font-weight="700" fill="#1e293b">ML Deployment Pipeline</text>
+  <line x1="300" y1="48" x2="600" y2="48" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Pipeline Stages -->
+  <!-- Stage 1: Model Training -->
+  <rect x="30" y="80" width="148" height="70" rx="10" fill="#3b82f6" filter="url(#shadow)"/>
+  <text x="104" y="110" text-anchor="middle" font-size="15" font-weight="600" fill="#fff">Model Training</text>
+  <text x="104" y="130" text-anchor="middle" font-size="11" fill="#dbeafe">Train &amp; validate</text>
+
+  <!-- Arrow 1→2 -->
+  <line x1="178" y1="115" x2="206" y2="115" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Stage 2: Packaging -->
+  <rect x="210" y="80" width="148" height="70" rx="10" fill="#8b5cf6" filter="url(#shadow)"/>
+  <text x="284" y="110" text-anchor="middle" font-size="15" font-weight="600" fill="#fff">Packaging</text>
+  <text x="284" y="130" text-anchor="middle" font-size="11" fill="#ede9fe">ONNX / TorchScript</text>
+
+  <!-- Arrow 2→3 -->
+  <line x1="358" y1="115" x2="386" y2="115" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Stage 3: API -->
+  <rect x="390" y="80" width="148" height="70" rx="10" fill="#10b981" filter="url(#shadow)"/>
+  <text x="464" y="110" text-anchor="middle" font-size="15" font-weight="600" fill="#fff">API Layer</text>
+  <text x="464" y="130" text-anchor="middle" font-size="11" fill="#d1fae5">FastAPI / Flask</text>
+
+  <!-- Arrow 3→4 -->
+  <line x1="538" y1="115" x2="566" y2="115" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Stage 4: Container -->
+  <rect x="570" y="80" width="148" height="70" rx="10" fill="#f59e0b" filter="url(#shadow)"/>
+  <text x="644" y="110" text-anchor="middle" font-size="15" font-weight="600" fill="#fff">Container</text>
+  <text x="644" y="130" text-anchor="middle" font-size="11" fill="#fef3c7">Docker image</text>
+
+  <!-- Arrow 4→5 -->
+  <line x1="718" y1="115" x2="746" y2="115" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Stage 5: Infrastructure -->
+  <rect x="750" y="80" width="128" height="70" rx="10" fill="#ef4444" filter="url(#shadow)"/>
+  <text x="814" y="110" text-anchor="middle" font-size="15" font-weight="600" fill="#fff">Infrastructure</text>
+  <text x="814" y="130" text-anchor="middle" font-size="11" fill="#fee2e2">Cloud / On-prem</text>
+
+  <!-- Quality Gates Section -->
+  <text x="450" y="195" text-anchor="middle" font-size="16" font-weight="600" fill="#1e293b">Quality Gates</text>
+  <line x1="340" y1="203" x2="560" y2="203" stroke="#10b981" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+  <!-- Vertical lines from pipeline to gates -->
+  <line x1="104" y1="150" x2="104" y2="230" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="284" y1="150" x2="284" y2="230" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="464" y1="150" x2="464" y2="230" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="644" y1="150" x2="644" y2="230" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="814" y1="150" x2="814" y2="230" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="3,3"/>
+
+  <!-- Gate 1: Unit Tests -->
+  <rect x="34" y="230" width="140" height="90" rx="8" fill="#fff" stroke="#3b82f6" stroke-width="1.5" filter="url(#shadow)"/>
+  <circle cx="54" cy="250" r="8" fill="#10b981"/>
+  <text x="66" y="254" font-size="12" font-weight="600" fill="#1e293b">Unit Tests</text>
+  <text x="104" y="274" text-anchor="middle" font-size="10.5" fill="#64748b">• Accuracy thresholds</text>
+  <text x="104" y="289" text-anchor="middle" font-size="10.5" fill="#64748b">• Data validation</text>
+  <text x="104" y="304" text-anchor="middle" font-size="10.5" fill="#64748b">• Input/output shapes</text>
+
+  <!-- Gate 2: Format Validation -->
+  <rect x="214" y="230" width="140" height="90" rx="8" fill="#fff" stroke="#8b5cf6" stroke-width="1.5" filter="url(#shadow)"/>
+  <circle cx="234" cy="250" r="8" fill="#10b981"/>
+  <text x="246" y="254" font-size="12" font-weight="600" fill="#1e293b">Conversion QA</text>
+  <text x="284" y="274" text-anchor="middle" font-size="10.5" fill="#64748b">• Numerical parity</text>
+  <text x="284" y="289" text-anchor="middle" font-size="10.5" fill="#64748b">• Latency benchmark</text>
+  <text x="284" y="304" text-anchor="middle" font-size="10.5" fill="#64748b">• Model size check</text>
+
+  <!-- Gate 3: Integration Tests -->
+  <rect x="394" y="230" width="140" height="90" rx="8" fill="#fff" stroke="#10b981" stroke-width="1.5" filter="url(#shadow)"/>
+  <circle cx="414" cy="250" r="8" fill="#10b981"/>
+  <text x="426" y="254" font-size="12" font-weight="600" fill="#1e293b">Integration</text>
+  <text x="464" y="274" text-anchor="middle" font-size="10.5" fill="#64748b">• Endpoint tests</text>
+  <text x="464" y="289" text-anchor="middle" font-size="10.5" fill="#64748b">• Schema validation</text>
+  <text x="464" y="304" text-anchor="middle" font-size="10.5" fill="#64748b">• Error handling</text>
+
+  <!-- Gate 4: Load Testing -->
+  <rect x="574" y="230" width="140" height="90" rx="8" fill="#fff" stroke="#f59e0b" stroke-width="1.5" filter="url(#shadow)"/>
+  <circle cx="594" cy="250" r="8" fill="#f59e0b"/>
+  <text x="606" y="254" font-size="12" font-weight="600" fill="#1e293b">Load Testing</text>
+  <text x="644" y="274" text-anchor="middle" font-size="10.5" fill="#64748b">• Stress tests</text>
+  <text x="644" y="289" text-anchor="middle" font-size="10.5" fill="#64748b">• Memory profiling</text>
+  <text x="644" y="304" text-anchor="middle" font-size="10.5" fill="#64748b">• Concurrency tests</text>
+
+  <!-- Gate 5: Health Checks -->
+  <rect x="746" y="230" width="140" height="90" rx="8" fill="#fff" stroke="#ef4444" stroke-width="1.5" filter="url(#shadow)"/>
+  <circle cx="766" cy="250" r="8" fill="#10b981"/>
+  <text x="778" y="254" font-size="12" font-weight="600" fill="#1e293b">Health Checks</text>
+  <text x="816" y="274" text-anchor="middle" font-size="10.5" fill="#64748b">• Liveness probe</text>
+  <text x="816" y="289" text-anchor="middle" font-size="10.5" fill="#64748b">• Readiness probe</text>
+  <text x="816" y="304" text-anchor="middle" font-size="10.5" fill="#64748b">• Monitoring setup</text>
+
+  <!-- Bottom summary bar -->
+  <rect x="30" y="350" width="856" height="50" rx="8" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="450" y="370" text-anchor="middle" font-size="13" font-weight="600" fill="#475569">Automated CI/CD Pipeline — Every stage gate must pass before promotion</text>
+  <text x="450" y="388" text-anchor="middle" font-size="11.5" fill="#64748b">Git push → Tests → Build → Deploy staging → Smoke tests → Deploy production → Health verification</text>
+
+  <!-- Artifacts Bar -->
+  <rect x="30" y="415" width="856" height="90" rx="8" fill="#fff" stroke="#e2e8f0" stroke-width="1" filter="url(#shadow)"/>
+  <text x="450" y="438" text-anchor="middle" font-size="14" font-weight="600" fill="#1e293b">Key Artifacts at Each Stage</text>
+
+  <rect x="50" y="450" width="145" height="40" rx="6" fill="#eff6ff"/>
+  <text x="122" y="470" text-anchor="middle" font-size="10.5" fill="#3b82f6" font-weight="600">model.pt</text>
+  <text x="122" y="483" text-anchor="middle" font-size="9.5" fill="#64748b">metrics.json</text>
+
+  <rect x="215" y="450" width="145" height="40" rx="6" fill="#f5f3ff"/>
+  <text x="287" y="470" text-anchor="middle" font-size="10.5" fill="#8b5cf6" font-weight="600">model.onnx</text>
+  <text x="287" y="483" text-anchor="middle" font-size="9.5" fill="#64748b">config.yaml</text>
+
+  <rect x="380" y="450" width="145" height="40" rx="6" fill="#ecfdf5"/>
+  <text x="452" y="470" text-anchor="middle" font-size="10.5" fill="#10b981" font-weight="600">app.py + schema</text>
+  <text x="452" y="483" text-anchor="middle" font-size="9.5" fill="#64748b">openapi.json</text>
+
+  <rect x="545" y="450" width="145" height="40" rx="6" fill="#fffbeb"/>
+  <text x="617" y="470" text-anchor="middle" font-size="10.5" fill="#d97706" font-weight="600">Dockerfile</text>
+  <text x="617" y="483" text-anchor="middle" font-size="9.5" fill="#64748b">image:tag</text>
+
+  <rect x="710" y="450" width="155" height="40" rx="6" fill="#fef2f2"/>
+  <text x="787" y="470" text-anchor="middle" font-size="10.5" fill="#ef4444" font-weight="600">k8s manifests</text>
+  <text x="787" y="483" text-anchor="middle" font-size="9.5" fill="#64748b">terraform / helm</text>
+</svg>

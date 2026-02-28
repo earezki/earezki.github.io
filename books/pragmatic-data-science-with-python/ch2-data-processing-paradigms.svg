@@ -1,0 +1,152 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <defs>
+    <filter id="shadow" x="-2%" y="-2%" width="104%" height="104%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.1"/>
+    </filter>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#f1f5f9"/>
+    </linearGradient>
+    <marker id="arrowDown" markerWidth="8" markerHeight="6" refX="4" refY="6" orient="auto" fill="#6b7280">
+      <polygon points="0 0, 8 0, 4 6"/>
+    </marker>
+  </defs>
+
+  <rect width="800" height="500" rx="12" fill="url(#bgGrad)" stroke="#e2e8f0" stroke-width="1"/>
+
+  <!-- Title -->
+  <text x="400" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#1e293b">Data Processing Paradigms</text>
+  <line x1="250" y1="46" x2="550" y2="46" stroke="#3b82f6" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- === Column 1: Eager (Pandas) === -->
+  <rect x="25" y="60" width="240" height="430" rx="12" fill="#ffffff" stroke="#3b82f6" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="25" y="60" width="240" height="38" rx="12" fill="#3b82f6"/>
+  <rect x="25" y="86" width="240" height="12" fill="#3b82f6"/>
+  <text x="145" y="84" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff">Eager — Pandas</text>
+
+  <!-- CSV icon -->
+  <rect x="105" y="115" width="80" height="32" rx="6" fill="#eff6ff" stroke="#bfdbfe" stroke-width="1"/>
+  <text x="145" y="136" text-anchor="middle" font-size="12" font-weight="600" fill="#1d4ed8">CSV File</text>
+
+  <line x1="145" y1="147" x2="145" y2="170" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrowDown)"/>
+
+  <!-- Load all -->
+  <rect x="55" y="175" width="180" height="38" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="145" y="192" text-anchor="middle" font-size="11" font-weight="600" fill="#1d4ed8">pd.read_csv()</text>
+  <text x="145" y="206" text-anchor="middle" font-size="9" fill="#3b82f6">Load ALL into memory</text>
+
+  <line x1="145" y1="213" x2="145" y2="233" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrowDown)"/>
+
+  <!-- Filter -->
+  <rect x="55" y="238" width="180" height="32" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="145" y="258" text-anchor="middle" font-size="11" font-weight="600" fill="#1d4ed8">df[df.col &gt; 5]</text>
+
+  <line x1="145" y1="270" x2="145" y2="290" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrowDown)"/>
+
+  <!-- Groupby -->
+  <rect x="55" y="295" width="180" height="32" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="145" y="315" text-anchor="middle" font-size="11" font-weight="600" fill="#1d4ed8">df.groupby().mean()</text>
+
+  <line x1="145" y1="327" x2="145" y2="347" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrowDown)"/>
+
+  <!-- Result -->
+  <rect x="85" y="352" width="120" height="32" rx="6" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="145" y="372" text-anchor="middle" font-size="12" font-weight="600" fill="#1d4ed8">Result</text>
+
+  <!-- Key properties -->
+  <text x="145" y="405" text-anchor="middle" font-size="10" font-weight="600" fill="#ef4444">⚠ High memory usage</text>
+  <text x="145" y="420" text-anchor="middle" font-size="10" fill="#6b7280">Each step executes</text>
+  <text x="145" y="433" text-anchor="middle" font-size="10" fill="#6b7280">immediately, no</text>
+  <text x="145" y="446" text-anchor="middle" font-size="10" fill="#6b7280">cross-step optimization</text>
+
+  <rect x="65" y="456" width="160" height="22" rx="6" fill="#fef2f2" stroke="#fecaca" stroke-width="1"/>
+  <text x="145" y="471" text-anchor="middle" font-size="10" font-weight="700" fill="#dc2626">Single-threaded</text>
+
+  <!-- === Column 2: Lazy (Polars) === -->
+  <rect x="280" y="60" width="240" height="430" rx="12" fill="#ffffff" stroke="#10b981" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="280" y="60" width="240" height="38" rx="12" fill="#10b981"/>
+  <rect x="280" y="86" width="240" height="12" fill="#10b981"/>
+  <text x="400" y="84" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff">Lazy — Polars</text>
+
+  <!-- CSV icon -->
+  <rect x="360" y="115" width="80" height="32" rx="6" fill="#ecfdf5" stroke="#a7f3d0" stroke-width="1"/>
+  <text x="400" y="136" text-anchor="middle" font-size="12" font-weight="600" fill="#065f46">CSV File</text>
+
+  <line x1="400" y1="147" x2="400" y2="170" stroke="#10b981" stroke-width="2" marker-end="url(#arrowDown)"/>
+
+  <!-- Scan (lazy) -->
+  <rect x="310" y="175" width="180" height="38" rx="8" fill="#d1fae5" stroke="#10b981" stroke-width="1.5"/>
+  <text x="400" y="192" text-anchor="middle" font-size="11" font-weight="600" fill="#065f46">pl.scan_csv()</text>
+  <text x="400" y="206" text-anchor="middle" font-size="9" fill="#10b981">Build query plan only</text>
+
+  <line x1="400" y1="213" x2="400" y2="233" stroke="#10b981" stroke-width="2" marker-end="url(#arrowDown)"/>
+
+  <!-- Filter -->
+  <rect x="310" y="238" width="180" height="32" rx="8" fill="#d1fae5" stroke="#10b981" stroke-width="1.5"/>
+  <text x="400" y="258" text-anchor="middle" font-size="11" font-weight="600" fill="#065f46">.filter(col &gt; 5)</text>
+
+  <line x1="400" y1="270" x2="400" y2="290" stroke="#10b981" stroke-width="2" marker-end="url(#arrowDown)"/>
+
+  <!-- Groupby -->
+  <rect x="310" y="295" width="180" height="32" rx="8" fill="#d1fae5" stroke="#10b981" stroke-width="1.5"/>
+  <text x="400" y="315" text-anchor="middle" font-size="11" font-weight="600" fill="#065f46">.group_by().agg()</text>
+
+  <line x1="400" y1="327" x2="400" y2="347" stroke="#10b981" stroke-width="2" marker-end="url(#arrowDown)"/>
+
+  <!-- Collect -->
+  <rect x="340" y="352" width="120" height="32" rx="6" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5"/>
+  <text x="400" y="372" text-anchor="middle" font-size="12" font-weight="600" fill="#065f46">.collect()</text>
+
+  <!-- Key properties -->
+  <text x="400" y="405" text-anchor="middle" font-size="10" font-weight="600" fill="#10b981">✓ Optimized query plan</text>
+  <text x="400" y="420" text-anchor="middle" font-size="10" fill="#6b7280">Predicate pushdown,</text>
+  <text x="400" y="433" text-anchor="middle" font-size="10" fill="#6b7280">projection pushdown,</text>
+  <text x="400" y="446" text-anchor="middle" font-size="10" fill="#6b7280">parallel execution</text>
+
+  <rect x="320" y="456" width="160" height="22" rx="6" fill="#ecfdf5" stroke="#a7f3d0" stroke-width="1"/>
+  <text x="400" y="471" text-anchor="middle" font-size="10" font-weight="700" fill="#059669">Multi-threaded (Rust)</text>
+
+  <!-- === Column 3: SQL-Native (DuckDB) === -->
+  <rect x="535" y="60" width="240" height="430" rx="12" fill="#ffffff" stroke="#f59e0b" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="535" y="60" width="240" height="38" rx="12" fill="#f59e0b"/>
+  <rect x="535" y="86" width="240" height="12" fill="#f59e0b"/>
+  <text x="655" y="84" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff">SQL-Native — DuckDB</text>
+
+  <!-- CSV icon -->
+  <rect x="615" y="115" width="80" height="32" rx="6" fill="#fffbeb" stroke="#fde68a" stroke-width="1"/>
+  <text x="655" y="136" text-anchor="middle" font-size="12" font-weight="600" fill="#92400e">CSV File</text>
+
+  <line x1="655" y1="147" x2="655" y2="170" stroke="#f59e0b" stroke-width="2" marker-end="url(#arrowDown)"/>
+
+  <!-- SQL Query -->
+  <rect x="565" y="175" width="180" height="38" rx="8" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="655" y="192" text-anchor="middle" font-size="11" font-weight="600" fill="#92400e">SELECT ... FROM</text>
+  <text x="655" y="206" text-anchor="middle" font-size="9" fill="#d97706">SQL query string</text>
+
+  <line x1="655" y1="213" x2="655" y2="233" stroke="#f59e0b" stroke-width="2" marker-end="url(#arrowDown)"/>
+
+  <!-- Optimizer -->
+  <rect x="565" y="238" width="180" height="32" rx="8" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="655" y="258" text-anchor="middle" font-size="11" font-weight="600" fill="#92400e">Query Optimizer</text>
+
+  <line x1="655" y1="270" x2="655" y2="290" stroke="#f59e0b" stroke-width="2" marker-end="url(#arrowDown)"/>
+
+  <!-- Columnar exec -->
+  <rect x="565" y="295" width="180" height="32" rx="8" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="655" y="315" text-anchor="middle" font-size="11" font-weight="600" fill="#92400e">Columnar Execution</text>
+
+  <line x1="655" y1="327" x2="655" y2="347" stroke="#f59e0b" stroke-width="2" marker-end="url(#arrowDown)"/>
+
+  <!-- Result -->
+  <rect x="595" y="352" width="120" height="32" rx="6" fill="#fffbeb" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="655" y="372" text-anchor="middle" font-size="12" font-weight="600" fill="#92400e">Result</text>
+
+  <!-- Key properties -->
+  <text x="655" y="405" text-anchor="middle" font-size="10" font-weight="600" fill="#f59e0b">✓ Full SQL support</text>
+  <text x="655" y="420" text-anchor="middle" font-size="10" fill="#6b7280">Vectorized execution,</text>
+  <text x="655" y="433" text-anchor="middle" font-size="10" fill="#6b7280">zero-copy with Arrow,</text>
+  <text x="655" y="446" text-anchor="middle" font-size="10" fill="#6b7280">in-process (no server)</text>
+
+  <rect x="575" y="456" width="160" height="22" rx="6" fill="#fffbeb" stroke="#fde68a" stroke-width="1"/>
+  <text x="655" y="471" text-anchor="middle" font-size="10" font-weight="700" fill="#d97706">Multi-threaded (C++)</text>
+</svg>

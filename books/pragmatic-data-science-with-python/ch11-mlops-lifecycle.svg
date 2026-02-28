@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 540" width="800" height="540" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <filter id="shadow" x="-4%" y="-4%" width="108%" height="116%">
+      <feDropShadow dx="1" dy="2" stdDeviation="3" flood-opacity="0.15"/>
+    </filter>
+    <marker id="arrowBlue" viewBox="0 0 10 7" refX="10" refY="3.5" markerWidth="8" markerHeight="6" orient="auto-start-auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#3b82f6"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="540" rx="12" fill="#f8fafc"/>
+
+  <!-- Title -->
+  <text x="400" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#1e293b">MLOps Lifecycle</text>
+  <line x1="300" y1="46" x2="500" y2="46" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Center circle -->
+  <circle cx="400" cy="290" r="68" fill="#eff6ff" stroke="#3b82f6" stroke-width="2" filter="url(#shadow)"/>
+  <text x="400" y="282" text-anchor="middle" font-size="16" font-weight="700" fill="#1e3a8a">Continuous</text>
+  <text x="400" y="302" text-anchor="middle" font-size="16" font-weight="700" fill="#1e3a8a">ML</text>
+
+  <!-- Outer ring path (invisible, for reference) -->
+  <!-- Stages positioned in a circle, radius ~185 from center (400,290) -->
+  <!-- Angles: 0=right, going clockwise -->
+  <!-- 8 stages, 45 degrees apart -->
+
+  <!-- Stage 1: Data Collection (top, ~-90deg => 400, 290-185 = 400,105) -->
+  <rect x="318" y="62" width="164" height="52" rx="10" fill="#3b82f6" filter="url(#shadow)"/>
+  <text x="400" y="85" text-anchor="middle" font-size="13" font-weight="600" fill="#fff">Data Collection</text>
+  <text x="400" y="102" text-anchor="middle" font-size="10" fill="#bfdbfe">DVC / S3</text>
+
+  <!-- Stage 2: Feature Engineering (top-right, ~-45deg => ~531, ~159) -->
+  <rect x="560" y="100" width="164" height="52" rx="10" fill="#8b5cf6" filter="url(#shadow)"/>
+  <text x="642" y="123" text-anchor="middle" font-size="13" font-weight="600" fill="#fff">Feature Engineering</text>
+  <text x="642" y="140" text-anchor="middle" font-size="10" fill="#ddd6fe">Polars / Pandas</text>
+
+  <!-- Stage 3: Model Training (right, 0deg => 400+185, 290 = 585,290 => shifted) -->
+  <rect x="600" y="208" width="164" height="52" rx="10" fill="#10b981" filter="url(#shadow)"/>
+  <text x="682" y="231" text-anchor="middle" font-size="13" font-weight="600" fill="#fff">Model Training</text>
+  <text x="682" y="248" text-anchor="middle" font-size="10" fill="#a7f3d0">XGBoost / PyTorch</text>
+
+  <!-- Stage 4: Evaluation (bottom-right) -->
+  <rect x="578" y="332" width="164" height="52" rx="10" fill="#f59e0b" filter="url(#shadow)"/>
+  <text x="660" y="355" text-anchor="middle" font-size="13" font-weight="600" fill="#fff">Evaluation</text>
+  <text x="660" y="372" text-anchor="middle" font-size="10" fill="#fef3c7">MLflow Tracking</text>
+
+  <!-- Stage 5: Registration (bottom) -->
+  <rect x="415" y="420" width="164" height="52" rx="10" fill="#ef4444" filter="url(#shadow)"/>
+  <text x="497" y="443" text-anchor="middle" font-size="13" font-weight="600" fill="#fff">Registration</text>
+  <text x="497" y="460" text-anchor="middle" font-size="10" fill="#fecaca">MLflow Registry</text>
+
+  <!-- Stage 6: Deployment (bottom-left) -->
+  <rect x="185" y="420" width="164" height="52" rx="10" fill="#6b7280" filter="url(#shadow)"/>
+  <text x="267" y="443" text-anchor="middle" font-size="13" font-weight="600" fill="#fff">Deployment</text>
+  <text x="267" y="460" text-anchor="middle" font-size="10" fill="#e5e7eb">Docker / K8s</text>
+
+  <!-- Stage 7: Monitoring (left) -->
+  <rect x="36" y="332" width="164" height="52" rx="10" fill="#3b82f6" filter="url(#shadow)"/>
+  <text x="118" y="355" text-anchor="middle" font-size="13" font-weight="600" fill="#fff">Monitoring</text>
+  <text x="118" y="372" text-anchor="middle" font-size="10" fill="#bfdbfe">Prometheus / Grafana</text>
+
+  <!-- Stage 8: Drift Detection & Retrain (top-left) -->
+  <rect x="36" y="208" width="164" height="52" rx="10" fill="#8b5cf6" filter="url(#shadow)"/>
+  <text x="118" y="231" text-anchor="middle" font-size="13" font-weight="600" fill="#fff">Drift Detection</text>
+  <text x="118" y="248" text-anchor="middle" font-size="10" fill="#ddd6fe">Evidently AI</text>
+
+  <!-- Stage 9: Retrain Trigger (upper-left) -->
+  <rect x="56" y="100" width="164" height="52" rx="10" fill="#10b981" filter="url(#shadow)"/>
+  <text x="138" y="123" text-anchor="middle" font-size="13" font-weight="600" fill="#fff">Retrain Trigger</text>
+  <text x="138" y="140" text-anchor="middle" font-size="10" fill="#a7f3d0">Airflow / Cron</text>
+
+  <!-- Curved arrows connecting stages (using lines for clarity) -->
+  <!-- 1→2: Data Collection → Feature Engineering -->
+  <path d="M 482 88 Q 530 80 560 116" fill="none" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrowBlue)"/>
+
+  <!-- 2→3: Feature Eng → Model Training -->
+  <path d="M 700 152 Q 710 180 700 208" fill="none" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrowBlue)"/>
+
+  <!-- 3→4: Training → Evaluation -->
+  <path d="M 710 260 Q 705 296 690 332" fill="none" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrowBlue)"/>
+
+  <!-- 4→5: Evaluation → Registration -->
+  <path d="M 620 384 Q 575 410 579 432" fill="none" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrowBlue)"/>
+
+  <!-- 5→6: Registration → Deployment -->
+  <path d="M 415 448 Q 380 450 349 448" fill="none" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrowBlue)"/>
+
+  <!-- 6→7: Deployment → Monitoring -->
+  <path d="M 210 472 Q 160 470 155 384" fill="none" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrowBlue)"/>
+
+  <!-- 7→8: Monitoring → Drift Detection -->
+  <path d="M 118 332 Q 118 300 118 260" fill="none" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrowBlue)"/>
+
+  <!-- 8→9: Drift Detection → Retrain Trigger -->
+  <path d="M 118 208 Q 118 180 130 152" fill="none" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrowBlue)"/>
+
+  <!-- 9→1: Retrain Trigger → Data Collection -->
+  <path d="M 220 112 Q 280 80 318 82" fill="none" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrowBlue)"/>
+
+  <!-- Bottom legend -->
+  <rect x="100" y="494" width="600" height="34" rx="6" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="400" y="516" text-anchor="middle" font-size="12" fill="#64748b">Each cycle iteration improves model quality through automated feedback loops and continuous monitoring</text>
+</svg>

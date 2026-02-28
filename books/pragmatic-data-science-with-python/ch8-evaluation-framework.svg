@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <filter id="shadow" x="-4%" y="-4%" width="108%" height="108%">
+      <feDropShadow dx="1" dy="2" stdDeviation="3" flood-opacity="0.15"/>
+    </filter>
+    <marker id="arr" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#6b7280"/>
+    </marker>
+  </defs>
+
+  <rect width="800" height="500" fill="#f8fafc" rx="8"/>
+
+  <!-- Title -->
+  <text x="400" y="34" text-anchor="middle" font-size="20" font-weight="700" fill="#1e293b">Model Evaluation Framework</text>
+
+  <!-- Center hub -->
+  <g filter="url(#shadow)">
+    <circle cx="400" cy="230" r="55" fill="#1e293b" opacity="0.9"/>
+    <text x="400" y="224" text-anchor="middle" font-size="14" font-weight="700" fill="white">Model</text>
+    <text x="400" y="242" text-anchor="middle" font-size="14" font-weight="700" fill="white">Evaluation</text>
+  </g>
+
+  <!-- Quadrant 1: Top-Left - Metric Selection -->
+  <g filter="url(#shadow)">
+    <rect x="50" y="60" width="260" height="130" rx="12" fill="white" stroke="#3b82f6" stroke-width="2"/>
+    <rect x="50" y="60" width="260" height="34" rx="12" fill="#3b82f6" opacity="0.1"/>
+    <text x="180" y="83" text-anchor="middle" font-size="16" font-weight="700" fill="#1d4ed8">📊 Metric Selection</text>
+    <line x1="70" y1="100" x2="290" y2="100" stroke="#e5e7eb" stroke-width="1"/>
+    <text x="70" y="120" font-size="13" fill="#374151">• Cost matrix design</text>
+    <text x="70" y="140" font-size="13" fill="#374151">• Business alignment</text>
+    <text x="70" y="160" font-size="13" fill="#374151">• Precision vs Recall trade-off</text>
+    <text x="70" y="178" font-size="13" fill="#374151">• Custom composite metrics</text>
+  </g>
+  <line x1="310" y1="145" x2="350" y2="200" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- Quadrant 2: Top-Right - Cross-Validation -->
+  <g filter="url(#shadow)">
+    <rect x="490" y="60" width="260" height="130" rx="12" fill="white" stroke="#10b981" stroke-width="2"/>
+    <rect x="490" y="60" width="260" height="34" rx="12" fill="#10b981" opacity="0.1"/>
+    <text x="620" y="83" text-anchor="middle" font-size="16" font-weight="700" fill="#065f46">🔄 Cross-Validation</text>
+    <line x1="510" y1="100" x2="730" y2="100" stroke="#e5e7eb" stroke-width="1"/>
+    <text x="510" y="120" font-size="13" fill="#374151">• Temporal splits</text>
+    <text x="510" y="140" font-size="13" fill="#374151">• Spatial / geographic CV</text>
+    <text x="510" y="160" font-size="13" fill="#374151">• Grouped / stratified CV</text>
+    <text x="510" y="178" font-size="13" fill="#374151">• Nested CV for tuning</text>
+  </g>
+  <line x1="490" y1="145" x2="450" y2="200" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- Quadrant 3: Bottom-Left - Calibration -->
+  <g filter="url(#shadow)">
+    <rect x="50" y="290" width="260" height="130" rx="12" fill="white" stroke="#8b5cf6" stroke-width="2"/>
+    <rect x="50" y="290" width="260" height="34" rx="12" fill="#8b5cf6" opacity="0.1"/>
+    <text x="180" y="313" text-anchor="middle" font-size="16" font-weight="700" fill="#5b21b6">📐 Calibration</text>
+    <line x1="70" y1="330" x2="290" y2="330" stroke="#e5e7eb" stroke-width="1"/>
+    <text x="70" y="350" font-size="13" fill="#374151">• Probability reliability</text>
+    <text x="70" y="370" font-size="13" fill="#374151">• Platt scaling</text>
+    <text x="70" y="390" font-size="13" fill="#374151">• Isotonic regression</text>
+    <text x="70" y="408" font-size="13" fill="#374151">• Brier score decomposition</text>
+  </g>
+  <line x1="310" y1="340" x2="350" y2="265" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- Quadrant 4: Bottom-Right - Statistical Testing -->
+  <g filter="url(#shadow)">
+    <rect x="490" y="290" width="260" height="130" rx="12" fill="white" stroke="#f59e0b" stroke-width="2"/>
+    <rect x="490" y="290" width="260" height="34" rx="12" fill="#f59e0b" opacity="0.1"/>
+    <text x="620" y="313" text-anchor="middle" font-size="16" font-weight="700" fill="#92400e">📈 Statistical Testing</text>
+    <line x1="510" y1="330" x2="730" y2="330" stroke="#e5e7eb" stroke-width="1"/>
+    <text x="510" y="350" font-size="13" fill="#374151">• A/B test significance</text>
+    <text x="510" y="370" font-size="13" fill="#374151">• Bootstrap CI</text>
+    <text x="510" y="390" font-size="13" fill="#374151">• McNemar's test</text>
+    <text x="510" y="408" font-size="13" fill="#374151">• Paired t-test on folds</text>
+  </g>
+  <line x1="490" y1="340" x2="450" y2="265" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- Business Decision -->
+  <g filter="url(#shadow)">
+    <rect x="310" y="448" width="180" height="42" rx="10" fill="#10b981" stroke="#10b981" stroke-width="1.5"/>
+    <text x="400" y="474" text-anchor="middle" font-size="15" font-weight="700" fill="white">Business Decision</text>
+  </g>
+  <line x1="400" y1="285" x2="400" y2="448" stroke="#1e293b" stroke-width="2" marker-end="url(#arr)" stroke-dasharray="6,4"/>
+</svg>

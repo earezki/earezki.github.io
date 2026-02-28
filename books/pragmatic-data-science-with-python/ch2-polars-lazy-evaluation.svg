@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520" width="800" height="520" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <defs>
+    <filter id="shadow" x="-2%" y="-2%" width="104%" height="104%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.1"/>
+    </filter>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#f1f5f9"/>
+    </linearGradient>
+    <marker id="arrowGreen" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto" fill="#10b981">
+      <polygon points="0 0, 8 3, 0 6"/>
+    </marker>
+    <marker id="arrowRed" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto" fill="#ef4444">
+      <polygon points="0 0, 8 3, 0 6"/>
+    </marker>
+    <marker id="arrowRight" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto" fill="#8b5cf6">
+      <polygon points="0 0, 8 3, 0 6"/>
+    </marker>
+  </defs>
+
+  <rect width="800" height="520" rx="12" fill="url(#bgGrad)" stroke="#e2e8f0" stroke-width="1"/>
+
+  <!-- Title -->
+  <text x="400" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#1e293b">Polars Lazy Evaluation Pipeline</text>
+  <line x1="230" y1="46" x2="570" y2="46" stroke="#10b981" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Column headers -->
+  <text x="200" y="75" text-anchor="middle" font-size="15" font-weight="700" fill="#ef4444">Naive Query Plan</text>
+  <text x="600" y="75" text-anchor="middle" font-size="15" font-weight="700" fill="#10b981">Optimized Plan</text>
+
+  <!-- Central arrow -->
+  <rect x="365" y="230" width="70" height="60" rx="10" fill="#8b5cf6" filter="url(#shadow)"/>
+  <text x="400" y="255" text-anchor="middle" font-size="20" fill="#ffffff">⟹</text>
+  <text x="400" y="275" text-anchor="middle" font-size="9" font-weight="600" fill="#e9d5ff">Optimizer</text>
+
+  <!-- === LEFT: Naive Plan === -->
+  <!-- Scan CSV -->
+  <rect x="100" y="95" width="200" height="36" rx="8" fill="#fef2f2" stroke="#ef4444" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="200" y="117" text-anchor="middle" font-size="12" font-weight="600" fill="#991b1b">Scan CSV (all columns)</text>
+
+  <line x1="200" y1="131" x2="200" y2="152" stroke="#ef4444" stroke-width="1.5" marker-end="url(#arrowRed)"/>
+
+  <!-- Select all columns -->
+  <rect x="100" y="155" width="200" height="36" rx="8" fill="#fef2f2" stroke="#ef4444" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="200" y="177" text-anchor="middle" font-size="12" font-weight="600" fill="#991b1b">Select (20 columns)</text>
+
+  <line x1="200" y1="191" x2="200" y2="212" stroke="#ef4444" stroke-width="1.5" marker-end="url(#arrowRed)"/>
+
+  <!-- Filter -->
+  <rect x="100" y="215" width="200" height="36" rx="8" fill="#fef2f2" stroke="#ef4444" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="200" y="237" text-anchor="middle" font-size="12" font-weight="600" fill="#991b1b">Filter (age &gt; 25)</text>
+
+  <line x1="200" y1="251" x2="200" y2="272" stroke="#ef4444" stroke-width="1.5" marker-end="url(#arrowRed)"/>
+
+  <!-- GroupBy -->
+  <rect x="100" y="275" width="200" height="36" rx="8" fill="#fef2f2" stroke="#ef4444" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="200" y="297" text-anchor="middle" font-size="12" font-weight="600" fill="#991b1b">GroupBy (city)</text>
+
+  <line x1="200" y1="311" x2="200" y2="332" stroke="#ef4444" stroke-width="1.5" marker-end="url(#arrowRed)"/>
+
+  <!-- Aggregate -->
+  <rect x="100" y="335" width="200" height="36" rx="8" fill="#fef2f2" stroke="#ef4444" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="200" y="357" text-anchor="middle" font-size="12" font-weight="600" fill="#991b1b">Aggregate (mean salary)</text>
+
+  <line x1="200" y1="371" x2="200" y2="392" stroke="#ef4444" stroke-width="1.5" marker-end="url(#arrowRed)"/>
+
+  <!-- Collect -->
+  <rect x="130" y="395" width="140" height="32" rx="8" fill="#fecaca" stroke="#ef4444" stroke-width="2"/>
+  <text x="200" y="415" text-anchor="middle" font-size="12" font-weight="700" fill="#991b1b">.collect()</text>
+
+  <!-- Warning labels on left -->
+  <text x="60" y="115" text-anchor="middle" font-size="9" fill="#ef4444" transform="rotate(-90, 60, 115)">SLOW</text>
+
+  <!-- === RIGHT: Optimized Plan === -->
+  <!-- Scan CSV with projection pushdown -->
+  <rect x="500" y="95" width="200" height="50" rx="8" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="600" y="117" text-anchor="middle" font-size="12" font-weight="600" fill="#065f46">Scan CSV</text>
+  <text x="600" y="135" text-anchor="middle" font-size="10" fill="#10b981">only 3 cols: age, city, salary</text>
+
+  <line x1="600" y1="145" x2="600" y2="168" stroke="#10b981" stroke-width="1.5" marker-end="url(#arrowGreen)"/>
+
+  <!-- Filter pushed down -->
+  <rect x="500" y="170" width="200" height="50" rx="8" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="600" y="192" text-anchor="middle" font-size="12" font-weight="600" fill="#065f46">Filter (age &gt; 25)</text>
+  <text x="600" y="210" text-anchor="middle" font-size="10" fill="#10b981">predicate pushdown ↑</text>
+
+  <line x1="600" y1="220" x2="600" y2="248" stroke="#10b981" stroke-width="1.5" marker-end="url(#arrowGreen)"/>
+
+  <!-- GroupBy + Aggregate combined -->
+  <rect x="500" y="250" width="200" height="50" rx="8" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="600" y="272" text-anchor="middle" font-size="12" font-weight="600" fill="#065f46">GroupBy + Aggregate</text>
+  <text x="600" y="290" text-anchor="middle" font-size="10" fill="#10b981">fused operations</text>
+
+  <line x1="600" y1="300" x2="600" y2="328" stroke="#10b981" stroke-width="1.5" marker-end="url(#arrowGreen)"/>
+
+  <!-- Collect -->
+  <rect x="530" y="330" width="140" height="32" rx="8" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+  <text x="600" y="350" text-anchor="middle" font-size="12" font-weight="700" fill="#065f46">.collect()</text>
+
+  <!-- === Optimization annotations === -->
+  <rect x="40" y="445" width="720" height="60" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" filter="url(#shadow)"/>
+  <text x="400" y="465" text-anchor="middle" font-size="13" font-weight="700" fill="#1e293b">Optimizer Transformations Applied</text>
+
+  <!-- Optimization badges -->
+  <rect x="60" y="475" width="160" height="22" rx="6" fill="#ecfdf5" stroke="#a7f3d0" stroke-width="1"/>
+  <text x="140" y="490" text-anchor="middle" font-size="10" font-weight="600" fill="#059669">Projection Pushdown</text>
+
+  <rect x="235" y="475" width="155" height="22" rx="6" fill="#ecfdf5" stroke="#a7f3d0" stroke-width="1"/>
+  <text x="312" y="490" text-anchor="middle" font-size="10" font-weight="600" fill="#059669">Predicate Pushdown</text>
+
+  <rect x="405" y="475" width="175" height="22" rx="6" fill="#ecfdf5" stroke="#a7f3d0" stroke-width="1"/>
+  <text x="492" y="490" text-anchor="middle" font-size="10" font-weight="600" fill="#059669">Common Subexpr Elim.</text>
+
+  <rect x="595" y="475" width="145" height="22" rx="6" fill="#ecfdf5" stroke="#a7f3d0" stroke-width="1"/>
+  <text x="667" y="490" text-anchor="middle" font-size="10" font-weight="600" fill="#059669">Operation Fusion</text>
+
+  <!-- Fewer steps label -->
+  <text x="600" y="390" text-anchor="middle" font-size="11" fill="#10b981" font-weight="600">5 steps → 3 steps</text>
+  <text x="600" y="408" text-anchor="middle" font-size="11" fill="#10b981" font-weight="600">20 cols → 3 cols</text>
+  <text x="600" y="426" text-anchor="middle" font-size="11" fill="#10b981" font-weight="600">Up to 10x faster</text>
+</svg>

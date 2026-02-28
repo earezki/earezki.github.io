@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 700" width="700" height="700">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#f1f5f9"/>
+    </linearGradient>
+    <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e0f2fe"/>
+      <stop offset="100%" stop-color="#bae6fd"/>
+    </linearGradient>
+    <linearGradient id="deepWater" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1e40af"/>
+      <stop offset="100%" stop-color="#1e3a5f"/>
+    </linearGradient>
+    <linearGradient id="iceAbove" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f0f9ff"/>
+      <stop offset="100%" stop-color="#e0f2fe"/>
+    </linearGradient>
+    <linearGradient id="iceBelow" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#bfdbfe"/>
+      <stop offset="100%" stop-color="#93c5fd"/>
+    </linearGradient>
+    <filter id="shadow" x="-4%" y="-4%" width="108%" height="112%">
+      <feDropShadow dx="1" dy="2" stdDeviation="3" flood-opacity="0.13" flood-color="#334155"/>
+    </filter>
+    <filter id="glow" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <clipPath id="aboveWater">
+      <rect x="0" y="0" width="700" height="260"/>
+    </clipPath>
+    <clipPath id="belowWater">
+      <rect x="0" y="260" width="700" height="440"/>
+    </clipPath>
+  </defs>
+
+  <!-- Background -->
+  <rect width="700" height="700" rx="12" fill="url(#bg)" stroke="#e2e8f0" stroke-width="1"/>
+
+  <!-- Title -->
+  <text x="350" y="30" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="15" font-weight="700" fill="#1e293b">The Cloud Cost Iceberg: What You See vs. What You Pay For</text>
+
+  <!-- Sky background -->
+  <rect x="40" y="50" width="620" height="210" rx="10 10 0 0" fill="url(#skyGrad)"/>
+
+  <!-- Water background -->
+  <rect x="40" y="260" width="620" height="360" rx="0 0 10 10" fill="url(#deepWater)"/>
+
+  <!-- Water line -->
+  <line x1="40" y1="260" x2="660" y2="260" stroke="#3b82f6" stroke-width="3"/>
+  <!-- Wave effect -->
+  <path d="M40,260 Q80,252 120,260 Q160,268 200,260 Q240,252 280,260 Q320,268 360,260 Q400,252 440,260 Q480,268 520,260 Q560,252 600,260 Q640,268 660,260" fill="none" stroke="#60a5fa" stroke-width="2" opacity="0.6"/>
+  <text x="668" y="264" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="9" font-weight="600" fill="#3b82f6">waterline</text>
+
+  <!-- ===== ICEBERG ABOVE WATER ===== -->
+  <polygon points="350,80 260,250 440,250" fill="url(#iceAbove)" stroke="#93c5fd" stroke-width="1.5" clip-path="url(#aboveWater)"/>
+
+  <!-- Above water label -->
+  <rect x="60" y="72" width="170" height="22" rx="5" fill="#fff" stroke="#3b82f6" stroke-width="1" filter="url(#shadow)"/>
+  <text x="145" y="88" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#1e40af">What appears on the invoice</text>
+
+  <!-- Visible cost items -->
+  <text x="350" y="135" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#1e40af">Compute (EC2/GCE)</text>
+  <text x="350" y="165" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#1e40af">Storage (S3/GCS)</text>
+  <text x="350" y="195" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#1e40af">Database (RDS/Cloud SQL)</text>
+
+  <!-- Cost annotation above -->
+  <rect x="490" y="100" width="160" height="36" rx="6" fill="#dcfce7" stroke="#22c55e" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="570" y="116" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="9" font-weight="600" fill="#166534">What you pay:</text>
+  <text x="570" y="130" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="13" font-weight="700" fill="#166534">$40K/month</text>
+
+  <!-- ===== ICEBERG BELOW WATER ===== -->
+  <polygon points="350,80 160,590 540,590" fill="url(#iceBelow)" stroke="#60a5fa" stroke-width="1.5" clip-path="url(#belowWater)" opacity="0.85"/>
+
+  <!-- Below water label -->
+  <rect x="60" y="278" width="260" height="22" rx="5" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+  <text x="190" y="294" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#fef3c7">The real cost: inefficiency you can't see</text>
+
+  <!-- Hidden cost items -->
+  <text x="350" y="325" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#fff">Over-provisioned instances</text>
+  <text x="350" y="339" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="8" fill="#bfdbfe">(running at 15% CPU)</text>
+
+  <text x="350" y="362" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#fff">Inefficient queries</text>
+  <text x="350" y="376" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="8" fill="#bfdbfe">(N+1, missing indexes)</text>
+
+  <text x="350" y="399" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#fff">Uncompressed data transfer</text>
+
+  <text x="350" y="425" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#fff">Idle dev/staging environments</text>
+
+  <text x="350" y="451" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#fff">Zombie resources</text>
+  <text x="350" y="465" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="8" fill="#bfdbfe">(unused EBS volumes, old snapshots)</text>
+
+  <text x="350" y="490" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#fff">Engineering time debugging</text>
+  <text x="350" y="504" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="8" fill="#bfdbfe">(instead of profiling)</text>
+
+  <text x="350" y="527" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#fff">GC pressure from allocation-heavy code</text>
+
+  <text x="350" y="553" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#fff">Retry storms from untuned timeouts</text>
+
+  <!-- Cost annotation below -->
+  <rect x="490" y="560" width="160" height="36" rx="6" fill="#fef2f2" stroke="#ef4444" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="570" y="576" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="9" font-weight="600" fill="#991b1b">What you should pay:</text>
+  <text x="570" y="590" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="13" font-weight="700" fill="#991b1b">$8K/month</text>
+
+  <!-- Multiplier callout -->
+  <rect x="495" y="455" width="150" height="50" rx="8" fill="rgba(239,68,68,0.15)" stroke="#ef4444" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="570" y="476" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="18" font-weight="800" fill="#fbbf24" filter="url(#glow)">5×</text>
+  <text x="570" y="496" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="9" font-weight="600" fill="#fecaca">overspend multiplier</text>
+
+  <!-- Depth comparison arrows -->
+  <line x1="165" y1="100" x2="165" y2="570" stroke="rgba(255,255,255,0.2)" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="120" y="110" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="8" fill="#64748b" transform="rotate(-90,120,110)">← visible →</text>
+
+  <!-- Bottom summary -->
+  <rect x="60" y="630" width="580" height="50" rx="8" fill="#fff" stroke="#e2e8f0" stroke-width="1" filter="url(#shadow)"/>
+  <text x="350" y="650" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#334155">Rule of thumb: The visible invoice is 20–30% of the true cost.</text>
+  <text x="350" y="668" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10" fill="#64748b">The rest is hidden in inefficiency, waste, and engineering opportunity cost.</text>
+</svg>

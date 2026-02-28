@@ -1,0 +1,156 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <filter id="shadow" x="-4%" y="-4%" width="108%" height="108%">
+      <feDropShadow dx="1" dy="2" stdDeviation="3" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+
+  <rect width="800" height="500" fill="#f8fafc" rx="8"/>
+
+  <!-- Title -->
+  <text x="400" y="34" text-anchor="middle" font-size="20" font-weight="700" fill="#1e293b">Cross-Validation Strategies</text>
+
+  <!-- Time axis -->
+  <text x="400" y="488" text-anchor="middle" font-size="13" font-weight="600" fill="#6b7280">Time →</text>
+
+  <!-- ============================================ -->
+  <!-- Row 1: K-Fold (WRONG for time series) -->
+  <!-- ============================================ -->
+  <text x="30" y="72" font-size="16" font-weight="700" fill="#374151">K-Fold CV</text>
+  <g filter="url(#shadow)">
+    <rect x="170" y="54" width="590" height="100" rx="8" fill="white" stroke="#ef4444" stroke-width="2"/>
+
+    <!-- Warning badge -->
+    <rect x="580" y="58" width="170" height="22" rx="6" fill="#fef2f2" stroke="#ef4444" stroke-width="1"/>
+    <text x="665" y="73" text-anchor="middle" font-size="11" font-weight="700" fill="#ef4444">⚠️ WRONG for time-series</text>
+
+    <!-- Fold labels -->
+    <text x="185" y="88" font-size="11" fill="#6b7280">Fold 1</text>
+    <text x="185" y="106" font-size="11" fill="#6b7280">Fold 2</text>
+    <text x="185" y="124" font-size="11" fill="#6b7280">Fold 3</text>
+    <text x="185" y="142" font-size="11" fill="#6b7280">Fold 4</text>
+
+    <!-- Fold 1: V T T T T -->
+    <rect x="230" y="78" width="100" height="14" rx="3" fill="#10b981"/>
+    <rect x="335" y="78" width="100" height="14" rx="3" fill="#3b82f6"/>
+    <rect x="440" y="78" width="100" height="14" rx="3" fill="#3b82f6"/>
+    <rect x="545" y="78" width="100" height="14" rx="3" fill="#3b82f6"/>
+    <rect x="650" y="78" width="100" height="14" rx="3" fill="#3b82f6"/>
+
+    <!-- Fold 2: T V T T T -->
+    <rect x="230" y="96" width="100" height="14" rx="3" fill="#3b82f6"/>
+    <rect x="335" y="96" width="100" height="14" rx="3" fill="#10b981"/>
+    <rect x="440" y="96" width="100" height="14" rx="3" fill="#3b82f6"/>
+    <rect x="545" y="96" width="100" height="14" rx="3" fill="#3b82f6"/>
+    <rect x="650" y="96" width="100" height="14" rx="3" fill="#3b82f6"/>
+
+    <!-- Fold 3: T T V T T -->
+    <rect x="230" y="114" width="100" height="14" rx="3" fill="#3b82f6"/>
+    <rect x="335" y="114" width="100" height="14" rx="3" fill="#3b82f6"/>
+    <rect x="440" y="114" width="100" height="14" rx="3" fill="#10b981"/>
+    <rect x="545" y="114" width="100" height="14" rx="3" fill="#3b82f6"/>
+    <rect x="650" y="114" width="100" height="14" rx="3" fill="#3b82f6"/>
+
+    <!-- Fold 4: T T T T V -->
+    <rect x="230" y="132" width="100" height="14" rx="3" fill="#3b82f6"/>
+    <rect x="335" y="132" width="100" height="14" rx="3" fill="#3b82f6"/>
+    <rect x="440" y="132" width="100" height="14" rx="3" fill="#3b82f6"/>
+    <rect x="545" y="132" width="100" height="14" rx="3" fill="#3b82f6"/>
+    <rect x="650" y="132" width="100" height="14" rx="3" fill="#10b981"/>
+  </g>
+
+  <!-- ============================================ -->
+  <!-- Row 2: Time-Series Split (expanding window) -->
+  <!-- ============================================ -->
+  <text x="30" y="198" font-size="16" font-weight="700" fill="#374151">Time-Series</text>
+  <text x="30" y="216" font-size="16" font-weight="700" fill="#374151">Split</text>
+  <g filter="url(#shadow)">
+    <rect x="170" y="180" width="590" height="118" rx="8" fill="white" stroke="#10b981" stroke-width="2"/>
+
+    <!-- Correct badge -->
+    <rect x="580" y="184" width="170" height="22" rx="6" fill="#f0fdf4" stroke="#10b981" stroke-width="1"/>
+    <text x="665" y="199" text-anchor="middle" font-size="11" font-weight="700" fill="#10b981">✅ Correct approach</text>
+
+    <!-- Split labels -->
+    <text x="185" y="212" font-size="11" fill="#6b7280">Split 1</text>
+    <text x="185" y="232" font-size="11" fill="#6b7280">Split 2</text>
+    <text x="185" y="252" font-size="11" fill="#6b7280">Split 3</text>
+    <text x="185" y="272" font-size="11" fill="#6b7280">Split 4</text>
+    <text x="185" y="290" font-size="11" fill="#6b7280">Split 5</text>
+
+    <!-- Split 1: T V -->
+    <rect x="230" y="202" width="100" height="14" rx="3" fill="#3b82f6"/>
+    <rect x="335" y="202" width="100" height="14" rx="3" fill="#10b981"/>
+
+    <!-- Split 2: T T V -->
+    <rect x="230" y="222" width="210" height="14" rx="3" fill="#3b82f6"/>
+    <rect x="445" y="222" width="100" height="14" rx="3" fill="#10b981"/>
+
+    <!-- Split 3: T T T V -->
+    <rect x="230" y="242" width="320" height="14" rx="3" fill="#3b82f6"/>
+    <rect x="555" y="242" width="100" height="14" rx="3" fill="#10b981"/>
+
+    <!-- Split 4: T T T T V -->
+    <rect x="230" y="262" width="420" height="14" rx="3" fill="#3b82f6"/>
+    <rect x="655" y="262" width="95" height="14" rx="3" fill="#10b981"/>
+
+    <!-- Split 5: all train, last val -->
+    <rect x="230" y="282" width="470" height="14" rx="3" fill="#3b82f6"/>
+    <rect x="705" y="282" width="45" height="14" rx="3" fill="#10b981"/>
+  </g>
+
+  <!-- ============================================ -->
+  <!-- Row 3: Time-Series Split with Gap -->
+  <!-- ============================================ -->
+  <text x="30" y="338" font-size="16" font-weight="700" fill="#374151">Time-Series</text>
+  <text x="30" y="356" font-size="16" font-weight="700" fill="#374151">Split + Gap</text>
+  <g filter="url(#shadow)">
+    <rect x="170" y="318" width="590" height="118" rx="8" fill="white" stroke="#8b5cf6" stroke-width="2"/>
+
+    <!-- Best badge -->
+    <rect x="580" y="322" width="170" height="22" rx="6" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="1"/>
+    <text x="665" y="337" text-anchor="middle" font-size="11" font-weight="700" fill="#8b5cf6">⭐ Best practice</text>
+
+    <!-- Split labels -->
+    <text x="185" y="352" font-size="11" fill="#6b7280">Split 1</text>
+    <text x="185" y="372" font-size="11" fill="#6b7280">Split 2</text>
+    <text x="185" y="392" font-size="11" fill="#6b7280">Split 3</text>
+    <text x="185" y="412" font-size="11" fill="#6b7280">Split 4</text>
+    <text x="185" y="430" font-size="11" fill="#6b7280">Split 5</text>
+
+    <!-- Split 1: T [gap] V -->
+    <rect x="230" y="342" width="100" height="14" rx="3" fill="#3b82f6"/>
+    <rect x="335" y="342" width="40" height="14" rx="3" fill="#d1d5db"/>
+    <rect x="380" y="342" width="100" height="14" rx="3" fill="#10b981"/>
+
+    <!-- Split 2: T T [gap] V -->
+    <rect x="230" y="362" width="210" height="14" rx="3" fill="#3b82f6"/>
+    <rect x="445" y="362" width="40" height="14" rx="3" fill="#d1d5db"/>
+    <rect x="490" y="362" width="100" height="14" rx="3" fill="#10b981"/>
+
+    <!-- Split 3: T T T [gap] V -->
+    <rect x="230" y="382" width="280" height="14" rx="3" fill="#3b82f6"/>
+    <rect x="515" y="382" width="40" height="14" rx="3" fill="#d1d5db"/>
+    <rect x="560" y="382" width="100" height="14" rx="3" fill="#10b981"/>
+
+    <!-- Split 4 -->
+    <rect x="230" y="402" width="350" height="14" rx="3" fill="#3b82f6"/>
+    <rect x="585" y="402" width="40" height="14" rx="3" fill="#d1d5db"/>
+    <rect x="630" y="402" width="80" height="14" rx="3" fill="#10b981"/>
+
+    <!-- Split 5 -->
+    <rect x="230" y="422" width="400" height="14" rx="3" fill="#3b82f6"/>
+    <rect x="635" y="422" width="40" height="14" rx="3" fill="#d1d5db"/>
+    <rect x="680" y="422" width="60" height="14" rx="3" fill="#10b981"/>
+  </g>
+
+  <!-- Legend -->
+  <g transform="translate(170, 456)">
+    <rect width="14" height="14" rx="3" fill="#3b82f6"/>
+    <text x="20" y="12" font-size="12" fill="#374151">Training</text>
+    <rect x="100" width="14" height="14" rx="3" fill="#10b981"/>
+    <text x="120" y="12" font-size="12" fill="#374151">Validation</text>
+    <rect x="210" width="14" height="14" rx="3" fill="#d1d5db"/>
+    <text x="230" y="12" font-size="12" fill="#374151">Gap (prevents leakage)</text>
+  </g>
+</svg>

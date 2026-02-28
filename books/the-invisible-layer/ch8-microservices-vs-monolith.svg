@@ -1,0 +1,184 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 950 600" width="950" height="600">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#f1f5f9"/>
+    </linearGradient>
+    <linearGradient id="blueGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#2563eb"/>
+    </linearGradient>
+    <linearGradient id="purpleGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#7c3aed"/>
+    </linearGradient>
+    <linearGradient id="dbGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fbbf24"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+    <linearGradient id="gwGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#a78bfa"/>
+      <stop offset="100%" stop-color="#8b5cf6"/>
+    </linearGradient>
+    <filter id="shadow" x="-4%" y="-4%" width="108%" height="112%">
+      <feDropShadow dx="1" dy="2" stdDeviation="3" flood-opacity="0.13" flood-color="#334155"/>
+    </filter>
+    <marker id="arrowPurple" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#8b5cf6"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="950" height="600" rx="12" fill="url(#bg)" stroke="#e2e8f0" stroke-width="1"/>
+
+  <!-- Title -->
+  <text x="475" y="34" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="17" font-weight="700" fill="#1e293b">Monolith vs. Microservices: What You Gain, What You Lose</text>
+
+  <!-- ===== LEFT: Monolith ===== -->
+  <text x="225" y="62" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="14" font-weight="700" fill="#3b82f6">Monolith</text>
+
+  <!-- Monolith box -->
+  <rect x="60" y="74" width="330" height="250" rx="14" fill="#eff6ff" stroke="#3b82f6" stroke-width="2" filter="url(#shadow)"/>
+
+  <!-- Modules inside monolith -->
+  <rect x="90" y="94" width="120" height="36" rx="6" fill="url(#blueGrad)" filter="url(#shadow)"/>
+  <text x="150" y="117" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#fff">Auth</text>
+
+  <rect x="240" y="94" width="120" height="36" rx="6" fill="url(#blueGrad)" filter="url(#shadow)"/>
+  <text x="300" y="117" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#fff">Users</text>
+
+  <rect x="90" y="148" width="120" height="36" rx="6" fill="url(#blueGrad)" filter="url(#shadow)"/>
+  <text x="150" y="171" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#fff">Orders</text>
+
+  <rect x="240" y="148" width="120" height="36" rx="6" fill="url(#blueGrad)" filter="url(#shadow)"/>
+  <text x="300" y="171" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#fff">Payments</text>
+
+  <rect x="140" y="202" width="170" height="36" rx="6" fill="url(#blueGrad)" filter="url(#shadow)"/>
+  <text x="225" y="225" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#fff">Notifications</text>
+
+  <!-- In-process lines -->
+  <line x1="150" y1="130" x2="150" y2="148" stroke="#93c5fd" stroke-width="1.5" stroke-dasharray="4,2"/>
+  <line x1="300" y1="130" x2="300" y2="148" stroke="#93c5fd" stroke-width="1.5" stroke-dasharray="4,2"/>
+  <line x1="210" y1="112" x2="240" y2="112" stroke="#93c5fd" stroke-width="1.5" stroke-dasharray="4,2"/>
+  <line x1="210" y1="166" x2="240" y2="166" stroke="#93c5fd" stroke-width="1.5" stroke-dasharray="4,2"/>
+  <line x1="225" y1="184" x2="225" y2="202" stroke="#93c5fd" stroke-width="1.5" stroke-dasharray="4,2"/>
+
+  <!-- Labels -->
+  <text x="90" y="262" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10" fill="#475569">• Single process</text>
+  <text x="90" y="276" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10" fill="#475569">• Shared memory</text>
+  <text x="90" y="290" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10" fill="#475569">• One deploy unit</text>
+  <text x="90" y="304" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10" fill="#475569">• One log file</text>
+
+  <!-- Single DB -->
+  <ellipse cx="225" cy="348" rx="42" ry="12" fill="url(#dbGrad)" stroke="#d97706" stroke-width="1.2"/>
+  <rect x="183" y="348" width="84" height="28" fill="url(#dbGrad)" stroke="none"/>
+  <ellipse cx="225" cy="376" rx="42" ry="12" fill="#fbbf24" stroke="#d97706" stroke-width="1.2"/>
+  <line x1="183" y1="348" x2="183" y2="376" stroke="#d97706" stroke-width="1.2"/>
+  <line x1="267" y1="348" x2="267" y2="376" stroke="#d97706" stroke-width="1.2"/>
+  <text x="225" y="366" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#78350f">DB</text>
+  <line x1="225" y1="324" x2="225" y2="336" stroke="#94a3b8" stroke-width="1.5"/>
+  <polygon points="221,336 225,344 229,336" fill="#94a3b8"/>
+
+  <!-- ===== RIGHT: Microservices ===== -->
+  <text x="700" y="62" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="14" font-weight="700" fill="#8b5cf6">Microservices</text>
+
+  <!-- API Gateway / Message Bus -->
+  <rect x="620" y="164" width="160" height="38" rx="8" fill="url(#gwGrad)" filter="url(#shadow)"/>
+  <text x="700" y="182" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#fff">Message Bus /</text>
+  <text x="700" y="194" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#fff">API Gateway</text>
+
+  <!-- Services -->
+  <!-- Auth Service -->
+  <rect x="510" y="74" width="100" height="32" rx="6" fill="url(#purpleGrad)" filter="url(#shadow)"/>
+  <text x="560" y="95" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#fff">Auth Service</text>
+  <line x1="560" y1="106" x2="660" y2="164" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#arrowPurple)"/>
+
+  <!-- User Service -->
+  <rect x="650" y="74" width="100" height="32" rx="6" fill="url(#purpleGrad)" filter="url(#shadow)"/>
+  <text x="700" y="95" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#fff">User Service</text>
+  <line x1="700" y1="106" x2="700" y2="160" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#arrowPurple)"/>
+
+  <!-- Order Service -->
+  <rect x="790" y="74" width="100" height="32" rx="6" fill="url(#purpleGrad)" filter="url(#shadow)"/>
+  <text x="840" y="95" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#fff">Order Service</text>
+  <line x1="840" y1="106" x2="752" y2="164" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#arrowPurple)"/>
+
+  <!-- Payment Service -->
+  <rect x="540" y="222" width="110" height="32" rx="6" fill="url(#purpleGrad)" filter="url(#shadow)"/>
+  <text x="595" y="243" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#fff">Payment Service</text>
+  <line x1="660" y1="202" x2="618" y2="218" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#arrowPurple)"/>
+
+  <!-- Notification Service -->
+  <rect x="700" y="222" width="130" height="32" rx="6" fill="url(#purpleGrad)" filter="url(#shadow)"/>
+  <text x="765" y="243" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#fff">Notification Service</text>
+  <line x1="740" y1="202" x2="752" y2="218" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#arrowPurple)"/>
+
+  <!-- Individual DBs -->
+  <!-- Auth DB -->
+  <ellipse cx="560" cy="140" rx="18" ry="6" fill="#fde68a" stroke="#d97706" stroke-width="0.8"/>
+  <rect x="542" y="140" width="36" height="12" fill="#fde68a" stroke="none"/>
+  <ellipse cx="560" cy="152" rx="18" ry="6" fill="#fef3c7" stroke="#d97706" stroke-width="0.8"/>
+  <line x1="542" y1="140" x2="542" y2="152" stroke="#d97706" stroke-width="0.8"/>
+  <line x1="578" y1="140" x2="578" y2="152" stroke="#d97706" stroke-width="0.8"/>
+
+  <!-- Order DB -->
+  <ellipse cx="840" cy="140" rx="18" ry="6" fill="#fde68a" stroke="#d97706" stroke-width="0.8"/>
+  <rect x="822" y="140" width="36" height="12" fill="#fde68a" stroke="none"/>
+  <ellipse cx="840" cy="152" rx="18" ry="6" fill="#fef3c7" stroke="#d97706" stroke-width="0.8"/>
+  <line x1="822" y1="140" x2="822" y2="152" stroke="#d97706" stroke-width="0.8"/>
+  <line x1="858" y1="140" x2="858" y2="152" stroke="#d97706" stroke-width="0.8"/>
+
+  <!-- Payment DB -->
+  <ellipse cx="540" cy="275" rx="18" ry="6" fill="#fde68a" stroke="#d97706" stroke-width="0.8"/>
+  <rect x="522" y="275" width="36" height="12" fill="#fde68a" stroke="none"/>
+  <ellipse cx="540" cy="287" rx="18" ry="6" fill="#fef3c7" stroke="#d97706" stroke-width="0.8"/>
+  <line x1="522" y1="275" x2="522" y2="287" stroke="#d97706" stroke-width="0.8"/>
+  <line x1="558" y1="275" x2="558" y2="287" stroke="#d97706" stroke-width="0.8"/>
+
+  <!-- Notification DB -->
+  <ellipse cx="850" cy="275" rx="18" ry="6" fill="#fde68a" stroke="#d97706" stroke-width="0.8"/>
+  <rect x="832" y="275" width="36" height="12" fill="#fde68a" stroke="none"/>
+  <ellipse cx="850" cy="287" rx="18" ry="6" fill="#fef3c7" stroke="#d97706" stroke-width="0.8"/>
+  <line x1="832" y1="275" x2="832" y2="287" stroke="#d97706" stroke-width="0.8"/>
+  <line x1="868" y1="275" x2="868" y2="287" stroke="#d97706" stroke-width="0.8"/>
+
+  <!-- Labels right side -->
+  <text x="520" y="316" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10" fill="#475569">• N processes</text>
+  <text x="520" y="330" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10" fill="#475569">• Network calls</text>
+  <text x="520" y="344" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10" fill="#475569">• N deploy units</text>
+  <text x="520" y="358" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10" fill="#475569">• N log streams</text>
+
+  <!-- Divider -->
+  <line x1="475" y1="55" x2="475" y2="400" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="6,3"/>
+
+  <!-- ===== BOTTOM: Comparison Bar ===== -->
+  <rect x="40" y="410" width="870" height="170" rx="10" fill="#fff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#shadow)"/>
+
+  <!-- Header -->
+  <text x="475" y="436" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="13" font-weight="700" fill="#334155">Comparison</text>
+
+  <!-- Column headers -->
+  <text x="320" y="460" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#3b82f6">Monolith</text>
+  <text x="640" y="460" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#8b5cf6">Microservices</text>
+
+  <!-- Debugging row -->
+  <text x="100" y="486" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#475569">Debugging</text>
+  <text x="320" y="486" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="14" fill="#f59e0b">★★★★★</text>
+  <text x="640" y="486" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="14" fill="#f59e0b">★★<tspan fill="#d1d5db">☆☆☆</tspan></text>
+
+  <!-- Scaling row -->
+  <text x="100" y="516" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#475569">Scaling</text>
+  <text x="320" y="516" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="14" fill="#f59e0b">★★<tspan fill="#d1d5db">☆☆☆</tspan></text>
+  <text x="640" y="516" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="14" fill="#f59e0b">★★★★<tspan fill="#d1d5db">☆</tspan></text>
+
+  <!-- Deploy Independence row -->
+  <text x="100" y="546" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#475569">Deploy Independence</text>
+  <text x="320" y="546" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="14" fill="#f59e0b">★<tspan fill="#d1d5db">☆☆☆☆</tspan></text>
+  <text x="640" y="546" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="14" fill="#f59e0b">★★★★★</text>
+
+  <!-- Divider lines -->
+  <line x1="80" y1="466" x2="870" y2="466" stroke="#e2e8f0" stroke-width="1"/>
+  <line x1="80" y1="496" x2="870" y2="496" stroke="#f1f5f9" stroke-width="1"/>
+  <line x1="80" y1="526" x2="870" y2="526" stroke="#f1f5f9" stroke-width="1"/>
+  <line x1="475" y1="448" x2="475" y2="560" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4,2"/>
+</svg>

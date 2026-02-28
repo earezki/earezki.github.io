@@ -1,0 +1,143 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" width="900" height="500">
+  <defs>
+    <filter id="shadow" x="-5%" y="-5%" width="115%" height="115%">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.15"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 7" refX="10" refY="3.5" markerWidth="10" markerHeight="7" orient="auto-start-auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#6b7280"/>
+    </marker>
+    <linearGradient id="headerGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#8b5cf6"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="500" rx="12" fill="#f8fafc"/>
+  <rect x="0" y="0" width="900" height="56" rx="12" fill="url(#headerGrad)"/>
+  <rect x="0" y="30" width="900" height="26" fill="url(#headerGrad)"/>
+
+  <!-- Title -->
+  <text x="450" y="37" text-anchor="middle" font-family="system-ui, sans-serif" font-size="22" font-weight="700" fill="#ffffff">Feature Engineering Pipeline</text>
+
+  <!-- Stage 1: Raw Data -->
+  <g filter="url(#shadow)">
+    <rect x="20" y="100" width="120" height="70" rx="10" fill="#6b7280"/>
+    <text x="80" y="128" text-anchor="middle" font-family="system-ui, sans-serif" font-size="22" fill="#ffffff">📦</text>
+    <text x="80" y="152" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="600" fill="#ffffff">Raw Data</text>
+  </g>
+  <text x="80" y="196" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#6b7280">Mixed types</text>
+  <text x="80" y="210" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#6b7280">Missing values</text>
+  <text x="80" y="224" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#6b7280">Unstructured</text>
+
+  <!-- Arrow 1→2 -->
+  <line x1="140" y1="135" x2="162" y2="135" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Stage 2: Categorical Encoding -->
+  <g filter="url(#shadow)">
+    <rect x="170" y="100" width="120" height="70" rx="10" fill="#3b82f6"/>
+    <text x="230" y="128" text-anchor="middle" font-family="system-ui, sans-serif" font-size="22" fill="#ffffff">🏷️</text>
+    <text x="230" y="148" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#ffffff">Categorical</text>
+    <text x="230" y="162" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#ffffff">Encoding</text>
+  </g>
+  <text x="230" y="196" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#3b82f6">Target Encoding</text>
+  <text x="230" y="210" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#3b82f6">One-Hot / Binary</text>
+  <text x="230" y="224" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#3b82f6">Ordinal Mapping</text>
+
+  <!-- Arrow 2→3 -->
+  <line x1="290" y1="135" x2="312" y2="135" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Stage 3: Temporal Features -->
+  <g filter="url(#shadow)">
+    <rect x="320" y="100" width="120" height="70" rx="10" fill="#f59e0b"/>
+    <text x="380" y="128" text-anchor="middle" font-family="system-ui, sans-serif" font-size="22" fill="#ffffff">⏱️</text>
+    <text x="380" y="148" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#ffffff">Temporal</text>
+    <text x="380" y="162" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#ffffff">Features</text>
+  </g>
+  <text x="380" y="196" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#d97706">Lag Features</text>
+  <text x="380" y="210" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#d97706">Rolling Stats</text>
+  <text x="380" y="224" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#d97706">Date Decomp.</text>
+
+  <!-- Arrow 3→4 -->
+  <line x1="440" y1="135" x2="462" y2="135" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Stage 4: Text Embeddings -->
+  <g filter="url(#shadow)">
+    <rect x="470" y="100" width="120" height="70" rx="10" fill="#8b5cf6"/>
+    <text x="530" y="128" text-anchor="middle" font-family="system-ui, sans-serif" font-size="22" fill="#ffffff">📝</text>
+    <text x="530" y="148" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#ffffff">Text</text>
+    <text x="530" y="162" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#ffffff">Embeddings</text>
+  </g>
+  <text x="530" y="196" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#8b5cf6">TF-IDF</text>
+  <text x="530" y="210" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#8b5cf6">Dense Vectors</text>
+  <text x="530" y="224" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#8b5cf6">Sentence BERT</text>
+
+  <!-- Arrow 4→5 -->
+  <line x1="590" y1="135" x2="612" y2="135" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Stage 5: Dimensionality Reduction -->
+  <g filter="url(#shadow)">
+    <rect x="620" y="100" width="120" height="70" rx="10" fill="#10b981"/>
+    <text x="680" y="128" text-anchor="middle" font-family="system-ui, sans-serif" font-size="22" fill="#ffffff">📉</text>
+    <text x="680" y="148" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#ffffff">Dimensionality</text>
+    <text x="680" y="162" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#ffffff">Reduction</text>
+  </g>
+  <text x="680" y="196" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#10b981">PCA</text>
+  <text x="680" y="210" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#10b981">UMAP</text>
+  <text x="680" y="224" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#10b981">Feature Selection</text>
+
+  <!-- Arrow 5→6 -->
+  <line x1="740" y1="135" x2="762" y2="135" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Stage 6: Feature Store -->
+  <g filter="url(#shadow)">
+    <rect x="770" y="100" width="110" height="70" rx="10" fill="#ef4444"/>
+    <text x="825" y="128" text-anchor="middle" font-family="system-ui, sans-serif" font-size="22" fill="#ffffff">🗄️</text>
+    <text x="825" y="148" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#ffffff">Feature</text>
+    <text x="825" y="162" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#ffffff">Store</text>
+  </g>
+  <text x="825" y="196" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#ef4444">Versioned</text>
+  <text x="825" y="210" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#ef4444">Reproducible</text>
+  <text x="825" y="224" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#ef4444">Reusable</text>
+
+  <!-- Bottom info boxes -->
+  <rect x="40" y="270" width="820" height="210" rx="10" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="450" y="298" text-anchor="middle" font-family="system-ui, sans-serif" font-size="16" font-weight="700" fill="#334155">Key Principles</text>
+
+  <!-- Principle cards -->
+  <g filter="url(#shadow)">
+    <rect x="60" y="315" width="240" height="145" rx="8" fill="#ffffff" stroke="#e2e8f0"/>
+    <rect x="60" y="315" width="240" height="32" rx="8" fill="#3b82f6"/>
+    <rect x="60" y="335" width="240" height="12" fill="#3b82f6"/>
+    <text x="180" y="337" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="600" fill="white">🔄 Fit on Train Only</text>
+    <text x="180" y="370" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#475569">All encoders and scalers must</text>
+    <text x="180" y="386" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#475569">be fit on training data only.</text>
+    <text x="180" y="402" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#475569">Transform test &amp; production</text>
+    <text x="180" y="418" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#475569">data with the same encoder.</text>
+    <text x="180" y="440" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#ef4444">⚠ Data leakage otherwise!</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="330" y="315" width="240" height="145" rx="8" fill="#ffffff" stroke="#e2e8f0"/>
+    <rect x="330" y="315" width="240" height="32" rx="8" fill="#f59e0b"/>
+    <rect x="330" y="335" width="240" height="12" fill="#f59e0b"/>
+    <text x="450" y="337" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="600" fill="white">🧪 Pipeline as Unit</text>
+    <text x="450" y="370" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#475569">Use sklearn Pipeline or</text>
+    <text x="450" y="386" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#475569">ColumnTransformer to chain</text>
+    <text x="450" y="402" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#475569">all steps together. Serialize</text>
+    <text x="450" y="418" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#475569">the entire pipeline as one unit.</text>
+    <text x="450" y="440" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#10b981">✓ Reproducible &amp; deployable</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="600" y="315" width="240" height="145" rx="8" fill="#ffffff" stroke="#e2e8f0"/>
+    <rect x="600" y="315" width="240" height="32" rx="8" fill="#8b5cf6"/>
+    <rect x="600" y="335" width="240" height="12" fill="#8b5cf6"/>
+    <text x="720" y="337" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="600" fill="white">📊 Validate Features</text>
+    <text x="720" y="370" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#475569">Check distributions, nulls,</text>
+    <text x="720" y="386" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#475569">and cardinality at each stage.</text>
+    <text x="720" y="402" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#475569">Monitor for feature drift</text>
+    <text x="720" y="418" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#475569">in production environments.</text>
+    <text x="720" y="440" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#3b82f6">◈ Great Expectations / Pandera</text>
+  </g>
+</svg>

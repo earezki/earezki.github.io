@@ -1,0 +1,174 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520" width="800" height="520" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <defs>
+    <filter id="shadow" x="-2%" y="-2%" width="104%" height="104%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.1"/>
+    </filter>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#f1f5f9"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="520" rx="12" fill="url(#bgGrad)" stroke="#e2e8f0" stroke-width="1"/>
+
+  <!-- Title -->
+  <text x="400" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#1e293b">Distribution Shift Types</text>
+  <line x1="265" y1="46" x2="535" y2="46" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- === Panel 1: Covariate Shift === -->
+  <rect x="25" y="60" width="240" height="440" rx="12" fill="#ffffff" stroke="#3b82f6" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="25" y="60" width="240" height="36" rx="12" fill="#3b82f6"/>
+  <rect x="25" y="84" width="240" height="12" fill="#3b82f6"/>
+  <text x="145" y="84" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff">Covariate Shift</text>
+
+  <!-- Bell curves for input distribution -->
+  <text x="145" y="118" text-anchor="middle" font-size="11" font-weight="600" fill="#1e293b">Input Feature Distribution</text>
+
+  <!-- Axes -->
+  <line x1="50" y1="290" x2="240" y2="290" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="50" y1="140" x2="50" y2="290" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="145" y="305" text-anchor="middle" font-size="9" fill="#6b7280">Feature values (x)</text>
+  <text x="40" y="215" text-anchor="middle" font-size="9" fill="#6b7280" transform="rotate(-90, 40, 215)">Density</text>
+
+  <!-- Training distribution bell curve (left-ish) -->
+  <path d="M 60,289 Q 80,288 95,270 Q 110,230 125,170 Q 135,145 140,160 Q 150,200 165,260 Q 175,280 190,288 L 190,289" fill="#3b82f6" fill-opacity="0.2" stroke="#3b82f6" stroke-width="2"/>
+
+  <!-- Production distribution bell curve (shifted right) -->
+  <path d="M 120,289 Q 140,287 155,265 Q 165,235 175,185 Q 182,165 188,175 Q 195,195 205,250 Q 215,278 230,288 L 230,289" fill="#ef4444" fill-opacity="0.2" stroke="#ef4444" stroke-width="2"/>
+
+  <!-- Legend -->
+  <line x1="60" y1="320" x2="85" y2="320" stroke="#3b82f6" stroke-width="2"/>
+  <text x="90" y="324" font-size="10" fill="#3b82f6">Training</text>
+  <line x1="145" y1="320" x2="170" y2="320" stroke="#ef4444" stroke-width="2"/>
+  <text x="175" y="324" font-size="10" fill="#ef4444">Production</text>
+
+  <!-- Arrow showing shift -->
+  <text x="145" y="350" text-anchor="middle" font-size="22" fill="#6b7280">→</text>
+  <text x="145" y="345" text-anchor="middle" font-size="9" font-weight="600" fill="#6b7280">P(X) shifts</text>
+
+  <!-- Explanation -->
+  <rect x="40" y="370" width="210" height="60" rx="8" fill="#eff6ff" stroke="#bfdbfe" stroke-width="1"/>
+  <text x="145" y="390" text-anchor="middle" font-size="10" font-weight="600" fill="#1d4ed8">Input features change</text>
+  <text x="145" y="405" text-anchor="middle" font-size="10" fill="#475569">P(X) changes, P(Y|X) stays</text>
+  <text x="145" y="420" text-anchor="middle" font-size="9" fill="#6b7280">Same rules, different inputs</text>
+
+  <!-- Example -->
+  <rect x="40" y="440" width="210" height="42" rx="6" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="145" y="458" text-anchor="middle" font-size="9" font-weight="600" fill="#6b7280">Example:</text>
+  <text x="145" y="473" text-anchor="middle" font-size="9" fill="#6b7280">Model trained on US data, deployed in EU</text>
+
+  <!-- === Panel 2: Concept Drift === -->
+  <rect x="280" y="60" width="240" height="440" rx="12" fill="#ffffff" stroke="#f59e0b" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="280" y="60" width="240" height="36" rx="12" fill="#f59e0b"/>
+  <rect x="280" y="84" width="240" height="12" fill="#f59e0b"/>
+  <text x="400" y="84" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff">Concept Drift</text>
+
+  <text x="400" y="118" text-anchor="middle" font-size="11" font-weight="600" fill="#1e293b">Decision Boundary Changes</text>
+
+  <!-- Scatter plot area -->
+  <line x1="305" y1="290" x2="495" y2="290" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="305" y1="140" x2="305" y2="290" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="400" y="305" text-anchor="middle" font-size="9" fill="#6b7280">Feature 1</text>
+  <text x="295" y="215" text-anchor="middle" font-size="9" fill="#6b7280" transform="rotate(-90, 295, 215)">Feature 2</text>
+
+  <!-- Class 1 dots (blue) -->
+  <circle cx="330" cy="175" r="5" fill="#3b82f6" opacity="0.7"/>
+  <circle cx="345" cy="195" r="5" fill="#3b82f6" opacity="0.7"/>
+  <circle cx="320" cy="210" r="5" fill="#3b82f6" opacity="0.7"/>
+  <circle cx="355" cy="160" r="5" fill="#3b82f6" opacity="0.7"/>
+  <circle cx="340" cy="230" r="5" fill="#3b82f6" opacity="0.7"/>
+  <circle cx="365" cy="185" r="5" fill="#3b82f6" opacity="0.7"/>
+  <circle cx="335" cy="250" r="5" fill="#3b82f6" opacity="0.7"/>
+
+  <!-- Class 2 dots (red) -->
+  <circle cx="430" cy="180" r="5" fill="#ef4444" opacity="0.7"/>
+  <circle cx="450" cy="200" r="5" fill="#ef4444" opacity="0.7"/>
+  <circle cx="460" cy="165" r="5" fill="#ef4444" opacity="0.7"/>
+  <circle cx="440" cy="240" r="5" fill="#ef4444" opacity="0.7"/>
+  <circle cx="470" cy="220" r="5" fill="#ef4444" opacity="0.7"/>
+  <circle cx="455" cy="255" r="5" fill="#ef4444" opacity="0.7"/>
+  <circle cx="475" cy="190" r="5" fill="#ef4444" opacity="0.7"/>
+
+  <!-- Old decision boundary (training) -->
+  <line x1="395" y1="145" x2="395" y2="285" stroke="#3b82f6" stroke-width="2" stroke-dasharray="6,3"/>
+
+  <!-- New decision boundary (shifted) - diagonal -->
+  <line x1="355" y1="145" x2="445" y2="285" stroke="#ef4444" stroke-width="2.5"/>
+
+  <!-- Legend -->
+  <line x1="315" y1="320" x2="340" y2="320" stroke="#3b82f6" stroke-width="2" stroke-dasharray="4,3"/>
+  <text x="345" y="324" font-size="10" fill="#3b82f6">Training</text>
+  <line x1="410" y1="320" x2="435" y2="320" stroke="#ef4444" stroke-width="2"/>
+  <text x="440" y="324" font-size="10" fill="#ef4444">New</text>
+
+  <!-- Arrow -->
+  <text x="400" y="350" text-anchor="middle" font-size="22" fill="#6b7280">↻</text>
+  <text x="400" y="345" text-anchor="middle" font-size="9" font-weight="600" fill="#6b7280">P(Y|X) shifts</text>
+
+  <!-- Explanation -->
+  <rect x="295" y="370" width="210" height="60" rx="8" fill="#fffbeb" stroke="#fde68a" stroke-width="1"/>
+  <text x="400" y="390" text-anchor="middle" font-size="10" font-weight="600" fill="#92400e">Relationship changes</text>
+  <text x="400" y="405" text-anchor="middle" font-size="10" fill="#475569">P(X) stays, P(Y|X) changes</text>
+  <text x="400" y="420" text-anchor="middle" font-size="9" fill="#6b7280">Same inputs, different outcomes</text>
+
+  <!-- Example -->
+  <rect x="295" y="440" width="210" height="42" rx="6" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="400" y="458" text-anchor="middle" font-size="9" font-weight="600" fill="#6b7280">Example:</text>
+  <text x="400" y="473" text-anchor="middle" font-size="9" fill="#6b7280">COVID changes spending patterns</text>
+
+  <!-- === Panel 3: Prior Probability Shift === -->
+  <rect x="535" y="60" width="240" height="440" rx="12" fill="#ffffff" stroke="#8b5cf6" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="535" y="60" width="240" height="36" rx="12" fill="#8b5cf6"/>
+  <rect x="535" y="84" width="240" height="12" fill="#8b5cf6"/>
+  <text x="655" y="84" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff">Prior Probability Shift</text>
+
+  <text x="655" y="118" text-anchor="middle" font-size="11" font-weight="600" fill="#1e293b">Class Proportions Change</text>
+
+  <!-- Training bar chart -->
+  <text x="610" y="145" text-anchor="middle" font-size="10" font-weight="600" fill="#6b7280">Training</text>
+
+  <!-- Normal class bar -->
+  <rect x="570" y="155" width="40" height="130" rx="4" fill="#3b82f6" opacity="0.8"/>
+  <text x="590" y="295" text-anchor="middle" font-size="9" fill="#3b82f6" font-weight="600">Normal</text>
+  <text x="590" y="152" text-anchor="middle" font-size="10" font-weight="700" fill="#3b82f6">90%</text>
+
+  <!-- Fraud class bar -->
+  <rect x="620" y="271" width="40" height="14" rx="4" fill="#ef4444" opacity="0.8"/>
+  <text x="640" y="295" text-anchor="middle" font-size="9" fill="#ef4444" font-weight="600">Fraud</text>
+  <text x="640" y="268" text-anchor="middle" font-size="10" font-weight="700" fill="#ef4444">10%</text>
+
+  <!-- Arrow between charts -->
+  <text x="690" y="220" font-size="24" fill="#6b7280">→</text>
+
+  <!-- Production bar chart -->
+  <text x="725" y="145" text-anchor="middle" font-size="10" font-weight="600" fill="#6b7280">Prod</text>
+
+  <!-- Normal class bar (smaller) -->
+  <rect x="700" y="185" width="30" height="100" rx="4" fill="#3b82f6" opacity="0.8"/>
+  <text x="715" y="295" text-anchor="middle" font-size="9" fill="#3b82f6" font-weight="600">Norm</text>
+  <text x="715" y="182" text-anchor="middle" font-size="10" font-weight="700" fill="#3b82f6">80%</text>
+
+  <!-- Fraud class bar (bigger) -->
+  <rect x="738" y="257" width="30" height="28" rx="4" fill="#ef4444" opacity="0.8"/>
+  <text x="753" y="295" text-anchor="middle" font-size="9" fill="#ef4444" font-weight="600">Fraud</text>
+  <text x="753" y="254" text-anchor="middle" font-size="10" font-weight="700" fill="#ef4444">20%</text>
+
+  <!-- Annotation -->
+  <text x="655" y="340" text-anchor="middle" font-size="14" fill="#6b7280">⬆</text>
+  <text x="655" y="345" text-anchor="middle" font-size="9" font-weight="600" fill="#6b7280">P(Y) shifts</text>
+
+  <!-- Explanation -->
+  <rect x="550" y="370" width="210" height="60" rx="8" fill="#f5f3ff" stroke="#c4b5fd" stroke-width="1"/>
+  <text x="655" y="390" text-anchor="middle" font-size="10" font-weight="600" fill="#6d28d9">Class balance changes</text>
+  <text x="655" y="405" text-anchor="middle" font-size="10" fill="#475569">P(Y) changes</text>
+  <text x="655" y="420" text-anchor="middle" font-size="9" fill="#6b7280">Rare events become common</text>
+
+  <!-- Example -->
+  <rect x="550" y="440" width="210" height="42" rx="6" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="655" y="458" text-anchor="middle" font-size="9" font-weight="600" fill="#6b7280">Example:</text>
+  <text x="655" y="473" text-anchor="middle" font-size="9" fill="#6b7280">Fraud rate doubles during holiday season</text>
+
+  <!-- Bottom banner -->
+  <rect x="100" y="490" width="600" height="22" rx="6" fill="#1e293b"/>
+  <text x="400" y="505" text-anchor="middle" font-size="11" font-weight="600" fill="#f8fafc">🔄 All three types degrade model performance silently — continuous monitoring is essential</text>
+</svg>

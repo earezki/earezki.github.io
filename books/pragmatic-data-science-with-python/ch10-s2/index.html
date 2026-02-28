@@ -1,0 +1,373 @@
+<!DOCTYPE html><html lang="en" data-theme="dark"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Containerization and Infrastructure - pragmatic data science with python • Dev|Journal</title><meta name="description" content="A model packaged in a FastAPI service still depends on your Python version, your system libraries, your CUDA driver version, and your specific directory layout. Containerization eliminates these dependencies by packaging everything into a single image that runs identically on your laptop, your CI server, and your production cluster. But ML containers are special: naive Docker images for PyTorch or TensorFlow routinely exceed 4GB, CUDA drivers must match the host GPU, and model weights push layers beyond registry size limits. This section builds a production Dockerfile using multi-stage builds to cut image size from gigabytes to hundreds of megabytes, then constructs a Docker Compose setup for local development. The second half confronts the infrastructure decision: serverless functions offer zero cost at zero traffic but suffer cold starts that can take 30 seconds for a 500MB model, dedicated endpoints provide consistent latency at predictable cost, and managed platforms like SageMaker abstract the infrastructure at a premium. A quantitative decision framework based on latency requirements, request volume, and model size guides the choice."><meta name="keywords" content="software architecture, backend development, microservices, Java, Python, Spring Boot, technical blog"><meta name="author" content="El Mehdi Arezki"><meta property="og:type" content="website"><meta property="og:url" content="https://earezki.com/books/pragmatic-data-science-with-python/ch10-s2/"><meta property="og:title" content="Containerization and Infrastructure - pragmatic data science with python • Dev|Journal"><meta property="og:site_name" content="Dev|Journal"><meta property="og:description" content="A model packaged in a FastAPI service still depends on your Python version, your system libraries, your CUDA driver version, and your specific directory layout. Containerization eliminates these dependencies by packaging everything into a single image that runs identically on your laptop, your CI server, and your production cluster. But ML containers are special: naive Docker images for PyTorch or TensorFlow routinely exceed 4GB, CUDA drivers must match the host GPU, and model weights push layers beyond registry size limits. This section builds a production Dockerfile using multi-stage builds to cut image size from gigabytes to hundreds of megabytes, then constructs a Docker Compose setup for local development. The second half confronts the infrastructure decision: serverless functions offer zero cost at zero traffic but suffer cold starts that can take 30 seconds for a 500MB model, dedicated endpoints provide consistent latency at predictable cost, and managed platforms like SageMaker abstract the infrastructure at a premium. A quantitative decision framework based on latency requirements, request volume, and model size guides the choice."><meta property="og:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:url" content="https://earezki.com/books/pragmatic-data-science-with-python/ch10-s2/"><meta name="twitter:title" content="Containerization and Infrastructure - pragmatic data science with python • Dev|Journal"><meta name="twitter:description" content="A model packaged in a FastAPI service still depends on your Python version, your system libraries, your CUDA driver version, and your specific directory layout. Containerization eliminates these dependencies by packaging everything into a single image that runs identically on your laptop, your CI server, and your production cluster. But ML containers are special: naive Docker images for PyTorch or TensorFlow routinely exceed 4GB, CUDA drivers must match the host GPU, and model weights push layers beyond registry size limits. This section builds a production Dockerfile using multi-stage builds to cut image size from gigabytes to hundreds of megabytes, then constructs a Docker Compose setup for local development. The second half confronts the infrastructure decision: serverless functions offer zero cost at zero traffic but suffer cold starts that can take 30 seconds for a 500MB model, dedicated endpoints provide consistent latency at predictable cost, and managed platforms like SageMaker abstract the infrastructure at a premium. A quantitative decision framework based on latency requirements, request volume, and model size guides the choice."><meta name="twitter:image" content="https://earezki.com/assets/og-image-default.jpg"><meta name="twitter:creator" content="@earezki"><link rel="canonical" href="https://earezki.com/books/pragmatic-data-science-with-python/ch10-s2/"><link rel="icon" type="image/png" href="/favicon.png"><link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"><link rel="dns-prefetch" href="https://cloud.umami.is"><script defer src="https://cloud.umami.is/script.js" data-website-id="4a26531d-1053-4f79-97a6-06a1366aff91"></script><!-- Preconnect to Google Fonts for Inter --><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"><!-- Theme initialization - parse Zustand persist format --><script>
+      (function() {
+        try {
+          const raw = localStorage.getItem('theme');
+          if (raw) {
+            // Zustand persist stores as JSON: {"state":{"theme":"light"},"version":0}
+            const parsed = JSON.parse(raw);
+            const theme = parsed?.state?.theme || 'dark';
+            
+            if (theme === 'light') {
+              document.documentElement.setAttribute('data-theme', 'light');
+            } else if (theme === 'system') {
+              const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+              document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
+            } else {
+              document.documentElement.setAttribute('data-theme', 'dark');
+            }
+          }
+        } catch (e) {
+          // Fallback to dark if parsing fails
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      })();
+    </script><link rel="stylesheet" href="/_astro/_slug_.1gdBBAIV.css"></head> <body class="min-h-screen flex flex-col bg-background text-foreground"> <!-- Skip to content link --> <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:p-4 focus:bg-primary focus:text-primary-foreground focus:rounded-lg">
+Skip to main content
+</a> <!-- Smart Header with hide/show on scroll --> <style>astro-island,astro-slot,astro-static-slot{display:contents}</style><script>(()=>{var e=async t=>{await(await t())()};(self.Astro||(self.Astro={})).only=e;window.dispatchEvent(new Event("astro:only"));})();</script><script>(()=>{var A=Object.defineProperty;var g=(i,o,a)=>o in i?A(i,o,{enumerable:!0,configurable:!0,writable:!0,value:a}):i[o]=a;var d=(i,o,a)=>g(i,typeof o!="symbol"?o+"":o,a);{let i={0:t=>m(t),1:t=>a(t),2:t=>new RegExp(t),3:t=>new Date(t),4:t=>new Map(a(t)),5:t=>new Set(a(t)),6:t=>BigInt(t),7:t=>new URL(t),8:t=>new Uint8Array(t),9:t=>new Uint16Array(t),10:t=>new Uint32Array(t),11:t=>1/0*t},o=t=>{let[l,e]=t;return l in i?i[l](e):void 0},a=t=>t.map(o),m=t=>typeof t!="object"||t===null?t:Object.fromEntries(Object.entries(t).map(([l,e])=>[l,o(e)]));class y extends HTMLElement{constructor(){super(...arguments);d(this,"Component");d(this,"hydrator");d(this,"hydrate",async()=>{var b;if(!this.hydrator||!this.isConnected)return;let e=(b=this.parentElement)==null?void 0:b.closest("astro-island[ssr]");if(e){e.addEventListener("astro:hydrate",this.hydrate,{once:!0});return}let c=this.querySelectorAll("astro-slot"),n={},h=this.querySelectorAll("template[data-astro-template]");for(let r of h){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("data-astro-template")||"default"]=r.innerHTML,r.remove())}for(let r of c){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("name")||"default"]=r.innerHTML)}let p;try{p=this.hasAttribute("props")?m(JSON.parse(this.getAttribute("props"))):{}}catch(r){let s=this.getAttribute("component-url")||"<unknown>",v=this.getAttribute("component-export");throw v&&(s+=` (export ${v})`),console.error(`[hydrate] Error parsing props for component ${s}`,this.getAttribute("props"),r),r}let u;await this.hydrator(this)(this.Component,p,n,{client:this.getAttribute("client")}),this.removeAttribute("ssr"),this.dispatchEvent(new CustomEvent("astro:hydrate"))});d(this,"unmount",()=>{this.isConnected||this.dispatchEvent(new CustomEvent("astro:unmount"))})}disconnectedCallback(){document.removeEventListener("astro:after-swap",this.unmount),document.addEventListener("astro:after-swap",this.unmount,{once:!0})}connectedCallback(){if(!this.hasAttribute("await-children")||document.readyState==="interactive"||document.readyState==="complete")this.childrenConnectedCallback();else{let e=()=>{document.removeEventListener("DOMContentLoaded",e),c.disconnect(),this.childrenConnectedCallback()},c=new MutationObserver(()=>{var n;((n=this.lastChild)==null?void 0:n.nodeType)===Node.COMMENT_NODE&&this.lastChild.nodeValue==="astro:end"&&(this.lastChild.remove(),e())});c.observe(this,{childList:!0}),document.addEventListener("DOMContentLoaded",e)}}async childrenConnectedCallback(){let e=this.getAttribute("before-hydration-url");e&&await import(e),this.start()}async start(){let e=JSON.parse(this.getAttribute("opts")),c=this.getAttribute("client");if(Astro[c]===void 0){window.addEventListener(`astro:${c}`,()=>this.start(),{once:!0});return}try{await Astro[c](async()=>{let n=this.getAttribute("renderer-url"),[h,{default:p}]=await Promise.all([import(this.getAttribute("component-url")),n?import(n):()=>()=>{}]),u=this.getAttribute("component-export")||"default";if(!u.includes("."))this.Component=h[u];else{this.Component=h;for(let f of u.split("."))this.Component=this.Component[f]}return this.hydrator=p,this.hydrate},e,this)}catch(n){console.error(`[astro-island] Error hydrating ${this.getAttribute("component-url")}`,n)}}attributeChangedCallback(){this.hydrate()}}d(y,"observedAttributes",["props"]),customElements.get("astro-island")||customElements.define("astro-island",y)}})();</script><astro-island uid="1YpyxB" component-url="/_astro/SmartHeader.DASpio4t.js" component-export="SmartHeader" renderer-url="/_astro/client.BWL821IS.js" props="{}" ssr client="only" opts="{&quot;name&quot;:&quot;SmartHeader&quot;,&quot;value&quot;:&quot;preact&quot;}"></astro-island> <!-- Command Palette --> <astro-island uid="1KbDpu" component-url="/_astro/CommandPalette.CJqEMUvH.js" component-export="CommandPalette" renderer-url="/_astro/client.BWL821IS.js" props="{}" ssr client="only" opts="{&quot;name&quot;:&quot;CommandPalette&quot;,&quot;value&quot;:&quot;preact&quot;}"></astro-island> <!-- Main Content with fade-in --> <main id="main-content" class="flex-1 container mx-auto px-4 py-8 animate-fade-in" tabindex="-1">  <script>(()=>{var l=(n,t)=>{let i=async()=>{await(await n())()},e=typeof t.value=="object"?t.value:void 0,s={timeout:e==null?void 0:e.timeout};"requestIdleCallback"in window?window.requestIdleCallback(i,s):setTimeout(i,s.timeout||200)};(self.Astro||(self.Astro={})).idle=l;window.dispatchEvent(new Event("astro:idle"));})();</script><astro-island uid="Z2rRtbl" component-url="/_astro/ChapterReadingTracker.Cdw9pLhZ.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;bookSlug&quot;:[0,&quot;pragmatic-data-science-with-python&quot;],&quot;chapterSlug&quot;:[0,&quot;pragmatic-data-science-with-python/ch10-s2&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ChapterReadingTracker&quot;,&quot;value&quot;:true}" await-children><div class="fixed top-0 left-0 w-full h-1 z-50 bg-muted/20 fixed top-0 left-0 w-full z-50"><div class="h-full bg-primary transition-all duration-100 ease-out" style="width:0%;"></div></div><!--astro:end--></astro-island> <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8"> <div class="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-8"> <!-- Left Sidebar: Book TOC --> <aside class="hidden lg:block"> <nav class="book-toc sticky top-20 hidden lg:block w-64 pr-3 border-r border-border/30"> <div class="mb-4"> <a href="/books/" class="text-[10px] font-medium text-muted-foreground hover:text-primary block mb-2">← Library</a> <h2 class="font-semibold text-xs leading-tight truncate mb-3" title="pragmatic data science with python">pragmatic data science with python</h2> <astro-island uid="1JWKLQ" component-url="/_astro/BookProgress.DrlNeB2o.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;bookSlug&quot;:[0,&quot;pragmatic-data-science-with-python&quot;],&quot;allChapters&quot;:[1,[[0,{&quot;slug&quot;:[0,&quot;pragmatic-data-science-with-python/ch1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;pragmatic-data-science-with-python/ch1-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;pragmatic-data-science-with-python/ch1-s2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;pragmatic-data-science-with-python/ch2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;pragmatic-data-science-with-python/ch2-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;pragmatic-data-science-with-python/ch2-s2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;pragmatic-data-science-with-python/ch3&quot;]}],[0,{&quot;slug&quot;:[0,&quot;pragmatic-data-science-with-python/ch3-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;pragmatic-data-science-with-python/ch3-s2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;pragmatic-data-science-with-python/ch4&quot;]}],[0,{&quot;slug&quot;:[0,&quot;pragmatic-data-science-with-python/ch4-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;pragmatic-data-science-with-python/ch4-s2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;pragmatic-data-science-with-python/ch5&quot;]}],[0,{&quot;slug&quot;:[0,&quot;pragmatic-data-science-with-python/ch5-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;pragmatic-data-science-with-python/ch5-s2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;pragmatic-data-science-with-python/ch6&quot;]}],[0,{&quot;slug&quot;:[0,&quot;pragmatic-data-science-with-python/ch6-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;pragmatic-data-science-with-python/ch6-s2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;pragmatic-data-science-with-python/ch7&quot;]}],[0,{&quot;slug&quot;:[0,&quot;pragmatic-data-science-with-python/ch7-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;pragmatic-data-science-with-python/ch7-s2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;pragmatic-data-science-with-python/ch8&quot;]}],[0,{&quot;slug&quot;:[0,&quot;pragmatic-data-science-with-python/ch8-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;pragmatic-data-science-with-python/ch8-s2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;pragmatic-data-science-with-python/ch9&quot;]}],[0,{&quot;slug&quot;:[0,&quot;pragmatic-data-science-with-python/ch9-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;pragmatic-data-science-with-python/ch9-s2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;pragmatic-data-science-with-python/ch10&quot;]}],[0,{&quot;slug&quot;:[0,&quot;pragmatic-data-science-with-python/ch10-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;pragmatic-data-science-with-python/ch10-s2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;pragmatic-data-science-with-python/ch11&quot;]}],[0,{&quot;slug&quot;:[0,&quot;pragmatic-data-science-with-python/ch11-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;pragmatic-data-science-with-python/ch11-s2&quot;]}]]],&quot;variant&quot;:[0,&quot;sidebar&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;BookProgress&quot;,&quot;value&quot;:true}"></astro-island> </div> <ul class="space-y-0.5"> <li class="leading-none relative group"> <a href="/books/pragmatic-data-science-with-python/ch1/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30 font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="Setting Up for Production, Not Just Notebooks"> Setting Up for Production, Not Just Notebooks </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="Zywl53" component-url="/_astro/ReadStatusIndicator.BMFB-RlO.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;pragmatic-data-science-with-python&quot;],&quot;slug&quot;:[0,&quot;pragmatic-data-science-with-python/ch1&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/pragmatic-data-science-with-python/ch2/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30 font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="High-Performance Data Manipulation"> High-Performance Data Manipulation </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="Zywd4F" component-url="/_astro/ReadStatusIndicator.BMFB-RlO.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;pragmatic-data-science-with-python&quot;],&quot;slug&quot;:[0,&quot;pragmatic-data-science-with-python/ch2&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/pragmatic-data-science-with-python/ch3/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30 font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="Failure Modes of Real-World Data"> Failure Modes of Real-World Data </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="Zyw54i" component-url="/_astro/ReadStatusIndicator.BMFB-RlO.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;pragmatic-data-science-with-python&quot;],&quot;slug&quot;:[0,&quot;pragmatic-data-science-with-python/ch3&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/pragmatic-data-science-with-python/ch4/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30 font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="High-Signal Feature Engineering"> High-Signal Feature Engineering </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="ZyvW3U" component-url="/_astro/ReadStatusIndicator.BMFB-RlO.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;pragmatic-data-science-with-python&quot;],&quot;slug&quot;:[0,&quot;pragmatic-data-science-with-python/ch4&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/pragmatic-data-science-with-python/ch5/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30 font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="The 'You Probably Just Need XGBoost' Chapter"> The &#39;You Probably Just Need XGBoost&#39; Chapter </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="ZyvO3x" component-url="/_astro/ReadStatusIndicator.BMFB-RlO.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;pragmatic-data-science-with-python&quot;],&quot;slug&quot;:[0,&quot;pragmatic-data-science-with-python/ch5&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/pragmatic-data-science-with-python/ch6/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30 font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="Deep Learning Where It Counts"> Deep Learning Where It Counts </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="ZyvG3a" component-url="/_astro/ReadStatusIndicator.BMFB-RlO.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;pragmatic-data-science-with-python&quot;],&quot;slug&quot;:[0,&quot;pragmatic-data-science-with-python/ch6&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/pragmatic-data-science-with-python/ch7/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30 font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="Applied NLP and the LLM Ecosystem"> Applied NLP and the LLM Ecosystem </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="Zyvy2M" component-url="/_astro/ReadStatusIndicator.BMFB-RlO.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;pragmatic-data-science-with-python&quot;],&quot;slug&quot;:[0,&quot;pragmatic-data-science-with-python/ch7&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/pragmatic-data-science-with-python/ch8/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30 font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="Why Your High AUC is Lying to You"> Why Your High AUC is Lying to You </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="Zyvq2p" component-url="/_astro/ReadStatusIndicator.BMFB-RlO.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;pragmatic-data-science-with-python&quot;],&quot;slug&quot;:[0,&quot;pragmatic-data-science-with-python/ch8&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/pragmatic-data-science-with-python/ch9/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30 font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="An Introduction to Causal Inference"> An Introduction to Causal Inference </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="Zyvi22" component-url="/_astro/ReadStatusIndicator.BMFB-RlO.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;pragmatic-data-science-with-python&quot;],&quot;slug&quot;:[0,&quot;pragmatic-data-science-with-python/ch9&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/pragmatic-data-science-with-python/ch10/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30 font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="Deploying Models as Services"> Deploying Models as Services </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="Z2hNGu9" component-url="/_astro/ReadStatusIndicator.BMFB-RlO.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;pragmatic-data-science-with-python&quot;],&quot;slug&quot;:[0,&quot;pragmatic-data-science-with-python/ch10&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/pragmatic-data-science-with-python/ch10-s1/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30" style="margin-left:0.5rem" title="Model Packaging and Inference APIs"> Model Packaging and Inference APIs </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="Z2uqXnC" component-url="/_astro/ReadStatusIndicator.BMFB-RlO.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;pragmatic-data-science-with-python&quot;],&quot;slug&quot;:[0,&quot;pragmatic-data-science-with-python/ch10-s1&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/pragmatic-data-science-with-python/ch10-s2/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-primary bg-primary/5 text-primary font-medium" style="margin-left:0.5rem" title="Containerization and Infrastructure"> Containerization and Infrastructure </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="Z2uqPnf" component-url="/_astro/ReadStatusIndicator.BMFB-RlO.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;pragmatic-data-science-with-python&quot;],&quot;slug&quot;:[0,&quot;pragmatic-data-science-with-python/ch10-s2&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/pragmatic-data-science-with-python/ch11/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30 font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="Monitoring and Continual Learning"> Monitoring and Continual Learning </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="Z2hNytL" component-url="/_astro/ReadStatusIndicator.BMFB-RlO.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;pragmatic-data-science-with-python&quot;],&quot;slug&quot;:[0,&quot;pragmatic-data-science-with-python/ch11&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li> </ul> </nav> <script type="module">const o=document.querySelector(".book-toc");if(o){const t=sessionStorage.getItem("book-toc-scroll");t&&(o.scrollTop=parseInt(t,10)),o.addEventListener("scroll",()=>{sessionStorage.setItem("book-toc-scroll",o.scrollTop.toString())})}</script> </aside> <article class="max-w-3xl mx-auto w-full min-w-0 animate-fade-in"> <nav aria-label="Breadcrumb" class="flex items-center text-xs text-muted-foreground mb-6 flex-wrap animate-fade-in"> <ol class="flex items-center gap-1.5 flex-wrap"> <li> <a href="/" class="hover:text-primary transition-colors duration-200 flex items-center gap-1"> <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg> <span class="hidden sm:inline">Home</span> </a> </li> <li class="flex items-center gap-1.5 min-w-0"> <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground/40 shrink-0"><path d="M9 5l7 7-7 7" /></svg> <a href="/books/" class="hover:text-primary transition-colors duration-200 truncate max-w-[150px]" title="Library"> Library </a> </li><li class="flex items-center gap-1.5 min-w-0"> <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground/40 shrink-0"><path d="M9 5l7 7-7 7" /></svg> <a href="/books/pragmatic-data-science-with-python/" class="hover:text-primary transition-colors duration-200 truncate max-w-[150px]" title="pragmatic data science with python"> pragmatic data science with py... </a> </li><li class="flex items-center gap-1.5 min-w-0"> <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground/40 shrink-0"><path d="M9 5l7 7-7 7" /></svg> <span class="font-medium text-foreground truncate max-w-[200px] sm:max-w-xs" title="Containerization and Infrastructure"> Containerization and Infrastru... </span> </li> </ol> </nav> <header class="mb-8 mt-2"> <div class="lg:hidden mb-4"> <a href="/books/" class="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors"> <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 19l-7-7 7-7" /></svg>
+Back to Library
+</a> </div> <!-- Book title badge --> <div class="inline-flex items-center gap-2 px-3 py-1.5 mb-4 rounded-full bg-primary/10 text-primary text-sm font-medium"> <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" /><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" /></svg> pragmatic data science with python </div> <h1 class="text-3xl md:text-4xl font-bold mb-4 text-gradient"> Containerization and Infrastructure </h1> <!-- Reading time and chapter info --> <div class="flex items-center gap-4 text-sm text-muted-foreground mb-6"> <span class="flex items-center gap-1.5"> <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary/70"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg> 12 min read </span> <span class="flex items-center gap-1.5"> <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary/70"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" /></svg>
+Chapter 30 of 33 </span> </div>  </header> <!-- Collapsible Summary --> <details class="group mb-8 rounded-xl border border-border bg-card overflow-hidden"><summary class="flex items-center justify-between gap-3 p-4 cursor-pointer list-none hover:bg-muted/50 transition-colors"><div class="flex items-center gap-3 min-w-0"><span class="shrink-0 w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" /><polyline points="10 9 9 9 8 9" /></svg></span><div class="min-w-0"><span class="text-xs uppercase tracking-wide text-muted-foreground font-medium">Summary</span><p class="text-sm text-foreground truncate group-open:hidden">A model packaged in a FastAPI service still...</p></div></div><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground shrink-0 transition-transform duration-200 group-open:rotate-90"><path d="M9 5l7 7-7 7" /></svg></summary><div class="px-4 pb-4 pt-2 border-t border-border/30"><p class="text-sm text-muted-foreground leading-relaxed">A model packaged in a FastAPI service still depends on your Python version, your system libraries, your CUDA driver version, and your specific directory layout. Containerization eliminates these dependencies by packaging everything into a single image that runs identically on your laptop, your CI server, and your production cluster. But ML containers are special: naive Docker images for PyTorch or TensorFlow routinely exceed 4GB, CUDA drivers must match the host GPU, and model weights push layers beyond registry size limits. This section builds a production Dockerfile using multi-stage builds to cut image size from gigabytes to hundreds of megabytes, then constructs a Docker Compose setup for local development. The second half confronts the infrastructure decision: serverless functions offer zero cost at zero traffic but suffer cold starts that can take 30 seconds for a 500MB model, dedicated endpoints provide consistent latency at predictable cost, and managed platforms like SageMaker abstract the infrastructure at a premium. A quantitative decision framework based on latency requirements, request volume, and model size guides the choice.</p></div></details> <!-- Article Content --> <div class="prose dark:prose-invert max-w-none break-words [overflow-wrap:break-word]"> <h1 id="containerization-and-infrastructure">Containerization and Infrastructure</h1>
+<h2 id="103--docker-for-ml-services">10.3 — Docker for ML Services</h2>
+<p>Your FastAPI inference service works on your machine. It will not work on your colleague’s machine, because they have Python 3.12 and you have 3.11, their NumPy is 2.0 and yours is 1.26, and they are on macOS ARM while your production server runs Linux x86_64. This is not a hypothetical — it is the default state of ML development.</p>
+<p>Docker solves this by packaging your application, its dependencies, and its runtime environment into a single image. You build the image once, and it runs identically everywhere. But ML containers have specific challenges that web application containers do not.</p>
+<h3 id="why-ml-containers-are-special">Why ML Containers Are Special</h3>
+<p>Three properties make ML Docker images different from typical web service images:</p>
+<p><strong>Large base images.</strong> A minimal Python image is ~150MB. Add PyTorch and it jumps to 2GB. Add CUDA support and it exceeds 4GB. Your CI pipeline now takes 20 minutes to build, your container registry fills up, and cold starts take forever because the image must be pulled before the container starts.</p>
+<p><strong>Model weights.</strong> Your model file might be 50MB (XGBoost) or 5GB (large neural network). Baking the model into the image makes the image enormous and forces a full rebuild every time the model is retrained. Mounting the model as a volume at runtime is more flexible but adds deployment complexity.</p>
+<p><strong>CUDA driver compatibility.</strong> GPU inference requires matching the CUDA toolkit version in the container with the CUDA driver version on the host. A mismatch produces cryptic <code>CUDA driver version is insufficient for CUDA runtime version</code> errors at startup.</p>
+<h3 id="multi-stage-builds-from-4gb-to-400mb">Multi-Stage Builds: From 4GB to 400MB</h3>
+<p>The solution is multi-stage builds. Stage one installs build tools and compiles dependencies. Stage two copies only the compiled artifacts into a minimal runtime image. The build tools — compilers, header files, pip cache — are discarded.</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="dockerfile"><code><span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D"># === Stage 1: Build dependencies ===</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">FROM</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> python:3.11-slim </span><span style="color:#D73A49;--shiki-dark:#F97583">AS</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> builder</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D"># Install build tools needed to compile native extensions</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">RUN</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> apt-get update &#x26;&#x26; apt-get install -y --no-install-recommends \</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    build-essential \</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    &#x26;&#x26; rm -rf /var/lib/apt/lists/*</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D"># Create virtual environment to isolate dependencies</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">RUN</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> python -m venv /opt/venv</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">ENV</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> PATH=</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"/opt/venv/bin:$PATH"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D"># Install Python dependencies</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">COPY</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> requirements.txt .</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">RUN</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> pip install --no-cache-dir --upgrade pip \</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    &#x26;&#x26; pip install --no-cache-dir -r requirements.txt</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D"># === Stage 2: Runtime image ===</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">FROM</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> python:3.11-slim </span><span style="color:#D73A49;--shiki-dark:#F97583">AS</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> runtime</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D"># Security: run as non-root user</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">RUN</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> groupadd -r appuser &#x26;&#x26; useradd -r -g appuser -d /app -s /sbin/nologin appuser</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D"># Copy only the virtual environment from builder — no compilers, no cache</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">COPY</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> --from=builder /opt/venv /opt/venv</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">ENV</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> PATH=</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"/opt/venv/bin:$PATH"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D"># Install minimal runtime dependencies</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">RUN</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> apt-get update &#x26;&#x26; apt-get install -y --no-install-recommends \</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    libgomp1 \</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    curl \</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    &#x26;&#x26; rm -rf /var/lib/apt/lists/*</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">WORKDIR</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> /app</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D"># Copy application code</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">COPY</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> app/ ./app/</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">COPY</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> model.onnx .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D"># Switch to non-root user</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">USER</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> appuser</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D"># Expose port</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">EXPOSE</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> 8000</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D"># Health check: container orchestrators use this to determine readiness</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">HEALTHCHECK</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> --interval=30s --timeout=5s --start-period=60s --retries=3 \</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    CMD</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> curl -f http://localhost:8000/health || exit 1</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D"># Run with uvicorn — workers should match available CPU cores</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">CMD</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"uvicorn"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"app.main:app"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"--host"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"0.0.0.0"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"--port"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"8000"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"--workers"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"2"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">]</span></span></code></pre>
+<p>Why each decision matters:</p>
+<ul>
+<li><strong><code>python:3.11-slim</code></strong> instead of <code>python:3.11</code> saves ~700MB. The full image includes GCC, dev headers, and documentation you do not need at runtime.</li>
+<li><strong>Non-root user</strong> is a security requirement. If your container is compromised, the attacker has limited privileges. Many container runtimes reject root containers by default.</li>
+<li><strong><code>--no-cache-dir</code></strong> prevents pip from caching downloaded packages inside the image. Without this, you ship megabytes of <code>.whl</code> files you will never use again.</li>
+<li><strong><code>libgomp1</code></strong> is the OpenMP runtime — XGBoost and many sklearn operations need it. Forget this and you get <code>libgomp.so.1: cannot open shared object file</code> at runtime.</li>
+<li><strong><code>--start-period=60s</code></strong> gives the container time to load the model before the health check declares it unhealthy. A 200MB ONNX model takes 5–15 seconds to load. Without a start period, the orchestrator restarts the container in an infinite loop because the health check fails during model loading.</li>
+</ul>
+<p>Pair the Dockerfile with a <code>.dockerignore</code> to prevent unnecessary files from entering the build context:</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span># .dockerignore</span></span>
+<span class="line"><span>__pycache__/</span></span>
+<span class="line"><span>*.pyc</span></span>
+<span class="line"><span>.git/</span></span>
+<span class="line"><span>.env</span></span>
+<span class="line"><span>*.egg-info/</span></span>
+<span class="line"><span>data/</span></span>
+<span class="line"><span>notebooks/</span></span>
+<span class="line"><span>tests/</span></span>
+<span class="line"><span>.pytest_cache/</span></span>
+<span class="line"><span>.mypy_cache/</span></span>
+<span class="line"><span>.venv/</span></span>
+<span class="line"><span>README.md</span></span></code></pre>
+<p>Without <code>.dockerignore</code>, Docker sends your entire directory — including your training data, notebooks, and git history — as the build context. A 2GB dataset turns a 30-second build into a 5-minute build.</p>
+<h3 id="docker-compose-for-local-development">Docker Compose for Local Development</h3>
+<p>During development, you need more than just the inference API. You need a monitoring stack, a model registry, or a database for logging predictions. Docker Compose orchestrates multiple containers:</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D"># docker-compose.yml</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">services</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">  inference-api</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">    build</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">      context</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#005CC5;--shiki-dark:#79B8FF">.</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">      dockerfile</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">Dockerfile</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">    ports</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      - </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"8000:8000"</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">    volumes</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      - </span><span style="color:#032F62;--shiki-dark:#9ECBFF">./models:/app/models:ro</span><span style="color:#6A737D;--shiki-dark:#6A737D">  # Mount model directory read-only</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">    environment</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      - </span><span style="color:#032F62;--shiki-dark:#9ECBFF">MODEL_PATH=/app/models/model.onnx</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      - </span><span style="color:#032F62;--shiki-dark:#9ECBFF">LOG_LEVEL=info</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      - </span><span style="color:#032F62;--shiki-dark:#9ECBFF">WORKERS=2</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">    healthcheck</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">      test</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: [</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"CMD"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"curl"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"-f"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"http://localhost:8000/health"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">]</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">      interval</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">30s</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">      timeout</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">5s</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">      retries</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#005CC5;--shiki-dark:#79B8FF">3</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">      start_period</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">60s</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">    deploy</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">      resources</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">        limits</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">          memory</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">2G</span><span style="color:#6A737D;--shiki-dark:#6A737D">       # Prevent OOM from killing the host</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">          cpus</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"2.0"</span><span style="color:#6A737D;--shiki-dark:#6A737D">      # Limit CPU to match production allocation</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">        reservations</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">          memory</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">512M</span><span style="color:#6A737D;--shiki-dark:#6A737D">     # Guarantee minimum memory</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">  prometheus</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">    image</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">prom/prometheus:v2.51.0</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">    ports</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      - </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"9090:9090"</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">    volumes</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      - </span><span style="color:#032F62;--shiki-dark:#9ECBFF">./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">    depends_on</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">      inference-api</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">        condition</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">service_healthy</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">  grafana</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">    image</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">grafana/grafana:10.4.0</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">    ports</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      - </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"3000:3000"</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">    environment</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      - </span><span style="color:#032F62;--shiki-dark:#9ECBFF">GF_SECURITY_ADMIN_PASSWORD=admin</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">    volumes</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      - </span><span style="color:#032F62;--shiki-dark:#9ECBFF">grafana-data:/var/lib/grafana</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">    depends_on</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      - </span><span style="color:#032F62;--shiki-dark:#9ECBFF">prometheus</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">volumes</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">  grafana-data</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span></code></pre>
+<p>Key decisions:</p>
+<ul>
+<li><strong><code>volumes: ./models:/app/models:ro</code></strong> mounts models as read-only volumes. You can swap model files without rebuilding the image. The <code>:ro</code> flag prevents the container from modifying the model — defense in depth.</li>
+<li><strong>Resource limits</strong> prevent a memory leak in your inference code from taking down the host machine. Set <code>limits.memory</code> to what your service actually needs, not what the host has available. If the container exceeds this limit, the OOM killer terminates it — which is better than it consuming all host memory and crashing everything else.</li>
+<li><strong><code>depends_on: condition: service_healthy</code></strong> ensures Prometheus does not start scraping an API that is still loading its model. Without this, you get noisy error logs and false alerts during startup.</li>
+</ul>
+<p>Run <code>docker compose up --build</code> and you have a complete local ML development stack with monitoring, identical to what you will run in production.</p>
+<h3 id="image-size-optimization-a-checklist">Image Size Optimization: A Checklist</h3>
+<p>If your final image is still large, walk through this checklist:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Technique</th><th>Typical Savings</th></tr></thead><tbody><tr><td>Multi-stage build</td><td>40-60% — eliminates build tools</td></tr><tr><td><code>python:3.11-slim</code> base</td><td>~700MB vs. full image</td></tr><tr><td><code>--no-cache-dir</code> in pip install</td><td>50–200MB of cached wheels</td></tr><tr><td>Pin specific packages (no extras)</td><td>Varies — avoid pulling transitive deps</td></tr><tr><td><code>.dockerignore</code></td><td>Prevents data/notebooks bloating context</td></tr><tr><td>CPU-only PyTorch (<code>--index-url https://download.pytorch.org/whl/cpu</code>)</td><td>~1.5GB — removes CUDA from PyTorch</td></tr><tr><td>Use ONNX Runtime instead of full PyTorch</td><td>~1.8GB — ONNX Runtime CPU is ~50MB</td></tr></tbody></table>
+<p>The last row deserves emphasis. If you export your PyTorch model to ONNX (Section 10.1), you do not need PyTorch in your inference container at all. You need <code>onnxruntime</code> (~50MB) instead of <code>torch</code> (~2GB). This single decision can reduce your image by 80%.</p>
+<hr>
+<h2 id="104--serverless-vs-dedicated-inference-endpoints">10.4 — Serverless vs. Dedicated Inference Endpoints</h2>
+<p>Your containerized service runs locally. Now you need to put it somewhere that handles real traffic. The infrastructure you choose determines your latency characteristics, your cost structure, and your operational burden. There are three categories, and each involves trade-offs you must quantify — not guess at.</p>
+<h3 id="serverless-zero-cost-at-zero-traffic">Serverless: Zero Cost at Zero Traffic</h3>
+<p>Serverless platforms (AWS Lambda, Google Cloud Functions, Azure Functions) run your code in response to events. You pay only for the compute time consumed. At zero traffic, you pay nothing.</p>
+<p>This sounds ideal until you encounter cold starts. When a serverless function has not been invoked recently, the platform must: allocate compute resources, download your container image, start the container, load your application, and load your model into memory. For an ML model, this sequence is devastating:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Component</th><th>Cold Start Time</th></tr></thead><tbody><tr><td>Container allocation</td><td>0.5–2s</td></tr><tr><td>Image pull (500MB image)</td><td>3–8s</td></tr><tr><td>Python interpreter startup</td><td>0.5–1s</td></tr><tr><td>Model loading (200MB ONNX)</td><td>2–5s</td></tr><tr><td>Model loading (500MB PyTorch)</td><td>8–15s</td></tr><tr><td><strong>Total (ONNX)</strong></td><td><strong>~6–16s</strong></td></tr><tr><td><strong>Total (PyTorch)</strong></td><td><strong>~12–30s</strong></td></tr></tbody></table>
+<p>Your user sent an HTTP request. They waited 15 seconds. They left. Cold starts are not an edge case for ML workloads — they are the defining limitation.</p>
+<p>Mitigations exist but erode the cost advantage. <strong>Provisioned concurrency</strong> keeps instances warm, but you pay for idle compute — defeating the point of serverless. <strong>Model size reduction</strong> through quantization or distillation helps but requires engineering effort. <strong>SnapStart</strong> (AWS) and <strong>min instances</strong> (GCP) reduce cold starts to 1–3 seconds but add fixed costs.</p>
+<p>Serverless works well for ML when: the model is small (&#x3C;50MB), latency tolerance is high (>5 seconds), and traffic is genuinely sparse and unpredictable.</p>
+<h3 id="dedicated-endpoints-consistent-latency">Dedicated Endpoints: Consistent Latency</h3>
+<p>Dedicated infrastructure — a container running on a VM, an ECS task, a Kubernetes pod — is always on. The model is loaded, the process is warm, and inference latency is determined by computation alone, not resource allocation.</p>
+<p>The cost model is the inverse of serverless: you pay whether or not anyone sends a request. A t3.medium instance running 24/7 costs ~$30/month. A g4dn.xlarge with a GPU costs ~$380/month. If your traffic is consistent and your latency requirements are strict (&#x3C;200ms p99), dedicated infrastructure is both cheaper and more predictable than serverless.</p>
+<h3 id="managed-ml-platforms-abstraction-at-a-premium">Managed ML Platforms: Abstraction at a Premium</h3>
+<p>AWS SageMaker, Google Vertex AI, and Azure ML endpoints provide managed infrastructure specifically designed for model serving. You upload a model artifact, specify an instance type, and the platform handles deployment, auto-scaling, monitoring, and A/B testing.</p>
+<p>When this is worth the cost:</p>
+<ul>
+<li>Your team does not have DevOps expertise to manage containers in production</li>
+<li>You need built-in A/B testing between model versions</li>
+<li>You want automatic scaling policies tuned for ML workload patterns</li>
+<li>You are already deep in one cloud provider’s ecosystem</li>
+</ul>
+<p>When this is not worth the cost:</p>
+<ul>
+<li>SageMaker real-time endpoints have a minimum cost of ~$60/month (ml.t2.medium) whether or not you receive any traffic</li>
+<li>Vendor lock-in makes migration painful — your deployment artifacts, scaling configs, and monitoring dashboards are platform-specific</li>
+<li>The abstraction can obscure performance problems that would be obvious with direct container access</li>
+</ul>
+<h3 id="decision-framework">Decision Framework</h3>
+<p>Do not choose infrastructure based on what you read in a blog post. Choose based on three quantitative dimensions:</p>
+<p><strong>Dimension 1: Latency requirement.</strong> What is the maximum acceptable p99 latency for a prediction?</p>
+<p><strong>Dimension 2: Request volume.</strong> How many requests per second do you expect at peak? How variable is the traffic?</p>
+<p><strong>Dimension 3: Model size.</strong> How large is the serialized model, and how long does it take to load?</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Scenario</th><th>Latency</th><th>Volume</th><th>Model Size</th><th>Recommendation</th></tr></thead><tbody><tr><td>Internal analytics dashboard</td><td>5s+ OK</td><td>&#x3C;10 req/min</td><td>&#x3C;50MB</td><td>Serverless</td></tr><tr><td>Real-time fraud detection</td><td>&#x3C;100ms</td><td>500+ req/s</td><td>200MB</td><td>Dedicated GPU</td></tr><tr><td>Customer-facing recommendation</td><td>&#x3C;500ms</td><td>50-200 req/s</td><td>100MB</td><td>Dedicated CPU or Cloud Run</td></tr><tr><td>Batch scoring pipeline</td><td>Minutes OK</td><td>Periodic bursts</td><td>Any</td><td>Serverless or spot instances</td></tr><tr><td>Experiment with A/B testing needs</td><td>&#x3C;1s</td><td>Variable</td><td>Any</td><td>Managed platform (SageMaker/Vertex)</td></tr></tbody></table>
+<h3 id="cost-estimation">Cost Estimation</h3>
+<p>Cost estimation is how you avoid the surprise $10,000 cloud bill. Here is the math for each option at 100 requests per second, sustained:</p>
+<p><strong>Serverless (AWS Lambda, 256MB, 500ms per invocation):</strong></p>
+<ul>
+<li>Compute: 100 req/s × 86,400 s/day × 30 days × 0.5s × $0.0000166667/GB-s × 0.25GB = ~$540/month</li>
+<li>Requests: 259M requests × $0.20/1M = ~$52/month</li>
+<li>Total: ~$592/month</li>
+</ul>
+<p><strong>Dedicated (c5.xlarge, 4 vCPU, enough for 100 req/s):</strong></p>
+<ul>
+<li>On-demand: ~$124/month</li>
+<li>Reserved (1-year): ~$78/month</li>
+<li>Spot: ~$37/month (but can be interrupted)</li>
+</ul>
+<p><strong>Managed (SageMaker ml.c5.xlarge):</strong></p>
+<ul>
+<li>Endpoint: ~$149/month (SageMaker adds ~20% markup over raw EC2)</li>
+<li>Plus per-request inference charges</li>
+</ul>
+<p>At sustained load, dedicated infrastructure is 5–8× cheaper than serverless. The breakeven point — where serverless becomes cheaper than dedicated — is typically below 5–10 requests per second for a 500ms inference workload.</p>
+<h3 id="auto-scaling-scaling-to-zero-with-containers">Auto-Scaling: Scaling to Zero with Containers</h3>
+<p>The gap between serverless and dedicated has narrowed with platforms that scale containers to zero:</p>
+<p><strong>Google Cloud Run</strong> scales containers from zero instances to thousands based on request volume. Cold starts are 1–5 seconds (much less than Lambda because the container image is pre-cached). You pay only for request processing time, with a per-second billing model. This gives you serverless economics with container flexibility.</p>
+<p><strong>Knative</strong> provides the same scaling behavior on Kubernetes. If you already run a Kubernetes cluster, Knative adds scale-to-zero without changing your deployment model.</p>
+<p><strong>AWS App Runner</strong> offers a similar model — containers that scale based on traffic with lower cold starts than Lambda.</p>
+<p>These platforms represent the pragmatic middle ground for many ML workloads: container-based deployment (you control the image), automatic scaling (including to zero), and cold starts measured in seconds rather than tens of seconds.</p>
+<p><img src="/books/pragmatic-data-science-with-python/ch10-infrastructure-decision.svg" alt="Infrastructure Decision Matrix"></p>
+<h3 id="the-honest-recommendation">The Honest Recommendation</h3>
+<p>For most teams deploying their first ML model to production:</p>
+<ol>
+<li><strong>Start with a dedicated container</strong> on whatever cloud you already use. A single VM running Docker costs $30–100/month and eliminates cold starts, scaling complexity, and vendor lock-in concerns.</li>
+<li><strong>Add auto-scaling</strong> when traffic justifies it. Cloud Run or ECS with auto-scaling policies based on CPU utilization or request count.</li>
+<li><strong>Consider managed platforms</strong> when you need features you cannot build faster yourself — A/B testing between model versions, automatic model monitoring, or multi-model endpoints.</li>
+<li><strong>Use serverless</strong> for truly sporadic workloads — internal tools used a few times per day, batch scoring triggered by events, or prototypes that may never see sustained traffic.</li>
+</ol>
+<p>The worst outcome is overengineering your first deployment. A model served from a single container behind a load balancer, with health checks and basic monitoring, will serve most teams well for months or years. You can always migrate to a more sophisticated architecture when the traffic demands it. You cannot recover the months spent building Kubernetes-native ML pipelines for a service that handles 50 requests per day.</p> </div> <!-- Chapter Navigation --> <nav class="mt-16 pt-8 border-t border-border/50"> <div class="grid grid-cols-1 sm:grid-cols-2 gap-4"> <a href="/books/pragmatic-data-science-with-python/ch10-s1/" class="group flex items-center gap-4 p-4 rounded-xl border border-border/50 bg-card/50 hover:border-primary/40 hover:bg-card transition-all duration-200"> <div class="shrink-0 w-10 h-10 rounded-lg bg-muted flex items-center justify-center group-hover:bg-primary/10 transition-colors"> <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground group-hover:text-primary transition-colors"><path d="M15 19l-7-7 7-7" /></svg> </div> <div class="min-w-0"> <div class="text-xs text-muted-foreground mb-1">Previous</div> <div class="font-medium text-sm line-clamp-2">Model Packaging and Inference APIs</div> </div> </a> <a href="/books/pragmatic-data-science-with-python/ch11/" class="group flex items-center gap-4 p-4 rounded-xl border border-border/50 bg-card/50 hover:border-primary/40 hover:bg-card transition-all duration-200 sm:text-right sm:flex-row-reverse"> <div class="shrink-0 w-10 h-10 rounded-lg bg-muted flex items-center justify-center group-hover:bg-primary/10 transition-colors"> <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground group-hover:text-primary transition-colors"><path d="M9 5l7 7-7 7" /></svg> </div> <div class="min-w-0"> <div class="text-xs text-muted-foreground mb-1">Next</div> <div class="font-medium text-sm line-clamp-2">Monitoring and Continual Learning</div> </div> </a> </div> </nav> </article> </div> </div>  </main> <!-- Footer with gradient accent --> <footer class="border-t border-border/50 mt-auto relative bg-background/50 backdrop-blur-sm"> <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent"></div> <div class="container mx-auto px-4 py-8"> <div class="flex flex-col md:flex-row items-center justify-between gap-6">  <div class="flex flex-col items-center md:items-start gap-4"> <nav class="flex flex-wrap items-center justify-center md:justify-start gap-x-6 gap-y-2 text-sm text-muted-foreground"> <a href="/about" class="hover:text-foreground transition-colors">About</a> <a href="/terms" class="hover:text-foreground transition-colors">Terms & License</a> <a href="mailto:arezki.elmehdi@gmail.com?subject=Hello%20Dev|Journal&body=Hi%20Mehdi," class="hover:text-foreground transition-colors">Contact</a> <div class="hidden md:block w-px h-3 bg-border"></div> <a href="https://github.com/earezki" target="_blank" rel="noopener noreferrer" class="hover:text-foreground transition-colors">GitHub</a> <a href="/rss.xml" class="hover:text-foreground transition-colors">RSS</a> <a href="/tags/" class="hover:text-foreground transition-colors">Tags</a> <a href="/sitemap-index.xml" class="hover:text-foreground transition-colors">Sitemap</a> <a href="/subscribe" class="hover:text-foreground transition-colors">Subscribe</a> </nav> <p class="text-muted-foreground text-sm text-center md:text-left">
+© 2026 AREZKI El Mehdi
+</p> </div>  <div class="w-full md:w-auto"> <form id="footer-subscribe-form" class="relative group" onsubmit="event.preventDefault();"> <div class="absolute -inset-0.5 bg-gradient-to-r from-primary via-purple-500 to-pink-500 rounded-lg blur opacity-75 animate-pulse group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div> <div class="relative flex items-center bg-background rounded-lg p-1 border border-border/50"> <input id="footer-subscribe-email" type="email" placeholder="Subscribe to newsletter" class="bg-transparent border-none focus:ring-0 text-sm px-3 py-1.5 w-full md:w-64 outline-none placeholder:text-muted-foreground/50 text-foreground" required> <button type="submit" class="px-4 py-1.5 bg-primary text-primary-foreground rounded-md text-sm font-medium hover:bg-primary/90 transition-colors shadow-sm">
+Join
+</button> </div> </form> </div> </div> </div> </footer> <script type="module">const i=document.getElementById("footer-subscribe-form"),e=document.getElementById("footer-subscribe-email");i&&e&&i.addEventListener("submit",n=>{if(n.preventDefault(),!e.checkValidity()){e.reportValidity();return}const t=e.value.trim();t&&(window.location.href=`/subscribe#email=${encodeURIComponent(t)}`)});</script> </body></html>

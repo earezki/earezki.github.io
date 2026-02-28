@@ -1,0 +1,210 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 950 500" width="950" height="500" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#f1f5f9"/>
+    </linearGradient>
+    <filter id="shadow" x="-4%" y="-4%" width="108%" height="116%">
+      <feDropShadow dx="1" dy="2" stdDeviation="2.5" flood-opacity="0.13"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#475569"/>
+    </marker>
+    <marker id="arrowBlue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arrowGreen" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#10b981"/>
+    </marker>
+    <marker id="arrowPurple" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#8b5cf6"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="950" height="500" fill="url(#bg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="475" y="30" text-anchor="middle" font-size="16" font-weight="700" fill="#0f172a">Concurrency Models: OS Threads vs Event Loop vs Green Threads</text>
+
+  <!-- ===== COLUMN 1: OS Threads ===== -->
+  <rect x="15" y="48" width="295" height="440" rx="10" fill="#eff6ff" stroke="#bfdbfe" stroke-width="1.5" opacity="0.6"/>
+  <text x="162" y="72" text-anchor="middle" font-size="14" font-weight="700" fill="#1d4ed8">OS Threads</text>
+
+  <!-- CPU -->
+  <rect x="95" y="85" width="135" height="38" rx="8" fill="#ffffff" stroke="#3b82f6" stroke-width="2" filter="url(#shadow)"/>
+  <text x="162" y="109" text-anchor="middle" font-size="12" font-weight="700" fill="#1e40af">CPU Core</text>
+
+  <!-- Threads -->
+  <rect x="30" y="160" width="60" height="100" rx="6" fill="#ffffff" stroke="#3b82f6" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="60" y="180" text-anchor="middle" font-size="10" font-weight="600" fill="#1e40af">T1</text>
+  <rect x="32" y="190" width="56" height="30" rx="4" fill="#dbeafe" stroke="#93c5fd" stroke-width="1"/>
+  <text x="60" y="209" text-anchor="middle" font-size="8" fill="#3b82f6">Stack 2MB</text>
+  <rect x="32" y="225" width="56" height="26" rx="4" fill="#eff6ff" stroke="#93c5fd" stroke-width="0.8"/>
+  <text x="60" y="242" text-anchor="middle" font-size="7.5" fill="#64748b">Registers</text>
+
+  <rect x="100" y="160" width="60" height="100" rx="6" fill="#ffffff" stroke="#3b82f6" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="130" y="180" text-anchor="middle" font-size="10" font-weight="600" fill="#1e40af">T2</text>
+  <rect x="102" y="190" width="56" height="30" rx="4" fill="#dbeafe" stroke="#93c5fd" stroke-width="1"/>
+  <text x="130" y="209" text-anchor="middle" font-size="8" fill="#3b82f6">Stack 2MB</text>
+  <rect x="102" y="225" width="56" height="26" rx="4" fill="#eff6ff" stroke="#93c5fd" stroke-width="0.8"/>
+  <text x="130" y="242" text-anchor="middle" font-size="7.5" fill="#64748b">Registers</text>
+
+  <rect x="170" y="160" width="60" height="100" rx="6" fill="#ffffff" stroke="#3b82f6" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="200" y="180" text-anchor="middle" font-size="10" font-weight="600" fill="#1e40af">T3</text>
+  <rect x="172" y="190" width="56" height="30" rx="4" fill="#dbeafe" stroke="#93c5fd" stroke-width="1"/>
+  <text x="200" y="209" text-anchor="middle" font-size="8" fill="#3b82f6">Stack 2MB</text>
+  <rect x="172" y="225" width="56" height="26" rx="4" fill="#eff6ff" stroke="#93c5fd" stroke-width="0.8"/>
+  <text x="200" y="242" text-anchor="middle" font-size="7.5" fill="#64748b">Registers</text>
+
+  <rect x="240" y="160" width="60" height="100" rx="6" fill="#ffffff" stroke="#3b82f6" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="270" y="180" text-anchor="middle" font-size="10" font-weight="600" fill="#1e40af">T4</text>
+  <rect x="242" y="190" width="56" height="30" rx="4" fill="#dbeafe" stroke="#93c5fd" stroke-width="1"/>
+  <text x="270" y="209" text-anchor="middle" font-size="8" fill="#3b82f6">Stack 2MB</text>
+  <rect x="242" y="225" width="56" height="26" rx="4" fill="#eff6ff" stroke="#93c5fd" stroke-width="0.8"/>
+  <text x="270" y="242" text-anchor="middle" font-size="7.5" fill="#64748b">Registers</text>
+
+  <!-- Arrows CPU to threads -->
+  <line x1="130" y1="123" x2="60" y2="156" stroke="#3b82f6" stroke-width="1.3" marker-end="url(#arrowBlue)"/>
+  <line x1="150" y1="123" x2="130" y2="156" stroke="#3b82f6" stroke-width="1.3" marker-end="url(#arrowBlue)"/>
+  <line x1="175" y1="123" x2="200" y2="156" stroke="#3b82f6" stroke-width="1.3" marker-end="url(#arrowBlue)"/>
+  <line x1="195" y1="123" x2="270" y2="156" stroke="#3b82f6" stroke-width="1.3" marker-end="url(#arrowBlue)"/>
+
+  <!-- Context switch arrow -->
+  <path d="M 93 152 Q 95 140 110 140 Q 125 140 127 152" fill="none" stroke="#ef4444" stroke-width="1.5" marker-end="url(#arrow)" stroke-dasharray="4,2"/>
+  <text x="112" y="135" text-anchor="middle" font-size="8" fill="#ef4444" font-weight="600">ctx switch</text>
+
+  <!-- Labels -->
+  <text x="162" y="290" text-anchor="middle" font-size="11" font-weight="600" fill="#334155">1:1 mapping</text>
+  <text x="162" y="306" text-anchor="middle" font-size="10" fill="#64748b">~2 MB stack each</text>
+  <text x="162" y="322" text-anchor="middle" font-size="10" fill="#64748b">Preemptive scheduling</text>
+  <text x="162" y="338" text-anchor="middle" font-size="10" fill="#64748b">OS manages switching</text>
+
+  <rect x="40" y="360" width="245" height="56" rx="6" fill="#fff" stroke="#cbd5e1" stroke-width="1" filter="url(#shadow)"/>
+  <text x="162" y="382" text-anchor="middle" font-size="9.5" fill="#475569" font-weight="600">Pros: True parallelism</text>
+  <text x="162" y="397" text-anchor="middle" font-size="9.5" fill="#475569" font-weight="600">Cons: Expensive context switches</text>
+  <text x="162" y="412" text-anchor="middle" font-size="9.5" fill="#ef4444" font-weight="500">High memory overhead</text>
+
+  <!-- ===== COLUMN 2: Event Loop ===== -->
+  <rect x="325" y="48" width="295" height="440" rx="10" fill="#ecfdf5" stroke="#a7f3d0" stroke-width="1.5" opacity="0.6"/>
+  <text x="472" y="72" text-anchor="middle" font-size="14" font-weight="700" fill="#047857">Event Loop (asyncio)</text>
+
+  <!-- Single Thread -->
+  <rect x="400" y="85" width="145" height="38" rx="8" fill="#ffffff" stroke="#10b981" stroke-width="2" filter="url(#shadow)"/>
+  <text x="472" y="109" text-anchor="middle" font-size="12" font-weight="700" fill="#065f46">Single Thread</text>
+
+  <!-- Event Loop circle -->
+  <circle cx="472" cy="175" r="38" fill="#ffffff" stroke="#10b981" stroke-width="2" filter="url(#shadow)"/>
+  <text x="472" y="171" text-anchor="middle" font-size="10" font-weight="700" fill="#065f46">Event</text>
+  <text x="472" y="184" text-anchor="middle" font-size="10" font-weight="700" fill="#065f46">Loop</text>
+  <!-- Rotating arrow around loop -->
+  <path d="M 510 175 A 38 38 0 1 1 472 137" fill="none" stroke="#10b981" stroke-width="1.5" marker-end="url(#arrowGreen)"/>
+
+  <line x1="472" y1="123" x2="472" y2="133" stroke="#10b981" stroke-width="1.5" marker-end="url(#arrowGreen)"/>
+
+  <!-- Coroutines -->
+  <rect x="340" y="230" width="72" height="32" rx="5" fill="#d1fae5" stroke="#6ee7b7" stroke-width="1.2" filter="url(#shadow)"/>
+  <text x="376" y="250" text-anchor="middle" font-size="9" font-weight="600" fill="#065f46">Coro 1</text>
+
+  <rect x="420" y="230" width="72" height="32" rx="5" fill="#d1fae5" stroke="#6ee7b7" stroke-width="1.2" filter="url(#shadow)"/>
+  <text x="456" y="250" text-anchor="middle" font-size="9" font-weight="600" fill="#065f46">Coro 2</text>
+
+  <rect x="500" y="230" width="72" height="32" rx="5" fill="#d1fae5" stroke="#6ee7b7" stroke-width="1.2" filter="url(#shadow)"/>
+  <text x="536" y="250" text-anchor="middle" font-size="9" font-weight="600" fill="#065f46">Coro 3</text>
+
+  <rect x="380" y="270" width="72" height="32" rx="5" fill="#d1fae5" stroke="#6ee7b7" stroke-width="1.2" filter="url(#shadow)"/>
+  <text x="416" y="290" text-anchor="middle" font-size="9" font-weight="600" fill="#065f46">Coro 4</text>
+
+  <rect x="460" y="270" width="72" height="32" rx="5" fill="#d1fae5" stroke="#6ee7b7" stroke-width="1.2" filter="url(#shadow)"/>
+  <text x="496" y="290" text-anchor="middle" font-size="9" font-weight="600" fill="#065f46">Coro 5</text>
+
+  <!-- Arrows from event loop to coroutines -->
+  <line x1="450" y1="208" x2="376" y2="226" stroke="#10b981" stroke-width="1" marker-end="url(#arrowGreen)"/>
+  <line x1="472" y1="213" x2="456" y2="226" stroke="#10b981" stroke-width="1" marker-end="url(#arrowGreen)"/>
+  <line x1="495" y1="208" x2="536" y2="226" stroke="#10b981" stroke-width="1" marker-end="url(#arrowGreen)"/>
+
+  <!-- epoll/kqueue box -->
+  <rect x="395" y="316" width="155" height="36" rx="7" fill="#ffffff" stroke="#10b981" stroke-width="1.8" filter="url(#shadow)"/>
+  <text x="472" y="338" text-anchor="middle" font-size="11" font-weight="700" fill="#065f46">epoll / kqueue</text>
+
+  <line x1="472" y1="302" x2="472" y2="313" stroke="#10b981" stroke-width="1.3" marker-end="url(#arrowGreen)"/>
+
+  <!-- Labels -->
+  <text x="472" y="372" text-anchor="middle" font-size="11" font-weight="600" fill="#334155">Single thread</text>
+  <text x="472" y="388" text-anchor="middle" font-size="10" fill="#64748b">Cooperative scheduling</text>
+  <text x="472" y="404" text-anchor="middle" font-size="10" fill="#64748b">Non-blocking I/O</text>
+
+  <rect x="350" y="418" width="245" height="56" rx="6" fill="#fff" stroke="#cbd5e1" stroke-width="1" filter="url(#shadow)"/>
+  <text x="472" y="438" text-anchor="middle" font-size="9.5" fill="#475569" font-weight="600">Pros: Low overhead, high concurrency</text>
+  <text x="472" y="453" text-anchor="middle" font-size="9.5" fill="#475569" font-weight="600">Cons: No CPU parallelism</text>
+  <text x="472" y="468" text-anchor="middle" font-size="9.5" fill="#ef4444" font-weight="500">Blocking calls stall everything</text>
+
+  <!-- ===== COLUMN 3: Green Threads ===== -->
+  <rect x="635" y="48" width="300" height="440" rx="10" fill="#f5f3ff" stroke="#c4b5fd" stroke-width="1.5" opacity="0.6"/>
+  <text x="785" y="72" text-anchor="middle" font-size="14" font-weight="700" fill="#6d28d9">Green Threads (goroutines)</text>
+
+  <!-- OS Threads (M) -->
+  <rect x="660" y="85" width="68" height="34" rx="6" fill="#ffffff" stroke="#8b5cf6" stroke-width="1.8" filter="url(#shadow)"/>
+  <text x="694" y="106" text-anchor="middle" font-size="10" font-weight="600" fill="#5b21b6">OS T1</text>
+
+  <rect x="738" y="85" width="68" height="34" rx="6" fill="#ffffff" stroke="#8b5cf6" stroke-width="1.8" filter="url(#shadow)"/>
+  <text x="772" y="106" text-anchor="middle" font-size="10" font-weight="600" fill="#5b21b6">OS T2</text>
+
+  <rect x="816" y="85" width="68" height="34" rx="6" fill="#ffffff" stroke="#8b5cf6" stroke-width="1.8" filter="url(#shadow)"/>
+  <text x="850" y="106" text-anchor="middle" font-size="10" font-weight="600" fill="#5b21b6">OS T3</text>
+
+  <text x="785" y="80" text-anchor="middle" font-size="9" fill="#7c3aed" font-weight="600">M OS Threads</text>
+
+  <!-- Go Scheduler -->
+  <rect x="705" y="148" width="160" height="40" rx="8" fill="#ede9fe" stroke="#8b5cf6" stroke-width="2" filter="url(#shadow)"/>
+  <text x="785" y="173" text-anchor="middle" font-size="12" font-weight="700" fill="#5b21b6">Go Scheduler</text>
+
+  <!-- Arrows from threads to scheduler -->
+  <line x1="694" y1="119" x2="740" y2="145" stroke="#8b5cf6" stroke-width="1.3" marker-end="url(#arrowPurple)"/>
+  <line x1="772" y1="119" x2="772" y2="145" stroke="#8b5cf6" stroke-width="1.3" marker-end="url(#arrowPurple)"/>
+  <line x1="850" y1="119" x2="825" y2="145" stroke="#8b5cf6" stroke-width="1.3" marker-end="url(#arrowPurple)"/>
+
+  <!-- Goroutines (N > M) -->
+  <text x="785" y="210" text-anchor="middle" font-size="9" fill="#7c3aed" font-weight="600">N Goroutines (N >> M)</text>
+
+  <rect x="650" y="220" width="52" height="28" rx="5" fill="#ede9fe" stroke="#a78bfa" stroke-width="1.2" filter="url(#shadow)"/>
+  <text x="676" y="238" text-anchor="middle" font-size="8" font-weight="600" fill="#5b21b6">G1</text>
+
+  <rect x="710" y="220" width="52" height="28" rx="5" fill="#ede9fe" stroke="#a78bfa" stroke-width="1.2" filter="url(#shadow)"/>
+  <text x="736" y="238" text-anchor="middle" font-size="8" font-weight="600" fill="#5b21b6">G2</text>
+
+  <rect x="770" y="220" width="52" height="28" rx="5" fill="#ede9fe" stroke="#a78bfa" stroke-width="1.2" filter="url(#shadow)"/>
+  <text x="796" y="238" text-anchor="middle" font-size="8" font-weight="600" fill="#5b21b6">G3</text>
+
+  <rect x="830" y="220" width="52" height="28" rx="5" fill="#ede9fe" stroke="#a78bfa" stroke-width="1.2" filter="url(#shadow)"/>
+  <text x="856" y="238" text-anchor="middle" font-size="8" font-weight="600" fill="#5b21b6">G4</text>
+
+  <rect x="650" y="256" width="52" height="28" rx="5" fill="#ede9fe" stroke="#a78bfa" stroke-width="1.2" filter="url(#shadow)"/>
+  <text x="676" y="274" text-anchor="middle" font-size="8" font-weight="600" fill="#5b21b6">G5</text>
+
+  <rect x="710" y="256" width="52" height="28" rx="5" fill="#ede9fe" stroke="#a78bfa" stroke-width="1.2" filter="url(#shadow)"/>
+  <text x="736" y="274" text-anchor="middle" font-size="8" font-weight="600" fill="#5b21b6">G6</text>
+
+  <rect x="770" y="256" width="52" height="28" rx="5" fill="#ede9fe" stroke="#a78bfa" stroke-width="1.2" filter="url(#shadow)"/>
+  <text x="796" y="274" text-anchor="middle" font-size="8" font-weight="600" fill="#5b21b6">G7</text>
+
+  <rect x="830" y="256" width="52" height="28" rx="5" fill="#ede9fe" stroke="#a78bfa" stroke-width="1.2" filter="url(#shadow)"/>
+  <text x="856" y="274" text-anchor="middle" font-size="8" font-weight="600" fill="#5b21b6">G8</text>
+
+  <!-- Arrows from scheduler to goroutines -->
+  <line x1="760" y1="188" x2="700" y2="217" stroke="#8b5cf6" stroke-width="1" marker-end="url(#arrowPurple)"/>
+  <line x1="775" y1="188" x2="760" y2="217" stroke="#8b5cf6" stroke-width="1" marker-end="url(#arrowPurple)"/>
+  <line x1="795" y1="188" x2="820" y2="217" stroke="#8b5cf6" stroke-width="1" marker-end="url(#arrowPurple)"/>
+  <line x1="810" y1="188" x2="856" y2="217" stroke="#8b5cf6" stroke-width="1" marker-end="url(#arrowPurple)"/>
+
+  <!-- Labels -->
+  <text x="785" y="310" text-anchor="middle" font-size="11" font-weight="600" fill="#334155">M:N mapping</text>
+  <text x="785" y="326" text-anchor="middle" font-size="10" fill="#64748b">~8 KB stack (growable)</text>
+  <text x="785" y="342" text-anchor="middle" font-size="10" fill="#64748b">Go runtime scheduler</text>
+  <text x="785" y="358" text-anchor="middle" font-size="10" fill="#64748b">Work stealing</text>
+
+  <rect x="660" y="376" width="250" height="56" rx="6" fill="#fff" stroke="#cbd5e1" stroke-width="1" filter="url(#shadow)"/>
+  <text x="785" y="396" text-anchor="middle" font-size="9.5" fill="#475569" font-weight="600">Pros: Lightweight + true parallelism</text>
+  <text x="785" y="411" text-anchor="middle" font-size="9.5" fill="#475569" font-weight="600">Cons: Runtime complexity</text>
+  <text x="785" y="426" text-anchor="middle" font-size="9.5" fill="#10b981" font-weight="500">Best of both worlds</text>
+</svg>

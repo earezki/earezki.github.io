@@ -1,0 +1,161 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 540" width="880" height="540" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <filter id="shadow" x="-4%" y="-4%" width="108%" height="116%">
+      <feDropShadow dx="1" dy="2" stdDeviation="3" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="880" height="540" rx="12" fill="#f8fafc"/>
+
+  <!-- Title -->
+  <text x="440" y="38" text-anchor="middle" font-size="20" font-weight="700" fill="#1e293b">Model Packaging Formats Comparison</text>
+  <line x1="260" y1="48" x2="620" y2="48" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Column 1: Pickle -->
+  <rect x="25" y="70" width="196" height="310" rx="10" fill="#fff" stroke="#ef4444" stroke-width="2" filter="url(#shadow)"/>
+  <!-- Header -->
+  <rect x="25" y="70" width="196" height="50" rx="10" fill="#ef4444"/>
+  <rect x="25" y="95" width="196" height="25" fill="#ef4444"/>
+  <text x="123" y="100" text-anchor="middle" font-size="17" font-weight="700" fill="#fff">Pickle</text>
+
+  <!-- Traffic light: Red -->
+  <circle cx="123" cy="140" r="14" fill="#fef2f2" stroke="#ef4444" stroke-width="2"/>
+  <circle cx="123" cy="140" r="9" fill="#ef4444"/>
+  <text x="123" y="168" text-anchor="middle" font-size="10" font-weight="600" fill="#ef4444">⚠ SECURITY RISK</text>
+
+  <line x1="45" y1="180" x2="201" y2="180" stroke="#fecaca" stroke-width="1"/>
+  <text x="123" y="200" text-anchor="middle" font-size="12" fill="#475569">Python-only format</text>
+  <text x="123" y="220" text-anchor="middle" font-size="12" fill="#475569">Fast serialization</text>
+  <text x="123" y="240" text-anchor="middle" font-size="12" fill="#475569">Arbitrary code exec</text>
+  <text x="123" y="260" text-anchor="middle" font-size="12" fill="#ef4444" font-weight="600">Untrusted data risk</text>
+  <line x1="45" y1="275" x2="201" y2="275" stroke="#fecaca" stroke-width="1"/>
+  <text x="123" y="295" text-anchor="middle" font-size="11" fill="#64748b">Framework: Any Python</text>
+  <text x="123" y="312" text-anchor="middle" font-size="11" fill="#64748b">Runtime: CPython</text>
+  <text x="123" y="329" text-anchor="middle" font-size="11" fill="#64748b">Extension: .pkl / .joblib</text>
+  <rect x="45" y="345" width="156" height="22" rx="5" fill="#fef2f2"/>
+  <text x="123" y="360" text-anchor="middle" font-size="11" font-weight="600" fill="#ef4444">Not recommended</text>
+
+  <!-- Column 2: ONNX -->
+  <rect x="235" y="70" width="196" height="310" rx="10" fill="#fff" stroke="#10b981" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="235" y="70" width="196" height="50" rx="10" fill="#10b981"/>
+  <rect x="235" y="95" width="196" height="25" fill="#10b981"/>
+  <text x="333" y="100" text-anchor="middle" font-size="17" font-weight="700" fill="#fff">ONNX</text>
+
+  <!-- Traffic light: Green -->
+  <circle cx="333" cy="140" r="14" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+  <circle cx="333" cy="140" r="9" fill="#10b981"/>
+  <text x="333" y="168" text-anchor="middle" font-size="10" font-weight="600" fill="#10b981">✓ RECOMMENDED</text>
+
+  <line x1="255" y1="180" x2="411" y2="180" stroke="#a7f3d0" stroke-width="1"/>
+  <text x="333" y="200" text-anchor="middle" font-size="12" fill="#475569">Cross-platform</text>
+  <text x="333" y="220" text-anchor="middle" font-size="12" fill="#475569">Optimized runtime</text>
+  <text x="333" y="240" text-anchor="middle" font-size="12" fill="#475569">Broad support</text>
+  <text x="333" y="260" text-anchor="middle" font-size="12" fill="#10b981" font-weight="600">Hardware acceleration</text>
+  <line x1="255" y1="275" x2="411" y2="275" stroke="#a7f3d0" stroke-width="1"/>
+  <text x="333" y="295" text-anchor="middle" font-size="11" fill="#64748b">Framework: Many</text>
+  <text x="333" y="312" text-anchor="middle" font-size="11" fill="#64748b">Runtime: ONNX Runtime</text>
+  <text x="333" y="329" text-anchor="middle" font-size="11" fill="#64748b">Extension: .onnx</text>
+  <rect x="255" y="345" width="156" height="22" rx="5" fill="#ecfdf5"/>
+  <text x="333" y="360" text-anchor="middle" font-size="11" font-weight="600" fill="#10b981">Best for production</text>
+
+  <!-- Column 3: TorchScript -->
+  <rect x="445" y="70" width="196" height="310" rx="10" fill="#fff" stroke="#3b82f6" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="445" y="70" width="196" height="50" rx="10" fill="#3b82f6"/>
+  <rect x="445" y="95" width="196" height="25" fill="#3b82f6"/>
+  <text x="543" y="100" text-anchor="middle" font-size="17" font-weight="700" fill="#fff">TorchScript</text>
+
+  <!-- Traffic light: Green -->
+  <circle cx="543" cy="140" r="14" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+  <circle cx="543" cy="140" r="9" fill="#10b981"/>
+  <text x="543" y="168" text-anchor="middle" font-size="10" font-weight="600" fill="#10b981">✓ FOR PYTORCH</text>
+
+  <line x1="465" y1="180" x2="621" y2="180" stroke="#bfdbfe" stroke-width="1"/>
+  <text x="543" y="200" text-anchor="middle" font-size="12" fill="#475569">PyTorch-native</text>
+  <text x="543" y="220" text-anchor="middle" font-size="12" fill="#475569">JIT compilation</text>
+  <text x="543" y="240" text-anchor="middle" font-size="12" fill="#475569">C++ deployment</text>
+  <text x="543" y="260" text-anchor="middle" font-size="12" fill="#3b82f6" font-weight="600">No Python needed</text>
+  <line x1="465" y1="275" x2="621" y2="275" stroke="#bfdbfe" stroke-width="1"/>
+  <text x="543" y="295" text-anchor="middle" font-size="11" fill="#64748b">Framework: PyTorch</text>
+  <text x="543" y="312" text-anchor="middle" font-size="11" fill="#64748b">Runtime: LibTorch</text>
+  <text x="543" y="329" text-anchor="middle" font-size="11" fill="#64748b">Extension: .pt</text>
+  <rect x="465" y="345" width="156" height="22" rx="5" fill="#eff6ff"/>
+  <text x="543" y="360" text-anchor="middle" font-size="11" font-weight="600" fill="#3b82f6">PyTorch ecosystem</text>
+
+  <!-- Column 4: SavedModel -->
+  <rect x="655" y="70" width="196" height="310" rx="10" fill="#fff" stroke="#f59e0b" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="655" y="70" width="196" height="50" rx="10" fill="#f59e0b"/>
+  <rect x="655" y="95" width="196" height="25" fill="#f59e0b"/>
+  <text x="753" y="100" text-anchor="middle" font-size="17" font-weight="700" fill="#fff">SavedModel</text>
+
+  <!-- Traffic light: Yellow -->
+  <circle cx="753" cy="140" r="14" fill="#fffbeb" stroke="#f59e0b" stroke-width="2"/>
+  <circle cx="753" cy="140" r="9" fill="#f59e0b"/>
+  <text x="753" y="168" text-anchor="middle" font-size="10" font-weight="600" fill="#d97706">△ TF ONLY</text>
+
+  <line x1="675" y1="180" x2="831" y2="180" stroke="#fde68a" stroke-width="1"/>
+  <text x="753" y="200" text-anchor="middle" font-size="12" fill="#475569">TensorFlow-native</text>
+  <text x="753" y="220" text-anchor="middle" font-size="12" fill="#475569">TF Serving integration</text>
+  <text x="753" y="240" text-anchor="middle" font-size="12" fill="#475569">Graph optimization</text>
+  <text x="753" y="260" text-anchor="middle" font-size="12" fill="#d97706" font-weight="600">Locked to TF</text>
+  <line x1="675" y1="275" x2="831" y2="275" stroke="#fde68a" stroke-width="1"/>
+  <text x="753" y="295" text-anchor="middle" font-size="11" fill="#64748b">Framework: TensorFlow</text>
+  <text x="753" y="312" text-anchor="middle" font-size="11" fill="#64748b">Runtime: TF Serving</text>
+  <text x="753" y="329" text-anchor="middle" font-size="11" fill="#64748b">Extension: /saved_model</text>
+  <rect x="675" y="345" width="156" height="22" rx="5" fill="#fffbeb"/>
+  <text x="753" y="360" text-anchor="middle" font-size="11" font-weight="600" fill="#d97706">TF ecosystem only</text>
+
+  <!-- Bottom comparison row -->
+  <rect x="25" y="400" width="830" height="125" rx="10" fill="#fff" stroke="#e2e8f0" stroke-width="1" filter="url(#shadow)"/>
+  <text x="440" y="425" text-anchor="middle" font-size="15" font-weight="600" fill="#1e293b">Key Attributes Comparison</text>
+
+  <!-- Headers -->
+  <text x="130" y="450" text-anchor="end" font-size="12" font-weight="600" fill="#64748b">Portability</text>
+  <text x="130" y="472" text-anchor="end" font-size="12" font-weight="600" fill="#64748b">Security</text>
+  <text x="130" y="494" text-anchor="end" font-size="12" font-weight="600" fill="#64748b">Performance</text>
+  <text x="130" y="516" text-anchor="end" font-size="12" font-weight="600" fill="#64748b">Ecosystem</text>
+
+  <!-- Pickle scores -->
+  <text x="210" y="440" text-anchor="middle" font-size="10" font-weight="600" fill="#94a3b8">Pickle</text>
+  <rect x="170" y="444" width="80" height="10" rx="3" fill="#f1f5f9"/>
+  <rect x="170" y="444" width="20" height="10" rx="3" fill="#ef4444"/>
+  <rect x="170" y="466" width="80" height="10" rx="3" fill="#f1f5f9"/>
+  <rect x="170" y="466" width="15" height="10" rx="3" fill="#ef4444"/>
+  <rect x="170" y="488" width="80" height="10" rx="3" fill="#f1f5f9"/>
+  <rect x="170" y="488" width="45" height="10" rx="3" fill="#f59e0b"/>
+  <rect x="170" y="510" width="80" height="10" rx="3" fill="#f1f5f9"/>
+  <rect x="170" y="510" width="30" height="10" rx="3" fill="#f59e0b"/>
+
+  <!-- ONNX scores -->
+  <text x="380" y="440" text-anchor="middle" font-size="10" font-weight="600" fill="#94a3b8">ONNX</text>
+  <rect x="340" y="444" width="80" height="10" rx="3" fill="#f1f5f9"/>
+  <rect x="340" y="444" width="75" height="10" rx="3" fill="#10b981"/>
+  <rect x="340" y="466" width="80" height="10" rx="3" fill="#f1f5f9"/>
+  <rect x="340" y="466" width="70" height="10" rx="3" fill="#10b981"/>
+  <rect x="340" y="488" width="80" height="10" rx="3" fill="#f1f5f9"/>
+  <rect x="340" y="488" width="75" height="10" rx="3" fill="#10b981"/>
+  <rect x="340" y="510" width="80" height="10" rx="3" fill="#f1f5f9"/>
+  <rect x="340" y="510" width="65" height="10" rx="3" fill="#10b981"/>
+
+  <!-- TorchScript scores -->
+  <text x="560" y="440" text-anchor="middle" font-size="10" font-weight="600" fill="#94a3b8">TorchScript</text>
+  <rect x="520" y="444" width="80" height="10" rx="3" fill="#f1f5f9"/>
+  <rect x="520" y="444" width="50" height="10" rx="3" fill="#3b82f6"/>
+  <rect x="520" y="466" width="80" height="10" rx="3" fill="#f1f5f9"/>
+  <rect x="520" y="466" width="65" height="10" rx="3" fill="#10b981"/>
+  <rect x="520" y="488" width="80" height="10" rx="3" fill="#f1f5f9"/>
+  <rect x="520" y="488" width="70" height="10" rx="3" fill="#10b981"/>
+  <rect x="520" y="510" width="80" height="10" rx="3" fill="#f1f5f9"/>
+  <rect x="520" y="510" width="50" height="10" rx="3" fill="#3b82f6"/>
+
+  <!-- SavedModel scores -->
+  <text x="740" y="440" text-anchor="middle" font-size="10" font-weight="600" fill="#94a3b8">SavedModel</text>
+  <rect x="700" y="444" width="80" height="10" rx="3" fill="#f1f5f9"/>
+  <rect x="700" y="444" width="35" height="10" rx="3" fill="#f59e0b"/>
+  <rect x="700" y="466" width="80" height="10" rx="3" fill="#f1f5f9"/>
+  <rect x="700" y="466" width="60" height="10" rx="3" fill="#10b981"/>
+  <rect x="700" y="488" width="80" height="10" rx="3" fill="#f1f5f9"/>
+  <rect x="700" y="488" width="65" height="10" rx="3" fill="#10b981"/>
+  <rect x="700" y="510" width="80" height="10" rx="3" fill="#f1f5f9"/>
+  <rect x="700" y="510" width="40" height="10" rx="3" fill="#f59e0b"/>
+</svg>

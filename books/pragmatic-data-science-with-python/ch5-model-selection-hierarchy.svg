@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520" width="800" height="520">
+  <defs>
+    <filter id="shadow" x="-5%" y="-5%" width="115%" height="115%">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.15"/>
+    </filter>
+    <linearGradient id="headerGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#3b82f6"/>
+    </linearGradient>
+    <linearGradient id="pyramidGrad1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+    <linearGradient id="pyramidGrad2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#2563eb"/>
+    </linearGradient>
+    <linearGradient id="pyramidGrad3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#d97706"/>
+    </linearGradient>
+    <linearGradient id="pyramidGrad4" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#7c3aed"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="520" rx="12" fill="#f8fafc"/>
+  <rect x="0" y="0" width="800" height="56" rx="12" fill="url(#headerGrad)"/>
+  <rect x="0" y="30" width="800" height="26" fill="url(#headerGrad)"/>
+  <text x="400" y="37" text-anchor="middle" font-family="system-ui, sans-serif" font-size="22" font-weight="700" fill="#ffffff">Model Selection Hierarchy</text>
+
+  <!-- Left arrow: Increasing complexity -->
+  <line x1="95" y1="105" x2="95" y2="450" stroke="#6b7280" stroke-width="2" marker-start="url(#arrowUp)"/>
+  <polygon points="95,95 88,115 102,115" fill="#6b7280"/>
+  <text x="60" y="275" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#6b7280" transform="rotate(-90, 60, 275)">Increasing Complexity</text>
+
+  <!-- Level 4 (top): Ensemble/Stacking -->
+  <g filter="url(#shadow)">
+    <path d="M 310,85 L 490,85 L 520,165 L 280,165 Z" fill="url(#pyramidGrad4)" rx="8"/>
+    <text x="400" y="118" text-anchor="middle" font-family="system-ui, sans-serif" font-size="15" font-weight="700" fill="#ffffff">Ensemble / Stacking</text>
+    <text x="400" y="138" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#e9d5ff">Blending, Super Learner</text>
+    <text x="400" y="155" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#c4b5fd" font-style="italic">"Only for competitions"</text>
+  </g>
+
+  <!-- Level 3: Deep Learning -->
+  <g filter="url(#shadow)">
+    <path d="M 265,175 L 535,175 L 565,255 L 235,255 Z" fill="url(#pyramidGrad3)"/>
+    <text x="400" y="205" text-anchor="middle" font-family="system-ui, sans-serif" font-size="16" font-weight="700" fill="#ffffff">Deep Learning</text>
+    <text x="400" y="225" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#fef3c7">PyTorch, TensorFlow, Transformers</text>
+    <text x="400" y="245" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#fde68a" font-style="italic">"Only when data isn't tabular"</text>
+  </g>
+
+  <!-- Level 2: Gradient Boosted Trees -->
+  <g filter="url(#shadow)">
+    <path d="M 220,265 L 580,265 L 610,350 L 190,350 Z" fill="url(#pyramidGrad2)"/>
+    <text x="400" y="298" text-anchor="middle" font-family="system-ui, sans-serif" font-size="17" font-weight="700" fill="#ffffff">Gradient Boosted Trees</text>
+    <text x="400" y="318" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" fill="#bfdbfe">XGBoost, LightGBM, CatBoost</text>
+    <text x="400" y="338" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#93c5fd" font-style="italic">"Default choice for tabular data"</text>
+  </g>
+
+  <!-- Level 1 (bottom): Linear Baseline -->
+  <g filter="url(#shadow)">
+    <path d="M 175,360 L 625,360 L 650,445 L 150,445 Z" fill="url(#pyramidGrad1)"/>
+    <text x="400" y="393" text-anchor="middle" font-family="system-ui, sans-serif" font-size="18" font-weight="700" fill="#ffffff">Linear Baseline</text>
+    <text x="400" y="413" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" fill="#bbf7d0">LogisticRegression, Ridge, ElasticNet</text>
+    <text x="400" y="433" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#86efac" font-style="italic">"Always start here"</text>
+  </g>
+
+  <!-- Right side: "90% of problems solved here" bracket + arrow -->
+  <g>
+    <!-- Bracket line -->
+    <line x1="665" y1="280" x2="685" y2="280" stroke="#10b981" stroke-width="2.5"/>
+    <line x1="685" y1="280" x2="685" y2="430" stroke="#10b981" stroke-width="2.5"/>
+    <line x1="665" y1="430" x2="685" y2="430" stroke="#10b981" stroke-width="2.5"/>
+    <!-- Arrow pointing to bracket -->
+    <line x1="685" y1="355" x2="700" y2="355" stroke="#10b981" stroke-width="2.5"/>
+
+    <g filter="url(#shadow)">
+      <rect x="705" y="320" width="80" height="72" rx="8" fill="#f0fdf4" stroke="#86efac" stroke-width="1.5"/>
+      <text x="745" y="342" text-anchor="middle" font-family="system-ui, sans-serif" font-size="24" font-weight="700" fill="#10b981">90%</text>
+      <text x="745" y="358" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" fill="#166534">of problems</text>
+      <text x="745" y="372" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" fill="#166534">solved with</text>
+      <text x="745" y="386" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" fill="#166534">these two</text>
+    </g>
+  </g>
+
+  <!-- Bottom guidance -->
+  <rect x="100" y="460" width="600" height="48" rx="8" fill="#f1f5f9" stroke="#e2e8f0"/>
+  <text x="400" y="482" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="600" fill="#334155">💡 Rule of Thumb: Move up only when the simpler model fails to meet requirements.</text>
+  <text x="400" y="499" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#64748b">Always establish a baseline first. Complexity ≠ Performance.</text>
+</svg>

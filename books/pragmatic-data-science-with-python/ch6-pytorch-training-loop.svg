@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520" width="800" height="520">
+  <defs>
+    <filter id="shadow" x="-5%" y="-5%" width="115%" height="115%">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.15"/>
+    </filter>
+    <linearGradient id="headerGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ef4444"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+    <marker id="arrowLoop" viewBox="0 0 10 7" refX="10" refY="3.5" markerWidth="10" markerHeight="7" orient="auto-start-auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#6b7280"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="520" rx="12" fill="#f8fafc"/>
+  <rect x="0" y="0" width="800" height="56" rx="12" fill="url(#headerGrad)"/>
+  <rect x="0" y="30" width="800" height="26" fill="url(#headerGrad)"/>
+  <text x="400" y="37" text-anchor="middle" font-family="system-ui, sans-serif" font-size="22" font-weight="700" fill="#ffffff">PyTorch Training Loop</text>
+
+  <!-- Central cycle layout - pentagon arrangement -->
+  <!-- Step 1: Forward Pass (top) -->
+  <g filter="url(#shadow)">
+    <rect x="280" y="78" width="240" height="68" rx="14" fill="#3b82f6"/>
+    <text x="400" y="100" text-anchor="middle" font-family="system-ui, sans-serif" font-size="16" font-weight="700" fill="#ffffff">1. Forward Pass</text>
+    <text x="400" y="118" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#bfdbfe">input → model → prediction</text>
+    <text x="400" y="136" text-anchor="middle" font-family="monospace" font-size="12" font-weight="600" fill="#dbeafe">y_hat = model(x)</text>
+  </g>
+
+  <!-- Arrow 1→2 (top-right) -->
+  <path d="M 520,120 C 570,130 610,160 630,195" fill="none" stroke="#6b7280" stroke-width="2.5" marker-end="url(#arrowLoop)"/>
+  <rect x="565" y="140" width="55" height="16" rx="3" fill="#f1f5f9"/>
+  <text x="593" y="152" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#6b7280">predict</text>
+
+  <!-- Step 2: Loss Computation (right) -->
+  <g filter="url(#shadow)">
+    <rect x="570" y="200" width="210" height="68" rx="14" fill="#ef4444"/>
+    <text x="675" y="222" text-anchor="middle" font-family="system-ui, sans-serif" font-size="16" font-weight="700" fill="#ffffff">2. Loss</text>
+    <text x="675" y="240" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#fecaca">prediction vs target</text>
+    <text x="675" y="258" text-anchor="middle" font-family="monospace" font-size="12" font-weight="600" fill="#fecaca">loss = criterion(y_hat, y)</text>
+  </g>
+
+  <!-- Arrow 2→3 (bottom-right) -->
+  <path d="M 675,268 C 680,310 660,345 630,370" fill="none" stroke="#6b7280" stroke-width="2.5" marker-end="url(#arrowLoop)"/>
+  <rect x="668" y="310" width="52" height="16" rx="3" fill="#f1f5f9"/>
+  <text x="694" y="322" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#6b7280">compute</text>
+
+  <!-- Step 3: Backward Pass (bottom-right) -->
+  <g filter="url(#shadow)">
+    <rect x="440" y="360" width="210" height="68" rx="14" fill="#f59e0b"/>
+    <text x="545" y="383" text-anchor="middle" font-family="system-ui, sans-serif" font-size="16" font-weight="700" fill="#ffffff">3. Backward Pass</text>
+    <text x="545" y="401" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#fef3c7">compute gradients</text>
+    <text x="545" y="419" text-anchor="middle" font-family="monospace" font-size="12" font-weight="600" fill="#fef3c7">loss.backward()</text>
+  </g>
+
+  <!-- Arrow 3→4 (bottom) -->
+  <path d="M 440,400 C 395,410 355,410 310,400" fill="none" stroke="#6b7280" stroke-width="2.5" marker-end="url(#arrowLoop)"/>
+  <rect x="350" y="418" width="62" height="16" rx="3" fill="#f1f5f9"/>
+  <text x="381" y="430" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#6b7280">gradients</text>
+
+  <!-- Step 4: Optimizer Step (bottom-left) -->
+  <g filter="url(#shadow)">
+    <rect x="130" y="360" width="210" height="68" rx="14" fill="#10b981"/>
+    <text x="235" y="383" text-anchor="middle" font-family="system-ui, sans-serif" font-size="16" font-weight="700" fill="#ffffff">4. Optimizer Step</text>
+    <text x="235" y="401" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#bbf7d0">update model weights</text>
+    <text x="235" y="419" text-anchor="middle" font-family="monospace" font-size="12" font-weight="600" fill="#bbf7d0">optimizer.step()</text>
+  </g>
+
+  <!-- Arrow 4→5 (left) -->
+  <path d="M 145,360 C 110,335 85,305 80,268" fill="none" stroke="#6b7280" stroke-width="2.5" marker-end="url(#arrowLoop)"/>
+  <rect x="70" y="315" width="68" height="16" rx="3" fill="#f1f5f9"/>
+  <text x="104" y="327" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#6b7280">update w</text>
+
+  <!-- Step 5: Zero Gradients (left) -->
+  <g filter="url(#shadow)">
+    <rect x="20" y="200" width="210" height="68" rx="14" fill="#8b5cf6"/>
+    <text x="125" y="222" text-anchor="middle" font-family="system-ui, sans-serif" font-size="16" font-weight="700" fill="#ffffff">5. Zero Gradients</text>
+    <text x="125" y="240" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#ddd6fe">clear old gradients</text>
+    <text x="125" y="258" text-anchor="middle" font-family="monospace" font-size="12" font-weight="600" fill="#ddd6fe">optimizer.zero_grad()</text>
+  </g>
+
+  <!-- Arrow 5→1 (top-left, back to start) -->
+  <path d="M 125,200 C 130,170 160,140 200,120 C 230,108 260,100 280,96" fill="none" stroke="#6b7280" stroke-width="2.5" marker-end="url(#arrowLoop)"/>
+  <rect x="160" y="135" width="50" height="16" rx="3" fill="#f1f5f9"/>
+  <text x="185" y="147" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#6b7280">reset</text>
+
+  <!-- Center: Epoch counter -->
+  <g filter="url(#shadow)">
+    <circle cx="400" cy="280" r="52" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+    <text x="400" y="270" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="#334155">Repeat</text>
+    <text x="400" y="288" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#475569">for each</text>
+    <text x="400" y="304" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="#3b82f6">epoch</text>
+  </g>
+
+  <!-- Bottom code example -->
+  <g filter="url(#shadow)">
+    <rect x="60" y="450" width="680" height="60" rx="8" fill="#1e293b"/>
+    <text x="80" y="470" font-family="monospace" font-size="11" fill="#94a3b8">for</text>
+    <text x="99" y="470" font-family="monospace" font-size="11" fill="#e2e8f0"> epoch </text>
+    <text x="141" y="470" font-family="monospace" font-size="11" fill="#94a3b8">in</text>
+    <text x="155" y="470" font-family="monospace" font-size="11" fill="#e2e8f0"> range(epochs):</text>
+    <text x="100" y="488" font-family="monospace" font-size="11" fill="#8b5cf6">optimizer.zero_grad()</text>
+    <text x="267" y="488" font-family="monospace" font-size="11" fill="#64748b"> → </text>
+    <text x="287" y="488" font-family="monospace" font-size="11" fill="#3b82f6">y_hat = model(x)</text>
+    <text x="426" y="488" font-family="monospace" font-size="11" fill="#64748b"> → </text>
+    <text x="446" y="488" font-family="monospace" font-size="11" fill="#ef4444">loss = criterion(y_hat, y)</text>
+    <text x="100" y="503" font-family="monospace" font-size="11" fill="#f59e0b">loss.backward()</text>
+    <text x="226" y="503" font-family="monospace" font-size="11" fill="#64748b"> → </text>
+    <text x="246" y="503" font-family="monospace" font-size="11" fill="#10b981">optimizer.step()</text>
+  </g>
+</svg>
