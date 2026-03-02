@@ -1,0 +1,154 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 540" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="13">
+  <defs>
+    <linearGradient id="pageBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#eef2f7"/>
+    </linearGradient>
+    <linearGradient id="cpGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#dbeafe"/>
+      <stop offset="100%" stop-color="#bfdbfe"/>
+    </linearGradient>
+    <linearGradient id="wnGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#dcfce7"/>
+      <stop offset="100%" stop-color="#bbf7d0"/>
+    </linearGradient>
+    <filter id="shadow" x="-4%" y="-4%" width="108%" height="112%">
+      <feDropShadow dx="1" dy="2" stdDeviation="2.5" flood-color="#94a3b8" flood-opacity="0.18"/>
+    </filter>
+    <filter id="glowIndigo" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="arrowBlue" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#3b82f6"/>
+    </marker>
+    <marker id="arrowIndigo" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#6366f1"/>
+    </marker>
+    <style>
+      .cp-comp { animation: fadeUp 0.5s ease both; }
+      .cp-comp:nth-child(1) { animation-delay: 0.1s; }
+      .cp-comp:nth-child(2) { animation-delay: 0.2s; }
+      .cp-comp:nth-child(3) { animation-delay: 0.3s; }
+      .cp-comp:nth-child(4) { animation-delay: 0.4s; }
+      .wn-box { animation: fadeUp 0.5s ease both; }
+      .wn-box:nth-child(1) { animation-delay: 0.6s; }
+      .wn-box:nth-child(2) { animation-delay: 0.75s; }
+      .kubectl-card { animation: kubectlPulse 2.4s ease-in-out 1.2s infinite; }
+      @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(10px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes kubectlPulse {
+        0%,100% { filter: drop-shadow(0 0 0 #6366f100); }
+        50%     { filter: drop-shadow(0 0 6px #6366f1aa); }
+      }
+    </style>
+  </defs>
+
+  <!-- Page background -->
+  <rect width="900" height="540" rx="14" fill="url(#pageBg)"/>
+
+  <!-- Title -->
+  <text x="450" y="32" text-anchor="middle" font-size="18" font-weight="bold" fill="#1e293b">Kubernetes Cluster Architecture</text>
+
+  <!-- Control Plane Box -->
+  <rect x="30" y="50" width="840" height="185" rx="12" fill="url(#cpGrad)" stroke="#3b82f6" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="450" y="75" text-anchor="middle" font-size="15" font-weight="bold" fill="#1e40af">Control Plane</text>
+
+  <!-- API Server -->
+  <g class="cp-comp">
+    <rect x="55" y="90" width="160" height="62" rx="8" fill="#fff" stroke="#3b82f6" stroke-width="1.3" filter="url(#shadow)"/>
+    <text x="135" y="116" text-anchor="middle" font-weight="600" fill="#1e40af">kube-apiserver</text>
+    <text x="135" y="134" text-anchor="middle" font-size="10" fill="#64748b">REST API Gateway</text>
+  </g>
+
+  <!-- etcd -->
+  <g class="cp-comp">
+    <rect x="243" y="90" width="160" height="62" rx="8" fill="#fff" stroke="#3b82f6" stroke-width="1.3" filter="url(#shadow)"/>
+    <text x="323" y="116" text-anchor="middle" font-weight="600" fill="#1e40af">etcd</text>
+    <text x="323" y="134" text-anchor="middle" font-size="10" fill="#64748b">Key-Value Store</text>
+  </g>
+
+  <!-- Scheduler -->
+  <g class="cp-comp">
+    <rect x="431" y="90" width="170" height="62" rx="8" fill="#fff" stroke="#3b82f6" stroke-width="1.3" filter="url(#shadow)"/>
+    <text x="516" y="116" text-anchor="middle" font-weight="600" fill="#1e40af">kube-scheduler</text>
+    <text x="516" y="134" text-anchor="middle" font-size="10" fill="#64748b">Pod Placement</text>
+  </g>
+
+  <!-- Controller Manager -->
+  <g class="cp-comp">
+    <rect x="625" y="90" width="210" height="62" rx="8" fill="#fff" stroke="#3b82f6" stroke-width="1.3" filter="url(#shadow)"/>
+    <text x="730" y="116" text-anchor="middle" font-weight="600" fill="#1e40af">controller-manager</text>
+    <text x="730" y="134" text-anchor="middle" font-size="10" fill="#64748b">Reconciliation Loops</text>
+  </g>
+
+  <!-- Connector lines between CP components -->
+  <line x1="215" y1="121" x2="243" y2="121" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
+  <line x1="403" y1="121" x2="431" y2="121" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
+  <line x1="601" y1="121" x2="625" y2="121" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
+
+  <!-- cloud-controller-mgr (optional) -->
+  <rect x="243" y="167" width="160" height="46" rx="8" fill="#fff" stroke="#93c5fd" stroke-width="1" stroke-dasharray="5,3"/>
+  <text x="323" y="188" text-anchor="middle" font-size="11" fill="#64748b">cloud-controller-mgr</text>
+  <text x="323" y="204" text-anchor="middle" font-size="9" font-style="italic" fill="#94a3b8">(optional)</text>
+
+  <text x="516" y="210" text-anchor="middle" font-size="10" font-style="italic" fill="#475569">All components communicate through the API Server</text>
+
+  <!-- Worker Node 1 -->
+  <g class="wn-box">
+    <rect x="30" y="272" width="400" height="240" rx="12" fill="url(#wnGrad)" stroke="#16a34a" stroke-width="1.5" filter="url(#shadow)"/>
+    <text x="230" y="296" text-anchor="middle" font-size="14" font-weight="bold" fill="#15803d">Worker Node 1</text>
+    <rect x="50" y="310" width="130" height="52" rx="8" fill="#fff" stroke="#16a34a" stroke-width="1.2"/>
+    <text x="115" y="334" text-anchor="middle" font-weight="600" fill="#15803d">kubelet</text>
+    <text x="115" y="351" text-anchor="middle" font-size="10" fill="#64748b">Node Agent</text>
+    <rect x="197" y="310" width="130" height="52" rx="8" fill="#fff" stroke="#16a34a" stroke-width="1.2"/>
+    <text x="262" y="334" text-anchor="middle" font-weight="600" fill="#15803d">kube-proxy</text>
+    <text x="262" y="351" text-anchor="middle" font-size="10" fill="#64748b">Network Rules</text>
+    <rect x="50" y="376" width="277" height="38" rx="8" fill="#fff" stroke="#16a34a" stroke-width="1"/>
+    <text x="188" y="400" text-anchor="middle" font-size="11" fill="#15803d">Container Runtime (containerd)</text>
+    <rect x="50" y="427" width="80" height="57" rx="8" fill="#fef9c3" stroke="#ca8a04" stroke-width="1"/>
+    <text x="90" y="449" text-anchor="middle" font-size="11" font-weight="600" fill="#854d0e">Pod A</text>
+    <text x="90" y="467" text-anchor="middle" font-size="9" fill="#92400e">nginx:1.25</text>
+    <rect x="145" y="427" width="80" height="57" rx="8" fill="#fef9c3" stroke="#ca8a04" stroke-width="1"/>
+    <text x="185" y="449" text-anchor="middle" font-size="11" font-weight="600" fill="#854d0e">Pod B</text>
+    <text x="185" y="467" text-anchor="middle" font-size="9" fill="#92400e">app:2.0</text>
+    <rect x="240" y="427" width="80" height="57" rx="8" fill="#fef9c3" stroke="#ca8a04" stroke-width="1"/>
+    <text x="280" y="449" text-anchor="middle" font-size="11" font-weight="600" fill="#854d0e">Pod C</text>
+    <text x="280" y="467" text-anchor="middle" font-size="9" fill="#92400e">redis:7</text>
+  </g>
+
+  <!-- Worker Node 2 -->
+  <g class="wn-box">
+    <rect x="470" y="272" width="400" height="240" rx="12" fill="url(#wnGrad)" stroke="#16a34a" stroke-width="1.5" filter="url(#shadow)"/>
+    <text x="670" y="296" text-anchor="middle" font-size="14" font-weight="bold" fill="#15803d">Worker Node 2</text>
+    <rect x="490" y="310" width="130" height="52" rx="8" fill="#fff" stroke="#16a34a" stroke-width="1.2"/>
+    <text x="555" y="334" text-anchor="middle" font-weight="600" fill="#15803d">kubelet</text>
+    <text x="555" y="351" text-anchor="middle" font-size="10" fill="#64748b">Node Agent</text>
+    <rect x="638" y="310" width="130" height="52" rx="8" fill="#fff" stroke="#16a34a" stroke-width="1.2"/>
+    <text x="703" y="334" text-anchor="middle" font-weight="600" fill="#15803d">kube-proxy</text>
+    <text x="703" y="351" text-anchor="middle" font-size="10" fill="#64748b">Network Rules</text>
+    <rect x="490" y="376" width="277" height="38" rx="8" fill="#fff" stroke="#16a34a" stroke-width="1"/>
+    <text x="628" y="400" text-anchor="middle" font-size="11" fill="#15803d">Container Runtime (containerd)</text>
+    <rect x="490" y="427" width="80" height="57" rx="8" fill="#fef9c3" stroke="#ca8a04" stroke-width="1"/>
+    <text x="530" y="449" text-anchor="middle" font-size="11" font-weight="600" fill="#854d0e">Pod D</text>
+    <text x="530" y="467" text-anchor="middle" font-size="9" fill="#92400e">api:3.1</text>
+    <rect x="585" y="427" width="80" height="57" rx="8" fill="#fef9c3" stroke="#ca8a04" stroke-width="1"/>
+    <text x="625" y="449" text-anchor="middle" font-size="11" font-weight="600" fill="#854d0e">Pod E</text>
+    <text x="625" y="467" text-anchor="middle" font-size="9" fill="#92400e">worker:1.0</text>
+  </g>
+
+  <!-- Dashed control plane → node connections -->
+  <line x1="135" y1="235" x2="135" y2="272" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="6,3"/>
+  <line x1="670" y1="235" x2="670" y2="272" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="6,3"/>
+
+  <!-- kubectl card (properly embedded) -->
+  <g class="kubectl-card">
+    <rect x="804" y="38" width="74" height="28" rx="8" fill="#eef2ff" stroke="#6366f1" stroke-width="1.8"/>
+    <text x="841" y="57" text-anchor="middle" font-size="12" font-weight="700" fill="#4f46e5">kubectl</text>
+  </g>
+  <!-- kubectl arrow pointing at apiserver -->
+  <line x1="841" y1="66" x2="841" y2="88" stroke="#6366f1" stroke-width="1.6"/>
+  <line x1="841" y1="88" x2="215" y2="105" stroke="#6366f1" stroke-width="1.2" stroke-dasharray="5,3" marker-end="url(#arrowIndigo)"/>
+</svg>

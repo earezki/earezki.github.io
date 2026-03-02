@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 470" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="13">
+  <defs>
+    <linearGradient id="pageBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#eef2f7"/>
+    </linearGradient>
+    <filter id="shadow" x="-4%" y="-4%" width="108%" height="112%">
+      <feDropShadow dx="1" dy="2" stdDeviation="2.5" flood-color="#94a3b8" flood-opacity="0.18"/>
+    </filter>
+    <marker id="arrowGreen" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#16a34a"/>
+    </marker>
+    <marker id="arrowRed" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#ef4444"/>
+    </marker>
+  </defs>
+
+  <!-- Page background -->
+  <rect width="800" height="470" rx="14" fill="url(#pageBg)"/>
+  <text x="400" y="28" text-anchor="middle" font-size="18" font-weight="bold" fill="#1e293b">NetworkPolicy: Allow Only Frontend → Backend</text>
+
+  <!-- Namespace boundary -->
+  <rect x="18" y="48" width="764" height="380" rx="12" fill="#fff" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="8,4" filter="url(#shadow)"/>
+  <text x="400" y="72" text-anchor="middle" font-size="13" font-weight="600" fill="#475569">Namespace: production</text>
+
+  <!-- Frontend Pod -->
+  <rect x="55" y="110" width="164" height="95" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="137" y="142" text-anchor="middle" font-size="14" font-weight="bold" fill="#15803d">Frontend</text>
+  <rect x="75" y="154" width="124" height="24" rx="5" fill="#bbf7d0" stroke="#16a34a" stroke-width="0.9"/>
+  <text x="137" y="171" text-anchor="middle" font-size="10" fill="#15803d">role: frontend</text>
+  <text x="137" y="195" text-anchor="middle" font-size="9" font-style="italic" fill="#64748b">app : frontend:8080</text>
+
+  <!-- Backend Pod -->
+  <rect x="318" y="110" width="164" height="95" rx="10" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="400" y="142" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e40af">Backend</text>
+  <rect x="338" y="154" width="124" height="24" rx="5" fill="#bfdbfe" stroke="#3b82f6" stroke-width="0.9"/>
+  <text x="400" y="171" text-anchor="middle" font-size="10" fill="#1e40af">role: backend</text>
+  <text x="400" y="195" text-anchor="middle" font-size="9" font-style="italic" fill="#64748b">listens: :8080</text>
+
+  <!-- Database Pod -->
+  <rect x="580" y="110" width="164" height="95" rx="10" fill="#f3e8ff" stroke="#a855f7" stroke-width="1.5"/>
+  <text x="662" y="142" text-anchor="middle" font-size="14" font-weight="bold" fill="#7c3aed">Database</text>
+  <rect x="600" y="154" width="124" height="24" rx="5" fill="#e9d5ff" stroke="#a855f7" stroke-width="0.9"/>
+  <text x="662" y="171" text-anchor="middle" font-size="10" fill="#7c3aed">role: database</text>
+
+  <!-- Monitoring Pod -->
+  <rect x="55" y="270" width="164" height="95" rx="10" fill="#fef9c3" stroke="#ca8a04" stroke-width="1.5"/>
+  <text x="137" y="302" text-anchor="middle" font-size="14" font-weight="bold" fill="#854d0e">Monitoring</text>
+  <rect x="75" y="314" width="124" height="24" rx="5" fill="#fef08a" stroke="#ca8a04" stroke-width="0.9"/>
+  <text x="137" y="331" text-anchor="middle" font-size="10" fill="#854d0e">role: monitoring</text>
+
+  <!-- ALLOWED: Frontend → Backend -->
+  <line x1="219" y1="157" x2="318" y2="157" stroke="#16a34a" stroke-width="2.5" marker-end="url(#arrowGreen)"/>
+  <rect x="232" y="136" width="74" height="20" rx="4" fill="#dcfce7" stroke="#16a34a" stroke-width="1"/>
+  <text x="269" y="150" text-anchor="middle" font-size="10" font-weight="700" fill="#16a34a">ALLOWED</text>
+
+  <!-- BLOCKED: Monitoring → Backend -->
+  <line x1="195" y1="310" x2="338" y2="215" stroke="#ef4444" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#arrowRed)"/>
+  <rect x="218" y="257" width="74" height="20" rx="4" fill="#fee2e2" stroke="#ef4444" stroke-width="1"/>
+  <text x="255" y="271" text-anchor="middle" font-size="10" font-weight="700" fill="#ef4444">BLOCKED</text>
+
+  <!-- External traffic note -->
+  <text x="400" y="100" text-anchor="middle" font-size="11" fill="#ef4444">← External &amp; unknown traffic blocked by default policy →</text>
+  <line x1="318" y1="108" x2="482" y2="108" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+  <!-- NetworkPolicy manifest callout -->
+  <rect x="358" y="262" width="402" height="148" rx="10" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+  <text x="559" y="286" text-anchor="middle" font-size="11" font-weight="600" fill="#e2e8f0" font-family="'Fira Code', 'Cascadia Code', monospace">NetworkPolicy (applied to backend)</text>
+  <text x="378" y="308" font-size="10" fill="#a5b4fc" font-family="'Fira Code', 'Cascadia Code', monospace">podSelector:</text>
+  <text x="398" y="324" font-size="10" fill="#86efac" font-family="'Fira Code', 'Cascadia Code', monospace">  matchLabels: {role: backend}</text>
+  <text x="378" y="344" font-size="10" fill="#a5b4fc" font-family="'Fira Code', 'Cascadia Code', monospace">policyTypes: [Ingress]</text>
+  <text x="378" y="360" font-size="10" fill="#a5b4fc" font-family="'Fira Code', 'Cascadia Code', monospace">ingress:</text>
+  <text x="396" y="376" font-size="10" fill="#86efac" font-family="'Fira Code', 'Cascadia Code', monospace">- from: [{podSelector: {role: frontend}}]</text>
+  <text x="396" y="392" font-size="10" fill="#86efac" font-family="'Fira Code', 'Cascadia Code', monospace">  ports: [{port: 8080, protocol: TCP}]</text>
+
+  <!-- Note bar -->
+  <rect x="18" y="440" width="764" height="22" rx="6" fill="#fef2f2" stroke="#fca5a5" stroke-width="1"/>
+  <text x="400" y="455" text-anchor="middle" font-size="10" fill="#dc2626">No NetworkPolicy selected = allow all. Adding ANY NetworkPolicy = deny all not matched by that policy.</text>
+</svg>
