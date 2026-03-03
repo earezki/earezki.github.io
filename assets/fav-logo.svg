@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  <defs>
+    <!-- Cinematic shifting gradients -->
+    <linearGradient id="leftGrad" x1="0" y1="0" x2="0" y2="100" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#00c6ff">
+        <animate attributeName="stop-color" values="#00c6ff;#8E2DE2;#ff0844;#00c6ff" dur="10s" repeatCount="indefinite" />
+      </stop>
+      <stop offset="100%" stop-color="#0072ff">
+        <animate attributeName="stop-color" values="#0072ff;#4A00E0;#ffb199;#0072ff" dur="10s" repeatCount="indefinite" />
+      </stop>
+    </linearGradient>
+    
+    <linearGradient id="rightGrad" x1="0" y1="0" x2="0" y2="100" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#8E2DE2">
+        <animate attributeName="stop-color" values="#8E2DE2;#ff0844;#00c6ff;#8E2DE2" dur="10s" repeatCount="indefinite" />
+      </stop>
+      <stop offset="100%" stop-color="#4A00E0">
+        <animate attributeName="stop-color" values="#4A00E0;#ffb199;#0072ff;#4A00E0" dur="10s" repeatCount="indefinite" />
+      </stop>
+    </linearGradient>
+  </defs>
+
+  <style>
+    .chevron {
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    
+    /* Static geometry, persistent cinematic */
+    
+    .core {
+      stroke-width: 8;
+    }
+    
+    .left { stroke: url(#leftGrad); }
+    .right { stroke: url(#rightGrad); }
+    
+    .pill {
+      fill: #ffffff;
+    }
+  </style>
+
+  <!-- Left Chevron -->
+  <path class="chevron left core" d="M 32 15 L 5 50 L 32 85" />
+
+  <!-- Center Pill (Updated dimensions) -->
+  <rect class="pill" x="46" y="5" width="8" height="90" rx="2" />
+
+  <!-- Right Chevron -->
+  <path class="chevron right core" d="M 68 15 L 95 50 L 68 85" />
+</svg>
