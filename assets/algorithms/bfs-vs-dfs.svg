@@ -1,0 +1,232 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <style>
+      /* Base Animation Settings */
+      .node {
+        animation-duration: 8s;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+        fill: #1e293b;
+        stroke: #475569;
+        stroke-width: 3px;
+      }
+      .edge {
+        animation-duration: 8s;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+        stroke: #334155;
+        stroke-width: 4px;
+        stroke-linecap: round;
+      }
+      text {
+        font-family: system-ui, -apple-system, sans-serif;
+        fill: #f8fafc;
+        pointer-events: none;
+      }
+      .title {
+        font-size: 20px;
+        font-weight: 600;
+        fill: #cbd5e1;
+        text-anchor: middle;
+      }
+      .label {
+        font-size: 16px;
+        font-weight: 700;
+        text-anchor: middle;
+        dominant-baseline: central;
+      }
+
+      /* Keyframes for 8-second cycle. 
+        Each node gets a 12.5% (1s) window to be "Current" (Yellow stroke).
+        After its window, it remains "Visited" (Blue stroke/fill) until 90%.
+        Resets at 95% to allow a clean loop.
+      */
+
+      /* T0: 0% - 12.5% */
+      @keyframes fill_t0 {
+        0%, 11% { fill: #3b82f6; stroke: #fcd34d; stroke-width: 5px; }
+        12.5%, 90% { fill: #3b82f6; stroke: #2563eb; stroke-width: 3px; }
+        95%, 100% { fill: #1e293b; stroke: #475569; stroke-width: 3px; }
+      }
+      
+      /* T1: 12.5% - 25% */
+      @keyframes fill_t1 {
+        0%, 11% { fill: #1e293b; stroke: #475569; stroke-width: 3px; }
+        12.5%, 23.5% { fill: #3b82f6; stroke: #fcd34d; stroke-width: 5px; }
+        25%, 90% { fill: #3b82f6; stroke: #2563eb; stroke-width: 3px; }
+        95%, 100% { fill: #1e293b; stroke: #475569; stroke-width: 3px; }
+      }
+      @keyframes edge_t1 {
+        0%, 11% { stroke: #334155; }
+        12.5%, 90% { stroke: #3b82f6; }
+        95%, 100% { stroke: #334155; }
+      }
+
+      /* T2: 25% - 37.5% */
+      @keyframes fill_t2 {
+        0%, 23.5% { fill: #1e293b; stroke: #475569; stroke-width: 3px; }
+        25%, 36% { fill: #3b82f6; stroke: #fcd34d; stroke-width: 5px; }
+        37.5%, 90% { fill: #3b82f6; stroke: #2563eb; stroke-width: 3px; }
+        95%, 100% { fill: #1e293b; stroke: #475569; stroke-width: 3px; }
+      }
+      @keyframes edge_t2 {
+        0%, 23.5% { stroke: #334155; }
+        25%, 90% { stroke: #3b82f6; }
+        95%, 100% { stroke: #334155; }
+      }
+
+      /* T3: 37.5% - 50% */
+      @keyframes fill_t3 {
+        0%, 36% { fill: #1e293b; stroke: #475569; stroke-width: 3px; }
+        37.5%, 48.5% { fill: #3b82f6; stroke: #fcd34d; stroke-width: 5px; }
+        50%, 90% { fill: #3b82f6; stroke: #2563eb; stroke-width: 3px; }
+        95%, 100% { fill: #1e293b; stroke: #475569; stroke-width: 3px; }
+      }
+      @keyframes edge_t3 {
+        0%, 36% { stroke: #334155; }
+        37.5%, 90% { stroke: #3b82f6; }
+        95%, 100% { stroke: #334155; }
+      }
+
+      /* T4: 50% - 62.5% */
+      @keyframes fill_t4 {
+        0%, 48.5% { fill: #1e293b; stroke: #475569; stroke-width: 3px; }
+        50%, 61% { fill: #3b82f6; stroke: #fcd34d; stroke-width: 5px; }
+        62.5%, 90% { fill: #3b82f6; stroke: #2563eb; stroke-width: 3px; }
+        95%, 100% { fill: #1e293b; stroke: #475569; stroke-width: 3px; }
+      }
+      @keyframes edge_t4 {
+        0%, 48.5% { stroke: #334155; }
+        50%, 90% { stroke: #3b82f6; }
+        95%, 100% { stroke: #334155; }
+      }
+
+      /* T5: 62.5% - 75% */
+      @keyframes fill_t5 {
+        0%, 61% { fill: #1e293b; stroke: #475569; stroke-width: 3px; }
+        62.5%, 73.5% { fill: #3b82f6; stroke: #fcd34d; stroke-width: 5px; }
+        75%, 90% { fill: #3b82f6; stroke: #2563eb; stroke-width: 3px; }
+        95%, 100% { fill: #1e293b; stroke: #475569; stroke-width: 3px; }
+      }
+      @keyframes edge_t5 {
+        0%, 61% { stroke: #334155; }
+        62.5%, 90% { stroke: #3b82f6; }
+        95%, 100% { stroke: #334155; }
+      }
+
+      /* T6: 75% - 87.5% */
+      @keyframes fill_t6 {
+        0%, 73.5% { fill: #1e293b; stroke: #475569; stroke-width: 3px; }
+        75%, 86% { fill: #3b82f6; stroke: #fcd34d; stroke-width: 5px; }
+        87.5%, 90% { fill: #3b82f6; stroke: #2563eb; stroke-width: 3px; }
+        95%, 100% { fill: #1e293b; stroke: #475569; stroke-width: 3px; }
+      }
+      @keyframes edge_t6 {
+        0%, 73.5% { stroke: #334155; }
+        75%, 90% { stroke: #3b82f6; }
+        95%, 100% { stroke: #334155; }
+      }
+
+      /* Class Mappings */
+      .n-t0 { animation-name: fill_t0; }
+      .n-t1 { animation-name: fill_t1; }
+      .n-t2 { animation-name: fill_t2; }
+      .n-t3 { animation-name: fill_t3; }
+      .n-t4 { animation-name: fill_t4; }
+      .n-t5 { animation-name: fill_t5; }
+      .n-t6 { animation-name: fill_t6; }
+
+      .e-t1 { animation-name: edge_t1; }
+      .e-t2 { animation-name: edge_t2; }
+      .e-t3 { animation-name: edge_t3; }
+      .e-t4 { animation-name: edge_t4; }
+      .e-t5 { animation-name: edge_t5; }
+      .e-t6 { animation-name: edge_t6; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect width="100%" height="100%" fill="#0f172a" />
+
+  <!-- Titles -->
+  <text x="200" y="50" class="title">Breadth-First Search (BFS)</text>
+  <text x="600" y="50" class="title">Depth-First Search (DFS)</text>
+
+  <!-- ======================= LEFT SIDE: BFS ======================= -->
+  <!-- Edges (drawn first so they are behind nodes) -->
+  <g id="bfs-edges">
+    <line x1="200" y1="120" x2="130" y2="220" class="edge e-t1" />
+    <line x1="200" y1="120" x2="270" y2="220" class="edge e-t2" />
+    <line x1="130" y1="220" x2="95" y2="320" class="edge e-t3" />
+    <line x1="130" y1="220" x2="165" y2="320" class="edge e-t4" />
+    <line x1="270" y1="220" x2="235" y2="320" class="edge e-t5" />
+    <line x1="270" y1="220" x2="305" y2="320" class="edge e-t6" />
+  </g>
+
+  <!-- Nodes -->
+  <g id="bfs-nodes">
+    <!-- Level 0 -->
+    <circle cx="200" cy="120" r="22" class="node n-t0" />
+    <text x="200" y="120" class="label">1</text>
+    
+    <!-- Level 1 -->
+    <circle cx="130" cy="220" r="22" class="node n-t1" />
+    <text x="130" y="220" class="label">2</text>
+    <circle cx="270" cy="220" r="22" class="node n-t2" />
+    <text x="270" y="220" class="label">3</text>
+    
+    <!-- Level 2 -->
+    <circle cx="95" cy="320" r="22" class="node n-t3" />
+    <text x="95" y="320" class="label">4</text>
+    <circle cx="165" cy="320" r="22" class="node n-t4" />
+    <text x="165" y="320" class="label">5</text>
+    <circle cx="235" cy="320" r="22" class="node n-t5" />
+    <text x="235" y="320" class="label">6</text>
+    <circle cx="305" cy="320" r="22" class="node n-t6" />
+    <text x="305" y="320" class="label">7</text>
+  </g>
+
+
+  <!-- ======================= RIGHT SIDE: DFS ======================= -->
+  <!-- Edges -->
+  <g id="dfs-edges">
+    <line x1="600" y1="120" x2="530" y2="220" class="edge e-t1" />
+    <line x1="600" y1="120" x2="670" y2="220" class="edge e-t4" />
+    <line x1="530" y1="220" x2="495" y2="320" class="edge e-t2" />
+    <line x1="530" y1="220" x2="565" y2="320" class="edge e-t3" />
+    <line x1="670" y1="220" x2="635" y2="320" class="edge e-t5" />
+    <line x1="670" y1="220" x2="705" y2="320" class="edge e-t6" />
+  </g>
+
+  <!-- Nodes -->
+  <g id="dfs-nodes">
+    <!-- Level 0 -->
+    <circle cx="600" cy="120" r="22" class="node n-t0" />
+    <text x="600" y="120" class="label">1</text>
+    
+    <!-- Level 1 -->
+    <circle cx="530" cy="220" r="22" class="node n-t1" />
+    <text x="530" y="220" class="label">2</text>
+    <circle cx="670" cy="220" r="22" class="node n-t4" />
+    <text x="670" y="220" class="label">3</text>
+    
+    <!-- Level 2 -->
+    <circle cx="495" cy="320" r="22" class="node n-t2" />
+    <text x="495" y="320" class="label">4</text>
+    <circle cx="565" cy="320" r="22" class="node n-t3" />
+    <text x="565" y="320" class="label">5</text>
+    <circle cx="635" cy="320" r="22" class="node n-t5" />
+    <text x="635" y="320" class="label">6</text>
+    <circle cx="705" cy="320" r="22" class="node n-t6" />
+    <text x="705" y="320" class="label">7</text>
+  </g>
+
+  <!-- Legend -->
+  <g transform="translate(320, 400)">
+    <circle cx="0" cy="0" r="10" fill="#3b82f6" stroke="#fcd34d" stroke-width="3" />
+    <text x="20" y="1" font-size="14" fill="#cbd5e1" dominant-baseline="central">Current</text>
+    
+    <circle cx="90" cy="0" r="10" fill="#3b82f6" stroke="#2563eb" stroke-width="2" />
+    <text x="110" y="1" font-size="14" fill="#cbd5e1" dominant-baseline="central">Visited</text>
+  </g>
+</svg>
