@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="350" viewBox="0 0 800 350">
+  <defs>
+    <filter id="shadow" x="-4%" y="-4%" width="108%" height="108%">
+      <feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.12"/>
+    </filter>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0,0 8,3 0,6" fill="#6B57FF"/>
+    </marker>
+    <marker id="arrowOrange" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0,0 8,3 0,6" fill="#F7931E"/>
+    </marker>
+    <style>
+      text { font-family: system-ui, -apple-system, sans-serif; }
+      .code { font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace; font-size: 11px; }
+    </style>
+  </defs>
+  <rect width="800" height="350" fill="white"/>
+
+  <!-- Title -->
+  <text x="400" y="28" text-anchor="middle" font-size="18" font-weight="700" fill="#2D2D2D">Kotlin Compilation Pipeline</text>
+
+  <!-- Stage 1: Source -->
+  <rect x="20" y="80" width="130" height="60" rx="10" fill="#F5F5F5" stroke="#E8E8E8" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="85" y="106" text-anchor="middle" font-size="12" font-weight="600" fill="#2D2D2D">Kotlin Source</text>
+  <text x="85" y="125" text-anchor="middle" font-size="11" fill="#666">.kt files</text>
+
+  <line x1="150" y1="110" x2="185" y2="110" stroke="#6B57FF" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Stage 2: Frontend K2 -->
+  <rect x="190" y="70" width="150" height="80" rx="10" fill="#6B57FF" filter="url(#shadow)"/>
+  <text x="265" y="98" text-anchor="middle" font-size="13" font-weight="700" fill="white">Kotlin Compiler</text>
+  <text x="265" y="116" text-anchor="middle" font-size="13" font-weight="700" fill="white">Frontend</text>
+  <text x="265" y="136" text-anchor="middle" font-size="11" fill="rgba(255,255,255,0.8)">(K2)</text>
+  <text x="265" y="165" text-anchor="middle" font-size="10" fill="#666">Parsing, resolution,</text>
+  <text x="265" y="178" text-anchor="middle" font-size="10" fill="#666">type checking</text>
+
+  <line x1="340" y1="110" x2="375" y2="110" stroke="#6B57FF" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Stage 3: FIR -->
+  <rect x="380" y="80" width="110" height="60" rx="10" fill="#EDE9FF" stroke="#6B57FF" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="435" y="106" text-anchor="middle" font-size="13" font-weight="700" fill="#6B57FF">FIR</text>
+  <text x="435" y="125" text-anchor="middle" font-size="10" fill="#2D2D2D">Frontend IR</text>
+
+  <line x1="490" y1="110" x2="525" y2="110" stroke="#F7931E" stroke-width="2" marker-end="url(#arrowOrange)"/>
+
+  <!-- Stage 4: Backend -->
+  <rect x="530" y="70" width="120" height="80" rx="10" fill="#F7931E" filter="url(#shadow)"/>
+  <text x="590" y="100" text-anchor="middle" font-size="13" font-weight="700" fill="white">Backend</text>
+  <text x="590" y="118" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.8)">Code generation</text>
+  <text x="590" y="136" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.8)">Optimization</text>
+
+  <!-- Branch to JVM -->
+  <line x1="650" y1="90" x2="700" y2="70" stroke="#2E7D32" stroke-width="2"/>
+  <rect x="700" y="45" width="90" height="50" rx="8" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="745" y="66" text-anchor="middle" font-size="11" font-weight="700" fill="#2E7D32">JVM</text>
+  <text x="745" y="82" text-anchor="middle" font-size="10" fill="#2E7D32">Bytecode</text>
+  <text x="745" y="105" text-anchor="middle" font-size="9" fill="#666">.class / .jar</text>
+
+  <!-- Branch to JS -->
+  <line x1="650" y1="110" x2="700" y2="110" stroke="#F7931E" stroke-width="2"/>
+  <rect x="700" y="95" width="90" height="32" rx="8" fill="#FFF5EB" stroke="#F7931E" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="745" y="116" text-anchor="middle" font-size="11" font-weight="700" fill="#F7931E">JavaScript</text>
+
+  <!-- Branch to Native -->
+  <line x1="650" y1="130" x2="700" y2="150" stroke="#6B57FF" stroke-width="2"/>
+  <rect x="700" y="140" width="90" height="50" rx="8" fill="#EDE9FF" stroke="#6B57FF" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="745" y="161" text-anchor="middle" font-size="11" font-weight="700" fill="#6B57FF">LLVM IR</text>
+  <text x="745" y="178" text-anchor="middle" font-size="10" fill="#6B57FF">(Native)</text>
+
+  <!-- Metadata attachment point -->
+  <line x1="435" y1="140" x2="435" y2="215" stroke="#E8E8E8" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <rect x="350" y="218" width="170" height="40" rx="7" fill="#F5F5F5" stroke="#E8E8E8" stroke-width="1" filter="url(#shadow)"/>
+  <text x="435" y="238" text-anchor="middle" font-size="11" font-weight="600" fill="#2D2D2D">Kotlin Metadata</text>
+  <text x="435" y="253" text-anchor="middle" font-size="10" fill="#666">@Metadata annotation</text>
+
+  <!-- Details row -->
+  <rect x="30" y="275" width="740" height="60" rx="10" fill="#F5F5F5" stroke="#E8E8E8" stroke-width="1" filter="url(#shadow)"/>
+  <text x="400" y="297" text-anchor="middle" font-size="12" font-weight="600" fill="#2D2D2D">Pipeline Details</text>
+  <text x="120" y="318" text-anchor="middle" font-size="10" fill="#6B57FF" font-weight="500">Lexer → Parser → PSI</text>
+  <text x="290" y="318" text-anchor="middle" font-size="10" fill="#6B57FF" font-weight="500">Resolve → Type check</text>
+  <text x="460" y="318" text-anchor="middle" font-size="10" fill="#F7931E" font-weight="500">FIR → Backend IR</text>
+  <text x="640" y="318" text-anchor="middle" font-size="10" fill="#2E7D32" font-weight="500">Platform-specific codegen</text>
+
+  <!-- Arrows in details -->
+  <line x1="195" y1="314" x2="210" y2="314" stroke="#E8E8E8" stroke-width="1"/>
+  <line x1="365" y1="314" x2="380" y2="314" stroke="#E8E8E8" stroke-width="1"/>
+  <line x1="535" y1="314" x2="550" y2="314" stroke="#E8E8E8" stroke-width="1"/>
+</svg>

@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="400" viewBox="0 0 800 400">
+  <defs>
+    <filter id="shadow" x="-4%" y="-4%" width="108%" height="108%">
+      <feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.12"/>
+    </filter>
+    <marker id="arrowOut" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0,0 8,3 0,6" fill="#2E7D32"/>
+    </marker>
+    <marker id="arrowIn" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0,0 8,3 0,6" fill="#E53935"/>
+    </marker>
+    <marker id="arrowInv" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0,0 8,3 0,6" fill="#6B57FF"/>
+    </marker>
+    <style>
+      text { font-family: system-ui, -apple-system, sans-serif; }
+    </style>
+  </defs>
+  <rect width="800" height="400" fill="white"/>
+
+  <!-- Title -->
+  <text x="400" y="30" text-anchor="middle" font-size="18" font-weight="700" fill="#2D2D2D">Kotlin Variance: in / out / invariant</text>
+
+  <!-- Column 1: Producer (out) - Covariant -->
+  <rect x="20" y="55" width="240" height="320" rx="12" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="140" y="80" text-anchor="middle" font-size="15" font-weight="700" fill="#2E7D32">Producer (out)</text>
+  <text x="140" y="98" text-anchor="middle" font-size="12" fill="#2E7D32">Covariant</text>
+
+  <rect x="40" y="115" width="200" height="34" rx="7" fill="white" stroke="#2E7D32" stroke-width="1"/>
+  <text x="140" y="137" text-anchor="middle" font-size="13" font-weight="600" fill="#2D2D2D" font-style="italic">List&lt;out Animal&gt;</text>
+
+  <!-- Data flows OUT -->
+  <rect x="65" y="165" width="60" height="30" rx="6" fill="#2E7D32"/>
+  <text x="95" y="185" text-anchor="middle" font-size="11" font-weight="600" fill="white">READ</text>
+  <line x1="130" y1="180" x2="195" y2="180" stroke="#2E7D32" stroke-width="2" marker-end="url(#arrowOut)"/>
+  <text x="205" y="184" font-size="11" fill="#2E7D32" font-weight="500">✓ OK</text>
+
+  <rect x="65" y="205" width="60" height="30" rx="6" fill="#F5F5F5" stroke="#E8E8E8"/>
+  <text x="95" y="225" text-anchor="middle" font-size="11" font-weight="600" fill="#999">WRITE</text>
+  <text x="205" y="224" font-size="11" fill="#E53935" font-weight="500">✗ Error</text>
+  <line x1="130" y1="220" x2="195" y2="220" stroke="#E8E8E8" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+  <text x="140" y="260" text-anchor="middle" font-size="11" fill="#2D2D2D">Data flows</text>
+  <text x="140" y="275" text-anchor="middle" font-size="14" font-weight="700" fill="#2E7D32">OUT →</text>
+
+  <!-- Java equivalent -->
+  <rect x="40" y="295" width="200" height="28" rx="6" fill="white" stroke="#E8E8E8" stroke-width="1"/>
+  <text x="140" y="314" text-anchor="middle" font-size="11" fill="#666">Java: <tspan font-weight="600">? extends T</tspan></text>
+
+  <text x="140" y="350" text-anchor="middle" font-size="10" fill="#666" font-style="italic">e.g. List&lt;out Dog&gt; is</text>
+  <text x="140" y="363" text-anchor="middle" font-size="10" fill="#666" font-style="italic">List&lt;out Animal&gt;</text>
+
+  <!-- Column 2: Invariant -->
+  <rect x="280" y="55" width="240" height="320" rx="12" fill="#EDE9FF" stroke="#6B57FF" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="400" y="80" text-anchor="middle" font-size="15" font-weight="700" fill="#6B57FF">Invariant</text>
+  <text x="400" y="98" text-anchor="middle" font-size="12" fill="#6B57FF">No variance</text>
+
+  <rect x="300" y="115" width="200" height="34" rx="7" fill="white" stroke="#6B57FF" stroke-width="1"/>
+  <text x="400" y="137" text-anchor="middle" font-size="13" font-weight="600" fill="#2D2D2D" font-style="italic">MutableList&lt;Animal&gt;</text>
+
+  <!-- Data flows both ways -->
+  <rect x="325" y="165" width="60" height="30" rx="6" fill="#6B57FF"/>
+  <text x="355" y="185" text-anchor="middle" font-size="11" font-weight="600" fill="white">READ</text>
+  <line x1="390" y1="180" x2="455" y2="180" stroke="#6B57FF" stroke-width="2" marker-end="url(#arrowInv)"/>
+  <text x="465" y="184" font-size="11" fill="#2E7D32" font-weight="500">✓ OK</text>
+
+  <rect x="325" y="205" width="60" height="30" rx="6" fill="#6B57FF"/>
+  <text x="355" y="225" text-anchor="middle" font-size="11" font-weight="600" fill="white">WRITE</text>
+  <line x1="390" y1="220" x2="455" y2="220" stroke="#6B57FF" stroke-width="2" marker-end="url(#arrowInv)"/>
+  <text x="465" y="224" font-size="11" fill="#2E7D32" font-weight="500">✓ OK</text>
+
+  <text x="400" y="260" text-anchor="middle" font-size="11" fill="#2D2D2D">Data flows</text>
+  <text x="400" y="275" text-anchor="middle" font-size="14" font-weight="700" fill="#6B57FF">← BOTH →</text>
+
+  <rect x="300" y="295" width="200" height="28" rx="6" fill="white" stroke="#E8E8E8" stroke-width="1"/>
+  <text x="400" y="314" text-anchor="middle" font-size="11" fill="#666">Java: <tspan font-weight="600">T (exact)</tspan></text>
+
+  <text x="400" y="350" text-anchor="middle" font-size="10" fill="#666" font-style="italic">MutableList&lt;Dog&gt; is NOT</text>
+  <text x="400" y="363" text-anchor="middle" font-size="10" fill="#666" font-style="italic">MutableList&lt;Animal&gt;</text>
+
+  <!-- Column 3: Consumer (in) - Contravariant -->
+  <rect x="540" y="55" width="240" height="320" rx="12" fill="#FFEBEE" stroke="#E53935" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="660" y="80" text-anchor="middle" font-size="15" font-weight="700" fill="#E53935">Consumer (in)</text>
+  <text x="660" y="98" text-anchor="middle" font-size="12" fill="#E53935">Contravariant</text>
+
+  <rect x="560" y="115" width="200" height="34" rx="7" fill="white" stroke="#E53935" stroke-width="1"/>
+  <text x="660" y="137" text-anchor="middle" font-size="13" font-weight="600" fill="#2D2D2D" font-style="italic">Comparable&lt;in Animal&gt;</text>
+
+  <!-- Data flows IN -->
+  <rect x="585" y="165" width="60" height="30" rx="6" fill="#F5F5F5" stroke="#E8E8E8"/>
+  <text x="615" y="185" text-anchor="middle" font-size="11" font-weight="600" fill="#999">READ</text>
+  <text x="725" y="184" font-size="11" fill="#E53935" font-weight="500">✗ Error</text>
+  <line x1="650" y1="180" x2="715" y2="180" stroke="#E8E8E8" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+  <rect x="585" y="205" width="60" height="30" rx="6" fill="#E53935"/>
+  <text x="615" y="225" text-anchor="middle" font-size="11" font-weight="600" fill="white">WRITE</text>
+  <line x1="650" y1="220" x2="715" y2="220" stroke="#E53935" stroke-width="2" marker-end="url(#arrowIn)"/>
+  <text x="725" y="224" font-size="11" fill="#2E7D32" font-weight="500">✓ OK</text>
+
+  <text x="660" y="260" text-anchor="middle" font-size="11" fill="#2D2D2D">Data flows</text>
+  <text x="660" y="275" text-anchor="middle" font-size="14" font-weight="700" fill="#E53935">← IN</text>
+
+  <rect x="560" y="295" width="200" height="28" rx="6" fill="white" stroke="#E8E8E8" stroke-width="1"/>
+  <text x="660" y="314" text-anchor="middle" font-size="11" fill="#666">Java: <tspan font-weight="600">? super T</tspan></text>
+
+  <text x="660" y="350" text-anchor="middle" font-size="10" fill="#666" font-style="italic">Comparable&lt;in Animal&gt; accepts</text>
+  <text x="660" y="363" text-anchor="middle" font-size="10" fill="#666" font-style="italic">Comparable&lt;in Dog&gt;</text>
+
+  <!-- Bottom mnemonic -->
+  <text x="400" y="393" text-anchor="middle" font-size="12" font-weight="600" fill="#2D2D2D">Mnemonic: <tspan fill="#6B57FF">PECS</tspan> — Producer <tspan fill="#2E7D32">Extends</tspan>, Consumer <tspan fill="#E53935">Super</tspan></text>
+</svg>

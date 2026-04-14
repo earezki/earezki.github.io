@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="350" viewBox="0 0 800 350">
+  <defs>
+    <filter id="shadow" x="-4%" y="-4%" width="108%" height="108%">
+      <feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.12"/>
+    </filter>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0,0 8,3 0,6" fill="#6B57FF"/>
+    </marker>
+    <style>
+      text { font-family: system-ui, -apple-system, sans-serif; }
+      .code { font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace; font-size: 11.5px; }
+    </style>
+  </defs>
+  <rect width="800" height="350" fill="white"/>
+
+  <!-- Title -->
+  <text x="400" y="28" text-anchor="middle" font-size="18" font-weight="700" fill="#2D2D2D">Inline Function Compilation</text>
+
+  <!-- Left: Source Code -->
+  <text x="190" y="55" text-anchor="middle" font-size="14" font-weight="600" fill="#6B57FF">Source Code</text>
+
+  <!-- Inline function definition -->
+  <rect x="25" y="68" width="330" height="80" rx="10" fill="#EDE9FF" stroke="#6B57FF" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="40" y="88" class="code" fill="#F7931E" font-weight="700">inline</text><text x="85" y="88" class="code" fill="#6B57FF" font-weight="600"> fun</text><text x="110" y="88" class="code" fill="#2D2D2D"> measure(block: () -&gt; Unit) {</text>
+  <text x="50" y="108" class="code" fill="#2D2D2D">  val start = System.nanoTime()</text>
+  <text x="50" y="128" class="code" fill="#F7931E" font-weight="600">  block()</text>
+  <text x="50" y="142" class="code" fill="#2D2D2D">  println(System.nanoTime()-start)</text>
+  <text x="40" y="142" class="code" fill="#2D2D2D">}</text>
+
+  <!-- Call site -->
+  <rect x="25" y="165" width="330" height="55" rx="10" fill="#F5F5F5" stroke="#E8E8E8" stroke-width="1" filter="url(#shadow)"/>
+  <text x="40" y="187" class="code" fill="#2D2D2D">measure {</text>
+  <text x="50" y="207" class="code" fill="#6B57FF" font-weight="600">  println("Hello")</text>
+  <text x="40" y="212" class="code" fill="#2D2D2D">}</text>
+
+  <!-- Arrow -->
+  <line x1="370" y1="170" x2="450" y2="170" stroke="#6B57FF" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="410" y="160" text-anchor="middle" font-size="11" font-weight="600" fill="#6B57FF">inlining</text>
+
+  <!-- Right: After Inlining -->
+  <text x="610" y="55" text-anchor="middle" font-size="14" font-weight="600" fill="#2E7D32">After Inlining (Bytecode)</text>
+  <rect x="455" y="68" width="330" height="150" rx="10" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="475" y="92" class="code" fill="#999">// No function call — body pasted inline</text>
+  <text x="475" y="115" class="code" fill="#2D2D2D">val start = System.nanoTime()</text>
+  <text x="475" y="138" class="code" fill="#6B57FF" font-weight="600">println("Hello")</text>
+  <text x="503" y="150" class="code" fill="#999">  ↑ lambda body inlined here</text>
+  <text x="475" y="172" class="code" fill="#2D2D2D">println(System.nanoTime() - start)</text>
+  <text x="475" y="195" class="code" fill="#999">// No Function object allocation!</text>
+
+  <!-- Eliminated objects section -->
+  <rect x="100" y="240" width="600" height="95" rx="10" fill="#F5F5F5" stroke="#E8E8E8" stroke-width="1" filter="url(#shadow)"/>
+  <text x="400" y="265" text-anchor="middle" font-size="13" font-weight="700" fill="#2D2D2D">What Gets Eliminated</text>
+
+  <!-- Without inline -->
+  <rect x="125" y="278" width="235" height="42" rx="7" fill="white" stroke="#E53935" stroke-width="1.5"/>
+  <text x="142" y="296" class="code" fill="#E53935" text-decoration="line-through">new Function0() { ... }</text>
+  <text x="142" y="312" class="code" fill="#E53935" text-decoration="line-through">function.invoke()</text>
+  <line x1="130" y1="295" x2="345" y2="295" stroke="#E53935" stroke-width="1.5"/>
+  <line x1="130" y1="310" x2="280" y2="310" stroke="#E53935" stroke-width="1.5"/>
+  <text x="240" y="330" text-anchor="middle" font-size="10" fill="#E53935" font-weight="500">Without inline: object allocation + virtual call</text>
+
+  <!-- With inline -->
+  <rect x="435" y="278" width="240" height="42" rx="7" fill="white" stroke="#2E7D32" stroke-width="1.5"/>
+  <text x="455" y="296" class="code" fill="#2E7D32" font-weight="600">Direct bytecode insertion</text>
+  <text x="455" y="312" class="code" fill="#2E7D32" font-weight="600">Zero overhead ✓</text>
+  <text x="555" y="330" text-anchor="middle" font-size="10" fill="#2E7D32" font-weight="500">With inline: zero allocation, no virtual dispatch</text>
+</svg>

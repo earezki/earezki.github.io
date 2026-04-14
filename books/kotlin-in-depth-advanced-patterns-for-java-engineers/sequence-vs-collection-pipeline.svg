@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500">
+  <defs>
+    <filter id="shadow" x="-4%" y="-4%" width="108%" height="108%">
+      <feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.12"/>
+    </filter>
+    <marker id="arrowDown" markerWidth="8" markerHeight="6" refX="4" refY="6" orient="auto">
+      <polygon points="0,0 8,0 4,6" fill="#6B57FF"/>
+    </marker>
+    <marker id="arrowDownOrange" markerWidth="8" markerHeight="6" refX="4" refY="6" orient="auto">
+      <polygon points="0,0 8,0 4,6" fill="#F7931E"/>
+    </marker>
+    <marker id="arrowRight" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0,0 8,3 0,6" fill="#6B57FF"/>
+    </marker>
+    <style>
+      text { font-family: system-ui, -apple-system, sans-serif; }
+      .code { font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace; font-size: 10.5px; }
+      .val { font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace; font-size: 12px; font-weight: 600; }
+    </style>
+  </defs>
+  <rect width="800" height="500" fill="white"/>
+
+  <!-- Title -->
+  <text x="400" y="28" text-anchor="middle" font-size="18" font-weight="700" fill="#2D2D2D">Sequence vs Collection Pipeline</text>
+
+  <!-- Source -->
+  <rect x="280" y="42" width="240" height="28" rx="7" fill="#F5F5F5" stroke="#E8E8E8" stroke-width="1" filter="url(#shadow)"/>
+  <text x="400" y="61" text-anchor="middle" class="val" fill="#2D2D2D">listOf(1, 2, 3, 4, 5)</text>
+
+  <!-- Left Column: Collection/Eager -->
+  <text x="190" y="95" text-anchor="middle" font-size="15" font-weight="700" fill="#6B57FF">Collection (Eager)</text>
+  <text x="190" y="112" text-anchor="middle" font-size="11" fill="#666">Creates intermediate lists</text>
+
+  <!-- Step 1: filter -->
+  <rect x="55" y="125" width="270" height="32" rx="7" fill="#EDE9FF" stroke="#6B57FF" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="190" y="146" text-anchor="middle" font-size="12" font-weight="600" fill="#6B57FF">.filter { it % 2 == 0 }</text>
+  <line x1="190" y1="157" x2="190" y2="172" stroke="#6B57FF" stroke-width="1.5" marker-end="url(#arrowDown)"/>
+
+  <!-- Intermediate list 1 -->
+  <rect x="100" y="177" width="180" height="26" rx="6" fill="#FFEBEE" stroke="#E53935" stroke-width="1"/>
+  <text x="190" y="195" text-anchor="middle" class="val" fill="#E53935">[ 2, 4 ]</text>
+  <text x="300" y="195" font-size="9" fill="#E53935" font-weight="500">← new List</text>
+  <line x1="190" y1="203" x2="190" y2="218" stroke="#6B57FF" stroke-width="1.5" marker-end="url(#arrowDown)"/>
+
+  <!-- Step 2: map -->
+  <rect x="55" y="223" width="270" height="32" rx="7" fill="#EDE9FF" stroke="#6B57FF" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="190" y="244" text-anchor="middle" font-size="12" font-weight="600" fill="#6B57FF">.map { it * 10 }</text>
+  <line x1="190" y1="255" x2="190" y2="270" stroke="#6B57FF" stroke-width="1.5" marker-end="url(#arrowDown)"/>
+
+  <!-- Intermediate list 2 -->
+  <rect x="100" y="275" width="180" height="26" rx="6" fill="#FFEBEE" stroke="#E53935" stroke-width="1"/>
+  <text x="190" y="293" text-anchor="middle" class="val" fill="#E53935">[ 20, 40 ]</text>
+  <text x="300" y="293" font-size="9" fill="#E53935" font-weight="500">← new List</text>
+  <line x1="190" y1="301" x2="190" y2="316" stroke="#6B57FF" stroke-width="1.5" marker-end="url(#arrowDown)"/>
+
+  <!-- Step 3: first -->
+  <rect x="55" y="321" width="270" height="32" rx="7" fill="#EDE9FF" stroke="#6B57FF" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="190" y="342" text-anchor="middle" font-size="12" font-weight="600" fill="#6B57FF">.first()</text>
+  <line x1="190" y1="353" x2="190" y2="368" stroke="#6B57FF" stroke-width="1.5" marker-end="url(#arrowDown)"/>
+
+  <!-- Result -->
+  <rect x="150" y="373" width="80" height="30" rx="7" fill="#6B57FF" filter="url(#shadow)"/>
+  <text x="190" y="393" text-anchor="middle" class="val" fill="white">20</text>
+
+  <!-- Stats -->
+  <rect x="60" y="418" width="260" height="65" rx="8" fill="#FFEBEE" stroke="#E53935" stroke-width="1"/>
+  <text x="190" y="438" text-anchor="middle" font-size="11" font-weight="600" fill="#E53935">Processing stats:</text>
+  <text x="80" y="455" font-size="10" fill="#2D2D2D">• All 5 elements processed by filter</text>
+  <text x="80" y="470" font-size="10" fill="#2D2D2D">• <tspan font-weight="600" fill="#E53935">2 intermediate lists</tspan> allocated</text>
+  <text x="80" y="478" font-size="10" fill="#2D2D2D">• <tspan font-weight="600">7 operations</tspan> total (5 filter + 2 map)</text>
+
+  <!-- Divider -->
+  <line x1="400" y1="85" x2="400" y2="490" stroke="#E8E8E8" stroke-width="1.5" stroke-dasharray="6,4"/>
+
+  <!-- Right Column: Sequence/Lazy -->
+  <text x="600" y="95" text-anchor="middle" font-size="15" font-weight="700" fill="#F7931E">Sequence (Lazy)</text>
+  <text x="600" y="112" text-anchor="middle" font-size="11" fill="#666">Element-by-element, stops early</text>
+
+  <!-- Element 1 processing -->
+  <rect x="440" y="125" width="320" height="70" rx="8" fill="#F5F5F5" stroke="#E8E8E8" stroke-width="1"/>
+  <text x="455" y="143" font-size="11" font-weight="600" fill="#2D2D2D">Element 1:</text>
+  <text x="460" y="160" class="code" fill="#2D2D2D">  1 → filter(1%2==0) → <tspan fill="#E53935" font-weight="600">false</tspan> → skip</text>
+  <text x="460" y="180" font-size="10" fill="#999">Not even → skip, move to next element</text>
+
+  <!-- Element 2 processing -->
+  <rect x="440" y="205" width="320" height="85" rx="8" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1.5"/>
+  <text x="455" y="223" font-size="11" font-weight="600" fill="#2E7D32">Element 2:</text>
+  <text x="460" y="240" class="code" fill="#2D2D2D">  2 → filter(2%2==0) → <tspan fill="#2E7D32" font-weight="600">true</tspan></text>
+  <text x="460" y="256" class="code" fill="#2D2D2D">    → map(2*10) → <tspan fill="#2E7D32" font-weight="600">20</tspan></text>
+  <text x="460" y="272" class="code" fill="#2D2D2D">    → first() → <tspan fill="#2E7D32" font-weight="700">DONE! ✓</tspan></text>
+  <text x="460" y="285" font-size="10" fill="#2E7D32" font-weight="500">Match found → stop processing!</text>
+
+  <!-- Skipped elements -->
+  <rect x="440" y="302" width="320" height="55" rx="8" fill="#F5F5F5" stroke="#E8E8E8" stroke-width="1" stroke-dasharray="5,3"/>
+  <text x="455" y="320" font-size="11" font-weight="500" fill="#999">Elements 3, 4, 5:</text>
+  <text x="460" y="340" font-size="12" fill="#999" font-weight="600">NEVER PROCESSED ✓</text>
+
+  <!-- Result -->
+  <line x1="600" y1="357" x2="600" y2="372" stroke="#F7931E" stroke-width="1.5" marker-end="url(#arrowDownOrange)"/>
+  <rect x="560" y="377" width="80" height="30" rx="7" fill="#F7931E" filter="url(#shadow)"/>
+  <text x="600" y="397" text-anchor="middle" class="val" fill="white">20</text>
+
+  <!-- Stats -->
+  <rect x="470" y="418" width="260" height="65" rx="8" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1"/>
+  <text x="600" y="438" text-anchor="middle" font-size="11" font-weight="600" fill="#2E7D32">Processing stats:</text>
+  <text x="490" y="455" font-size="10" fill="#2D2D2D">• Only <tspan font-weight="600" fill="#2E7D32">2 elements</tspan> processed</text>
+  <text x="490" y="470" font-size="10" fill="#2D2D2D">• <tspan font-weight="600" fill="#2E7D32">0 intermediate lists</tspan> allocated</text>
+  <text x="490" y="478" font-size="10" fill="#2D2D2D">• <tspan font-weight="600">3 operations</tspan> total (2 filter + 1 map)</text>
+</svg>

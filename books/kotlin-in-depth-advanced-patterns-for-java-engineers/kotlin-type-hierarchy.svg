@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500">
+  <defs>
+    <filter id="shadow" x="-4%" y="-4%" width="108%" height="108%">
+      <feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.12"/>
+    </filter>
+    <marker id="arrowUp" markerWidth="10" markerHeight="7" refX="5" refY="0" orient="auto-start-reverse">
+      <polygon points="0,7 5,0 10,7" fill="#6B57FF"/>
+    </marker>
+    <style>
+      text { font-family: system-ui, -apple-system, sans-serif; }
+    </style>
+  </defs>
+  <rect width="800" height="500" fill="white"/>
+
+  <!-- Title -->
+  <text x="400" y="32" text-anchor="middle" font-size="18" font-weight="700" fill="#2D2D2D">Kotlin Type Hierarchy</text>
+
+  <!-- Non-nullable side label -->
+  <text x="260" y="62" text-anchor="middle" font-size="13" font-weight="600" fill="#6B57FF">Non-Nullable Types</text>
+  <!-- Nullable side label -->
+  <text x="600" y="62" text-anchor="middle" font-size="13" font-weight="600" fill="#F7931E">Nullable Types</text>
+
+  <!-- Divider -->
+  <line x1="430" y1="55" x2="430" y2="460" stroke="#E8E8E8" stroke-width="1.5" stroke-dasharray="6,4"/>
+
+  <!-- Any -->
+  <rect x="190" y="75" width="140" height="40" rx="8" fill="#6B57FF" filter="url(#shadow)"/>
+  <text x="260" y="101" text-anchor="middle" font-size="15" font-weight="600" fill="white">Any</text>
+
+  <!-- Any? -->
+  <rect x="530" y="75" width="140" height="40" rx="8" fill="#F7931E" filter="url(#shadow)"/>
+  <text x="600" y="101" text-anchor="middle" font-size="15" font-weight="600" fill="white">Any?</text>
+
+  <!-- Arrow Any -> Any? (is subtype of) -->
+  <line x1="330" y1="95" x2="525" y2="95" stroke="#E8E8E8" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="427" y="89" text-anchor="middle" font-size="10" fill="#999">supertype of</text>
+
+  <!-- Int -->
+  <rect x="50" y="170" width="110" height="36" rx="7" fill="#F5F5F5" stroke="#E8E8E8" stroke-width="1" filter="url(#shadow)"/>
+  <text x="105" y="194" text-anchor="middle" font-size="14" font-weight="500" fill="#2D2D2D">Int</text>
+
+  <!-- String -->
+  <rect x="185" y="170" width="110" height="36" rx="7" fill="#F5F5F5" stroke="#E8E8E8" stroke-width="1" filter="url(#shadow)"/>
+  <text x="240" y="194" text-anchor="middle" font-size="14" font-weight="500" fill="#2D2D2D">String</text>
+
+  <!-- Boolean -->
+  <rect x="320" y="170" width="110" height="36" rx="7" fill="#F5F5F5" stroke="#E8E8E8" stroke-width="1" filter="url(#shadow)"/>
+  <text x="375" y="194" text-anchor="middle" font-size="14" font-weight="500" fill="#2D2D2D">Boolean</text>
+
+  <!-- Int? -->
+  <rect x="475" y="170" width="110" height="36" rx="7" fill="#FFF5EB" stroke="#F7931E" stroke-width="1" filter="url(#shadow)"/>
+  <text x="530" y="194" text-anchor="middle" font-size="14" font-weight="500" fill="#2D2D2D">Int?</text>
+
+  <!-- String? -->
+  <rect x="610" y="170" width="110" height="36" rx="7" fill="#FFF5EB" stroke="#F7931E" stroke-width="1" filter="url(#shadow)"/>
+  <text x="665" y="194" text-anchor="middle" font-size="14" font-weight="500" fill="#2D2D2D">String?</text>
+
+  <!-- Arrows from subtypes UP to Any -->
+  <line x1="105" y1="170" x2="210" y2="115" stroke="#6B57FF" stroke-width="1.5" marker-end="url(#arrowUp)"/>
+  <line x1="240" y1="170" x2="255" y2="115" stroke="#6B57FF" stroke-width="1.5" marker-end="url(#arrowUp)"/>
+  <line x1="375" y1="170" x2="310" y2="115" stroke="#6B57FF" stroke-width="1.5" marker-end="url(#arrowUp)"/>
+
+  <!-- Arrows from nullable subtypes UP to Any? -->
+  <line x1="530" y1="170" x2="580" y2="115" stroke="#F7931E" stroke-width="1.5" marker-end="url(#arrowUp)"/>
+  <line x1="665" y1="170" x2="630" y2="115" stroke="#F7931E" stroke-width="1.5" marker-end="url(#arrowUp)"/>
+
+  <!-- User classes -->
+  <rect x="115" y="245" width="130" height="36" rx="7" fill="#F5F5F5" stroke="#E8E8E8" stroke-width="1" filter="url(#shadow)"/>
+  <text x="180" y="269" text-anchor="middle" font-size="13" font-weight="500" fill="#2D2D2D">MyClass</text>
+  <line x1="180" y1="245" x2="240" y2="206" stroke="#6B57FF" stroke-width="1.5" marker-end="url(#arrowUp)"/>
+
+  <rect x="275" y="245" width="130" height="36" rx="7" fill="#F5F5F5" stroke="#E8E8E8" stroke-width="1" filter="url(#shadow)"/>
+  <text x="340" y="269" text-anchor="middle" font-size="13" font-weight="500" fill="#2D2D2D">List&lt;T&gt;</text>
+  <line x1="340" y1="245" x2="300" y2="206" stroke="#6B57FF" stroke-width="1.5" marker-end="url(#arrowUp)"/>
+
+  <!-- Unit -->
+  <rect x="60" y="320" width="120" height="36" rx="7" fill="#EDE9FF" stroke="#6B57FF" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="120" y="344" text-anchor="middle" font-size="14" font-weight="600" fill="#6B57FF">Unit</text>
+  <line x1="120" y1="320" x2="220" y2="115" stroke="#6B57FF" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arrowUp)"/>
+  <text x="40" y="375" font-size="11" fill="#666">Has a single value:</text>
+  <text x="40" y="390" font-size="11" fill="#6B57FF" font-weight="600">Unit (≠ void)</text>
+
+  <!-- Nothing -->
+  <rect x="190" y="420" width="140" height="40" rx="8" fill="#2D2D2D" filter="url(#shadow)"/>
+  <text x="260" y="446" text-anchor="middle" font-size="15" font-weight="600" fill="white">Nothing</text>
+
+  <!-- Nothing? -->
+  <rect x="530" y="420" width="140" height="40" rx="8" fill="#2D2D2D" filter="url(#shadow)"/>
+  <text x="600" y="446" text-anchor="middle" font-size="15" font-weight="600" fill="#F7931E">Nothing?</text>
+
+  <!-- Arrows from Nothing UP to concrete types -->
+  <line x1="230" y1="420" x2="180" y2="281" stroke="#2D2D2D" stroke-width="1.2" stroke-dasharray="3,3" marker-end="url(#arrowUp)"/>
+  <line x1="260" y1="420" x2="260" y2="206" stroke="#2D2D2D" stroke-width="1.2" stroke-dasharray="3,3" marker-end="url(#arrowUp)"/>
+  <line x1="290" y1="420" x2="340" y2="281" stroke="#2D2D2D" stroke-width="1.2" stroke-dasharray="3,3" marker-end="url(#arrowUp)"/>
+  <line x1="120" y1="356" x2="230" y2="420" stroke="#2D2D2D" stroke-width="1.2" stroke-dasharray="3,3"/>
+
+  <!-- Arrow Nothing -> Nothing? -->
+  <line x1="330" y1="440" x2="525" y2="440" stroke="#E8E8E8" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+  <!-- Legend -->
+  <rect x="560" y="280" width="210" height="105" rx="8" fill="#F5F5F5" stroke="#E8E8E8" stroke-width="1"/>
+  <text x="575" y="300" font-size="12" font-weight="600" fill="#2D2D2D">Legend</text>
+  <line x1="575" y1="318" x2="605" y2="318" stroke="#6B57FF" stroke-width="2" marker-end="url(#arrowUp)"/>
+  <text x="615" y="322" font-size="11" fill="#666">is subtype of</text>
+  <rect x="575" y="335" width="20" height="12" rx="3" fill="#6B57FF"/>
+  <text x="615" y="346" font-size="11" fill="#666">Non-nullable type</text>
+  <rect x="575" y="357" width="20" height="12" rx="3" fill="#F7931E"/>
+  <text x="615" y="368" font-size="11" fill="#666">Nullable type</text>
+  <text x="575" y="380" font-size="10" fill="#999" font-style="italic">↑ Arrows point to supertypes</text>
+
+  <!-- Bottom subtype label -->
+  <text x="260" y="490" text-anchor="middle" font-size="11" fill="#999">Nothing is a subtype of every type • Nothing? includes only null</text>
+</svg>

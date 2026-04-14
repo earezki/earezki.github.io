@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="350" viewBox="0 0 800 350">
+  <defs>
+    <filter id="shadow" x="-4%" y="-4%" width="108%" height="108%">
+      <feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.12"/>
+    </filter>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0,0 8,3 0,6" fill="#6B57FF"/>
+    </marker>
+    <marker id="arrowOrange" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0,0 8,3 0,6" fill="#F7931E"/>
+    </marker>
+    <style>
+      text { font-family: system-ui, -apple-system, sans-serif; }
+      .code { font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace; font-size: 11px; }
+    </style>
+  </defs>
+  <rect width="800" height="350" fill="white"/>
+
+  <!-- Title -->
+  <text x="400" y="28" text-anchor="middle" font-size="18" font-weight="700" fill="#2D2D2D">Property Delegation Chain — <tspan fill="#6B57FF">by lazy</tspan></text>
+
+  <!-- Declaration -->
+  <rect x="80" y="48" width="640" height="34" rx="8" fill="#F5F5F5" stroke="#E8E8E8" stroke-width="1" filter="url(#shadow)"/>
+  <text x="400" y="70" text-anchor="middle" class="code" fill="#2D2D2D">val data: String <tspan fill="#6B57FF" font-weight="700">by lazy</tspan> { expensiveCompute() }</text>
+
+  <!-- Flow chain -->
+  <!-- Step 1 -->
+  <rect x="25" y="110" width="140" height="48" rx="8" fill="#6B57FF" filter="url(#shadow)"/>
+  <text x="95" y="132" text-anchor="middle" font-size="12" font-weight="600" fill="white">Property</text>
+  <text x="95" y="148" text-anchor="middle" font-size="12" font-weight="600" fill="white">Access</text>
+  <text x="95" y="170" text-anchor="middle" font-size="10" fill="#666" font-style="italic">obj.data</text>
+
+  <line x1="165" y1="134" x2="195" y2="134" stroke="#6B57FF" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Step 2 -->
+  <rect x="200" y="110" width="140" height="48" rx="8" fill="#EDE9FF" stroke="#6B57FF" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="270" y="132" text-anchor="middle" font-size="12" font-weight="600" fill="#6B57FF">getValue()</text>
+  <text x="270" y="148" text-anchor="middle" font-size="10" fill="#2D2D2D">on delegate</text>
+  <text x="270" y="170" text-anchor="middle" font-size="10" fill="#666" font-style="italic">operator fun</text>
+
+  <line x1="340" y1="134" x2="370" y2="134" stroke="#6B57FF" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Step 3 -->
+  <rect x="375" y="110" width="140" height="48" rx="8" fill="#FFF5EB" stroke="#F7931E" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="445" y="130" text-anchor="middle" font-size="12" font-weight="600" fill="#F7931E">Lazy&lt;T&gt;</text>
+  <text x="445" y="148" text-anchor="middle" font-size="10" fill="#2D2D2D">instance</text>
+  <text x="445" y="170" text-anchor="middle" font-size="10" fill="#666" font-style="italic">holds state &amp; value</text>
+
+  <line x1="515" y1="134" x2="545" y2="134" stroke="#F7931E" stroke-width="2" marker-end="url(#arrowOrange)"/>
+
+  <!-- Step 4: Decision -->
+  <polygon points="615,100 690,134 615,168 545,134" fill="white" stroke="#F7931E" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="618" y="130" text-anchor="middle" font-size="10" font-weight="600" fill="#2D2D2D">Already</text>
+  <text x="618" y="143" text-anchor="middle" font-size="10" font-weight="600" fill="#2D2D2D">initialized?</text>
+
+  <!-- YES: cached value -->
+  <text x="710" y="112" font-size="10" font-weight="700" fill="#2E7D32">YES</text>
+  <line x1="690" y1="120" x2="720" y2="120" stroke="#2E7D32" stroke-width="1.5"/>
+  <rect x="720" y="105" width="65" height="30" rx="6" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1"/>
+  <text x="752" y="124" text-anchor="middle" font-size="11" font-weight="600" fill="#2E7D32">cached</text>
+
+  <!-- NO: invoke lambda -->
+  <text x="600" y="185" font-size="10" font-weight="700" fill="#F7931E">NO</text>
+  <line x1="615" y1="168" x2="615" y2="200" stroke="#F7931E" stroke-width="1.5" marker-end="url(#arrowOrange)"/>
+
+  <rect x="545" y="202" width="140" height="40" rx="8" fill="#FFF5EB" stroke="#F7931E" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="615" y="220" text-anchor="middle" font-size="11" font-weight="600" fill="#F7931E">Initializer λ</text>
+  <text x="615" y="236" text-anchor="middle" font-size="10" fill="#2D2D2D">(called once)</text>
+  <line x1="615" y1="242" x2="615" y2="258" stroke="#F7931E" stroke-width="1.5" marker-end="url(#arrowOrange)"/>
+
+  <rect x="555" y="260" width="120" height="28" rx="6" fill="#2E7D32" filter="url(#shadow)"/>
+  <text x="615" y="279" text-anchor="middle" font-size="11" font-weight="600" fill="white">Cache &amp; return</text>
+
+  <!-- Synchronization modes -->
+  <rect x="30" y="210" width="460" height="120" rx="10" fill="#F5F5F5" stroke="#E8E8E8" stroke-width="1" filter="url(#shadow)"/>
+  <text x="260" y="235" text-anchor="middle" font-size="14" font-weight="700" fill="#2D2D2D">Synchronization Modes</text>
+
+  <!-- SYNCHRONIZED -->
+  <rect x="50" y="248" width="130" height="65" rx="7" fill="white" stroke="#6B57FF" stroke-width="1.5"/>
+  <text x="115" y="268" text-anchor="middle" font-size="11" font-weight="700" fill="#6B57FF">SYNCHRONIZED</text>
+  <text x="115" y="285" text-anchor="middle" font-size="10" fill="#2D2D2D">Double-checked</text>
+  <text x="115" y="298" text-anchor="middle" font-size="10" fill="#2D2D2D">locking</text>
+  <text x="115" y="311" text-anchor="middle" font-size="9" fill="#2E7D32" font-weight="600">Default ✓</text>
+
+  <!-- PUBLICATION -->
+  <rect x="200" y="248" width="130" height="65" rx="7" fill="white" stroke="#F7931E" stroke-width="1.5"/>
+  <text x="265" y="268" text-anchor="middle" font-size="11" font-weight="700" fill="#F7931E">PUBLICATION</text>
+  <text x="265" y="285" text-anchor="middle" font-size="10" fill="#2D2D2D">Multiple threads</text>
+  <text x="265" y="298" text-anchor="middle" font-size="10" fill="#2D2D2D">may compute</text>
+  <text x="265" y="311" text-anchor="middle" font-size="9" fill="#666">First wins</text>
+
+  <!-- NONE -->
+  <rect x="350" y="248" width="130" height="65" rx="7" fill="white" stroke="#E53935" stroke-width="1.5"/>
+  <text x="415" y="268" text-anchor="middle" font-size="11" font-weight="700" fill="#E53935">NONE</text>
+  <text x="415" y="285" text-anchor="middle" font-size="10" fill="#2D2D2D">No thread safety</text>
+  <text x="415" y="298" text-anchor="middle" font-size="10" fill="#2D2D2D">Fastest</text>
+  <text x="415" y="311" text-anchor="middle" font-size="9" fill="#E53935">Single-thread only</text>
+
+  <!-- Bottom note -->
+  <text x="400" y="345" text-anchor="middle" font-size="11" fill="#666" font-style="italic">The delegate object stores both the initializer lambda and the computed value</text>
+</svg>
