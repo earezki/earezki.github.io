@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" font-family="Inter, system-ui, sans-serif">
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#475569"/>
+    </marker>
+    <linearGradient id="hsmGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e293b;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#334155;stop-opacity:1"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="600" fill="#f8fafc" rx="8"/>
+  <text x="400" y="35" text-anchor="middle" font-size="18" font-weight="700" fill="#0f172a">Payment Key Hierarchy (DUKPT)</text>
+
+  <!-- HSM Box -->
+  <rect x="250" y="55" width="300" height="75" rx="8" fill="url(#hsmGrad)" stroke="#0f172a" stroke-width="2"/>
+  <text x="400" y="80" text-anchor="middle" font-size="14" font-weight="700" fill="#f1f5f9">Hardware Security Module (HSM)</text>
+  <text x="400" y="98" text-anchor="middle" font-size="11" fill="#94a3b8">FIPS 140-2 Level 3 / PCI PTS</text>
+  <text x="400" y="115" text-anchor="middle" font-size="10" fill="#64748b">Tamper-resistant key storage</text>
+
+  <!-- Level 1: Base Derivation Key -->
+  <rect x="280" y="165" width="240" height="55" rx="8" fill="#dc2626" stroke="#991b1b" stroke-width="1.5"/>
+  <text x="400" y="188" text-anchor="middle" font-size="13" font-weight="600" fill="#fff">Base Derivation Key (BDK)</text>
+  <text x="400" y="205" text-anchor="middle" font-size="10" fill="#fecaca">3DES 128-bit / AES 256-bit</text>
+
+  <!-- Arrow HSM -> BDK -->
+  <line x1="400" y1="130" x2="400" y2="163" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- Level 2: IPEK -->
+  <rect x="130" y="270" width="220" height="55" rx="8" fill="#ea580c" stroke="#c2410c" stroke-width="1.5"/>
+  <text x="240" y="293" text-anchor="middle" font-size="13" font-weight="600" fill="#fff">Initial PIN Encryption Key</text>
+  <text x="240" y="310" text-anchor="middle" font-size="10" fill="#fed7aa">(IPEK) — per device</text>
+
+  <rect x="450" y="270" width="220" height="55" rx="8" fill="#ea580c" stroke="#c2410c" stroke-width="1.5"/>
+  <text x="560" y="293" text-anchor="middle" font-size="13" font-weight="600" fill="#fff">Initial PIN Encryption Key</text>
+  <text x="560" y="310" text-anchor="middle" font-size="10" fill="#fed7aa">(IPEK) — per device</text>
+
+  <!-- Arrows BDK -> IPEKs -->
+  <line x1="350" y1="220" x2="260" y2="268" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="450" y1="220" x2="540" y2="268" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="280" y="245" text-anchor="middle" font-size="9" fill="#64748b">KSN[0..9] + BDK</text>
+  <text x="520" y="245" text-anchor="middle" font-size="9" fill="#64748b">KSN[0..9] + BDK</text>
+
+  <!-- Level 3: Future Keys -->
+  <rect x="40" y="380" width="160" height="50" rx="8" fill="#2563eb" stroke="#1d4ed8" stroke-width="1.5"/>
+  <text x="120" y="400" text-anchor="middle" font-size="11" font-weight="600" fill="#fff">Session Key 1</text>
+  <text x="120" y="416" text-anchor="middle" font-size="9" fill="#bfdbfe">Counter: 000001</text>
+
+  <rect x="220" y="380" width="160" height="50" rx="8" fill="#2563eb" stroke="#1d4ed8" stroke-width="1.5"/>
+  <text x="300" y="400" text-anchor="middle" font-size="11" font-weight="600" fill="#fff">Session Key 2</text>
+  <text x="300" y="416" text-anchor="middle" font-size="9" fill="#bfdbfe">Counter: 000002</text>
+
+  <rect x="420" y="380" width="160" height="50" rx="8" fill="#2563eb" stroke="#1d4ed8" stroke-width="1.5"/>
+  <text x="500" y="400" text-anchor="middle" font-size="11" font-weight="600" fill="#fff">Session Key N</text>
+  <text x="500" y="416" text-anchor="middle" font-size="9" fill="#bfdbfe">Counter: FFFFF</text>
+
+  <rect x="620" y="380" width="140" height="50" rx="8" fill="#6b7280" stroke="#4b5563" stroke-width="1.5"/>
+  <text x="690" y="400" text-anchor="middle" font-size="11" font-weight="600" fill="#fff">... up to 2²¹</text>
+  <text x="690" y="416" text-anchor="middle" font-size="9" fill="#d1d5db">future keys</text>
+
+  <!-- Arrows IPEK -> Session Keys -->
+  <line x1="200" y1="325" x2="130" y2="378" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="240" y1="325" x2="280" y2="378" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="520" y1="325" x2="500" y2="378" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="580" y1="325" x2="670" y2="378" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- Transaction usage -->
+  <rect x="100" y="475" width="200" height="45" rx="6" fill="#d1fae5" stroke="#059669" stroke-width="1.5"/>
+  <text x="200" y="495" text-anchor="middle" font-size="11" font-weight="600" fill="#065f46">Encrypt PAN / PIN Block</text>
+  <text x="200" y="510" text-anchor="middle" font-size="9" fill="#059669">One key per transaction</text>
+
+  <rect x="350" y="475" width="200" height="45" rx="6" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+  <text x="450" y="495" text-anchor="middle" font-size="11" font-weight="600" fill="#92400e">Key Serial Number (KSN)</text>
+  <text x="450" y="510" text-anchor="middle" font-size="9" fill="#b45309">80 bits: BDK ID + Counter</text>
+
+  <line x1="200" y1="430" x2="200" y2="473" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="400" y1="430" x2="450" y2="473" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- Annotations -->
+  <rect x="600" y="475" width="180" height="80" rx="6" fill="#fff" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="690" y="495" text-anchor="middle" font-size="10" font-weight="600" fill="#334155">Key Properties</text>
+  <text x="610" y="515" font-size="9" fill="#64748b">• Forward secrecy</text>
+  <text x="610" y="530" font-size="9" fill="#64748b">• Non-reversible derivation</text>
+  <text x="610" y="545" font-size="9" fill="#64748b">• 2²¹ keys per IPEK</text>
+</svg>

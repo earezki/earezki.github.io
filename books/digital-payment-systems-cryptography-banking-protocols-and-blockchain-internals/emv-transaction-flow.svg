@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 680" font-family="Inter, system-ui, sans-serif">
+  <defs>
+    <marker id="a1" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#475569"/>
+    </marker>
+    <marker id="a2" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#2563eb"/>
+    </marker>
+  </defs>
+
+  <rect width="900" height="680" fill="#f8fafc" rx="8"/>
+  <text x="450" y="30" text-anchor="middle" font-size="18" font-weight="700" fill="#0f172a">EMV Chip Transaction Flow</text>
+
+  <!-- Swim lanes -->
+  <rect x="50" y="50" width="180" height="600" rx="6" fill="#eff6ff" stroke="#bfdbfe" stroke-width="1"/>
+  <text x="140" y="75" text-anchor="middle" font-size="13" font-weight="700" fill="#1e40af">Card (ICC)</text>
+
+  <rect x="280" y="50" width="180" height="600" rx="6" fill="#fefce8" stroke="#fde68a" stroke-width="1"/>
+  <text x="370" y="75" text-anchor="middle" font-size="13" font-weight="700" fill="#92400e">Terminal (POS)</text>
+
+  <rect x="510" y="50" width="180" height="600" rx="6" fill="#f0fdf4" stroke="#bbf7d0" stroke-width="1"/>
+  <text x="600" y="75" text-anchor="middle" font-size="13" font-weight="700" fill="#166534">Acquirer/Network</text>
+
+  <rect x="740" y="50" width="130" height="600" rx="6" fill="#fdf2f8" stroke="#fbcfe8" stroke-width="1"/>
+  <text x="805" y="75" text-anchor="middle" font-size="13" font-weight="700" fill="#9d174d">Issuer</text>
+
+  <!-- Phase 1: Application Selection -->
+  <rect x="260" y="95" width="220" height="25" rx="4" fill="#1e40af"/>
+  <text x="370" y="112" text-anchor="middle" font-size="11" font-weight="600" fill="#fff">Phase 1: Application Selection</text>
+
+  <rect x="290" y="130" width="160" height="35" rx="4" fill="#fff" stroke="#94a3b8" stroke-width="1"/>
+  <text x="370" y="152" text-anchor="middle" font-size="10" fill="#334155">SELECT (PSE / AID)</text>
+  <line x1="290" y1="147" x2="230" y2="147" stroke="#475569" stroke-width="1.5" marker-end="url(#a1)"/>
+
+  <rect x="60" y="175" width="160" height="35" rx="4" fill="#fff" stroke="#94a3b8" stroke-width="1"/>
+  <text x="140" y="197" text-anchor="middle" font-size="10" fill="#334155">FCI (AID list)</text>
+  <line x1="220" y1="192" x2="290" y2="192" stroke="#2563eb" stroke-width="1.5" marker-end="url(#a2)"/>
+
+  <!-- Phase 2: Initiate Application Processing -->
+  <rect x="260" y="220" width="220" height="25" rx="4" fill="#1e40af"/>
+  <text x="370" y="237" text-anchor="middle" font-size="11" font-weight="600" fill="#fff">Phase 2: Read Application Data</text>
+
+  <rect x="290" y="255" width="160" height="35" rx="4" fill="#fff" stroke="#94a3b8" stroke-width="1"/>
+  <text x="370" y="277" text-anchor="middle" font-size="10" fill="#334155">GET PROCESSING OPTS</text>
+  <line x1="290" y1="272" x2="230" y2="272" stroke="#475569" stroke-width="1.5" marker-end="url(#a1)"/>
+
+  <rect x="60" y="300" width="160" height="35" rx="4" fill="#fff" stroke="#94a3b8" stroke-width="1"/>
+  <text x="140" y="317" text-anchor="middle" font-size="10" fill="#334155">AIP + AFL</text>
+  <line x1="220" y1="317" x2="290" y2="317" stroke="#2563eb" stroke-width="1.5" marker-end="url(#a2)"/>
+
+  <rect x="290" y="345" width="160" height="30" rx="4" fill="#fff" stroke="#94a3b8" stroke-width="1"/>
+  <text x="370" y="365" text-anchor="middle" font-size="10" fill="#334155">READ RECORD (loop)</text>
+  <line x1="290" y1="360" x2="230" y2="360" stroke="#475569" stroke-width="1.5" marker-end="url(#a1)"/>
+
+  <!-- Phase 3: Card Authentication + Cardholder Verification -->
+  <rect x="260" y="390" width="220" height="25" rx="4" fill="#dc2626"/>
+  <text x="370" y="407" text-anchor="middle" font-size="11" font-weight="600" fill="#fff">Phase 3: Authentication + CVM</text>
+
+  <rect x="290" y="425" width="160" height="45" rx="4" fill="#fef2f2" stroke="#fca5a5" stroke-width="1"/>
+  <text x="370" y="443" text-anchor="middle" font-size="10" font-weight="600" fill="#991b1b">SDA / DDA / CDA</text>
+  <text x="370" y="458" text-anchor="middle" font-size="9" fill="#b91c1c">RSA signature verify</text>
+
+  <rect x="60" y="425" width="160" height="45" rx="4" fill="#fef2f2" stroke="#fca5a5" stroke-width="1"/>
+  <text x="140" y="443" text-anchor="middle" font-size="10" font-weight="600" fill="#991b1b">INTERNAL AUTH</text>
+  <text x="140" y="458" text-anchor="middle" font-size="9" fill="#b91c1c">Sign dynamic data</text>
+  <line x1="290" y1="447" x2="220" y2="447" stroke="#475569" stroke-width="1.5" marker-end="url(#a1)"/>
+
+  <!-- Phase 4: Terminal Decision -->
+  <rect x="260" y="485" width="220" height="25" rx="4" fill="#16a34a"/>
+  <text x="370" y="502" text-anchor="middle" font-size="11" font-weight="600" fill="#fff">Phase 4: GENERATE AC</text>
+
+  <rect x="290" y="520" width="160" height="40" rx="4" fill="#f0fdf4" stroke="#86efac" stroke-width="1"/>
+  <text x="370" y="537" text-anchor="middle" font-size="10" font-weight="600" fill="#166534">GEN AC (ARQC)</text>
+  <text x="370" y="550" text-anchor="middle" font-size="9" fill="#15803d">Request online auth</text>
+  <line x1="290" y1="540" x2="220" y2="540" stroke="#475569" stroke-width="1.5" marker-end="url(#a1)"/>
+
+  <rect x="60" y="520" width="160" height="40" rx="4" fill="#dbeafe" stroke="#93c5fd" stroke-width="1"/>
+  <text x="140" y="537" text-anchor="middle" font-size="10" font-weight="600" fill="#1e40af">ARQC Cryptogram</text>
+  <text x="140" y="550" text-anchor="middle" font-size="9" fill="#2563eb">3DES MAC over data</text>
+  <line x1="220" y1="540" x2="290" y2="540" stroke="#2563eb" stroke-width="1.5" marker-end="url(#a2)"/>
+
+  <!-- Online Authorization -->
+  <line x1="450" y1="540" x2="510" y2="540" stroke="#475569" stroke-width="1.5" marker-end="url(#a1)"/>
+  <text x="480" y="530" text-anchor="middle" font-size="8" fill="#475569">ISO 8583</text>
+
+  <line x1="690" y1="540" x2="740" y2="540" stroke="#475569" stroke-width="1.5" marker-end="url(#a1)"/>
+
+  <rect x="745" y="520" width="120" height="40" rx="4" fill="#fdf2f8" stroke="#f9a8d4" stroke-width="1"/>
+  <text x="805" y="537" text-anchor="middle" font-size="10" font-weight="600" fill="#9d174d">Verify ARQC</text>
+  <text x="805" y="550" text-anchor="middle" font-size="9" fill="#be185d">Generate ARPC</text>
+
+  <!-- Response -->
+  <rect x="520" y="580" width="160" height="35" rx="4" fill="#d1fae5" stroke="#6ee7b7" stroke-width="1"/>
+  <text x="600" y="602" text-anchor="middle" font-size="10" font-weight="600" fill="#065f46">ARPC + Auth Code</text>
+  <line x1="740" y1="575" x2="680" y2="597" stroke="#2563eb" stroke-width="1.5" marker-end="url(#a2)"/>
+  <line x1="520" y1="597" x2="450" y2="597" stroke="#2563eb" stroke-width="1.5" marker-end="url(#a2)"/>
+
+  <!-- Final GEN AC -->
+  <rect x="60" y="580" width="160" height="35" rx="4" fill="#d1fae5" stroke="#6ee7b7" stroke-width="1"/>
+  <text x="140" y="602" text-anchor="middle" font-size="10" font-weight="600" fill="#065f46">TC (Approved)</text>
+  <line x1="290" y1="610" x2="220" y2="602" stroke="#475569" stroke-width="1.5" marker-end="url(#a1)"/>
+
+  <!-- Phase labels on right -->
+  <text x="875" y="160" text-anchor="end" font-size="9" fill="#64748b" transform="rotate(-90, 875, 160)">OFFLINE</text>
+  <text x="875" y="540" text-anchor="end" font-size="9" fill="#64748b" transform="rotate(-90, 875, 540)">ONLINE</text>
+</svg>

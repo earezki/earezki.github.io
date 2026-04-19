@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" font-family="Inter, system-ui, sans-serif">
+  <rect width="900" height="620" fill="#f8fafc" rx="8"/>
+  <text x="450" y="35" text-anchor="middle" font-size="18" font-weight="700" fill="#0f172a">UTXO vs Account Model — Transaction Verification</text>
+
+  <!-- UTXO Side -->
+  <rect x="20" y="55" width="420" height="540" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+  <text x="230" y="82" text-anchor="middle" font-size="15" font-weight="700" fill="#1e40af">UTXO Model (Bitcoin)</text>
+
+  <!-- Input UTXOs -->
+  <text x="40" y="110" font-size="11" font-weight="600" fill="#334155">Transaction Inputs:</text>
+
+  <rect x="40" y="120" width="180" height="60" rx="6" fill="#fecaca" stroke="#f87171" stroke-width="1.5"/>
+  <text x="50" y="140" font-size="10" font-weight="600" fill="#991b1b">UTXO #a3f2...7b</text>
+  <text x="50" y="158" font-size="10" fill="#334155">0.5 BTC</text>
+  <text x="50" y="173" font-size="9" fill="#64748b">scriptSig: OP_DUP...</text>
+
+  <rect x="230" y="120" width="180" height="60" rx="6" fill="#fecaca" stroke="#f87171" stroke-width="1.5"/>
+  <text x="240" y="140" font-size="10" font-weight="600" fill="#991b1b">UTXO #e8c1...4a</text>
+  <text x="240" y="158" font-size="10" fill="#334155">0.3 BTC</text>
+  <text x="240" y="173" font-size="9" fill="#64748b">scriptSig: OP_DUP...</text>
+
+  <!-- Transaction -->
+  <rect x="100" y="210" width="240" height="50" rx="8" fill="#1e293b" stroke="#0f172a" stroke-width="2"/>
+  <text x="220" y="235" text-anchor="middle" font-size="13" font-weight="700" fill="#f1f5f9">Transaction</text>
+  <text x="220" y="250" text-anchor="middle" font-size="10" fill="#94a3b8">sum(inputs) ≥ sum(outputs)</text>
+
+  <!-- Output UTXOs -->
+  <text x="40" y="290" font-size="11" font-weight="600" fill="#334155">Transaction Outputs:</text>
+
+  <rect x="40" y="300" width="180" height="60" rx="6" fill="#d1fae5" stroke="#6ee7b7" stroke-width="1.5"/>
+  <text x="50" y="320" font-size="10" font-weight="600" fill="#065f46">New UTXO #1</text>
+  <text x="50" y="338" font-size="10" fill="#334155">0.7 BTC → Recipient</text>
+  <text x="50" y="353" font-size="9" fill="#64748b">scriptPubKey: P2PKH</text>
+
+  <rect x="230" y="300" width="180" height="60" rx="6" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+  <text x="240" y="320" font-size="10" font-weight="600" fill="#92400e">New UTXO #2 (change)</text>
+  <text x="240" y="338" font-size="10" fill="#334155">0.0999 BTC → Self</text>
+  <text x="240" y="353" font-size="9" fill="#64748b">Fee: 0.0001 BTC</text>
+
+  <!-- Arrows -->
+  <line x1="130" y1="180" x2="170" y2="208" stroke="#475569" stroke-width="1.2"/>
+  <line x1="320" y1="180" x2="280" y2="208" stroke="#475569" stroke-width="1.2"/>
+  <line x1="170" y1="260" x2="130" y2="298" stroke="#475569" stroke-width="1.2"/>
+  <line x1="280" y1="260" x2="320" y2="298" stroke="#475569" stroke-width="1.2"/>
+
+  <!-- UTXO Verification -->
+  <rect x="40" y="380" width="390" height="100" rx="6" fill="#fff" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="55" y="400" font-size="11" font-weight="700" fill="#334155">Verification Steps:</text>
+  <text x="55" y="420" font-size="9" fill="#64748b">1. Each input references an unspent output (UTXO set lookup)</text>
+  <text x="55" y="435" font-size="9" fill="#64748b">2. Execute scriptSig + scriptPubKey on Script VM → must return TRUE</text>
+  <text x="55" y="450" font-size="9" fill="#64748b">3. sum(input values) ≥ sum(output values)</text>
+  <text x="55" y="465" font-size="9" fill="#64748b">4. Spent UTXOs removed from set; new outputs added as new UTXOs</text>
+
+  <!-- UTXO Properties -->
+  <rect x="40" y="495" width="390" height="85" rx="6" fill="#dbeafe" stroke="#93c5fd" stroke-width="1"/>
+  <text x="55" y="515" font-size="10" font-weight="600" fill="#1e40af">Properties:</text>
+  <text x="55" y="533" font-size="9" fill="#16a34a">✓ Inherent parallelism (independent UTXO validation)</text>
+  <text x="55" y="548" font-size="9" fill="#16a34a">✓ Natural privacy (new addresses per tx)</text>
+  <text x="55" y="563" font-size="9" fill="#dc2626">✗ Complex for stateful contracts</text>
+
+  <!-- Account Side -->
+  <rect x="460" y="55" width="420" height="540" rx="10" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+  <text x="670" y="82" text-anchor="middle" font-size="15" font-weight="700" fill="#92400e">Account Model (Ethereum)</text>
+
+  <!-- Accounts -->
+  <text x="480" y="110" font-size="11" font-weight="600" fill="#334155">World State (Patricia Trie):</text>
+
+  <rect x="480" y="120" width="190" height="80" rx="6" fill="#e0e7ff" stroke="#4f46e5" stroke-width="1.5"/>
+  <text x="490" y="140" font-size="10" font-weight="600" fill="#3730a3">Sender Account</text>
+  <text x="490" y="158" font-size="9" fill="#334155">Balance: 5.0 ETH</text>
+  <text x="490" y="173" font-size="9" fill="#334155">Nonce: 42</text>
+  <text x="490" y="188" font-size="9" fill="#64748b">Address: 0xA1B2...C3D4</text>
+
+  <rect x="690" y="120" width="180" height="80" rx="6" fill="#e0e7ff" stroke="#4f46e5" stroke-width="1.5"/>
+  <text x="700" y="140" font-size="10" font-weight="600" fill="#3730a3">Receiver Account</text>
+  <text x="700" y="158" font-size="9" fill="#334155">Balance: 2.0 ETH</text>
+  <text x="700" y="173" font-size="9" fill="#334155">Nonce: 17</text>
+  <text x="700" y="188" font-size="9" fill="#64748b">Address: 0xE5F6...G7H8</text>
+
+  <!-- Transaction -->
+  <rect x="530" y="230" width="280" height="60" rx="8" fill="#1e293b" stroke="#0f172a" stroke-width="2"/>
+  <text x="670" y="255" text-anchor="middle" font-size="13" font-weight="700" fill="#f1f5f9">Transaction</text>
+  <text x="670" y="275" text-anchor="middle" font-size="10" fill="#94a3b8">value: 1.5 ETH, nonce: 42, gas: 21000</text>
+
+  <line x1="575" y1="200" x2="620" y2="228" stroke="#475569" stroke-width="1.2"/>
+  <line x1="780" y1="200" x2="750" y2="228" stroke="#475569" stroke-width="1.2"/>
+
+  <!-- Updated state -->
+  <text x="480" y="320" font-size="11" font-weight="600" fill="#334155">Updated World State:</text>
+
+  <rect x="480" y="330" width="190" height="65" rx="6" fill="#d1fae5" stroke="#059669" stroke-width="1.5"/>
+  <text x="490" y="350" font-size="10" font-weight="600" fill="#065f46">Sender (after)</text>
+  <text x="490" y="368" font-size="9" fill="#334155">Balance: 3.5 ETH (- gas)</text>
+  <text x="490" y="383" font-size="9" fill="#334155">Nonce: 43</text>
+
+  <rect x="690" y="330" width="180" height="65" rx="6" fill="#d1fae5" stroke="#059669" stroke-width="1.5"/>
+  <text x="700" y="350" font-size="10" font-weight="600" fill="#065f46">Receiver (after)</text>
+  <text x="700" y="368" font-size="9" fill="#334155">Balance: 3.5 ETH</text>
+  <text x="700" y="383" font-size="9" fill="#334155">Nonce: 17 (unchanged)</text>
+
+  <line x1="670" y1="290" x2="670" y2="328" stroke="#16a34a" stroke-width="1.5"/>
+
+  <!-- Account Verification -->
+  <rect x="480" y="410" width="390" height="85" rx="6" fill="#fff" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="495" y="430" font-size="11" font-weight="700" fill="#334155">Verification Steps:</text>
+  <text x="495" y="448" font-size="9" fill="#64748b">1. Verify signature → recover sender address</text>
+  <text x="495" y="463" font-size="9" fill="#64748b">2. Check nonce matches sender's current nonce (replay protection)</text>
+  <text x="495" y="478" font-size="9" fill="#64748b">3. Check balance ≥ value + (gasPrice × gasLimit)</text>
+
+  <!-- Account Properties -->
+  <rect x="480" y="505" width="390" height="80" rx="6" fill="#fef3c7" stroke="#d97706" stroke-width="1"/>
+  <text x="495" y="525" font-size="10" font-weight="600" fill="#92400e">Properties:</text>
+  <text x="495" y="543" font-size="9" fill="#16a34a">✓ Natural for smart contracts (stateful)</text>
+  <text x="495" y="558" font-size="9" fill="#16a34a">✓ Simpler mental model</text>
+  <text x="495" y="573" font-size="9" fill="#dc2626">✗ Sequential nonce creates ordering dependency</text>
+</svg>

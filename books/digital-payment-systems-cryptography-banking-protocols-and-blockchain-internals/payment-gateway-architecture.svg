@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" font-family="Inter, system-ui, sans-serif">
+  <defs>
+    <marker id="ga" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#475569"/>
+    </marker>
+    <marker id="gg" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#16a34a"/>
+    </marker>
+  </defs>
+
+  <rect width="900" height="600" fill="#f8fafc" rx="8"/>
+  <text x="450" y="35" text-anchor="middle" font-size="18" font-weight="700" fill="#0f172a">Payment Gateway Architecture</text>
+
+  <!-- External Layer -->
+  <rect x="20" y="55" width="860" height="100" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="40" y="78" font-size="12" font-weight="700" fill="#1e40af">External Layer</text>
+
+  <rect x="40" y="90" width="120" height="50" rx="6" fill="#dbeafe" stroke="#93c5fd" stroke-width="1"/>
+  <text x="100" y="115" text-anchor="middle" font-size="10" font-weight="600" fill="#1e40af">Merchant</text>
+  <text x="100" y="130" text-anchor="middle" font-size="9" fill="#3b82f6">REST API</text>
+
+  <rect x="200" y="90" width="120" height="50" rx="6" fill="#dbeafe" stroke="#93c5fd" stroke-width="1"/>
+  <text x="260" y="115" text-anchor="middle" font-size="10" font-weight="600" fill="#1e40af">Mobile SDK</text>
+  <text x="260" y="130" text-anchor="middle" font-size="9" fill="#3b82f6">iOS / Android</text>
+
+  <rect x="360" y="90" width="120" height="50" rx="6" fill="#dbeafe" stroke="#93c5fd" stroke-width="1"/>
+  <text x="420" y="115" text-anchor="middle" font-size="10" font-weight="600" fill="#1e40af">Drop-in UI</text>
+  <text x="420" y="130" text-anchor="middle" font-size="9" fill="#3b82f6">Hosted fields</text>
+
+  <!-- mTLS + API Key -->
+  <rect x="600" y="90" width="260" height="50" rx="6" fill="#fecaca" stroke="#dc2626" stroke-width="1.5"/>
+  <text x="730" y="112" text-anchor="middle" font-size="10" font-weight="700" fill="#991b1b">Security: mTLS + API Key + HMAC</text>
+  <text x="730" y="128" text-anchor="middle" font-size="9" fill="#b91c1c">Rate limiting per merchant</text>
+
+  <!-- API Gateway -->
+  <rect x="300" y="175" width="300" height="55" rx="8" fill="#1e293b" stroke="#0f172a" stroke-width="2"/>
+  <text x="450" y="200" text-anchor="middle" font-size="14" font-weight="700" fill="#f1f5f9">API Gateway / Load Balancer</text>
+  <text x="450" y="218" text-anchor="middle" font-size="10" fill="#94a3b8">Idempotency key extraction + dedup</text>
+
+  <line x1="250" y1="140" x2="400" y2="173" stroke="#475569" stroke-width="1.2" marker-end="url(#ga)"/>
+
+  <!-- Core Services -->
+  <rect x="20" y="250" width="860" height="175" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="40" y="273" font-size="12" font-weight="700" fill="#166534">Core Payment Services</text>
+
+  <!-- Orchestrator -->
+  <rect x="40" y="285" width="150" height="65" rx="6" fill="#d1fae5" stroke="#059669" stroke-width="1.5"/>
+  <text x="115" y="310" text-anchor="middle" font-size="11" font-weight="700" fill="#065f46">Payment</text>
+  <text x="115" y="325" text-anchor="middle" font-size="11" font-weight="700" fill="#065f46">Orchestrator</text>
+  <text x="115" y="342" text-anchor="middle" font-size="9" fill="#059669">State machine</text>
+
+  <!-- Router -->
+  <rect x="210" y="285" width="140" height="65" rx="6" fill="#e0e7ff" stroke="#4f46e5" stroke-width="1.5"/>
+  <text x="280" y="310" text-anchor="middle" font-size="11" font-weight="700" fill="#3730a3">PSP Router</text>
+  <text x="280" y="328" text-anchor="middle" font-size="9" fill="#4f46e5">Cost-based routing</text>
+  <text x="280" y="342" text-anchor="middle" font-size="9" fill="#4f46e5">Failover logic</text>
+
+  <!-- Tokenization -->
+  <rect x="370" y="285" width="140" height="65" rx="6" fill="#fce7f3" stroke="#db2777" stroke-width="1.5"/>
+  <text x="440" y="310" text-anchor="middle" font-size="11" font-weight="700" fill="#9d174d">Vault</text>
+  <text x="440" y="328" text-anchor="middle" font-size="9" fill="#db2777">Card tokenization</text>
+  <text x="440" y="342" text-anchor="middle" font-size="9" fill="#db2777">PCI DSS scope</text>
+
+  <!-- Fraud -->
+  <rect x="530" y="285" width="140" height="65" rx="6" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+  <text x="600" y="310" text-anchor="middle" font-size="11" font-weight="700" fill="#92400e">Fraud Engine</text>
+  <text x="600" y="328" text-anchor="middle" font-size="9" fill="#b45309">ML scoring</text>
+  <text x="600" y="342" text-anchor="middle" font-size="9" fill="#b45309">Rule evaluation</text>
+
+  <!-- 3DS -->
+  <rect x="690" y="285" width="170" height="65" rx="6" fill="#f3e8ff" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="775" y="310" text-anchor="middle" font-size="11" font-weight="700" fill="#5b21b6">3DS Server</text>
+  <text x="775" y="328" text-anchor="middle" font-size="9" fill="#7c3aed">SCA compliance</text>
+  <text x="775" y="342" text-anchor="middle" font-size="9" fill="#7c3aed">Challenge orchestration</text>
+
+  <!-- Arrows from gateway to services -->
+  <line x1="450" y1="230" x2="115" y2="283" stroke="#475569" stroke-width="1.2" marker-end="url(#ga)"/>
+  <line x1="450" y1="230" x2="450" y2="283" stroke="#475569" stroke-width="1.2" marker-end="url(#ga)"/>
+
+  <!-- Downstream connections -->
+  <rect x="20" y="450" width="860" height="130" rx="8" fill="#fff" stroke="#e2e8f0" stroke-width="1.5"/>
+  <text x="40" y="473" font-size="12" font-weight="700" fill="#334155">Downstream / Data Layer</text>
+
+  <!-- PSPs -->
+  <rect x="40" y="485" width="120" height="45" rx="4" fill="#1e293b" stroke="#0f172a" stroke-width="1.5"/>
+  <text x="100" y="508" text-anchor="middle" font-size="10" font-weight="600" fill="#f1f5f9">Visa / MC</text>
+  <text x="100" y="523" text-anchor="middle" font-size="9" fill="#94a3b8">ISO 8583</text>
+
+  <rect x="180" y="485" width="120" height="45" rx="4" fill="#1e293b" stroke="#0f172a" stroke-width="1.5"/>
+  <text x="240" y="508" text-anchor="middle" font-size="10" font-weight="600" fill="#f1f5f9">Acquirer API</text>
+  <text x="240" y="523" text-anchor="middle" font-size="9" fill="#94a3b8">REST / SOAP</text>
+
+  <!-- Ledger -->
+  <rect x="340" y="485" width="130" height="45" rx="4" fill="#d1fae5" stroke="#059669" stroke-width="1.5"/>
+  <text x="405" y="508" text-anchor="middle" font-size="10" font-weight="600" fill="#065f46">Ledger DB</text>
+  <text x="405" y="523" text-anchor="middle" font-size="9" fill="#059669">Double-entry</text>
+
+  <!-- Event Store -->
+  <rect x="490" y="485" width="130" height="45" rx="4" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+  <text x="555" y="508" text-anchor="middle" font-size="10" font-weight="600" fill="#92400e">Event Store</text>
+  <text x="555" y="523" text-anchor="middle" font-size="9" fill="#b45309">Outbox pattern</text>
+
+  <!-- Recon -->
+  <rect x="640" y="485" width="110" height="45" rx="4" fill="#e0e7ff" stroke="#4f46e5" stroke-width="1.5"/>
+  <text x="695" y="508" text-anchor="middle" font-size="10" font-weight="600" fill="#3730a3">Recon Engine</text>
+  <text x="695" y="523" text-anchor="middle" font-size="9" fill="#4f46e5">T+1 matching</text>
+
+  <!-- Webhooks -->
+  <rect x="770" y="485" width="100" height="45" rx="4" fill="#fce7f3" stroke="#db2777" stroke-width="1.5"/>
+  <text x="820" y="508" text-anchor="middle" font-size="10" font-weight="600" fill="#9d174d">Webhooks</text>
+  <text x="820" y="523" text-anchor="middle" font-size="9" fill="#db2777">Notifications</text>
+
+  <!-- Arrows -->
+  <line x1="115" y1="350" x2="100" y2="483" stroke="#475569" stroke-width="1.2" marker-end="url(#ga)"/>
+  <line x1="280" y1="350" x2="240" y2="483" stroke="#475569" stroke-width="1.2" marker-end="url(#ga)"/>
+  <line x1="440" y1="425" x2="405" y2="483" stroke="#475569" stroke-width="1.2" marker-end="url(#ga)"/>
+</svg>

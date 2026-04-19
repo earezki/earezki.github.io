@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 550" font-family="Inter, system-ui, sans-serif">
+  <rect width="900" height="550" fill="#f8fafc" rx="8"/>
+  <text x="450" y="35" text-anchor="middle" font-size="18" font-weight="700" fill="#0f172a">ISO 20022 Message Structure (pacs.008 — FI to FI Customer Credit Transfer)</text>
+
+  <!-- Root envelope -->
+  <rect x="30" y="55" width="840" height="470" rx="10" fill="#fff" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="50" y="80" font-size="12" font-weight="700" fill="#334155">&lt;Document&gt;</text>
+
+  <!-- Business Message -->
+  <rect x="60" y="95" width="790" height="410" rx="8" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="80" y="118" font-size="12" font-weight="700" fill="#1e40af">&lt;FIToFICstmrCdtTrf&gt;</text>
+
+  <!-- Group Header -->
+  <rect x="90" y="135" width="360" height="130" rx="6" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="110" y="158" font-size="11" font-weight="700" fill="#1e40af">&lt;GrpHdr&gt; — Group Header</text>
+  <text x="110" y="178" font-size="10" fill="#334155">&lt;MsgId&gt; BANK001-2024-001 &lt;/MsgId&gt;</text>
+  <text x="110" y="195" font-size="10" fill="#334155">&lt;CreDtTm&gt; 2024-03-15T10:30:00Z &lt;/CreDtTm&gt;</text>
+  <text x="110" y="212" font-size="10" fill="#334155">&lt;NbOfTxs&gt; 1 &lt;/NbOfTxs&gt;</text>
+  <text x="110" y="229" font-size="10" fill="#334155">&lt;SttlmInf&gt;</text>
+  <text x="130" y="246" font-size="10" fill="#6b7280">&lt;SttlmMtd&gt; CLRG &lt;/SttlmMtd&gt;</text>
+
+  <!-- Settlement Info box -->
+  <rect x="480" y="135" width="360" height="130" rx="6" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+  <text x="500" y="158" font-size="11" font-weight="700" fill="#92400e">Settlement Methods</text>
+  <text x="500" y="180" font-size="10" fill="#334155">INDA — Instructed Agent</text>
+  <text x="500" y="197" font-size="10" fill="#334155">INGA — Instructing Agent</text>
+  <text x="500" y="214" font-size="10" fill="#334155">COVE — Cover Method</text>
+  <text x="500" y="231" font-size="10" font-weight="600" fill="#dc2626">CLRG — Clearing System</text>
+  <text x="500" y="248" font-size="9" fill="#64748b">Determines how interbank funds move</text>
+
+  <!-- Credit Transfer Transaction Info -->
+  <rect x="90" y="280" width="740" height="210" rx="6" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="110" y="303" font-size="11" font-weight="700" fill="#166534">&lt;CdtTrfTxInf&gt; — Credit Transfer Transaction</text>
+
+  <!-- Payment ID -->
+  <rect x="110" y="315" width="220" height="65" rx="4" fill="#d1fae5" stroke="#059669" stroke-width="1"/>
+  <text x="130" y="335" font-size="10" font-weight="600" fill="#065f46">&lt;PmtId&gt;</text>
+  <text x="130" y="352" font-size="9" fill="#334155">&lt;InstrId&gt; INSTR-001</text>
+  <text x="130" y="367" font-size="9" fill="#334155">&lt;EndToEndId&gt; E2E-REF-001</text>
+
+  <!-- Amount -->
+  <rect x="350" y="315" width="200" height="65" rx="4" fill="#fce7f3" stroke="#db2777" stroke-width="1"/>
+  <text x="370" y="335" font-size="10" font-weight="600" fill="#9d174d">&lt;IntrBkSttlmAmt&gt;</text>
+  <text x="370" y="355" font-size="11" font-weight="700" fill="#334155">Ccy="EUR" 50000.00</text>
+  <text x="370" y="372" font-size="9" fill="#64748b">&lt;IntrBkSttlmDt&gt; 2024-03-15</text>
+
+  <!-- Charges -->
+  <rect x="570" y="315" width="240" height="65" rx="4" fill="#e0e7ff" stroke="#4f46e5" stroke-width="1"/>
+  <text x="590" y="335" font-size="10" font-weight="600" fill="#3730a3">&lt;ChrgBr&gt; SHAR</text>
+  <text x="590" y="355" font-size="9" fill="#334155">DEBT — Debtor pays all</text>
+  <text x="590" y="370" font-size="9" fill="#334155">CRED — Creditor pays all</text>
+
+  <!-- Debtor / Creditor -->
+  <rect x="110" y="395" width="220" height="80" rx="4" fill="#fff" stroke="#94a3b8" stroke-width="1"/>
+  <text x="130" y="418" font-size="10" font-weight="600" fill="#334155">&lt;Dbtr&gt; — Debtor</text>
+  <text x="130" y="438" font-size="9" fill="#64748b">&lt;Nm&gt; Acme Corp</text>
+  <text x="130" y="453" font-size="9" fill="#64748b">&lt;Id&gt;&lt;OrgId&gt;&lt;LEI&gt;</text>
+  <text x="130" y="468" font-size="9" fill="#64748b">&lt;DbtrAcct&gt; IBAN: DE89...</text>
+
+  <rect x="350" y="395" width="220" height="80" rx="4" fill="#fff" stroke="#94a3b8" stroke-width="1"/>
+  <text x="370" y="418" font-size="10" font-weight="600" fill="#334155">&lt;Cdtr&gt; — Creditor</text>
+  <text x="370" y="438" font-size="9" fill="#64748b">&lt;Nm&gt; Widget Ltd</text>
+  <text x="370" y="453" font-size="9" fill="#64748b">&lt;Id&gt;&lt;OrgId&gt;&lt;BICOrBEI&gt;</text>
+  <text x="370" y="468" font-size="9" fill="#64748b">&lt;CdtrAcct&gt; IBAN: GB29...</text>
+
+  <!-- Agent chain -->
+  <rect x="590" y="395" width="230" height="80" rx="4" fill="#fef9c3" stroke="#ca8a04" stroke-width="1"/>
+  <text x="610" y="418" font-size="10" font-weight="600" fill="#854d0e">Agent Chain</text>
+  <text x="610" y="438" font-size="9" fill="#64748b">&lt;DbtrAgt&gt; BIC: DEUTDEFF</text>
+  <text x="610" y="453" font-size="9" fill="#64748b">&lt;CdtrAgt&gt; BIC: BARCGB2L</text>
+  <text x="610" y="468" font-size="9" fill="#64748b">&lt;InstgAgt&gt; &lt;InstdAgt&gt;</text>
+</svg>

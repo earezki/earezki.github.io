@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" font-family="Inter, system-ui, sans-serif">
+  <rect width="900" height="500" fill="#f8fafc" rx="8"/>
+  <text x="450" y="35" text-anchor="middle" font-size="18" font-weight="700" fill="#0f172a">Double-Entry Payment Ledger</text>
+
+  <!-- Transaction example -->
+  <rect x="30" y="55" width="840" height="60" rx="8" fill="#1e293b" stroke="#0f172a" stroke-width="2"/>
+  <text x="450" y="80" text-anchor="middle" font-size="13" font-weight="700" fill="#f1f5f9">Transaction: Customer pays €100 to Merchant via Payment Gateway</text>
+  <text x="450" y="100" text-anchor="middle" font-size="10" fill="#94a3b8">Payment ID: pay_abc123 | Idempotency Key: idem_xyz789 | Status: CAPTURED</text>
+
+  <!-- Ledger entries table -->
+  <!-- Header -->
+  <rect x="30" y="130" width="840" height="35" rx="0" fill="#334155"/>
+  <text x="60" y="153" font-size="11" font-weight="700" fill="#fff">Entry ID</text>
+  <text x="170" y="153" font-size="11" font-weight="700" fill="#fff">Account</text>
+  <text x="350" y="153" font-size="11" font-weight="700" fill="#fff">Account Type</text>
+  <text x="520" y="153" font-size="11" font-weight="700" fill="#fff">Debit (€)</text>
+  <text x="640" y="153" font-size="11" font-weight="700" fill="#fff">Credit (€)</text>
+  <text x="770" y="153" font-size="11" font-weight="700" fill="#fff">Balance Δ</text>
+
+  <!-- Row 1 -->
+  <rect x="30" y="165" width="840" height="35" fill="#eff6ff"/>
+  <text x="60" y="188" font-size="10" fill="#334155">LE-001</text>
+  <text x="170" y="188" font-size="10" fill="#334155">Customer Receivable</text>
+  <text x="350" y="188" font-size="10" fill="#64748b">Liability</text>
+  <text x="520" y="188" font-size="10" font-weight="600" fill="#dc2626">100.00</text>
+  <text x="640" y="188" font-size="10" fill="#94a3b8">—</text>
+  <text x="770" y="188" font-size="10" fill="#dc2626">-100.00</text>
+
+  <!-- Row 2 -->
+  <rect x="30" y="200" width="840" height="35" fill="#fff"/>
+  <text x="60" y="223" font-size="10" fill="#334155">LE-002</text>
+  <text x="170" y="223" font-size="10" fill="#334155">Gateway Settlement</text>
+  <text x="350" y="223" font-size="10" fill="#64748b">Asset</text>
+  <text x="520" y="223" font-size="10" fill="#94a3b8">—</text>
+  <text x="640" y="223" font-size="10" font-weight="600" fill="#16a34a">100.00</text>
+  <text x="770" y="223" font-size="10" fill="#16a34a">+100.00</text>
+
+  <!-- Row 3 -->
+  <rect x="30" y="235" width="840" height="35" fill="#eff6ff"/>
+  <text x="60" y="258" font-size="10" fill="#334155">LE-003</text>
+  <text x="170" y="258" font-size="10" fill="#334155">Gateway Settlement</text>
+  <text x="350" y="258" font-size="10" fill="#64748b">Asset</text>
+  <text x="520" y="258" font-size="10" font-weight="600" fill="#dc2626">97.10</text>
+  <text x="640" y="258" font-size="10" fill="#94a3b8">—</text>
+  <text x="770" y="258" font-size="10" fill="#dc2626">-97.10</text>
+
+  <!-- Row 4 -->
+  <rect x="30" y="270" width="840" height="35" fill="#fff"/>
+  <text x="60" y="293" font-size="10" fill="#334155">LE-004</text>
+  <text x="170" y="293" font-size="10" fill="#334155">Merchant Payable</text>
+  <text x="350" y="293" font-size="10" fill="#64748b">Liability</text>
+  <text x="520" y="293" font-size="10" fill="#94a3b8">—</text>
+  <text x="640" y="293" font-size="10" font-weight="600" fill="#16a34a">97.10</text>
+  <text x="770" y="293" font-size="10" fill="#16a34a">+97.10</text>
+
+  <!-- Row 5 -->
+  <rect x="30" y="305" width="840" height="35" fill="#fef3c7"/>
+  <text x="60" y="328" font-size="10" fill="#334155">LE-005</text>
+  <text x="170" y="328" font-size="10" fill="#334155">Gateway Revenue</text>
+  <text x="350" y="328" font-size="10" fill="#64748b">Revenue</text>
+  <text x="520" y="328" font-size="10" fill="#94a3b8">—</text>
+  <text x="640" y="328" font-size="10" font-weight="600" fill="#16a34a">1.50</text>
+  <text x="770" y="328" font-size="10" fill="#16a34a">+1.50</text>
+
+  <!-- Row 6 -->
+  <rect x="30" y="340" width="840" height="35" fill="#fef3c7"/>
+  <text x="60" y="363" font-size="10" fill="#334155">LE-006</text>
+  <text x="170" y="363" font-size="10" fill="#334155">Network Interchange</text>
+  <text x="350" y="363" font-size="10" fill="#64748b">Expense</text>
+  <text x="520" y="363" font-size="10" font-weight="600" fill="#dc2626">1.40</text>
+  <text x="640" y="363" font-size="10" fill="#94a3b8">—</text>
+  <text x="770" y="363" font-size="10" fill="#dc2626">-1.40</text>
+
+  <!-- Totals -->
+  <rect x="30" y="375" width="840" height="35" fill="#334155"/>
+  <text x="350" y="398" font-size="11" font-weight="700" fill="#fff">TOTALS</text>
+  <text x="520" y="398" font-size="11" font-weight="700" fill="#fca5a5">198.50</text>
+  <text x="640" y="398" font-size="11" font-weight="700" fill="#86efac">198.50</text>
+  <text x="770" y="398" font-size="11" font-weight="700" fill="#fde68a">0.00 ✓</text>
+
+  <!-- Invariant -->
+  <rect x="30" y="425" width="840" height="60" rx="8" fill="#d1fae5" stroke="#059669" stroke-width="1.5"/>
+  <text x="450" y="450" text-anchor="middle" font-size="13" font-weight="700" fill="#065f46">Invariant: Σ Debits = Σ Credits (always, for every transaction)</text>
+  <text x="450" y="472" text-anchor="middle" font-size="10" fill="#059669">Every entry is immutable. Corrections are new entries (reversal pattern). The ledger is an append-only log.</text>
+</svg>

@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 480" font-family="Inter, system-ui, sans-serif">
+  <defs>
+    <marker id="ra" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#475569"/>
+    </marker>
+    <marker id="rg" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#16a34a"/>
+    </marker>
+  </defs>
+
+  <rect width="900" height="480" fill="#f8fafc" rx="8"/>
+  <text x="450" y="35" text-anchor="middle" font-size="18" font-weight="700" fill="#0f172a">RTGS vs DNS Settlement Comparison</text>
+
+  <!-- RTGS Side -->
+  <rect x="30" y="55" width="410" height="400" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+  <text x="235" y="82" text-anchor="middle" font-size="15" font-weight="700" fill="#1e40af">RTGS — Real-Time Gross Settlement</text>
+  <text x="235" y="100" text-anchor="middle" font-size="10" fill="#3b82f6">Each transaction settled individually, immediately</text>
+
+  <!-- RTGS Banks -->
+  <rect x="50" y="120" width="120" height="45" rx="6" fill="#dbeafe" stroke="#93c5fd" stroke-width="1.5"/>
+  <text x="110" y="148" text-anchor="middle" font-size="11" font-weight="600" fill="#1e40af">Bank A</text>
+
+  <rect x="300" y="120" width="120" height="45" rx="6" fill="#d1fae5" stroke="#6ee7b7" stroke-width="1.5"/>
+  <text x="360" y="148" text-anchor="middle" font-size="11" font-weight="600" fill="#065f46">Bank B</text>
+
+  <!-- Central Bank -->
+  <rect x="140" y="200" width="190" height="55" rx="8" fill="#1e293b" stroke="#0f172a" stroke-width="2"/>
+  <text x="235" y="225" text-anchor="middle" font-size="12" font-weight="700" fill="#f1f5f9">Central Bank</text>
+  <text x="235" y="242" text-anchor="middle" font-size="10" fill="#94a3b8">Reserve accounts</text>
+
+  <!-- RTGS Transactions -->
+  <line x1="110" y1="165" x2="200" y2="198" stroke="#475569" stroke-width="1.5" marker-end="url(#ra)"/>
+  <text x="130" y="188" font-size="9" fill="#475569">€100K</text>
+
+  <line x1="270" y1="225" x2="300" y2="155" stroke="#16a34a" stroke-width="1.5" marker-end="url(#rg)"/>
+  <text x="305" y="195" font-size="9" fill="#16a34a">€100K</text>
+
+  <!-- RTGS Timeline -->
+  <rect x="50" y="280" width="370" height="55" rx="6" fill="#fff" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="60" y="300" font-size="10" font-weight="600" fill="#334155">Timeline:</text>
+  <text x="60" y="318" font-size="9" fill="#16a34a">T+0 (seconds) — Irrevocable finality</text>
+
+  <!-- RTGS Properties -->
+  <rect x="50" y="350" width="370" height="90" rx="6" fill="#fff" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="60" y="370" font-size="10" font-weight="600" fill="#334155">Properties:</text>
+  <text x="60" y="388" font-size="9" fill="#64748b">✓ Zero counterparty risk</text>
+  <text x="60" y="403" font-size="9" fill="#64748b">✓ Immediate settlement finality</text>
+  <text x="60" y="418" font-size="9" fill="#dc2626">✗ High liquidity requirement</text>
+  <text x="60" y="433" font-size="9" fill="#dc2626">✗ Central bank operating hours</text>
+
+  <!-- DNS Side -->
+  <rect x="460" y="55" width="410" height="400" rx="10" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+  <text x="665" y="82" text-anchor="middle" font-size="15" font-weight="700" fill="#92400e">DNS — Deferred Net Settlement</text>
+  <text x="665" y="100" text-anchor="middle" font-size="10" fill="#b45309">Transactions batched, net positions settled</text>
+
+  <!-- DNS Banks -->
+  <rect x="480" y="120" width="100" height="45" rx="6" fill="#dbeafe" stroke="#93c5fd" stroke-width="1.5"/>
+  <text x="530" y="148" text-anchor="middle" font-size="11" font-weight="600" fill="#1e40af">Bank A</text>
+
+  <rect x="620" y="120" width="100" height="45" rx="6" fill="#d1fae5" stroke="#6ee7b7" stroke-width="1.5"/>
+  <text x="670" y="148" text-anchor="middle" font-size="11" font-weight="600" fill="#065f46">Bank B</text>
+
+  <rect x="760" y="120" width="100" height="45" rx="6" fill="#fce7f3" stroke="#f9a8d4" stroke-width="1.5"/>
+  <text x="810" y="148" text-anchor="middle" font-size="11" font-weight="600" fill="#9d174d">Bank C</text>
+
+  <!-- Clearing House -->
+  <rect x="540" y="200" width="240" height="55" rx="8" fill="#92400e" stroke="#78350f" stroke-width="2"/>
+  <text x="660" y="225" text-anchor="middle" font-size="12" font-weight="700" fill="#fef3c7">Clearing House (ACH)</text>
+  <text x="660" y="242" text-anchor="middle" font-size="10" fill="#fde68a">Batch + Net positions</text>
+
+  <!-- DNS flows -->
+  <line x1="530" y1="165" x2="590" y2="198" stroke="#475569" stroke-width="1.2" marker-end="url(#ra)"/>
+  <text x="535" y="188" font-size="8" fill="#475569">€100K→B</text>
+
+  <line x1="670" y1="165" x2="640" y2="198" stroke="#475569" stroke-width="1.2" marker-end="url(#ra)"/>
+  <text x="670" y="188" font-size="8" fill="#475569">€80K→A</text>
+
+  <line x1="810" y1="165" x2="730" y2="210" stroke="#475569" stroke-width="1.2" marker-end="url(#ra)"/>
+  <text x="790" y="188" font-size="8" fill="#475569">€50K→A</text>
+
+  <!-- Net result -->
+  <rect x="480" y="270" width="380" height="50" rx="6" fill="#fff" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="490" y="290" font-size="10" font-weight="600" fill="#334155">Net Result:</text>
+  <text x="490" y="308" font-size="9" fill="#64748b">A owes: €100K − €80K − €50K = receives €30K net | B receives €100K − €80K = €20K net</text>
+
+  <!-- DNS Timeline -->
+  <rect x="480" y="335" width="380" height="30" rx="6" fill="#fff" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="490" y="355" font-size="10" font-weight="600" fill="#334155">Timeline: <tspan fill="#d97706">End of day / scheduled batches</tspan></text>
+
+  <!-- DNS Properties -->
+  <rect x="480" y="375" width="380" height="70" rx="6" fill="#fff" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="490" y="395" font-size="10" font-weight="600" fill="#334155">Properties:</text>
+  <text x="490" y="413" font-size="9" fill="#16a34a">✓ Low liquidity requirement (net amounts)</text>
+  <text x="490" y="428" font-size="9" fill="#16a34a">✓ High throughput (batch processing)</text>
+  <text x="490" y="443" font-size="9" fill="#dc2626">✗ Settlement risk until batch completes</text>
+</svg>
