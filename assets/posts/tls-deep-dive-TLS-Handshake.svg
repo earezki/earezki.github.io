@@ -1,0 +1,279 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 780" preserveAspectRatio="xMidYMid meet">
+  <style>
+    svg {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: transparent;
+    }
+    .panel {
+      fill: #0f172a;
+      rx: 16;
+    }
+    .column-box {
+      fill: #1e293b;
+      stroke: #334155;
+      stroke-width: 2;
+    }
+    .column-label {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-anchor: middle;
+      fill: #f8fafc;
+    }
+    .column-sub {
+      font-size: 11px;
+      text-anchor: middle;
+      fill: #64748b;
+    }
+    .timeline {
+      stroke: #334155;
+      stroke-width: 2;
+      stroke-dasharray: 6 4;
+    }
+    .msg-line {
+      fill: none;
+      stroke-width: 2.5;
+      marker-end: url(#arrow-msg);
+    }
+    .msg-label {
+      font-size: 12px;
+      font-weight: 600;
+      fill: #f8fafc;
+    }
+    .msg-sub {
+      font-size: 10px;
+      fill: #94a3b8;
+    }
+    .badge {
+      rx: 4;
+    }
+    .badge-plain { fill: #1e3a5f; stroke: #0ea5e9; stroke-width: 1.5; }
+    .badge-enc   { fill: #14302a; stroke: #10b981; stroke-width: 1.5; }
+    .badge-text  { font-size: 9px; font-weight: 700; letter-spacing: 0.5px; text-anchor: middle; }
+    .badge-text-plain { fill: #38bdf8; }
+    .badge-text-enc   { fill: #34d399; }
+
+    /* Animated arrows */
+    .arrow-c2s { stroke: #0ea5e9; }
+    .arrow-s2c { stroke: #8b5cf6; }
+    .arrow-enc-s2c { stroke: #10b981; }
+    .arrow-enc-c2s { stroke: #10b981; }
+    .arrow-app { stroke: #f59e0b; }
+
+    /* Message animations — each fires sequentially */
+    .msg1 { animation: show 12s 0s infinite; }
+    .msg2 { animation: show 12s 1.5s infinite; }
+    .msg3 { animation: show 12s 3s infinite; }
+    .msg4 { animation: show 12s 4.5s infinite; }
+    .msg5 { animation: show 12s 5.5s infinite; }
+    .msg6 { animation: show 12s 6.5s infinite; }
+    .msg7 { animation: show 12s 8s infinite; }
+    .msg8 { animation: show 12s 9.5s infinite; }
+
+    @keyframes show {
+      0%   { opacity: 0; }
+      5%   { opacity: 1; }
+      80%  { opacity: 1; }
+      95%  { opacity: 0; }
+      100% { opacity: 0; }
+    }
+
+    /* Packet dot travelling along each arrow */
+    .packet {
+      r: 5;
+      filter: drop-shadow(0 0 6px currentColor);
+    }
+
+    .pkt1 { fill: #38bdf8; animation: travel-right 12s 0s infinite; }
+    .pkt2 { fill: #a78bfa; animation: travel-left 12s 1.5s infinite; }
+    .pkt3 { fill: #34d399; animation: travel-left 12s 3s infinite; }
+    .pkt4 { fill: #34d399; animation: travel-left 12s 4.5s infinite; }
+    .pkt5 { fill: #34d399; animation: travel-left 12s 5.5s infinite; }
+    .pkt6 { fill: #34d399; animation: travel-left 12s 6.5s infinite; }
+    .pkt7 { fill: #34d399; animation: travel-right 12s 8s infinite; }
+    .pkt8 { fill: #f59e0b; animation: travel-both 12s 9.5s infinite; }
+
+    @keyframes travel-right {
+      0%   { opacity: 0; transform: translateX(0); }
+      2%   { opacity: 1; transform: translateX(0); }
+      18%  { opacity: 1; transform: translateX(420px); }
+      20%  { opacity: 0; transform: translateX(420px); }
+      100% { opacity: 0; transform: translateX(420px); }
+    }
+    @keyframes travel-left {
+      0%   { opacity: 0; transform: translateX(0); }
+      2%   { opacity: 1; transform: translateX(0); }
+      18%  { opacity: 1; transform: translateX(-420px); }
+      20%  { opacity: 0; transform: translateX(-420px); }
+      100% { opacity: 0; transform: translateX(-420px); }
+    }
+    @keyframes travel-both {
+      0%   { opacity: 0; }
+      2%   { opacity: 1; }
+      80%  { opacity: 1; }
+      90%  { opacity: 0; }
+      100% { opacity: 0; }
+    }
+
+    .rtt-brace {
+      stroke: #334155;
+      stroke-width: 1.5;
+      fill: none;
+      stroke-dasharray: 3 3;
+    }
+    .rtt-label {
+      font-size: 11px;
+      fill: #475569;
+      text-anchor: middle;
+    }
+    .title-main {
+      font-size: 18px;
+      font-weight: 800;
+      fill: #f8fafc;
+      letter-spacing: 1px;
+    }
+    .title-sub {
+      font-size: 11px;
+      fill: #64748b;
+      letter-spacing: 1px;
+    }
+    .enc-bg {
+      fill: #10b981;
+      fill-opacity: 0.04;
+      stroke: #10b981;
+      stroke-opacity: 0.15;
+      stroke-width: 1;
+      stroke-dasharray: 4 3;
+    }
+  </style>
+
+  <defs>
+    <marker id="arrow-msg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8" />
+    </marker>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#0ea5e9" />
+    </marker>
+    <marker id="arrow-purple" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#8b5cf6" />
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#10b981" />
+    </marker>
+    <marker id="arrow-amber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#f59e0b" />
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="860" height="780" fill="#0f172a" rx="16" />
+
+  <!-- Title -->
+  <text x="430" y="38" class="title-main" text-anchor="middle">TLS 1.3 Handshake</text>
+  <text x="430" y="56" class="title-sub" text-anchor="middle">1 ROUND TRIP · MANDATORY ECDHE · ENCRYPTED CERTIFICATE</text>
+
+  <!-- Column: Client -->
+  <rect x="40" y="70" width="150" height="60" rx="10" class="column-box" />
+  <text x="115" y="96" class="column-label">CLIENT</text>
+  <text x="115" y="114" class="column-sub">Browser / App</text>
+
+  <!-- Column: Server -->
+  <rect x="670" y="70" width="150" height="60" rx="10" class="column-box" />
+  <text x="745" y="96" class="column-label">SERVER</text>
+  <text x="745" y="114" class="column-sub">nginx / Go / etc</text>
+
+  <!-- Timeline lines -->
+  <line x1="115" y1="130" x2="115" y2="740" class="timeline" />
+  <line x1="745" y1="130" x2="745" y2="740" class="timeline" />
+
+  <!-- Encrypted region background -->
+  <rect x="100" y="295" width="660" height="370" rx="8" class="enc-bg" />
+  <text x="430" y="316" font-size="10" fill="#10b981" fill-opacity="0.6" text-anchor="middle" font-weight="600" letter-spacing="1px">ENCRYPTED FROM HERE ↓</text>
+
+  <!-- RTT brace -->
+  <line x1="800" y1="155" x2="820" y2="155" class="rtt-brace" />
+  <line x1="820" y1="155" x2="820" y2="460" class="rtt-brace" />
+  <line x1="800" y1="460" x2="820" y2="460" class="rtt-brace" />
+  <text x="840" y="312" class="rtt-label" transform="rotate(90,840,312)">1 RTT</text>
+
+  <!-- ─── MSG 1: ClientHello (plaintext, C→S) ─── -->
+  <g class="msg1">
+    <line x1="120" y1="165" x2="738" y2="165" class="msg-line arrow-c2s" stroke="#0ea5e9" marker-end="url(#arrow-blue)" />
+    <text x="430" y="158" class="msg-label" text-anchor="middle">ClientHello</text>
+    <text x="430" y="182" class="msg-sub" text-anchor="middle">cipher_suites · key_share (x25519 pubkey) · supported_versions · SNI · random</text>
+    <rect x="330" y="188" width="60" height="16" rx="3" class="badge badge-plain" />
+    <text x="360" y="199" class="badge-text badge-text-plain">PLAINTEXT</text>
+  </g>
+  <circle cx="120" cy="165" class="packet pkt1" />
+
+  <!-- ─── MSG 2: ServerHello (plaintext, S→C) ─── -->
+  <g class="msg2">
+    <line x1="740" y1="230" x2="122" y2="230" class="msg-line arrow-s2c" stroke="#8b5cf6" marker-end="url(#arrow-purple)" />
+    <text x="430" y="223" class="msg-label" text-anchor="middle">ServerHello</text>
+    <text x="430" y="247" class="msg-sub" text-anchor="middle">selected cipher · server key_share (x25519 pubkey) · session_id</text>
+    <rect x="330" y="253" width="60" height="16" rx="3" class="badge badge-plain" />
+    <text x="360" y="264" class="badge-text badge-text-plain">PLAINTEXT</text>
+    <text x="430" y="278" font-size="10" fill="#f59e0b" text-anchor="middle">↑ Both sides now derive handshake keys via ECDH + HKDF</text>
+  </g>
+  <circle cx="740" cy="230" class="packet pkt2" />
+
+  <!-- ─── MSG 3: EncryptedExtensions (enc, S→C) ─── -->
+  <g class="msg3">
+    <line x1="740" y1="340" x2="122" y2="340" class="msg-line arrow-enc-s2c" stroke="#10b981" marker-end="url(#arrow-green)" />
+    <text x="430" y="333" class="msg-label" text-anchor="middle">EncryptedExtensions</text>
+    <text x="430" y="357" class="msg-sub" text-anchor="middle">ALPN · server params · other TLS extensions</text>
+    <rect x="330" y="363" width="76" height="16" rx="3" class="badge badge-enc" />
+    <text x="368" y="374" class="badge-text badge-text-enc">ENCRYPTED</text>
+  </g>
+  <circle cx="740" cy="340" class="packet pkt3" />
+
+  <!-- ─── MSG 4: Certificate (enc, S→C) ─── -->
+  <g class="msg4">
+    <line x1="740" y1="410" x2="122" y2="410" class="msg-line arrow-enc-s2c" stroke="#10b981" marker-end="url(#arrow-green)" />
+    <text x="430" y="403" class="msg-label" text-anchor="middle">Certificate</text>
+    <text x="430" y="427" class="msg-sub" text-anchor="middle">X.509 leaf + intermediates (encrypted! observer can't see domain cert)</text>
+    <rect x="330" y="433" width="76" height="16" rx="3" class="badge badge-enc" />
+    <text x="368" y="444" class="badge-text badge-text-enc">ENCRYPTED</text>
+  </g>
+  <circle cx="740" cy="410" class="packet pkt4" />
+
+  <!-- ─── MSG 5: CertificateVerify (enc, S→C) ─── -->
+  <g class="msg5">
+    <line x1="740" y1="472" x2="122" y2="472" class="msg-line arrow-enc-s2c" stroke="#10b981" marker-end="url(#arrow-green)" />
+    <text x="430" y="465" class="msg-label" text-anchor="middle">CertificateVerify</text>
+    <text x="430" y="489" class="msg-sub" text-anchor="middle">Sig(transcript_hash) — proves server owns the cert's private key</text>
+    <rect x="330" y="495" width="76" height="16" rx="3" class="badge badge-enc" />
+    <text x="368" y="506" class="badge-text badge-text-enc">ENCRYPTED</text>
+  </g>
+  <circle cx="740" cy="472" class="packet pkt5" />
+
+  <!-- ─── MSG 6: Server Finished (enc, S→C) ─── -->
+  <g class="msg6">
+    <line x1="740" y1="535" x2="122" y2="535" class="msg-line arrow-enc-s2c" stroke="#10b981" marker-end="url(#arrow-green)" />
+    <text x="430" y="528" class="msg-label" text-anchor="middle">Finished</text>
+    <text x="430" y="552" class="msg-sub" text-anchor="middle">HMAC over entire handshake transcript</text>
+    <rect x="330" y="558" width="76" height="16" rx="3" class="badge badge-enc" />
+    <text x="368" y="569" class="badge-text badge-text-enc">ENCRYPTED</text>
+  </g>
+  <circle cx="740" cy="535" class="packet pkt6" />
+
+  <!-- ─── MSG 7: Client Finished (enc, C→S) ─── -->
+  <g class="msg7">
+    <line x1="120" y1="598" x2="738" y2="598" class="msg-line arrow-enc-c2s" stroke="#10b981" marker-end="url(#arrow-green)" />
+    <text x="430" y="591" class="msg-label" text-anchor="middle">Finished</text>
+    <text x="430" y="615" class="msg-sub" text-anchor="middle">Client HMAC over transcript — handshake complete, app keys derived</text>
+    <rect x="330" y="621" width="76" height="16" rx="3" class="badge badge-enc" />
+    <text x="368" y="632" class="badge-text badge-text-enc">ENCRYPTED</text>
+  </g>
+  <circle cx="120" cy="598" class="packet pkt7" />
+
+  <!-- ─── MSG 8: Application Data (enc, bidirectional) ─── -->
+  <g class="msg8">
+    <line x1="120" y1="680" x2="738" y2="680" class="msg-line" stroke="#f59e0b" marker-end="url(#arrow-amber)" />
+    <line x1="740" y1="705" x2="122" y2="705" class="msg-line" stroke="#f59e0b" marker-end="url(#arrow-amber)" />
+    <text x="430" y="673" class="msg-label" text-anchor="middle" fill="#fbbf24">Application Data</text>
+    <text x="430" y="720" class="msg-sub" text-anchor="middle">AES-128-GCM or ChaCha20-Poly1305 · separate keys per direction · sequence numbered nonces</text>
+    <rect x="355" y="726" width="76" height="16" rx="3" class="badge badge-enc" />
+    <text x="393" y="737" class="badge-text badge-text-enc">ENCRYPTED</text>
+  </g>
+</svg>

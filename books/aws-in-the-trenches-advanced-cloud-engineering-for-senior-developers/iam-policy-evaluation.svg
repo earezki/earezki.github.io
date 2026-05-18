@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <defs>
+    <filter id="shadow" x="-2%" y="-2%" width="104%" height="104%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.1"/>
+    </filter>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#f1f5f9"/>
+    </linearGradient>
+    <marker id="arrowGray" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" fill="#64748b">
+      <polygon points="0 0, 10 3.5, 0 7"/>
+    </marker>
+    <marker id="arrowRed" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" fill="#ef4444">
+      <polygon points="0 0, 10 3.5, 0 7"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" fill="#10b981">
+      <polygon points="0 0, 10 3.5, 0 7"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="600" rx="12" fill="url(#bgGrad)" stroke="#e2e8f0" stroke-width="1"/>
+
+  <!-- Title -->
+  <text x="400" y="38" text-anchor="middle" font-size="20" font-weight="700" fill="#1e293b">IAM Policy Evaluation Algorithm</text>
+  <line x1="240" y1="48" x2="560" y2="48" stroke="#3b82f6" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Step 1: Request -->
+  <rect x="300" y="65" width="200" height="45" rx="8" fill="#3b82f6" filter="url(#shadow)"/>
+  <text x="400" y="93" text-anchor="middle" font-size="14" font-weight="600" fill="#ffffff">API Request</text>
+  <line x1="400" y1="110" x2="400" y2="130" stroke="#64748b" stroke-width="2" marker-end="url(#arrowGray)"/>
+
+  <!-- Step 2: Explicit Deny Check -->
+  <rect x="280" y="132" width="240" height="50" rx="10" fill="#ffffff" stroke="#ef4444" stroke-width="2" filter="url(#shadow)"/>
+  <text x="400" y="153" text-anchor="middle" font-size="13" font-weight="600" fill="#1e293b">1. Explicit Deny?</text>
+  <text x="400" y="171" text-anchor="middle" font-size="11" fill="#64748b">Any policy says Deny → DENIED</text>
+  <!-- Yes branch (deny) -->
+  <line x1="520" y1="157" x2="600" y2="157" stroke="#ef4444" stroke-width="2" marker-end="url(#arrowRed)"/>
+  <rect x="600" y="142" width="90" height="30" rx="6" fill="#fef2f2" stroke="#ef4444" stroke-width="1.5"/>
+  <text x="645" y="162" text-anchor="middle" font-size="12" font-weight="700" fill="#ef4444">DENY</text>
+  <text x="548" y="148" font-size="10" fill="#ef4444" font-weight="600">Yes</text>
+  <!-- No branch (continue) -->
+  <line x1="400" y1="182" x2="400" y2="202" stroke="#64748b" stroke-width="2" marker-end="url(#arrowGray)"/>
+  <text x="415" y="197" font-size="10" fill="#64748b">No</text>
+
+  <!-- Step 3: SCP Check -->
+  <rect x="280" y="204" width="240" height="50" rx="10" fill="#ffffff" stroke="#f59e0b" stroke-width="2" filter="url(#shadow)"/>
+  <text x="400" y="225" text-anchor="middle" font-size="13" font-weight="600" fill="#1e293b">2. SCP Allows?</text>
+  <text x="400" y="243" text-anchor="middle" font-size="11" fill="#64748b">Organization SCPs must allow</text>
+  <!-- No branch (deny) -->
+  <line x1="520" y1="229" x2="600" y2="229" stroke="#ef4444" stroke-width="2" marker-end="url(#arrowRed)"/>
+  <rect x="600" y="214" width="90" height="30" rx="6" fill="#fef2f2" stroke="#ef4444" stroke-width="1.5"/>
+  <text x="645" y="234" text-anchor="middle" font-size="12" font-weight="700" fill="#ef4444">DENY</text>
+  <text x="548" y="220" font-size="10" fill="#ef4444" font-weight="600">No</text>
+  <!-- Yes branch (continue) -->
+  <line x1="400" y1="254" x2="400" y2="274" stroke="#64748b" stroke-width="2" marker-end="url(#arrowGray)"/>
+  <text x="415" y="269" font-size="10" fill="#64748b">Yes</text>
+
+  <!-- Step 4: Resource Policy -->
+  <rect x="280" y="276" width="240" height="50" rx="10" fill="#ffffff" stroke="#8b5cf6" stroke-width="2" filter="url(#shadow)"/>
+  <text x="400" y="297" text-anchor="middle" font-size="13" font-weight="600" fill="#1e293b">3. Resource Policy?</text>
+  <text x="400" y="315" text-anchor="middle" font-size="11" fill="#64748b">Cross-account: must explicitly allow</text>
+  <!-- Allow branch -->
+  <line x1="520" y1="301" x2="600" y2="301" stroke="#10b981" stroke-width="2" marker-end="url(#arrowGreen)"/>
+  <rect x="600" y="286" width="90" height="30" rx="6" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5"/>
+  <text x="645" y="306" text-anchor="middle" font-size="12" font-weight="700" fill="#10b981">ALLOW</text>
+  <text x="548" y="292" font-size="10" fill="#10b981" font-weight="600">Allow</text>
+  <!-- Continue -->
+  <line x1="400" y1="326" x2="400" y2="346" stroke="#64748b" stroke-width="2" marker-end="url(#arrowGray)"/>
+
+  <!-- Step 5: Permission Boundaries -->
+  <rect x="280" y="348" width="240" height="50" rx="10" fill="#ffffff" stroke="#ec4899" stroke-width="2" filter="url(#shadow)"/>
+  <text x="400" y="369" text-anchor="middle" font-size="13" font-weight="600" fill="#1e293b">4. Permissions Boundary?</text>
+  <text x="400" y="387" text-anchor="middle" font-size="11" fill="#64748b">Boundary must allow if attached</text>
+  <!-- No branch (deny) -->
+  <line x1="520" y1="373" x2="600" y2="373" stroke="#ef4444" stroke-width="2" marker-end="url(#arrowRed)"/>
+  <rect x="600" y="358" width="90" height="30" rx="6" fill="#fef2f2" stroke="#ef4444" stroke-width="1.5"/>
+  <text x="645" y="378" text-anchor="middle" font-size="12" font-weight="700" fill="#ef4444">DENY</text>
+  <text x="548" y="364" font-size="10" fill="#ef4444" font-weight="600">No</text>
+  <!-- Continue -->
+  <line x1="400" y1="398" x2="400" y2="418" stroke="#64748b" stroke-width="2" marker-end="url(#arrowGray)"/>
+  <text x="415" y="413" font-size="10" fill="#64748b">Yes</text>
+
+  <!-- Step 6: Session Policy -->
+  <rect x="280" y="420" width="240" height="50" rx="10" fill="#ffffff" stroke="#06b6d4" stroke-width="2" filter="url(#shadow)"/>
+  <text x="400" y="441" text-anchor="middle" font-size="13" font-weight="600" fill="#1e293b">5. Session Policy?</text>
+  <text x="400" y="459" text-anchor="middle" font-size="11" fill="#64748b">STS session must allow (if assumed)</text>
+  <!-- Continue -->
+  <line x1="400" y1="470" x2="400" y2="490" stroke="#64748b" stroke-width="2" marker-end="url(#arrowGray)"/>
+
+  <!-- Step 7: Identity Policy -->
+  <rect x="280" y="492" width="240" height="50" rx="10" fill="#ffffff" stroke="#10b981" stroke-width="2" filter="url(#shadow)"/>
+  <text x="400" y="513" text-anchor="middle" font-size="13" font-weight="600" fill="#1e293b">6. Identity Policy Allows?</text>
+  <text x="400" y="531" text-anchor="middle" font-size="11" fill="#64748b">IAM user/role policy must allow</text>
+  <!-- Allow -->
+  <line x1="520" y1="517" x2="600" y2="517" stroke="#10b981" stroke-width="2" marker-end="url(#arrowGreen)"/>
+  <rect x="600" y="502" width="90" height="30" rx="6" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5"/>
+  <text x="645" y="522" text-anchor="middle" font-size="12" font-weight="700" fill="#10b981">ALLOW</text>
+  <text x="548" y="508" font-size="10" fill="#10b981" font-weight="600">Yes</text>
+  <!-- Deny -->
+  <line x1="280" y1="517" x2="200" y2="517" stroke="#ef4444" stroke-width="2" marker-end="url(#arrowRed)"/>
+  <rect x="110" y="502" width="90" height="30" rx="6" fill="#fef2f2" stroke="#ef4444" stroke-width="1.5"/>
+  <text x="155" y="522" text-anchor="middle" font-size="12" font-weight="700" fill="#ef4444">DENY</text>
+  <text x="252" y="508" font-size="10" fill="#ef4444" font-weight="600">No</text>
+
+  <!-- Legend -->
+  <text x="50" y="575" font-size="11" fill="#64748b">Default: Implicit Deny (no policy = denied) · Explicit Deny always wins · Evaluation order matters for cross-account</text>
+</svg>

@@ -1,0 +1,118 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 550" width="800" height="550" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <defs>
+    <filter id="shadow" x="-2%" y="-2%" width="104%" height="104%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.1"/>
+    </filter>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#f1f5f9"/>
+    </linearGradient>
+    <marker id="arrowBlue" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" fill="#3b82f6">
+      <polygon points="0 0, 10 3.5, 0 7"/>
+    </marker>
+    <marker id="arrowGray" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" fill="#64748b">
+      <polygon points="0 0, 10 3.5, 0 7"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="550" rx="12" fill="url(#bgGrad)" stroke="#e2e8f0" stroke-width="1"/>
+
+  <!-- Title -->
+  <text x="400" y="38" text-anchor="middle" font-size="20" font-weight="700" fill="#1e293b">Lambda Execution Lifecycle</text>
+  <line x1="255" y1="48" x2="545" y2="48" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Timeline arrow -->
+  <line x1="50" y1="85" x2="750" y2="85" stroke="#e2e8f0" stroke-width="2" marker-end="url(#arrowGray)"/>
+  <text x="760" y="89" font-size="10" fill="#64748b">time</text>
+
+  <!-- Phase 1: INIT (Cold Start) -->
+  <rect x="60" y="95" width="250" height="25" rx="4" fill="#ef4444" opacity="0.15"/>
+  <rect x="60" y="95" width="250" height="25" rx="4" fill="none" stroke="#ef4444" stroke-width="1.5"/>
+  <text x="185" y="112" text-anchor="middle" font-size="11" font-weight="600" fill="#ef4444">INIT Phase (Cold Start Only)</text>
+
+  <!-- Phase 2: INVOKE -->
+  <rect x="320" y="95" width="200" height="25" rx="4" fill="#3b82f6" opacity="0.15"/>
+  <rect x="320" y="95" width="200" height="25" rx="4" fill="none" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="420" y="112" text-anchor="middle" font-size="11" font-weight="600" fill="#3b82f6">INVOKE Phase</text>
+
+  <!-- Phase 3: Idle/Frozen -->
+  <rect x="530" y="95" width="120" height="25" rx="4" fill="#64748b" opacity="0.1"/>
+  <rect x="530" y="95" width="120" height="25" rx="4" fill="none" stroke="#64748b" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="590" y="112" text-anchor="middle" font-size="11" font-weight="600" fill="#64748b">FROZEN</text>
+
+  <!-- Detailed Init breakdown -->
+  <rect x="50" y="140" width="540" height="180" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="320" y="162" text-anchor="middle" font-size="13" font-weight="700" fill="#1e293b">Firecracker MicroVM Execution Environment</text>
+
+  <!-- Sub-phase: Download code -->
+  <rect x="70" y="175" width="120" height="55" rx="6" fill="#fef2f2" stroke="#ef4444" stroke-width="1.5"/>
+  <text x="130" y="195" text-anchor="middle" font-size="10" font-weight="600" fill="#ef4444">Download</text>
+  <text x="130" y="210" text-anchor="middle" font-size="9" fill="#64748b">Code + Layers</text>
+  <text x="130" y="222" text-anchor="middle" font-size="9" fill="#64748b">~50-200ms</text>
+
+  <!-- Sub-phase: Start runtime -->
+  <rect x="200" y="175" width="120" height="55" rx="6" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="260" y="195" text-anchor="middle" font-size="10" font-weight="600" fill="#d97706">Start Runtime</text>
+  <text x="260" y="210" text-anchor="middle" font-size="9" fill="#64748b">JVM/Python/Node</text>
+  <text x="260" y="222" text-anchor="middle" font-size="9" fill="#64748b">~100-2000ms</text>
+
+  <!-- Sub-phase: Run init code -->
+  <rect x="330" y="175" width="120" height="55" rx="6" fill="#fefce8" stroke="#eab308" stroke-width="1.5"/>
+  <text x="390" y="195" text-anchor="middle" font-size="10" font-weight="600" fill="#a16207">Init Code</text>
+  <text x="390" y="210" text-anchor="middle" font-size="9" fill="#64748b">Module imports</text>
+  <text x="390" y="222" text-anchor="middle" font-size="9" fill="#64748b">SDK clients, DB conn</text>
+
+  <!-- Sub-phase: Handler execution -->
+  <rect x="460" y="175" width="120" height="55" rx="6" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="520" y="195" text-anchor="middle" font-size="10" font-weight="600" fill="#3b82f6">Handler</text>
+  <text x="520" y="210" text-anchor="middle" font-size="9" fill="#64748b">Your function</text>
+  <text x="520" y="222" text-anchor="middle" font-size="9" fill="#64748b">Billed duration</text>
+
+  <!-- Arrows between sub-phases -->
+  <line x1="190" y1="202" x2="198" y2="202" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrowGray)"/>
+  <line x1="320" y1="202" x2="328" y2="202" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrowGray)"/>
+  <line x1="450" y1="202" x2="458" y2="202" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrowGray)"/>
+
+  <!-- Memory/CPU relationship -->
+  <rect x="70" y="245" width="510" height="60" rx="6" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="325" y="265" text-anchor="middle" font-size="11" font-weight="600" fill="#1e293b">Memory → CPU Allocation (Linear)</text>
+  <text x="100" y="285" font-size="10" fill="#64748b">128MB = 0.08 vCPU</text>
+  <text x="230" y="285" font-size="10" fill="#64748b">1769MB = 1 vCPU</text>
+  <text x="370" y="285" font-size="10" fill="#64748b">3538MB = 2 vCPU</text>
+  <text x="490" y="285" font-size="10" fill="#64748b">10240MB = 6 vCPU</text>
+
+  <!-- Warm invocation path -->
+  <rect x="50" y="340" width="700" height="80" rx="10" fill="#ffffff" stroke="#10b981" stroke-width="2" filter="url(#shadow)"/>
+  <text x="400" y="362" text-anchor="middle" font-size="13" font-weight="700" fill="#10b981">Warm Invocation (Skips INIT)</text>
+
+  <rect x="70" y="375" width="120" height="35" rx="6" fill="#dcfce7" stroke="#10b981" stroke-width="1.5"/>
+  <text x="130" y="395" text-anchor="middle" font-size="10" font-weight="600" fill="#059669">Thaw</text>
+  <text x="130" y="407" text-anchor="middle" font-size="9" fill="#64748b">~1-2ms</text>
+
+  <line x1="190" y1="392" x2="220" y2="392" stroke="#10b981" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
+
+  <rect x="225" y="375" width="150" height="35" rx="6" fill="#dcfce7" stroke="#10b981" stroke-width="1.5"/>
+  <text x="300" y="395" text-anchor="middle" font-size="10" font-weight="600" fill="#059669">Handler (reuse)</text>
+  <text x="300" y="407" text-anchor="middle" font-size="9" fill="#64748b">Same /tmp, same conns</text>
+
+  <line x1="375" y1="392" x2="405" y2="392" stroke="#10b981" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
+
+  <rect x="410" y="375" width="120" height="35" rx="6" fill="#f0fdf4" stroke="#10b981" stroke-width="1"/>
+  <text x="470" y="395" text-anchor="middle" font-size="10" font-weight="600" fill="#059669">Freeze</text>
+  <text x="470" y="407" text-anchor="middle" font-size="9" fill="#64748b">Process suspended</text>
+
+  <!-- Provisioned concurrency note -->
+  <rect x="560" y="365" width="175" height="50" rx="6" fill="#fefce8" stroke="#f59e0b" stroke-width="1"/>
+  <text x="647" y="383" text-anchor="middle" font-size="10" font-weight="600" fill="#92400e">Provisioned Concurrency</text>
+  <text x="647" y="398" text-anchor="middle" font-size="9" fill="#78350f">Pre-warmed instances</text>
+  <text x="647" y="411" text-anchor="middle" font-size="9" fill="#78350f">No cold starts, always hot</text>
+
+  <!-- Concurrency Model -->
+  <rect x="50" y="440" width="700" height="95" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="400" y="462" text-anchor="middle" font-size="13" font-weight="700" fill="#1e293b">Concurrency Model</text>
+  
+  <text x="80" y="485" font-size="11" fill="#1e293b" font-weight="500">1 instance = 1 concurrent execution (no thread sharing)</text>
+  <text x="80" y="505" font-size="11" fill="#64748b">Account limit: 1000 concurrent (soft limit, raise via support)</text>
+  <text x="80" y="525" font-size="11" fill="#64748b">Reserved concurrency: Guarantees capacity + caps function | Unreserved: Shared pool (burst: 3000 in us-east-1)</text>
+</svg>

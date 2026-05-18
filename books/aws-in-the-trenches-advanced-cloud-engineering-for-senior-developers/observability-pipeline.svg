@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 550" width="800" height="550" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <defs>
+    <filter id="shadow" x="-2%" y="-2%" width="104%" height="104%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.1"/>
+    </filter>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#f1f5f9"/>
+    </linearGradient>
+    <marker id="arrowBlue" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" fill="#3b82f6">
+      <polygon points="0 0, 10 3.5, 0 7"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" fill="#10b981">
+      <polygon points="0 0, 10 3.5, 0 7"/>
+    </marker>
+    <marker id="arrowOrange" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" fill="#f59e0b">
+      <polygon points="0 0, 10 3.5, 0 7"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="550" rx="12" fill="url(#bgGrad)" stroke="#e2e8f0" stroke-width="1"/>
+
+  <!-- Title -->
+  <text x="400" y="38" text-anchor="middle" font-size="20" font-weight="700" fill="#1e293b">Observability Pipeline on AWS</text>
+  <line x1="250" y1="48" x2="550" y2="48" stroke="#10b981" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Sources (Left Column) -->
+  <text x="90" y="80" text-anchor="middle" font-size="13" font-weight="700" fill="#1e293b">Sources</text>
+
+  <rect x="30" y="95" width="120" height="40" rx="8" fill="#ffffff" stroke="#3b82f6" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="90" y="119" text-anchor="middle" font-size="10" font-weight="600" fill="#1e293b">Lambda Logs</text>
+
+  <rect x="30" y="145" width="120" height="40" rx="8" fill="#ffffff" stroke="#3b82f6" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="90" y="169" text-anchor="middle" font-size="10" font-weight="600" fill="#1e293b">ECS/Fargate</text>
+
+  <rect x="30" y="195" width="120" height="40" rx="8" fill="#ffffff" stroke="#3b82f6" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="90" y="219" text-anchor="middle" font-size="10" font-weight="600" fill="#1e293b">API Gateway</text>
+
+  <rect x="30" y="245" width="120" height="40" rx="8" fill="#ffffff" stroke="#3b82f6" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="90" y="269" text-anchor="middle" font-size="10" font-weight="600" fill="#1e293b">VPC Flow Logs</text>
+
+  <rect x="30" y="295" width="120" height="40" rx="8" fill="#ffffff" stroke="#3b82f6" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="90" y="319" text-anchor="middle" font-size="10" font-weight="600" fill="#1e293b">CloudTrail</text>
+
+  <!-- Arrows from sources to CloudWatch -->
+  <line x1="150" y1="115" x2="218" y2="185" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
+  <line x1="150" y1="165" x2="218" y2="195" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
+  <line x1="150" y1="215" x2="218" y2="210" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
+  <line x1="150" y1="265" x2="218" y2="225" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
+  <line x1="150" y1="315" x2="218" y2="235" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
+
+  <!-- CloudWatch Logs (Center) -->
+  <rect x="220" y="160" width="180" height="100" rx="12" fill="#ffffff" stroke="#f59e0b" stroke-width="2.5" filter="url(#shadow)"/>
+  <rect x="220" y="160" width="180" height="28" rx="12" fill="#f59e0b"/>
+  <rect x="220" y="176" width="180" height="12" fill="#f59e0b"/>
+  <text x="310" y="180" text-anchor="middle" font-size="12" font-weight="600" fill="#ffffff">CloudWatch Logs</text>
+  <text x="310" y="205" text-anchor="middle" font-size="10" fill="#1e293b">Log Groups</text>
+  <text x="310" y="220" text-anchor="middle" font-size="10" fill="#64748b">Retention policies</text>
+  <text x="310" y="235" text-anchor="middle" font-size="10" fill="#64748b">Subscription filters</text>
+  <text x="310" y="250" text-anchor="middle" font-size="10" fill="#64748b">Metric filters → alarms</text>
+
+  <!-- Metric Filters output -->
+  <line x1="400" y1="180" x2="460" y2="115" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arrowOrange)"/>
+
+  <!-- CloudWatch Metrics -->
+  <rect x="460" y="85" width="160" height="60" rx="10" fill="#ffffff" stroke="#10b981" stroke-width="2" filter="url(#shadow)"/>
+  <text x="540" y="108" text-anchor="middle" font-size="11" font-weight="600" fill="#1e293b">CloudWatch Metrics</text>
+  <text x="540" y="125" text-anchor="middle" font-size="10" fill="#10b981">EMF + Custom Metrics</text>
+  <text x="540" y="138" text-anchor="middle" font-size="9" fill="#64748b">High-res: 1s granularity</text>
+
+  <!-- Alarms -->
+  <rect x="660" y="85" width="120" height="60" rx="10" fill="#ffffff" stroke="#ef4444" stroke-width="2" filter="url(#shadow)"/>
+  <text x="720" y="108" text-anchor="middle" font-size="11" font-weight="600" fill="#1e293b">Alarms</text>
+  <text x="720" y="125" text-anchor="middle" font-size="10" fill="#ef4444">Composite alarms</text>
+  <text x="720" y="138" text-anchor="middle" font-size="9" fill="#64748b">→ SNS → PagerDuty</text>
+  <line x1="620" y1="115" x2="658" y2="115" stroke="#ef4444" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
+
+  <!-- Logs Insights -->
+  <rect x="460" y="170" width="160" height="55" rx="10" fill="#ffffff" stroke="#8b5cf6" stroke-width="2" filter="url(#shadow)"/>
+  <text x="540" y="193" text-anchor="middle" font-size="11" font-weight="600" fill="#1e293b">Logs Insights</text>
+  <text x="540" y="210" text-anchor="middle" font-size="10" fill="#8b5cf6">SQL-like queries</text>
+  <text x="540" y="222" text-anchor="middle" font-size="9" fill="#64748b">stats, filter, parse</text>
+  <line x1="400" y1="200" x2="458" y2="195" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
+
+  <!-- Subscription filter destinations -->
+  <line x1="400" y1="240" x2="458" y2="280" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arrowOrange)"/>
+  <line x1="400" y1="250" x2="458" y2="350" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arrowOrange)"/>
+
+  <!-- Kinesis Firehose -->
+  <rect x="460" y="260" width="160" height="55" rx="10" fill="#ffffff" stroke="#06b6d4" stroke-width="2" filter="url(#shadow)"/>
+  <text x="540" y="283" text-anchor="middle" font-size="11" font-weight="600" fill="#1e293b">Kinesis Firehose</text>
+  <text x="540" y="300" text-anchor="middle" font-size="10" fill="#06b6d4">Buffered delivery</text>
+  <text x="540" y="312" text-anchor="middle" font-size="9" fill="#64748b">Transform with Lambda</text>
+
+  <!-- S3 (long-term) -->
+  <rect x="660" y="260" width="120" height="55" rx="10" fill="#ffffff" stroke="#10b981" stroke-width="2" filter="url(#shadow)"/>
+  <text x="720" y="283" text-anchor="middle" font-size="11" font-weight="600" fill="#1e293b">S3</text>
+  <text x="720" y="300" text-anchor="middle" font-size="10" fill="#10b981">Long-term archive</text>
+  <text x="720" y="312" text-anchor="middle" font-size="9" fill="#64748b">Athena queryable</text>
+  <line x1="620" y1="287" x2="658" y2="287" stroke="#10b981" stroke-width="1.5" marker-end="url(#arrowGreen)"/>
+
+  <!-- OpenSearch -->
+  <rect x="460" y="335" width="160" height="55" rx="10" fill="#ffffff" stroke="#ec4899" stroke-width="2" filter="url(#shadow)"/>
+  <text x="540" y="358" text-anchor="middle" font-size="11" font-weight="600" fill="#1e293b">OpenSearch</text>
+  <text x="540" y="375" text-anchor="middle" font-size="10" fill="#ec4899">Full-text search</text>
+  <text x="540" y="387" text-anchor="middle" font-size="9" fill="#64748b">Dashboards + Alerts</text>
+
+  <!-- Dashboard layer -->
+  <rect x="60" y="380" width="350" height="70" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="235" y="403" text-anchor="middle" font-size="12" font-weight="700" fill="#1e293b">CloudWatch Dashboards</text>
+  <text x="235" y="423" text-anchor="middle" font-size="10" fill="#64748b">Metrics + Logs + Traces in single view</text>
+  <text x="235" y="440" text-anchor="middle" font-size="10" fill="#64748b">Contributor Insights: Top-N patterns</text>
+
+  <!-- EMF Insight -->
+  <rect x="60" y="465" width="680" height="70" rx="8" fill="#fefce8" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="400" y="488" text-anchor="middle" font-size="12" font-weight="700" fill="#92400e">Embedded Metric Format (EMF) — Best Practice</text>
+  <text x="400" y="508" text-anchor="middle" font-size="11" fill="#78350f">Print structured JSON to stdout → CloudWatch extracts metrics automatically (no PutMetricData API calls)</text>
+  <text x="400" y="525" text-anchor="middle" font-size="10" fill="#78350f">{"_aws":{"Timestamp":..,"CloudWatchMetrics":[{"Namespace":"App","Metrics":[{"Name":"Latency"}]}]},"Latency":145}</text>
+</svg>

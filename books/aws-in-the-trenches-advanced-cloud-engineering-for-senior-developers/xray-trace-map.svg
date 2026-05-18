@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <defs>
+    <filter id="shadow" x="-2%" y="-2%" width="104%" height="104%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.1"/>
+    </filter>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#f1f5f9"/>
+    </linearGradient>
+    <marker id="arrowBlue" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" fill="#3b82f6">
+      <polygon points="0 0, 10 3.5, 0 7"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" fill="#10b981">
+      <polygon points="0 0, 10 3.5, 0 7"/>
+    </marker>
+    <marker id="arrowPurple" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" fill="#8b5cf6">
+      <polygon points="0 0, 10 3.5, 0 7"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="500" rx="12" fill="url(#bgGrad)" stroke="#e2e8f0" stroke-width="1"/>
+
+  <!-- Title -->
+  <text x="400" y="38" text-anchor="middle" font-size="20" font-weight="700" fill="#1e293b">X-Ray Distributed Trace Map</text>
+  <line x1="260" y1="48" x2="540" y2="48" stroke="#06b6d4" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Client -->
+  <circle cx="80" cy="180" r="30" fill="#ffffff" stroke="#64748b" stroke-width="2" filter="url(#shadow)"/>
+  <text x="80" y="175" text-anchor="middle" font-size="10" font-weight="600" fill="#1e293b">Client</text>
+  <text x="80" y="190" text-anchor="middle" font-size="9" fill="#64748b">Browser</text>
+
+  <!-- API Gateway -->
+  <rect x="150" y="155" width="110" height="50" rx="10" fill="#ffffff" stroke="#10b981" stroke-width="2" filter="url(#shadow)"/>
+  <text x="205" y="177" text-anchor="middle" font-size="11" font-weight="600" fill="#1e293b">API Gateway</text>
+  <text x="205" y="193" text-anchor="middle" font-size="9" fill="#10b981">23ms avg</text>
+  <line x1="110" y1="180" x2="148" y2="180" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
+
+  <!-- Lambda: Order Handler -->
+  <rect x="300" y="155" width="130" height="50" rx="10" fill="#ffffff" stroke="#f59e0b" stroke-width="2" filter="url(#shadow)"/>
+  <text x="365" y="177" text-anchor="middle" font-size="11" font-weight="600" fill="#1e293b">OrderHandler</text>
+  <text x="365" y="193" text-anchor="middle" font-size="9" fill="#f59e0b">Lambda · 145ms</text>
+  <line x1="260" y1="180" x2="298" y2="180" stroke="#10b981" stroke-width="1.5" marker-end="url(#arrowGreen)"/>
+
+  <!-- DynamoDB -->
+  <rect x="490" y="100" width="120" height="50" rx="10" fill="#ffffff" stroke="#3b82f6" stroke-width="2" filter="url(#shadow)"/>
+  <text x="550" y="122" text-anchor="middle" font-size="11" font-weight="600" fill="#1e293b">DynamoDB</text>
+  <text x="550" y="138" text-anchor="middle" font-size="9" fill="#3b82f6">Orders · 8ms</text>
+  <line x1="430" y1="168" x2="488" y2="135" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
+
+  <!-- SQS -->
+  <rect x="490" y="170" width="120" height="50" rx="10" fill="#ffffff" stroke="#8b5cf6" stroke-width="2" filter="url(#shadow)"/>
+  <text x="550" y="192" text-anchor="middle" font-size="11" font-weight="600" fill="#1e293b">SQS</text>
+  <text x="550" y="208" text-anchor="middle" font-size="9" fill="#8b5cf6">order-queue · 5ms</text>
+  <line x1="430" y1="182" x2="488" y2="192" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#arrowPurple)"/>
+
+  <!-- Lambda: Payment Processor -->
+  <rect x="650" y="170" width="130" height="50" rx="10" fill="#ffffff" stroke="#f59e0b" stroke-width="2" filter="url(#shadow)"/>
+  <text x="715" y="192" text-anchor="middle" font-size="11" font-weight="600" fill="#1e293b">PaymentProc</text>
+  <text x="715" y="208" text-anchor="middle" font-size="9" fill="#f59e0b">Lambda · 320ms</text>
+  <line x1="610" y1="195" x2="648" y2="195" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#arrowPurple)"/>
+
+  <!-- External: Stripe -->
+  <rect x="650" y="240" width="130" height="50" rx="10" fill="#ffffff" stroke="#ef4444" stroke-width="2" filter="url(#shadow)"/>
+  <text x="715" y="262" text-anchor="middle" font-size="11" font-weight="600" fill="#1e293b">Stripe API</text>
+  <text x="715" y="278" text-anchor="middle" font-size="9" fill="#ef4444">External · 280ms</text>
+  <line x1="715" y1="220" x2="715" y2="238" stroke="#ef4444" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
+
+  <!-- SNS (notification fan-out) -->
+  <rect x="490" y="240" width="120" height="50" rx="10" fill="#ffffff" stroke="#10b981" stroke-width="2" filter="url(#shadow)"/>
+  <text x="550" y="262" text-anchor="middle" font-size="11" font-weight="600" fill="#1e293b">SNS</text>
+  <text x="550" y="278" text-anchor="middle" font-size="9" fill="#10b981">notifications · 3ms</text>
+  <line x1="430" y1="192" x2="488" y2="258" stroke="#10b981" stroke-width="1.5" marker-end="url(#arrowGreen)"/>
+
+  <!-- Trace ID propagation -->
+  <rect x="50" y="310" width="700" height="80" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="400" y="333" text-anchor="middle" font-size="13" font-weight="700" fill="#1e293b">Trace Propagation</text>
+  
+  <text x="80" y="355" font-size="10" fill="#64748b" font-weight="500">Header:</text>
+  <text x="130" y="355" font-size="10" fill="#1e293b" font-family="monospace">X-Amzn-Trace-Id: Root=1-abc123;Parent=seg456;Sampled=1</text>
+  
+  <text x="80" y="375" font-size="10" fill="#64748b" font-weight="500">Segment:</text>
+  <text x="130" y="375" font-size="10" fill="#1e293b">Each service creates a segment → subsegments for downstream calls → annotations for filtering</text>
+
+  <!-- Sampling & Insights -->
+  <rect x="50" y="405" width="340" height="80" rx="8" fill="#ecfeff" stroke="#06b6d4" stroke-width="1.5"/>
+  <text x="220" y="428" text-anchor="middle" font-size="12" font-weight="700" fill="#0e7490">Sampling Rules</text>
+  <text x="220" y="448" text-anchor="middle" font-size="10" fill="#64748b">Reservoir: 1 req/sec guaranteed</text>
+  <text x="220" y="463" text-anchor="middle" font-size="10" fill="#64748b">Rate: 5% of additional traffic</text>
+  <text x="220" y="478" text-anchor="middle" font-size="10" fill="#64748b">Custom rules by URL/method/service</text>
+
+  <!-- Service Map Legend -->
+  <rect x="410" y="405" width="340" height="80" rx="8" fill="#fefce8" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="580" y="428" text-anchor="middle" font-size="12" font-weight="700" fill="#92400e">Service Map Insights</text>
+  <text x="580" y="448" text-anchor="middle" font-size="10" fill="#64748b">Circle size = request volume</text>
+  <text x="580" y="463" text-anchor="middle" font-size="10" fill="#64748b">Edge color = error rate (green → red)</text>
+  <text x="580" y="478" text-anchor="middle" font-size="10" fill="#64748b">Latency histogram per node click</text>
+</svg>

@@ -1,0 +1,204 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 640" preserveAspectRatio="xMidYMid meet">
+  <style>
+    svg {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: transparent;
+    }
+    .title-main { font-size: 18px; font-weight: 800; fill: #f8fafc; letter-spacing: 1px; }
+    .title-sub  { font-size: 11px; fill: #64748b; letter-spacing: 1px; }
+    .section-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; fill: #64748b; text-anchor: middle; }
+    .field-box { rx: 6; }
+    .field-label { font-size: 12px; font-weight: 700; text-anchor: middle; }
+    .field-sub   { font-size: 10px; text-anchor: middle; fill: #94a3b8; }
+    .byte-tag    { font-size: 9px; font-weight: 600; text-anchor: middle; fill: #475569; }
+
+    /* Header fields */
+    .f-type  { fill: #1e3a5f; stroke: #0ea5e9; stroke-width: 1.5; }
+    .f-ver   { fill: #2d1b4e; stroke: #8b5cf6; stroke-width: 1.5; }
+    .f-len   { fill: #1c3a2f; stroke: #10b981; stroke-width: 1.5; }
+    .f-pay   { fill: #3d2007; stroke: #f59e0b; stroke-width: 1.5; }
+
+    /* AEAD box */
+    .aead-box { fill: #1a2a1a; stroke: #10b981; stroke-width: 2; rx: 12; }
+    .aead-title { font-size: 14px; font-weight: 700; fill: #34d399; text-anchor: middle; }
+    .aead-sub   { font-size: 10px; fill: #6ee7b7; text-anchor: middle; }
+    .in-box  { fill: #1e293b; stroke: #334155; stroke-width: 1.5; rx: 6; }
+    .out-box { fill: #14302a; stroke: #10b981; stroke-width: 1.5; rx: 6; }
+    .in-label  { font-size: 11px; font-weight: 600; text-anchor: middle; fill: #cbd5e1; }
+    .out-label { font-size: 11px; font-weight: 600; text-anchor: middle; fill: #34d399; }
+
+    /* Arrows inside AEAD */
+    .aead-arrow { fill: none; stroke: #334155; stroke-width: 2; marker-end: url(#arrow-dim); }
+    .aead-arrow-green { fill: none; stroke: #10b981; stroke-width: 2; marker-end: url(#arrow-green); }
+
+    /* Data flow animation */
+    .flow-line {
+      fill: none;
+      stroke: #f59e0b;
+      stroke-width: 3;
+      stroke-dasharray: 10 6;
+      animation: flow 3s linear infinite;
+    }
+    @keyframes flow {
+      from { stroke-dashoffset: 64; }
+      to   { stroke-dashoffset: 0; }
+    }
+
+    /* Pulse on header fields */
+    .pulse-type    { animation: glow-blue   4s 0s   infinite; }
+    .pulse-ver     { animation: glow-purple 4s 0.8s infinite; }
+    .pulse-len     { animation: glow-green  4s 1.6s infinite; }
+    .pulse-pay     { animation: glow-amber  4s 2.4s infinite; }
+
+    @keyframes glow-blue   { 0%,15%{ filter: drop-shadow(0 0 8px rgba(14,165,233,0.8)); } 20%,100%{ filter: none; } }
+    @keyframes glow-purple { 0%,20%{ filter: none; } 20%,35%{ filter: drop-shadow(0 0 8px rgba(139,92,246,0.8)); } 40%,100%{ filter: none; } }
+    @keyframes glow-green  { 0%,40%{ filter: none; } 40%,55%{ filter: drop-shadow(0 0 8px rgba(16,185,129,0.8)); } 60%,100%{ filter: none; } }
+    @keyframes glow-amber  { 0%,60%{ filter: none; } 60%,80%{ filter: drop-shadow(0 0 8px rgba(245,158,11,0.8)); } 85%,100%{ filter: none; } }
+
+    /* Seq counter */
+    .seq-box { fill: #1e293b; stroke: #334155; stroke-width: 1.5; rx: 8; }
+    .seq-label { font-size: 11px; fill: #94a3b8; text-anchor: middle; }
+    .seq-value { font-size: 18px; font-weight: 800; fill: #f8fafc; text-anchor: middle; animation: count 4s 0s infinite; }
+    @keyframes count {
+      0%  { opacity: 1; }
+      20% { opacity: 1; }
+      25% { opacity: 0; }
+      30% { opacity: 1; } /* show next */
+      100%{ opacity: 1; }
+    }
+    .xor-sym { font-size: 20px; font-weight: 800; fill: #f59e0b; text-anchor: middle; }
+    .iv-label { font-size: 11px; fill: #94a3b8; text-anchor: middle; }
+    .nonce-label { font-size: 11px; font-weight: 600; fill: #fbbf24; text-anchor: middle; }
+    .connector { fill: none; stroke: #334155; stroke-width: 1.5; }
+  </style>
+  <defs>
+    <marker id="arrow-dim" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#475569" />
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#10b981" />
+    </marker>
+    <marker id="arrow-amber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#f59e0b" />
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="860" height="640" fill="#0f172a" rx="16" />
+
+  <!-- Title -->
+  <text x="430" y="38" class="title-main" text-anchor="middle">TLS 1.3 Record Protocol</text>
+  <text x="430" y="56" class="title-sub" text-anchor="middle">EVERY BYTE OF APPLICATION DATA TRAVELS IN A RECORD · AEAD ENCRYPTS + AUTHENTICATES</text>
+
+  <!-- ═══ RECORD HEADER ═══ -->
+  <text x="430" y="82" class="section-label">TLS RECORD STRUCTURE</text>
+
+  <!-- ContentType: 1 byte -->
+  <rect x="50" y="90" width="100" height="84" rx="6" class="f-type pulse-type" />
+  <text x="100" y="115" class="field-label" fill="#38bdf8">Content</text>
+  <text x="100" y="131" class="field-label" fill="#38bdf8">Type</text>
+  <text x="100" y="149" class="byte-tag">1 byte · 0x17</text>
+  <text x="100" y="163" class="field-sub">application_data</text>
+
+  <!-- Version: 2 bytes -->
+  <rect x="160" y="90" width="120" height="84" rx="6" class="f-ver pulse-ver" />
+  <text x="220" y="115" class="field-label" fill="#a78bfa">Legacy</text>
+  <text x="220" y="131" class="field-label" fill="#a78bfa">Version</text>
+  <text x="220" y="149" class="byte-tag">2 bytes · 0x0303</text>
+  <text x="220" y="163" class="field-sub">always TLS 1.2!</text>
+
+  <!-- Length: 2 bytes -->
+  <rect x="290" y="90" width="110" height="84" rx="6" class="f-len pulse-len" />
+  <text x="345" y="115" class="field-label" fill="#34d399">Length</text>
+  <text x="345" y="149" class="byte-tag">2 bytes</text>
+  <text x="345" y="163" class="field-sub">max 16384 bytes</text>
+
+  <!-- Payload: variable -->
+  <rect x="410" y="90" width="400" height="84" rx="6" class="f-pay pulse-pay" />
+  <text x="610" y="115" class="field-label" fill="#fbbf24">Encrypted Payload</text>
+  <text x="610" y="131" class="field-sub">[ ciphertext ] [ real content type 1B ] [ padding ]</text>
+  <text x="610" y="149" class="byte-tag">variable length · AEAD ciphertext + 16-byte auth tag</text>
+  <text x="610" y="163" class="field-sub">content type hidden inside — outer header always says 0x17</text>
+
+  <!-- Data flow arrow: header → AEAD -->
+  <line x1="430" y1="176" x2="430" y2="218" class="flow-line" marker-end="url(#arrow-amber)" />
+
+  <!-- ═══ NONCE CONSTRUCTION ═══ -->
+  <text x="200" y="230" class="section-label">NONCE CONSTRUCTION (PER RECORD)</text>
+
+  <rect x="50" y="238" width="110" height="50" rx="8" class="seq-box" />
+  <text x="105" y="256" class="seq-label">Seq Number</text>
+  <text x="105" y="276" class="seq-value">0000001A</text>
+
+  <text x="178" y="268" class="xor-sym">⊕</text>
+
+  <rect x="196" y="238" width="110" height="50" rx="8" class="seq-box" />
+  <text x="251" y="256" class="iv-label">Write IV</text>
+  <text x="251" y="270" font-size="10" fill="#94a3b8" text-anchor="middle">(from HKDF, 12B)</text>
+  <text x="251" y="284" font-size="10" fill="#64748b" text-anchor="middle">never transmitted</text>
+
+  <line x1="306" y1="263" x2="360" y2="263" stroke="#334155" stroke-width="1.5" marker-end="url(#arrow-dim)" />
+
+  <rect x="362" y="238" width="110" height="50" rx="8" fill="#1e2d1e" stroke="#10b981" stroke-width="1.5" />
+  <text x="417" y="256" class="nonce-label">Nonce</text>
+  <text x="417" y="270" font-size="10" fill="#6ee7b7" text-anchor="middle">(12 bytes, unique</text>
+  <text x="417" y="284" font-size="10" fill="#6ee7b7" text-anchor="middle">per record)</text>
+
+  <!-- ═══ AEAD BOX ═══ -->
+  <rect x="50" y="310" width="760" height="220" rx="12" class="aead-box" />
+  <text x="430" y="335" class="aead-title">AEAD Encryption (AES-128-GCM or ChaCha20-Poly1305)</text>
+  <text x="430" y="352" class="aead-sub">Encrypt-then-MAC is baked in. You cannot separate encryption from authentication.</text>
+
+  <!-- Inputs on left -->
+  <rect x="70" y="365" width="130" height="40" rx="6" class="in-box" />
+  <text x="135" y="381" class="in-label">Plaintext</text>
+  <text x="135" y="396" font-size="10" fill="#94a3b8" text-anchor="middle">HTTP response data</text>
+
+  <rect x="70" y="416" width="130" height="40" rx="6" class="in-box" />
+  <text x="135" y="432" class="in-label">Write Key</text>
+  <text x="135" y="447" font-size="10" fill="#94a3b8" text-anchor="middle">16B (AES) or 32B (CC20)</text>
+
+  <rect x="70" y="467" width="130" height="40" rx="6" class="in-box" />
+  <text x="135" y="483" class="in-label">Nonce</text>
+  <text x="135" y="498" font-size="10" fill="#94a3b8" text-anchor="middle">12 bytes, never reused</text>
+
+  <!-- AEAD cipher block -->
+  <rect x="310" y="370" width="240" height="160" rx="10" fill="#0f1f0f" stroke="#10b981" stroke-width="1.5" stroke-dasharray="4 3" />
+  <text x="430" y="400" font-size="13" font-weight="700" fill="#34d399" text-anchor="middle">AEAD Cipher</text>
+  <text x="430" y="420" font-size="10" fill="#6ee7b7" text-anchor="middle">AES-GCM: GHASH authenticates</text>
+  <text x="430" y="435" font-size="10" fill="#6ee7b7" text-anchor="middle">associated data + ciphertext</text>
+  <text x="430" y="460" font-size="10" fill="#94a3b8" text-anchor="middle">Associated Data (AAD):</text>
+  <text x="430" y="475" font-size="10" fill="#94a3b8" text-anchor="middle">record header bytes (not encrypted)</text>
+  <text x="430" y="495" font-size="10" fill="#f59e0b" text-anchor="middle">Integrity covers header too</text>
+  <text x="430" y="510" font-size="10" fill="#f59e0b" text-anchor="middle">— can't flip ContentType in transit</text>
+
+  <!-- Arrow inputs → cipher -->
+  <line x1="200" y1="385" x2="308" y2="430" class="aead-arrow" />
+  <line x1="200" y1="436" x2="308" y2="445" class="aead-arrow" />
+  <line x1="200" y1="487" x2="308" y2="460" class="aead-arrow" />
+
+  <!-- Outputs on right -->
+  <rect x="660" y="380" width="130" height="40" rx="6" class="out-box" />
+  <text x="725" y="396" class="out-label">Ciphertext</text>
+  <text x="725" y="411" font-size="10" fill="#6ee7b7" text-anchor="middle">same length as plaintext</text>
+
+  <rect x="660" y="432" width="130" height="40" rx="6" fill="#14302a" stroke="#f59e0b" stroke-width="1.5" />
+  <text x="725" y="448" font-size="11" font-weight="600" fill="#fbbf24" text-anchor="middle">Auth Tag</text>
+  <text x="725" y="463" font-size="10" fill="#fde68a" text-anchor="middle">16 bytes · GHASH/Poly1305</text>
+
+  <rect x="660" y="484" width="130" height="40" rx="6" class="out-box" />
+  <text x="725" y="500" class="out-label">Real ContentType</text>
+  <text x="725" y="515" font-size="10" fill="#6ee7b7" text-anchor="middle">e.g. 0x16 = handshake</text>
+
+  <!-- Arrow cipher → outputs -->
+  <line x1="550" y1="430" x2="658" y2="400" class="aead-arrow-green" />
+  <line x1="550" y1="440" x2="658" y2="452" class="aead-arrow-green" />
+  <line x1="550" y1="450" x2="658" y2="504" class="aead-arrow-green" />
+
+  <!-- ═══ KEY UPDATE ═══ -->
+  <rect x="50" y="548" width="760" height="72" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1.5" />
+  <text x="430" y="568" font-size="12" font-weight="700" fill="#f8fafc" text-anchor="middle">Key Update: Ratcheting Forward</text>
+  <text x="430" y="585" font-size="10" fill="#94a3b8" text-anchor="middle">Either side can send a KeyUpdate message → both derive new write keys from current traffic secret.</text>
+  <text x="430" y="600" font-size="10" fill="#94a3b8" text-anchor="middle">Old keys are discarded. Limits blast radius if a single session's keys are somehow extracted.</text>
+  <text x="430" y="614" font-size="10" fill="#f59e0b" text-anchor="middle">AEAD nonce reuse = catastrophic. Key rotation is a safety net against long-lived connections.</text>
+</svg>

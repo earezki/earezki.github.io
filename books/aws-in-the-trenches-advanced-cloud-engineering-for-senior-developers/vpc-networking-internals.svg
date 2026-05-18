@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <defs>
+    <filter id="shadow" x="-2%" y="-2%" width="104%" height="104%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.1"/>
+    </filter>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#f1f5f9"/>
+    </linearGradient>
+    <marker id="arrowBlue" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" fill="#3b82f6">
+      <polygon points="0 0, 10 3.5, 0 7"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" fill="#10b981">
+      <polygon points="0 0, 10 3.5, 0 7"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="600" rx="12" fill="url(#bgGrad)" stroke="#e2e8f0" stroke-width="1"/>
+
+  <!-- Title -->
+  <text x="400" y="38" text-anchor="middle" font-size="20" font-weight="700" fill="#1e293b">VPC Networking Internals</text>
+  <line x1="270" y1="48" x2="530" y2="48" stroke="#3b82f6" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- VPC Boundary -->
+  <rect x="40" y="60" width="720" height="420" rx="14" fill="none" stroke="#3b82f6" stroke-width="2.5" stroke-dasharray="8,4"/>
+  <text x="70" y="80" font-size="12" font-weight="700" fill="#3b82f6">VPC: 10.0.0.0/16 (65,536 IPs)</text>
+
+  <!-- AZ-A -->
+  <rect x="60" y="90" width="330" height="370" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#shadow)" opacity="0.6"/>
+  <text x="225" y="110" text-anchor="middle" font-size="12" font-weight="600" fill="#64748b">Availability Zone A (us-east-1a)</text>
+
+  <!-- Public Subnet A -->
+  <rect x="75" y="120" width="300" height="100" rx="8" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5"/>
+  <text x="225" y="140" text-anchor="middle" font-size="11" font-weight="600" fill="#059669">Public Subnet: 10.0.1.0/24</text>
+  
+  <!-- NAT Gateway -->
+  <rect x="90" y="150" width="110" height="40" rx="6" fill="#ffffff" stroke="#f59e0b" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="145" y="168" text-anchor="middle" font-size="10" font-weight="600" fill="#1e293b">NAT Gateway</text>
+  <text x="145" y="182" text-anchor="middle" font-size="9" fill="#64748b">EIP: 54.x.x.x</text>
+
+  <!-- ALB -->
+  <rect x="220" y="150" width="110" height="40" rx="6" fill="#ffffff" stroke="#3b82f6" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="275" y="168" text-anchor="middle" font-size="10" font-weight="600" fill="#1e293b">ALB (ENI)</text>
+  <text x="275" y="182" text-anchor="middle" font-size="9" fill="#64748b">10.0.1.50</text>
+
+  <!-- Private Subnet A -->
+  <rect x="75" y="235" width="300" height="100" rx="8" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="225" y="255" text-anchor="middle" font-size="11" font-weight="600" fill="#1e40af">Private Subnet: 10.0.10.0/24</text>
+
+  <!-- EC2/ECS -->
+  <rect x="90" y="265" width="85" height="40" rx="6" fill="#ffffff" stroke="#8b5cf6" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="132" y="283" text-anchor="middle" font-size="10" font-weight="600" fill="#1e293b">ECS Task</text>
+  <text x="132" y="297" text-anchor="middle" font-size="9" fill="#64748b">ENI: 10.0.10.5</text>
+
+  <!-- Lambda ENI -->
+  <rect x="190" y="265" width="85" height="40" rx="6" fill="#ffffff" stroke="#8b5cf6" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="232" y="283" text-anchor="middle" font-size="10" font-weight="600" fill="#1e293b">Lambda</text>
+  <text x="232" y="297" text-anchor="middle" font-size="9" fill="#64748b">ENI: 10.0.10.20</text>
+
+  <!-- RDS -->
+  <rect x="290" y="265" width="75" height="40" rx="6" fill="#ffffff" stroke="#ec4899" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="327" y="283" text-anchor="middle" font-size="10" font-weight="600" fill="#1e293b">RDS</text>
+  <text x="327" y="297" text-anchor="middle" font-size="9" fill="#64748b">10.0.10.100</text>
+
+  <!-- Data Subnet A -->
+  <rect x="75" y="350" width="300" height="60" rx="8" fill="#fdf4ff" stroke="#a855f7" stroke-width="1.5"/>
+  <text x="225" y="370" text-anchor="middle" font-size="11" font-weight="600" fill="#7c3aed">Isolated Subnet: 10.0.20.0/24</text>
+  <rect x="140" y="380" width="170" height="22" rx="4" fill="#ffffff" stroke="#a855f7" stroke-width="1"/>
+  <text x="225" y="395" text-anchor="middle" font-size="9" fill="#7c3aed">ElastiCache / DynamoDB DAX</text>
+
+  <!-- AZ-B (simplified) -->
+  <rect x="410" y="90" width="330" height="370" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#shadow)" opacity="0.6"/>
+  <text x="575" y="110" text-anchor="middle" font-size="12" font-weight="600" fill="#64748b">Availability Zone B (us-east-1b)</text>
+
+  <rect x="425" y="120" width="300" height="100" rx="8" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5"/>
+  <text x="575" y="140" text-anchor="middle" font-size="11" font-weight="600" fill="#059669">Public Subnet: 10.0.2.0/24</text>
+  <rect x="440" y="150" width="110" height="40" rx="6" fill="#ffffff" stroke="#f59e0b" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="495" y="168" text-anchor="middle" font-size="10" font-weight="600" fill="#1e293b">NAT Gateway</text>
+  <text x="495" y="182" text-anchor="middle" font-size="9" fill="#64748b">EIP: 54.y.y.y</text>
+
+  <rect x="425" y="235" width="300" height="100" rx="8" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="575" y="255" text-anchor="middle" font-size="11" font-weight="600" fill="#1e40af">Private Subnet: 10.0.11.0/24</text>
+  <rect x="440" y="265" width="85" height="40" rx="6" fill="#ffffff" stroke="#8b5cf6" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="482" y="283" text-anchor="middle" font-size="10" font-weight="600" fill="#1e293b">ECS Task</text>
+  <text x="482" y="297" text-anchor="middle" font-size="9" fill="#64748b">ENI: 10.0.11.5</text>
+
+  <rect x="545" y="265" width="85" height="40" rx="6" fill="#ffffff" stroke="#ec4899" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="587" y="283" text-anchor="middle" font-size="10" font-weight="600" fill="#1e293b">RDS Standby</text>
+  <text x="587" y="297" text-anchor="middle" font-size="9" fill="#64748b">10.0.11.100</text>
+
+  <rect x="425" y="350" width="300" height="60" rx="8" fill="#fdf4ff" stroke="#a855f7" stroke-width="1.5"/>
+  <text x="575" y="370" text-anchor="middle" font-size="11" font-weight="600" fill="#7c3aed">Isolated Subnet: 10.0.21.0/24</text>
+  <rect x="490" y="380" width="170" height="22" rx="4" fill="#ffffff" stroke="#a855f7" stroke-width="1"/>
+  <text x="575" y="395" text-anchor="middle" font-size="9" fill="#7c3aed">ElastiCache Replica</text>
+
+  <!-- VPC Endpoints (bottom) -->
+  <rect x="60" y="490" width="680" height="50" rx="8" fill="#ffffff" stroke="#06b6d4" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="400" y="510" text-anchor="middle" font-size="12" font-weight="700" fill="#0e7490">VPC Endpoints (Private Connectivity to AWS Services)</text>
+  <text x="150" y="530" text-anchor="middle" font-size="10" fill="#64748b">S3 (Gateway)</text>
+  <text x="290" y="530" text-anchor="middle" font-size="10" fill="#64748b">DynamoDB (Gateway)</text>
+  <text x="440" y="530" text-anchor="middle" font-size="10" fill="#64748b">SQS (Interface/ENI)</text>
+  <text x="580" y="530" text-anchor="middle" font-size="10" fill="#64748b">Secrets Mgr (Interface)</text>
+
+  <!-- Internet Gateway -->
+  <rect x="320" y="555" width="160" height="35" rx="8" fill="#ffffff" stroke="#10b981" stroke-width="2" filter="url(#shadow)"/>
+  <text x="400" y="577" text-anchor="middle" font-size="11" font-weight="600" fill="#059669">Internet Gateway</text>
+
+  <!-- Route table annotations -->
+  <text x="400" y="588" text-anchor="middle" font-size="9" fill="#64748b">Public RT: 0.0.0.0/0 → IGW | Private RT: 0.0.0.0/0 → NAT | Isolated RT: No default route</text>
+</svg>

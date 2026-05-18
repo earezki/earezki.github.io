@@ -1,0 +1,203 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 730" preserveAspectRatio="xMidYMid meet">
+  <style>
+    svg {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: transparent;
+    }
+    .title-main { font-size: 18px; font-weight: 800; fill: #f8fafc; letter-spacing: 1px; }
+    .title-sub  { font-size: 11px; fill: #64748b; letter-spacing: 1px; }
+
+    /* Cert boxes */
+    .cert-root  { fill: #2d1810; stroke: #ef4444; stroke-width: 2.5; rx: 12; }
+    .cert-inter { fill: #1e2d10; stroke: #84cc16; stroke-width: 2; rx: 12; }
+    .cert-leaf  { fill: #0f2030; stroke: #0ea5e9; stroke-width: 2; rx: 12; }
+    .cert-trust { fill: #1e293b; stroke: #f59e0b; stroke-width: 2; rx: 8; stroke-dasharray: 5 4; }
+
+    .cert-title { font-size: 15px; font-weight: 800; text-anchor: middle; }
+    .cert-sub   { font-size: 11px; text-anchor: middle; fill: #94a3b8; }
+    .cert-field { font-size: 10px; text-anchor: start; fill: #94a3b8; }
+    .cert-value { font-size: 10px; text-anchor: start; font-weight: 600; }
+
+    /* Sig arrows */
+    .sig-arrow { fill: none; stroke-width: 2.5; stroke-dasharray: 6 4; animation: sig-pulse 4s ease-in-out infinite; }
+    .sig-arrow-r { stroke: #ef4444; }
+    .sig-arrow-g { stroke: #84cc16; animation-delay: 1s; }
+
+    @keyframes sig-pulse {
+      0%, 40% { opacity: 0.4; }
+      50%      { opacity: 1; filter: drop-shadow(0 0 6px currentColor); }
+      60%, 100%{ opacity: 0.4; }
+    }
+
+    .sig-label { font-size: 10px; font-weight: 700; text-anchor: middle; }
+
+    /* Verification steps on right */
+    .step-box { fill: #1e293b; stroke: #334155; stroke-width: 1.5; rx: 8; }
+    .step-box-ok { fill: #14302a; stroke: #10b981; stroke-width: 1.5; rx: 8; animation: step-glow 6s linear infinite; }
+    .step-num { font-size: 14px; font-weight: 800; fill: #f8fafc; text-anchor: middle; }
+    .step-text { font-size: 11px; font-weight: 600; fill: #f8fafc; }
+    .step-sub  { font-size: 10px; fill: #64748b; }
+
+    @keyframes step-glow {
+      0%,10%   { fill: #1e293b; stroke: #334155; }
+      15%,25%  { fill: #14302a; stroke: #10b981; filter: drop-shadow(0 0 6px rgba(16,185,129,0.5)); }
+      30%,100% { fill: #1e293b; stroke: #334155; filter: none; }
+    }
+
+    .step1-anim { animation-delay: 0s; }
+    .step2-anim { animation-delay: 1.2s; }
+    .step3-anim { animation-delay: 2.4s; }
+    .step4-anim { animation-delay: 3.6s; }
+    .step5-anim { animation-delay: 4.8s; }
+
+    /* Browser trust store */
+    .trust-store { fill: #1c1a08; stroke: #f59e0b; stroke-width: 2; rx: 10; }
+    .trust-text { font-size: 11px; font-weight: 700; fill: #fbbf24; text-anchor: middle; }
+    .trust-sub  { font-size: 10px; fill: #92400e; text-anchor: middle; }
+
+    /* CT log -->*/
+    .ct-box { fill: #1a1a2e; stroke: #6366f1; stroke-width: 1.5; rx: 8; }
+
+    /* Check marks */
+    .check { font-size: 14px; fill: #10b981; }
+    .warn  { font-size: 14px; fill: #f59e0b; }
+
+    /* Connector lines between cert boxes */
+    .chain-line { stroke: #475569; stroke-width: 2; fill: none; }
+
+    .validity-label { font-size: 9px; fill: #64748b; text-anchor: middle; }
+  </style>
+  <defs>
+    <marker id="arr-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#ef4444" />
+    </marker>
+    <marker id="arr-lime" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#84cc16" />
+    </marker>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#475569" />
+    </marker>
+    <marker id="arr-amber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#f59e0b" />
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="860" height="730" fill="#0f172a" rx="16" />
+
+  <!-- Title -->
+  <text x="430" y="38" class="title-main" text-anchor="middle">Certificate Chain of Trust</text>
+  <text x="430" y="56" class="title-sub" text-anchor="middle">AUTHENTICATION IN TLS · HOW A DOMAIN CERT CHAINS TO A BROWSER-TRUSTED ROOT</text>
+
+  <!-- ═══ ROOT CA ═══ -->
+  <rect x="40" y="70" width="340" height="156" rx="12" class="cert-root" />
+  <text x="210" y="96" class="cert-title" fill="#fca5a5">Root CA</text>
+  <text x="210" y="112" class="cert-sub">Self-signed · Embedded in OS / Browser trust store</text>
+  <text x="60" y="134" class="cert-field">Subject:</text>
+  <text x="120" y="134" class="cert-value" fill="#f87171">ISRG Root X1 (Let's Encrypt)</text>
+  <text x="60" y="150" class="cert-field">Issuer:</text>
+  <text x="120" y="150" class="cert-value" fill="#94a3b8">ISRG Root X1 (self-signed)</text>
+  <text x="60" y="166" class="cert-field">Key:</text>
+  <text x="120" y="166" class="cert-value" fill="#94a3b8">RSA 4096 / ECDSA P-384</text>
+  <text x="60" y="182" class="cert-field">Validity:</text>
+  <text x="120" y="182" class="cert-value" fill="#94a3b8">20–30 years</text>
+
+  <!-- Trust store badge -->
+  <rect x="50" y="190" width="320" height="30" rx="6" class="trust-store" />
+  <text x="210" y="205" class="trust-text">TRUSTED ANCHOR</text>
+  <text x="210" y="217" font-size="9" fill="#b45309" text-anchor="middle">pre-installed in OS / browser · never transmitted over TLS</text>
+
+  <!-- Sig arrow Root → Intermediate -->
+  <line x1="210" y1="226" x2="210" y2="290" class="sig-arrow sig-arrow-r" marker-end="url(#arr-red)" />
+  <rect x="148" y="236" width="124" height="18" rx="4" fill="#1e293b" stroke="#ef4444" stroke-width="1" />
+  <text x="210" y="248" class="sig-label" fill="#fca5a5">Root signs Intermediate</text>
+
+  <!-- ═══ INTERMEDIATE CA ═══ -->
+  <rect x="40" y="290" width="340" height="130" rx="12" class="cert-inter" />
+  <text x="210" y="316" class="cert-title" fill="#bef264">Intermediate CA</text>
+  <text x="210" y="332" class="cert-sub">Signed by Root · Used for day-to-day issuance</text>
+  <text x="60" y="354" class="cert-field">Subject:</text>
+  <text x="120" y="354" class="cert-value" fill="#a3e635">Let's Encrypt E5</text>
+  <text x="60" y="370" class="cert-field">Issuer:</text>
+  <text x="120" y="370" class="cert-value" fill="#94a3b8">ISRG Root X1</text>
+  <text x="60" y="386" class="cert-field">Key:</text>
+  <text x="120" y="386" class="cert-value" fill="#94a3b8">ECDSA P-384</text>
+  <text x="60" y="402" class="cert-field">Validity:</text>
+  <text x="120" y="402" class="cert-value" fill="#94a3b8">2–5 years</text>
+
+  <!-- Sig arrow Intermediate → Leaf -->
+  <line x1="210" y1="420" x2="210" y2="490" class="sig-arrow sig-arrow-g" marker-end="url(#arr-lime)" />
+  <rect x="130" y="430" width="160" height="18" rx="4" fill="#1e293b" stroke="#84cc16" stroke-width="1" />
+  <text x="210" y="442" class="sig-label" fill="#bef264">Intermediate signs Leaf</text>
+
+  <!-- ═══ LEAF CERT ═══ -->
+  <rect x="40" y="490" width="340" height="145" rx="12" class="cert-leaf" />
+  <text x="210" y="516" class="cert-title" fill="#7dd3fc">Leaf Certificate</text>
+  <text x="210" y="532" class="cert-sub">Sent by server in TLS handshake</text>
+  <text x="60" y="554" class="cert-field">Subject:</text>
+  <text x="120" y="554" class="cert-value" fill="#38bdf8">CN=api.example.com</text>
+  <text x="60" y="570" class="cert-field">SAN:</text>
+  <text x="120" y="570" class="cert-value" fill="#38bdf8">api.example.com, www.example.com</text>
+  <text x="60" y="586" class="cert-field">Key:</text>
+  <text x="120" y="586" class="cert-value" fill="#94a3b8">ECDSA P-256 (public)</text>
+  <text x="60" y="602" class="cert-field">Validity:</text>
+  <text x="120" y="602" class="cert-value" fill="#94a3b8">90 days (Let's Encrypt)</text>
+  <text x="60" y="618" class="cert-field">SCT:</text>
+  <text x="120" y="618" class="cert-value" fill="#94a3b8">Certificate Transparency log proof</text>
+
+  <!-- ═══ VERIFICATION STEPS (right side) ═══ -->
+  <text x="560" y="82" font-size="12" font-weight="700" fill="#64748b" text-anchor="middle" letter-spacing="1.5px">CLIENT VALIDATION STEPS</text>
+
+  <!-- Step 1 -->
+  <rect x="430" y="92" width="390" height="72" rx="8" class="step-box step1-anim" style="animation: step-glow 6s 0s infinite;" />
+  <text x="460" y="116" class="step-num">1</text>
+  <text x="484" y="112" class="step-text">Build the chain</text>
+  <text x="484" y="127" class="step-sub">Leaf → Intermediate → Root</text>
+  <text x="484" y="142" class="step-sub">Server sends leaf + intermediates. Root comes from OS trust store.</text>
+  <text x="806" y="120" class="check">✓</text>
+
+  <!-- Step 2 -->
+  <rect x="430" y="174" width="390" height="72" rx="8" class="step-box step2-anim" style="animation: step-glow 6s 1.2s infinite;" />
+  <text x="460" y="198" class="step-num">2</text>
+  <text x="484" y="194" class="step-text">Verify signatures</text>
+  <text x="484" y="209" class="step-sub">Root's pubkey verifies Intermediate's sig</text>
+  <text x="484" y="224" class="step-sub">Intermediate's pubkey verifies Leaf's sig</text>
+  <text x="806" y="202" class="check">✓</text>
+
+  <!-- Step 3 -->
+  <rect x="430" y="256" width="390" height="72" rx="8" class="step-box step3-anim" style="animation: step-glow 6s 2.4s infinite;" />
+  <text x="460" y="280" class="step-num">3</text>
+  <text x="484" y="276" class="step-text">Check dates</text>
+  <text x="484" y="291" class="step-sub">notBefore ≤ now ≤ notAfter for every cert in chain</text>
+  <text x="484" y="306" class="step-sub">Why 90-day certs matter: short windows limit exposure on compromise</text>
+  <text x="806" y="284" class="check">✓</text>
+
+  <!-- Step 4 -->
+  <rect x="430" y="338" width="390" height="72" rx="8" class="step-box step4-anim" style="animation: step-glow 6s 3.6s infinite;" />
+  <text x="460" y="362" class="step-num">4</text>
+  <text x="484" y="358" class="step-text">Check revocation (OCSP)</text>
+  <text x="484" y="373" class="step-sub">Query CA's OCSP responder (or use stapled response in handshake)</text>
+  <text x="484" y="388" class="step-sub">If cert was mis-issued or key was compromised → REVOKED</text>
+  <text x="806" y="366" class="check">✓</text>
+
+  <!-- Step 5 -->
+  <rect x="430" y="420" width="390" height="72" rx="8" class="step-box step5-anim" style="animation: step-glow 6s 4.8s infinite;" />
+  <text x="460" y="444" class="step-num">5</text>
+  <text x="484" y="440" class="step-text">Match hostname</text>
+  <text x="484" y="455" class="step-sub">Does the hostname in your URL appear in cert's Subject Alt Names?</text>
+  <text x="484" y="470" class="step-sub">Wildcards: *.example.com covers sub.example.com, not deep.sub.example.com</text>
+  <text x="806" y="448" class="check">✓</text>
+
+  <!-- ═══ CT LOG ═══ -->
+  <rect x="430" y="510" width="390" height="68" rx="10" class="ct-box" />
+  <text x="625" y="532" font-size="12" font-weight="700" fill="#a5b4fc" text-anchor="middle">Certificate Transparency (Since 2018)</text>
+  <text x="625" y="548" font-size="10" fill="#818cf8" text-anchor="middle">Every public cert must be logged to public CT logs before acceptance.</text>
+  <text x="625" y="562" font-size="10" fill="#818cf8" text-anchor="middle">SCT (Signed Certificate Timestamp) included in handshake as proof.</text>
+  <text x="625" y="576" font-size="10" fill="#6366f1" text-anchor="middle">Query: https://crt.sh/?q=yourdomain.com — monitor for unauthorized issuance</text>
+
+  <!-- Bottom warning -->
+  <rect x="40" y="650" width="780" height="64" rx="10" fill="#1e1a08" stroke="#f59e0b" stroke-width="1.5" />
+  <text x="430" y="669" font-size="11" font-weight="700" fill="#fbbf24" text-anchor="middle">⚠️  Private CA (mTLS / internal services)</text>
+  <text x="430" y="685" font-size="10" fill="#92400e" text-anchor="middle">You run your own Root CA and distribute it to clients. Not trusted by browsers by default. Used in Istio, Kubernetes, zero-trust networking.</text>
+  <text x="430" y="700" font-size="10" fill="#92400e" text-anchor="middle">Your Root must be explicitly trusted on every client. One compromised Root = attacker can forge any cert in your domain.</text>
+</svg>
