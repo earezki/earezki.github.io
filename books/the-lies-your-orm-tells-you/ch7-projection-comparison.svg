@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 450" width="820" height="450" font-family="'JetBrains Mono', 'Fira Code', monospace">
+  <rect width="820" height="450" fill="#1e1e2e" rx="8"/>
+
+  <!-- Title -->
+  <text x="410" y="35" text-anchor="middle" fill="#cdd6f4" font-size="16" font-weight="bold">Entity Load vs DTO Projection: Memory Comparison</text>
+
+  <!-- Left: Entity Load -->
+  <rect x="30" y="55" width="370" height="340" rx="6" fill="#313244" stroke="#f38ba8" stroke-width="1.5"/>
+  <text x="215" y="80" text-anchor="middle" fill="#f38ba8" font-size="13" font-weight="bold">Full Entity Load</text>
+  <text x="215" y="95" text-anchor="middle" fill="#6c7086" font-size="10">SELECT * FROM products LIMIT 50</text>
+
+  <!-- Entity box -->
+  <rect x="55" y="110" width="320" height="140" rx="4" fill="#45475a" stroke="#f38ba8" stroke-width="1"/>
+  <text x="215" y="130" text-anchor="middle" fill="#cdd6f4" font-size="10" font-weight="bold">Product Entity (25 columns)</text>
+
+  <!-- Used fields -->
+  <rect x="70" y="140" width="80" height="18" rx="2" fill="#a6e3a1" opacity="0.3" stroke="#a6e3a1" stroke-width="1"/>
+  <text x="110" y="153" text-anchor="middle" fill="#a6e3a1" font-size="8">id</text>
+  <rect x="160" y="140" width="80" height="18" rx="2" fill="#a6e3a1" opacity="0.3" stroke="#a6e3a1" stroke-width="1"/>
+  <text x="200" y="153" text-anchor="middle" fill="#a6e3a1" font-size="8">name</text>
+  <rect x="250" y="140" width="80" height="18" rx="2" fill="#a6e3a1" opacity="0.3" stroke="#a6e3a1" stroke-width="1"/>
+  <text x="290" y="153" text-anchor="middle" fill="#a6e3a1" font-size="8">price</text>
+
+  <!-- Unused fields (waste) -->
+  <rect x="70" y="163" width="260" height="18" rx="2" fill="#f38ba8" opacity="0.2" stroke="#f38ba8" stroke-width="1"/>
+  <text x="200" y="176" text-anchor="middle" fill="#f38ba8" font-size="8">description (TEXT, ~4KB avg) - UNUSED</text>
+  <rect x="70" y="186" width="120" height="18" rx="2" fill="#f38ba8" opacity="0.15"/>
+  <text x="130" y="199" text-anchor="middle" fill="#6c7086" font-size="7">specs (JSONB)</text>
+  <rect x="200" y="186" width="65" height="18" rx="2" fill="#f38ba8" opacity="0.15"/>
+  <text x="233" y="199" text-anchor="middle" fill="#6c7086" font-size="7">image_url</text>
+  <rect x="275" y="186" width="55" height="18" rx="2" fill="#f38ba8" opacity="0.15"/>
+  <text x="303" y="199" text-anchor="middle" fill="#6c7086" font-size="7">sku</text>
+  <rect x="70" y="209" width="260" height="18" rx="2" fill="#f38ba8" opacity="0.1"/>
+  <text x="200" y="222" text-anchor="middle" fill="#6c7086" font-size="7">+ 17 more unused columns</text>
+
+  <!-- Persistence context overhead -->
+  <rect x="55" y="260" width="320" height="50" rx="4" fill="#45475a" stroke="#f38ba8" stroke-width="1" stroke-dasharray="4"/>
+  <text x="215" y="280" text-anchor="middle" fill="#f38ba8" font-size="10">+ Persistence Context Snapshot</text>
+  <text x="215" y="296" text-anchor="middle" fill="#6c7086" font-size="9">Duplicate of all 25 field values for dirty checking</text>
+
+  <!-- Memory total -->
+  <text x="215" y="340" text-anchor="middle" fill="#cdd6f4" font-size="11">Data transferred: <tspan fill="#f38ba8" font-weight="bold">225 KB</tspan></text>
+  <text x="215" y="360" text-anchor="middle" fill="#cdd6f4" font-size="11">Heap allocated: <tspan fill="#f38ba8" font-weight="bold">450 KB</tspan></text>
+  <text x="215" y="380" text-anchor="middle" fill="#6c7086" font-size="9">Fields used: 3 of 25 (12%)</text>
+
+  <!-- Right: DTO Projection -->
+  <rect x="420" y="55" width="370" height="340" rx="6" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="605" y="80" text-anchor="middle" fill="#a6e3a1" font-size="13" font-weight="bold">DTO Projection</text>
+  <text x="605" y="95" text-anchor="middle" fill="#6c7086" font-size="10">SELECT id, name, price FROM products LIMIT 50</text>
+
+  <!-- DTO box -->
+  <rect x="445" y="110" width="320" height="60" rx="4" fill="#45475a" stroke="#a6e3a1" stroke-width="1"/>
+  <text x="605" y="130" text-anchor="middle" fill="#cdd6f4" font-size="10" font-weight="bold">ProductListItem record (3 fields)</text>
+
+  <rect x="460" y="140" width="80" height="18" rx="2" fill="#a6e3a1" opacity="0.3" stroke="#a6e3a1" stroke-width="1"/>
+  <text x="500" y="153" text-anchor="middle" fill="#a6e3a1" font-size="8">id</text>
+  <rect x="550" y="140" width="80" height="18" rx="2" fill="#a6e3a1" opacity="0.3" stroke="#a6e3a1" stroke-width="1"/>
+  <text x="590" y="153" text-anchor="middle" fill="#a6e3a1" font-size="8">name</text>
+  <rect x="640" y="140" width="80" height="18" rx="2" fill="#a6e3a1" opacity="0.3" stroke="#a6e3a1" stroke-width="1"/>
+  <text x="680" y="153" text-anchor="middle" fill="#a6e3a1" font-size="8">price</text>
+
+  <!-- No persistence context -->
+  <rect x="445" y="190" width="320" height="40" rx="4" fill="#45475a" stroke="#a6e3a1" stroke-width="1" stroke-dasharray="4"/>
+  <text x="605" y="215" text-anchor="middle" fill="#a6e3a1" font-size="10">No persistence context. No snapshot.</text>
+
+  <!-- Memory total -->
+  <text x="605" y="280" text-anchor="middle" fill="#cdd6f4" font-size="11">Data transferred: <tspan fill="#a6e3a1" font-weight="bold">5 KB</tspan></text>
+  <text x="605" y="300" text-anchor="middle" fill="#cdd6f4" font-size="11">Heap allocated: <tspan fill="#a6e3a1" font-weight="bold">5 KB</tspan></text>
+  <text x="605" y="320" text-anchor="middle" fill="#6c7086" font-size="9">Fields used: 3 of 3 (100%)</text>
+
+  <!-- Savings callout -->
+  <rect x="470" y="340" width="270" height="40" rx="6" fill="#a6e3a1" opacity="0.15" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="605" y="360" text-anchor="middle" fill="#a6e3a1" font-size="12" font-weight="bold">45x less data. 90x less heap.</text>
+  <text x="605" y="375" text-anchor="middle" fill="#6c7086" font-size="9">At 100 req/s: 22 MB/s saved</text>
+
+  <!-- Footer -->
+  <text x="410" y="435" text-anchor="middle" fill="#585b70" font-size="10">Chapter 7: Projection Queries: Selecting Less, Getting More</text>
+</svg>

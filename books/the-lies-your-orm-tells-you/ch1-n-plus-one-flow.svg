@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 520" width="820" height="520" font-family="'JetBrains Mono', 'Fira Code', monospace">
+  <rect width="820" height="520" fill="#1e1e2e" rx="8"/>
+
+  <!-- Title -->
+  <text x="410" y="35" text-anchor="middle" fill="#cdd6f4" font-size="16" font-weight="bold">N+1 Query Execution Flow</text>
+
+  <!-- Step 1: Initial Query -->
+  <rect x="40" y="60" width="340" height="50" rx="6" fill="#313244" stroke="#89b4fa" stroke-width="1.5"/>
+  <text x="210" y="82" text-anchor="middle" fill="#89b4fa" font-size="12" font-weight="bold">1. Repository Call</text>
+  <text x="210" y="98" text-anchor="middle" fill="#cdd6f4" font-size="10">orderRepository.findAll()</text>
+
+  <!-- Arrow -->
+  <line x1="210" y1="110" x2="210" y2="135" stroke="#6c7086" stroke-width="1.5" marker-end="url(#arrow1)"/>
+
+  <!-- Step 2: SELECT orders -->
+  <rect x="40" y="135" width="340" height="50" rx="6" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="210" y="157" text-anchor="middle" fill="#a6e3a1" font-size="12" font-weight="bold">2. SQL Query #1</text>
+  <text x="210" y="173" text-anchor="middle" fill="#cdd6f4" font-size="10">SELECT * FROM orders</text>
+
+  <!-- Arrow -->
+  <line x1="210" y1="185" x2="210" y2="210" stroke="#6c7086" stroke-width="1.5" marker-end="url(#arrow1)"/>
+
+  <!-- Step 3: Result 100 orders -->
+  <rect x="40" y="210" width="340" height="40" rx="6" fill="#313244" stroke="#cdd6f4" stroke-width="1"/>
+  <text x="210" y="235" text-anchor="middle" fill="#cdd6f4" font-size="11">Returns 100 Order entities</text>
+
+  <!-- Arrow -->
+  <line x1="210" y1="250" x2="210" y2="275" stroke="#6c7086" stroke-width="1.5" marker-end="url(#arrow1)"/>
+
+  <!-- Step 4: Access lazy collection -->
+  <rect x="40" y="275" width="340" height="50" rx="6" fill="#313244" stroke="#f9e2af" stroke-width="1.5"/>
+  <text x="210" y="297" text-anchor="middle" fill="#f9e2af" font-size="12" font-weight="bold">3. Lazy Access (per order)</text>
+  <text x="210" y="313" text-anchor="middle" fill="#cdd6f4" font-size="10">order.getItems() triggers SELECT</text>
+
+  <!-- Arrow -->
+  <line x1="210" y1="325" x2="210" y2="350" stroke="#6c7086" stroke-width="1.5" marker-end="url(#arrow1)"/>
+
+  <!-- Step 5: N queries -->
+  <rect x="40" y="350" width="340" height="80" rx="6" fill="#313244" stroke="#f38ba8" stroke-width="2"/>
+  <text x="210" y="375" text-anchor="middle" fill="#f38ba8" font-size="12" font-weight="bold">4. N Additional Queries</text>
+  <text x="210" y="393" text-anchor="middle" fill="#cdd6f4" font-size="10">SELECT * FROM order_items WHERE order_id = 1</text>
+  <text x="210" y="407" text-anchor="middle" fill="#cdd6f4" font-size="10">SELECT * FROM order_items WHERE order_id = 2</text>
+  <text x="210" y="421" text-anchor="middle" fill="#6c7086" font-size="10">... × 100 (one per order)</text>
+
+  <!-- Right side: Summary -->
+  <rect x="440" y="60" width="340" height="170" rx="6" fill="#313244" stroke="#cdd6f4" stroke-width="1"/>
+  <text x="610" y="85" text-anchor="middle" fill="#cdd6f4" font-size="13" font-weight="bold">Query Count</text>
+  <text x="610" y="110" text-anchor="middle" fill="#f38ba8" font-size="28" font-weight="bold">101</text>
+  <text x="610" y="132" text-anchor="middle" fill="#6c7086" font-size="11">1 (orders) + 100 (items)</text>
+  <line x1="480" y1="148" x2="740" y2="148" stroke="#45475a" stroke-width="1"/>
+  <text x="610" y="170" text-anchor="middle" fill="#cdd6f4" font-size="11">Expected: 1 or 2 queries</text>
+  <text x="610" y="188" text-anchor="middle" fill="#cdd6f4" font-size="11">Actual: N+1 queries</text>
+  <text x="610" y="210" text-anchor="middle" fill="#f38ba8" font-size="11">Overhead: 100× more DB round trips</text>
+
+  <!-- Right side: Fix -->
+  <rect x="440" y="260" width="340" height="170" rx="6" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="610" y="285" text-anchor="middle" fill="#a6e3a1" font-size="13" font-weight="bold">Fix: JOIN FETCH</text>
+  <text x="480" y="310" fill="#cdd6f4" font-size="10">SELECT o FROM Order o</text>
+  <text x="480" y="326" fill="#a6e3a1" font-size="10">  JOIN FETCH o.items</text>
+  <line x1="480" y1="342" x2="740" y2="342" stroke="#45475a" stroke-width="1"/>
+  <text x="610" y="362" text-anchor="middle" fill="#a6e3a1" font-size="24" font-weight="bold">1</text>
+  <text x="610" y="382" text-anchor="middle" fill="#cdd6f4" font-size="11">Single query with JOIN</text>
+  <text x="610" y="400" text-anchor="middle" fill="#a6e3a1" font-size="11">100× fewer round trips</text>
+  <text x="610" y="418" text-anchor="middle" fill="#6c7086" font-size="10">Trade-off: larger result set (denormalized)</text>
+
+  <!-- Footer -->
+  <text x="410" y="500" text-anchor="middle" fill="#585b70" font-size="10">Chapter 1: The N+1 You Didn't Write</text>
+
+  <defs>
+    <marker id="arrow1" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto" fill="#6c7086">
+      <polygon points="0 0, 8 3, 0 6"/>
+    </marker>
+  </defs>
+</svg>

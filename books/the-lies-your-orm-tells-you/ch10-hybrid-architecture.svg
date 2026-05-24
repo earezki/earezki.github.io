@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 480" width="820" height="480" font-family="'JetBrains Mono', 'Fira Code', monospace">
+  <rect width="820" height="480" fill="#1e1e2e" rx="8"/>
+
+  <!-- Title -->
+  <text x="410" y="35" text-anchor="middle" fill="#cdd6f4" font-size="16" font-weight="bold">Hybrid Architecture: Hibernate + jOOQ</text>
+
+  <!-- Application layer -->
+  <rect x="40" y="55" width="740" height="45" rx="6" fill="#313244" stroke="#cdd6f4" stroke-width="1"/>
+  <text x="410" y="83" text-anchor="middle" fill="#cdd6f4" font-size="12" font-weight="bold">Application Layer (Controllers, Services)</text>
+
+  <!-- Split arrows -->
+  <line x1="280" y1="100" x2="200" y2="130" stroke="#a6e3a1" stroke-width="2" marker-end="url(#arrow10)"/>
+  <text x="210" y="120" fill="#a6e3a1" font-size="9">Writes</text>
+
+  <line x1="540" y1="100" x2="620" y2="130" stroke="#89b4fa" stroke-width="2" marker-end="url(#arrow10b)"/>
+  <text x="600" y="120" fill="#89b4fa" font-size="9">Reads</text>
+
+  <!-- Hibernate box -->
+  <rect x="40" y="130" width="350" height="160" rx="6" fill="#313244" stroke="#a6e3a1" stroke-width="2"/>
+  <text x="215" y="155" text-anchor="middle" fill="#a6e3a1" font-size="13" font-weight="bold">Hibernate / Spring Data JPA</text>
+
+  <rect x="60" y="165" width="140" height="30" rx="4" fill="#45475a"/>
+  <text x="130" y="185" text-anchor="middle" fill="#cdd6f4" font-size="9">Entity Lifecycle</text>
+
+  <rect x="210" y="165" width="160" height="30" rx="4" fill="#45475a"/>
+  <text x="290" y="185" text-anchor="middle" fill="#cdd6f4" font-size="9">Dirty Tracking + Flush</text>
+
+  <rect x="60" y="200" width="140" height="30" rx="4" fill="#45475a"/>
+  <text x="130" y="220" text-anchor="middle" fill="#cdd6f4" font-size="9">Cascade Operations</text>
+
+  <rect x="210" y="200" width="160" height="30" rx="4" fill="#45475a"/>
+  <text x="290" y="220" text-anchor="middle" fill="#cdd6f4" font-size="9">Optimistic Locking</text>
+
+  <rect x="60" y="240" width="310" height="30" rx="4" fill="#a6e3a1" opacity="0.15"/>
+  <text x="215" y="260" text-anchor="middle" fill="#a6e3a1" font-size="10">CRUD, form submissions, entity graphs</text>
+
+  <!-- jOOQ box -->
+  <rect x="430" y="130" width="350" height="160" rx="6" fill="#313244" stroke="#89b4fa" stroke-width="2"/>
+  <text x="605" y="155" text-anchor="middle" fill="#89b4fa" font-size="13" font-weight="bold">jOOQ / JDBC Template</text>
+
+  <rect x="450" y="165" width="140" height="30" rx="4" fill="#45475a"/>
+  <text x="520" y="185" text-anchor="middle" fill="#cdd6f4" font-size="9">DTO Projections</text>
+
+  <rect x="600" y="165" width="160" height="30" rx="4" fill="#45475a"/>
+  <text x="680" y="185" text-anchor="middle" fill="#cdd6f4" font-size="9">Window Functions</text>
+
+  <rect x="450" y="200" width="140" height="30" rx="4" fill="#45475a"/>
+  <text x="520" y="220" text-anchor="middle" fill="#cdd6f4" font-size="9">CTEs / Aggregations</text>
+
+  <rect x="600" y="200" width="160" height="30" rx="4" fill="#45475a"/>
+  <text x="680" y="220" text-anchor="middle" fill="#cdd6f4" font-size="9">Type-safe SQL</text>
+
+  <rect x="450" y="240" width="310" height="30" rx="4" fill="#89b4fa" opacity="0.15"/>
+  <text x="605" y="260" text-anchor="middle" fill="#89b4fa" font-size="10">Lists, search, reports, analytics</text>
+
+  <!-- Shared DataSource -->
+  <line x1="215" y1="290" x2="215" y2="320" stroke="#a6e3a1" stroke-width="1.5" marker-end="url(#arrow10)"/>
+  <line x1="605" y1="290" x2="605" y2="320" stroke="#89b4fa" stroke-width="1.5" marker-end="url(#arrow10b)"/>
+
+  <rect x="140" y="320" width="540" height="45" rx="6" fill="#313244" stroke="#f9e2af" stroke-width="1.5"/>
+  <text x="410" y="348" text-anchor="middle" fill="#f9e2af" font-size="12" font-weight="bold">Shared DataSource + Connection Pool (HikariCP)</text>
+
+  <!-- Database -->
+  <line x1="410" y1="365" x2="410" y2="390" stroke="#6c7086" stroke-width="1.5" marker-end="url(#arrow10)"/>
+
+  <rect x="280" y="390" width="260" height="45" rx="6" fill="#313244" stroke="#cdd6f4" stroke-width="1.5"/>
+  <text x="410" y="418" text-anchor="middle" fill="#cdd6f4" font-size="12" font-weight="bold">PostgreSQL / MySQL</text>
+
+  <!-- 70/30 split annotation -->
+  <rect x="40" y="445" width="740" height="25" rx="4" fill="#313244" stroke="#45475a" stroke-width="1"/>
+  <text x="410" y="462" text-anchor="middle" fill="#6c7086" font-size="10">Typical split: <tspan fill="#a6e3a1">Hibernate for ~30% of queries (writes)</tspan>  |  <tspan fill="#89b4fa">jOOQ/JDBC for ~70% (reads, reports)</tspan></text>
+
+  <!-- Footer -->
+  <text x="410" y="478" text-anchor="middle" fill="#585b70" font-size="10">Chapter 10: When to Stop Using Hibernate</text>
+
+  <defs>
+    <marker id="arrow10" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto" fill="#a6e3a1">
+      <polygon points="0 0, 8 3, 0 6"/>
+    </marker>
+    <marker id="arrow10b" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto" fill="#89b4fa">
+      <polygon points="0 0, 8 3, 0 6"/>
+    </marker>
+  </defs>
+</svg>

@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 460" width="820" height="460" font-family="'JetBrains Mono', 'Fira Code', monospace">
+  <rect width="820" height="460" fill="#1e1e2e" rx="8"/>
+
+  <!-- Title -->
+  <text x="410" y="35" text-anchor="middle" fill="#cdd6f4" font-size="16" font-weight="bold">Query Approach Decision Matrix</text>
+
+  <!-- Three columns -->
+  <!-- JPQL -->
+  <rect x="30" y="55" width="240" height="360" rx="6" fill="#313244" stroke="#89b4fa" stroke-width="1.5"/>
+  <text x="150" y="80" text-anchor="middle" fill="#89b4fa" font-size="14" font-weight="bold">JPQL</text>
+
+  <text x="50" y="105" fill="#a6e3a1" font-size="10" font-weight="bold">Strengths</text>
+  <text x="50" y="122" fill="#cdd6f4" font-size="9">Readable, concise</text>
+  <text x="50" y="137" fill="#cdd6f4" font-size="9">Entity-aware (joins follow mappings)</text>
+  <text x="50" y="152" fill="#cdd6f4" font-size="9">IDE autocompletion in @Query</text>
+  <text x="50" y="167" fill="#cdd6f4" font-size="9">Validated at startup (named queries)</text>
+
+  <text x="50" y="195" fill="#f38ba8" font-size="10" font-weight="bold">Weaknesses</text>
+  <text x="50" y="212" fill="#cdd6f4" font-size="9">No window functions</text>
+  <text x="50" y="227" fill="#cdd6f4" font-size="9">No CTEs or recursive queries</text>
+  <text x="50" y="242" fill="#cdd6f4" font-size="9">Poor dynamic composition</text>
+  <text x="50" y="257" fill="#cdd6f4" font-size="9">~70% SQL coverage</text>
+
+  <text x="50" y="285" fill="#f9e2af" font-size="10" font-weight="bold">Use for</text>
+  <rect x="50" y="295" width="200" height="25" rx="3" fill="#89b4fa" opacity="0.15"/>
+  <text x="150" y="312" text-anchor="middle" fill="#89b4fa" font-size="9">Static queries (fixed predicates)</text>
+  <rect x="50" y="325" width="200" height="25" rx="3" fill="#89b4fa" opacity="0.15"/>
+  <text x="150" y="342" text-anchor="middle" fill="#89b4fa" font-size="9">CRUD reads with simple joins</text>
+  <rect x="50" y="355" width="200" height="25" rx="3" fill="#89b4fa" opacity="0.15"/>
+  <text x="150" y="372" text-anchor="middle" fill="#89b4fa" font-size="9">DTO projections (constructor expr)</text>
+
+  <!-- Criteria API -->
+  <rect x="290" y="55" width="240" height="360" rx="6" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="410" y="80" text-anchor="middle" fill="#a6e3a1" font-size="14" font-weight="bold">Criteria API</text>
+
+  <text x="310" y="105" fill="#a6e3a1" font-size="10" font-weight="bold">Strengths</text>
+  <text x="310" y="122" fill="#cdd6f4" font-size="9">Type-safe (with metamodel)</text>
+  <text x="310" y="137" fill="#cdd6f4" font-size="9">Dynamic query composition</text>
+  <text x="310" y="152" fill="#cdd6f4" font-size="9">Specifications pattern</text>
+  <text x="310" y="167" fill="#cdd6f4" font-size="9">Compile-time field validation</text>
+
+  <text x="310" y="195" fill="#f38ba8" font-size="10" font-weight="bold">Weaknesses</text>
+  <text x="310" y="212" fill="#cdd6f4" font-size="9">Extremely verbose</text>
+  <text x="310" y="227" fill="#cdd6f4" font-size="9">Query intent hidden in builder calls</text>
+  <text x="310" y="242" fill="#cdd6f4" font-size="9">Same SQL limitations as JPQL</text>
+  <text x="310" y="257" fill="#cdd6f4" font-size="9">Requires annotation processor</text>
+
+  <text x="310" y="285" fill="#f9e2af" font-size="10" font-weight="bold">Use for</text>
+  <rect x="310" y="295" width="200" height="25" rx="3" fill="#a6e3a1" opacity="0.15"/>
+  <text x="410" y="312" text-anchor="middle" fill="#a6e3a1" font-size="9">Search/filter endpoints</text>
+  <rect x="310" y="325" width="200" height="25" rx="3" fill="#a6e3a1" opacity="0.15"/>
+  <text x="410" y="342" text-anchor="middle" fill="#a6e3a1" font-size="9">Optional predicates at runtime</text>
+  <rect x="310" y="355" width="200" height="25" rx="3" fill="#a6e3a1" opacity="0.15"/>
+  <text x="410" y="372" text-anchor="middle" fill="#a6e3a1" font-size="9">Reusable query components</text>
+
+  <!-- Native SQL -->
+  <rect x="550" y="55" width="240" height="360" rx="6" fill="#313244" stroke="#f9e2af" stroke-width="1.5"/>
+  <text x="670" y="80" text-anchor="middle" fill="#f9e2af" font-size="14" font-weight="bold">Native SQL</text>
+
+  <text x="570" y="105" fill="#a6e3a1" font-size="10" font-weight="bold">Strengths</text>
+  <text x="570" y="122" fill="#cdd6f4" font-size="9">100% SQL feature coverage</text>
+  <text x="570" y="137" fill="#cdd6f4" font-size="9">Window functions, CTEs, LATERAL</text>
+  <text x="570" y="152" fill="#cdd6f4" font-size="9">DB-specific optimizations</text>
+  <text x="570" y="167" fill="#cdd6f4" font-size="9">You control the SQL exactly</text>
+
+  <text x="570" y="195" fill="#f38ba8" font-size="10" font-weight="bold">Weaknesses</text>
+  <text x="570" y="212" fill="#cdd6f4" font-size="9">Manual result mapping</text>
+  <text x="570" y="227" fill="#cdd6f4" font-size="9">No type safety (strings)</text>
+  <text x="570" y="242" fill="#cdd6f4" font-size="9">Database-specific syntax</text>
+  <text x="570" y="257" fill="#cdd6f4" font-size="9">No entity lifecycle integration</text>
+
+  <text x="570" y="285" fill="#f9e2af" font-size="10" font-weight="bold">Use for</text>
+  <rect x="570" y="295" width="200" height="25" rx="3" fill="#f9e2af" opacity="0.15"/>
+  <text x="670" y="312" text-anchor="middle" fill="#f9e2af" font-size="9">Reporting and analytics</text>
+  <rect x="570" y="325" width="200" height="25" rx="3" fill="#f9e2af" opacity="0.15"/>
+  <text x="670" y="342" text-anchor="middle" fill="#f9e2af" font-size="9">Complex aggregations</text>
+  <rect x="570" y="355" width="200" height="25" rx="3" fill="#f9e2af" opacity="0.15"/>
+  <text x="670" y="372" text-anchor="middle" fill="#f9e2af" font-size="9">Performance-critical queries</text>
+
+  <!-- Footer -->
+  <text x="410" y="445" text-anchor="middle" fill="#585b70" font-size="10">Chapter 8: Criteria API vs JPQL vs Native: Choosing the Right Lie</text>
+</svg>

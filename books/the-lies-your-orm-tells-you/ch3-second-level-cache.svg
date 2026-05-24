@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 500" width="820" height="500" font-family="'JetBrains Mono', 'Fira Code', monospace">
+  <rect width="820" height="500" fill="#1e1e2e" rx="8"/>
+
+  <!-- Title -->
+  <text x="410" y="35" text-anchor="middle" fill="#cdd6f4" font-size="16" font-weight="bold">Hibernate Second-Level Cache Architecture</text>
+
+  <!-- Application Layer -->
+  <rect x="40" y="55" width="740" height="80" rx="6" fill="#313244" stroke="#89b4fa" stroke-width="1.5"/>
+  <text x="410" y="75" text-anchor="middle" fill="#89b4fa" font-size="12" font-weight="bold">Application (JVM)</text>
+
+  <!-- Session 1 -->
+  <rect x="60" y="85" width="150" height="40" rx="4" fill="#45475a" stroke="#cdd6f4" stroke-width="1"/>
+  <text x="135" y="100" text-anchor="middle" fill="#cdd6f4" font-size="10">Session 1 (L1)</text>
+  <text x="135" y="115" text-anchor="middle" fill="#6c7086" font-size="9">Per-request cache</text>
+
+  <!-- Session 2 -->
+  <rect x="230" y="85" width="150" height="40" rx="4" fill="#45475a" stroke="#cdd6f4" stroke-width="1"/>
+  <text x="305" y="100" text-anchor="middle" fill="#cdd6f4" font-size="10">Session 2 (L1)</text>
+  <text x="305" y="115" text-anchor="middle" fill="#6c7086" font-size="9">Per-request cache</text>
+
+  <!-- Session 3 -->
+  <rect x="400" y="85" width="150" height="40" rx="4" fill="#45475a" stroke="#cdd6f4" stroke-width="1"/>
+  <text x="475" y="100" text-anchor="middle" fill="#cdd6f4" font-size="10">Session 3 (L1)</text>
+  <text x="475" y="115" text-anchor="middle" fill="#6c7086" font-size="9">Per-request cache</text>
+
+  <!-- SessionFactory -->
+  <rect x="570" y="85" width="190" height="40" rx="4" fill="#45475a" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="665" y="108" text-anchor="middle" fill="#a6e3a1" font-size="10" font-weight="bold">SessionFactory (shared)</text>
+
+  <!-- Arrows down -->
+  <line x1="135" y1="135" x2="410" y2="175" stroke="#6c7086" stroke-width="1" marker-end="url(#arrow3)"/>
+  <line x1="305" y1="135" x2="410" y2="175" stroke="#6c7086" stroke-width="1" marker-end="url(#arrow3)"/>
+  <line x1="475" y1="135" x2="410" y2="175" stroke="#6c7086" stroke-width="1" marker-end="url(#arrow3)"/>
+
+  <!-- L2 Cache -->
+  <rect x="180" y="175" width="460" height="90" rx="6" fill="#313244" stroke="#a6e3a1" stroke-width="2"/>
+  <text x="410" y="195" text-anchor="middle" fill="#a6e3a1" font-size="13" font-weight="bold">Second-Level Cache (L2)</text>
+  <text x="410" y="212" text-anchor="middle" fill="#6c7086" font-size="10">Shared across all Sessions in the SessionFactory</text>
+
+  <!-- Cache regions -->
+  <rect x="200" y="222" width="120" height="32" rx="4" fill="#45475a" stroke="#89b4fa" stroke-width="1"/>
+  <text x="260" y="243" text-anchor="middle" fill="#89b4fa" font-size="9">Entity Cache</text>
+
+  <rect x="340" y="222" width="120" height="32" rx="4" fill="#45475a" stroke="#89b4fa" stroke-width="1"/>
+  <text x="400" y="243" text-anchor="middle" fill="#89b4fa" font-size="9">Collection Cache</text>
+
+  <rect x="480" y="222" width="140" height="32" rx="4" fill="#45475a" stroke="#f38ba8" stroke-width="1"/>
+  <text x="550" y="243" text-anchor="middle" fill="#f38ba8" font-size="9">Query Cache</text>
+
+  <!-- Arrow to DB -->
+  <line x1="410" y1="265" x2="410" y2="300" stroke="#6c7086" stroke-width="1.5" marker-end="url(#arrow3)"/>
+  <text x="430" y="285" fill="#6c7086" font-size="9">Cache miss</text>
+
+  <!-- Database -->
+  <rect x="280" y="300" width="260" height="45" rx="6" fill="#313244" stroke="#f9e2af" stroke-width="1.5"/>
+  <text x="410" y="328" text-anchor="middle" fill="#f9e2af" font-size="12" font-weight="bold">Database</text>
+
+  <!-- Problem callout -->
+  <rect x="40" y="370" width="740" height="100" rx="6" fill="#313244" stroke="#f38ba8" stroke-width="1.5"/>
+  <text x="410" y="395" text-anchor="middle" fill="#f38ba8" font-size="13" font-weight="bold">The Illusion</text>
+  <text x="60" y="415" fill="#cdd6f4" font-size="10">L2 stores dehydrated state (Object[]), not entity instances. Every cache hit still requires hydration.</text>
+  <text x="60" y="432" fill="#cdd6f4" font-size="10">Query cache stores only IDs. Each ID triggers an L2 lookup. N IDs = N cache lookups.</text>
+  <text x="60" y="449" fill="#cdd6f4" font-size="10">Any UPDATE/DELETE/INSERT invalidates ALL query cache entries for that entity's region.</text>
+  <text x="60" y="466" fill="#f38ba8" font-size="10" font-weight="bold">A write-heavy table with query cache enabled: every write invalidates every cached query result.</text>
+
+  <!-- Footer -->
+  <text x="410" y="493" text-anchor="middle" fill="#585b70" font-size="10">Chapter 3: The Second-Level Cache Illusion</text>
+
+  <defs>
+    <marker id="arrow3" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto" fill="#6c7086">
+      <polygon points="0 0, 8 3, 0 6"/>
+    </marker>
+  </defs>
+</svg>

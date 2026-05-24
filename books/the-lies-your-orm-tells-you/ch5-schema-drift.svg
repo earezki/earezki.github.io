@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 460" width="820" height="460" font-family="'JetBrains Mono', 'Fira Code', monospace">
+  <rect width="820" height="460" fill="#1e1e2e" rx="8"/>
+
+  <!-- Title -->
+  <text x="410" y="35" text-anchor="middle" fill="#cdd6f4" font-size="16" font-weight="bold">Schema Drift Over Time: ddl-auto=update</text>
+
+  <!-- Timeline axis -->
+  <line x1="80" y1="380" x2="740" y2="380" stroke="#6c7086" stroke-width="2"/>
+  <text x="410" y="410" text-anchor="middle" fill="#6c7086" font-size="10">Deployments over 18 months</text>
+
+  <!-- Month labels -->
+  <text x="120" y="398" text-anchor="middle" fill="#6c7086" font-size="9">Month 1</text>
+  <text x="280" y="398" text-anchor="middle" fill="#6c7086" font-size="9">Month 6</text>
+  <text x="440" y="398" text-anchor="middle" fill="#6c7086" font-size="9">Month 12</text>
+  <text x="600" y="398" text-anchor="middle" fill="#6c7086" font-size="9">Month 18</text>
+
+  <!-- Tick marks -->
+  <line x1="120" y1="375" x2="120" y2="385" stroke="#6c7086" stroke-width="2"/>
+  <line x1="280" y1="375" x2="280" y2="385" stroke="#6c7086" stroke-width="2"/>
+  <line x1="440" y1="375" x2="440" y2="385" stroke="#6c7086" stroke-width="2"/>
+  <line x1="600" y1="375" x2="600" y2="385" stroke="#6c7086" stroke-width="2"/>
+
+  <!-- Entity columns (green, what Hibernate knows) -->
+  <text x="80" y="75" fill="#a6e3a1" font-size="11" font-weight="bold">Entity Columns</text>
+  <rect x="120" y="80" width="40" height="20" rx="3" fill="#a6e3a1" opacity="0.3"/>
+  <text x="140" y="94" text-anchor="middle" fill="#a6e3a1" font-size="9">5</text>
+
+  <rect x="280" y="80" width="40" height="20" rx="3" fill="#a6e3a1" opacity="0.3"/>
+  <text x="300" y="94" text-anchor="middle" fill="#a6e3a1" font-size="9">8</text>
+
+  <rect x="440" y="80" width="40" height="20" rx="3" fill="#a6e3a1" opacity="0.3"/>
+  <text x="460" y="94" text-anchor="middle" fill="#a6e3a1" font-size="9">7</text>
+
+  <rect x="600" y="80" width="40" height="20" rx="3" fill="#a6e3a1" opacity="0.3"/>
+  <text x="620" y="94" text-anchor="middle" fill="#a6e3a1" font-size="9">10</text>
+
+  <!-- Database columns (red/yellow, what actually exists) -->
+  <text x="80" y="130" fill="#f38ba8" font-size="11" font-weight="bold">DB Columns (actual)</text>
+
+  <!-- Month 1: 5 cols, all match -->
+  <rect x="120" y="135" width="40" height="130" rx="3" fill="#a6e3a1" opacity="0.2" stroke="#a6e3a1" stroke-width="1"/>
+  <text x="140" y="205" text-anchor="middle" fill="#a6e3a1" font-size="16" font-weight="bold">5</text>
+  <text x="140" y="225" text-anchor="middle" fill="#6c7086" font-size="8">0 ghost</text>
+
+  <!-- Month 6: 8 entity cols, but 11 in DB (3 ghost) -->
+  <rect x="265" y="135" width="70" height="130" rx="3" fill="#f9e2af" opacity="0.2" stroke="#f9e2af" stroke-width="1"/>
+  <text x="300" y="195" text-anchor="middle" fill="#f9e2af" font-size="16" font-weight="bold">11</text>
+  <text x="300" y="215" text-anchor="middle" fill="#f38ba8" font-size="9">3 ghost cols</text>
+  <text x="300" y="230" text-anchor="middle" fill="#6c7086" font-size="8">0 indexes</text>
+
+  <!-- Month 12: 7 entity cols, but 16 in DB (9 ghost) -->
+  <rect x="415" y="135" width="90" height="130" rx="3" fill="#f38ba8" opacity="0.2" stroke="#f38ba8" stroke-width="1"/>
+  <text x="460" y="195" text-anchor="middle" fill="#f38ba8" font-size="16" font-weight="bold">16</text>
+  <text x="460" y="215" text-anchor="middle" fill="#f38ba8" font-size="9">9 ghost cols</text>
+  <text x="460" y="230" text-anchor="middle" fill="#f38ba8" font-size="8">2 manual indexes</text>
+  <text x="460" y="245" text-anchor="middle" fill="#f38ba8" font-size="8">1 manual FK</text>
+
+  <!-- Month 18: 10 entity cols, but 22 in DB -->
+  <rect x="565" y="135" width="110" height="130" rx="3" fill="#f38ba8" opacity="0.3" stroke="#f38ba8" stroke-width="2"/>
+  <text x="620" y="195" text-anchor="middle" fill="#f38ba8" font-size="16" font-weight="bold">22</text>
+  <text x="620" y="215" text-anchor="middle" fill="#f38ba8" font-size="9">12 ghost cols</text>
+  <text x="620" y="230" text-anchor="middle" fill="#f38ba8" font-size="8">4 manual indexes</text>
+  <text x="620" y="245" text-anchor="middle" fill="#f38ba8" font-size="8">2 manual FKs</text>
+
+  <!-- Divergence line -->
+  <text x="80" y="310" fill="#cdd6f4" font-size="11" font-weight="bold">Entity-DB Gap</text>
+  <line x1="140" y1="350" x2="300" y2="340" stroke="#f9e2af" stroke-width="2"/>
+  <line x1="300" y1="340" x2="460" y2="310" stroke="#f38ba8" stroke-width="2"/>
+  <line x1="460" y1="310" x2="620" y2="290" stroke="#f38ba8" stroke-width="3"/>
+  <circle cx="140" cy="350" r="4" fill="#a6e3a1"/>
+  <circle cx="300" cy="340" r="4" fill="#f9e2af"/>
+  <circle cx="460" cy="310" r="5" fill="#f38ba8"/>
+  <circle cx="620" cy="290" r="6" fill="#f38ba8"/>
+
+  <!-- Bottom callout -->
+  <rect x="120" y="420" width="580" height="30" rx="4" fill="#313244" stroke="#f38ba8" stroke-width="1"/>
+  <text x="410" y="440" text-anchor="middle" fill="#f38ba8" font-size="11">Every month without migrations adds ~2 ghost columns per active table</text>
+
+  <!-- Footer -->
+  <text x="410" y="455" text-anchor="middle" fill="#585b70" font-size="10">Chapter 5: Schema Generation in Production</text>
+</svg>

@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 480" width="820" height="480" font-family="'JetBrains Mono', 'Fira Code', monospace">
+  <rect width="820" height="480" fill="#1e1e2e" rx="8"/>
+
+  <!-- Title -->
+  <text x="410" y="35" text-anchor="middle" fill="#cdd6f4" font-size="16" font-weight="bold">Bulk Insert: Entity-at-a-Time vs Batched</text>
+
+  <!-- Left: Bad pattern -->
+  <rect x="30" y="55" width="370" height="380" rx="6" fill="#313244" stroke="#f38ba8" stroke-width="1.5"/>
+  <text x="215" y="80" text-anchor="middle" fill="#f38ba8" font-size="13" font-weight="bold">persist() Loop (No Batching)</text>
+
+  <!-- Timeline -->
+  <line x1="80" y1="100" x2="80" y2="410" stroke="#45475a" stroke-width="2"/>
+  <text x="70" y="98" text-anchor="end" fill="#6c7086" font-size="9">Time</text>
+
+  <!-- Events left -->
+  <rect x="95" y="100" width="280" height="25" rx="3" fill="#45475a"/>
+  <text x="105" y="117" fill="#cdd6f4" font-size="9">persist(entity1) → INSERT #1</text>
+  <circle cx="80" cy="112" r="4" fill="#f38ba8"/>
+
+  <rect x="95" y="135" width="280" height="25" rx="3" fill="#45475a"/>
+  <text x="105" y="152" fill="#cdd6f4" font-size="9">persist(entity2) → INSERT #2</text>
+  <circle cx="80" cy="147" r="4" fill="#f38ba8"/>
+
+  <rect x="95" y="170" width="280" height="25" rx="3" fill="#45475a"/>
+  <text x="105" y="187" fill="#cdd6f4" font-size="9">persist(entity3) → INSERT #3</text>
+  <circle cx="80" cy="182" r="4" fill="#f38ba8"/>
+
+  <text x="235" y="215" text-anchor="middle" fill="#6c7086" font-size="11">... × 100,000</text>
+
+  <rect x="95" y="230" width="280" height="25" rx="3" fill="#45475a"/>
+  <text x="105" y="247" fill="#cdd6f4" font-size="9">persist(entity100000) → INSERT #100000</text>
+  <circle cx="80" cy="242" r="4" fill="#f38ba8"/>
+
+  <!-- Stats left -->
+  <line x1="50" y1="280" x2="380" y2="280" stroke="#45475a" stroke-width="1"/>
+  <text x="215" y="305" text-anchor="middle" fill="#cdd6f4" font-size="11">DB round trips: <tspan fill="#f38ba8" font-weight="bold">100,000</tspan></text>
+  <text x="215" y="325" text-anchor="middle" fill="#cdd6f4" font-size="11">Persistence context: <tspan fill="#f38ba8" font-weight="bold">100,000 entities</tspan></text>
+  <text x="215" y="345" text-anchor="middle" fill="#cdd6f4" font-size="11">Dirty check at flush: <tspan fill="#f38ba8" font-weight="bold">100,000 × 20 fields</tspan></text>
+  <text x="215" y="365" text-anchor="middle" fill="#cdd6f4" font-size="11">Memory: <tspan fill="#f38ba8" font-weight="bold">~200 MB</tspan></text>
+  <text x="215" y="395" text-anchor="middle" fill="#f38ba8" font-size="14" font-weight="bold">45-90 seconds</text>
+
+  <!-- Right: Good pattern -->
+  <rect x="420" y="55" width="370" height="380" rx="6" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="605" y="80" text-anchor="middle" fill="#a6e3a1" font-size="13" font-weight="bold">Batched with Flush/Clear</text>
+
+  <!-- Timeline -->
+  <line x1="470" y1="100" x2="470" y2="410" stroke="#45475a" stroke-width="2"/>
+
+  <!-- Batch 1 -->
+  <rect x="485" y="100" width="280" height="55" rx="3" fill="#45475a"/>
+  <text x="495" y="117" fill="#a6e3a1" font-size="9" font-weight="bold">Batch 1 (50 entities)</text>
+  <text x="495" y="133" fill="#cdd6f4" font-size="9">persist × 50, flush, clear</text>
+  <text x="495" y="147" fill="#6c7086" font-size="9">1 JDBC batch = 1 round trip</text>
+  <circle cx="470" cy="127" r="4" fill="#a6e3a1"/>
+
+  <!-- Batch 2 -->
+  <rect x="485" y="165" width="280" height="55" rx="3" fill="#45475a"/>
+  <text x="495" y="182" fill="#a6e3a1" font-size="9" font-weight="bold">Batch 2 (50 entities)</text>
+  <text x="495" y="198" fill="#cdd6f4" font-size="9">persist × 50, flush, clear</text>
+  <text x="495" y="212" fill="#6c7086" font-size="9">1 JDBC batch = 1 round trip</text>
+  <circle cx="470" cy="190" r="4" fill="#a6e3a1"/>
+
+  <text x="625" y="245" text-anchor="middle" fill="#6c7086" font-size="11">... × 2,000 batches</text>
+
+  <!-- Stats right -->
+  <line x1="440" y1="280" x2="770" y2="280" stroke="#45475a" stroke-width="1"/>
+  <text x="605" y="305" text-anchor="middle" fill="#cdd6f4" font-size="11">DB round trips: <tspan fill="#a6e3a1" font-weight="bold">2,000</tspan></text>
+  <text x="605" y="325" text-anchor="middle" fill="#cdd6f4" font-size="11">Persistence context: <tspan fill="#a6e3a1" font-weight="bold">50 entities max</tspan></text>
+  <text x="605" y="345" text-anchor="middle" fill="#cdd6f4" font-size="11">Dirty check at flush: <tspan fill="#a6e3a1" font-weight="bold">50 × 20 fields</tspan></text>
+  <text x="605" y="365" text-anchor="middle" fill="#cdd6f4" font-size="11">Memory: <tspan fill="#a6e3a1" font-weight="bold">~2 MB</tspan></text>
+  <text x="605" y="395" text-anchor="middle" fill="#a6e3a1" font-size="14" font-weight="bold">3-8 seconds</text>
+
+  <!-- Footer -->
+  <text x="410" y="465" text-anchor="middle" fill="#585b70" font-size="10">Chapter 4: Bulk Operations: Where Hibernate Gives Up</text>
+</svg>

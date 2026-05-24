@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 520" width="820" height="520" font-family="'JetBrains Mono', 'Fira Code', monospace">
+  <rect width="820" height="520" fill="#1e1e2e" rx="8"/>
+
+  <!-- Title -->
+  <text x="410" y="35" text-anchor="middle" fill="#cdd6f4" font-size="16" font-weight="bold">Connection Hold Time: Fat vs Minimal @Transactional</text>
+
+  <!-- Timeline labels -->
+  <text x="50" y="70" fill="#6c7086" font-size="10">0ms</text>
+  <text x="770" y="70" fill="#6c7086" font-size="10">2500ms</text>
+  <line x1="80" y1="75" x2="760" y2="75" stroke="#45475a" stroke-width="1" stroke-dasharray="4"/>
+
+  <!-- BAD Pattern -->
+  <text x="50" y="105" fill="#f38ba8" font-size="12" font-weight="bold">BAD: Fat @Transactional</text>
+  <text x="50" y="120" fill="#6c7086" font-size="9">Connection held entire method duration</text>
+
+  <!-- Connection bar (full width) -->
+  <rect x="80" y="130" width="680" height="30" rx="4" fill="#f38ba8" opacity="0.15" stroke="#f38ba8" stroke-width="1.5"/>
+  <text x="420" y="150" text-anchor="middle" fill="#f38ba8" font-size="9">Connection held: ~2510ms</text>
+
+  <!-- Segments within -->
+  <rect x="80" y="165" width="15" height="22" rx="2" fill="#a6e3a1" opacity="0.8"/>
+  <text x="88" y="180" text-anchor="middle" fill="#1e1e2e" font-size="7">DB</text>
+
+  <rect x="95" y="165" width="400" height="22" rx="2" fill="#f38ba8" opacity="0.5"/>
+  <text x="295" y="180" text-anchor="middle" fill="#cdd6f4" font-size="9">Payment HTTP call: 200-2000ms (IDLE connection)</text>
+
+  <rect x="495" y="165" width="15" height="22" rx="2" fill="#a6e3a1" opacity="0.8"/>
+  <text x="503" y="180" text-anchor="middle" fill="#1e1e2e" font-size="7">DB</text>
+
+  <rect x="510" y="165" width="250" height="22" rx="2" fill="#f38ba8" opacity="0.5"/>
+  <text x="635" y="180" text-anchor="middle" fill="#cdd6f4" font-size="9">Email HTTP: 100-500ms (IDLE)</text>
+
+  <!-- Usage percentage -->
+  <text x="80" y="210" fill="#cdd6f4" font-size="10">DB utilization: <tspan fill="#f38ba8" font-weight="bold">0.4% - 3.2%</tspan></text>
+
+  <!-- Separator -->
+  <line x1="40" y1="230" x2="780" y2="230" stroke="#45475a" stroke-width="1"/>
+
+  <!-- BETTER Pattern -->
+  <text x="50" y="260" fill="#a6e3a1" font-size="12" font-weight="bold">BETTER: Minimal @Transactional</text>
+  <text x="50" y="275" fill="#6c7086" font-size="9">Connection held only during DB operations</text>
+
+  <!-- Segment 1: DB -->
+  <rect x="80" y="290" width="15" height="30" rx="4" fill="#a6e3a1" opacity="0.8" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="88" y="310" text-anchor="middle" fill="#1e1e2e" font-size="8">5ms</text>
+
+  <!-- Gap: no connection -->
+  <line x1="95" y1="305" x2="495" y2="305" stroke="#45475a" stroke-width="1" stroke-dasharray="4"/>
+  <text x="295" y="300" text-anchor="middle" fill="#6c7086" font-size="9">No connection held</text>
+  <text x="295" y="315" text-anchor="middle" fill="#6c7086" font-size="8">Payment + Email HTTP calls happen here</text>
+
+  <!-- Segment 2: DB -->
+  <rect x="495" y="290" width="15" height="30" rx="4" fill="#a6e3a1" opacity="0.8" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="503" y="310" text-anchor="middle" fill="#1e1e2e" font-size="8">5ms</text>
+
+  <!-- Usage percentage -->
+  <text x="80" y="345" fill="#cdd6f4" font-size="10">DB utilization: <tspan fill="#a6e3a1" font-weight="bold">~100%</tspan> during hold</text>
+
+  <!-- Connection Pool Impact -->
+  <line x1="40" y1="365" x2="780" y2="365" stroke="#45475a" stroke-width="1"/>
+  <text x="410" y="390" text-anchor="middle" fill="#cdd6f4" font-size="13" font-weight="bold">Connection Pool Impact (10 connections, 50 req/s)</text>
+
+  <!-- Pool visualization: BAD -->
+  <text x="80" y="420" fill="#f38ba8" font-size="10" font-weight="bold">Fat @Transactional</text>
+  <rect x="250" y="408" width="20" height="20" rx="2" fill="#f38ba8"/><rect x="275" y="408" width="20" height="20" rx="2" fill="#f38ba8"/>
+  <rect x="300" y="408" width="20" height="20" rx="2" fill="#f38ba8"/><rect x="325" y="408" width="20" height="20" rx="2" fill="#f38ba8"/>
+  <rect x="350" y="408" width="20" height="20" rx="2" fill="#f38ba8"/><rect x="375" y="408" width="20" height="20" rx="2" fill="#f38ba8"/>
+  <rect x="400" y="408" width="20" height="20" rx="2" fill="#f38ba8"/><rect x="425" y="408" width="20" height="20" rx="2" fill="#f38ba8"/>
+  <rect x="450" y="408" width="20" height="20" rx="2" fill="#f38ba8"/><rect x="475" y="408" width="20" height="20" rx="2" fill="#f38ba8"/>
+  <text x="520" y="423" fill="#f38ba8" font-size="10" font-weight="bold">EXHAUSTED</text>
+  <text x="620" y="423" fill="#6c7086" font-size="9">40 requests queued</text>
+
+  <!-- Pool visualization: BETTER -->
+  <text x="80" y="460" fill="#a6e3a1" font-size="10" font-weight="bold">Minimal @Transactional</text>
+  <rect x="250" y="448" width="20" height="20" rx="2" fill="#a6e3a1"/><rect x="275" y="448" width="20" height="20" rx="2" fill="#45475a" stroke="#6c7086" stroke-width="1"/>
+  <rect x="300" y="448" width="20" height="20" rx="2" fill="#45475a" stroke="#6c7086" stroke-width="1"/><rect x="325" y="448" width="20" height="20" rx="2" fill="#45475a" stroke="#6c7086" stroke-width="1"/>
+  <rect x="350" y="448" width="20" height="20" rx="2" fill="#45475a" stroke="#6c7086" stroke-width="1"/><rect x="375" y="448" width="20" height="20" rx="2" fill="#45475a" stroke="#6c7086" stroke-width="1"/>
+  <rect x="400" y="448" width="20" height="20" rx="2" fill="#45475a" stroke="#6c7086" stroke-width="1"/><rect x="425" y="448" width="20" height="20" rx="2" fill="#45475a" stroke="#6c7086" stroke-width="1"/>
+  <rect x="450" y="448" width="20" height="20" rx="2" fill="#45475a" stroke="#6c7086" stroke-width="1"/><rect x="475" y="448" width="20" height="20" rx="2" fill="#45475a" stroke="#6c7086" stroke-width="1"/>
+  <text x="520" y="463" fill="#a6e3a1" font-size="10" font-weight="bold">9 FREE</text>
+  <text x="580" y="463" fill="#6c7086" font-size="9">0 requests queued</text>
+
+  <!-- Footer -->
+  <text x="410" y="500" text-anchor="middle" fill="#585b70" font-size="10">Chapter 6: Transaction Boundaries and the Connection Pool Massacre</text>
+</svg>
