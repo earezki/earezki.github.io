@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 560" width="880" height="560">
+  <rect width="880" height="560" rx="8" fill="#1e1e2e"/>
+
+  <text x="440" y="32" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="bold" fill="#cdd6f4">WebSocket Connection Lifecycle</text>
+
+  <!-- Lifelines -->
+  <rect x="140" y="52" width="120" height="30" rx="6" fill="#89b4fa"/>
+  <text x="200" y="72" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#1e1e2e">Browser</text>
+  <line x1="200" y1="82" x2="200" y2="530" stroke="#89b4fa" stroke-width="2" stroke-dasharray="6,4"/>
+
+  <rect x="580" y="52" width="120" height="30" rx="6" fill="#a6e3a1"/>
+  <text x="640" y="72" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#1e1e2e">Server</text>
+  <line x1="640" y1="82" x2="640" y2="530" stroke="#a6e3a1" stroke-width="2" stroke-dasharray="6,4"/>
+
+  <!-- Arrow 1: Upgrade request -->
+  <line x1="205" y1="110" x2="635" y2="110" stroke="#89b4fa" stroke-width="2" marker-end="url(#wsArrowBlue)"/>
+  <text x="420" y="103" text-anchor="middle" font-family="monospace" font-size="11" fill="#cdd6f4">GET /ws/rides  Upgrade: websocket</text>
+
+  <!-- Arrow 2: 101 Switching -->
+  <line x1="635" y1="150" x2="205" y2="150" stroke="#a6e3a1" stroke-width="2" marker-end="url(#wsArrowGreen)"/>
+  <text x="420" y="143" text-anchor="middle" font-family="monospace" font-size="11" fill="#a6e3a1">101 Switching Protocols</text>
+
+  <!-- Bidirectional zone -->
+  <rect x="185" y="170" width="470" height="110" rx="4" fill="#89b4fa" opacity="0.05" stroke="#585b70" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="420" y="184" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#585b70">— full-duplex communication —</text>
+
+  <!-- Arrow 3: ride_request from server -->
+  <line x1="635" y1="205" x2="205" y2="205" stroke="#a6e3a1" stroke-width="2" marker-end="url(#wsArrowGreen)"/>
+  <text x="420" y="198" text-anchor="middle" font-family="monospace" font-size="11" fill="#cdd6f4">{"type":"ride_request",...}</text>
+  <text x="730" y="210" font-family="sans-serif" font-size="10" fill="#585b70">server push</text>
+
+  <!-- Arrow 4: accept from browser -->
+  <line x1="205" y1="240" x2="635" y2="240" stroke="#89b4fa" stroke-width="2" marker-end="url(#wsArrowBlue)"/>
+  <text x="420" y="233" text-anchor="middle" font-family="monospace" font-size="11" fill="#cdd6f4">{"action":"accept"}</text>
+  <text x="730" y="245" font-family="sans-serif" font-size="10" fill="#585b70">driver responds</text>
+
+  <!-- Arrow 5: ping -->
+  <line x1="635" y1="305" x2="205" y2="305" stroke="#585b70" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#wsArrowGray)"/>
+  <text x="420" y="298" text-anchor="middle" font-family="monospace" font-size="11" fill="#585b70">ping (30s keep-alive)</text>
+
+  <!-- Arrow 6: pong -->
+  <line x1="205" y1="330" x2="635" y2="330" stroke="#585b70" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#wsArrowGray)"/>
+  <text x="420" y="323" text-anchor="middle" font-family="monospace" font-size="11" fill="#585b70">pong</text>
+
+  <!-- Network interruption -->
+  <rect x="300" y="355" width="240" height="28" rx="4" fill="#f38ba8" opacity="0.15" stroke="#f38ba8" stroke-width="1.5"/>
+  <text x="335" y="374" font-family="sans-serif" font-size="13" font-weight="bold" fill="#f38ba8">✕  Network Interruption</text>
+
+  <!-- Break marks -->
+  <line x1="195" y1="350" x2="205" y2="360" stroke="#f38ba8" stroke-width="2.5"/>
+  <line x1="205" y1="350" x2="195" y2="360" stroke="#f38ba8" stroke-width="2.5"/>
+  <line x1="635" y1="350" x2="645" y2="360" stroke="#f38ba8" stroke-width="2.5"/>
+  <line x1="645" y1="350" x2="635" y2="360" stroke="#f38ba8" stroke-width="2.5"/>
+
+  <!-- Manual delay -->
+  <rect x="100" y="395" width="95" height="20" rx="4" fill="#f38ba8" opacity="0.15"/>
+  <text x="148" y="409" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#f38ba8">1s delay + backoff</text>
+
+  <!-- Arrow 7: manual reconnect -->
+  <line x1="205" y1="430" x2="635" y2="430" stroke="#f38ba8" stroke-width="2" marker-end="url(#wsArrowRed)"/>
+  <text x="420" y="423" text-anchor="middle" font-family="monospace" font-size="11" fill="#f38ba8">GET /ws/rides  Upgrade: websocket</text>
+
+  <rect x="60" y="440" width="130" height="24" rx="4" fill="#f38ba8" opacity="0.15" stroke="#f38ba8" stroke-width="1"/>
+  <text x="125" y="457" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#f38ba8">manual reconnect</text>
+
+  <!-- No Last-Event-ID callout -->
+  <rect x="460" y="445" width="320" height="28" rx="4" fill="#f38ba8" opacity="0.1" stroke="#f38ba8" stroke-width="1"/>
+  <text x="620" y="464" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#f38ba8">No Last-Event-ID — app must track state</text>
+
+  <!-- Key takeaway -->
+  <rect x="120" y="490" width="640" height="40" rx="6" fill="#f38ba8" opacity="0.1" stroke="#f38ba8" stroke-width="1"/>
+  <text x="440" y="515" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#f38ba8">Manual reconnect required — application must track and re-request missed messages</text>
+
+  <!-- Arrow markers -->
+  <defs>
+    <marker id="wsArrowBlue" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#89b4fa"/>
+    </marker>
+    <marker id="wsArrowGreen" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#a6e3a1"/>
+    </marker>
+    <marker id="wsArrowGray" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#585b70"/>
+    </marker>
+    <marker id="wsArrowRed" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#f38ba8"/>
+    </marker>
+  </defs>
+</svg>

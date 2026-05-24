@@ -1,0 +1,164 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 520" width="880" height="520">
+  <rect width="880" height="520" rx="8" fill="#1e1e2e"/>
+
+  <!-- Title -->
+  <text x="440" y="36" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="bold" fill="#cdd6f4">Synchronous vs Async Processing: Trip Completion</text>
+
+  <!-- ===== TOP ROW: Synchronous Path ===== -->
+  <text x="50" y="75" font-family="sans-serif" font-size="14" font-weight="bold" fill="#f38ba8">Synchronous (Before)</text>
+
+  <!-- Client -->
+  <rect x="40" y="90" width="80" height="45" rx="6" fill="#313244" stroke="#cdd6f4" stroke-width="1.5"/>
+  <text x="80" y="110" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#cdd6f4">Client</text>
+  <text x="80" y="124" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#6c7086">Rider App</text>
+
+  <!-- Arrow -->
+  <line x1="120" y1="112" x2="155" y2="112" stroke="#cdd6f4" stroke-width="1.5" marker-end="url(#aSyncArr)"/>
+
+  <!-- API -->
+  <rect x="158" y="90" width="65" height="45" rx="6" fill="#313244" stroke="#89b4fa" stroke-width="1.5"/>
+  <text x="190" y="110" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#89b4fa">API</text>
+  <text x="190" y="124" text-anchor="middle" font-family="monospace" font-size="8" fill="#6c7086">15ms</text>
+
+  <!-- Arrow to Fare Calc -->
+  <line x1="223" y1="112" x2="248" y2="112" stroke="#f38ba8" stroke-width="1.5" marker-end="url(#aSyncRed)"/>
+
+  <!-- Inline operations block -->
+  <rect x="250" y="82" width="420" height="62" rx="6" fill="none" stroke="#f38ba8" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="460" y="77" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#f38ba8">All inline — rider waits for everything</text>
+
+  <!-- Fare Calc -->
+  <rect x="258" y="90" width="88" height="45" rx="4" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="302" y="108" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#a6e3a1">Fare Calc</text>
+  <text x="302" y="124" text-anchor="middle" font-family="monospace" font-size="9" fill="#a6e3a1">15ms</text>
+
+  <!-- Driver Match -->
+  <rect x="354" y="90" width="88" height="45" rx="4" fill="#313244" stroke="#f38ba8" stroke-width="1.5"/>
+  <text x="398" y="108" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#f38ba8">Analytics</text>
+  <text x="398" y="124" text-anchor="middle" font-family="monospace" font-size="9" fill="#f38ba8">120ms</text>
+
+  <!-- Notification -->
+  <rect x="450" y="90" width="100" height="45" rx="4" fill="#313244" stroke="#f38ba8" stroke-width="1.5"/>
+  <text x="500" y="108" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#f38ba8">Notification</text>
+  <text x="500" y="124" text-anchor="middle" font-family="monospace" font-size="9" fill="#f38ba8">85ms</text>
+
+  <!-- Analytics -->
+  <rect x="558" y="90" width="104" height="45" rx="4" fill="#313244" stroke="#f38ba8" stroke-width="1.5"/>
+  <text x="610" y="108" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#f38ba8">Surge Recalc</text>
+  <text x="610" y="124" text-anchor="middle" font-family="monospace" font-size="9" fill="#f38ba8">230ms</text>
+
+  <!-- Connectors between inline ops -->
+  <line x1="346" y1="112" x2="354" y2="112" stroke="#45475a" stroke-width="1"/>
+  <line x1="442" y1="112" x2="450" y2="112" stroke="#45475a" stroke-width="1"/>
+  <line x1="550" y1="112" x2="558" y2="112" stroke="#45475a" stroke-width="1"/>
+
+  <!-- Arrow to Response -->
+  <line x1="662" y1="112" x2="697" y2="112" stroke="#f38ba8" stroke-width="1.5" marker-end="url(#aSyncRed)"/>
+
+  <!-- Response -->
+  <rect x="700" y="90" width="90" height="45" rx="6" fill="#313244" stroke="#f38ba8" stroke-width="2"/>
+  <text x="745" y="108" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#f38ba8">Response</text>
+  <text x="745" y="124" text-anchor="middle" font-family="monospace" font-size="9" fill="#f38ba8">450ms</text>
+
+  <!-- Latency bar (sync) -->
+  <rect x="158" y="145" width="632" height="14" rx="3" fill="#f38ba8" opacity="0.25"/>
+  <rect x="158" y="145" width="632" height="14" rx="3" fill="none" stroke="#f38ba8" stroke-width="1"/>
+  <text x="474" y="156" text-anchor="middle" font-family="monospace" font-size="9" font-weight="bold" fill="#f38ba8">450ms rider-facing latency</text>
+
+  <!-- ===== BOTTOM ROW: Async Path ===== -->
+  <text x="50" y="200" font-family="sans-serif" font-size="14" font-weight="bold" fill="#a6e3a1">Asynchronous (After)</text>
+
+  <!-- Client -->
+  <rect x="40" y="220" width="80" height="45" rx="6" fill="#313244" stroke="#cdd6f4" stroke-width="1.5"/>
+  <text x="80" y="240" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#cdd6f4">Client</text>
+  <text x="80" y="254" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#6c7086">Rider App</text>
+
+  <!-- Arrow -->
+  <line x1="120" y1="242" x2="155" y2="242" stroke="#cdd6f4" stroke-width="1.5" marker-end="url(#aSyncArr)"/>
+
+  <!-- API -->
+  <rect x="158" y="220" width="65" height="45" rx="6" fill="#313244" stroke="#89b4fa" stroke-width="1.5"/>
+  <text x="190" y="240" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#89b4fa">API</text>
+  <text x="190" y="254" text-anchor="middle" font-family="monospace" font-size="8" fill="#6c7086">15ms</text>
+
+  <!-- Arrow to Fare Calc -->
+  <line x1="223" y1="242" x2="248" y2="242" stroke="#a6e3a1" stroke-width="1.5" marker-end="url(#aSyncGrn)"/>
+
+  <!-- Sync critical path block -->
+  <rect x="250" y="212" width="100" height="62" rx="6" fill="none" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="300" y="208" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#a6e3a1">Critical path only</text>
+
+  <!-- Fare Calc -->
+  <rect x="258" y="220" width="84" height="45" rx="4" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="300" y="238" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#a6e3a1">Fare Calc</text>
+  <text x="300" y="254" text-anchor="middle" font-family="monospace" font-size="9" fill="#a6e3a1">15ms</text>
+
+  <!-- Arrow to Response -->
+  <line x1="342" y1="242" x2="377" y2="242" stroke="#a6e3a1" stroke-width="1.5" marker-end="url(#aSyncGrn)"/>
+
+  <!-- Response -->
+  <rect x="380" y="220" width="90" height="45" rx="6" fill="#313244" stroke="#a6e3a1" stroke-width="2"/>
+  <text x="425" y="238" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#a6e3a1">Response</text>
+  <text x="425" y="254" text-anchor="middle" font-family="monospace" font-size="9" fill="#a6e3a1">30ms</text>
+
+  <!-- Latency bar (async - short) -->
+  <rect x="158" y="275" width="312" height="14" rx="3" fill="#a6e3a1" opacity="0.25"/>
+  <rect x="158" y="275" width="312" height="14" rx="3" fill="none" stroke="#a6e3a1" stroke-width="1"/>
+  <text x="314" y="286" text-anchor="middle" font-family="monospace" font-size="9" font-weight="bold" fill="#a6e3a1">30ms rider-facing latency (15× faster)</text>
+
+  <!-- Async path: API → Kafka -->
+  <path d="M190,265 L190,340 L290,340" stroke="#89b4fa" stroke-width="2" fill="none" marker-end="url(#aSyncBlu)"/>
+  <text x="220" y="310" font-family="sans-serif" font-size="10" fill="#89b4fa">fire &amp; forget</text>
+
+  <!-- Kafka -->
+  <rect x="293" y="320" width="130" height="50" rx="6" fill="#313244" stroke="#89b4fa" stroke-width="2"/>
+  <text x="358" y="342" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#89b4fa">Kafka</text>
+  <text x="358" y="358" text-anchor="middle" font-family="monospace" font-size="9" fill="#89b4fa">trip.completed topic</text>
+
+  <!-- Arrow Kafka → Analytics Consumer -->
+  <line x1="423" y1="335" x2="498" y2="335" stroke="#89b4fa" stroke-width="1.5" marker-end="url(#aSyncBlu)"/>
+  <!-- Arrow Kafka → Notification Consumer -->
+  <line x1="423" y1="355" x2="498" y2="355" stroke="#89b4fa" stroke-width="1.5" marker-end="url(#aSyncBlu)"/>
+  <!-- Arrow Kafka → Surge Consumer -->
+  <path d="M423,345 L460,345 L460,420 L498,420" stroke="#89b4fa" stroke-width="1.5" fill="none" marker-end="url(#aSyncBlu)"/>
+
+  <!-- Analytics Consumer -->
+  <rect x="500" y="315" width="120" height="40" rx="4" fill="#313244" stroke="#89b4fa" stroke-width="1.5"/>
+  <text x="560" y="333" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#89b4fa">Analytics</text>
+  <text x="560" y="347" text-anchor="middle" font-family="monospace" font-size="9" fill="#6c7086">Consumer</text>
+
+  <!-- Notification Consumer -->
+  <rect x="640" y="315" width="120" height="40" rx="4" fill="#313244" stroke="#89b4fa" stroke-width="1.5"/>
+  <text x="700" y="333" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#89b4fa">Notification</text>
+  <text x="700" y="347" text-anchor="middle" font-family="monospace" font-size="9" fill="#6c7086">Consumer</text>
+
+  <!-- Surge Consumer -->
+  <rect x="500" y="400" width="140" height="40" rx="4" fill="#313244" stroke="#89b4fa" stroke-width="1.5"/>
+  <text x="570" y="418" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#89b4fa">Surge Recalc</text>
+  <text x="570" y="432" text-anchor="middle" font-family="monospace" font-size="9" fill="#6c7086">Consumer</text>
+
+  <!-- Async label -->
+  <rect x="660" y="400" width="160" height="40" rx="4" fill="#181825" stroke="#45475a" stroke-width="1"/>
+  <text x="740" y="416" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#89b4fa">Processed async</text>
+  <text x="740" y="430" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#6c7086">No rider impact</text>
+
+  <!-- Bottom comparison bar -->
+  <rect x="100" y="465" width="680" height="30" rx="4" fill="#181825" stroke="#45475a" stroke-width="1"/>
+  <text x="280" y="484" text-anchor="middle" font-family="monospace" font-size="11" fill="#f38ba8">Before: 450ms · 12% errors at 4,200 RPS</text>
+  <text x="590" y="484" text-anchor="middle" font-family="monospace" font-size="11" fill="#a6e3a1">After: 30ms · 0% errors at 11,200 RPS</text>
+
+  <defs>
+    <marker id="aSyncArr" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#cdd6f4"/>
+    </marker>
+    <marker id="aSyncRed" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#f38ba8"/>
+    </marker>
+    <marker id="aSyncGrn" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#a6e3a1"/>
+    </marker>
+    <marker id="aSyncBlu" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#89b4fa"/>
+    </marker>
+  </defs>
+</svg>

@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 520" width="880" height="520">
+  <rect width="880" height="520" rx="12" fill="#1e1e2e"/>
+
+  <!-- Title -->
+  <text x="440" y="35" font-family="sans-serif" font-size="18" font-weight="bold" fill="#cdd6f4" text-anchor="middle">Multi-Region Maintenance Burden (12 Months)</text>
+
+  <!-- Legend -->
+  <rect x="220" y="50" width="14" height="14" rx="3" fill="#f38ba8"/>
+  <text x="240" y="62" font-family="sans-serif" font-size="11" fill="#cdd6f4">High severity (6+ hrs)</text>
+  <rect x="395" y="50" width="14" height="14" rx="3" fill="#f9e2af"/>
+  <text x="415" y="62" font-family="sans-serif" font-size="11" fill="#cdd6f4">Medium (3-5 hrs)</text>
+  <rect x="545" y="50" width="14" height="14" rx="3" fill="#a6e3a1"/>
+  <text x="565" y="62" font-family="sans-serif" font-size="11" fill="#cdd6f4">Clean month (0 hrs)</text>
+
+  <!-- Chart area. Y-axis = months. X-axis = hours (0-12). -->
+  <!-- Left labels at x=170, bars start at x=175 -->
+  <!-- Scale: 1 hour = 50px. Max 12 hours bar = 600px. Bar start x=175 -->
+
+  <!-- X-axis gridlines and labels -->
+  <line x1="175" y1="78" x2="175" y2="440" stroke="#585b70" stroke-width="1"/>
+  <text x="175" y="458" font-family="monospace" font-size="11" fill="#7f849c" text-anchor="middle">0</text>
+  <line x1="300" y1="78" x2="300" y2="440" stroke="#585b70" stroke-width="0.5" stroke-dasharray="3,3"/>
+  <text x="300" y="458" font-family="monospace" font-size="11" fill="#7f849c" text-anchor="middle">2.5</text>
+  <line x1="425" y1="78" x2="425" y2="440" stroke="#585b70" stroke-width="0.5" stroke-dasharray="3,3"/>
+  <text x="425" y="458" font-family="monospace" font-size="11" fill="#7f849c" text-anchor="middle">5</text>
+  <line x1="550" y1="78" x2="550" y2="440" stroke="#585b70" stroke-width="0.5" stroke-dasharray="3,3"/>
+  <text x="550" y="458" font-family="monospace" font-size="11" fill="#7f849c" text-anchor="middle">7.5</text>
+  <line x1="675" y1="78" x2="675" y2="440" stroke="#585b70" stroke-width="0.5" stroke-dasharray="3,3"/>
+  <text x="675" y="458" font-family="monospace" font-size="11" fill="#7f849c" text-anchor="middle">10</text>
+  <line x1="775" y1="78" x2="775" y2="440" stroke="#585b70" stroke-width="0.5" stroke-dasharray="3,3"/>
+  <text x="775" y="458" font-family="monospace" font-size="11" fill="#7f849c" text-anchor="middle">12</text>
+  <text x="475" y="478" font-family="sans-serif" font-size="12" fill="#7f849c" text-anchor="middle">Hours Spent</text>
+
+  <!-- Scale: 1 hour = 50px -->
+  <!-- Month 1: Schema mismatch, 8 hrs -->
+  <text x="168" y="96" font-family="sans-serif" font-size="12" fill="#cdd6f4" text-anchor="end">M1</text>
+  <rect x="175" y="84" width="400" height="22" rx="4" fill="#f38ba8"/>
+  <text x="585" y="100" font-family="sans-serif" font-size="11" fill="#f38ba8">8h – Schema mismatch</text>
+
+  <!-- Month 2: Replication lag, 3 hrs -->
+  <text x="168" y="126" font-family="sans-serif" font-size="12" fill="#cdd6f4" text-anchor="end">M2</text>
+  <rect x="175" y="114" width="150" height="22" rx="4" fill="#f9e2af"/>
+  <text x="335" y="130" font-family="sans-serif" font-size="11" fill="#f9e2af">3h – Replication lag spike</text>
+
+  <!-- Month 3: Clean, 0 hrs -->
+  <text x="168" y="156" font-family="sans-serif" font-size="12" fill="#cdd6f4" text-anchor="end">M3</text>
+  <rect x="175" y="144" width="6" height="22" rx="3" fill="#a6e3a1"/>
+  <text x="195" y="160" font-family="sans-serif" font-size="11" fill="#a6e3a1">Clean</text>
+
+  <!-- Month 4: Deployment rollback, 6 hrs -->
+  <text x="168" y="186" font-family="sans-serif" font-size="12" fill="#cdd6f4" text-anchor="end">M4</text>
+  <rect x="175" y="174" width="300" height="22" rx="4" fill="#f38ba8"/>
+  <text x="485" y="190" font-family="sans-serif" font-size="11" fill="#f38ba8">6h – EU deployment rollback</text>
+
+  <!-- Month 5: Split-brain scare, 4 hrs -->
+  <text x="168" y="216" font-family="sans-serif" font-size="12" fill="#cdd6f4" text-anchor="end">M5</text>
+  <rect x="175" y="204" width="200" height="22" rx="4" fill="#f9e2af"/>
+  <text x="385" y="220" font-family="sans-serif" font-size="11" fill="#f9e2af">4h – Split-brain scare</text>
+
+  <!-- Month 6: Kafka lag, 5 hrs -->
+  <text x="168" y="246" font-family="sans-serif" font-size="12" fill="#cdd6f4" text-anchor="end">M6</text>
+  <rect x="175" y="234" width="250" height="22" rx="4" fill="#f9e2af"/>
+  <text x="435" y="250" font-family="sans-serif" font-size="11" fill="#f9e2af">5h – Kafka cross-region lag</text>
+
+  <!-- Month 7: SSL cert rotation, 3 hrs -->
+  <text x="168" y="276" font-family="sans-serif" font-size="12" fill="#cdd6f4" text-anchor="end">M7</text>
+  <rect x="175" y="264" width="150" height="22" rx="4" fill="#f9e2af"/>
+  <text x="335" y="280" font-family="sans-serif" font-size="11" fill="#f9e2af">3h – SSL cert rotation missed</text>
+
+  <!-- Month 8: PG upgrade, 12 hrs -->
+  <text x="168" y="306" font-family="sans-serif" font-size="12" fill="#cdd6f4" text-anchor="end">M8</text>
+  <rect x="175" y="294" width="600" height="22" rx="4" fill="#f38ba8"/>
+  <text x="540" y="310" font-family="sans-serif" font-size="11" fill="#1e1e2e" font-weight="bold">12h – Coordinated PG upgrade</text>
+
+  <!-- Month 9: Clean, 0 hrs -->
+  <text x="168" y="336" font-family="sans-serif" font-size="12" fill="#cdd6f4" text-anchor="end">M9</text>
+  <rect x="175" y="324" width="6" height="22" rx="3" fill="#a6e3a1"/>
+  <text x="195" y="340" font-family="sans-serif" font-size="11" fill="#a6e3a1">Clean</text>
+
+  <!-- Month 10: Replication slot, 6 hrs -->
+  <text x="168" y="366" font-family="sans-serif" font-size="12" fill="#cdd6f4" text-anchor="end">M10</text>
+  <rect x="175" y="354" width="300" height="22" rx="4" fill="#f38ba8"/>
+  <text x="485" y="370" font-family="sans-serif" font-size="11" fill="#f38ba8">6h – Replication slot overflow</text>
+
+  <!-- Month 11: Redis failover, 4 hrs -->
+  <text x="168" y="396" font-family="sans-serif" font-size="12" fill="#cdd6f4" text-anchor="end">M11</text>
+  <rect x="175" y="384" width="200" height="22" rx="4" fill="#f9e2af"/>
+  <text x="385" y="400" font-family="sans-serif" font-size="11" fill="#f9e2af">4h – EU Redis failover</text>
+
+  <!-- Month 12: Monitoring gap, 3 hrs -->
+  <text x="168" y="426" font-family="sans-serif" font-size="12" fill="#cdd6f4" text-anchor="end">M12</text>
+  <rect x="175" y="414" width="150" height="22" rx="4" fill="#f9e2af"/>
+  <text x="335" y="430" font-family="sans-serif" font-size="11" fill="#f9e2af">3h – Monitoring gap found</text>
+
+  <!-- Summary box -->
+  <rect x="200" y="486" width="480" height="28" rx="8" fill="#313244" stroke="#585b70" stroke-width="1"/>
+  <text x="350" y="506" font-family="sans-serif" font-size="14" font-weight="bold" fill="#f38ba8" text-anchor="middle">Total: 54 hours</text>
+  <text x="540" y="506" font-family="sans-serif" font-size="14" font-weight="bold" fill="#f9e2af" text-anchor="middle">Avg: 4.5 hrs/month</text>
+</svg>

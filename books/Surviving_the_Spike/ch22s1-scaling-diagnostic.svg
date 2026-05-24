@@ -1,0 +1,147 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 650" width="880" height="650">
+  <rect width="880" height="650" rx="12" fill="#1e1e2e"/>
+
+  <!-- Title -->
+  <text x="440" y="32" font-family="sans-serif" font-size="18" font-weight="bold" fill="#cdd6f4" text-anchor="middle">The Scaling Ceiling Diagnostic</text>
+  <text x="440" y="52" font-family="sans-serif" font-size="12" fill="#7f849c" text-anchor="middle">Cheapest first. Stop when SLO is met.</text>
+
+  <defs>
+    <marker id="aDown" markerWidth="8" markerHeight="6" refX="4" refY="6" orient="auto">
+      <polygon points="0 0, 8 0, 4 6" fill="#585b70"/>
+    </marker>
+    <marker id="aRight" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#a6e3a1"/>
+    </marker>
+  </defs>
+
+  <!-- Legend -->
+  <g transform="translate(600, 40)">
+    <rect x="0" y="0" width="240" height="80" rx="6" fill="#181825" stroke="#585b70" stroke-width="1"/>
+    <rect x="12" y="12" width="14" height="14" rx="3" fill="#a6e3a1"/>
+    <text x="32" y="24" font-family="sans-serif" font-size="11" fill="#cdd6f4">Free (Hours)</text>
+    <rect x="12" y="32" width="14" height="14" rx="3" fill="#89b4fa"/>
+    <text x="32" y="44" font-family="sans-serif" font-size="11" fill="#cdd6f4">Low cost (Days)</text>
+    <rect x="120" y="12" width="14" height="14" rx="3" fill="#f9e2af"/>
+    <text x="140" y="24" font-family="sans-serif" font-size="11" fill="#cdd6f4">Medium (Weeks)</text>
+    <rect x="120" y="32" width="14" height="14" rx="3" fill="#f38ba8"/>
+    <text x="140" y="44" font-family="sans-serif" font-size="11" fill="#cdd6f4">High (Weeks-Months)</text>
+    <rect x="12" y="55" width="14" height="14" rx="3" fill="none" stroke="#a6e3a1" stroke-width="1.5"/>
+    <text x="32" y="67" font-family="sans-serif" font-size="11" fill="#a6e3a1">SLO met? → Stop!</text>
+  </g>
+
+  <!-- Steps as staircase flowing down -->
+  <!-- Step 1: Database indexes - Free -->
+  <g transform="translate(60, 80)">
+    <rect x="0" y="0" width="260" height="42" rx="8" fill="#313244" stroke="#a6e3a1" stroke-width="2"/>
+    <text x="12" y="17" font-family="sans-serif" font-size="11" font-weight="bold" fill="#a6e3a1">1</text>
+    <text x="30" y="17" font-family="sans-serif" font-size="13" fill="#cdd6f4">Database indexes</text>
+    <text x="30" y="34" font-family="monospace" font-size="10" fill="#7f849c">CH8 · Free · Hours</text>
+    <!-- SLO check arrow -->
+    <line x1="260" y1="21" x2="310" y2="21" stroke="#a6e3a1" stroke-width="1.5" marker-end="url(#aRight)"/>
+    <text x="320" y="25" font-family="sans-serif" font-size="10" fill="#a6e3a1">SLO met?</text>
+  </g>
+  <!-- Connector down -->
+  <line x1="190" y1="122" x2="190" y2="135" stroke="#585b70" stroke-width="1.5" marker-end="url(#aDown)"/>
+
+  <!-- Step 2: Connection pool sizing - Free -->
+  <g transform="translate(80, 135)">
+    <rect x="0" y="0" width="260" height="42" rx="8" fill="#313244" stroke="#a6e3a1" stroke-width="2"/>
+    <text x="12" y="17" font-family="sans-serif" font-size="11" font-weight="bold" fill="#a6e3a1">2</text>
+    <text x="30" y="17" font-family="sans-serif" font-size="13" fill="#cdd6f4">Connection pool sizing</text>
+    <text x="30" y="34" font-family="monospace" font-size="10" fill="#7f849c">CH4 · Free · Hours</text>
+    <line x1="260" y1="21" x2="310" y2="21" stroke="#a6e3a1" stroke-width="1.5" marker-end="url(#aRight)"/>
+    <text x="320" y="25" font-family="sans-serif" font-size="10" fill="#a6e3a1">SLO met?</text>
+  </g>
+  <line x1="210" y1="177" x2="210" y2="190" stroke="#585b70" stroke-width="1.5" marker-end="url(#aDown)"/>
+
+  <!-- Step 3: Thread pool config - Free -->
+  <g transform="translate(100, 190)">
+    <rect x="0" y="0" width="260" height="42" rx="8" fill="#313244" stroke="#a6e3a1" stroke-width="2"/>
+    <text x="12" y="17" font-family="sans-serif" font-size="11" font-weight="bold" fill="#a6e3a1">3</text>
+    <text x="30" y="17" font-family="sans-serif" font-size="13" fill="#cdd6f4">Thread pool config</text>
+    <text x="30" y="34" font-family="monospace" font-size="10" fill="#7f849c">CH4 · Free · Hours</text>
+    <line x1="260" y1="21" x2="310" y2="21" stroke="#a6e3a1" stroke-width="1.5" marker-end="url(#aRight)"/>
+    <text x="320" y="25" font-family="sans-serif" font-size="10" fill="#a6e3a1">SLO met?</text>
+  </g>
+  <line x1="230" y1="232" x2="230" y2="245" stroke="#585b70" stroke-width="1.5" marker-end="url(#aDown)"/>
+
+  <!-- Step 4: Add caching (Redis) - Low -->
+  <g transform="translate(120, 245)">
+    <rect x="0" y="0" width="260" height="42" rx="8" fill="#313244" stroke="#89b4fa" stroke-width="2"/>
+    <text x="12" y="17" font-family="sans-serif" font-size="11" font-weight="bold" fill="#89b4fa">4</text>
+    <text x="30" y="17" font-family="sans-serif" font-size="13" fill="#cdd6f4">Add caching (Redis)</text>
+    <text x="30" y="34" font-family="monospace" font-size="10" fill="#7f849c">CH5-7 · Low · Days</text>
+    <line x1="260" y1="21" x2="310" y2="21" stroke="#a6e3a1" stroke-width="1.5" marker-end="url(#aRight)"/>
+    <text x="320" y="25" font-family="sans-serif" font-size="10" fill="#a6e3a1">SLO met?</text>
+  </g>
+  <line x1="250" y1="287" x2="250" y2="300" stroke="#585b70" stroke-width="1.5" marker-end="url(#aDown)"/>
+
+  <!-- Step 5: Autoscaling (HPA) - Low -->
+  <g transform="translate(140, 300)">
+    <rect x="0" y="0" width="260" height="42" rx="8" fill="#313244" stroke="#89b4fa" stroke-width="2"/>
+    <text x="12" y="17" font-family="sans-serif" font-size="11" font-weight="bold" fill="#89b4fa">5</text>
+    <text x="30" y="17" font-family="sans-serif" font-size="13" fill="#cdd6f4">Autoscaling (HPA)</text>
+    <text x="30" y="34" font-family="monospace" font-size="10" fill="#7f849c">CH13 · Low · Days</text>
+    <line x1="260" y1="21" x2="310" y2="21" stroke="#a6e3a1" stroke-width="1.5" marker-end="url(#aRight)"/>
+    <text x="320" y="25" font-family="sans-serif" font-size="10" fill="#a6e3a1">SLO met?</text>
+  </g>
+  <line x1="270" y1="342" x2="270" y2="355" stroke="#585b70" stroke-width="1.5" marker-end="url(#aDown)"/>
+
+  <!-- Step 6: Async processing - Medium -->
+  <g transform="translate(160, 355)">
+    <rect x="0" y="0" width="260" height="42" rx="8" fill="#313244" stroke="#f9e2af" stroke-width="2"/>
+    <text x="12" y="17" font-family="sans-serif" font-size="11" font-weight="bold" fill="#f9e2af">6</text>
+    <text x="30" y="17" font-family="sans-serif" font-size="13" fill="#cdd6f4">Async processing</text>
+    <text x="30" y="34" font-family="monospace" font-size="10" fill="#7f849c">CH9 · Medium · Weeks</text>
+    <line x1="260" y1="21" x2="310" y2="21" stroke="#a6e3a1" stroke-width="1.5" marker-end="url(#aRight)"/>
+    <text x="320" y="25" font-family="sans-serif" font-size="10" fill="#a6e3a1">SLO met?</text>
+  </g>
+  <line x1="290" y1="397" x2="290" y2="410" stroke="#585b70" stroke-width="1.5" marker-end="url(#aDown)"/>
+
+  <!-- Step 7: Rate limiting - Medium -->
+  <g transform="translate(180, 410)">
+    <rect x="0" y="0" width="260" height="42" rx="8" fill="#313244" stroke="#f9e2af" stroke-width="2"/>
+    <text x="12" y="17" font-family="sans-serif" font-size="11" font-weight="bold" fill="#f9e2af">7</text>
+    <text x="30" y="17" font-family="sans-serif" font-size="13" fill="#cdd6f4">Rate limiting</text>
+    <text x="30" y="34" font-family="monospace" font-size="10" fill="#7f849c">CH10 · Medium · Weeks</text>
+    <line x1="260" y1="21" x2="310" y2="21" stroke="#a6e3a1" stroke-width="1.5" marker-end="url(#aRight)"/>
+    <text x="320" y="25" font-family="sans-serif" font-size="10" fill="#a6e3a1">SLO met?</text>
+  </g>
+  <line x1="310" y1="452" x2="310" y2="465" stroke="#585b70" stroke-width="1.5" marker-end="url(#aDown)"/>
+
+  <!-- Step 8: Circuit breakers - Medium -->
+  <g transform="translate(200, 465)">
+    <rect x="0" y="0" width="260" height="42" rx="8" fill="#313244" stroke="#f9e2af" stroke-width="2"/>
+    <text x="12" y="17" font-family="sans-serif" font-size="11" font-weight="bold" fill="#f9e2af">8</text>
+    <text x="30" y="17" font-family="sans-serif" font-size="13" fill="#cdd6f4">Circuit breakers</text>
+    <text x="30" y="34" font-family="monospace" font-size="10" fill="#7f849c">CH18 · Medium · Weeks</text>
+    <line x1="260" y1="21" x2="310" y2="21" stroke="#a6e3a1" stroke-width="1.5" marker-end="url(#aRight)"/>
+    <text x="320" y="25" font-family="sans-serif" font-size="10" fill="#a6e3a1">SLO met?</text>
+  </g>
+  <line x1="330" y1="507" x2="330" y2="520" stroke="#585b70" stroke-width="1.5" marker-end="url(#aDown)"/>
+
+  <!-- Step 9: Read replicas - High -->
+  <g transform="translate(220, 520)">
+    <rect x="0" y="0" width="260" height="42" rx="8" fill="#313244" stroke="#f38ba8" stroke-width="2"/>
+    <text x="12" y="17" font-family="sans-serif" font-size="11" font-weight="bold" fill="#f38ba8">9</text>
+    <text x="30" y="17" font-family="sans-serif" font-size="13" fill="#cdd6f4">Read replicas</text>
+    <text x="30" y="34" font-family="monospace" font-size="10" fill="#7f849c">CH8 · High · Weeks</text>
+    <line x1="260" y1="21" x2="310" y2="21" stroke="#a6e3a1" stroke-width="1.5" marker-end="url(#aRight)"/>
+    <text x="320" y="25" font-family="sans-serif" font-size="10" fill="#a6e3a1">SLO met?</text>
+  </g>
+  <line x1="350" y1="562" x2="350" y2="575" stroke="#585b70" stroke-width="1.5" marker-end="url(#aDown)"/>
+
+  <!-- Step 10: Database sharding - High -->
+  <g transform="translate(240, 575)">
+    <rect x="0" y="0" width="260" height="42" rx="8" fill="#313244" stroke="#f38ba8" stroke-width="2"/>
+    <text x="12" y="17" font-family="sans-serif" font-size="11" font-weight="bold" fill="#f38ba8">10</text>
+    <text x="35" y="17" font-family="sans-serif" font-size="13" fill="#cdd6f4">Database sharding</text>
+    <text x="35" y="34" font-family="monospace" font-size="10" fill="#7f849c">CH8 · High · Months</text>
+    <line x1="260" y1="21" x2="310" y2="21" stroke="#a6e3a1" stroke-width="1.5" marker-end="url(#aRight)"/>
+    <text x="320" y="25" font-family="sans-serif" font-size="10" fill="#a6e3a1">SLO met?</text>
+  </g>
+
+  <!-- Bottom: All 10 failed -->
+  <line x1="370" y1="617" x2="370" y2="632" stroke="#f38ba8" stroke-width="1.5" marker-end="url(#aDown)"/>
+  <text x="380" y="646" font-family="sans-serif" font-size="12" font-weight="bold" fill="#f38ba8">All 10 exhausted → Problem is architectural → CH22-S2</text>
+</svg>

@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 420" width="850" height="420">
+  <defs>
+    <filter id="shadow1" x="-2%" y="-2%" width="104%" height="104%">
+      <feDropShadow dx="1" dy="1" stdDeviation="2" flood-color="#000" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="850" height="420" rx="12" fill="#1e1e2e"/>
+
+  <!-- Title -->
+  <text x="425" y="38" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="bold" fill="#cdd6f4">Load Test Project Structure</text>
+
+  <!-- Root folder -->
+  <g transform="translate(60, 70)">
+    <!-- Folder icon -->
+    <rect x="0" y="0" width="22" height="6" rx="2" fill="#89b4fa"/>
+    <rect x="0" y="4" width="28" height="18" rx="2" fill="#89b4fa"/>
+    <text x="36" y="17" font-family="monospace" font-size="16" font-weight="bold" fill="#89b4fa">load-tests/</text>
+  </g>
+
+  <!-- Tree lines -->
+  <g stroke="#585b70" stroke-width="1.5" fill="none">
+    <!-- Vertical trunk -->
+    <line x1="90" y1="95" x2="90" y2="350"/>
+    <!-- Branches -->
+    <line x1="90" y1="120" x2="120" y2="120"/>
+    <line x1="90" y1="180" x2="120" y2="180"/>
+    <line x1="90" y1="240" x2="120" y2="240"/>
+    <line x1="90" y1="300" x2="120" y2="300"/>
+    <line x1="90" y1="360" x2="120" y2="360"/>
+  </g>
+  <!-- Last branch (elbow) -->
+  <line x1="90" y1="350" x2="90" y2="360" stroke="#585b70" stroke-width="1.5"/>
+
+  <!-- File 1: baseline_locustfile.py -->
+  <g transform="translate(125, 108)">
+    <rect x="0" y="0" width="24" height="28" rx="3" fill="#313244" stroke="#a6e3a1" stroke-width="1.5" filter="url(#shadow1)"/>
+    <rect x="0" y="0" width="24" height="8" rx="3" fill="#a6e3a1" opacity="0.3"/>
+    <text x="6" y="21" font-family="monospace" font-size="8" fill="#a6e3a1">py</text>
+    <text x="32" y="18" font-family="monospace" font-size="14" fill="#cdd6f4">baseline_locustfile.py</text>
+    <text x="330" y="18" font-family="sans-serif" font-size="13" fill="#a6adc8" font-style="italic">Main user scenarios</text>
+  </g>
+
+  <!-- File 2: requirements.txt -->
+  <g transform="translate(125, 168)">
+    <rect x="0" y="0" width="24" height="28" rx="3" fill="#313244" stroke="#f9e2af" stroke-width="1.5" filter="url(#shadow1)"/>
+    <rect x="0" y="0" width="24" height="8" rx="3" fill="#f9e2af" opacity="0.3"/>
+    <text x="4" y="21" font-family="monospace" font-size="8" fill="#f9e2af">txt</text>
+    <text x="32" y="18" font-family="monospace" font-size="14" fill="#cdd6f4">requirements.txt</text>
+    <text x="330" y="18" font-family="sans-serif" font-size="13" fill="#a6adc8" font-style="italic">locust, prometheus-client</text>
+  </g>
+
+  <!-- File 3: docker-compose.locust.yml -->
+  <g transform="translate(125, 228)">
+    <rect x="0" y="0" width="24" height="28" rx="3" fill="#313244" stroke="#89b4fa" stroke-width="1.5" filter="url(#shadow1)"/>
+    <rect x="0" y="0" width="24" height="8" rx="3" fill="#89b4fa" opacity="0.3"/>
+    <text x="2" y="21" font-family="monospace" font-size="8" fill="#89b4fa">yml</text>
+    <text x="32" y="18" font-family="monospace" font-size="14" fill="#cdd6f4">docker-compose.locust.yml</text>
+    <text x="330" y="18" font-family="sans-serif" font-size="13" fill="#a6adc8" font-style="italic">Run Locust alongside the platform</text>
+  </g>
+
+  <!-- File 4: thresholds.json -->
+  <g transform="translate(125, 288)">
+    <rect x="0" y="0" width="24" height="28" rx="3" fill="#313244" stroke="#f38ba8" stroke-width="1.5" filter="url(#shadow1)"/>
+    <rect x="0" y="0" width="24" height="8" rx="3" fill="#f38ba8" opacity="0.3"/>
+    <text x="1" y="21" font-family="monospace" font-size="7" fill="#f38ba8">json</text>
+    <text x="32" y="18" font-family="monospace" font-size="14" fill="#cdd6f4">thresholds.json</text>
+    <text x="330" y="18" font-family="sans-serif" font-size="13" fill="#a6adc8" font-style="italic">Pass/fail criteria</text>
+  </g>
+
+  <!-- Folder 5: results/ -->
+  <g transform="translate(125, 348)">
+    <rect x="0" y="0" width="22" height="6" rx="2" fill="#89b4fa"/>
+    <rect x="0" y="4" width="28" height="18" rx="2" fill="#89b4fa"/>
+    <text x="36" y="18" font-family="monospace" font-size="14" fill="#89b4fa">results/</text>
+    <text x="330" y="18" font-family="sans-serif" font-size="13" fill="#a6adc8" font-style="italic">CSV output from runs</text>
+  </g>
+
+  <!-- Legend -->
+  <g transform="translate(600, 380)">
+    <rect x="0" y="0" width="10" height="10" rx="2" fill="#89b4fa"/>
+    <text x="16" y="10" font-family="sans-serif" font-size="11" fill="#6c7086">Folder</text>
+    <rect x="70" y="0" width="10" height="10" rx="2" fill="#313244" stroke="#a6e3a1" stroke-width="1"/>
+    <text x="86" y="10" font-family="sans-serif" font-size="11" fill="#6c7086">File</text>
+  </g>
+</svg>

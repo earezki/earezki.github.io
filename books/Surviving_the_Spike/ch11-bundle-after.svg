@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 500" width="880" height="500">
+  <rect width="880" height="500" rx="8" fill="#1e1e2e"/>
+
+  <text x="440" y="35" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="bold" fill="#cdd6f4">Bundle Breakdown — AFTER Optimization (890 KB initial)</text>
+
+  <!-- Section: Initial Bundle -->
+  <text x="60" y="70" font-family="sans-serif" font-size="14" font-weight="bold" fill="#a6e3a1">Initial Bundle (Booking Flow) — 890 KB</text>
+
+  <!-- Full bar: 890KB mapped to ~390px -->
+  <rect x="60" y="82" width="390" height="38" rx="4" fill="#313244"/>
+
+  <!-- node_modules 610KB → 268px -->
+  <rect x="60" y="82" width="268" height="38" rx="4" fill="#89b4fa" opacity="0.4"/>
+  <!-- BookingFlow 220KB → 96px -->
+  <rect x="328" y="82" width="96" height="38" rx="4" fill="#a6e3a1" opacity="0.5"/>
+  <!-- shared 60KB → 26px -->
+  <rect x="424" y="82" width="26" height="38" rx="4" fill="#a6e3a1" opacity="0.3"/>
+
+  <text x="192" y="106" text-anchor="middle" font-family="monospace" font-size="11" fill="#cdd6f4">deps 610 KB</text>
+  <text x="376" y="106" text-anchor="middle" font-family="monospace" font-size="11" fill="#1e1e2e">Booking 220KB</text>
+
+  <!-- Dependency detail bars -->
+  <rect x="60" y="135" width="254" height="30" rx="4" fill="#89b4fa"/>
+  <text x="68" y="155" font-family="monospace" font-size="11" fill="#1e1e2e" font-weight="bold">@mapbox/mapbox-gl — 580 KB (needed)</text>
+
+  <rect x="60" y="171" width="57" height="30" rx="4" fill="#89b4fa"/>
+  <text x="68" y="191" font-family="monospace" font-size="11" fill="#1e1e2e" font-weight="bold">react-dom</text>
+  <text x="125" y="191" font-family="sans-serif" font-size="11" fill="#89b4fa"> 130 KB</text>
+
+  <rect x="60" y="207" width="8" height="30" rx="4" fill="#a6e3a1"/>
+  <text x="76" y="227" font-family="monospace" font-size="11" fill="#a6e3a1">analytics-sdk/lite — 18 KB</text>
+
+  <rect x="60" y="243" width="5" height="30" rx="4" fill="#a6e3a1"/>
+  <text x="76" y="263" font-family="monospace" font-size="11" fill="#a6e3a1">date-fns (2 fn) — 8 KB  |  lodash/debounce — 4 KB</text>
+
+  <!-- Section: Lazy Chunks -->
+  <text x="60" y="310" font-family="sans-serif" font-size="14" font-weight="bold" fill="#cdd6f4">Lazy-Loaded Chunks (on demand)</text>
+  <line x1="60" y1="318" x2="820" y2="318" stroke="#585b70" stroke-width="1" stroke-dasharray="6,3"/>
+
+  <!-- Lazy chunk bars -->
+  <rect x="60" y="332" width="149" height="30" rx="4" fill="#cba6f7" opacity="0.5"/>
+  <text x="68" y="352" font-family="monospace" font-size="11" fill="#cdd6f4">AnalyticsModule — 340 KB (driver only)</text>
+
+  <rect x="60" y="368" width="79" height="30" rx="4" fill="#cba6f7" opacity="0.4"/>
+  <text x="68" y="388" font-family="monospace" font-size="11" fill="#cdd6f4">TripHistory — 180 KB</text>
+
+  <rect x="60" y="404" width="53" height="30" rx="4" fill="#cba6f7" opacity="0.4"/>
+  <text x="68" y="424" font-family="monospace" font-size="11" fill="#cdd6f4">EarningsModule — 120 KB (driver only)</text>
+
+  <rect x="60" y="440" width="42" height="30" rx="4" fill="#cba6f7" opacity="0.3"/>
+  <text x="68" y="460" font-family="monospace" font-size="11" fill="#cdd6f4">RideTracking — 95 KB</text>
+
+  <!-- Comparison callout -->
+  <rect x="500" y="82" width="340" height="72" rx="6" fill="#a6e3a1" opacity="0.1" stroke="#a6e3a1" stroke-width="1"/>
+  <text x="670" y="107" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#a6e3a1">2.3 MB → 890 KB initial</text>
+  <text x="670" y="128" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#a6e3a1">61% reduction — TTI: 3.2s on 3G</text>
+
+  <!-- Legend -->
+  <rect x="500" y="340" width="12" height="12" rx="2" fill="#89b4fa"/>
+  <text x="518" y="351" font-family="sans-serif" font-size="11" fill="#cdd6f4">Needed dependency</text>
+  <rect x="500" y="360" width="12" height="12" rx="2" fill="#a6e3a1"/>
+  <text x="518" y="371" font-family="sans-serif" font-size="11" fill="#cdd6f4">Optimized / tree-shaken</text>
+  <rect x="500" y="380" width="12" height="12" rx="2" fill="#cba6f7" opacity="0.5"/>
+  <text x="518" y="391" font-family="sans-serif" font-size="11" fill="#cdd6f4">Lazy-loaded chunk</text>
+
+  <text x="440" y="490" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#a6e3a1">▼ Rider only downloads what the booking flow needs — everything else loads on demand</text>
+</svg>

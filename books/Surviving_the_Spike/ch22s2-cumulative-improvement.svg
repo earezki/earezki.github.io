@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 520" width="880" height="520">
+  <rect width="880" height="520" rx="12" fill="#1e1e2e"/>
+
+  <!-- Title -->
+  <text x="440" y="32" font-family="sans-serif" font-size="18" font-weight="bold" fill="#cdd6f4" text-anchor="middle">Cumulative p99 Latency Improvement: CH1 → CH22</text>
+
+  <!-- 48x badge -->
+  <rect x="700" y="44" width="130" height="36" rx="10" fill="#a6e3a1" fill-opacity="0.15" stroke="#a6e3a1" stroke-width="2"/>
+  <text x="765" y="68" font-family="sans-serif" font-size="18" font-weight="bold" fill="#a6e3a1" text-anchor="middle">48x faster</text>
+
+  <!-- Chart area -->
+  <!-- Y-axis: 0 to 8,400ms. Chart top=85, bottom=440. Height=355 -->
+  <!-- X-axis: 13 data points (CH1, CH4, CH5-7, CH8, CH9, CH10, CH13, CH14-17, CH18, CH19, CH20, CH21, CH22) -->
+
+  <!-- Axes -->
+  <line x1="110" y1="85" x2="110" y2="440" stroke="#585b70" stroke-width="1"/>
+  <line x1="110" y1="440" x2="840" y2="440" stroke="#585b70" stroke-width="1"/>
+
+  <!-- Y-axis labels + gridlines. Scale: 1ms = 355/8400 = 0.04226px. Or: value_y = 440 - (value * 355/8400) -->
+  <text x="100" y="444" font-family="monospace" font-size="10" fill="#7f849c" text-anchor="end">0</text>
+
+  <text x="100" y="233" font-family="monospace" font-size="10" fill="#7f849c" text-anchor="end">5,000ms</text>
+  <line x1="110" y1="229" x2="840" y2="229" stroke="#585b70" stroke-width="0.5" stroke-dasharray="3,3"/>
+
+  <text x="100" y="191" font-family="monospace" font-size="10" fill="#7f849c" text-anchor="end">6,000ms</text>
+
+  <text x="100" y="149" font-family="monospace" font-size="10" fill="#7f849c" text-anchor="end">7,000ms</text>
+
+  <text x="100" y="107" font-family="monospace" font-size="10" fill="#7f849c" text-anchor="end">8,000ms</text>
+  <line x1="110" y1="104" x2="840" y2="104" stroke="#585b70" stroke-width="0.5" stroke-dasharray="3,3"/>
+
+  <text x="100" y="317" font-family="monospace" font-size="10" fill="#7f849c" text-anchor="end">3,000ms</text>
+
+  <text x="100" y="359" font-family="monospace" font-size="10" fill="#7f849c" text-anchor="end">2,000ms</text>
+  <line x1="110" y1="356" x2="840" y2="356" stroke="#585b70" stroke-width="0.5" stroke-dasharray="3,3"/>
+
+  <text x="100" y="401" font-family="monospace" font-size="10" fill="#7f849c" text-anchor="end">1,000ms</text>
+
+  <!-- Y-axis title -->
+  <text x="25" y="265" font-family="sans-serif" font-size="12" fill="#7f849c" text-anchor="middle" transform="rotate(-90, 25, 265)">p99 Latency (ms)</text>
+
+  <!-- Data points. x spacing: 13 points across 730px (110 to 840). Gap = 56px each. -->
+  <!-- CH1:  8400ms → y = 440 - (8400 * 0.04226) = 440 - 355 = 85 -->
+  <!-- CH4:  4200ms → y = 440 - (4200 * 0.04226) = 440 - 177.5 = 262.5 -->
+  <!-- CH5-7: 1800ms → y = 440 - 76 = 364 -->
+  <!-- CH8:  450ms → y = 440 - 19 = 421 -->
+  <!-- CH9:  320ms → y = 440 - 13.5 = 426.5 -->
+  <!-- CH10: 310ms → y = 440 - 13.1 = 426.9 -->
+  <!-- CH13: 280ms → y = 440 - 11.8 = 428.2 -->
+  <!-- CH14-17: 265ms → y = 440 - 11.2 = 428.8 -->
+  <!-- CH18: 240ms → y = 440 - 10.1 = 429.9 -->
+  <!-- CH19: 235ms → y = 440 - 9.9 = 430.1 -->
+  <!-- CH20: 220ms → y = 440 - 9.3 = 430.7 -->
+  <!-- CH21: 180ms → y = 440 - 7.6 = 432.4 -->
+  <!-- CH22: 175ms → y = 440 - 7.4 = 432.6 -->
+
+  <!-- Line path -->
+  <polyline
+    points="130,85 186,262 242,364 298,421 354,427 410,427 466,428 522,429 578,430 634,430 690,431 746,432 802,433"
+    fill="none" stroke="#89b4fa" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+
+  <!-- Gradient fill under the line -->
+  <polygon
+    points="130,85 186,262 242,364 298,421 354,427 410,427 466,428 522,429 578,430 634,430 690,431 746,432 802,433 802,440 130,440"
+    fill="#89b4fa" fill-opacity="0.08"/>
+
+  <!-- Data point dots -->
+  <circle cx="130" cy="85" r="5" fill="#f38ba8" stroke="#1e1e2e" stroke-width="2"/>
+  <circle cx="186" cy="262" r="5" fill="#89b4fa" stroke="#1e1e2e" stroke-width="2"/>
+  <circle cx="242" cy="364" r="5" fill="#89b4fa" stroke="#1e1e2e" stroke-width="2"/>
+  <circle cx="298" cy="421" r="4" fill="#89b4fa" stroke="#1e1e2e" stroke-width="2"/>
+  <circle cx="354" cy="427" r="4" fill="#89b4fa" stroke="#1e1e2e" stroke-width="2"/>
+  <circle cx="410" cy="427" r="4" fill="#89b4fa" stroke="#1e1e2e" stroke-width="2"/>
+  <circle cx="466" cy="428" r="4" fill="#89b4fa" stroke="#1e1e2e" stroke-width="2"/>
+  <circle cx="522" cy="429" r="4" fill="#89b4fa" stroke="#1e1e2e" stroke-width="2"/>
+  <circle cx="578" cy="430" r="4" fill="#89b4fa" stroke="#1e1e2e" stroke-width="2"/>
+  <circle cx="634" cy="430" r="4" fill="#89b4fa" stroke="#1e1e2e" stroke-width="2"/>
+  <circle cx="690" cy="431" r="4" fill="#89b4fa" stroke="#1e1e2e" stroke-width="2"/>
+  <circle cx="746" cy="432" r="4" fill="#89b4fa" stroke="#1e1e2e" stroke-width="2"/>
+  <circle cx="802" cy="433" r="5" fill="#a6e3a1" stroke="#1e1e2e" stroke-width="2"/>
+
+  <!-- X-axis labels -->
+  <text x="130" y="458" font-family="monospace" font-size="9" fill="#7f849c" text-anchor="middle" transform="rotate(-35, 130, 458)">CH1</text>
+  <text x="186" y="458" font-family="monospace" font-size="9" fill="#7f849c" text-anchor="middle" transform="rotate(-35, 186, 458)">CH4</text>
+  <text x="242" y="458" font-family="monospace" font-size="9" fill="#7f849c" text-anchor="middle" transform="rotate(-35, 242, 458)">CH5-7</text>
+  <text x="298" y="458" font-family="monospace" font-size="9" fill="#7f849c" text-anchor="middle" transform="rotate(-35, 298, 458)">CH8</text>
+  <text x="354" y="458" font-family="monospace" font-size="9" fill="#7f849c" text-anchor="middle" transform="rotate(-35, 354, 458)">CH9</text>
+  <text x="410" y="458" font-family="monospace" font-size="9" fill="#7f849c" text-anchor="middle" transform="rotate(-35, 410, 458)">CH10</text>
+  <text x="466" y="458" font-family="monospace" font-size="9" fill="#7f849c" text-anchor="middle" transform="rotate(-35, 466, 458)">CH13</text>
+  <text x="522" y="458" font-family="monospace" font-size="9" fill="#7f849c" text-anchor="middle" transform="rotate(-35, 522, 458)">CH14-17</text>
+  <text x="578" y="458" font-family="monospace" font-size="9" fill="#7f849c" text-anchor="middle" transform="rotate(-35, 578, 458)">CH18</text>
+  <text x="634" y="458" font-family="monospace" font-size="9" fill="#7f849c" text-anchor="middle" transform="rotate(-35, 634, 458)">CH19</text>
+  <text x="690" y="458" font-family="monospace" font-size="9" fill="#7f849c" text-anchor="middle" transform="rotate(-35, 690, 458)">CH20</text>
+  <text x="746" y="458" font-family="monospace" font-size="9" fill="#7f849c" text-anchor="middle" transform="rotate(-35, 746, 458)">CH21</text>
+  <text x="802" y="458" font-family="monospace" font-size="9" fill="#7f849c" text-anchor="middle" transform="rotate(-35, 802, 458)">CH22</text>
+
+  <!-- Annotations for key inflection points -->
+  <!-- CH1: 8,400ms -->
+  <text x="140" y="78" font-family="sans-serif" font-size="11" font-weight="bold" fill="#f38ba8">8,400ms</text>
+
+  <!-- CH4: Pool tuning -->
+  <line x1="186" y1="252" x2="186" y2="220" stroke="#89b4fa" stroke-width="0.8" stroke-dasharray="3,2"/>
+  <rect x="130" y="200" width="115" height="20" rx="4" fill="#181825" stroke="#89b4fa" stroke-width="0.8"/>
+  <text x="188" y="214" font-family="sans-serif" font-size="10" fill="#89b4fa" text-anchor="middle">Pool tuning: 50%↓</text>
+
+  <!-- CH5-7: Caching -->
+  <line x1="242" y1="354" x2="242" y2="322" stroke="#89b4fa" stroke-width="0.8" stroke-dasharray="3,2"/>
+  <rect x="192" y="302" width="100" height="20" rx="4" fill="#181825" stroke="#89b4fa" stroke-width="0.8"/>
+  <text x="242" y="316" font-family="sans-serif" font-size="10" fill="#89b4fa" text-anchor="middle">Caching: 57%↓</text>
+
+  <!-- CH8: Indexes -->
+  <line x1="298" y1="411" x2="298" y2="385" stroke="#89b4fa" stroke-width="0.8" stroke-dasharray="3,2"/>
+  <rect x="248" y="368" width="100" height="20" rx="4" fill="#181825" stroke="#89b4fa" stroke-width="0.8"/>
+  <text x="298" y="382" font-family="sans-serif" font-size="10" fill="#89b4fa" text-anchor="middle">Indexes: 75%↓</text>
+
+  <!-- CH22: Final -->
+  <text x="810" y="423" font-family="sans-serif" font-size="11" font-weight="bold" fill="#a6e3a1">175ms</text>
+
+  <!-- Subtitle -->
+  <text x="440" y="505" font-family="sans-serif" font-size="13" fill="#7f849c" text-anchor="middle">No rewrite. Same language. Same framework. Same database. Different configuration.</text>
+</svg>

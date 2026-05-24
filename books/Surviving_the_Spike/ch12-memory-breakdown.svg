@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 440" width="880" height="440">
+  <rect width="880" height="440" rx="8" fill="#1e1e2e"/>
+
+  <text x="440" y="35" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="bold" fill="#cdd6f4">Memory Allocation per Pod — 100K SSE Connections</text>
+
+  <!-- Stacked horizontal bar -->
+  <rect x="60" y="60" width="780" height="50" rx="4" fill="#313244"/>
+
+  <!-- SSE: 1.23GB / 2.3GB = 53.5% → 417px -->
+  <rect x="60" y="60" width="417" height="50" rx="4" fill="#89b4fa"/>
+  <!-- GC headroom: 530MB / 2.3GB = 23% → 179px -->
+  <rect x="477" y="60" width="179" height="50" rx="0" fill="#f9e2af" opacity="0.6"/>
+  <!-- JVM: 400MB / 2.3GB = 17.4% → 136px -->
+  <rect x="656" y="60" width="95" height="50" rx="0" fill="#a6e3a1"/>
+  <!-- Netty: 80MB → 27px -->
+  <rect x="751" y="60" width="27" height="50" rx="0" fill="#cba6f7"/>
+  <!-- Redis: 50MB → 17px -->
+  <rect x="778" y="60" width="17" height="50" rx="0" fill="#fab387"/>
+
+  <!-- Labels on bar -->
+  <text x="268" y="90" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="bold" fill="#1e1e2e">SSE Connections — 1.23 GB</text>
+  <text x="566" y="90" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#1e1e2e">GC 530 MB</text>
+  <text x="703" y="90" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#1e1e2e">JVM 400M</text>
+
+  <!-- Detail breakdown -->
+  <text x="60" y="145" font-family="sans-serif" font-size="14" font-weight="bold" fill="#cdd6f4">Component Breakdown</text>
+
+  <!-- Row: SSE -->
+  <rect x="60" y="160" width="400" height="34" rx="4" fill="#89b4fa"/>
+  <text x="68" y="182" font-family="monospace" font-size="12" fill="#1e1e2e" font-weight="bold">SSE connections (100K × 12.3KB)</text>
+  <text x="770" y="182" text-anchor="end" font-family="monospace" font-size="13" fill="#89b4fa" font-weight="bold">1,230 MB</text>
+
+  <!-- Row: GC -->
+  <rect x="60" y="200" width="173" height="34" rx="4" fill="#f9e2af" opacity="0.6"/>
+  <text x="68" y="222" font-family="monospace" font-size="12" fill="#1e1e2e" font-weight="bold">GC headroom (30%)</text>
+  <text x="770" y="222" text-anchor="end" font-family="monospace" font-size="13" fill="#f9e2af" font-weight="bold">530 MB</text>
+
+  <!-- Row: JVM -->
+  <rect x="60" y="240" width="130" height="34" rx="4" fill="#a6e3a1"/>
+  <text x="68" y="262" font-family="monospace" font-size="12" fill="#1e1e2e" font-weight="bold">JVM base overhead</text>
+  <text x="770" y="262" text-anchor="end" font-family="monospace" font-size="13" fill="#a6e3a1" font-weight="bold">400 MB</text>
+
+  <!-- Row: Netty -->
+  <rect x="60" y="280" width="26" height="34" rx="4" fill="#cba6f7"/>
+  <text x="94" y="302" font-family="monospace" font-size="12" fill="#cba6f7">Netty event loop</text>
+  <text x="770" y="302" text-anchor="end" font-family="monospace" font-size="13" fill="#cba6f7" font-weight="bold">80 MB</text>
+
+  <!-- Row: Redis -->
+  <rect x="60" y="320" width="16" height="34" rx="4" fill="#fab387"/>
+  <text x="84" y="342" font-family="monospace" font-size="12" fill="#fab387">Redis client pool</text>
+  <text x="770" y="342" text-anchor="end" font-family="monospace" font-size="13" fill="#fab387" font-weight="bold">50 MB</text>
+
+  <!-- Divider -->
+  <line x1="60" y1="368" x2="780" y2="368" stroke="#585b70" stroke-width="1"/>
+
+  <!-- Total -->
+  <text x="68" y="393" font-family="sans-serif" font-size="15" font-weight="bold" fill="#cdd6f4">Total per pod</text>
+  <text x="770" y="393" text-anchor="end" font-family="monospace" font-size="16" font-weight="bold" fill="#f38ba8">~2.3 GB</text>
+
+  <!-- Recommendation -->
+  <text x="440" y="425" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#f9e2af">At 70% utilization target → allocate 3.3 GB per pod. Run 5 pods × 20K connections each.</text>
+</svg>

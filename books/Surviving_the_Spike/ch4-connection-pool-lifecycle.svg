@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" width="900" height="520">
+  <defs>
+    <marker id="arr4" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6" fill="#89b4fa"/>
+    </marker>
+    <marker id="arr4g" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6" fill="#a6e3a1"/>
+    </marker>
+    <marker id="arr4r" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6" fill="#f38ba8"/>
+    </marker>
+    <filter id="sh4">
+      <feDropShadow dx="0" dy="1" stdDeviation="2" flood-color="#000" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="520" rx="12" fill="#1e1e2e"/>
+
+  <!-- Title -->
+  <text x="450" y="35" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="bold" fill="#cdd6f4">Connection Pool Lifecycle</text>
+
+  <!-- Pool boundary box -->
+  <rect x="50" y="60" width="800" height="180" rx="10" fill="none" stroke="#585b70" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <text x="450" y="82" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#6c7086">HikariCP Connection Pool (max-pool-size = 10)</text>
+
+  <!-- Idle connections -->
+  <g transform="translate(70, 100)">
+    <text x="55" y="0" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#89b4fa">Idle</text>
+    <rect x="0" y="10" width="24" height="40" rx="4" fill="#313244" stroke="#89b4fa" stroke-width="1.5"/>
+    <rect x="30" y="10" width="24" height="40" rx="4" fill="#313244" stroke="#89b4fa" stroke-width="1.5"/>
+    <rect x="60" y="10" width="24" height="40" rx="4" fill="#313244" stroke="#89b4fa" stroke-width="1.5"/>
+    <rect x="90" y="10" width="24" height="40" rx="4" fill="#313244" stroke="#89b4fa" stroke-width="1.5"/>
+    <text x="12" y="35" text-anchor="middle" font-family="monospace" font-size="9" fill="#89b4fa">C1</text>
+    <text x="42" y="35" text-anchor="middle" font-family="monospace" font-size="9" fill="#89b4fa">C2</text>
+    <text x="72" y="35" text-anchor="middle" font-family="monospace" font-size="9" fill="#89b4fa">C3</text>
+    <text x="102" y="35" text-anchor="middle" font-family="monospace" font-size="9" fill="#89b4fa">C4</text>
+    <text x="55" y="70" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#6c7086">Waiting in pool</text>
+    <text x="55" y="82" text-anchor="middle" font-family="monospace" font-size="10" fill="#89b4fa">~0ms latency</text>
+  </g>
+
+  <!-- Active connections -->
+  <g transform="translate(260, 100)">
+    <text x="55" y="0" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#a6e3a1">Active</text>
+    <rect x="0" y="10" width="24" height="40" rx="4" fill="#a6e3a1" opacity="0.2" stroke="#a6e3a1" stroke-width="1.5"/>
+    <rect x="30" y="10" width="24" height="40" rx="4" fill="#a6e3a1" opacity="0.2" stroke="#a6e3a1" stroke-width="1.5"/>
+    <rect x="60" y="10" width="24" height="40" rx="4" fill="#a6e3a1" opacity="0.2" stroke="#a6e3a1" stroke-width="1.5"/>
+    <rect x="90" y="10" width="24" height="40" rx="4" fill="#a6e3a1" opacity="0.2" stroke="#a6e3a1" stroke-width="1.5"/>
+    <text x="12" y="35" text-anchor="middle" font-family="monospace" font-size="9" fill="#a6e3a1">C5</text>
+    <text x="42" y="35" text-anchor="middle" font-family="monospace" font-size="9" fill="#a6e3a1">C6</text>
+    <text x="72" y="35" text-anchor="middle" font-family="monospace" font-size="9" fill="#a6e3a1">C7</text>
+    <text x="102" y="35" text-anchor="middle" font-family="monospace" font-size="9" fill="#a6e3a1">C8</text>
+    <text x="55" y="70" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#6c7086">Executing queries</text>
+    <text x="55" y="82" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6e3a1">45ms avg</text>
+  </g>
+
+  <!-- Checked out connections -->
+  <g transform="translate(460, 100)">
+    <text x="40" y="0" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#f9e2af">Checked Out</text>
+    <rect x="0" y="10" width="24" height="40" rx="4" fill="#f9e2af" opacity="0.15" stroke="#f9e2af" stroke-width="1.5"/>
+    <rect x="55" y="10" width="24" height="40" rx="4" fill="#f9e2af" opacity="0.15" stroke="#f9e2af" stroke-width="1.5"/>
+    <text x="12" y="35" text-anchor="middle" font-family="monospace" font-size="9" fill="#f9e2af">C9</text>
+    <text x="67" y="35" text-anchor="middle" font-family="monospace" font-size="9" fill="#f9e2af">C10</text>
+    <text x="40" y="70" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#6c7086">Held by requests</text>
+    <text x="40" y="82" text-anchor="middle" font-family="monospace" font-size="10" fill="#f9e2af">varies</text>
+  </g>
+
+  <!-- Waiting queue -->
+  <g transform="translate(620, 100)">
+    <text x="85" y="0" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#f38ba8">Wait Queue</text>
+    <rect x="0" y="10" width="170" height="40" rx="4" fill="#f38ba8" opacity="0.1" stroke="#f38ba8" stroke-width="1.5" stroke-dasharray="4,3"/>
+    <text x="15" y="35" font-family="monospace" font-size="9" fill="#f38ba8">R11 → R12 → R13 → R14 → ...</text>
+    <text x="85" y="70" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#6c7086">Requests waiting</text>
+    <text x="85" y="82" text-anchor="middle" font-family="monospace" font-size="10" fill="#f38ba8">up to 30s timeout</text>
+  </g>
+
+  <!-- Flow arrows between stages -->
+  <g transform="translate(0, 135)">
+    <!-- Request arrives -->
+    <text x="25" y="0" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#89b4fa" transform="rotate(-90, 25, 0)">Request</text>
+    <line x1="50" y1="0" x2="68" y2="0" stroke="#89b4fa" stroke-width="2" marker-end="url(#arr4)"/>
+
+    <!-- Idle to Active -->
+    <line x1="190" y1="0" x2="258" y2="0" stroke="#a6e3a1" stroke-width="2" marker-end="url(#arr4g)"/>
+    <text x="224" y="-8" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#a6e3a1">acquire</text>
+
+    <!-- Active to returned -->
+    <path d="M380,0 Q400,-30 380,-50 Q355,-70 260,-70 Q160,-70 135,-50 Q115,-30 135,0" fill="none" stroke="#89b4fa" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arr4)"/>
+    <text x="260" y="-75" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#89b4fa">return to pool</text>
+  </g>
+
+  <!-- Timeline section -->
+  <text x="450" y="280" text-anchor="middle" font-family="sans-serif" font-size="15" font-weight="bold" fill="#cdd6f4">Pool States Under Increasing Load</text>
+
+  <!-- Timeline axis -->
+  <line x1="80" y1="310" x2="820" y2="310" stroke="#585b70" stroke-width="1.5"/>
+  <text x="450" y="330" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#6c7086">Requests per second →</text>
+
+  <!-- State bars -->
+  <!-- Healthy -->
+  <rect x="80" y="345" width="200" height="50" rx="6" fill="#a6e3a1" opacity="0.15" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="180" y="367" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#a6e3a1">Healthy</text>
+  <text x="180" y="385" text-anchor="middle" font-family="monospace" font-size="10" fill="#cdd6f4">0-222 QPS</text>
+  <text x="80" y="308" text-anchor="middle" font-family="monospace" font-size="9" fill="#a6e3a1">0</text>
+
+  <!-- Saturated -->
+  <rect x="290" y="345" width="200" height="50" rx="6" fill="#f9e2af" opacity="0.15" stroke="#f9e2af" stroke-width="1.5"/>
+  <text x="390" y="367" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#f9e2af">Saturating</text>
+  <text x="390" y="385" text-anchor="middle" font-family="monospace" font-size="10" fill="#cdd6f4">222-400 QPS</text>
+  <text x="290" y="308" text-anchor="middle" font-family="monospace" font-size="9" fill="#f9e2af">222</text>
+
+  <!-- Exhausted -->
+  <rect x="500" y="345" width="200" height="50" rx="6" fill="#f38ba8" opacity="0.15" stroke="#f38ba8" stroke-width="1.5"/>
+  <text x="600" y="367" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#f38ba8">Exhausted</text>
+  <text x="600" y="385" text-anchor="middle" font-family="monospace" font-size="10" fill="#cdd6f4">400-500+ QPS</text>
+  <text x="500" y="308" text-anchor="middle" font-family="monospace" font-size="9" fill="#f38ba8">400</text>
+
+  <!-- Failing -->
+  <rect x="710" y="345" width="110" height="50" rx="6" fill="#f38ba8" opacity="0.3" stroke="#f38ba8" stroke-width="2"/>
+  <text x="765" y="367" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#f38ba8">Timeouts</text>
+  <text x="765" y="385" text-anchor="middle" font-family="monospace" font-size="10" fill="#cdd6f4">500+ QPS</text>
+  <text x="710" y="308" text-anchor="middle" font-family="monospace" font-size="9" fill="#f38ba8">500</text>
+
+  <!-- Latency curve labels -->
+  <text x="180" y="420" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6e3a1">wait: ~0ms</text>
+  <text x="390" y="420" text-anchor="middle" font-family="monospace" font-size="10" fill="#f9e2af">wait: 15-100ms</text>
+  <text x="600" y="420" text-anchor="middle" font-family="monospace" font-size="10" fill="#f38ba8">wait: 100ms-29s</text>
+  <text x="765" y="420" text-anchor="middle" font-family="monospace" font-size="10" fill="#f38ba8">SQLTransient</text>
+  <text x="765" y="432" text-anchor="middle" font-family="monospace" font-size="10" fill="#f38ba8">Exception</text>
+
+  <!-- Formula -->
+  <rect x="150" y="455" width="600" height="40" rx="8" fill="#45475a"/>
+  <text x="450" y="480" text-anchor="middle" font-family="monospace" font-size="13" fill="#f9e2af">max QPS = pool_size / avg_query_time = 10 / 0.045s = 222 QPS</text>
+</svg>

@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 500" width="860" height="500">
+  <rect width="860" height="500" rx="8" fill="#1e1e2e"/>
+
+  <!-- Title -->
+  <text x="430" y="36" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="bold" fill="#cdd6f4">Token Bucket Rate Limiter</text>
+
+  <!-- ===== REFILL: Tokens flowing in from top ===== -->
+  <text x="370" y="70" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#89b4fa">Refill Rate: 5 tokens/sec</text>
+
+  <!-- Dripping tokens -->
+  <circle cx="350" cy="90" r="6" fill="#89b4fa" opacity="0.5"/>
+  <circle cx="370" cy="100" r="6" fill="#89b4fa" opacity="0.7"/>
+  <circle cx="390" cy="92" r="6" fill="#89b4fa" opacity="0.6"/>
+  <line x1="370" y1="108" x2="370" y2="138" stroke="#89b4fa" stroke-width="2" stroke-dasharray="4,3" marker-end="url(#tbArrowBlue)"/>
+
+  <!-- ===== BUCKET SHAPE ===== -->
+  <!-- Bucket walls (trapezoid) -->
+  <path d="M280,140 L260,380 L480,380 L460,140 Z" fill="#313244" stroke="#6c7086" stroke-width="2"/>
+  <!-- Bucket rim -->
+  <rect x="275" y="135" width="190" height="10" rx="3" fill="#45475a" stroke="#6c7086" stroke-width="1"/>
+  <!-- Capacity label -->
+  <text x="370" y="132" text-anchor="middle" font-family="monospace" font-size="10" fill="#6c7086">capacity = 10</text>
+
+  <!-- ===== BUCKET STATES ===== -->
+
+  <!-- State 1: FULL (leftmost) -->
+  <rect x="40" y="140" width="130" height="260" rx="6" fill="none" stroke="#45475a" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="105" y="162" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#a6e3a1">FULL</text>
+  <!-- Mini bucket filled -->
+  <path d="M65,175 L58,285 L152,285 L145,175 Z" fill="#313244" stroke="#6c7086" stroke-width="1"/>
+  <rect x="60,175" y="170" width="86" height="8" rx="2" fill="#45475a"/>
+  <!-- Tokens (filled) -->
+  <rect x="62" y="182" width="84" height="100" rx="2" fill="#a6e3a1" opacity="0.3"/>
+  <circle cx="80" cy="270" r="7" fill="#a6e3a1"/><circle cx="100" cy="270" r="7" fill="#a6e3a1"/>
+  <circle cx="120" cy="270" r="7" fill="#a6e3a1"/><circle cx="140" cy="270" r="7" fill="#a6e3a1"/>
+  <circle cx="80" cy="250" r="7" fill="#a6e3a1"/><circle cx="100" cy="250" r="7" fill="#a6e3a1"/>
+  <circle cx="120" cy="250" r="7" fill="#a6e3a1"/><circle cx="140" cy="250" r="7" fill="#a6e3a1"/>
+  <circle cx="90" cy="230" r="7" fill="#a6e3a1"/><circle cx="110" cy="230" r="7" fill="#a6e3a1"/>
+  <text x="105" y="310" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6e3a1">10/10</text>
+  <text x="105" y="328" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#cdd6f4">Burst ready</text>
+  <text x="105" y="342" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#cdd6f4">All requests pass</text>
+
+  <!-- State label: HALF (the main bucket) -->
+  <text x="370" y="160" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#f9e2af">STEADY STATE</text>
+
+  <!-- Tokens in the main bucket (half-filled) -->
+  <!-- Water level line -->
+  <line x1="275" y1="280" x2="465" y2="280" stroke="#f9e2af" stroke-width="1" stroke-dasharray="3,2"/>
+  <text x="500" y="284" font-family="monospace" font-size="9" fill="#f9e2af">level: 5/10</text>
+
+  <!-- Tokens -->
+  <circle cx="310" cy="360" r="10" fill="#a6e3a1"/>
+  <circle cx="340" cy="360" r="10" fill="#a6e3a1"/>
+  <circle cx="370" cy="360" r="10" fill="#a6e3a1"/>
+  <circle cx="400" cy="360" r="10" fill="#a6e3a1"/>
+  <circle cx="430" cy="360" r="10" fill="#a6e3a1"/>
+  <circle cx="325" cy="335" r="10" fill="#a6e3a1" opacity="0.15"/>
+  <circle cx="355" cy="335" r="10" fill="#a6e3a1" opacity="0.15"/>
+  <circle cx="385" cy="335" r="10" fill="#a6e3a1" opacity="0.15"/>
+  <circle cx="415" cy="335" r="10" fill="#a6e3a1" opacity="0.15"/>
+  <circle cx="355" cy="310" r="10" fill="#a6e3a1" opacity="0.07"/>
+
+  <!-- State 3: EMPTY (rightmost) -->
+  <rect x="690" y="140" width="130" height="260" rx="6" fill="none" stroke="#45475a" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="755" y="162" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#f38ba8">EMPTY</text>
+  <!-- Mini bucket empty -->
+  <path d="M715,175 L708,285 L802,285 L795,175 Z" fill="#313244" stroke="#6c7086" stroke-width="1"/>
+  <rect x="710" y="170" width="86" height="8" rx="2" fill="#45475a"/>
+  <text x="755" y="240" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#f38ba8">empty</text>
+  <text x="755" y="310" text-anchor="middle" font-family="monospace" font-size="10" fill="#f38ba8">0/10</text>
+  <text x="755" y="328" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#cdd6f4">All requests</text>
+  <text x="755" y="342" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#f38ba8">REJECTED (429)</text>
+
+  <!-- ===== REQUESTS FROM LEFT ===== -->
+  <text x="210" y="420" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#cdd6f4">Requests</text>
+
+  <!-- Request arrows -->
+  <line x1="170" y1="440" x2="270" y2="380" stroke="#cdd6f4" stroke-width="2" marker-end="url(#tbArrowGray)"/>
+  <text x="185" y="455" font-family="sans-serif" font-size="10" fill="#cdd6f4">Each takes</text>
+  <text x="185" y="468" font-family="sans-serif" font-size="10" fill="#cdd6f4">1 token</text>
+
+  <!-- ===== ALLOWED (right side, green arrow) ===== -->
+  <line x1="480" y1="350" x2="545" y2="350" stroke="#a6e3a1" stroke-width="3" marker-end="url(#tbArrowGreen)"/>
+  <rect x="548" y="332" width="115" height="38" rx="6" fill="#313244" stroke="#a6e3a1" stroke-width="2"/>
+  <text x="605" y="349" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#a6e3a1">ALLOWED</text>
+  <text x="605" y="363" text-anchor="middle" font-family="monospace" font-size="9" fill="#a6e3a1">HTTP 200</text>
+
+  <!-- ===== REJECTED (bottom, red arrow) ===== -->
+  <path d="M370,382 L370,440" stroke="#f38ba8" stroke-width="3" marker-end="url(#tbArrowRed)"/>
+  <rect x="310" y="443" width="120" height="38" rx="6" fill="#313244" stroke="#f38ba8" stroke-width="2"/>
+  <text x="370" y="460" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#f38ba8">REJECTED</text>
+  <text x="370" y="474" text-anchor="middle" font-family="monospace" font-size="9" fill="#f38ba8">HTTP 429</text>
+  <text x="370" y="495" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#6c7086">when bucket empty</text>
+
+  <defs>
+    <marker id="tbArrowBlue" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#89b4fa"/>
+    </marker>
+    <marker id="tbArrowGreen" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#a6e3a1"/>
+    </marker>
+    <marker id="tbArrowRed" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#f38ba8"/>
+    </marker>
+    <marker id="tbArrowGray" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#cdd6f4"/>
+    </marker>
+  </defs>
+</svg>

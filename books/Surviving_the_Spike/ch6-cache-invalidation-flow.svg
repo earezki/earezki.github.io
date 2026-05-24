@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 520" width="880" height="520">
+  <rect width="880" height="520" rx="8" fill="#1e1e2e"/>
+
+  <!-- Title -->
+  <text x="440" y="36" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="bold" fill="#cdd6f4">Cache Invalidation Flow: Write-Through with Event-Driven Eviction</text>
+
+  <!-- Timeline bar -->
+  <rect x="60" y="470" width="780" height="4" rx="2" fill="#45475a"/>
+  <text x="60" y="500" font-family="monospace" font-size="11" fill="#6c7086">t=0ms</text>
+  <text x="220" y="500" font-family="monospace" font-size="11" fill="#6c7086">t=5ms</text>
+  <text x="390" y="500" font-family="monospace" font-size="11" fill="#6c7086">t=8ms</text>
+  <text x="540" y="500" font-family="monospace" font-size="11" fill="#6c7086">t=12ms</text>
+  <text x="680" y="500" font-family="monospace" font-size="11" fill="#6c7086">t=15ms</text>
+  <text x="790" y="500" font-family="monospace" font-size="11" fill="#6c7086">t=50ms</text>
+
+  <!-- Step 1: Write Request -->
+  <rect x="40" y="70" width="120" height="50" rx="6" fill="#313244" stroke="#89b4fa" stroke-width="2"/>
+  <text x="100" y="92" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#89b4fa">Write</text>
+  <text x="100" y="108" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#cdd6f4">Request</text>
+
+  <!-- Arrow 1→2 -->
+  <line x1="160" y1="95" x2="195" y2="95" stroke="#89b4fa" stroke-width="2" marker-end="url(#arrowBlue)"/>
+
+  <!-- Step 2: Update DB -->
+  <rect x="200" y="70" width="130" height="50" rx="6" fill="#313244" stroke="#a6e3a1" stroke-width="2"/>
+  <text x="265" y="88" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#a6e3a1">Update DB</text>
+  <text x="265" y="104" text-anchor="middle" font-family="monospace" font-size="10" fill="#cdd6f4">PostgreSQL</text>
+  <text x="265" y="116" text-anchor="middle" font-family="monospace" font-size="9" fill="#6c7086">5ms</text>
+
+  <!-- Arrow 2→3 -->
+  <line x1="330" y1="95" x2="365" y2="95" stroke="#a6e3a1" stroke-width="2" marker-end="url(#arrowGreen)"/>
+
+  <!-- Step 3: Publish Event -->
+  <rect x="370" y="60" width="150" height="70" rx="6" fill="#313244" stroke="#f9e2af" stroke-width="2"/>
+  <text x="445" y="82" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#f9e2af">Publish Event</text>
+  <text x="445" y="98" text-anchor="middle" font-family="monospace" font-size="10" fill="#cdd6f4">Kafka / Redis</text>
+  <text x="445" y="112" text-anchor="middle" font-family="monospace" font-size="10" fill="#cdd6f4">Pub/Sub</text>
+  <text x="445" y="126" text-anchor="middle" font-family="monospace" font-size="9" fill="#6c7086">3ms</text>
+
+  <!-- Branching arrows from Publish Event -->
+  <!-- Arrow to L1 Cache -->
+  <path d="M445,130 L445,170 L250,170 L250,210" stroke="#f38ba8" stroke-width="2" fill="none" marker-end="url(#arrowRed)"/>
+  <!-- Arrow to L2 Cache -->
+  <path d="M445,130 L445,170 L620,170 L620,210" stroke="#f38ba8" stroke-width="2" fill="none" marker-end="url(#arrowRed)"/>
+
+  <!-- Event label -->
+  <rect x="340" y="156" width="210" height="20" rx="3" fill="#1e1e2e"/>
+  <text x="445" y="171" text-anchor="middle" font-family="monospace" font-size="10" fill="#f9e2af">invalidation.trip-history.*</text>
+
+  <!-- Step 4a: L1 Cache Evict -->
+  <rect x="170" y="215" width="160" height="60" rx="6" fill="#313244" stroke="#f38ba8" stroke-width="2"/>
+  <text x="250" y="237" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#f38ba8">L1 Cache Evict</text>
+  <text x="250" y="253" text-anchor="middle" font-family="monospace" font-size="10" fill="#cdd6f4">Local Caffeine</text>
+  <text x="250" y="267" text-anchor="middle" font-family="monospace" font-size="9" fill="#6c7086">~1ms per node</text>
+
+  <!-- Step 4b: L2 Cache Evict -->
+  <rect x="540" y="215" width="160" height="60" rx="6" fill="#313244" stroke="#f38ba8" stroke-width="2"/>
+  <text x="620" y="237" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#f38ba8">L2 Cache Evict</text>
+  <text x="620" y="253" text-anchor="middle" font-family="monospace" font-size="10" fill="#cdd6f4">Redis DEL</text>
+  <text x="620" y="267" text-anchor="middle" font-family="monospace" font-size="9" fill="#6c7086">~1ms</text>
+
+  <!-- Merge arrows down to "Next Read" -->
+  <path d="M250,275 L250,320 L440,320 L440,350" stroke="#a6e3a1" stroke-width="2" fill="none"/>
+  <path d="M620,275 L620,320 L440,320" stroke="#a6e3a1" stroke-width="2" fill="none"/>
+
+  <!-- Step 5: Next Read Repopulates -->
+  <rect x="340" y="350" width="200" height="70" rx="6" fill="#313244" stroke="#a6e3a1" stroke-width="2"/>
+  <text x="440" y="372" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#a6e3a1">Next Read</text>
+  <text x="440" y="388" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#cdd6f4">Cache miss → Query DB</text>
+  <text x="440" y="404" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#cdd6f4">→ Populate L1 + L2</text>
+  <text x="440" y="418" text-anchor="middle" font-family="monospace" font-size="9" fill="#6c7086">~35ms (cold read)</text>
+
+  <!-- Arrow down to timeline -->
+  <line x1="440" y1="420" x2="440" y2="468" stroke="#a6e3a1" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+  <!-- Timeline dots -->
+  <circle cx="100" cy="472" r="5" fill="#89b4fa"/>
+  <circle cx="265" cy="472" r="5" fill="#a6e3a1"/>
+  <circle cx="445" cy="472" r="5" fill="#f9e2af"/>
+  <circle cx="560" cy="472" r="5" fill="#f38ba8"/>
+  <circle cx="700" cy="472" r="5" fill="#f38ba8"/>
+  <circle cx="800" cy="472" r="5" fill="#a6e3a1"/>
+
+  <!-- Legend -->
+  <rect x="650" y="70" width="200" height="80" rx="4" fill="#181825" stroke="#45475a" stroke-width="1"/>
+  <text x="660" y="88" font-family="sans-serif" font-size="10" font-weight="bold" fill="#cdd6f4">Legend</text>
+  <rect x="660" y="96" width="10" height="10" rx="2" fill="#a6e3a1"/>
+  <text x="676" y="106" font-family="sans-serif" font-size="10" fill="#cdd6f4">DB Write / Read</text>
+  <rect x="660" y="112" width="10" height="10" rx="2" fill="#f9e2af"/>
+  <text x="676" y="122" font-family="sans-serif" font-size="10" fill="#cdd6f4">Event Publish</text>
+  <rect x="660" y="128" width="10" height="10" rx="2" fill="#f38ba8"/>
+  <text x="676" y="138" font-family="sans-serif" font-size="10" fill="#cdd6f4">Cache Eviction</text>
+
+  <!-- Arrow markers -->
+  <defs>
+    <marker id="arrowBlue" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#89b4fa"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#a6e3a1"/>
+    </marker>
+    <marker id="arrowRed" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#f38ba8"/>
+    </marker>
+  </defs>
+</svg>

@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 520" width="880" height="520">
+  <rect width="880" height="520" rx="8" fill="#1e1e2e"/>
+
+  <text x="440" y="35" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="bold" fill="#cdd6f4">Bundle Breakdown — BEFORE Optimization (2.3 MB)</text>
+
+  <!-- Full bar background -->
+  <rect x="60" y="60" width="780" height="44" rx="4" fill="#313244"/>
+
+  <!-- node_modules: 1.7MB / 2.3MB = 73.9% → 576px -->
+  <rect x="60" y="60" width="576" height="44" rx="4" fill="#89b4fa" opacity="0.3"/>
+  <!-- source code: 600KB / 2.3MB = 26.1% → 204px -->
+  <rect x="636" y="60" width="204" height="44" rx="4" fill="#a6e3a1" opacity="0.3"/>
+
+  <text x="324" y="87" text-anchor="middle" font-family="monospace" font-size="13" fill="#cdd6f4">node_modules — 1.7 MB (74%)</text>
+  <text x="738" y="87" text-anchor="middle" font-family="monospace" font-size="13" fill="#cdd6f4">source — 600 KB</text>
+
+  <!-- Legend -->
+  <rect x="60" y="120" width="14" height="14" rx="2" fill="#f38ba8"/>
+  <text x="80" y="132" font-family="sans-serif" font-size="12" fill="#cdd6f4">Unnecessary / Bloated</text>
+  <rect x="240" y="120" width="14" height="14" rx="2" fill="#89b4fa"/>
+  <text x="260" y="132" font-family="sans-serif" font-size="12" fill="#cdd6f4">Needed Dependency</text>
+  <rect x="420" y="120" width="14" height="14" rx="2" fill="#a6e3a1"/>
+  <text x="440" y="132" font-family="sans-serif" font-size="12" fill="#cdd6f4">Source Code</text>
+  <rect x="580" y="120" width="14" height="14" rx="2" fill="#fab387"/>
+  <text x="600" y="132" font-family="sans-serif" font-size="12" fill="#cdd6f4">Lazy-loadable</text>
+
+  <!-- Individual package bars -->
+  <!-- mapbox-gl: 580KB -->
+  <rect x="60" y="160" width="197" height="36" rx="4" fill="#89b4fa"/>
+  <text x="68" y="183" font-family="monospace" font-size="12" fill="#1e1e2e" font-weight="bold">@mapbox/mapbox-gl — 580 KB</text>
+
+  <!-- moment: 290KB -->
+  <rect x="60" y="204" width="98" height="36" rx="4" fill="#f38ba8"/>
+  <text x="68" y="227" font-family="monospace" font-size="12" fill="#1e1e2e" font-weight="bold">moment — 290 KB</text>
+  <text x="166" y="227" font-family="sans-serif" font-size="11" fill="#f38ba8"> 120 unused locales</text>
+
+  <!-- chart.js: 210KB -->
+  <rect x="60" y="248" width="71" height="36" rx="4" fill="#f38ba8"/>
+  <text x="68" y="271" font-family="monospace" font-size="12" fill="#1e1e2e" font-weight="bold">chart.js</text>
+  <text x="140" y="271" font-family="sans-serif" font-size="11" fill="#f38ba8"> 210 KB — admin only, not needed</text>
+
+  <!-- analytics-sdk: 180KB -->
+  <rect x="60" y="292" width="61" height="36" rx="4" fill="#f38ba8"/>
+  <text x="68" y="315" font-family="monospace" font-size="12" fill="#1e1e2e" font-weight="bold">analytics</text>
+  <text x="130" y="315" font-family="sans-serif" font-size="11" fill="#f38ba8"> 180 KB — full SDK, uses 2 calls</text>
+
+  <!-- react-dom: 130KB -->
+  <rect x="60" y="336" width="44" height="36" rx="4" fill="#89b4fa"/>
+  <text x="68" y="359" font-family="monospace" font-size="12" fill="#1e1e2e" font-weight="bold">react</text>
+  <text x="116" y="359" font-family="sans-serif" font-size="11" fill="#89b4fa"> react-dom — 130 KB</text>
+
+  <!-- lodash: 71KB -->
+  <rect x="60" y="380" width="24" height="36" rx="4" fill="#f38ba8"/>
+  <text x="92" y="403" font-family="sans-serif" font-size="11" fill="#f38ba8">lodash — 71 KB (uses only debounce)</text>
+
+  <!-- other: 239KB -->
+  <rect x="60" y="424" width="81" height="36" rx="4" fill="#585b70"/>
+  <text x="68" y="447" font-family="monospace" font-size="12" fill="#cdd6f4">other — 239 KB</text>
+
+  <!-- Source routes -->
+  <rect x="500" y="160" width="120" height="36" rx="4" fill="#a6e3a1"/>
+  <text x="508" y="183" font-family="monospace" font-size="11" fill="#1e1e2e" font-weight="bold">BookingFlow 220KB</text>
+
+  <rect x="500" y="204" width="95" height="36" rx="4" fill="#fab387"/>
+  <text x="508" y="227" font-family="monospace" font-size="11" fill="#1e1e2e" font-weight="bold">TripHistory 180KB</text>
+
+  <rect x="500" y="248" width="55" height="36" rx="4" fill="#fab387"/>
+  <text x="508" y="271" font-family="monospace" font-size="11" fill="#1e1e2e" font-weight="bold">Tracking</text>
+  <text x="563" y="271" font-family="sans-serif" font-size="11" fill="#fab387"> 95 KB</text>
+
+  <rect x="500" y="292" width="60" height="36" rx="4" fill="#a6e3a1"/>
+  <text x="508" y="315" font-family="monospace" font-size="11" fill="#1e1e2e" font-weight="bold">shared</text>
+  <text x="573" y="315" font-family="sans-serif" font-size="11" fill="#a6e3a1"> 105 KB</text>
+
+  <!-- Total callout -->
+  <rect x="500" y="424" width="340" height="36" rx="4" fill="#f38ba8" opacity="0.15" stroke="#f38ba8" stroke-width="1"/>
+  <text x="670" y="447" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#f38ba8">Total: 2.3 MB — TTI: 11.4s on 3G</text>
+
+  <!-- Waste summary -->
+  <text x="440" y="500" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#f38ba8">▲ 751 KB of unnecessary dependencies shipped to every rider</text>
+</svg>

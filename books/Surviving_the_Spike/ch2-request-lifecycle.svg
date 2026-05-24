@@ -1,0 +1,131 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" width="900" height="520">
+  <defs>
+    <marker id="arrowFwd" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6" fill="#89b4fa"/>
+    </marker>
+    <marker id="arrowBack" markerWidth="8" markerHeight="6" refX="0" refY="3" orient="auto">
+      <path d="M8,0 L0,3 L8,6" fill="#a6e3a1"/>
+    </marker>
+    <filter id="glow2">
+      <feDropShadow dx="0" dy="1" stdDeviation="3" flood-color="#000" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="520" rx="12" fill="#1e1e2e"/>
+
+  <!-- Title -->
+  <text x="450" y="35" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="bold" fill="#cdd6f4">Request Lifecycle: Fare Estimate</text>
+
+  <!-- Forward path label -->
+  <text x="450" y="60" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#89b4fa">── Request Path ──</text>
+
+  <!-- Client -->
+  <g filter="url(#glow2)">
+    <rect x="30" y="100" width="100" height="60" rx="8" fill="#313244" stroke="#89b4fa" stroke-width="2"/>
+    <text x="80" y="125" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="bold" fill="#cdd6f4">Client</text>
+    <text x="80" y="145" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#a6adc8">Rider App</text>
+  </g>
+
+  <!-- DNS -->
+  <g filter="url(#glow2)">
+    <rect x="170" y="100" width="100" height="60" rx="8" fill="#313244" stroke="#89b4fa" stroke-width="2"/>
+    <text x="220" y="125" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="bold" fill="#cdd6f4">DNS</text>
+    <text x="220" y="145" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#a6adc8">Resolution</text>
+  </g>
+
+  <!-- CDN / TLS -->
+  <g filter="url(#glow2)">
+    <rect x="310" y="100" width="100" height="60" rx="8" fill="#313244" stroke="#89b4fa" stroke-width="2"/>
+    <text x="360" y="125" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="bold" fill="#cdd6f4">CDN</text>
+    <text x="360" y="145" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#a6adc8">+ TLS Term.</text>
+  </g>
+
+  <!-- Load Balancer -->
+  <g filter="url(#glow2)">
+    <rect x="450" y="100" width="110" height="60" rx="8" fill="#313244" stroke="#89b4fa" stroke-width="2"/>
+    <text x="505" y="125" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="bold" fill="#cdd6f4">Load</text>
+    <text x="505" y="145" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="bold" fill="#cdd6f4">Balancer</text>
+  </g>
+
+  <!-- App Server -->
+  <g filter="url(#glow2)">
+    <rect x="600" y="100" width="110" height="60" rx="8" fill="#313244" stroke="#89b4fa" stroke-width="2"/>
+    <text x="655" y="125" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="bold" fill="#cdd6f4">App Server</text>
+    <text x="655" y="145" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#a6adc8">WebFlux</text>
+  </g>
+
+  <!-- Database -->
+  <g filter="url(#glow2)">
+    <rect x="750" y="100" width="110" height="60" rx="8" fill="#313244" stroke="#89b4fa" stroke-width="2"/>
+    <text x="805" y="125" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="bold" fill="#cdd6f4">Database</text>
+    <text x="805" y="145" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#a6adc8">PostgreSQL</text>
+  </g>
+
+  <!-- Forward arrows with timing -->
+  <line x1="130" y1="130" x2="168" y2="130" stroke="#89b4fa" stroke-width="2" marker-end="url(#arrowFwd)"/>
+  <line x1="270" y1="130" x2="308" y2="130" stroke="#89b4fa" stroke-width="2" marker-end="url(#arrowFwd)"/>
+  <line x1="410" y1="130" x2="448" y2="130" stroke="#89b4fa" stroke-width="2" marker-end="url(#arrowFwd)"/>
+  <line x1="560" y1="130" x2="598" y2="130" stroke="#89b4fa" stroke-width="2" marker-end="url(#arrowFwd)"/>
+  <line x1="710" y1="130" x2="748" y2="130" stroke="#89b4fa" stroke-width="2" marker-end="url(#arrowFwd)"/>
+
+  <!-- Timing annotations (forward) -->
+  <rect x="128" y="80" width="42" height="18" rx="4" fill="#45475a"/>
+  <text x="149" y="93" text-anchor="middle" font-family="monospace" font-size="10" fill="#f9e2af">0-50ms</text>
+
+  <rect x="270" y="80" width="40" height="18" rx="4" fill="#45475a"/>
+  <text x="290" y="93" text-anchor="middle" font-family="monospace" font-size="10" fill="#f9e2af">0-50ms</text>
+
+  <rect x="418" y="80" width="35" height="18" rx="4" fill="#45475a"/>
+  <text x="435" y="93" text-anchor="middle" font-family="monospace" font-size="10" fill="#f9e2af">1-5ms</text>
+
+  <rect x="558" y="80" width="40" height="18" rx="4" fill="#45475a"/>
+  <text x="578" y="93" text-anchor="middle" font-family="monospace" font-size="10" fill="#f9e2af">&lt;1ms</text>
+
+  <rect x="710" y="80" width="45" height="18" rx="4" fill="#45475a"/>
+  <text x="732" y="93" text-anchor="middle" font-family="monospace" font-size="10" fill="#f9e2af">5-50ms</text>
+
+  <!-- Return path -->
+  <text x="450" y="200" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#a6e3a1">── Response Path ──</text>
+
+  <!-- Return arrow (long) -->
+  <line x1="805" y1="165" x2="805" y2="230" stroke="#a6e3a1" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="805" y1="230" x2="82" y2="230" stroke="#a6e3a1" stroke-width="2" marker-end="url(#arrowBack)"/>
+
+  <!-- Total time boxes -->
+  <g transform="translate(100, 270)">
+    <rect x="0" y="0" width="300" height="100" rx="8" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+    <text x="150" y="25" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#a6e3a1">Low Load (100 RPS)</text>
+    <text x="150" y="48" text-anchor="middle" font-family="monospace" font-size="13" fill="#cdd6f4">Cache hit:  ~8ms total</text>
+    <text x="150" y="68" text-anchor="middle" font-family="monospace" font-size="13" fill="#cdd6f4">Cache miss: ~124ms total</text>
+    <text x="150" y="88" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#6c7086">Bottleneck: DB query (45ms)</text>
+  </g>
+
+  <g transform="translate(500, 270)">
+    <rect x="0" y="0" width="300" height="100" rx="8" fill="#313244" stroke="#f38ba8" stroke-width="1.5"/>
+    <text x="150" y="25" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#f38ba8">High Load (3,000 RPS)</text>
+    <text x="150" y="48" text-anchor="middle" font-family="monospace" font-size="13" fill="#cdd6f4">Cache hit:  ~280ms total</text>
+    <text x="150" y="68" text-anchor="middle" font-family="monospace" font-size="13" fill="#cdd6f4">Cache miss: ~4,200ms total</text>
+    <text x="150" y="88" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#6c7086">Bottleneck: Connection pool wait</text>
+  </g>
+
+  <!-- Key insight -->
+  <rect x="150" y="400" width="600" height="40" rx="8" fill="#45475a" stroke="#f9e2af" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="450" y="425" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#f9e2af">Under load, the bottleneck migrates between layers</text>
+
+  <!-- Redis box on the return path annotation -->
+  <g transform="translate(610, 210)">
+    <rect x="0" y="0" width="80" height="18" rx="4" fill="#45475a"/>
+    <text x="40" y="13" text-anchor="middle" font-family="monospace" font-size="10" fill="#f9e2af">1-10ms</text>
+  </g>
+
+  <!-- Legend -->
+  <g transform="translate(60, 470)">
+    <line x1="0" y1="5" x2="25" y2="5" stroke="#89b4fa" stroke-width="2"/>
+    <text x="32" y="10" font-family="sans-serif" font-size="11" fill="#6c7086">Request</text>
+    <line x1="100" y1="5" x2="125" y2="5" stroke="#a6e3a1" stroke-width="2"/>
+    <text x="132" y="10" font-family="sans-serif" font-size="11" fill="#6c7086">Response</text>
+    <rect x="200" y="0" width="30" height="12" rx="3" fill="#45475a"/>
+    <text x="236" y="10" font-family="sans-serif" font-size="11" fill="#6c7086">Latency per hop</text>
+  </g>
+</svg>

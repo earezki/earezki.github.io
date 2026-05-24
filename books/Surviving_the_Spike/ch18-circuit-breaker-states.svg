@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 460" width="880" height="460">
+  <defs>
+    <marker id="arrowBlue" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#89b4fa"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#a6e3a1"/>
+    </marker>
+    <marker id="arrowRed" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#f38ba8"/>
+    </marker>
+  </defs>
+  <rect width="880" height="460" rx="8" fill="#1e1e2e"/>
+  <text x="440" y="35" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="bold" fill="#cdd6f4">Circuit Breaker State Machine</text>
+
+  <!-- CLOSED state (left) - green -->
+  <ellipse cx="180" cy="200" rx="110" ry="65" fill="#1e3a2a" stroke="#a6e3a1" stroke-width="2.5"/>
+  <text x="180" y="190" text-anchor="middle" font-family="sans-serif" font-size="20" font-weight="bold" fill="#a6e3a1">CLOSED</text>
+  <text x="180" y="215" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#a6e3a1">Requests flow</text>
+  <text x="180" y="232" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#a6e3a1">normally</text>
+  <!-- Initial arrow -->
+  <line x1="60" y1="140" x2="105" y2="165" stroke="#cdd6f4" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
+  <text x="55" y="130" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#6c7086">Start</text>
+
+  <!-- OPEN state (right) - red -->
+  <ellipse cx="700" cy="200" rx="110" ry="65" fill="#3a1e2a" stroke="#f38ba8" stroke-width="2.5"/>
+  <text x="700" y="190" text-anchor="middle" font-family="sans-serif" font-size="20" font-weight="bold" fill="#f38ba8">OPEN</text>
+  <text x="700" y="215" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#f38ba8">Requests fail</text>
+  <text x="700" y="232" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#f38ba8">fast (fallback)</text>
+
+  <!-- HALF_OPEN state (bottom center) - yellow -->
+  <ellipse cx="440" cy="380" rx="120" ry="55" fill="#3a2e1e" stroke="#f9e2af" stroke-width="2.5"/>
+  <text x="440" y="372" text-anchor="middle" font-family="sans-serif" font-size="20" font-weight="bold" fill="#f9e2af">HALF_OPEN</text>
+  <text x="440" y="397" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#f9e2af">Test calls allowed</text>
+
+  <!-- Transition: CLOSED → OPEN (top, going right) -->
+  <path d="M290,175 C380,100 520,100 590,175" fill="none" stroke="#f38ba8" stroke-width="2" marker-end="url(#arrowRed)"/>
+  <rect x="350" y="95" width="185" height="30" rx="6" fill="#313244" stroke="#f38ba8" stroke-width="1"/>
+  <text x="442" y="115" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#f38ba8">failure rate &gt; 50%</text>
+
+  <!-- Transition: OPEN → HALF_OPEN (going down-left) -->
+  <path d="M640,255 C620,310 530,340 490,335" fill="none" stroke="#f9e2af" stroke-width="2" marker-end="url(#arrowBlue)"/>
+  <rect x="570" y="290" width="145" height="26" rx="6" fill="#313244" stroke="#f9e2af" stroke-width="1"/>
+  <text x="642" y="308" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#f9e2af">wait 10 seconds</text>
+
+  <!-- Transition: HALF_OPEN → CLOSED (going up-left) -->
+  <path d="M330,355 C280,320 220,290 200,265" fill="none" stroke="#a6e3a1" stroke-width="2" marker-end="url(#arrowGreen)"/>
+  <rect x="180" y="305" width="170" height="26" rx="6" fill="#313244" stroke="#a6e3a1" stroke-width="1"/>
+  <text x="265" y="323" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#a6e3a1">test calls succeed</text>
+
+  <!-- Transition: HALF_OPEN → OPEN (going up-right) -->
+  <path d="M550,355 C600,320 660,290 680,265" fill="none" stroke="#f38ba8" stroke-width="2" marker-end="url(#arrowRed)"/>
+  <rect x="580" y="340" width="140" height="26" rx="6" fill="#313244" stroke="#f38ba8" stroke-width="1"/>
+  <text x="650" y="358" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#f38ba8">test calls fail</text>
+
+  <!-- State behaviors legend -->
+  <rect x="30" y="65" width="195" height="75" rx="6" fill="#313244" stroke="#45475a" stroke-width="1"/>
+  <text x="45" y="83" font-family="sans-serif" font-size="11" fill="#6c7086">State Behaviors:</text>
+  <circle cx="50" cy="100" r="5" fill="#a6e3a1"/>
+  <text x="62" y="104" font-family="sans-serif" font-size="11" fill="#a6e3a1">All requests pass through</text>
+  <circle cx="50" cy="118" r="5" fill="#f38ba8"/>
+  <text x="62" y="122" font-family="sans-serif" font-size="11" fill="#f38ba8">All requests rejected</text>
+  <circle cx="50" cy="136" r="5" fill="#f9e2af"/>
+  <text x="62" y="140" font-family="sans-serif" font-size="11" fill="#f9e2af">Limited test traffic</text>
+</svg>

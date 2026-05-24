@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 480" width="880" height="480">
+  <rect width="880" height="480" rx="8" fill="#1e1e2e"/>
+
+  <!-- Title -->
+  <text x="440" y="36" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="bold" fill="#cdd6f4">Database Scaling Progression: Do the Free Things First</text>
+
+  <!-- Axes -->
+  <!-- Y-axis label -->
+  <text x="20" y="260" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#6c7086" transform="rotate(-90,20,260)">Throughput Gain</text>
+  <!-- X-axis label -->
+  <text x="440" y="465" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#6c7086">Cost &amp; Complexity →</text>
+
+  <!-- Staircase steps -->
+  <!-- Step 1: Add Indexes -->
+  <rect x="60" y="320" width="140" height="100" rx="6" fill="#313244" stroke="#a6e3a1" stroke-width="2"/>
+  <text x="130" y="345" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="bold" fill="#a6e3a1">1. Add Indexes</text>
+  <line x1="80" y1="355" x2="180" y2="355" stroke="#45475a" stroke-width="1"/>
+  <text x="130" y="372" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6e3a1">Cost: FREE</text>
+  <text x="130" y="387" text-anchor="middle" font-family="monospace" font-size="10" fill="#cdd6f4">Time: hours</text>
+  <text x="130" y="404" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#cdd6f4">+3-50× for</text>
+  <text x="130" y="416" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#cdd6f4">targeted queries</text>
+
+  <!-- Step 2: Query Optimization -->
+  <rect x="210" y="255" width="140" height="165" rx="6" fill="#313244" stroke="#a6e3a1" stroke-width="2"/>
+  <text x="280" y="278" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="bold" fill="#a6e3a1">2. Query</text>
+  <text x="280" y="294" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="bold" fill="#a6e3a1">Optimization</text>
+  <line x1="230" y1="302" x2="330" y2="302" stroke="#45475a" stroke-width="1"/>
+  <text x="280" y="319" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6e3a1">Cost: FREE</text>
+  <text x="280" y="334" text-anchor="middle" font-family="monospace" font-size="10" fill="#cdd6f4">Time: hours</text>
+  <text x="280" y="351" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#cdd6f4">EXPLAIN ANALYZE</text>
+  <text x="280" y="366" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#cdd6f4">N+1 elimination</text>
+
+  <!-- Step 3: Connection Pool Tuning -->
+  <rect x="360" y="200" width="140" height="220" rx="6" fill="#313244" stroke="#89b4fa" stroke-width="2"/>
+  <text x="430" y="222" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="bold" fill="#89b4fa">3. Connection</text>
+  <text x="430" y="238" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="bold" fill="#89b4fa">Pool Tuning</text>
+  <line x1="380" y1="246" x2="480" y2="246" stroke="#45475a" stroke-width="1"/>
+  <text x="430" y="263" text-anchor="middle" font-family="monospace" font-size="10" fill="#89b4fa">Cost: FREE</text>
+  <text x="430" y="278" text-anchor="middle" font-family="monospace" font-size="10" fill="#cdd6f4">Time: hours</text>
+  <text x="430" y="295" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#cdd6f4">HikariCP sizing</text>
+  <text x="430" y="310" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#cdd6f4">PgBouncer</text>
+
+  <!-- Step 4: Read Replicas -->
+  <rect x="510" y="145" width="140" height="275" rx="6" fill="#313244" stroke="#f9e2af" stroke-width="2"/>
+  <text x="580" y="167" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="bold" fill="#f9e2af">4. Read</text>
+  <text x="580" y="183" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="bold" fill="#f9e2af">Replicas</text>
+  <line x1="530" y1="191" x2="630" y2="191" stroke="#45475a" stroke-width="1"/>
+  <text x="580" y="208" text-anchor="middle" font-family="monospace" font-size="10" fill="#f9e2af">Cost: $$</text>
+  <text x="580" y="223" text-anchor="middle" font-family="monospace" font-size="10" fill="#cdd6f4">Time: days</text>
+  <text x="580" y="240" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#cdd6f4">Read routing</text>
+  <text x="580" y="255" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#cdd6f4">Replication lag</text>
+
+  <!-- Step 5: Sharding -->
+  <rect x="660" y="90" width="160" height="330" rx="6" fill="#313244" stroke="#f38ba8" stroke-width="2"/>
+  <text x="740" y="112" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="bold" fill="#f38ba8">5. Sharding</text>
+  <line x1="680" y1="122" x2="800" y2="122" stroke="#45475a" stroke-width="1"/>
+  <text x="740" y="139" text-anchor="middle" font-family="monospace" font-size="10" fill="#f38ba8">Cost: $$$</text>
+  <text x="740" y="154" text-anchor="middle" font-family="monospace" font-size="10" fill="#cdd6f4">Time: months</text>
+  <text x="740" y="171" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#cdd6f4">Shard key design</text>
+  <text x="740" y="186" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#cdd6f4">Cross-shard joins</text>
+  <text x="740" y="201" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#cdd6f4">Migration tooling</text>
+
+  <!-- Arrow across top showing progression -->
+  <line x1="80" y1="75" x2="800" y2="75" stroke="#45475a" stroke-width="1.5" marker-end="url(#arrowGray)"/>
+
+  <!-- Labels on the arrow -->
+  <rect x="80" y="58" width="70" height="20" rx="3" fill="#a6e3a1" opacity="0.2"/>
+  <text x="115" y="73" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#a6e3a1">Start here</text>
+
+  <rect x="720" y="58" width="80" height="20" rx="3" fill="#f38ba8" opacity="0.2"/>
+  <text x="760" y="73" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#f38ba8">Last resort</text>
+
+  <!-- Bottom bar: "Most teams never need steps 4 and 5" -->
+  <rect x="140" y="438" width="600" height="28" rx="4" fill="#181825" stroke="#45475a" stroke-width="1"/>
+  <text x="440" y="457" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#cdd6f4">Most teams never need steps 4 and 5. Run EXPLAIN ANALYZE before buying hardware.</text>
+
+  <defs>
+    <marker id="arrowGray" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#45475a"/>
+    </marker>
+  </defs>
+</svg>

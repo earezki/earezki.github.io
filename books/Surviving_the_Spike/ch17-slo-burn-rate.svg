@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 500" width="880" height="500">
+  <defs>
+    <linearGradient id="budgetFill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#a6e3a1" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#a6e3a1" stop-opacity="0.05"/>
+    </linearGradient>
+    <linearGradient id="dangerFill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f38ba8" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#f38ba8" stop-opacity="0.05"/>
+    </linearGradient>
+  </defs>
+  <rect width="880" height="500" rx="8" fill="#1e1e2e"/>
+  <text x="440" y="35" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="bold" fill="#cdd6f4">Error Budget Consumption — Rider API Latency SLO (99.9%)</text>
+
+  <!-- Chart area: x=80..830, y=60..400  -->
+  <!-- Y-axis -->
+  <line x1="80" y1="60" x2="80" y2="400" stroke="#45475a" stroke-width="1"/>
+  <text x="70" y="68" text-anchor="end" font-family="monospace" font-size="10" fill="#6c7086">100%</text>
+  <text x="70" y="128" text-anchor="end" font-family="monospace" font-size="10" fill="#6c7086">80%</text>
+  <text x="70" y="195" text-anchor="end" font-family="monospace" font-size="10" fill="#6c7086">60%</text>
+  <text x="70" y="262" text-anchor="end" font-family="monospace" font-size="10" fill="#6c7086">40%</text>
+  <text x="70" y="332" text-anchor="end" font-family="monospace" font-size="10" fill="#6c7086">20%</text>
+  <text x="70" y="400" text-anchor="end" font-family="monospace" font-size="10" fill="#6c7086">0%</text>
+  <text x="25" y="230" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#cdd6f4" transform="rotate(-90 25 230)">Error Budget Remaining</text>
+  <!-- Y grid -->
+  <line x1="80" y1="128" x2="830" y2="128" stroke="#313244" stroke-width="1" stroke-dasharray="4,4"/>
+  <line x1="80" y1="195" x2="830" y2="195" stroke="#313244" stroke-width="1" stroke-dasharray="4,4"/>
+  <line x1="80" y1="262" x2="830" y2="262" stroke="#313244" stroke-width="1" stroke-dasharray="4,4"/>
+  <line x1="80" y1="332" x2="830" y2="332" stroke="#313244" stroke-width="1" stroke-dasharray="4,4"/>
+
+  <!-- X-axis -->
+  <line x1="80" y1="400" x2="830" y2="400" stroke="#45475a" stroke-width="1"/>
+  <text x="80" y="420" text-anchor="middle" font-family="monospace" font-size="10" fill="#6c7086">Day 0</text>
+  <text x="205" y="420" text-anchor="middle" font-family="monospace" font-size="10" fill="#6c7086">Day 5</text>
+  <text x="330" y="420" text-anchor="middle" font-family="monospace" font-size="10" fill="#6c7086">Day 10</text>
+  <text x="455" y="420" text-anchor="middle" font-family="monospace" font-size="10" fill="#6c7086">Day 15</text>
+  <text x="580" y="420" text-anchor="middle" font-family="monospace" font-size="10" fill="#6c7086">Day 20</text>
+  <text x="705" y="420" text-anchor="middle" font-family="monospace" font-size="10" fill="#6c7086">Day 25</text>
+  <text x="830" y="420" text-anchor="middle" font-family="monospace" font-size="10" fill="#6c7086">Day 30</text>
+
+  <!-- Red zone at bottom (budget exhausted) -->
+  <rect x="80" y="365" width="750" height="35" fill="#f38ba8" opacity="0.08"/>
+  <text x="835" y="385" text-anchor="start" font-family="sans-serif" font-size="9" fill="#f38ba8">Exhausted</text>
+
+  <!-- Green zone at top -->
+  <rect x="80" y="60" width="750" height="100" fill="#a6e3a1" opacity="0.04"/>
+
+  <!-- 14x burn rate threshold line -->
+  <line x1="80" y1="310" x2="830" y2="310" stroke="#f38ba8" stroke-width="1" stroke-dasharray="8,4"/>
+  <text x="835" y="314" text-anchor="start" font-family="monospace" font-size="9" fill="#f38ba8">14x alert</text>
+
+  <!-- 2x burn rate threshold line -->
+  <line x1="80" y1="210" x2="830" y2="210" stroke="#f9e2af" stroke-width="1" stroke-dasharray="8,4"/>
+  <text x="835" y="214" text-anchor="start" font-family="monospace" font-size="9" fill="#f9e2af">2x alert</text>
+
+  <!-- Budget line: starts at 100% (y=62), gradual decline to day 15 (~55% = y=213), then rapid drop -->
+  <!-- Fill area under the curve -->
+  <polygon points="80,62 205,92 330,128 400,148 455,155 458,155 475,260 510,340 540,370 580,385 705,390 830,395 830,400 80,400" fill="url(#budgetFill)"/>
+
+  <!-- The budget line itself -->
+  <polyline points="80,62 205,92 330,128 400,148 455,155" fill="none" stroke="#a6e3a1" stroke-width="2.5"/>
+  <!-- Incident spike: rapid burn from day 15 -->
+  <polyline points="455,155 458,155 475,260 510,340 540,370" fill="none" stroke="#f38ba8" stroke-width="2.5"/>
+  <!-- Post incident: flatline near zero -->
+  <polyline points="540,370 580,385 705,390 830,395" fill="none" stroke="#f38ba8" stroke-width="2" stroke-dasharray="6,3"/>
+
+  <!-- Incident marker -->
+  <line x1="455" y1="60" x2="455" y2="400" stroke="#f38ba8" stroke-width="1" stroke-dasharray="3,3"/>
+  <circle cx="455" cy="155" r="5" fill="#f38ba8"/>
+
+  <!-- Annotations -->
+  <!-- Normal burn rate -->
+  <rect x="140" y="80" width="150" height="22" rx="4" fill="#313244" stroke="#a6e3a1" stroke-width="1"/>
+  <text x="215" y="95" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#a6e3a1">Normal burn rate (~1x)</text>
+
+  <!-- Incident annotation -->
+  <rect x="460" y="130" width="195" height="36" rx="4" fill="#313244" stroke="#f38ba8" stroke-width="1.5"/>
+  <text x="557" y="148" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#f38ba8">Incident: 14x burn rate</text>
+  <text x="557" y="162" text-anchor="middle" font-family="monospace" font-size="9" fill="#f38ba8">surge event, pool exhaustion</text>
+
+  <!-- Budget exhausted annotation -->
+  <rect x="555" y="355" width="210" height="22" rx="4" fill="#3a1e2a" stroke="#f38ba8" stroke-width="1"/>
+  <text x="660" y="370" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#f38ba8">Budget exhausted — freeze deploys</text>
+
+  <!-- Legend -->
+  <rect x="80" y="440" width="500" height="45" rx="6" fill="#313244" stroke="#45475a" stroke-width="1"/>
+  <line x1="100" y1="458" x2="130" y2="458" stroke="#a6e3a1" stroke-width="2.5"/>
+  <text x="138" y="462" font-family="sans-serif" font-size="11" fill="#a6e3a1">Budget remaining</text>
+  <line x1="265" y1="458" x2="295" y2="458" stroke="#f38ba8" stroke-width="2.5"/>
+  <text x="303" y="462" font-family="sans-serif" font-size="11" fill="#f38ba8">Rapid consumption</text>
+  <line x1="100" y1="476" x2="130" y2="476" stroke="#f9e2af" stroke-width="1" stroke-dasharray="6,3"/>
+  <text x="138" y="480" font-family="sans-serif" font-size="11" fill="#f9e2af">2x burn rate threshold (ticket)</text>
+  <line x1="370" y1="476" x2="400" y2="476" stroke="#f38ba8" stroke-width="1" stroke-dasharray="6,3"/>
+  <text x="408" y="480" font-family="sans-serif" font-size="11" fill="#f38ba8">14x burn rate threshold (page)</text>
+</svg>
