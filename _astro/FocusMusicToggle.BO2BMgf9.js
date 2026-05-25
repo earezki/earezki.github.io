@@ -1,4 +1,4 @@
-import{q as u}from"./hooks.module.Defe-Nsp.js";import{u as t,g as d}from"./globalPlayerStore.Cq8DlJ52.js";import{u as e}from"./jsxRuntime.module.-6qU79gW.js";import{k as l}from"./preact.module.Crax5nOs.js";import{c as p}from"./createLucideIcon.CJzk5HWJ.js";import"./middleware.BbpNvAui.js";/**
+import{q as u}from"./hooks.module.Defe-Nsp.js";import{u as t,g as d}from"./globalPlayerStore.9DgZDscc.js";import{u as e}from"./jsxRuntime.module.-6qU79gW.js";import{k as l}from"./preact.module.Crax5nOs.js";import{c as p}from"./createLucideIcon.CJzk5HWJ.js";import"./middleware.BbpNvAui.js";/**
  * @license lucide-preact v0.563.0 - ISC
  *
  * This source code is licensed under the ISC license.
