@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 460" width="850" height="460">
+  <defs>
+    <filter id="shadow" x="-2%" y="-2%" width="104%" height="104%">
+      <feDropShadow dx="1" dy="1" stdDeviation="2" flood-color="#000" flood-opacity="0.3"/>
+    </filter>
+    <marker id="arrowBlue" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#89b4fa"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#a6e3a1"/>
+    </marker>
+    <marker id="arrowRed" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#f38ba8"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="850" height="460" rx="12" fill="#1e1e2e"/>
+
+  <!-- Title -->
+  <text x="425" y="35" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="bold" fill="#cdd6f4">PostgreSQL MVCC and Vacuum Cycle</text>
+
+  <!-- Timeline -->
+  <line x1="80" y1="70" x2="770" y2="70" stroke="#585b70" stroke-width="2"/>
+  <text x="80" y="62" font-family="sans-serif" font-size="11" fill="#585b70">Time</text>
+
+  <!-- Time markers -->
+  <g font-family="monospace" font-size="10" fill="#585b70">
+    <line x1="120" y1="65" x2="120" y2="75" stroke="#585b70" stroke-width="1.5"/>
+    <text x="120" y="88" text-anchor="middle">T1</text>
+    <line x1="250" y1="65" x2="250" y2="75" stroke="#585b70" stroke-width="1.5"/>
+    <text x="250" y="88" text-anchor="middle">T2</text>
+    <line x1="400" y1="65" x2="400" y2="75" stroke="#585b70" stroke-width="1.5"/>
+    <text x="400" y="88" text-anchor="middle">T3</text>
+    <line x1="550" y1="65" x2="550" y2="75" stroke="#585b70" stroke-width="1.5"/>
+    <text x="550" y="88" text-anchor="middle">T4</text>
+    <line x1="700" y1="65" x2="700" y2="75" stroke="#585b70" stroke-width="1.5"/>
+    <text x="700" y="88" text-anchor="middle">T5</text>
+  </g>
+
+  <!-- Table: package_events (heap) -->
+  <g transform="translate(50, 110)">
+    <text x="0" y="0" font-family="sans-serif" font-size="13" font-weight="bold" fill="#cdd6f4">Heap Page</text>
+
+    <!-- Row version 1 (live at T1, dead after T2) -->
+    <g transform="translate(0, 20)">
+      <rect x="0" y="0" width="340" height="40" rx="4" fill="#313244" stroke="#a6e3a1" stroke-width="1.5" filter="url(#shadow)"/>
+      <text x="10" y="16" font-family="monospace" font-size="10" fill="#a6adc8">xmin=100</text>
+      <text x="100" y="16" font-family="monospace" font-size="10" fill="#a6adc8">xmax=105</text>
+      <text x="200" y="16" font-family="monospace" font-size="10" fill="#89b4fa">pkg-001</text>
+      <text x="10" y="32" font-family="monospace" font-size="10" fill="#a6e3a1">status=SCANNED</text>
+      <text x="200" y="32" font-family="monospace" font-size="10" fill="#585b70">old version (dead)</text>
+    </g>
+
+    <!-- Row version 2 (live, created by UPDATE at T2) -->
+    <g transform="translate(0, 70)">
+      <rect x="0" y="0" width="340" height="40" rx="4" fill="#313244" stroke="#89b4fa" stroke-width="2" filter="url(#shadow)"/>
+      <text x="10" y="16" font-family="monospace" font-size="10" fill="#a6adc8">xmin=105</text>
+      <text x="100" y="16" font-family="monospace" font-size="10" fill="#a6adc8">xmax=0</text>
+      <text x="200" y="16" font-family="monospace" font-size="10" fill="#89b4fa">pkg-001</text>
+      <text x="10" y="32" font-family="monospace" font-size="10" fill="#89b4fa">status=IN_TRANSIT</text>
+      <text x="200" y="32" font-family="monospace" font-size="10" fill="#a6e3a1">current version (live)</text>
+    </g>
+
+    <!-- Dead tuple indicator -->
+    <g transform="translate(0, 120)">
+      <rect x="0" y="0" width="340" height="40" rx="4" fill="#313244" stroke="#f38ba8" stroke-width="1.5" opacity="0.5" filter="url(#shadow)"/>
+      <text x="10" y="16" font-family="monospace" font-size="10" fill="#f38ba8">xmin=98</text>
+      <text x="100" y="16" font-family="monospace" font-size="10" fill="#f38ba8">xmax=102</text>
+      <text x="200" y="16" font-family="monospace" font-size="10" fill="#585b70">pkg-003</text>
+      <text x="10" y="32" font-family="monospace" font-size="10" fill="#f38ba8">DEAD TUPLE</text>
+      <text x="200" y="32" font-family="monospace" font-size="10" fill="#585b70">no txn needs this</text>
+    </g>
+  </g>
+
+  <!-- VACUUM process -->
+  <g transform="translate(440, 130)">
+    <rect x="0" y="0" width="350" height="140" rx="8" fill="#313244" stroke="#cba6f7" stroke-width="2" filter="url(#shadow)"/>
+    <text x="175" y="25" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#cba6f7">VACUUM</text>
+
+    <text x="20" y="50" font-family="sans-serif" font-size="11" fill="#a6adc8">1. Scan heap for dead tuples</text>
+    <text x="20" y="70" font-family="sans-serif" font-size="11" fill="#a6adc8">2. Check: any active txn needs this row?</text>
+    <text x="20" y="90" font-family="sans-serif" font-size="11" fill="#a6e3a1">3. If no: mark space as reusable</text>
+    <text x="20" y="110" font-family="sans-serif" font-size="11" fill="#a6adc8">4. Update visibility map</text>
+    <text x="20" y="130" font-family="sans-serif" font-size="11" fill="#a6adc8">5. Update free space map</text>
+  </g>
+
+  <!-- Arrow from dead tuple to vacuum -->
+  <line x1="390" y1="260" x2="435" y2="230" stroke="#cba6f7" stroke-width="1.5" marker-end="url(#arrowBlue)" stroke-dasharray="4,3"/>
+
+  <!-- Visibility Map -->
+  <g transform="translate(440, 300)">
+    <rect x="0" y="0" width="350" height="55" rx="6" fill="#313244" stroke="#f9e2af" stroke-width="1.5" filter="url(#shadow)"/>
+    <text x="175" y="20" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#f9e2af">Visibility Map</text>
+    <g transform="translate(20, 30)">
+      <rect x="0" y="0" width="20" height="16" rx="2" fill="#a6e3a1" opacity="0.5"/>
+      <text x="10" y="12" text-anchor="middle" font-family="monospace" font-size="9" fill="#1e1e2e">1</text>
+      <rect x="25" y="0" width="20" height="16" rx="2" fill="#a6e3a1" opacity="0.5"/>
+      <text x="35" y="12" text-anchor="middle" font-family="monospace" font-size="9" fill="#1e1e2e">1</text>
+      <rect x="50" y="0" width="20" height="16" rx="2" fill="#f38ba8" opacity="0.5"/>
+      <text x="60" y="12" text-anchor="middle" font-family="monospace" font-size="9" fill="#1e1e2e">0</text>
+      <rect x="75" y="0" width="20" height="16" rx="2" fill="#a6e3a1" opacity="0.5"/>
+      <text x="85" y="12" text-anchor="middle" font-family="monospace" font-size="9" fill="#1e1e2e">1</text>
+      <rect x="100" y="0" width="20" height="16" rx="2" fill="#f38ba8" opacity="0.5"/>
+      <text x="110" y="12" text-anchor="middle" font-family="monospace" font-size="9" fill="#1e1e2e">0</text>
+      <text x="140" y="12" font-family="sans-serif" font-size="10" fill="#a6adc8">1=all-visible, 0=has dead tuples</text>
+    </g>
+  </g>
+
+  <!-- MVCC visibility rule -->
+  <g transform="translate(50, 380)">
+    <rect x="0" y="0" width="750" height="60" rx="6" fill="#1e1e2e" stroke="#585b70" stroke-width="1"/>
+    <text x="375" y="20" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#cdd6f4">MVCC Visibility Rule</text>
+    <text x="375" y="40" text-anchor="middle" font-family="monospace" font-size="11" fill="#a6adc8">A row version is visible to txn T if: xmin committed AND xmin &lt; T AND (xmax not set OR xmax &gt; T)</text>
+    <text x="375" y="54" text-anchor="middle" font-family="monospace" font-size="10" fill="#585b70">Readers never block writers. Writers never block readers. Old versions remain until VACUUM reclaims them.</text>
+  </g>
+</svg>

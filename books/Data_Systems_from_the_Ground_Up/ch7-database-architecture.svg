@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 480" width="850" height="480">
+  <defs>
+    <filter id="shadow" x="-2%" y="-2%" width="104%" height="104%">
+      <feDropShadow dx="1" dy="1" stdDeviation="2" flood-color="#000" flood-opacity="0.3"/>
+    </filter>
+    <marker id="arrowBlue" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#89b4fa"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#a6e3a1"/>
+    </marker>
+    <marker id="arrowYellow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#f9e2af"/>
+    </marker>
+    <marker id="arrowPurple" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#cba6f7"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="850" height="480" rx="12" fill="#1e1e2e"/>
+
+  <!-- Title -->
+  <text x="425" y="35" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="bold" fill="#cdd6f4">Logistics Platform Database Architecture</text>
+
+  <!-- PostgreSQL (center-left) -->
+  <g transform="translate(40, 80)">
+    <rect x="0" y="0" width="200" height="100" rx="8" fill="#313244" stroke="#89b4fa" stroke-width="2.5" filter="url(#shadow)"/>
+    <text x="100" y="28" text-anchor="middle" font-family="sans-serif" font-size="15" font-weight="bold" fill="#89b4fa">PostgreSQL</text>
+    <text x="100" y="48" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6adc8">Source of truth</text>
+    <text x="100" y="64" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6adc8">OLTP: orders, packages</text>
+    <text x="100" y="80" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6adc8">assignments, inventory</text>
+    <text x="100" y="94" text-anchor="middle" font-family="monospace" font-size="9" fill="#585b70">ACID, MVCC, B-Tree indexes</text>
+  </g>
+
+  <!-- Kafka (center) -->
+  <g transform="translate(320, 80)">
+    <rect x="0" y="0" width="200" height="100" rx="8" fill="#313244" stroke="#a6e3a1" stroke-width="2.5" filter="url(#shadow)"/>
+    <text x="100" y="28" text-anchor="middle" font-family="sans-serif" font-size="15" font-weight="bold" fill="#a6e3a1">Kafka</text>
+    <text x="100" y="48" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6adc8">Event backbone</text>
+    <text x="100" y="64" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6adc8">package-events</text>
+    <text x="100" y="80" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6adc8">inventory-changes</text>
+    <text x="100" y="94" text-anchor="middle" font-family="monospace" font-size="9" fill="#585b70">Partitioned log, consumer groups</text>
+  </g>
+
+  <!-- ClickHouse (right) -->
+  <g transform="translate(600, 80)">
+    <rect x="0" y="0" width="200" height="100" rx="8" fill="#313244" stroke="#f9e2af" stroke-width="2.5" filter="url(#shadow)"/>
+    <text x="100" y="28" text-anchor="middle" font-family="sans-serif" font-size="15" font-weight="bold" fill="#f9e2af">ClickHouse</text>
+    <text x="100" y="48" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6adc8">Analytics</text>
+    <text x="100" y="64" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6adc8">OLAP: delivery metrics</text>
+    <text x="100" y="80" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6adc8">route efficiency, SLA</text>
+    <text x="100" y="94" text-anchor="middle" font-family="monospace" font-size="9" fill="#585b70">Column-oriented, MergeTree</text>
+  </g>
+
+  <!-- Redis (bottom-left) -->
+  <g transform="translate(40, 280)">
+    <rect x="0" y="0" width="200" height="90" rx="8" fill="#313244" stroke="#f38ba8" stroke-width="2.5" filter="url(#shadow)"/>
+    <text x="100" y="25" text-anchor="middle" font-family="sans-serif" font-size="15" font-weight="bold" fill="#f38ba8">Redis</text>
+    <text x="100" y="45" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6adc8">Hot cache</text>
+    <text x="100" y="61" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6adc8">Package status lookups</text>
+    <text x="100" y="77" text-anchor="middle" font-family="monospace" font-size="10" fill="#585b70">Cache-aside, 5min TTL</text>
+  </g>
+
+  <!-- Application Services (bottom-center) -->
+  <g transform="translate(320, 260)">
+    <rect x="0" y="0" width="200" height="120" rx="8" fill="#313244" stroke="#cba6f7" stroke-width="2" filter="url(#shadow)"/>
+    <text x="100" y="25" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#cba6f7">Application Services</text>
+    <text x="100" y="48" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6adc8">Package Service</text>
+    <text x="100" y="64" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6adc8">Route Optimizer</text>
+    <text x="100" y="80" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6adc8">Dispatch Service</text>
+    <text x="100" y="96" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6adc8">Notification Service</text>
+    <text x="100" y="112" text-anchor="middle" font-family="monospace" font-size="9" fill="#585b70">Java 21, gRPC + HTTP</text>
+  </g>
+
+  <!-- Debezium (between PG and Kafka) -->
+  <g transform="translate(205, 210)">
+    <rect x="0" y="0" width="100" height="35" rx="6" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+    <text x="50" y="22" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#a6e3a1">Debezium</text>
+  </g>
+
+  <!-- Arrows: PG -> Debezium -> Kafka (CDC) -->
+  <line x1="140" y1="180" x2="240" y2="210" stroke="#a6e3a1" stroke-width="1.5" marker-end="url(#arrowGreen)"/>
+  <line x1="290" y1="228" x2="320" y2="170" stroke="#a6e3a1" stroke-width="1.5" marker-end="url(#arrowGreen)"/>
+  <text x="215" y="200" font-family="sans-serif" font-size="9" fill="#a6e3a1">CDC</text>
+
+  <!-- Arrow: Kafka -> ClickHouse -->
+  <line x1="520" y1="130" x2="595" y2="130" stroke="#f9e2af" stroke-width="1.5" marker-end="url(#arrowYellow)"/>
+  <text x="558" y="122" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#f9e2af">consume</text>
+
+  <!-- Arrow: App -> PG (read/write) -->
+  <line x1="380" y1="260" x2="200" y2="180" stroke="#89b4fa" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
+  <text x="270" y="210" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#89b4fa">read/write</text>
+
+  <!-- Arrow: App -> Kafka (produce) -->
+  <line x1="420" y1="260" x2="420" y2="185" stroke="#a6e3a1" stroke-width="1.5" marker-end="url(#arrowGreen)"/>
+  <text x="436" y="225" font-family="sans-serif" font-size="9" fill="#a6e3a1">produce</text>
+
+  <!-- Arrow: Kafka -> App (consume) -->
+  <line x1="450" y1="180" x2="450" y2="255" stroke="#cba6f7" stroke-width="1.5" marker-end="url(#arrowPurple)"/>
+  <text x="478" y="225" font-family="sans-serif" font-size="9" fill="#cba6f7">consume</text>
+
+  <!-- Arrow: App -> Redis (cache) -->
+  <line x1="320" y1="325" x2="245" y2="325" stroke="#f38ba8" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
+  <text x="283" y="318" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#f38ba8">cache-aside</text>
+
+  <!-- Data flow labels -->
+  <g transform="translate(600, 250)">
+    <rect x="0" y="0" width="210" height="140" rx="6" fill="#1e1e2e" stroke="#585b70" stroke-width="1"/>
+    <text x="105" y="20" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#cdd6f4">Data Flow</text>
+    <text x="15" y="42" font-family="sans-serif" font-size="10" fill="#89b4fa">Write: App -> PG (ACID)</text>
+    <text x="15" y="60" font-family="sans-serif" font-size="10" fill="#a6e3a1">CDC: PG -> Debezium -> Kafka</text>
+    <text x="15" y="78" font-family="sans-serif" font-size="10" fill="#f9e2af">Analytics: Kafka -> ClickHouse</text>
+    <text x="15" y="96" font-family="sans-serif" font-size="10" fill="#f38ba8">Cache: App -> Redis (read-through)</text>
+    <text x="15" y="118" font-family="sans-serif" font-size="10" fill="#585b70">PG is the source of truth.</text>
+    <text x="15" y="132" font-family="sans-serif" font-size="10" fill="#585b70">All other stores are derived.</text>
+  </g>
+
+  <!-- Legend -->
+  <g transform="translate(40, 440)">
+    <rect x="0" y="0" width="770" height="28" rx="4" fill="#313244" stroke="#585b70" stroke-width="1"/>
+    <text x="385" y="18" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#a6adc8">Polyglot persistence: each database handles the workload it was designed for. CDC keeps them synchronized.</text>
+  </g>
+</svg>

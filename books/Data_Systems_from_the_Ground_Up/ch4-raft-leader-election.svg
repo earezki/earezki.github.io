@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <defs>
+    <filter id="shadow" x="-2%" y="-2%" width="104%" height="104%">
+      <feDropShadow dx="1" dy="1" stdDeviation="2" flood-color="#000" flood-opacity="0.3"/>
+    </filter>
+    <marker id="arrowBlue" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#89b4fa"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#a6e3a1"/>
+    </marker>
+    <marker id="arrowRed" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#f38ba8"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="450" rx="12" fill="#1e1e2e"/>
+
+  <!-- Title -->
+  <text x="400" y="35" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="bold" fill="#cdd6f4">Raft Leader Election State Machine</text>
+
+  <!-- Follower state -->
+  <g transform="translate(80, 160)">
+    <rect x="0" y="0" width="160" height="80" rx="40" fill="#313244" stroke="#89b4fa" stroke-width="2.5" filter="url(#shadow)"/>
+    <text x="80" y="35" text-anchor="middle" font-family="sans-serif" font-size="16" font-weight="bold" fill="#89b4fa">Follower</text>
+    <text x="80" y="55" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6adc8">Receives heartbeats</text>
+    <text x="80" y="68" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6adc8">Replicates log entries</text>
+  </g>
+
+  <!-- Candidate state -->
+  <g transform="translate(320, 160)">
+    <rect x="0" y="0" width="160" height="80" rx="40" fill="#313244" stroke="#f9e2af" stroke-width="2.5" filter="url(#shadow)"/>
+    <text x="80" y="35" text-anchor="middle" font-family="sans-serif" font-size="16" font-weight="bold" fill="#f9e2af">Candidate</text>
+    <text x="80" y="55" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6adc8">Requests votes</text>
+    <text x="80" y="68" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6adc8">Increments term</text>
+  </g>
+
+  <!-- Leader state -->
+  <g transform="translate(560, 160)">
+    <rect x="0" y="0" width="160" height="80" rx="40" fill="#313244" stroke="#a6e3a1" stroke-width="2.5" filter="url(#shadow)"/>
+    <text x="80" y="35" text-anchor="middle" font-family="sans-serif" font-size="16" font-weight="bold" fill="#a6e3a1">Leader</text>
+    <text x="80" y="55" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6adc8">Sends heartbeats</text>
+    <text x="80" y="68" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6adc8">Replicates to followers</text>
+  </g>
+
+  <!-- Transition: Follower -> Candidate (election timeout) -->
+  <line x1="240" y1="190" x2="315" y2="190" stroke="#f9e2af" stroke-width="2" marker-end="url(#arrowBlue)"/>
+  <text x="278" y="178" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#f9e2af">Election timeout</text>
+  <text x="278" y="165" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#585b70">(no heartbeat received)</text>
+
+  <!-- Transition: Candidate -> Leader (wins election) -->
+  <line x1="480" y1="190" x2="555" y2="190" stroke="#a6e3a1" stroke-width="2" marker-end="url(#arrowGreen)"/>
+  <text x="518" y="178" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#a6e3a1">Majority votes</text>
+  <text x="518" y="165" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#585b70">received</text>
+
+  <!-- Transition: Candidate -> Follower (discovers leader or higher term) -->
+  <path d="M 400 240 Q 400 300 240 300 Q 160 300 160 240" fill="none" stroke="#f38ba8" stroke-width="1.5" marker-end="url(#arrowRed)"/>
+  <text x="280" y="315" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#f38ba8">Discovers leader or</text>
+  <text x="280" y="330" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#f38ba8">higher term</text>
+
+  <!-- Transition: Leader -> Follower (discovers higher term) -->
+  <path d="M 640 240 Q 640 360 400 360 Q 160 360 160 240" fill="none" stroke="#f38ba8" stroke-width="1.5" marker-end="url(#arrowRed)"/>
+  <text x="400" y="380" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#f38ba8">Discovers higher term (steps down)</text>
+
+  <!-- Transition: Candidate -> Candidate (election timeout, split vote) -->
+  <path d="M 400 160 Q 400 100 440 100 Q 480 100 480 160" fill="none" stroke="#f9e2af" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowBlue)"/>
+  <text x="440" y="88" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#f9e2af">Split vote timeout</text>
+  <text x="440" y="75" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#585b70">(new term, re-election)</text>
+
+  <!-- Leader sends heartbeats (self-loop) -->
+  <path d="M 720 190 Q 760 160 760 200 Q 760 240 720 210" fill="none" stroke="#a6e3a1" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowGreen)"/>
+  <text x="775" y="200" font-family="sans-serif" font-size="9" fill="#a6e3a1">heartbeat</text>
+
+  <!-- Term counter -->
+  <g transform="translate(60, 60)">
+    <text x="0" y="0" font-family="sans-serif" font-size="13" fill="#cdd6f4">Term progression:</text>
+    <g transform="translate(0, 15)">
+      <rect x="0" y="0" width="60" height="24" rx="4" fill="#313244" stroke="#585b70" stroke-width="1"/>
+      <text x="30" y="16" text-anchor="middle" font-family="monospace" font-size="12" fill="#a6adc8">T=1</text>
+      <rect x="70" y="0" width="60" height="24" rx="4" fill="#313244" stroke="#585b70" stroke-width="1"/>
+      <text x="100" y="16" text-anchor="middle" font-family="monospace" font-size="12" fill="#a6adc8">T=2</text>
+      <rect x="140" y="0" width="60" height="24" rx="4" fill="#313244" stroke="#89b4fa" stroke-width="2"/>
+      <text x="170" y="16" text-anchor="middle" font-family="monospace" font-size="12" fill="#89b4fa">T=3</text>
+      <line x1="60" y1="12" x2="70" y2="12" stroke="#585b70" stroke-width="1"/>
+      <line x1="130" y1="12" x2="140" y2="12" stroke="#585b70" stroke-width="1"/>
+    </g>
+    <text x="210" y="30" font-family="sans-serif" font-size="10" fill="#585b70">Each election increments the term</text>
+  </g>
+
+  <!-- Legend -->
+  <g transform="translate(60, 410)">
+    <text x="0" y="12" font-family="sans-serif" font-size="12" fill="#a6adc8">Quorum: majority of nodes must agree (3 of 5, or 2 of 3) for a leader to be elected</text>
+    <text x="0" y="30" font-family="sans-serif" font-size="12" fill="#585b70">Randomized election timeout (150ms-300ms) prevents repeated split votes</text>
+  </g>
+</svg>

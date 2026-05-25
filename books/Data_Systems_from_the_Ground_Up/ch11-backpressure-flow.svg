@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 400" width="850" height="400">
+  <defs>
+    <filter id="shadow" x="-2%" y="-2%" width="104%" height="104%">
+      <feDropShadow dx="1" dy="1" stdDeviation="2" flood-color="#000" flood-opacity="0.3"/>
+    </filter>
+    <marker id="arrowBlue" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#89b4fa"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#a6e3a1"/>
+    </marker>
+    <marker id="arrowRed" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#f38ba8"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="850" height="400" rx="12" fill="#1e1e2e"/>
+
+  <!-- Title -->
+  <text x="425" y="35" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="bold" fill="#cdd6f4">Backpressure Flow Control</text>
+
+  <!-- Producer -->
+  <g transform="translate(40, 100)">
+    <rect x="0" y="0" width="150" height="90" rx="8" fill="#313244" stroke="#89b4fa" stroke-width="2.5" filter="url(#shadow)"/>
+    <text x="75" y="25" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#89b4fa">Producer</text>
+    <text x="75" y="45" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6adc8">1,667 events/sec</text>
+    <text x="75" y="60" text-anchor="middle" font-family="monospace" font-size="10" fill="#585b70">(burst scan)</text>
+    <text x="75" y="78" text-anchor="middle" font-family="monospace" font-size="9" fill="#a6e3a1">Kafka producer</text>
+  </g>
+
+  <!-- Arrow: Producer -> Buffer -->
+  <line x1="190" y1="145" x2="260" y2="145" stroke="#89b4fa" stroke-width="2" marker-end="url(#arrowBlue)"/>
+  <text x="225" y="135" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#89b4fa">push</text>
+
+  <!-- Buffer (Kafka partition log) -->
+  <g transform="translate(270, 80)">
+    <rect x="0" y="0" width="240" height="130" rx="8" fill="#313244" stroke="#f9e2af" stroke-width="2.5" filter="url(#shadow)"/>
+    <text x="120" y="25" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#f9e2af">Buffer</text>
+    <text x="120" y="42" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6adc8">Kafka Partition Log</text>
+
+    <!-- Buffer fill visualization -->
+    <g transform="translate(15, 55)">
+      <rect x="0" y="0" width="210" height="30" rx="4" fill="#1e1e2e" stroke="#585b70" stroke-width="1"/>
+      <!-- Filled portion -->
+      <rect x="2" y="2" width="160" height="26" rx="3" fill="#f9e2af" opacity="0.3"/>
+      <text x="80" y="19" text-anchor="middle" font-family="monospace" font-size="10" fill="#f9e2af">47,000 messages (lag)</text>
+    </g>
+
+    <text x="120" y="105" text-anchor="middle" font-family="monospace" font-size="9" fill="#a6adc8">retention: 7 days</text>
+    <text x="120" y="120" text-anchor="middle" font-family="monospace" font-size="9" fill="#585b70">disk-backed (absorbs bursts)</text>
+  </g>
+
+  <!-- Arrow: Buffer -> Consumer -->
+  <line x1="510" y1="145" x2="580" y2="145" stroke="#a6e3a1" stroke-width="2" marker-end="url(#arrowGreen)"/>
+  <text x="545" y="135" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#a6e3a1">poll</text>
+
+  <!-- Consumer -->
+  <g transform="translate(590, 100)">
+    <rect x="0" y="0" width="200" height="90" rx="8" fill="#313244" stroke="#a6e3a1" stroke-width="2.5" filter="url(#shadow)"/>
+    <text x="100" y="25" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#a6e3a1">Consumer</text>
+    <text x="100" y="45" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6adc8">100 events/sec</text>
+    <text x="100" y="60" text-anchor="middle" font-family="monospace" font-size="10" fill="#585b70">(notification rate limit)</text>
+    <text x="100" y="78" text-anchor="middle" font-family="monospace" font-size="9" fill="#a6e3a1">max.poll.records=50</text>
+  </g>
+
+  <!-- Backpressure signal (bottom) -->
+  <g transform="translate(270, 240)">
+    <!-- Backpressure arrow -->
+    <path d="M 340 20 Q 370 20 370 50 Q 370 80 200 80 Q 30 80 30 50 Q 30 20 0 20" fill="none" stroke="#f38ba8" stroke-width="2" stroke-dasharray="6,3" marker-end="url(#arrowRed)"/>
+    <text x="200" y="55" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#f38ba8">Backpressure Signal</text>
+    <text x="200" y="73" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#a6adc8">Consumer polls slowly → lag grows → alert triggers</text>
+  </g>
+
+  <!-- Without backpressure box -->
+  <g transform="translate(40, 330)">
+    <rect x="0" y="0" width="360" height="50" rx="6" fill="#1e1e2e" stroke="#f38ba8" stroke-width="1.5"/>
+    <text x="180" y="18" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#f38ba8">Without backpressure (unbounded buffer)</text>
+    <text x="180" y="36" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6adc8">In-memory queue grows → OOM crash at T+20s</text>
+  </g>
+
+  <!-- With backpressure box -->
+  <g transform="translate(440, 330)">
+    <rect x="0" y="0" width="370" height="50" rx="6" fill="#1e1e2e" stroke="#a6e3a1" stroke-width="1.5"/>
+    <text x="185" y="18" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#a6e3a1">With backpressure (Kafka as buffer)</text>
+    <text x="185" y="36" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6adc8">Lag peaks at 47K → consumer catches up in 8 min</text>
+  </g>
+</svg>

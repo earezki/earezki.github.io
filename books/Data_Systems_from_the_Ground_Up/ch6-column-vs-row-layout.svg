@@ -1,0 +1,147 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 400" width="850" height="400">
+  <defs>
+    <filter id="shadow" x="-2%" y="-2%" width="104%" height="104%">
+      <feDropShadow dx="1" dy="1" stdDeviation="2" flood-color="#000" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="850" height="400" rx="12" fill="#1e1e2e"/>
+
+  <!-- Title -->
+  <text x="425" y="35" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="bold" fill="#cdd6f4">Column Store vs Row Store Data Layout</text>
+
+  <!-- Row Store Section -->
+  <g transform="translate(40, 60)">
+    <text x="180" y="0" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#89b4fa">Row Store (PostgreSQL)</text>
+    <text x="180" y="18" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#585b70">Rows stored contiguously on disk</text>
+
+    <!-- Header -->
+    <g transform="translate(0, 30)">
+      <rect x="0" y="0" width="70" height="24" rx="3" fill="#585b70"/>
+      <text x="35" y="16" text-anchor="middle" font-family="monospace" font-size="10" font-weight="bold" fill="#1e1e2e">pkg_id</text>
+      <rect x="72" y="0" width="80" height="24" rx="3" fill="#585b70"/>
+      <text x="112" y="16" text-anchor="middle" font-family="monospace" font-size="10" font-weight="bold" fill="#1e1e2e">status</text>
+      <rect x="154" y="0" width="80" height="24" rx="3" fill="#585b70"/>
+      <text x="194" y="16" text-anchor="middle" font-family="monospace" font-size="10" font-weight="bold" fill="#1e1e2e">weight</text>
+      <rect x="236" y="0" width="100" height="24" rx="3" fill="#585b70"/>
+      <text x="286" y="16" text-anchor="middle" font-family="monospace" font-size="10" font-weight="bold" fill="#1e1e2e">destination</text>
+    </g>
+
+    <!-- Row 1 (full row highlighted) -->
+    <g transform="translate(0, 58)">
+      <rect x="0" y="0" width="336" height="24" rx="3" fill="#313244" stroke="#89b4fa" stroke-width="1.5"/>
+      <text x="35" y="16" text-anchor="middle" font-family="monospace" font-size="10" fill="#89b4fa">001</text>
+      <line x1="70" y1="0" x2="70" y2="24" stroke="#585b70" stroke-width="0.5"/>
+      <text x="112" y="16" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6adc8">TRANSIT</text>
+      <line x1="152" y1="0" x2="152" y2="24" stroke="#585b70" stroke-width="0.5"/>
+      <text x="194" y="16" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6adc8">2.4</text>
+      <line x1="234" y1="0" x2="234" y2="24" stroke="#585b70" stroke-width="0.5"/>
+      <text x="286" y="16" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6adc8">NYC</text>
+    </g>
+
+    <!-- Row 2 -->
+    <g transform="translate(0, 84)">
+      <rect x="0" y="0" width="336" height="24" rx="3" fill="#313244" stroke="#585b70" stroke-width="1"/>
+      <text x="35" y="16" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6adc8">002</text>
+      <line x1="70" y1="0" x2="70" y2="24" stroke="#585b70" stroke-width="0.5"/>
+      <text x="112" y="16" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6adc8">SCANNED</text>
+      <line x1="152" y1="0" x2="152" y2="24" stroke="#585b70" stroke-width="0.5"/>
+      <text x="194" y="16" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6adc8">5.1</text>
+      <line x1="234" y1="0" x2="234" y2="24" stroke="#585b70" stroke-width="0.5"/>
+      <text x="286" y="16" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6adc8">LAX</text>
+    </g>
+
+    <!-- Row 3 -->
+    <g transform="translate(0, 110)">
+      <rect x="0" y="0" width="336" height="24" rx="3" fill="#313244" stroke="#585b70" stroke-width="1"/>
+      <text x="35" y="16" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6adc8">003</text>
+      <line x1="70" y1="0" x2="70" y2="24" stroke="#585b70" stroke-width="0.5"/>
+      <text x="112" y="16" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6adc8">DELIVER</text>
+      <line x1="152" y1="0" x2="152" y2="24" stroke="#585b70" stroke-width="0.5"/>
+      <text x="194" y="16" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6adc8">1.8</text>
+      <line x1="234" y1="0" x2="234" y2="24" stroke="#585b70" stroke-width="0.5"/>
+      <text x="286" y="16" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6adc8">CHI</text>
+    </g>
+
+    <!-- Disk I/O note -->
+    <g transform="translate(0, 150)">
+      <text x="0" y="0" font-family="monospace" font-size="10" fill="#89b4fa">SELECT * WHERE pkg_id=001</text>
+      <text x="0" y="16" font-family="sans-serif" font-size="10" fill="#a6e3a1">1 page read (all columns in one row)</text>
+    </g>
+    <g transform="translate(0, 182)">
+      <text x="0" y="0" font-family="monospace" font-size="10" fill="#f38ba8">SELECT AVG(weight) FROM packages</text>
+      <text x="0" y="16" font-family="sans-serif" font-size="10" fill="#f38ba8">Must read ALL columns of ALL rows</text>
+      <text x="0" y="30" font-family="sans-serif" font-size="10" fill="#585b70">Only 1 of 4 columns is needed</text>
+    </g>
+  </g>
+
+  <!-- Column Store Section -->
+  <g transform="translate(440, 60)">
+    <text x="180" y="0" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#a6e3a1">Column Store (ClickHouse)</text>
+    <text x="180" y="18" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#585b70">Columns stored contiguously on disk</text>
+
+    <!-- Column: pkg_id -->
+    <g transform="translate(0, 30)">
+      <rect x="0" y="0" width="70" height="100" rx="4" fill="#313244" stroke="#585b70" stroke-width="1" filter="url(#shadow)"/>
+      <text x="35" y="16" text-anchor="middle" font-family="monospace" font-size="9" font-weight="bold" fill="#585b70">pkg_id</text>
+      <line x1="0" y1="22" x2="70" y2="22" stroke="#585b70" stroke-width="0.5"/>
+      <text x="35" y="40" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6adc8">001</text>
+      <text x="35" y="58" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6adc8">002</text>
+      <text x="35" y="76" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6adc8">003</text>
+      <text x="35" y="94" text-anchor="middle" font-family="monospace" font-size="9" fill="#585b70">file 1</text>
+    </g>
+
+    <!-- Column: status -->
+    <g transform="translate(80, 30)">
+      <rect x="0" y="0" width="80" height="100" rx="4" fill="#313244" stroke="#585b70" stroke-width="1" filter="url(#shadow)"/>
+      <text x="40" y="16" text-anchor="middle" font-family="monospace" font-size="9" font-weight="bold" fill="#585b70">status</text>
+      <line x1="0" y1="22" x2="80" y2="22" stroke="#585b70" stroke-width="0.5"/>
+      <text x="40" y="40" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6adc8">TRANSIT</text>
+      <text x="40" y="58" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6adc8">SCANNED</text>
+      <text x="40" y="76" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6adc8">DELIVER</text>
+      <text x="40" y="94" text-anchor="middle" font-family="monospace" font-size="9" fill="#585b70">file 2</text>
+    </g>
+
+    <!-- Column: weight (highlighted) -->
+    <g transform="translate(170, 30)">
+      <rect x="0" y="0" width="70" height="100" rx="4" fill="#313244" stroke="#a6e3a1" stroke-width="2" filter="url(#shadow)"/>
+      <text x="35" y="16" text-anchor="middle" font-family="monospace" font-size="9" font-weight="bold" fill="#a6e3a1">weight</text>
+      <line x1="0" y1="22" x2="70" y2="22" stroke="#a6e3a1" stroke-width="0.5"/>
+      <text x="35" y="40" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6e3a1">2.4</text>
+      <text x="35" y="58" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6e3a1">5.1</text>
+      <text x="35" y="76" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6e3a1">1.8</text>
+      <text x="35" y="94" text-anchor="middle" font-family="monospace" font-size="9" fill="#585b70">file 3</text>
+    </g>
+
+    <!-- Column: destination -->
+    <g transform="translate(250, 30)">
+      <rect x="0" y="0" width="100" height="100" rx="4" fill="#313244" stroke="#585b70" stroke-width="1" filter="url(#shadow)"/>
+      <text x="50" y="16" text-anchor="middle" font-family="monospace" font-size="9" font-weight="bold" fill="#585b70">destination</text>
+      <line x1="0" y1="22" x2="100" y2="22" stroke="#585b70" stroke-width="0.5"/>
+      <text x="50" y="40" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6adc8">NYC</text>
+      <text x="50" y="58" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6adc8">LAX</text>
+      <text x="50" y="76" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6adc8">CHI</text>
+      <text x="50" y="94" text-anchor="middle" font-family="monospace" font-size="9" fill="#585b70">file 4</text>
+    </g>
+
+    <!-- Disk I/O note -->
+    <g transform="translate(0, 150)">
+      <text x="0" y="0" font-family="monospace" font-size="10" fill="#f38ba8">SELECT * WHERE pkg_id=001</text>
+      <text x="0" y="16" font-family="sans-serif" font-size="10" fill="#f38ba8">4 file reads (one per column)</text>
+    </g>
+    <g transform="translate(0, 182)">
+      <text x="0" y="0" font-family="monospace" font-size="10" fill="#a6e3a1">SELECT AVG(weight) FROM packages</text>
+      <text x="0" y="16" font-family="sans-serif" font-size="10" fill="#a6e3a1">1 file read (only weight column)</text>
+      <text x="0" y="30" font-family="sans-serif" font-size="10" fill="#a6e3a1">+ compression: same-type data compresses 5-10x</text>
+    </g>
+  </g>
+
+  <!-- Summary -->
+  <g transform="translate(40, 340)">
+    <rect x="0" y="0" width="770" height="45" rx="6" fill="#313244" stroke="#585b70" stroke-width="1"/>
+    <text x="385" y="18" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#cdd6f4">When to use which</text>
+    <text x="200" y="36" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#89b4fa">Row store: OLTP (point lookups, single-row writes)</text>
+    <text x="580" y="36" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#a6e3a1">Column store: OLAP (aggregations, few columns, many rows)</text>
+  </g>
+</svg>
