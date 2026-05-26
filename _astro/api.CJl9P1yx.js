@@ -1,0 +1,1 @@
+const o="https://api.earezki.com/blog/api";function t(){return typeof window<"u"&&(window.location.hostname==="localhost"||window.location.hostname==="127.0.0.1")?"http://localhost:8001":o}export{t as g};
