@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 350" width="800" height="350">
+  <rect width="800" height="350" fill="#1e1e2e" rx="12"/>
+  <text x="400" y="35" fill="#cdd6f4" font-family="monospace" font-size="18" text-anchor="middle" font-weight="bold">Monorepo Path-Based Filtering</text>
+
+  <!-- File tree -->
+  <rect x="30" y="55" width="250" height="270" fill="#313244" stroke="#89b4fa" stroke-width="1" rx="8"/>
+  <text x="155" y="80" fill="#89b4fa" font-family="monospace" font-size="12" text-anchor="middle" font-weight="bold">Monorepo</text>
+
+  <text x="50" y="105" fill="#a6adc8" font-family="monospace" font-size="10">services/</text>
+  <text x="70" y="125" fill="#a6e3a1" font-family="monospace" font-size="10">├─ catalog/</text>
+  <text x="70" y="145" fill="#f9e2af" font-family="monospace" font-size="10">├─ checkout/ ← changed</text>
+  <text x="70" y="165" fill="#a6adc8" font-family="monospace" font-size="10">├─ inventory/</text>
+  <text x="70" y="185" fill="#a6adc8" font-family="monospace" font-size="10">├─ payments/</text>
+  <text x="70" y="205" fill="#a6adc8" font-family="monospace" font-size="10">└─ frontend/</text>
+  <text x="50" y="235" fill="#a6adc8" font-family="monospace" font-size="10">libs/</text>
+  <text x="70" y="255" fill="#a6adc8" font-family="monospace" font-size="10">├─ shared-types/</text>
+  <text x="70" y="275" fill="#a6adc8" font-family="monospace" font-size="10">├─ http-client/</text>
+  <text x="70" y="295" fill="#a6adc8" font-family="monospace" font-size="10">└─ auth-middleware/</text>
+
+  <!-- Arrow -->
+  <line x1="280" y1="145" x2="330" y2="145" stroke="#f9e2af" stroke-width="2" marker-end="url(#mp-arr)"/>
+  <text x="305" y="135" fill="#f9e2af" font-family="monospace" font-size="9" text-anchor="middle">filter</text>
+
+  <!-- Pipeline results -->
+  <rect x="330" y="55" width="440" height="270" fill="#313244" stroke="#a6e3a1" stroke-width="1" rx="8"/>
+  <text x="550" y="80" fill="#a6e3a1" font-family="monospace" font-size="12" text-anchor="middle" font-weight="bold">Pipeline Jobs</text>
+
+  <rect x="350" y="95" width="190" height="35" fill="#1e1e2e" stroke="#45475a" stroke-width="1" rx="4"/>
+  <text x="445" y="117" fill="#45475a" font-family="monospace" font-size="10" text-anchor="middle">build-catalog (skipped)</text>
+
+  <rect x="350" y="140" width="190" height="35" fill="#1e1e2e" stroke="#a6e3a1" stroke-width="2" rx="4"/>
+  <text x="445" y="162" fill="#a6e3a1" font-family="monospace" font-size="10" text-anchor="middle">build-checkout ✓</text>
+
+  <rect x="350" y="185" width="190" height="35" fill="#1e1e2e" stroke="#45475a" stroke-width="1" rx="4"/>
+  <text x="445" y="207" fill="#45475a" font-family="monospace" font-size="10" text-anchor="middle">build-inventory (skipped)</text>
+
+  <rect x="350" y="230" width="190" height="35" fill="#1e1e2e" stroke="#45475a" stroke-width="1" rx="4"/>
+  <text x="445" y="252" fill="#45475a" font-family="monospace" font-size="10" text-anchor="middle">build-payments (skipped)</text>
+
+  <rect x="350" y="275" width="190" height="35" fill="#1e1e2e" stroke="#45475a" stroke-width="1" rx="4"/>
+  <text x="445" y="297" fill="#45475a" font-family="monospace" font-size="10" text-anchor="middle">build-frontend (skipped)</text>
+
+  <!-- Time comparison -->
+  <rect x="570" y="95" width="180" height="100" fill="#1e1e2e" stroke="#f9e2af" stroke-width="1" rx="6"/>
+  <text x="660" y="120" fill="#f9e2af" font-family="monospace" font-size="10" text-anchor="middle">Time Saved</text>
+  <text x="660" y="150" fill="#f38ba8" font-family="monospace" font-size="10" text-anchor="middle">Without filter: 25min</text>
+  <text x="660" y="175" fill="#a6e3a1" font-family="monospace" font-size="10" text-anchor="middle">With filter: 5min</text>
+
+  <rect x="570" y="210" width="180" height="50" fill="#1e1e2e" stroke="#89b4fa" stroke-width="1" rx="6"/>
+  <text x="660" y="235" fill="#89b4fa" font-family="monospace" font-size="10" text-anchor="middle">libs/** change →</text>
+  <text x="660" y="250" fill="#89b4fa" font-family="monospace" font-size="10" text-anchor="middle">triggers all builds</text>
+
+  <defs>
+    <marker id="mp-arr" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#f9e2af"/></marker>
+  </defs>
+</svg>

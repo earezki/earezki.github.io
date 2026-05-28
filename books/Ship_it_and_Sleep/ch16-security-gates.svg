@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" width="800" height="400">
+  <rect width="800" height="400" fill="#1e1e2e" rx="12"/>
+  <text x="400" y="35" fill="#cdd6f4" font-family="monospace" font-size="18" text-anchor="middle" font-weight="bold">Security Scanning Gates</text>
+
+  <!-- Pipeline flow -->
+  <rect x="40" y="70" width="100" height="50" fill="#313244" stroke="#89b4fa" stroke-width="2" rx="6"/>
+  <text x="90" y="100" fill="#89b4fa" font-family="monospace" font-size="11" text-anchor="middle">PR Created</text>
+
+  <line x1="140" y1="95" x2="170" y2="95" stroke="#a6adc8" stroke-width="2" marker-end="url(#sg-arr)"/>
+
+  <!-- Gitleaks -->
+  <rect x="170" y="70" width="110" height="50" fill="#313244" stroke="#a6e3a1" stroke-width="2" rx="6"/>
+  <text x="225" y="92" fill="#a6e3a1" font-family="monospace" font-size="10" text-anchor="middle">Gitleaks</text>
+  <text x="225" y="107" fill="#a6adc8" font-family="monospace" font-size="9" text-anchor="middle">Secrets</text>
+
+  <line x1="280" y1="95" x2="310" y2="95" stroke="#a6adc8" stroke-width="2" marker-end="url(#sg-arr)"/>
+
+  <!-- CodeQL -->
+  <rect x="310" y="70" width="110" height="50" fill="#313244" stroke="#a6e3a1" stroke-width="2" rx="6"/>
+  <text x="365" y="92" fill="#a6e3a1" font-family="monospace" font-size="10" text-anchor="middle">CodeQL</text>
+  <text x="365" y="107" fill="#a6adc8" font-family="monospace" font-size="9" text-anchor="middle">SAST</text>
+
+  <line x1="420" y1="95" x2="450" y2="95" stroke="#a6adc8" stroke-width="2" marker-end="url(#sg-arr)"/>
+
+  <!-- Trivy -->
+  <rect x="450" y="70" width="110" height="50" fill="#313244" stroke="#a6e3a1" stroke-width="2" rx="6"/>
+  <text x="505" y="92" fill="#a6e3a1" font-family="monospace" font-size="10" text-anchor="middle">Trivy</text>
+  <text x="505" y="107" fill="#a6adc8" font-family="monospace" font-size="9" text-anchor="middle">Image + IaC</text>
+
+  <line x1="560" y1="95" x2="590" y2="95" stroke="#a6adc8" stroke-width="2" marker-end="url(#sg-arr)"/>
+
+  <!-- OWASP DC -->
+  <rect x="590" y="70" width="110" height="50" fill="#313244" stroke="#a6e3a1" stroke-width="2" rx="6"/>
+  <text x="645" y="92" fill="#a6e3a1" font-family="monospace" font-size="10" text-anchor="middle">OWASP DC</text>
+  <text x="645" y="107" fill="#a6adc8" font-family="monospace" font-size="9" text-anchor="middle">Dependencies</text>
+
+  <line x1="700" y1="95" x2="730" y2="95" stroke="#a6adc8" stroke-width="2" marker-end="url(#sg-arr)"/>
+
+  <rect x="730" y="70" width="50" height="50" fill="#313244" stroke="#a6e3a1" stroke-width="2" rx="6"/>
+  <text x="755" y="100" fill="#a6e3a1" font-family="monospace" font-size="11" text-anchor="middle">✓</text>
+
+  <!-- Ratchet pattern -->
+  <rect x="100" y="170" width="600" height="200" fill="#313244" stroke="#f9e2af" stroke-width="1" rx="8"/>
+  <text x="400" y="195" fill="#f9e2af" font-family="monospace" font-size="14" text-anchor="middle" font-weight="bold">Ratchet Pattern</text>
+
+  <!-- Baseline bar -->
+  <text x="130" y="230" fill="#a6adc8" font-family="monospace" font-size="10">Baseline (200 vulns)</text>
+  <rect x="130" y="238" width="400" height="20" fill="#f38ba8" rx="4" opacity="0.3"/>
+  <rect x="130" y="238" width="400" height="20" fill="none" stroke="#f38ba8" stroke-width="1" rx="4"/>
+
+  <!-- After fix 1 -->
+  <text x="130" y="278" fill="#a6adc8" font-family="monospace" font-size="10">After Sprint 1 (180 vulns)</text>
+  <rect x="130" y="286" width="360" height="20" fill="#f9e2af" rx="4" opacity="0.3"/>
+  <rect x="130" y="286" width="360" height="20" fill="none" stroke="#f9e2af" stroke-width="1" rx="4"/>
+
+  <!-- After fix 2 -->
+  <text x="130" y="326" fill="#a6adc8" font-family="monospace" font-size="10">After Sprint 3 (120 vulns)</text>
+  <rect x="130" y="334" width="240" height="20" fill="#a6e3a1" rx="4" opacity="0.3"/>
+  <rect x="130" y="334" width="240" height="20" fill="none" stroke="#a6e3a1" stroke-width="1" rx="4"/>
+
+  <!-- Arrow showing direction -->
+  <text x="600" y="300" fill="#a6e3a1" font-family="monospace" font-size="12">Only ↓</text>
+  <text x="600" y="318" fill="#a6e3a1" font-family="monospace" font-size="12">Never ↑</text>
+
+  <defs>
+    <marker id="sg-arr" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#a6adc8"/></marker>
+  </defs>
+</svg>

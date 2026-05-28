@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 490" width="900" height="490">
+  <defs>
+    <filter id="shadow" x="-2%" y="-2%" width="104%" height="104%">
+      <feDropShadow dx="1" dy="1" stdDeviation="2" flood-color="#000" flood-opacity="0.3"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#585b70"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="490" rx="12" fill="#1e1e2e"/>
+
+  <!-- Title -->
+  <text x="450" y="35" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="bold" fill="#cdd6f4">Reusable Workflow vs Composite Action</text>
+
+  <!-- Decision diamond -->
+  <polygon points="450,65 550,110 450,155 350,110" fill="#313244" stroke="#f9e2af" stroke-width="2"/>
+  <text x="450" y="107" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#f9e2af">Need multiple</text>
+  <text x="450" y="120" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#f9e2af">parallel jobs?</text>
+
+  <!-- Left branch: YES -> Reusable Workflow -->
+  <line x1="350" y1="110" x2="200" y2="110" stroke="#585b70" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="275" y="102" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#a6e3a1">YES</text>
+
+  <g transform="translate(50, 85)">
+    <rect width="150" height="50" rx="8" fill="#313244" stroke="#89b4fa" stroke-width="2" filter="url(#shadow)"/>
+    <text x="75" y="22" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="bold" fill="#89b4fa">Reusable</text>
+    <text x="75" y="40" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="bold" fill="#89b4fa">Workflow</text>
+  </g>
+
+  <!-- Right branch: NO -> Composite Action -->
+  <line x1="550" y1="110" x2="700" y2="110" stroke="#585b70" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="625" y="102" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#f38ba8">NO</text>
+
+  <g transform="translate(700, 85)">
+    <rect width="150" height="50" rx="8" fill="#313244" stroke="#a6e3a1" stroke-width="2" filter="url(#shadow)"/>
+    <text x="75" y="22" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="bold" fill="#a6e3a1">Composite</text>
+    <text x="75" y="40" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="bold" fill="#a6e3a1">Action</text>
+  </g>
+
+  <!-- Reusable Workflow details -->
+  <line x1="125" y1="135" x2="125" y2="170" stroke="#585b70" stroke-width="1.5"/>
+  <g transform="translate(25, 175)">
+    <rect width="200" height="180" rx="6" fill="#313244" filter="url(#shadow)"/>
+    <rect width="200" height="4" rx="2" fill="#89b4fa"/>
+    <text x="100" y="28" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#89b4fa">Characteristics</text>
+    <line x1="15" y1="38" x2="185" y2="38" stroke="#45475a" stroke-width="1"/>
+    <text x="15" y="58" font-family="sans-serif" font-size="10" fill="#cdd6f4">✓ Defines its own jobs</text>
+    <text x="15" y="76" font-family="sans-serif" font-size="10" fill="#cdd6f4">✓ Parallel execution</text>
+    <text x="15" y="94" font-family="sans-serif" font-size="10" fill="#cdd6f4">✓ Separate runners</text>
+    <text x="15" y="112" font-family="sans-serif" font-size="10" fill="#cdd6f4">✓ secrets: keyword</text>
+    <text x="15" y="130" font-family="sans-serif" font-size="10" fill="#a6adc8">✗ Max 4 nesting levels</text>
+    <text x="15" y="148" font-family="sans-serif" font-size="10" fill="#a6adc8">✗ Caller cannot add steps</text>
+    <text x="15" y="166" font-family="sans-serif" font-size="10" fill="#a6adc8">✗ Separate UI entry</text>
+  </g>
+
+  <!-- Composite Action details -->
+  <line x1="775" y1="135" x2="775" y2="170" stroke="#585b70" stroke-width="1.5"/>
+  <g transform="translate(675, 175)">
+    <rect width="200" height="180" rx="6" fill="#313244" filter="url(#shadow)"/>
+    <rect width="200" height="4" rx="2" fill="#a6e3a1"/>
+    <text x="100" y="28" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#a6e3a1">Characteristics</text>
+    <line x1="15" y1="38" x2="185" y2="38" stroke="#45475a" stroke-width="1"/>
+    <text x="15" y="58" font-family="sans-serif" font-size="10" fill="#cdd6f4">✓ Embeds in any job</text>
+    <text x="15" y="76" font-family="sans-serif" font-size="10" fill="#cdd6f4">✓ Mix with other steps</text>
+    <text x="15" y="94" font-family="sans-serif" font-size="10" fill="#cdd6f4">✓ Typed inputs/outputs</text>
+    <text x="15" y="112" font-family="sans-serif" font-size="10" fill="#cdd6f4">✓ Inline in caller UI</text>
+    <text x="15" y="130" font-family="sans-serif" font-size="10" fill="#a6adc8">✗ Sequential steps only</text>
+    <text x="15" y="148" font-family="sans-serif" font-size="10" fill="#a6adc8">✗ Single runner</text>
+    <text x="15" y="166" font-family="sans-serif" font-size="10" fill="#a6adc8">✗ Secrets via inputs</text>
+  </g>
+
+  <!-- Two-layer architecture at bottom -->
+  <text x="450" y="390" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#cdd6f4">Two-Layer Architecture</text>
+
+  <g transform="translate(150, 405)">
+    <rect width="600" height="65" rx="6" fill="#89b4fa" opacity="0.15" stroke="#89b4fa" stroke-width="1"/>
+    <text x="300" y="16" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#89b4fa">Reusable Workflow (orchestration layer)</text>
+    <text x="300" y="55" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#a6adc8">Defines job graph: build → test → scan → promote</text>
+  </g>
+
+  <!-- Composite actions inside -->
+  <g transform="translate(170, 428)">
+    <rect width="130" height="26" rx="4" fill="#a6e3a1" opacity="0.2" stroke="#a6e3a1" stroke-width="1"/>
+    <text x="65" y="18" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#a6e3a1">docker-build</text>
+  </g>
+  <g transform="translate(320, 428)">
+    <rect width="130" height="26" rx="4" fill="#a6e3a1" opacity="0.2" stroke="#a6e3a1" stroke-width="1"/>
+    <text x="65" y="18" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#a6e3a1">trivy-scan</text>
+  </g>
+  <g transform="translate(470, 428)">
+    <rect width="130" height="26" rx="4" fill="#a6e3a1" opacity="0.2" stroke="#a6e3a1" stroke-width="1"/>
+    <text x="65" y="18" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#a6e3a1">update-infra</text>
+  </g>
+
+  <!-- Footer -->
+  <text x="450" y="482" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#585b70">Ship it and Sleep · Chapter 3</text>
+</svg>

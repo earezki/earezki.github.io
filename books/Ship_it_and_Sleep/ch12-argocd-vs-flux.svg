@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <rect width="800" height="450" fill="#1e1e2e" rx="12"/>
+  <text x="400" y="35" fill="#cdd6f4" font-family="monospace" font-size="18" text-anchor="middle" font-weight="bold">ArgoCD vs Flux: Architecture Comparison</text>
+
+  <!-- ArgoCD Side -->
+  <rect x="30" y="55" width="360" height="380" fill="#1e1e2e" stroke="#89b4fa" stroke-width="1" rx="8" stroke-dasharray="6,4"/>
+  <text x="210" y="80" fill="#89b4fa" font-family="monospace" font-size="14" text-anchor="middle" font-weight="bold">ArgoCD</text>
+
+  <rect x="60" y="95" width="130" height="45" fill="#313244" stroke="#89b4fa" stroke-width="2" rx="6"/>
+  <text x="125" y="122" fill="#89b4fa" font-family="monospace" font-size="11" text-anchor="middle">API Server</text>
+
+  <rect x="230" y="95" width="130" height="45" fill="#313244" stroke="#89b4fa" stroke-width="2" rx="6"/>
+  <text x="295" y="122" fill="#89b4fa" font-family="monospace" font-size="11" text-anchor="middle">Web UI</text>
+
+  <rect x="60" y="160" width="130" height="45" fill="#313244" stroke="#89b4fa" stroke-width="2" rx="6"/>
+  <text x="125" y="187" fill="#89b4fa" font-family="monospace" font-size="11" text-anchor="middle">Repo Server</text>
+
+  <rect x="230" y="160" width="130" height="45" fill="#313244" stroke="#89b4fa" stroke-width="2" rx="6"/>
+  <text x="295" y="187" fill="#89b4fa" font-family="monospace" font-size="11" text-anchor="middle">App Controller</text>
+
+  <rect x="100" y="230" width="220" height="40" fill="#313244" stroke="#f9e2af" stroke-width="2" rx="6"/>
+  <text x="210" y="255" fill="#f9e2af" font-family="monospace" font-size="11" text-anchor="middle">Application CRD (Pull)</text>
+
+  <text x="60" y="300" fill="#a6e3a1" font-family="monospace" font-size="10">✓ Rich Web UI</text>
+  <text x="60" y="318" fill="#a6e3a1" font-family="monospace" font-size="10">✓ SSO / RBAC</text>
+  <text x="60" y="336" fill="#a6e3a1" font-family="monospace" font-size="10">✓ App-of-Apps pattern</text>
+  <text x="60" y="354" fill="#a6e3a1" font-family="monospace" font-size="10">✓ Multi-cluster hub</text>
+  <text x="60" y="372" fill="#f38ba8" font-family="monospace" font-size="10">✗ Heavier footprint</text>
+  <text x="60" y="390" fill="#f38ba8" font-family="monospace" font-size="10">✗ Centralized model</text>
+
+  <!-- Flux Side -->
+  <rect x="410" y="55" width="360" height="380" fill="#1e1e2e" stroke="#a6e3a1" stroke-width="1" rx="8" stroke-dasharray="6,4"/>
+  <text x="590" y="80" fill="#a6e3a1" font-family="monospace" font-size="14" text-anchor="middle" font-weight="bold">Flux</text>
+
+  <rect x="440" y="95" width="130" height="45" fill="#313244" stroke="#a6e3a1" stroke-width="2" rx="6"/>
+  <text x="505" y="115" fill="#a6e3a1" font-family="monospace" font-size="11" text-anchor="middle">Source</text>
+  <text x="505" y="130" fill="#a6e3a1" font-family="monospace" font-size="11" text-anchor="middle">Controller</text>
+
+  <rect x="610" y="95" width="130" height="45" fill="#313244" stroke="#a6e3a1" stroke-width="2" rx="6"/>
+  <text x="675" y="115" fill="#a6e3a1" font-family="monospace" font-size="11" text-anchor="middle">Kustomize</text>
+  <text x="675" y="130" fill="#a6e3a1" font-family="monospace" font-size="11" text-anchor="middle">Controller</text>
+
+  <rect x="440" y="160" width="130" height="45" fill="#313244" stroke="#a6e3a1" stroke-width="2" rx="6"/>
+  <text x="505" y="187" fill="#a6e3a1" font-family="monospace" font-size="11" text-anchor="middle">Helm Controller</text>
+
+  <rect x="610" y="160" width="130" height="45" fill="#313244" stroke="#a6e3a1" stroke-width="2" rx="6"/>
+  <text x="675" y="180" fill="#a6e3a1" font-family="monospace" font-size="11" text-anchor="middle">Notification</text>
+  <text x="675" y="195" fill="#a6e3a1" font-family="monospace" font-size="11" text-anchor="middle">Controller</text>
+
+  <rect x="480" y="230" width="220" height="40" fill="#313244" stroke="#f9e2af" stroke-width="2" rx="6"/>
+  <text x="590" y="255" fill="#f9e2af" font-family="monospace" font-size="11" text-anchor="middle">GitRepository CRD (Pull)</text>
+
+  <text x="440" y="300" fill="#a6e3a1" font-family="monospace" font-size="10">✓ Lightweight</text>
+  <text x="440" y="318" fill="#a6e3a1" font-family="monospace" font-size="10">✓ Composable controllers</text>
+  <text x="440" y="336" fill="#a6e3a1" font-family="monospace" font-size="10">✓ Native Helm support</text>
+  <text x="440" y="354" fill="#a6e3a1" font-family="monospace" font-size="10">✓ Per-cluster install</text>
+  <text x="440" y="372" fill="#f38ba8" font-family="monospace" font-size="10">✗ No built-in UI</text>
+  <text x="440" y="390" fill="#f38ba8" font-family="monospace" font-size="10">✗ No multi-tenancy RBAC</text>
+</svg>

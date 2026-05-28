@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <rect width="800" height="500" fill="#1e1e2e" rx="12"/>
+  <text x="400" y="40" fill="#cdd6f4" font-family="monospace" font-size="18" text-anchor="middle" font-weight="bold">GitOps Reconciliation Loop</text>
+
+  <!-- Git Repo -->
+  <rect x="50" y="80" width="160" height="80" fill="#313244" stroke="#89b4fa" stroke-width="2" rx="8"/>
+  <text x="130" y="115" fill="#89b4fa" font-family="monospace" font-size="13" text-anchor="middle">Git Repository</text>
+  <text x="130" y="135" fill="#a6adc8" font-family="monospace" font-size="11" text-anchor="middle">Desired State</text>
+
+  <!-- ArgoCD -->
+  <rect x="320" y="80" width="160" height="80" fill="#313244" stroke="#a6e3a1" stroke-width="2" rx="8"/>
+  <text x="400" y="115" fill="#a6e3a1" font-family="monospace" font-size="13" text-anchor="middle">ArgoCD</text>
+  <text x="400" y="135" fill="#a6adc8" font-family="monospace" font-size="11" text-anchor="middle">Controller</text>
+
+  <!-- Cluster -->
+  <rect x="590" y="80" width="160" height="80" fill="#313244" stroke="#f38ba8" stroke-width="2" rx="8"/>
+  <text x="670" y="115" fill="#f38ba8" font-family="monospace" font-size="13" text-anchor="middle">K8s Cluster</text>
+  <text x="670" y="135" fill="#a6adc8" font-family="monospace" font-size="11" text-anchor="middle">Actual State</text>
+
+  <!-- Arrows -->
+  <line x1="210" y1="120" x2="318" y2="120" stroke="#89b4fa" stroke-width="2" marker-end="url(#arrow-blue)"/>
+  <text x="265" y="110" fill="#a6adc8" font-family="monospace" font-size="10" text-anchor="middle">poll</text>
+
+  <line x1="480" y1="120" x2="588" y2="120" stroke="#a6e3a1" stroke-width="2" marker-end="url(#arrow-green)"/>
+  <text x="535" y="110" fill="#a6adc8" font-family="monospace" font-size="10" text-anchor="middle">sync</text>
+
+  <!-- Compare loop -->
+  <path d="M670 160 L670 220 L400 220 L400 160" fill="none" stroke="#f9e2af" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#arrow-yellow)"/>
+  <text x="535" y="240" fill="#f9e2af" font-family="monospace" font-size="10" text-anchor="middle">compare actual vs desired</text>
+
+  <!-- Drift detection -->
+  <rect x="250" y="280" width="300" height="60" fill="#313244" stroke="#f9e2af" stroke-width="2" rx="8"/>
+  <text x="400" y="310" fill="#f9e2af" font-family="monospace" font-size="12" text-anchor="middle">Drift Detected?</text>
+
+  <!-- Yes path -->
+  <line x1="400" y1="340" x2="400" y2="380" stroke="#f38ba8" stroke-width="2" marker-end="url(#arrow-red)"/>
+  <rect x="300" y="380" width="200" height="50" fill="#313244" stroke="#f38ba8" stroke-width="2" rx="8"/>
+  <text x="400" y="405" fill="#f38ba8" font-family="monospace" font-size="12" text-anchor="middle">Self-Heal</text>
+  <text x="400" y="420" fill="#a6adc8" font-family="monospace" font-size="10" text-anchor="middle">Re-apply desired state</text>
+
+  <!-- No path -->
+  <line x1="550" y1="310" x2="620" y2="310" stroke="#a6e3a1" stroke-width="2" marker-end="url(#arrow-green)"/>
+  <rect x="620" y="285" width="130" height="50" fill="#313244" stroke="#a6e3a1" stroke-width="2" rx="8"/>
+  <text x="685" y="310" fill="#a6e3a1" font-family="monospace" font-size="12" text-anchor="middle">Synced ✓</text>
+
+  <!-- Labels -->
+  <text x="570" y="305" fill="#a6adc8" font-family="monospace" font-size="10">No</text>
+  <text x="410" y="370" fill="#a6adc8" font-family="monospace" font-size="10">Yes</text>
+
+  <!-- Loop back arrow -->
+  <path d="M400 430 L400 460 L50 460 L50 120 L48 120" fill="none" stroke="#89b4fa" stroke-width="2" stroke-dasharray="6,4"/>
+  <text x="225" y="475" fill="#a6adc8" font-family="monospace" font-size="10" text-anchor="middle">continuous reconciliation (3 min default)</text>
+
+  <defs>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#89b4fa"/></marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#a6e3a1"/></marker>
+    <marker id="arrow-yellow" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#f9e2af"/></marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#f38ba8"/></marker>
+  </defs>
+</svg>

@@ -1,0 +1,138 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" width="900" height="520">
+  <defs>
+    <filter id="shadow" x="-2%" y="-2%" width="104%" height="104%">
+      <feDropShadow dx="1" dy="1" stdDeviation="2" flood-color="#000" flood-opacity="0.3"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#585b70"/>
+    </marker>
+    <marker id="arrowBlue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#89b4fa"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="520" rx="12" fill="#1e1e2e"/>
+
+  <!-- Title -->
+  <text x="450" y="35" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="bold" fill="#cdd6f4">Pipeline as a DAG: Sequential vs Parallel</text>
+
+  <!-- LEFT SIDE: Sequential -->
+  <text x="220" y="65" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#f38ba8">Sequential (23 min)</text>
+
+  <!-- Sequential boxes -->
+  <g transform="translate(120, 80)">
+    <rect width="200" height="36" rx="6" fill="#313244" stroke="#f38ba8" stroke-width="1.5" filter="url(#shadow)"/>
+    <text x="100" y="23" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#cdd6f4">Build (3 min)</text>
+  </g>
+  <line x1="220" y1="116" x2="220" y2="126" stroke="#585b70" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <g transform="translate(120, 130)">
+    <rect width="200" height="36" rx="6" fill="#313244" stroke="#f38ba8" stroke-width="1.5"/>
+    <text x="100" y="23" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#cdd6f4">Unit Test (2 min)</text>
+  </g>
+  <line x1="220" y1="166" x2="220" y2="176" stroke="#585b70" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <g transform="translate(120, 180)">
+    <rect width="200" height="36" rx="6" fill="#313244" stroke="#f38ba8" stroke-width="1.5"/>
+    <text x="100" y="23" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#cdd6f4">Integration Test (6 min)</text>
+  </g>
+  <line x1="220" y1="216" x2="220" y2="226" stroke="#585b70" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <g transform="translate(120, 230)">
+    <rect width="200" height="36" rx="6" fill="#313244" stroke="#f38ba8" stroke-width="1.5"/>
+    <text x="100" y="23" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#cdd6f4">Security Scan (4 min)</text>
+  </g>
+  <line x1="220" y1="266" x2="220" y2="276" stroke="#585b70" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <g transform="translate(120, 280)">
+    <rect width="200" height="36" rx="6" fill="#313244" stroke="#f38ba8" stroke-width="1.5"/>
+    <text x="100" y="23" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#cdd6f4">Contract Test (3 min)</text>
+  </g>
+  <line x1="220" y1="316" x2="220" y2="326" stroke="#585b70" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <g transform="translate(120, 330)">
+    <rect width="200" height="36" rx="6" fill="#313244" stroke="#f38ba8" stroke-width="1.5"/>
+    <text x="100" y="23" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#cdd6f4">Locust Gate (4 min)</text>
+  </g>
+  <line x1="220" y1="366" x2="220" y2="376" stroke="#585b70" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <g transform="translate(120, 380)">
+    <rect width="200" height="36" rx="6" fill="#313244" stroke="#f38ba8" stroke-width="1.5"/>
+    <text x="100" y="23" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#cdd6f4">Promote (1 min)</text>
+  </g>
+
+  <!-- Divider -->
+  <line x1="440" y1="55" x2="440" y2="480" stroke="#45475a" stroke-width="1" stroke-dasharray="6,4"/>
+
+  <!-- RIGHT SIDE: Parallel DAG -->
+  <text x="670" y="65" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#a6e3a1">Parallel DAG (14 min)</text>
+
+  <!-- Build -->
+  <g transform="translate(570, 80)">
+    <rect width="200" height="36" rx="6" fill="#313244" stroke="#89b4fa" stroke-width="1.5" filter="url(#shadow)"/>
+    <text x="100" y="23" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#cdd6f4">Build (3 min)</text>
+  </g>
+
+  <!-- Fan-out arrows from build -->
+  <line x1="670" y1="116" x2="520" y2="150" stroke="#585b70" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="670" y1="116" x2="670" y2="150" stroke="#89b4fa" stroke-width="2" marker-end="url(#arrowBlue)"/>
+  <line x1="670" y1="116" x2="820" y2="150" stroke="#585b70" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Parallel jobs row 1 -->
+  <g transform="translate(450, 155)">
+    <rect width="140" height="50" rx="6" fill="#313244" stroke="#585b70" stroke-width="1"/>
+    <text x="70" y="20" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#cdd6f4">Unit Test</text>
+    <text x="70" y="38" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#a6adc8">2 min</text>
+  </g>
+
+  <g transform="translate(600, 155)">
+    <rect width="140" height="50" rx="6" fill="#313244" stroke="#89b4fa" stroke-width="2"/>
+    <text x="70" y="20" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#89b4fa">Integration Test</text>
+    <text x="70" y="38" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#a6adc8">6 min</text>
+  </g>
+
+  <g transform="translate(750, 155)">
+    <rect width="140" height="50" rx="6" fill="#313244" stroke="#585b70" stroke-width="1"/>
+    <text x="70" y="20" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#cdd6f4">Security Scan</text>
+    <text x="70" y="38" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#a6adc8">4 min</text>
+  </g>
+
+  <!-- Second row parallel -->
+  <line x1="520" y1="205" x2="520" y2="230" stroke="#585b70" stroke-width="1"/>
+  <line x1="820" y1="205" x2="820" y2="230" stroke="#585b70" stroke-width="1"/>
+
+  <g transform="translate(450, 235)">
+    <rect width="140" height="50" rx="6" fill="#313244" stroke="#585b70" stroke-width="1"/>
+    <text x="70" y="20" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#cdd6f4">Contract Test</text>
+    <text x="70" y="38" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#a6adc8">3 min</text>
+  </g>
+
+  <g transform="translate(750, 235)">
+    <rect width="140" height="50" rx="6" fill="#313244" stroke="#585b70" stroke-width="1"/>
+    <text x="70" y="20" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#cdd6f4">Locust Gate</text>
+    <text x="70" y="38" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#a6adc8">4 min</text>
+  </g>
+
+  <!-- Fan-in arrows to promote -->
+  <line x1="520" y1="285" x2="630" y2="320" stroke="#585b70" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="670" y1="205" x2="670" y2="320" stroke="#89b4fa" stroke-width="2" marker-end="url(#arrowBlue)"/>
+  <line x1="820" y1="285" x2="710" y2="320" stroke="#585b70" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Promote -->
+  <g transform="translate(570, 325)">
+    <rect width="200" height="36" rx="6" fill="#313244" stroke="#a6e3a1" stroke-width="1.5" filter="url(#shadow)"/>
+    <text x="100" y="23" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#a6e3a1">Promote (1 min)</text>
+  </g>
+
+  <!-- Critical path label -->
+  <text x="670" y="395" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#89b4fa">Critical path: Build → Integration Test → Promote</text>
+  <text x="670" y="412" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#89b4fa">3 + 6 + 1 = 10 min (+ 4 min overhead)</text>
+
+  <!-- Time saved callout -->
+  <rect x="530" y="435" width="280" height="40" rx="8" fill="#a6e3a1" opacity="0.15"/>
+  <text x="670" y="460" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="bold" fill="#a6e3a1">9 minutes saved per push</text>
+
+  <!-- Footer -->
+  <text x="450" y="505" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#585b70">Ship it and Sleep · Chapter 2</text>
+</svg>
