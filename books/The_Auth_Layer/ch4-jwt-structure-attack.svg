@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 450" width="900" height="450">
+  <!-- Background -->
+  <rect width="900" height="450" rx="12" fill="#1e1e2e"/>
+
+  <!-- Title -->
+  <text x="450" y="35" text-anchor="middle" font-family="monospace" font-size="16" font-weight="bold" fill="#cdd6f4">JWT Structure and Algorithm Confusion Attack</text>
+
+  <!-- JWT Structure -->
+  <text x="450" y="70" text-anchor="middle" font-family="monospace" font-size="12" fill="#bac2de">eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiIxMjM0In0.signature</text>
+
+  <!-- Header section -->
+  <rect x="50" y="90" width="250" height="130" rx="8" fill="#181825" stroke="#f38ba8" stroke-width="1.5"/>
+  <text x="175" y="115" text-anchor="middle" font-family="monospace" font-size="12" font-weight="bold" fill="#f38ba8">HEADER (attack vector)</text>
+  <text x="70" y="140" font-family="monospace" font-size="10" fill="#cdd6f4">{</text>
+  <text x="85" y="158" font-family="monospace" font-size="10" fill="#cdd6f4">"alg": "RS256",</text>
+  <text x="85" y="176" font-family="monospace" font-size="10" fill="#cdd6f4">"typ": "JWT",</text>
+  <text x="85" y="194" font-family="monospace" font-size="10" fill="#cdd6f4">"kid": "key-2024-a"</text>
+  <text x="70" y="212" font-family="monospace" font-size="10" fill="#cdd6f4">}</text>
+
+  <!-- Payload section -->
+  <rect x="325" y="90" width="250" height="130" rx="8" fill="#181825" stroke="#89b4fa" stroke-width="1.5"/>
+  <text x="450" y="115" text-anchor="middle" font-family="monospace" font-size="12" font-weight="bold" fill="#89b4fa">PAYLOAD (claims)</text>
+  <text x="345" y="140" font-family="monospace" font-size="10" fill="#cdd6f4">{</text>
+  <text x="360" y="158" font-family="monospace" font-size="10" fill="#cdd6f4">"sub": "user-123",</text>
+  <text x="360" y="176" font-family="monospace" font-size="10" fill="#cdd6f4">"tenant_id": "acme",</text>
+  <text x="360" y="194" font-family="monospace" font-size="10" fill="#cdd6f4">"exp": 1700000000</text>
+  <text x="345" y="212" font-family="monospace" font-size="10" fill="#cdd6f4">}</text>
+
+  <!-- Signature section -->
+  <rect x="600" y="90" width="250" height="130" rx="8" fill="#181825" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="725" y="115" text-anchor="middle" font-family="monospace" font-size="12" font-weight="bold" fill="#a6e3a1">SIGNATURE</text>
+  <text x="620" y="145" font-family="monospace" font-size="10" fill="#cdd6f4">RSA-SHA256(</text>
+  <text x="635" y="163" font-family="monospace" font-size="10" fill="#cdd6f4">base64(header) + "."</text>
+  <text x="635" y="181" font-family="monospace" font-size="10" fill="#cdd6f4">+ base64(payload),</text>
+  <text x="635" y="199" font-family="monospace" font-size="10" fill="#cdd6f4">private_key</text>
+  <text x="620" y="217" font-family="monospace" font-size="10" fill="#cdd6f4">)</text>
+
+  <!-- Attack section -->
+  <rect x="50" y="250" width="380" height="170" rx="8" fill="#3a1e1e" stroke="#f38ba8" stroke-width="1.5"/>
+  <text x="240" y="275" text-anchor="middle" font-family="monospace" font-size="12" font-weight="bold" fill="#f38ba8">ALGORITHM CONFUSION ATTACK</text>
+
+  <text x="70" y="300" font-family="monospace" font-size="9" fill="#cdd6f4">1. Attacker obtains RSA public key (from JWKS)</text>
+  <text x="70" y="318" font-family="monospace" font-size="9" fill="#cdd6f4">2. Forges token with header: {"alg": "HS256"}</text>
+  <text x="70" y="336" font-family="monospace" font-size="9" fill="#cdd6f4">3. Signs with HMAC using public key as secret</text>
+  <text x="70" y="354" font-family="monospace" font-size="9" fill="#cdd6f4">4. Server reads alg from header → uses HS256</text>
+  <text x="70" y="372" font-family="monospace" font-size="9" fill="#cdd6f4">5. Verifies HMAC with public key → VALID</text>
+  <text x="70" y="400" font-family="monospace" font-size="9" font-weight="bold" fill="#f38ba8">Result: Attacker forges any token content</text>
+
+  <!-- Defense section -->
+  <rect x="470" y="250" width="380" height="170" rx="8" fill="#1e3a1e" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="660" y="275" text-anchor="middle" font-family="monospace" font-size="12" font-weight="bold" fill="#a6e3a1">DEFENSE: Explicit Algorithm</text>
+
+  <text x="490" y="300" font-family="monospace" font-size="9" fill="#cdd6f4">// HARDENED: Never trust header alg</text>
+  <text x="490" y="318" font-family="monospace" font-size="9" fill="#cdd6f4">NimbusJwtDecoder.withPublicKey(rsaKey)</text>
+  <text x="490" y="336" font-family="monospace" font-size="9" fill="#a6e3a1">  .signatureAlgorithm(SignatureAlgorithm.RS256)</text>
+  <text x="490" y="354" font-family="monospace" font-size="9" fill="#cdd6f4">  .build();</text>
+  <text x="490" y="385" font-family="monospace" font-size="9" fill="#cdd6f4">// Server ignores header alg</text>
+  <text x="490" y="403" font-family="monospace" font-size="9" fill="#cdd6f4">// Always verifies with RSA-SHA256</text>
+
+  <!-- Dots connecting -->
+  <line x1="175" y1="220" x2="175" y2="250" stroke="#f38ba8" stroke-width="1" stroke-dasharray="3,3"/>
+</svg>

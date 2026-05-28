@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 420" width="900" height="420">
+  <rect width="900" height="420" rx="12" fill="#1e1e2e"/>
+  <text x="450" y="32" text-anchor="middle" font-family="monospace" font-size="15" font-weight="bold" fill="#cdd6f4">Distributed Sessions with Redis Cluster</text>
+
+  <!-- Browser -->
+  <rect x="40" y="60" width="120" height="55" rx="6" fill="#181825" stroke="#89b4fa" stroke-width="1.5"/>
+  <text x="100" y="85" text-anchor="middle" font-family="monospace" font-size="11" fill="#89b4fa">Browser</text>
+  <text x="100" y="100" text-anchor="middle" font-family="monospace" font-size="8" fill="#6c7086">Cookie holder</text>
+
+  <!-- Cookie -->
+  <line x1="160" y1="87" x2="260" y2="87" stroke="#a6e3a1" stroke-width="1.5" marker-end="url(#arr)"/>
+  <rect x="170" y="60" width="80" height="22" rx="3" fill="#1e1e2e" stroke="#a6e3a1" stroke-width="1"/>
+  <text x="210" y="75" text-anchor="middle" font-family="monospace" font-size="8" fill="#a6e3a1">SESSION=abc</text>
+
+  <!-- Load Balancer -->
+  <rect x="260" y="55" width="160" height="65" rx="8" fill="#181825" stroke="#fab387" stroke-width="1.5"/>
+  <text x="340" y="80" text-anchor="middle" font-family="monospace" font-size="11" font-weight="bold" fill="#fab387">Load Balancer</text>
+  <text x="340" y="97" text-anchor="middle" font-family="monospace" font-size="9" fill="#6c7086">Round-robin</text>
+  <text x="340" y="110" text-anchor="middle" font-family="monospace" font-size="8" fill="#6c7086">(no sticky sessions)</text>
+
+  <!-- Fan-out arrows -->
+  <line x1="420" y1="75" x2="530" y2="65" stroke="#585b70" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="420" y1="87" x2="530" y2="115" stroke="#585b70" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="420" y1="100" x2="530" y2="165" stroke="#585b70" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- App instances -->
+  <rect x="530" y="45" width="150" height="40" rx="6" fill="#181825" stroke="#89b4fa" stroke-width="1.5"/>
+  <text x="605" y="70" text-anchor="middle" font-family="monospace" font-size="10" fill="#89b4fa">Instance A</text>
+
+  <rect x="530" y="95" width="150" height="40" rx="6" fill="#181825" stroke="#89b4fa" stroke-width="1.5"/>
+  <text x="605" y="120" text-anchor="middle" font-family="monospace" font-size="10" fill="#89b4fa">Instance B</text>
+
+  <rect x="530" y="145" width="150" height="40" rx="6" fill="#181825" stroke="#89b4fa" stroke-width="1.5"/>
+  <text x="605" y="170" text-anchor="middle" font-family="monospace" font-size="10" fill="#89b4fa">Instance C</text>
+
+  <!-- Arrows to Redis -->
+  <line x1="680" y1="65" x2="730" y2="105" stroke="#f38ba8" stroke-width="1.5" marker-end="url(#arr-red)"/>
+  <line x1="680" y1="115" x2="730" y2="115" stroke="#f38ba8" stroke-width="1.5" marker-end="url(#arr-red)"/>
+  <line x1="680" y1="165" x2="730" y2="125" stroke="#f38ba8" stroke-width="1.5" marker-end="url(#arr-red)"/>
+
+  <!-- Redis -->
+  <rect x="730" y="60" width="140" height="105" rx="8" fill="#181825" stroke="#f38ba8" stroke-width="2"/>
+  <text x="800" y="85" text-anchor="middle" font-family="monospace" font-size="12" font-weight="bold" fill="#f38ba8">Redis</text>
+  <text x="800" y="100" text-anchor="middle" font-family="monospace" font-size="8" fill="#6c7086">Session Store</text>
+  <text x="800" y="118" text-anchor="middle" font-family="monospace" font-size="7" fill="#cdd6f4">sessions:abc123</text>
+  <text x="800" y="131" text-anchor="middle" font-family="monospace" font-size="7" fill="#cdd6f4">expires:abc123</text>
+  <text x="800" y="144" text-anchor="middle" font-family="monospace" font-size="7" fill="#cdd6f4">index:{principal}</text>
+  <text x="800" y="157" text-anchor="middle" font-family="monospace" font-size="7" fill="#6c7086">TTL-based cleanup</text>
+
+  <!-- Cookie attributes box -->
+  <rect x="50" y="200" width="280" height="100" rx="6" fill="#181825" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="190" y="222" text-anchor="middle" font-family="monospace" font-size="11" font-weight="bold" fill="#a6e3a1">Cookie Attributes</text>
+  <text x="190" y="244" text-anchor="middle" font-family="monospace" font-size="9" fill="#cdd6f4">__Host-SESSION=abc123</text>
+  <text x="190" y="260" text-anchor="middle" font-family="monospace" font-size="9" fill="#a6e3a1">Secure; HttpOnly; SameSite=Lax</text>
+  <text x="190" y="276" text-anchor="middle" font-family="monospace" font-size="9" fill="#a6e3a1">Path=/; Max-Age=1800</text>
+  <text x="190" y="292" text-anchor="middle" font-family="monospace" font-size="8" fill="#6c7086">__Host- prefix: no Domain, requires Secure</text>
+
+  <!-- Benefits box -->
+  <rect x="370" y="200" width="500" height="100" rx="6" fill="#181825" stroke="#89b4fa" stroke-width="1"/>
+  <text x="620" y="222" text-anchor="middle" font-family="monospace" font-size="11" font-weight="bold" fill="#89b4fa">Why This Architecture</text>
+  <text x="620" y="242" text-anchor="middle" font-family="monospace" font-size="9" fill="#cdd6f4">Any instance handles any request (no sticky sessions)</text>
+  <text x="620" y="258" text-anchor="middle" font-family="monospace" font-size="9" fill="#cdd6f4">Deployments do not destroy sessions</text>
+  <text x="620" y="274" text-anchor="middle" font-family="monospace" font-size="9" fill="#cdd6f4">Scale-out does not fragment session data</text>
+  <text x="620" y="290" text-anchor="middle" font-family="monospace" font-size="9" fill="#6c7086">Cost: ~1-3ms network RTT per request (same VPC)</text>
+
+  <!-- Security note -->
+  <rect x="50" y="320" width="820" height="80" rx="6" fill="#1e1e2e" stroke="#f38ba8" stroke-width="1.5" stroke-dasharray="6,3"/>
+  <text x="450" y="345" text-anchor="middle" font-family="monospace" font-size="11" font-weight="bold" fill="#f38ba8">Security Considerations</text>
+  <text x="450" y="365" text-anchor="middle" font-family="monospace" font-size="9" fill="#cdd6f4">Redis must use TLS in transit + AUTH password or ACL</text>
+  <text x="450" y="380" text-anchor="middle" font-family="monospace" font-size="9" fill="#cdd6f4">Session data serialization must use JSON with type allowlist (not JDK serialization)</text>
+  <text x="450" y="395" text-anchor="middle" font-family="monospace" font-size="9" fill="#cdd6f4">Session fixation: call session.changeSessionId() on authentication</text>
+
+  <defs>
+    <marker id="arr" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <path d="M0,0 L7,2.5 L0,5" fill="none" stroke="#585b70" stroke-width="1"/>
+    </marker>
+    <marker id="arr-red" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <path d="M0,0 L7,2.5 L0,5" fill="none" stroke="#f38ba8" stroke-width="1"/>
+    </marker>
+  </defs>
+</svg>

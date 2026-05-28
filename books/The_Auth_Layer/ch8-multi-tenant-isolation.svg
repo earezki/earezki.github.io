@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" width="900" height="520">
+  <!-- Background -->
+  <rect width="900" height="520" rx="12" fill="#1e1e2e"/>
+
+  <!-- Title -->
+  <text x="450" y="35" text-anchor="middle" font-family="monospace" font-size="16" font-weight="bold" fill="#cdd6f4">Multi-Tenant Token Isolation Boundary</text>
+
+  <!-- Tenant A zone -->
+  <rect x="30" y="60" width="400" height="200" rx="8" fill="#181825" stroke="#89b4fa" stroke-width="1.5"/>
+  <text x="230" y="85" text-anchor="middle" font-family="monospace" font-size="12" font-weight="bold" fill="#89b4fa">TENANT A (acme-corp)</text>
+
+  <!-- Tenant A user -->
+  <rect x="60" y="100" width="100" height="40" rx="6" fill="#313244" stroke="#89b4fa" stroke-width="1"/>
+  <text x="110" y="125" text-anchor="middle" font-family="monospace" font-size="10" fill="#cdd6f4">User Alice</text>
+
+  <!-- Tenant A token -->
+  <rect x="200" y="100" width="200" height="60" rx="6" fill="#313244" stroke="#89b4fa" stroke-width="1"/>
+  <text x="300" y="118" text-anchor="middle" font-family="monospace" font-size="9" fill="#89b4fa">JWT Claims:</text>
+  <text x="300" y="135" text-anchor="middle" font-family="monospace" font-size="9" fill="#cdd6f4">sub: alice</text>
+  <text x="300" y="150" text-anchor="middle" font-family="monospace" font-size="9" fill="#a6e3a1">tenant_id: acme-corp</text>
+
+  <!-- Tenant A data -->
+  <rect x="60" y="180" width="340" height="55" rx="6" fill="#1e2a3a" stroke="#89b4fa" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="230" y="200" text-anchor="middle" font-family="monospace" font-size="10" fill="#89b4fa">Tenant A Data Store</text>
+  <text x="230" y="218" text-anchor="middle" font-family="monospace" font-size="9" fill="#bac2de">WHERE tenant_id = token.tenant_id</text>
+
+  <!-- Tenant B zone -->
+  <rect x="470" y="60" width="400" height="200" rx="8" fill="#181825" stroke="#cba6f7" stroke-width="1.5"/>
+  <text x="670" y="85" text-anchor="middle" font-family="monospace" font-size="12" font-weight="bold" fill="#cba6f7">TENANT B (globex-inc)</text>
+
+  <!-- Tenant B user -->
+  <rect x="500" y="100" width="100" height="40" rx="6" fill="#313244" stroke="#cba6f7" stroke-width="1"/>
+  <text x="550" y="125" text-anchor="middle" font-family="monospace" font-size="10" fill="#cdd6f4">User Bob</text>
+
+  <!-- Tenant B token -->
+  <rect x="640" y="100" width="200" height="60" rx="6" fill="#313244" stroke="#cba6f7" stroke-width="1"/>
+  <text x="740" y="118" text-anchor="middle" font-family="monospace" font-size="9" fill="#cba6f7">JWT Claims:</text>
+  <text x="740" y="135" text-anchor="middle" font-family="monospace" font-size="9" fill="#cdd6f4">sub: bob</text>
+  <text x="740" y="150" text-anchor="middle" font-family="monospace" font-size="9" fill="#a6e3a1">tenant_id: globex-inc</text>
+
+  <!-- Tenant B data -->
+  <rect x="500" y="180" width="340" height="55" rx="6" fill="#2a1e3a" stroke="#cba6f7" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="670" y="200" text-anchor="middle" font-family="monospace" font-size="10" fill="#cba6f7">Tenant B Data Store</text>
+  <text x="670" y="218" text-anchor="middle" font-family="monospace" font-size="9" fill="#bac2de">WHERE tenant_id = token.tenant_id</text>
+
+  <!-- Attack scenario -->
+  <rect x="30" y="290" width="840" height="90" rx="8" fill="#3a1e1e" stroke="#f38ba8" stroke-width="1.5"/>
+  <text x="450" y="315" text-anchor="middle" font-family="monospace" font-size="12" font-weight="bold" fill="#f38ba8">CONFUSED DEPUTY ATTACK</text>
+
+  <text x="50" y="340" font-family="monospace" font-size="9" fill="#cdd6f4">Alice (tenant: acme-corp) sends: GET /api/tenants/globex-inc/users</text>
+  <text x="50" y="358" font-family="monospace" font-size="9" fill="#f38ba8">// VULNERABLE: Server reads tenant from URL path, not from token → returns Tenant B data to Tenant A user</text>
+  <text x="50" y="373" font-family="monospace" font-size="9" fill="#a6e3a1">// HARDENED:  Server reads tenant from JWT tenant_id claim, rejects if path tenant != token tenant → 403</text>
+
+  <!-- Defense layers -->
+  <rect x="30" y="400" width="840" height="100" rx="8" fill="#1e3a1e" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="450" y="425" text-anchor="middle" font-family="monospace" font-size="12" font-weight="bold" fill="#a6e3a1">DEFENSE LAYERS</text>
+
+  <!-- Layer 1 -->
+  <rect x="50" y="440" width="240" height="40" rx="6" fill="#313244" stroke="#a6e3a1" stroke-width="1"/>
+  <text x="170" y="455" text-anchor="middle" font-family="monospace" font-size="9" fill="#a6e3a1">Layer 1: Token Claim</text>
+  <text x="170" y="470" text-anchor="middle" font-family="monospace" font-size="8" fill="#bac2de">SecurityFilterChain validation</text>
+
+  <!-- Layer 2 -->
+  <rect x="330" y="440" width="240" height="40" rx="6" fill="#313244" stroke="#a6e3a1" stroke-width="1"/>
+  <text x="450" y="455" text-anchor="middle" font-family="monospace" font-size="9" fill="#a6e3a1">Layer 2: Hibernate Filter</text>
+  <text x="450" y="470" text-anchor="middle" font-family="monospace" font-size="8" fill="#bac2de">@Filter(name="tenantFilter")</text>
+
+  <!-- Layer 3 -->
+  <rect x="610" y="440" width="240" height="40" rx="6" fill="#313244" stroke="#a6e3a1" stroke-width="1"/>
+  <text x="730" y="455" text-anchor="middle" font-family="monospace" font-size="9" fill="#a6e3a1">Layer 3: Row-Level Security</text>
+  <text x="730" y="470" text-anchor="middle" font-family="monospace" font-size="8" fill="#bac2de">PostgreSQL RLS policy</text>
+</svg>

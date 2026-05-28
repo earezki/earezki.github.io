@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" width="900" height="520">
+  <rect width="900" height="520" rx="12" fill="#1e1e2e"/>
+  <text x="450" y="32" text-anchor="middle" font-family="monospace" font-size="15" font-weight="bold" fill="#cdd6f4">Refresh Token Rotation: Race Condition Timeline</text>
+
+  <!-- Time axis -->
+  <line x1="60" y1="70" x2="60" y2="460" stroke="#585b70" stroke-width="1"/>
+  <text x="35" y="65" text-anchor="middle" font-family="monospace" font-size="10" fill="#6c7086">Time</text>
+
+  <!-- Swimlane headers -->
+  <text x="220" y="60" text-anchor="middle" font-family="monospace" font-size="12" font-weight="bold" fill="#89b4fa">Client</text>
+  <text x="500" y="60" text-anchor="middle" font-family="monospace" font-size="12" font-weight="bold" fill="#a6e3a1">Resource Server</text>
+  <text x="750" y="60" text-anchor="middle" font-family="monospace" font-size="12" font-weight="bold" fill="#fab387">Auth Server</text>
+
+  <!-- Swimlane dividers -->
+  <line x1="360" y1="50" x2="360" y2="460" stroke="#313244" stroke-width="1" stroke-dasharray="4,4"/>
+  <line x1="630" y1="50" x2="630" y2="460" stroke="#313244" stroke-width="1" stroke-dasharray="4,4"/>
+
+  <!-- T+0: Three API requests -->
+  <text x="70" y="95" font-family="monospace" font-size="10" fill="#6c7086">T+0</text>
+  <rect x="110" y="80" width="200" height="20" rx="3" fill="#181825" stroke="#89b4fa" stroke-width="1"/>
+  <text x="210" y="94" text-anchor="middle" font-family="monospace" font-size="9" fill="#89b4fa">Request A (AT expired)</text>
+  <rect x="110" y="104" width="200" height="20" rx="3" fill="#181825" stroke="#89b4fa" stroke-width="1"/>
+  <text x="210" y="118" text-anchor="middle" font-family="monospace" font-size="9" fill="#89b4fa">Request B (AT expired)</text>
+  <rect x="110" y="128" width="200" height="20" rx="3" fill="#181825" stroke="#89b4fa" stroke-width="1"/>
+  <text x="210" y="142" text-anchor="middle" font-family="monospace" font-size="9" fill="#89b4fa">Request C (AT expired)</text>
+
+  <!-- Arrows to resource server -->
+  <line x1="310" y1="90" x2="400" y2="90" stroke="#585b70" stroke-width="1" marker-end="url(#arr)"/>
+  <line x1="310" y1="114" x2="400" y2="114" stroke="#585b70" stroke-width="1" marker-end="url(#arr)"/>
+  <line x1="310" y1="138" x2="400" y2="138" stroke="#585b70" stroke-width="1" marker-end="url(#arr)"/>
+
+  <!-- T+1: 401 responses -->
+  <text x="70" y="185" font-family="monospace" font-size="10" fill="#6c7086">T+1</text>
+  <rect x="400" y="170" width="200" height="20" rx="3" fill="#181825" stroke="#f38ba8" stroke-width="1"/>
+  <text x="500" y="184" text-anchor="middle" font-family="monospace" font-size="9" fill="#f38ba8">401 Unauthorized (x3)</text>
+
+  <!-- Arrows back -->
+  <line x1="400" y1="180" x2="310" y2="180" stroke="#f38ba8" stroke-width="1" marker-end="url(#arr-red)"/>
+
+  <!-- T+2: Two concurrent refresh requests -->
+  <text x="70" y="235" font-family="monospace" font-size="10" fill="#6c7086">T+2</text>
+  <rect x="110" y="215" width="200" height="22" rx="3" fill="#181825" stroke="#89b4fa" stroke-width="1"/>
+  <text x="210" y="230" text-anchor="middle" font-family="monospace" font-size="9" fill="#89b4fa">Thread 1: refresh(RT_1)</text>
+  <rect x="110" y="241" width="200" height="22" rx="3" fill="#181825" stroke="#89b4fa" stroke-width="1"/>
+  <text x="210" y="256" text-anchor="middle" font-family="monospace" font-size="9" fill="#89b4fa">Thread 2: refresh(RT_1)</text>
+
+  <!-- Arrows to auth server -->
+  <line x1="310" y1="226" x2="660" y2="226" stroke="#585b70" stroke-width="1" marker-end="url(#arr)"/>
+  <line x1="310" y1="252" x2="660" y2="290" stroke="#585b70" stroke-width="1" marker-end="url(#arr)"/>
+
+  <!-- T+3: Thread 1 succeeds -->
+  <text x="70" y="300" font-family="monospace" font-size="10" fill="#6c7086">T+3</text>
+  <rect x="660" y="215" width="210" height="50" rx="3" fill="#181825" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="765" y="232" text-anchor="middle" font-family="monospace" font-size="9" fill="#a6e3a1">Thread 1: SUCCESS</text>
+  <text x="765" y="248" text-anchor="middle" font-family="monospace" font-size="9" fill="#a6e3a1">RT_1 → RT_2, issues AT_2</text>
+  <text x="765" y="262" text-anchor="middle" font-family="monospace" font-size="8" fill="#6c7086">RT_1 marked as used</text>
+
+  <!-- T+4: Thread 2 fails -->
+  <text x="70" y="345" font-family="monospace" font-size="10" fill="#6c7086">T+4</text>
+  <rect x="660" y="278" width="210" height="50" rx="3" fill="#181825" stroke="#f38ba8" stroke-width="1.5"/>
+  <text x="765" y="296" text-anchor="middle" font-family="monospace" font-size="9" fill="#f38ba8">Thread 2: RT_1 reused!</text>
+  <text x="765" y="312" text-anchor="middle" font-family="monospace" font-size="9" fill="#f38ba8">REPLAY DETECTED</text>
+  <text x="765" y="326" text-anchor="middle" font-family="monospace" font-size="8" fill="#6c7086">But this is a race, not theft</text>
+
+  <!-- Danger box -->
+  <rect x="100" y="360" width="700" height="55" rx="6" fill="#1e1e2e" stroke="#f38ba8" stroke-width="2" stroke-dasharray="6,3"/>
+  <text x="450" y="383" text-anchor="middle" font-family="monospace" font-size="11" font-weight="bold" fill="#f38ba8">Without grace period: entire grant chain invalidated</text>
+  <text x="450" y="400" text-anchor="middle" font-family="monospace" font-size="10" fill="#cdd6f4">Legitimate user loses session due to client-side race condition (DoS)</text>
+
+  <!-- Solution box -->
+  <rect x="100" y="425" width="700" height="55" rx="6" fill="#1e1e2e" stroke="#a6e3a1" stroke-width="2"/>
+  <text x="450" y="448" text-anchor="middle" font-family="monospace" font-size="11" font-weight="bold" fill="#a6e3a1">With grace period (5-10 seconds):</text>
+  <text x="450" y="465" text-anchor="middle" font-family="monospace" font-size="10" fill="#cdd6f4">Both threads succeed. Old RT_1 accepted within grace window.</text>
+
+  <defs>
+    <marker id="arr" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <path d="M0,0 L7,2.5 L0,5" fill="none" stroke="#585b70" stroke-width="1"/>
+    </marker>
+    <marker id="arr-red" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <path d="M0,0 L7,2.5 L0,5" fill="none" stroke="#f38ba8" stroke-width="1"/>
+    </marker>
+  </defs>
+</svg>

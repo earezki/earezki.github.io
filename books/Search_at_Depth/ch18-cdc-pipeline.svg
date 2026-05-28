@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 380" font-family="monospace">
+  <rect width="800" height="380" fill="#1e1e2e"/>
+  <defs><marker id="arr" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#585b70"/></marker></defs>
+  <text x="400" y="30" text-anchor="middle" fill="#cdd6f4" font-size="16" font-weight="bold">CDC Pipeline: PostgreSQL → Debezium → Kafka → OpenSearch</text>
+  <!-- PostgreSQL -->
+  <rect x="30" y="65" width="120" height="80" rx="6" fill="#313244" stroke="#89b4fa" stroke-width="2"/>
+  <text x="90" y="95" text-anchor="middle" fill="#89b4fa" font-size="11" font-weight="bold">PostgreSQL</text>
+  <text x="90" y="115" text-anchor="middle" fill="#cdd6f4" font-size="9">WAL (logical</text>
+  <text x="90" y="130" text-anchor="middle" fill="#cdd6f4" font-size="9">replication)</text>
+  <line x1="150" y1="105" x2="200" y2="105" stroke="#585b70" stroke-width="1.5" marker-end="url(#arr)"/>
+  <!-- Debezium -->
+  <rect x="205" y="65" width="130" height="80" rx="6" fill="#313244" stroke="#a6e3a1" stroke-width="2"/>
+  <text x="270" y="90" text-anchor="middle" fill="#a6e3a1" font-size="11" font-weight="bold">Debezium</text>
+  <text x="270" y="108" text-anchor="middle" fill="#cdd6f4" font-size="9">Kafka Connect</text>
+  <text x="270" y="123" text-anchor="middle" fill="#cdd6f4" font-size="9">Source Connector</text>
+  <text x="270" y="138" text-anchor="middle" fill="#cdd6f4" font-size="9">snapshot + stream</text>
+  <line x1="335" y1="105" x2="385" y2="105" stroke="#585b70" stroke-width="1.5" marker-end="url(#arr)"/>
+  <!-- Kafka -->
+  <rect x="390" y="55" width="130" height="100" rx="6" fill="#313244" stroke="#f9e2af" stroke-width="2"/>
+  <text x="455" y="80" text-anchor="middle" fill="#f9e2af" font-size="11" font-weight="bold">Kafka</text>
+  <text x="455" y="100" text-anchor="middle" fill="#cdd6f4" font-size="9">topic per table</text>
+  <text x="455" y="115" text-anchor="middle" fill="#cdd6f4" font-size="9">key: doc_id</text>
+  <text x="455" y="130" text-anchor="middle" fill="#cdd6f4" font-size="9">compacted</text>
+  <text x="455" y="145" text-anchor="middle" fill="#cdd6f4" font-size="9">partitions: 12</text>
+  <line x1="520" y1="105" x2="570" y2="105" stroke="#585b70" stroke-width="1.5" marker-end="url(#arr)"/>
+  <!-- Consumer -->
+  <rect x="575" y="65" width="100" height="80" rx="6" fill="#313244" stroke="#cba6f7" stroke-width="2"/>
+  <text x="625" y="90" text-anchor="middle" fill="#cba6f7" font-size="11" font-weight="bold">Consumer</text>
+  <text x="625" y="110" text-anchor="middle" fill="#cdd6f4" font-size="9">batch to bulk</text>
+  <text x="625" y="125" text-anchor="middle" fill="#cdd6f4" font-size="9">transform</text>
+  <text x="625" y="140" text-anchor="middle" fill="#cdd6f4" font-size="9">500 docs/batch</text>
+  <line x1="675" y1="105" x2="710" y2="105" stroke="#585b70" stroke-width="1.5" marker-end="url(#arr)"/>
+  <!-- OpenSearch -->
+  <rect x="715" y="75" width="60" height="60" rx="6" fill="#313244" stroke="#f38ba8" stroke-width="2"/>
+  <text x="745" y="105" text-anchor="middle" fill="#f38ba8" font-size="10" font-weight="bold">OS</text>
+  <text x="745" y="125" text-anchor="middle" fill="#cdd6f4" font-size="8">bulk API</text>
+  <!-- Event types -->
+  <rect x="30" y="180" width="350" height="80" rx="6" fill="#313244" stroke="#89b4fa" stroke-width="1"/>
+  <text x="205" y="205" text-anchor="middle" fill="#89b4fa" font-size="11" font-weight="bold">CDC Event Types</text>
+  <text x="50" y="225" fill="#a6e3a1" font-size="10">c (create) → index action</text>
+  <text x="50" y="242" fill="#f9e2af" font-size="10">u (update) → index action (full replace)</text>
+  <text x="50" y="257" fill="#f38ba8" font-size="10">d (delete) → delete action</text>
+  <!-- Ordering guarantees -->
+  <rect x="410" y="180" width="360" height="80" rx="6" fill="#313244" stroke="#f9e2af" stroke-width="1"/>
+  <text x="590" y="205" text-anchor="middle" fill="#f9e2af" font-size="11" font-weight="bold">Ordering Guarantees</text>
+  <text x="430" y="225" fill="#cdd6f4" font-size="10">Per-key ordering within partition ✓</text>
+  <text x="430" y="242" fill="#cdd6f4" font-size="10">Cross-partition: eventual consistency</text>
+  <text x="430" y="257" fill="#cdd6f4" font-size="9">Partition key = doc_id ensures per-doc order</text>
+  <!-- Error handling -->
+  <rect x="30" y="280" width="350" height="85" rx="6" fill="#313244" stroke="#f38ba8" stroke-width="1"/>
+  <text x="205" y="305" text-anchor="middle" fill="#f38ba8" font-size="11" font-weight="bold">Error Handling</text>
+  <text x="50" y="325" fill="#cdd6f4" font-size="9">Poison pill → dead letter topic (DLT)</text>
+  <text x="50" y="342" fill="#cdd6f4" font-size="9">Schema mismatch → DLT + alert</text>
+  <text x="50" y="359" fill="#cdd6f4" font-size="9">OS bulk partial failure → retry failed items only</text>
+  <!-- Lag monitoring -->
+  <rect x="410" y="280" width="360" height="85" rx="6" fill="#313244" stroke="#a6e3a1" stroke-width="1"/>
+  <text x="590" y="305" text-anchor="middle" fill="#a6e3a1" font-size="11" font-weight="bold">Lag Monitoring</text>
+  <text x="430" y="325" fill="#cdd6f4" font-size="9">consumer_lag (Burrow/metrics) → alert if &gt; 10k</text>
+  <text x="430" y="342" fill="#cdd6f4" font-size="9">end-to-end latency: write PG → searchable in OS</text>
+  <text x="430" y="359" fill="#cdd6f4" font-size="9">target: p99 &lt; 5s  |  SLA: &lt; 30s during peak</text>
+</svg>

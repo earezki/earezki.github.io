@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" font-family="monospace">
+  <rect width="800" height="450" fill="#1e1e2e"/>
+  <text x="400" y="30" text-anchor="middle" fill="#cdd6f4" font-size="16" font-weight="bold">Profile API Output Breakdown</text>
+  <!-- Tree structure -->
+  <rect x="250" y="50" width="300" height="35" rx="4" fill="#313244" stroke="#89b4fa" stroke-width="2"/>
+  <text x="400" y="72" text-anchor="middle" fill="#89b4fa" font-size="11" font-weight="bold">Total Query Time: 42.3ms</text>
+  <!-- Level 1: Bool query -->
+  <line x1="400" y1="85" x2="400" y2="105" stroke="#585b70" stroke-width="1.5"/>
+  <rect x="220" y="105" width="360" height="35" rx="4" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="400" y="127" text-anchor="middle" fill="#a6e3a1" font-size="10">BooleanQuery — 38.1ms (90.1%)</text>
+  <!-- Level 2 branches -->
+  <line x1="300" y1="140" x2="150" y2="170" stroke="#585b70" stroke-width="1"/>
+  <line x1="400" y1="140" x2="400" y2="170" stroke="#585b70" stroke-width="1"/>
+  <line x1="500" y1="140" x2="650" y2="170" stroke="#585b70" stroke-width="1"/>
+  <!-- must: multi_match -->
+  <rect x="30" y="170" width="240" height="80" rx="4" fill="#313244" stroke="#f38ba8" stroke-width="2"/>
+  <text x="150" y="192" text-anchor="middle" fill="#f38ba8" font-size="10" font-weight="bold">must: DisjunctionMax</text>
+  <text x="150" y="210" text-anchor="middle" fill="#f38ba8" font-size="10">28.4ms (67.1%) ← bottleneck</text>
+  <rect x="45" y="218" width="100" height="22" rx="2" fill="#45475a"/>
+  <text x="95" y="234" text-anchor="middle" fill="#cdd6f4" font-size="8">title: 4.2ms</text>
+  <rect x="155" y="218" width="100" height="22" rx="2" fill="#45475a"/>
+  <text x="205" y="234" text-anchor="middle" fill="#cdd6f4" font-size="8">body: 24.2ms</text>
+  <!-- filter: term -->
+  <rect x="290" y="170" width="220" height="55" rx="4" fill="#313244" stroke="#a6e3a1" stroke-width="1"/>
+  <text x="400" y="192" text-anchor="middle" fill="#a6e3a1" font-size="10">filter: TermQuery</text>
+  <text x="400" y="210" text-anchor="middle" fill="#a6e3a1" font-size="10">0.3ms (0.7%) ✓ cached</text>
+  <!-- should: match_phrase -->
+  <rect x="530" y="170" width="240" height="55" rx="4" fill="#313244" stroke="#f9e2af" stroke-width="1"/>
+  <text x="650" y="192" text-anchor="middle" fill="#f9e2af" font-size="10">should: PhraseQuery</text>
+  <text x="650" y="210" text-anchor="middle" fill="#f9e2af" font-size="10">9.4ms (22.2%)</text>
+  <!-- Collector breakdown -->
+  <rect x="50" y="280" width="340" height="150" rx="6" fill="#313244" stroke="#89b4fa" stroke-width="1"/>
+  <text x="220" y="305" text-anchor="middle" fill="#89b4fa" font-size="11" font-weight="bold">Timing Breakdown (per query)</text>
+  <text x="70" y="328" fill="#cdd6f4" font-size="10">build_scorer:     12.1ms</text>
+  <rect x="230" y="318" width="121" height="12" rx="2" fill="#f38ba8" opacity="0.6"/>
+  <text x="70" y="348" fill="#cdd6f4" font-size="10">next_doc:          8.3ms</text>
+  <rect x="230" y="338" width="83" height="12" rx="2" fill="#f9e2af" opacity="0.6"/>
+  <text x="70" y="368" fill="#cdd6f4" font-size="10">score:             5.7ms</text>
+  <rect x="230" y="358" width="57" height="12" rx="2" fill="#a6e3a1" opacity="0.6"/>
+  <text x="70" y="388" fill="#cdd6f4" font-size="10">advance:           3.2ms</text>
+  <rect x="230" y="378" width="32" height="12" rx="2" fill="#89b4fa" opacity="0.6"/>
+  <text x="70" y="408" fill="#cdd6f4" font-size="10">match:             2.8ms</text>
+  <rect x="230" y="398" width="28" height="12" rx="2" fill="#cba6f7" opacity="0.6"/>
+  <text x="70" y="425" fill="#cdd6f4" font-size="9">shallow_advance, compute_max_score: &lt;1ms</text>
+  <!-- Recommendations -->
+  <rect x="420" y="280" width="340" height="150" rx="6" fill="#313244" stroke="#f38ba8" stroke-width="1"/>
+  <text x="590" y="305" text-anchor="middle" fill="#f38ba8" font-size="11" font-weight="bold">Diagnosis: body field</text>
+  <text x="440" y="330" fill="#cdd6f4" font-size="9">body field is 24.2ms / 28.4ms (85%)</text>
+  <text x="440" y="350" fill="#cdd6f4" font-size="9">Options:</text>
+  <text x="440" y="370" fill="#a6e3a1" font-size="9">1. index_options: docs → skip positions</text>
+  <text x="440" y="390" fill="#a6e3a1" font-size="9">2. Add body.minimal sub-field (fewer tokens)</text>
+  <text x="440" y="410" fill="#a6e3a1" font-size="9">3. Move to filter if scoring not needed</text>
+  <text x="440" y="425" fill="#cdd6f4" font-size="9">Expected improvement: 40-60% reduction</text>
+</svg>

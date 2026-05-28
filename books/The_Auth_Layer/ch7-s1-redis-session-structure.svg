@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 480" width="900" height="480">
+  <rect width="900" height="480" rx="12" fill="#1e1e2e"/>
+  <text x="450" y="32" text-anchor="middle" font-family="monospace" font-size="15" font-weight="bold" fill="#cdd6f4">Spring Session Redis Data Structure</text>
+
+  <!-- Redis icon/label -->
+  <rect x="350" y="55" width="200" height="35" rx="6" fill="#181825" stroke="#f38ba8" stroke-width="1.5"/>
+  <text x="450" y="78" text-anchor="middle" font-family="monospace" font-size="12" font-weight="bold" fill="#f38ba8">Redis Cluster</text>
+
+  <!-- Main session hash -->
+  <rect x="50" y="115" width="400" height="210" rx="8" fill="#181825" stroke="#89b4fa" stroke-width="1.5"/>
+  <text x="250" y="138" text-anchor="middle" font-family="monospace" font-size="11" font-weight="bold" fill="#89b4fa">spring:session:sessions:{sessionId}</text>
+  <text x="250" y="155" text-anchor="middle" font-family="monospace" font-size="9" fill="#6c7086">Redis Hash</text>
+
+  <!-- Fields -->
+  <rect x="75" y="170" width="350" height="24" rx="3" fill="#1e1e2e" stroke="#585b70" stroke-width="1"/>
+  <text x="85" y="186" font-family="monospace" font-size="10" fill="#a6e3a1">creationTime</text>
+  <text x="280" y="186" font-family="monospace" font-size="10" fill="#6c7086">(long)</text>
+
+  <rect x="75" y="199" width="350" height="24" rx="3" fill="#1e1e2e" stroke="#585b70" stroke-width="1"/>
+  <text x="85" y="215" font-family="monospace" font-size="10" fill="#a6e3a1">lastAccessedTime</text>
+  <text x="280" y="215" font-family="monospace" font-size="10" fill="#6c7086">(long)</text>
+
+  <rect x="75" y="228" width="350" height="24" rx="3" fill="#1e1e2e" stroke="#585b70" stroke-width="1"/>
+  <text x="85" y="244" font-family="monospace" font-size="10" fill="#a6e3a1">maxInactiveInterval</text>
+  <text x="280" y="244" font-family="monospace" font-size="10" fill="#6c7086">(int)</text>
+
+  <rect x="75" y="257" width="350" height="24" rx="3" fill="#1e1e2e" stroke="#f38ba8" stroke-width="1.5"/>
+  <text x="85" y="273" font-family="monospace" font-size="10" fill="#f38ba8">sessionAttr:{attrName}</text>
+  <text x="280" y="273" font-family="monospace" font-size="10" fill="#f38ba8">(serialized!)</text>
+
+  <!-- Warning on serialized -->
+  <rect x="75" y="286" width="350" height="28" rx="3" fill="#1e1e2e" stroke="#f38ba8" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="250" y="304" text-anchor="middle" font-family="monospace" font-size="9" fill="#f38ba8">⚠ JDK serialization = RCE attack surface</text>
+
+  <!-- Expiry key -->
+  <rect x="490" y="115" width="380" height="80" rx="8" fill="#181825" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="680" y="138" text-anchor="middle" font-family="monospace" font-size="10" font-weight="bold" fill="#a6e3a1">spring:session:sessions:expires:{sessionId}</text>
+  <text x="680" y="158" text-anchor="middle" font-family="monospace" font-size="9" fill="#6c7086">empty value, TTL set for expiry notification</text>
+  <text x="680" y="175" text-anchor="middle" font-family="monospace" font-size="9" fill="#6c7086">Redis key expiry → session cleanup event</text>
+
+  <!-- Expiration set -->
+  <rect x="490" y="215" width="380" height="80" rx="8" fill="#181825" stroke="#fab387" stroke-width="1.5"/>
+  <text x="680" y="238" text-anchor="middle" font-family="monospace" font-size="10" font-weight="bold" fill="#fab387">spring:session:expirations:{timestamp}</text>
+  <text x="680" y="258" text-anchor="middle" font-family="monospace" font-size="9" fill="#6c7086">Redis Set of sessionIds expiring</text>
+  <text x="680" y="275" text-anchor="middle" font-family="monospace" font-size="9" fill="#6c7086">in this rounded time window</text>
+
+  <!-- Connecting lines -->
+  <line x1="450" y1="75" x2="250" y2="115" stroke="#585b70" stroke-width="1" stroke-dasharray="4,3"/>
+  <line x1="450" y1="75" x2="680" y2="115" stroke="#585b70" stroke-width="1" stroke-dasharray="4,3"/>
+  <line x1="450" y1="75" x2="680" y2="215" stroke="#585b70" stroke-width="1" stroke-dasharray="4,3"/>
+
+  <!-- Serialization comparison -->
+  <rect x="50" y="350" width="390" height="110" rx="8" fill="#181825" stroke="#f38ba8" stroke-width="1.5"/>
+  <text x="245" y="373" text-anchor="middle" font-family="monospace" font-size="11" font-weight="bold" fill="#f38ba8">JDK Serialization (Default)</text>
+  <text x="245" y="393" text-anchor="middle" font-family="monospace" font-size="9" fill="#cdd6f4">ObjectInputStream.readObject()</text>
+  <text x="245" y="410" text-anchor="middle" font-family="monospace" font-size="9" fill="#cdd6f4">Arbitrary class instantiation</text>
+  <text x="245" y="430" text-anchor="middle" font-family="monospace" font-size="9" fill="#f38ba8">CVE-2015-4852, CVE-2015-7501</text>
+  <text x="245" y="447" text-anchor="middle" font-family="monospace" font-size="9" fill="#f38ba8">Remote Code Execution</text>
+
+  <rect x="460" y="350" width="400" height="110" rx="8" fill="#181825" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="660" y="373" text-anchor="middle" font-family="monospace" font-size="11" font-weight="bold" fill="#a6e3a1">JSON + Type Allowlist</text>
+  <text x="660" y="393" text-anchor="middle" font-family="monospace" font-size="9" fill="#cdd6f4">GenericJackson2JsonRedisSerializer</text>
+  <text x="660" y="410" text-anchor="middle" font-family="monospace" font-size="9" fill="#cdd6f4">PolymorphicTypeValidator allowlist</text>
+  <text x="660" y="430" text-anchor="middle" font-family="monospace" font-size="9" fill="#a6e3a1">Only declared types deserialized</text>
+  <text x="660" y="447" text-anchor="middle" font-family="monospace" font-size="9" fill="#a6e3a1">Unknown types → exception</text>
+
+  <!-- Arrow between -->
+  <text x="450" y="410" text-anchor="middle" font-family="monospace" font-size="16" fill="#a6e3a1">→</text>
+</svg>

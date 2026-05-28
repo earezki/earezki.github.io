@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" width="900" height="500">
+  <!-- Background -->
+  <rect width="900" height="500" rx="12" fill="#1e1e2e"/>
+
+  <!-- Title -->
+  <text x="450" y="35" text-anchor="middle" font-family="monospace" font-size="16" font-weight="bold" fill="#cdd6f4">Session vs Token: State Location and Revocation</text>
+
+  <!-- Session-based side -->
+  <rect x="30" y="60" width="400" height="400" rx="8" fill="#181825" stroke="#89b4fa" stroke-width="1"/>
+  <text x="230" y="90" text-anchor="middle" font-family="monospace" font-size="14" font-weight="bold" fill="#89b4fa">SESSION-BASED</text>
+
+  <!-- Browser -->
+  <rect x="60" y="120" width="120" height="50" rx="6" fill="#313244" stroke="#cdd6f4" stroke-width="1"/>
+  <text x="120" y="150" text-anchor="middle" font-family="monospace" font-size="11" fill="#cdd6f4">Browser</text>
+
+  <!-- Cookie -->
+  <rect x="80" y="185" width="80" height="25" rx="4" fill="#45475a"/>
+  <text x="120" y="202" text-anchor="middle" font-family="monospace" font-size="9" fill="#a6e3a1">JSESSIONID</text>
+
+  <!-- Arrow to server -->
+  <line x1="180" y1="145" x2="270" y2="145" stroke="#cdd6f4" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+  <text x="225" y="137" text-anchor="middle" font-family="monospace" font-size="9" fill="#bac2de">Cookie</text>
+
+  <!-- Server -->
+  <rect x="270" y="120" width="130" height="50" rx="6" fill="#313244" stroke="#cdd6f4" stroke-width="1"/>
+  <text x="335" y="150" text-anchor="middle" font-family="monospace" font-size="11" fill="#cdd6f4">Server</text>
+
+  <!-- Redis/Session Store -->
+  <rect x="270" y="220" width="130" height="50" rx="6" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="335" y="240" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6e3a1">Session Store</text>
+  <text x="335" y="258" text-anchor="middle" font-family="monospace" font-size="9" fill="#bac2de">(Redis)</text>
+
+  <!-- Arrow server to store -->
+  <line x1="335" y1="170" x2="335" y2="220" stroke="#a6e3a1" stroke-width="1.5" marker-end="url(#arrowhead-green)"/>
+  <text x="365" y="200" font-family="monospace" font-size="9" fill="#bac2de">lookup</text>
+
+  <!-- Revocation -->
+  <rect x="80" y="310" width="330" height="60" rx="6" fill="#1e3a1e" stroke="#a6e3a1" stroke-width="1"/>
+  <text x="245" y="335" text-anchor="middle" font-family="monospace" font-size="11" fill="#a6e3a1">REVOCATION: Instant</text>
+  <text x="245" y="355" text-anchor="middle" font-family="monospace" font-size="9" fill="#bac2de">Delete session from store → immediate effect</text>
+
+  <!-- Cost -->
+  <text x="245" y="410" text-anchor="middle" font-family="monospace" font-size="10" fill="#f9e2af">Cost: DB/Redis lookup on every request</text>
+  <text x="245" y="430" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6e3a1">Benefit: Instant invalidation</text>
+
+  <!-- Token-based side -->
+  <rect x="470" y="60" width="400" height="400" rx="8" fill="#181825" stroke="#f38ba8" stroke-width="1"/>
+  <text x="670" y="90" text-anchor="middle" font-family="monospace" font-size="14" font-weight="bold" fill="#f38ba8">TOKEN-BASED (JWT)</text>
+
+  <!-- Client -->
+  <rect x="500" y="120" width="120" height="50" rx="6" fill="#313244" stroke="#cdd6f4" stroke-width="1"/>
+  <text x="560" y="150" text-anchor="middle" font-family="monospace" font-size="11" fill="#cdd6f4">Client</text>
+
+  <!-- Token -->
+  <rect x="515" y="185" width="90" height="25" rx="4" fill="#45475a"/>
+  <text x="560" y="202" text-anchor="middle" font-family="monospace" font-size="9" fill="#f38ba8">JWT (signed)</text>
+
+  <!-- Arrow to resource server -->
+  <line x1="620" y1="145" x2="710" y2="145" stroke="#cdd6f4" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+  <text x="665" y="137" text-anchor="middle" font-family="monospace" font-size="9" fill="#bac2de">Bearer</text>
+
+  <!-- Resource Server -->
+  <rect x="710" y="120" width="130" height="50" rx="6" fill="#313244" stroke="#cdd6f4" stroke-width="1"/>
+  <text x="775" y="145" text-anchor="middle" font-family="monospace" font-size="10" fill="#cdd6f4">Resource</text>
+  <text x="775" y="160" text-anchor="middle" font-family="monospace" font-size="10" fill="#cdd6f4">Server</text>
+
+  <!-- No store needed -->
+  <rect x="710" y="220" width="130" height="50" rx="6" fill="#313244" stroke="#45475a" stroke-width="1" stroke-dasharray="4,4"/>
+  <text x="775" y="240" text-anchor="middle" font-family="monospace" font-size="10" fill="#6c7086">No Store</text>
+  <text x="775" y="258" text-anchor="middle" font-family="monospace" font-size="9" fill="#6c7086">(stateless)</text>
+
+  <!-- Arrow server to nothing -->
+  <line x1="775" y1="170" x2="775" y2="220" stroke="#45475a" stroke-width="1" stroke-dasharray="3,3"/>
+  <text x="805" y="200" font-family="monospace" font-size="9" fill="#6c7086">verify sig</text>
+
+  <!-- Revocation problem -->
+  <rect x="520" y="310" width="330" height="60" rx="6" fill="#3a1e1e" stroke="#f38ba8" stroke-width="1"/>
+  <text x="685" y="335" text-anchor="middle" font-family="monospace" font-size="11" fill="#f38ba8">REVOCATION: Delayed (until exp)</text>
+  <text x="685" y="355" text-anchor="middle" font-family="monospace" font-size="9" fill="#bac2de">Cannot revoke without reintroducing state</text>
+
+  <!-- Cost -->
+  <text x="685" y="410" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6e3a1">Benefit: No server-side lookup</text>
+  <text x="685" y="430" text-anchor="middle" font-family="monospace" font-size="10" fill="#f38ba8">Cost: No instant revocation</text>
+
+  <!-- Arrow markers -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#cdd6f4"/>
+    </marker>
+    <marker id="arrowhead-green" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#a6e3a1"/>
+    </marker>
+  </defs>
+</svg>

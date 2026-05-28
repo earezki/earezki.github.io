@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" font-family="monospace">
+  <rect width="800" height="450" fill="#1e1e2e"/>
+  <defs><marker id="arr" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#585b70"/></marker></defs>
+  <text x="400" y="30" text-anchor="middle" fill="#cdd6f4" font-size="16" font-weight="bold">Aggregation Execution Flow</text>
+  <!-- Client query -->
+  <rect x="300" y="45" width="200" height="35" rx="4" fill="#313244" stroke="#cba6f7" stroke-width="1.5"/>
+  <text x="400" y="67" text-anchor="middle" fill="#cba6f7" font-size="11">Search + Aggs Request</text>
+  <line x1="400" y1="80" x2="400" y2="100" stroke="#585b70" stroke-width="1.5" marker-end="url(#arr)"/>
+  <!-- Coordinating -->
+  <rect x="270" y="100" width="260" height="35" rx="4" fill="#313244" stroke="#89b4fa" stroke-width="2"/>
+  <text x="400" y="122" text-anchor="middle" fill="#89b4fa" font-size="11" font-weight="bold">Coordinating Node</text>
+  <!-- Fan out -->
+  <line x1="310" y1="135" x2="120" y2="170" stroke="#585b70" stroke-width="1" marker-end="url(#arr)"/>
+  <line x1="400" y1="135" x2="400" y2="170" stroke="#585b70" stroke-width="1" marker-end="url(#arr)"/>
+  <line x1="490" y1="135" x2="680" y2="170" stroke="#585b70" stroke-width="1" marker-end="url(#arr)"/>
+  <!-- Shard-level aggs -->
+  <rect x="30" y="170" width="180" height="110" rx="4" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="120" y="192" text-anchor="middle" fill="#a6e3a1" font-size="10" font-weight="bold">Shard 0</text>
+  <text x="45" y="212" fill="#cdd6f4" font-size="9">1. Execute query</text>
+  <text x="45" y="227" fill="#cdd6f4" font-size="9">2. Collect matching docs</text>
+  <text x="45" y="242" fill="#cdd6f4" font-size="9">3. Build local buckets</text>
+  <text x="45" y="257" fill="#cdd6f4" font-size="9">4. Compute local metrics</text>
+  <text x="45" y="272" fill="#cdd6f4" font-size="9">5. Return partial result</text>
+  <rect x="310" y="170" width="180" height="110" rx="4" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="400" y="192" text-anchor="middle" fill="#a6e3a1" font-size="10" font-weight="bold">Shard 1</text>
+  <text x="325" y="212" fill="#cdd6f4" font-size="9">(same steps)</text>
+  <rect x="590" y="170" width="180" height="110" rx="4" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="680" y="192" text-anchor="middle" fill="#a6e3a1" font-size="10" font-weight="bold">Shard 2</text>
+  <text x="605" y="212" fill="#cdd6f4" font-size="9">(same steps)</text>
+  <!-- Return -->
+  <line x1="120" y1="280" x2="350" y2="310" stroke="#a6e3a1" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arr)"/>
+  <line x1="400" y1="280" x2="400" y2="310" stroke="#a6e3a1" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arr)"/>
+  <line x1="680" y1="280" x2="450" y2="310" stroke="#a6e3a1" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arr)"/>
+  <!-- Reduce -->
+  <rect x="230" y="310" width="340" height="45" rx="6" fill="#313244" stroke="#f9e2af" stroke-width="2"/>
+  <text x="400" y="330" text-anchor="middle" fill="#f9e2af" font-size="11" font-weight="bold">Reduce Phase (Coordinating Node)</text>
+  <text x="400" y="347" text-anchor="middle" fill="#cdd6f4" font-size="9">merge buckets + final metrics + pipeline aggs</text>
+  <!-- post_filter callout -->
+  <rect x="50" y="380" width="340" height="55" rx="4" fill="#313244" stroke="#f38ba8" stroke-width="1.5"/>
+  <text x="220" y="400" text-anchor="middle" fill="#f38ba8" font-size="10" font-weight="bold">⚠ post_filter</text>
+  <text x="65" y="418" fill="#cdd6f4" font-size="9">Filters hits AFTER aggregations. Aggs see all docs.</text>
+  <text x="65" y="430" fill="#cdd6f4" font-size="9">Use for faceted nav: counts reflect full dataset.</text>
+  <!-- size:0 callout -->
+  <rect x="420" y="380" width="340" height="55" rx="4" fill="#313244" stroke="#89b4fa" stroke-width="1.5"/>
+  <text x="590" y="400" text-anchor="middle" fill="#89b4fa" font-size="10" font-weight="bold">size: 0 optimization</text>
+  <text x="435" y="418" fill="#cdd6f4" font-size="9">Skip fetch phase entirely when you only need aggs.</text>
+  <text x="435" y="430" fill="#cdd6f4" font-size="9">Reduces latency by 30-50% on large result sets.</text>
+</svg>

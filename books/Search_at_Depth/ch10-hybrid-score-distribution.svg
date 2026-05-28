@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" font-family="monospace">
+  <rect width="800" height="420" fill="#1e1e2e"/>
+  <text x="400" y="30" text-anchor="middle" fill="#cdd6f4" font-size="16" font-weight="bold">Hybrid Score Distribution: Lexical vs Semantic vs Combined</text>
+  <!-- Chart area -->
+  <line x1="80" y1="60" x2="80" y2="310" stroke="#585b70" stroke-width="1"/>
+  <line x1="80" y1="310" x2="750" y2="310" stroke="#585b70" stroke-width="1"/>
+  <text x="30" y="190" fill="#cdd6f4" font-size="10" transform="rotate(-90,30,190)">frequency</text>
+  <text x="415" y="335" text-anchor="middle" fill="#cdd6f4" font-size="10">score (normalized 0..1)</text>
+  <!-- BM25 distribution (bimodal) -->
+  <path d="M100,305 Q150,300 180,260 Q200,230 220,200 Q240,180 250,220 Q260,260 280,290 Q300,305 320,305" fill="none" stroke="#f9e2af" stroke-width="2.5" stroke-dasharray="6,3"/>
+  <text x="200" y="165" fill="#f9e2af" font-size="10" font-weight="bold">BM25</text>
+  <text x="200" y="178" fill="#cdd6f4" font-size="8">bimodal, sparse</text>
+  <!-- kNN distribution (gaussian-ish) -->
+  <path d="M350,305 Q400,300 430,260 Q450,190 480,130 Q500,100 520,130 Q540,190 560,260 Q580,300 620,305" fill="none" stroke="#89b4fa" stroke-width="2.5"/>
+  <text x="510" y="85" fill="#89b4fa" font-size="10" font-weight="bold">kNN (cosine)</text>
+  <text x="510" y="98" fill="#cdd6f4" font-size="8">clustered 0.6-0.9</text>
+  <!-- Hybrid distribution -->
+  <path d="M200,305 Q250,295 300,250 Q340,200 380,160 Q410,130 440,120 Q470,130 500,160 Q540,200 580,250 Q620,290 660,305" fill="none" stroke="#a6e3a1" stroke-width="2.5"/>
+  <text x="460" y="106" fill="#a6e3a1" font-size="10" font-weight="bold">Hybrid (RRF)</text>
+  <text x="460" y="119" fill="#cdd6f4" font-size="8">smoother, better separation</text>
+  <!-- Normalization methods -->
+  <rect x="50" y="350" width="340" height="55" rx="4" fill="#313244" stroke="#89b4fa" stroke-width="1"/>
+  <text x="220" y="372" text-anchor="middle" fill="#89b4fa" font-size="11" font-weight="bold">RRF (Reciprocal Rank Fusion)</text>
+  <text x="65" y="393" fill="#cdd6f4" font-size="10">score = Σ 1/(k + rank_i)  where k=60</text>
+  <rect x="420" y="350" width="340" height="55" rx="4" fill="#313244" stroke="#f9e2af" stroke-width="1"/>
+  <text x="590" y="372" text-anchor="middle" fill="#f9e2af" font-size="11" font-weight="bold">Min-Max Normalization</text>
+  <text x="435" y="393" fill="#cdd6f4" font-size="10">norm = (s - min) / (max - min) per-query</text>
+</svg>

@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" font-family="monospace">
+  <rect width="800" height="420" fill="#1e1e2e"/>
+  <text x="400" y="30" text-anchor="middle" fill="#cdd6f4" font-size="16" font-weight="bold">Query DSL: Bool Query Composition</text>
+  <!-- Outer bool -->
+  <rect x="50" y="50" width="700" height="350" rx="8" fill="#313244" stroke="#89b4fa" stroke-width="2"/>
+  <text x="70" y="75" fill="#89b4fa" font-size="13" font-weight="bold">bool</text>
+  <!-- must -->
+  <rect x="75" y="90" width="310" height="90" rx="4" fill="#45475a" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="90" y="112" fill="#a6e3a1" font-size="11" font-weight="bold">must</text>
+  <text x="90" y="128" fill="#cdd6f4" font-size="9">contributes to score + filters</text>
+  <rect x="90" y="138" width="280" height="30" rx="3" fill="#313244" stroke="#585b70" stroke-width="1"/>
+  <text x="100" y="158" fill="#cdd6f4" font-size="10">multi_match: query → [title^3, body]</text>
+  <!-- filter -->
+  <rect x="415" y="90" width="310" height="115" rx="4" fill="#45475a" stroke="#f9e2af" stroke-width="1.5"/>
+  <text x="430" y="112" fill="#f9e2af" font-size="11" font-weight="bold">filter</text>
+  <text x="430" y="128" fill="#cdd6f4" font-size="9">no scoring, cached, bitset</text>
+  <rect x="430" y="138" width="280" height="25" rx="3" fill="#313244" stroke="#585b70" stroke-width="1"/>
+  <text x="440" y="155" fill="#cdd6f4" font-size="10">term: tenant_id → "acme"</text>
+  <rect x="430" y="170" width="280" height="25" rx="3" fill="#313244" stroke="#585b70" stroke-width="1"/>
+  <text x="440" y="187" fill="#cdd6f4" font-size="10">range: version → { gte: "3.0" }</text>
+  <!-- should -->
+  <rect x="75" y="195" width="310" height="110" rx="4" fill="#45475a" stroke="#89b4fa" stroke-width="1.5"/>
+  <text x="90" y="217" fill="#89b4fa" font-size="11" font-weight="bold">should</text>
+  <text x="90" y="233" fill="#cdd6f4" font-size="9">optional boost, minimum_should_match: 1</text>
+  <rect x="90" y="243" width="280" height="25" rx="3" fill="#313244" stroke="#585b70" stroke-width="1"/>
+  <text x="100" y="260" fill="#cdd6f4" font-size="10">match: category → "tutorial"</text>
+  <rect x="90" y="275" width="280" height="25" rx="3" fill="#313244" stroke="#585b70" stroke-width="1"/>
+  <text x="100" y="292" fill="#cdd6f4" font-size="10">match_phrase: title → "getting started"</text>
+  <!-- must_not -->
+  <rect x="415" y="220" width="310" height="85" rx="4" fill="#45475a" stroke="#f38ba8" stroke-width="1.5"/>
+  <text x="430" y="242" fill="#f38ba8" font-size="11" font-weight="bold">must_not</text>
+  <text x="430" y="258" fill="#cdd6f4" font-size="9">exclusion, no scoring, cached</text>
+  <rect x="430" y="268" width="280" height="25" rx="3" fill="#313244" stroke="#585b70" stroke-width="1"/>
+  <text x="440" y="285" fill="#cdd6f4" font-size="10">term: status → "deprecated"</text>
+  <!-- function_score wrapper -->
+  <rect x="75" y="320" width="650" height="60" rx="4" fill="#45475a" stroke="#cba6f7" stroke-width="1.5"/>
+  <text x="90" y="342" fill="#cba6f7" font-size="11" font-weight="bold">function_score (outer wrapper)</text>
+  <text x="90" y="362" fill="#cdd6f4" font-size="9">field_value_factor: boost_score, modifier: log1p    |    decay: gauss on updated_at</text>
+  <text x="90" y="375" fill="#cdd6f4" font-size="9">score_mode: sum    |    boost_mode: multiply</text>
+</svg>

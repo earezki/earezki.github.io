@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 350" font-family="monospace">
+  <rect width="800" height="350" fill="#1e1e2e"/>
+  <text x="400" y="30" text-anchor="middle" fill="#cdd6f4" font-size="16" font-weight="bold">BM25 Scoring Breakdown</text>
+  <!-- Formula -->
+  <rect x="50" y="50" width="700" height="45" rx="6" fill="#313244" stroke="#89b4fa" stroke-width="1.5"/>
+  <text x="400" y="78" text-anchor="middle" fill="#89b4fa" font-size="13">score(q,d) = Σ IDF(t) × [ tf(t,d) × (k₁+1) ] / [ tf(t,d) + k₁ × (1 - b + b × |d|/avgdl) ]</text>
+  <!-- Components -->
+  <rect x="50" y="120" width="200" height="90" rx="4" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="150" y="145" text-anchor="middle" fill="#a6e3a1" font-size="12" font-weight="bold">IDF(t)</text>
+  <text x="65" y="170" fill="#cdd6f4" font-size="10">Inverse Document Frequency</text>
+  <text x="65" y="185" fill="#cdd6f4" font-size="10">Rare terms → high IDF</text>
+  <text x="65" y="200" fill="#cdd6f4" font-size="10">Common terms → low IDF</text>
+  <rect x="300" y="120" width="200" height="90" rx="4" fill="#313244" stroke="#f9e2af" stroke-width="1.5"/>
+  <text x="400" y="145" text-anchor="middle" fill="#f9e2af" font-size="12" font-weight="bold">TF(t,d)</text>
+  <text x="315" y="170" fill="#cdd6f4" font-size="10">Term Frequency in doc</text>
+  <text x="315" y="185" fill="#cdd6f4" font-size="10">Saturates with k₁</text>
+  <text x="315" y="200" fill="#cdd6f4" font-size="10">k₁=1.2 (default)</text>
+  <rect x="550" y="120" width="200" height="90" rx="4" fill="#313244" stroke="#f38ba8" stroke-width="1.5"/>
+  <text x="650" y="145" text-anchor="middle" fill="#f38ba8" font-size="12" font-weight="bold">Length Norm</text>
+  <text x="565" y="170" fill="#cdd6f4" font-size="10">|d| / avgdl</text>
+  <text x="565" y="185" fill="#cdd6f4" font-size="10">Short docs boosted</text>
+  <text x="565" y="200" fill="#cdd6f4" font-size="10">b=0.75 (default)</text>
+  <!-- Parameters -->
+  <text x="400" y="245" text-anchor="middle" fill="#cdd6f4" font-size="13" font-weight="bold">Parameter Tuning for Technical Documentation</text>
+  <rect x="50" y="260" width="330" height="70" rx="4" fill="#313244" stroke="#89b4fa" stroke-width="1"/>
+  <text x="65" y="282" fill="#89b4fa" font-size="11" font-weight="bold">k₁ = 1.2 (default)</text>
+  <text x="65" y="300" fill="#cdd6f4" font-size="10">Controls term frequency saturation.</text>
+  <text x="65" y="315" fill="#cdd6f4" font-size="10">Higher → repeat mentions matter more.</text>
+  <rect x="420" y="260" width="330" height="70" rx="4" fill="#313244" stroke="#f38ba8" stroke-width="1"/>
+  <text x="435" y="282" fill="#f38ba8" font-size="11" font-weight="bold">b = 0.75 (default)</text>
+  <text x="435" y="300" fill="#cdd6f4" font-size="10">Controls length normalization.</text>
+  <text x="435" y="315" fill="#cdd6f4" font-size="10">Lower b for long-form docs (0.3-0.5).</text>
+</svg>

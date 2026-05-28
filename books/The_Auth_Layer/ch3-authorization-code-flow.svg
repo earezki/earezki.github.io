@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" width="900" height="600">
+  <!-- Background -->
+  <rect width="900" height="600" rx="12" fill="#1e1e2e"/>
+
+  <!-- Title -->
+  <text x="450" y="35" text-anchor="middle" font-family="monospace" font-size="16" font-weight="bold" fill="#cdd6f4">OAuth2 Authorization Code Flow with Attack Annotations</text>
+
+  <!-- Actors -->
+  <rect x="60" y="60" width="100" height="40" rx="6" fill="#313244" stroke="#89b4fa" stroke-width="1.5"/>
+  <text x="110" y="85" text-anchor="middle" font-family="monospace" font-size="11" fill="#89b4fa">User Agent</text>
+
+  <rect x="350" y="60" width="140" height="40" rx="6" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="420" y="85" text-anchor="middle" font-family="monospace" font-size="11" fill="#a6e3a1">Auth Server</text>
+
+  <rect x="700" y="60" width="120" height="40" rx="6" fill="#313244" stroke="#cdd6f4" stroke-width="1.5"/>
+  <text x="760" y="85" text-anchor="middle" font-family="monospace" font-size="11" fill="#cdd6f4">Client App</text>
+
+  <!-- Lifelines -->
+  <line x1="110" y1="100" x2="110" y2="570" stroke="#89b4fa" stroke-width="1" stroke-dasharray="4,3"/>
+  <line x1="420" y1="100" x2="420" y2="570" stroke="#a6e3a1" stroke-width="1" stroke-dasharray="4,3"/>
+  <line x1="760" y1="100" x2="760" y2="570" stroke="#cdd6f4" stroke-width="1" stroke-dasharray="4,3"/>
+
+  <!-- Step 1: Auth Request -->
+  <line x1="110" y1="140" x2="420" y2="140" stroke="#cdd6f4" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="265" y="133" text-anchor="middle" font-family="monospace" font-size="9" fill="#cdd6f4">1. GET /authorize?response_type=code</text>
+  <text x="265" y="155" text-anchor="middle" font-family="monospace" font-size="8" fill="#bac2de">&amp;client_id &amp;redirect_uri &amp;state &amp;code_challenge</text>
+
+  <!-- Attack annotation: state -->
+  <rect x="20" y="165" width="200" height="35" rx="4" fill="#3a1e1e" stroke="#f38ba8" stroke-width="1"/>
+  <text x="120" y="180" text-anchor="middle" font-family="monospace" font-size="8" fill="#f38ba8">Without state → CSRF attack</text>
+  <text x="120" y="193" text-anchor="middle" font-family="monospace" font-size="8" fill="#f38ba8">Without code_challenge → interception</text>
+
+  <!-- Step 2: User authenticates -->
+  <rect x="340" y="210" width="160" height="30" rx="4" fill="#45475a"/>
+  <text x="420" y="230" text-anchor="middle" font-family="monospace" font-size="9" fill="#cdd6f4">2. User authenticates</text>
+
+  <!-- Step 3: Auth code redirect -->
+  <line x1="420" y1="270" x2="110" y2="270" stroke="#a6e3a1" stroke-width="1.5" marker-end="url(#arr-green)"/>
+  <text x="265" y="263" text-anchor="middle" font-family="monospace" font-size="9" fill="#a6e3a1">3. 302 redirect_uri?code=abc&amp;state=xyz</text>
+
+  <line x1="110" y1="290" x2="760" y2="290" stroke="#cdd6f4" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="435" y="283" text-anchor="middle" font-family="monospace" font-size="9" fill="#cdd6f4">4. Browser follows redirect to client</text>
+
+  <!-- Attack annotation: redirect_uri -->
+  <rect x="620" y="300" width="250" height="35" rx="4" fill="#3a1e1e" stroke="#f38ba8" stroke-width="1"/>
+  <text x="745" y="315" text-anchor="middle" font-family="monospace" font-size="8" fill="#f38ba8">Without exact redirect_uri match →</text>
+  <text x="745" y="328" text-anchor="middle" font-family="monospace" font-size="8" fill="#f38ba8">Open redirect steals auth code</text>
+
+  <!-- Step 5: Token request -->
+  <line x1="760" y1="360" x2="420" y2="360" stroke="#cdd6f4" stroke-width="1.5" marker-end="url(#arr-green)"/>
+  <text x="590" y="353" text-anchor="middle" font-family="monospace" font-size="9" fill="#cdd6f4">5. POST /token code=abc</text>
+  <text x="590" y="375" text-anchor="middle" font-family="monospace" font-size="8" fill="#bac2de">&amp;code_verifier &amp;client_secret &amp;redirect_uri</text>
+
+  <!-- Attack annotation: code_verifier -->
+  <rect x="20" y="385" width="250" height="35" rx="4" fill="#3a1e1e" stroke="#f38ba8" stroke-width="1"/>
+  <text x="145" y="400" text-anchor="middle" font-family="monospace" font-size="8" fill="#f38ba8">Without code_verifier (PKCE) →</text>
+  <text x="145" y="413" text-anchor="middle" font-family="monospace" font-size="8" fill="#f38ba8">Intercepted code is exchangeable</text>
+
+  <!-- Step 6: Token response -->
+  <line x1="420" y1="440" x2="760" y2="440" stroke="#a6e3a1" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="590" y="433" text-anchor="middle" font-family="monospace" font-size="9" fill="#a6e3a1">6. {access_token, refresh_token, id_token}</text>
+
+  <!-- Step 7: API call -->
+  <line x1="760" y1="490" x2="420" y2="490" stroke="#89b4fa" stroke-width="1.5" marker-end="url(#arr-green)"/>
+  <text x="590" y="483" text-anchor="middle" font-family="monospace" font-size="9" fill="#89b4fa">7. GET /api Authorization: Bearer {token}</text>
+
+  <!-- Attack annotation: bearer -->
+  <rect x="620" y="510" width="250" height="35" rx="4" fill="#3a1e1e" stroke="#f38ba8" stroke-width="1"/>
+  <text x="745" y="525" text-anchor="middle" font-family="monospace" font-size="8" fill="#f38ba8">Bearer token without audience →</text>
+  <text x="745" y="538" text-anchor="middle" font-family="monospace" font-size="8" fill="#f38ba8">Token replay across services</text>
+
+  <!-- Legend -->
+  <rect x="30" y="550" width="12" height="12" fill="#a6e3a1"/>
+  <text x="48" y="561" font-family="monospace" font-size="9" fill="#bac2de">Secure response</text>
+  <rect x="180" y="550" width="12" height="12" fill="#f38ba8"/>
+  <text x="198" y="561" font-family="monospace" font-size="9" fill="#bac2de">Attack surface</text>
+  <rect x="330" y="550" width="12" height="12" fill="#89b4fa"/>
+  <text x="348" y="561" font-family="monospace" font-size="9" fill="#bac2de">User agent action</text>
+
+  <!-- Arrow markers -->
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#cdd6f4"/>
+    </marker>
+    <marker id="arr-green" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#a6e3a1"/>
+    </marker>
+  </defs>
+</svg>

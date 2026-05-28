@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" font-family="monospace">
+  <rect width="800" height="420" fill="#1e1e2e"/>
+  <defs><marker id="arr" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#585b70"/></marker></defs>
+  <text x="400" y="30" text-anchor="middle" fill="#cdd6f4" font-size="16" font-weight="bold">Resilience Architecture</text>
+  <!-- Quorum -->
+  <rect x="50" y="50" width="210" height="160" rx="6" fill="#313244" stroke="#89b4fa" stroke-width="1.5"/>
+  <text x="155" y="75" text-anchor="middle" fill="#89b4fa" font-size="12" font-weight="bold">Write Quorum</text>
+  <text x="65" y="100" fill="#cdd6f4" font-size="10">wait_for_active_shards: 1</text>
+  <text x="65" y="118" fill="#cdd6f4" font-size="9">(default: primary only)</text>
+  <text x="65" y="140" fill="#cdd6f4" font-size="10">wait_for_active_shards: all</text>
+  <text x="65" y="158" fill="#cdd6f4" font-size="9">(max durability, slower)</text>
+  <text x="65" y="180" fill="#cdd6f4" font-size="10">wait_for_active_shards: 2</text>
+  <text x="65" y="198" fill="#cdd6f4" font-size="9">(quorum for 1p+1r)</text>
+  <!-- Snapshots -->
+  <rect x="295" y="50" width="210" height="160" rx="6" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="400" y="75" text-anchor="middle" fill="#a6e3a1" font-size="12" font-weight="bold">Snapshot &amp; Restore</text>
+  <text x="310" y="100" fill="#cdd6f4" font-size="10">Repository: S3 / shared FS</text>
+  <text x="310" y="118" fill="#cdd6f4" font-size="10">Schedule: daily incremental</text>
+  <text x="310" y="140" fill="#cdd6f4" font-size="10">Retention: 30 snapshots</text>
+  <text x="310" y="162" fill="#cdd6f4" font-size="9">Incremental: only changed</text>
+  <text x="310" y="178" fill="#cdd6f4" font-size="9">segments are transferred</text>
+  <text x="310" y="198" fill="#f38ba8" font-size="9">⚠ test restore quarterly</text>
+  <!-- Recovery -->
+  <rect x="540" y="50" width="220" height="160" rx="6" fill="#313244" stroke="#f9e2af" stroke-width="1.5"/>
+  <text x="650" y="75" text-anchor="middle" fill="#f9e2af" font-size="12" font-weight="bold">Recovery Paths</text>
+  <text x="555" y="100" fill="#cdd6f4" font-size="9">1. Peer recovery (replica → primary)</text>
+  <text x="555" y="118" fill="#cdd6f4" font-size="9">   uses translog replay</text>
+  <text x="555" y="140" fill="#cdd6f4" font-size="9">2. Snapshot restore</text>
+  <text x="555" y="158" fill="#cdd6f4" font-size="9">   full index from repository</text>
+  <text x="555" y="180" fill="#cdd6f4" font-size="9">3. Reindex from source DB</text>
+  <text x="555" y="198" fill="#cdd6f4" font-size="9">   last resort, full rebuild</text>
+  <!-- Failure scenarios -->
+  <rect x="50" y="235" width="700" height="170" rx="6" fill="#313244" stroke="#f38ba8" stroke-width="1.5"/>
+  <text x="400" y="260" text-anchor="middle" fill="#f38ba8" font-size="12" font-weight="bold">Failure Scenarios &amp; Response</text>
+  <!-- Node loss -->
+  <rect x="70" y="275" width="200" height="50" rx="4" fill="#45475a" stroke="#f9e2af" stroke-width="1"/>
+  <text x="170" y="295" text-anchor="middle" fill="#f9e2af" font-size="10" font-weight="bold">1 Data Node Lost</text>
+  <text x="170" y="315" text-anchor="middle" fill="#cdd6f4" font-size="9">replica promotes → auto recovery</text>
+  <!-- CM node loss -->
+  <rect x="300" y="275" width="200" height="50" rx="4" fill="#45475a" stroke="#f9e2af" stroke-width="1"/>
+  <text x="400" y="295" text-anchor="middle" fill="#f9e2af" font-size="10" font-weight="bold">1 CM Node Lost</text>
+  <text x="400" y="315" text-anchor="middle" fill="#cdd6f4" font-size="9">quorum intact (2/3) → re-elect</text>
+  <!-- Full AZ failure -->
+  <rect x="530" y="275" width="200" height="50" rx="4" fill="#45475a" stroke="#f38ba8" stroke-width="1"/>
+  <text x="630" y="295" text-anchor="middle" fill="#f38ba8" font-size="10" font-weight="bold">Full AZ Failure</text>
+  <text x="630" y="315" text-anchor="middle" fill="#cdd6f4" font-size="9">cross-zone replicas serve reads</text>
+  <!-- Settings row -->
+  <text x="90" y="355" fill="#89b4fa" font-size="10" font-weight="bold">cluster.routing.allocation</text>
+  <text x="90" y="372" fill="#cdd6f4" font-size="9">awareness.attributes: zone</text>
+  <text x="90" y="389" fill="#cdd6f4" font-size="9">awareness.force.zone.values: us-east-1a,us-east-1b,us-east-1c</text>
+  <text x="450" y="355" fill="#89b4fa" font-size="10" font-weight="bold">Allocation delays</text>
+  <text x="450" y="372" fill="#cdd6f4" font-size="9">delayed_timeout: 5m (avoid storm on restart)</text>
+  <text x="450" y="389" fill="#cdd6f4" font-size="9">cluster.routing.rebalance: all</text>
+</svg>

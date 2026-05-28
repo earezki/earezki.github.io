@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" font-family="monospace">
+  <rect width="800" height="420" fill="#1e1e2e"/>
+  <defs><marker id="arr" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#585b70"/></marker></defs>
+  <text x="400" y="30" text-anchor="middle" fill="#cdd6f4" font-size="16" font-weight="bold">Relevance Evaluation Pipeline</text>
+  <!-- Stage 1 -->
+  <rect x="30" y="55" width="140" height="80" rx="6" fill="#313244" stroke="#f9e2af" stroke-width="1.5"/>
+  <text x="100" y="80" text-anchor="middle" fill="#f9e2af" font-size="11" font-weight="bold">Judgment</text>
+  <text x="100" y="95" text-anchor="middle" fill="#f9e2af" font-size="11" font-weight="bold">List</text>
+  <text x="100" y="115" text-anchor="middle" fill="#cdd6f4" font-size="9">query + doc + grade</text>
+  <text x="100" y="128" text-anchor="middle" fill="#cdd6f4" font-size="9">(0-3 scale)</text>
+  <line x1="170" y1="95" x2="210" y2="95" stroke="#585b70" stroke-width="1.5" marker-end="url(#arr)"/>
+  <!-- Stage 2 -->
+  <rect x="215" y="55" width="140" height="80" rx="6" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="285" y="80" text-anchor="middle" fill="#a6e3a1" font-size="11" font-weight="bold">Rank Eval</text>
+  <text x="285" y="95" text-anchor="middle" fill="#a6e3a1" font-size="11" font-weight="bold">API</text>
+  <text x="285" y="115" text-anchor="middle" fill="#cdd6f4" font-size="9">_rank_eval endpoint</text>
+  <text x="285" y="128" text-anchor="middle" fill="#cdd6f4" font-size="9">per-query NDCG</text>
+  <line x1="355" y1="95" x2="395" y2="95" stroke="#585b70" stroke-width="1.5" marker-end="url(#arr)"/>
+  <!-- Stage 3 -->
+  <rect x="400" y="55" width="140" height="80" rx="6" fill="#313244" stroke="#89b4fa" stroke-width="1.5"/>
+  <text x="470" y="80" text-anchor="middle" fill="#89b4fa" font-size="11" font-weight="bold">Offline</text>
+  <text x="470" y="95" text-anchor="middle" fill="#89b4fa" font-size="11" font-weight="bold">NDCG@10</text>
+  <text x="470" y="115" text-anchor="middle" fill="#cdd6f4" font-size="9">baseline vs candidate</text>
+  <text x="470" y="128" text-anchor="middle" fill="#cdd6f4" font-size="9">per query + aggregate</text>
+  <line x1="540" y1="95" x2="580" y2="95" stroke="#585b70" stroke-width="1.5" marker-end="url(#arr)"/>
+  <!-- Stage 4 -->
+  <rect x="585" y="55" width="170" height="80" rx="6" fill="#313244" stroke="#f38ba8" stroke-width="1.5"/>
+  <text x="670" y="80" text-anchor="middle" fill="#f38ba8" font-size="11" font-weight="bold">A/B Test</text>
+  <text x="670" y="95" text-anchor="middle" fill="#f38ba8" font-size="11" font-weight="bold">Online Metrics</text>
+  <text x="670" y="115" text-anchor="middle" fill="#cdd6f4" font-size="9">CTR, MRR, session</text>
+  <text x="670" y="128" text-anchor="middle" fill="#cdd6f4" font-size="9">abandonment rate</text>
+  <!-- NDCG Detail -->
+  <rect x="50" y="170" width="700" height="100" rx="6" fill="#313244" stroke="#89b4fa" stroke-width="1"/>
+  <text x="400" y="195" text-anchor="middle" fill="#89b4fa" font-size="12" font-weight="bold">NDCG@10 Calculation</text>
+  <text x="70" y="220" fill="#cdd6f4" font-size="10">DCG@10 = Σ (2^relevance - 1) / log₂(rank + 1)    for rank 1..10</text>
+  <text x="70" y="240" fill="#cdd6f4" font-size="10">IDCG@10 = DCG of ideal ranking (perfect sort by relevance grade)</text>
+  <text x="70" y="260" fill="#cdd6f4" font-size="10">NDCG@10 = DCG@10 / IDCG@10    range: [0, 1]    target: ≥ 0.7</text>
+  <!-- Example judgment table -->
+  <rect x="50" y="290" width="340" height="110" rx="6" fill="#313244" stroke="#f9e2af" stroke-width="1"/>
+  <text x="220" y="315" text-anchor="middle" fill="#f9e2af" font-size="11" font-weight="bold">Example Judgment List</text>
+  <text x="70" y="335" fill="#cdd6f4" font-size="10">query              doc_id    grade</text>
+  <line x1="70" y1="340" x2="370" y2="340" stroke="#585b70" stroke-width="0.5"/>
+  <text x="70" y="355" fill="#cdd6f4" font-size="10">"kafka connect"    doc_42    3 (perfect)</text>
+  <text x="70" y="370" fill="#cdd6f4" font-size="10">"kafka connect"    doc_17    2 (relevant)</text>
+  <text x="70" y="385" fill="#cdd6f4" font-size="10">"kafka connect"    doc_99    0 (irrelevant)</text>
+  <!-- A/B Test detail -->
+  <rect x="420" y="290" width="330" height="110" rx="6" fill="#313244" stroke="#f38ba8" stroke-width="1"/>
+  <text x="585" y="315" text-anchor="middle" fill="#f38ba8" font-size="11" font-weight="bold">Online Metrics Threshold</text>
+  <text x="440" y="340" fill="#cdd6f4" font-size="10">CTR (position 1-3): ≥ 45%</text>
+  <text x="440" y="360" fill="#cdd6f4" font-size="10">MRR:                ≥ 0.65</text>
+  <text x="440" y="380" fill="#cdd6f4" font-size="10">Zero-result rate:   ≤ 5%</text>
+  <text x="440" y="395" fill="#cdd6f4" font-size="10">p95 latency:        ≤ 200ms</text>
+</svg>

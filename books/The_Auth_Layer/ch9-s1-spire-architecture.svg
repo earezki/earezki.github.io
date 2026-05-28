@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 550" width="900" height="550">
+  <rect width="900" height="550" rx="12" fill="#1e1e2e"/>
+  <text x="450" y="32" text-anchor="middle" font-family="monospace" font-size="15" font-weight="bold" fill="#cdd6f4">SPIFFE/SPIRE Architecture: Workload Identity</text>
+
+  <!-- SPIRE Server -->
+  <rect x="250" y="55" width="400" height="100" rx="8" fill="#181825" stroke="#89b4fa" stroke-width="2"/>
+  <text x="450" y="80" text-anchor="middle" font-family="monospace" font-size="13" font-weight="bold" fill="#89b4fa">SPIRE Server</text>
+  <text x="320" y="100" text-anchor="middle" font-family="monospace" font-size="9" fill="#cdd6f4">Certificate Authority</text>
+  <text x="320" y="115" text-anchor="middle" font-family="monospace" font-size="8" fill="#6c7086">(signs SVIDs)</text>
+  <text x="450" y="100" text-anchor="middle" font-family="monospace" font-size="9" fill="#cdd6f4">Registration DB</text>
+  <text x="450" y="115" text-anchor="middle" font-family="monospace" font-size="8" fill="#6c7086">(workload → SPIFFE ID)</text>
+  <text x="580" y="100" text-anchor="middle" font-family="monospace" font-size="9" fill="#cdd6f4">Node Attestation</text>
+  <text x="580" y="115" text-anchor="middle" font-family="monospace" font-size="8" fill="#6c7086">(verifies agents)</text>
+  <text x="450" y="145" text-anchor="middle" font-family="monospace" font-size="9" fill="#a6e3a1">trust domain: spiffe://saas.example</text>
+
+  <!-- Arrows from server to agents -->
+  <line x1="350" y1="155" x2="150" y2="210" stroke="#585b70" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="450" y1="155" x2="450" y2="210" stroke="#585b70" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="550" y1="155" x2="750" y2="210" stroke="#585b70" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- SPIRE Agents -->
+  <rect x="50" y="210" width="200" height="105" rx="6" fill="#181825" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="150" y="235" text-anchor="middle" font-family="monospace" font-size="11" font-weight="bold" fill="#a6e3a1">SPIRE Agent</text>
+  <text x="150" y="252" text-anchor="middle" font-family="monospace" font-size="9" fill="#6c7086">Node 1</text>
+  <text x="150" y="272" text-anchor="middle" font-family="monospace" font-size="9" fill="#cdd6f4">Workload attestor</text>
+  <text x="150" y="288" text-anchor="middle" font-family="monospace" font-size="9" fill="#cdd6f4">SVID cache</text>
+  <text x="150" y="304" text-anchor="middle" font-family="monospace" font-size="8" fill="#6c7086">inspects /proc/{pid}</text>
+
+  <rect x="350" y="210" width="200" height="105" rx="6" fill="#181825" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="450" y="235" text-anchor="middle" font-family="monospace" font-size="11" font-weight="bold" fill="#a6e3a1">SPIRE Agent</text>
+  <text x="450" y="252" text-anchor="middle" font-family="monospace" font-size="9" fill="#6c7086">Node 2</text>
+  <text x="450" y="272" text-anchor="middle" font-family="monospace" font-size="9" fill="#cdd6f4">Workload attestor</text>
+  <text x="450" y="288" text-anchor="middle" font-family="monospace" font-size="9" fill="#cdd6f4">SVID cache</text>
+
+  <rect x="650" y="210" width="200" height="105" rx="6" fill="#181825" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="750" y="235" text-anchor="middle" font-family="monospace" font-size="11" font-weight="bold" fill="#a6e3a1">SPIRE Agent</text>
+  <text x="750" y="252" text-anchor="middle" font-family="monospace" font-size="9" fill="#6c7086">Node 3</text>
+  <text x="750" y="272" text-anchor="middle" font-family="monospace" font-size="9" fill="#cdd6f4">Workload attestor</text>
+  <text x="750" y="288" text-anchor="middle" font-family="monospace" font-size="9" fill="#cdd6f4">SVID cache</text>
+
+  <!-- Unix Domain Socket -->
+  <line x1="150" y1="315" x2="150" y2="375" stroke="#fab387" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arr-o)"/>
+  <text x="152" y="350" font-family="monospace" font-size="8" fill="#fab387">Unix Socket</text>
+  <text x="152" y="362" font-family="monospace" font-size="8" fill="#fab387">(Workload API)</text>
+
+  <!-- Workload -->
+  <rect x="50" y="375" width="200" height="85" rx="6" fill="#181825" stroke="#fab387" stroke-width="2"/>
+  <text x="150" y="398" text-anchor="middle" font-family="monospace" font-size="11" font-weight="bold" fill="#fab387">Workload</text>
+  <text x="150" y="416" text-anchor="middle" font-family="monospace" font-size="9" fill="#cdd6f4">Spring Boot Application</text>
+  <text x="150" y="435" text-anchor="middle" font-family="monospace" font-size="9" fill="#a6e3a1">Receives: X.509 SVID</text>
+  <text x="150" y="450" text-anchor="middle" font-family="monospace" font-size="8" fill="#6c7086">Auto-rotated by agent</text>
+
+  <!-- SVID example -->
+  <rect x="310" y="375" width="540" height="85" rx="6" fill="#181825" stroke="#89b4fa" stroke-width="1"/>
+  <text x="580" y="398" text-anchor="middle" font-family="monospace" font-size="11" font-weight="bold" fill="#89b4fa">X.509 SVID Contents</text>
+  <text x="580" y="418" text-anchor="middle" font-family="monospace" font-size="9" fill="#cdd6f4">URI SAN: spiffe://saas.example/ns/production/sa/core-api</text>
+  <text x="580" y="435" text-anchor="middle" font-family="monospace" font-size="9" fill="#cdd6f4">Issuer: SPIRE CA (saas.example trust domain)</text>
+  <text x="580" y="452" text-anchor="middle" font-family="monospace" font-size="9" fill="#6c7086">Short-lived (~1h), auto-rotated. No manual cert management.</text>
+
+  <!-- Security note -->
+  <rect x="50" y="480" width="800" height="50" rx="5" fill="#1e1e2e" stroke="#f38ba8" stroke-width="1" stroke-dasharray="5,3"/>
+  <text x="450" y="500" text-anchor="middle" font-family="monospace" font-size="9" fill="#f38ba8">Kernel-level attestation: even with shell access to a node, an attacker cannot request SVIDs</text>
+  <text x="450" y="516" text-anchor="middle" font-family="monospace" font-size="9" fill="#f38ba8">for other workloads unless running as the correct UID from the correct binary path.</text>
+
+  <defs>
+    <marker id="arr" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <path d="M0,0 L7,2.5 L0,5" fill="none" stroke="#585b70" stroke-width="1"/>
+    </marker>
+    <marker id="arr-o" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <path d="M0,0 L7,2.5 L0,5" fill="none" stroke="#fab387" stroke-width="1"/>
+    </marker>
+  </defs>
+</svg>

@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" width="900" height="620">
+  <rect width="900" height="620" rx="12" fill="#1e1e2e"/>
+  <text x="450" y="32" text-anchor="middle" font-family="monospace" font-size="15" font-weight="bold" fill="#cdd6f4">Mutual TLS (mTLS) Handshake Sequence</text>
+
+  <!-- Swimlane labels -->
+  <rect x="80" y="55" width="140" height="30" rx="5" fill="#181825" stroke="#89b4fa" stroke-width="1.5"/>
+  <text x="150" y="75" text-anchor="middle" font-family="monospace" font-size="12" font-weight="bold" fill="#89b4fa">Client</text>
+  <text x="150" y="100" text-anchor="middle" font-family="monospace" font-size="9" fill="#6c7086">CN=core-api</text>
+
+  <rect x="680" y="55" width="140" height="30" rx="5" fill="#181825" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="750" y="75" text-anchor="middle" font-family="monospace" font-size="12" font-weight="bold" fill="#a6e3a1">Server</text>
+  <text x="750" y="100" text-anchor="middle" font-family="monospace" font-size="9" fill="#6c7086">CN=billing-svc</text>
+
+  <!-- Lifelines -->
+  <line x1="150" y1="110" x2="150" y2="540" stroke="#585b70" stroke-width="1" stroke-dasharray="4,3"/>
+  <line x1="750" y1="110" x2="750" y2="540" stroke="#585b70" stroke-width="1" stroke-dasharray="4,3"/>
+
+  <!-- Step 1: ClientHello -->
+  <line x1="155" y1="130" x2="745" y2="130" stroke="#89b4fa" stroke-width="1.5" marker-end="url(#arr-b)"/>
+  <rect x="340" y="118" width="220" height="22" rx="3" fill="#1e1e2e" stroke="#89b4fa" stroke-width="1"/>
+  <text x="450" y="134" text-anchor="middle" font-family="monospace" font-size="10" fill="#89b4fa">1. ClientHello</text>
+
+  <!-- Step 2: ServerHello + Certificate -->
+  <line x1="745" y1="168" x2="155" y2="168" stroke="#a6e3a1" stroke-width="1.5" marker-end="url(#arr-g)"/>
+  <rect x="340" y="156" width="220" height="22" rx="3" fill="#1e1e2e" stroke="#a6e3a1" stroke-width="1"/>
+  <text x="450" y="172" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6e3a1">2. ServerHello</text>
+
+  <line x1="745" y1="198" x2="155" y2="198" stroke="#a6e3a1" stroke-width="1.5" marker-end="url(#arr-g)"/>
+  <rect x="340" y="186" width="220" height="22" rx="3" fill="#1e1e2e" stroke="#a6e3a1" stroke-width="1"/>
+  <text x="450" y="202" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6e3a1">3. Server Certificate</text>
+
+  <!-- Step 3: CertificateRequest (KEY STEP) -->
+  <line x1="745" y1="232" x2="155" y2="232" stroke="#f38ba8" stroke-width="2" marker-end="url(#arr-r)"/>
+  <rect x="300" y="218" width="300" height="26" rx="3" fill="#1e1e2e" stroke="#f38ba8" stroke-width="2"/>
+  <text x="450" y="236" text-anchor="middle" font-family="monospace" font-size="10" font-weight="bold" fill="#f38ba8">4. CertificateRequest ← KEY STEP</text>
+
+  <!-- Annotation -->
+  <text x="855" y="234" text-anchor="end" font-family="monospace" font-size="8" fill="#f38ba8">Server demands</text>
+  <text x="855" y="246" text-anchor="end" font-family="monospace" font-size="8" fill="#f38ba8">client identity</text>
+
+  <!-- Step 4: ServerHelloDone -->
+  <line x1="745" y1="264" x2="155" y2="264" stroke="#a6e3a1" stroke-width="1.5" marker-end="url(#arr-g)"/>
+  <rect x="340" y="252" width="220" height="22" rx="3" fill="#1e1e2e" stroke="#a6e3a1" stroke-width="1"/>
+  <text x="450" y="268" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6e3a1">5. ServerHelloDone</text>
+
+  <!-- Step 5: Client Certificate (KEY STEP) -->
+  <line x1="155" y1="300" x2="745" y2="300" stroke="#f38ba8" stroke-width="2" marker-end="url(#arr-r2)"/>
+  <rect x="300" y="286" width="300" height="26" rx="3" fill="#1e1e2e" stroke="#f38ba8" stroke-width="2"/>
+  <text x="450" y="304" text-anchor="middle" font-family="monospace" font-size="10" font-weight="bold" fill="#f38ba8">6. Client Certificate ← IDENTITY</text>
+
+  <!-- Step 6: ClientKeyExchange + CertificateVerify -->
+  <line x1="155" y1="330" x2="745" y2="330" stroke="#89b4fa" stroke-width="1.5" marker-end="url(#arr-b)"/>
+  <rect x="340" y="318" width="220" height="22" rx="3" fill="#1e1e2e" stroke="#89b4fa" stroke-width="1"/>
+  <text x="450" y="334" text-anchor="middle" font-family="monospace" font-size="10" fill="#89b4fa">7. ClientKeyExchange</text>
+
+  <line x1="155" y1="360" x2="745" y2="360" stroke="#89b4fa" stroke-width="1.5" marker-end="url(#arr-b)"/>
+  <rect x="310" y="348" width="280" height="22" rx="3" fill="#1e1e2e" stroke="#89b4fa" stroke-width="1"/>
+  <text x="450" y="364" text-anchor="middle" font-family="monospace" font-size="10" fill="#89b4fa">8. CertificateVerify (proof)</text>
+
+  <!-- Step 7: Finished both sides -->
+  <line x1="155" y1="395" x2="745" y2="395" stroke="#89b4fa" stroke-width="1.5" marker-end="url(#arr-b)"/>
+  <rect x="370" y="383" width="160" height="22" rx="3" fill="#1e1e2e" stroke="#89b4fa" stroke-width="1"/>
+  <text x="450" y="399" text-anchor="middle" font-family="monospace" font-size="10" fill="#89b4fa">9. Finished</text>
+
+  <line x1="745" y1="425" x2="155" y2="425" stroke="#a6e3a1" stroke-width="1.5" marker-end="url(#arr-g)"/>
+  <rect x="370" y="413" width="160" height="22" rx="3" fill="#1e1e2e" stroke="#a6e3a1" stroke-width="1"/>
+  <text x="450" y="429" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6e3a1">10. Finished</text>
+
+  <!-- Encrypted channel -->
+  <rect x="120" y="450" width="660" height="40" rx="5" fill="#181825" stroke="#a6e3a1" stroke-width="2"/>
+  <text x="450" y="470" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6e3a1">═══ Encrypted channel established ═══</text>
+  <text x="450" y="484" text-anchor="middle" font-family="monospace" font-size="9" fill="#6c7086">Both identities cryptographically verified. No tokens needed.</text>
+
+  <!-- vs standard TLS note -->
+  <rect x="50" y="505" width="800" height="55" rx="5" fill="#1e1e2e" stroke="#585b70" stroke-width="1"/>
+  <text x="450" y="525" text-anchor="middle" font-family="monospace" font-size="10" fill="#fab387">Standard TLS: steps 4 and 6 do not exist. Server does not request client certificate.</text>
+  <text x="450" y="545" text-anchor="middle" font-family="monospace" font-size="10" fill="#cdd6f4">mTLS adds mutual verification: the server knows the client is CN=core-api, not an impersonator.</text>
+
+  <!-- Difference highlight -->
+  <rect x="45" y="215" width="5" height="103" rx="2" fill="#f38ba8"/>
+  <rect x="45" y="283" width="5" height="103" rx="2" fill="#f38ba8"/>
+
+  <defs>
+    <marker id="arr-b" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <path d="M0,0 L7,2.5 L0,5" fill="none" stroke="#89b4fa" stroke-width="1"/>
+    </marker>
+    <marker id="arr-g" markerWidth="7" markerHeight="5" refX="0" refY="2.5" orient="auto-start-reverse">
+      <path d="M7,0 L0,2.5 L7,5" fill="none" stroke="#a6e3a1" stroke-width="1"/>
+    </marker>
+    <marker id="arr-r" markerWidth="7" markerHeight="5" refX="0" refY="2.5" orient="auto-start-reverse">
+      <path d="M7,0 L0,2.5 L7,5" fill="none" stroke="#f38ba8" stroke-width="1"/>
+    </marker>
+    <marker id="arr-r2" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <path d="M0,0 L7,2.5 L0,5" fill="none" stroke="#f38ba8" stroke-width="1"/>
+    </marker>
+  </defs>
+</svg>

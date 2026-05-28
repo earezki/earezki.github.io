@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 440" width="900" height="440">
+  <rect width="900" height="440" rx="12" fill="#1e1e2e"/>
+  <text x="450" y="32" text-anchor="middle" font-family="monospace" font-size="15" font-weight="bold" fill="#cdd6f4">Hybrid Token Architecture: Opaque → JWT Exchange</text>
+
+  <!-- Browser -->
+  <rect x="40" y="80" width="140" height="60" rx="6" fill="#181825" stroke="#89b4fa" stroke-width="1.5"/>
+  <text x="110" y="107" text-anchor="middle" font-family="monospace" font-size="11" fill="#89b4fa">Browser</text>
+  <text x="110" y="122" text-anchor="middle" font-family="monospace" font-size="9" fill="#6c7086">SPA Client</text>
+
+  <!-- Arrow: Browser → BFF -->
+  <line x1="180" y1="110" x2="280" y2="110" stroke="#89b4fa" stroke-width="1.5" marker-end="url(#arr-blue)"/>
+  <rect x="195" y="70" width="72" height="28" rx="4" fill="#1e1e2e" stroke="#89b4fa" stroke-width="1"/>
+  <text x="231" y="88" text-anchor="middle" font-family="monospace" font-size="8" fill="#89b4fa">Opaque</text>
+
+  <!-- API Gateway / BFF -->
+  <rect x="280" y="65" width="240" height="90" rx="8" fill="#181825" stroke="#fab387" stroke-width="2"/>
+  <text x="400" y="92" text-anchor="middle" font-family="monospace" font-size="12" font-weight="bold" fill="#fab387">API Gateway / BFF</text>
+  <text x="400" y="110" text-anchor="middle" font-family="monospace" font-size="9" fill="#cdd6f4">Introspects opaque token</text>
+  <text x="400" y="125" text-anchor="middle" font-family="monospace" font-size="9" fill="#cdd6f4">Performs token exchange</text>
+  <text x="400" y="140" text-anchor="middle" font-family="monospace" font-size="9" fill="#6c7086">(RFC 8693)</text>
+
+  <!-- Token Exchange process -->
+  <line x1="400" y1="155" x2="400" y2="210" stroke="#fab387" stroke-width="1.5" marker-end="url(#arr-orange)"/>
+  <rect x="310" y="170" width="180" height="28" rx="4" fill="#1e1e2e" stroke="#fab387" stroke-width="1"/>
+  <text x="400" y="188" text-anchor="middle" font-family="monospace" font-size="9" fill="#fab387">Token Exchange</text>
+
+  <!-- JWT output label -->
+  <rect x="320" y="215" width="160" height="35" rx="5" fill="#1e1e2e" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="400" y="232" text-anchor="middle" font-family="monospace" font-size="9" fill="#a6e3a1">JWT (1-min TTL)</text>
+  <text x="400" y="244" text-anchor="middle" font-family="monospace" font-size="8" fill="#6c7086">scoped audience</text>
+
+  <!-- Fan-out arrows to services -->
+  <line x1="400" y1="250" x2="150" y2="310" stroke="#a6e3a1" stroke-width="1.5" marker-end="url(#arr-green)"/>
+  <line x1="400" y1="250" x2="450" y2="310" stroke="#a6e3a1" stroke-width="1.5" marker-end="url(#arr-green)"/>
+  <line x1="400" y1="250" x2="750" y2="310" stroke="#a6e3a1" stroke-width="1.5" marker-end="url(#arr-green)"/>
+
+  <!-- Internal services -->
+  <rect x="50" y="310" width="195" height="55" rx="6" fill="#181825" stroke="#585b70" stroke-width="1.5"/>
+  <text x="148" y="335" text-anchor="middle" font-family="monospace" font-size="10" fill="#cdd6f4">Payment Service</text>
+  <text x="148" y="352" text-anchor="middle" font-family="monospace" font-size="8" fill="#a6e3a1">aud=payment, scope=pay:process</text>
+
+  <rect x="350" y="310" width="195" height="55" rx="6" fill="#181825" stroke="#585b70" stroke-width="1.5"/>
+  <text x="448" y="335" text-anchor="middle" font-family="monospace" font-size="10" fill="#cdd6f4">Notification Service</text>
+  <text x="448" y="352" text-anchor="middle" font-family="monospace" font-size="8" fill="#a6e3a1">aud=notify, scope=notify:send</text>
+
+  <rect x="655" y="310" width="195" height="55" rx="6" fill="#181825" stroke="#585b70" stroke-width="1.5"/>
+  <text x="753" y="335" text-anchor="middle" font-family="monospace" font-size="10" fill="#cdd6f4">Analytics Service</text>
+  <text x="753" y="352" text-anchor="middle" font-family="monospace" font-size="8" fill="#a6e3a1">aud=analytics, scope=read</text>
+
+  <!-- Key insight box -->
+  <rect x="100" y="388" width="700" height="38" rx="5" fill="#1e1e2e" stroke="#a6e3a1" stroke-width="1"/>
+  <text x="450" y="411" text-anchor="middle" font-family="monospace" font-size="10" fill="#cdd6f4">Each exchanged JWT is audience-restricted and scope-reduced. Leaked token = single-service impact.</text>
+
+  <defs>
+    <marker id="arr-blue" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <path d="M0,0 L7,2.5 L0,5" fill="none" stroke="#89b4fa" stroke-width="1"/>
+    </marker>
+    <marker id="arr-orange" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <path d="M0,0 L7,2.5 L0,5" fill="none" stroke="#fab387" stroke-width="1"/>
+    </marker>
+    <marker id="arr-green" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <path d="M0,0 L7,2.5 L0,5" fill="none" stroke="#a6e3a1" stroke-width="1"/>
+    </marker>
+  </defs>
+</svg>

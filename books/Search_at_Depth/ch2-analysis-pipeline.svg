@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" font-family="monospace">
+  <rect width="800" height="400" fill="#1e1e2e"/>
+  <text x="400" y="30" text-anchor="middle" fill="#cdd6f4" font-size="16" font-weight="bold">Analysis Pipeline</text>
+  <!-- Input -->
+  <rect x="30" y="55" width="160" height="40" rx="4" fill="#313244" stroke="#f38ba8" stroke-width="1.5"/>
+  <text x="110" y="80" text-anchor="middle" fill="#f38ba8" font-size="11">Raw Text Input</text>
+  <!-- Arrow -->
+  <line x1="190" y1="75" x2="230" y2="75" stroke="#585b70" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Char Filters -->
+  <rect x="230" y="55" width="140" height="40" rx="4" fill="#313244" stroke="#89b4fa" stroke-width="1.5"/>
+  <text x="300" y="72" text-anchor="middle" fill="#89b4fa" font-size="10" font-weight="bold">Character Filters</text>
+  <text x="300" y="86" text-anchor="middle" fill="#cdd6f4" font-size="9">html_strip, mapping</text>
+  <line x1="370" y1="75" x2="410" y2="75" stroke="#585b70" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Tokenizer -->
+  <rect x="410" y="55" width="140" height="40" rx="4" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="480" y="72" text-anchor="middle" fill="#a6e3a1" font-size="10" font-weight="bold">Tokenizer</text>
+  <text x="480" y="86" text-anchor="middle" fill="#cdd6f4" font-size="9">standard, pattern</text>
+  <line x1="550" y1="75" x2="590" y2="75" stroke="#585b70" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Token Filters -->
+  <rect x="590" y="55" width="170" height="40" rx="4" fill="#313244" stroke="#f9e2af" stroke-width="1.5"/>
+  <text x="675" y="72" text-anchor="middle" fill="#f9e2af" font-size="10" font-weight="bold">Token Filters</text>
+  <text x="675" y="86" text-anchor="middle" fill="#cdd6f4" font-size="9">lowercase, stemmer, synonym</text>
+  <!-- Example Flow -->
+  <text x="400" y="130" text-anchor="middle" fill="#cdd6f4" font-size="13" font-weight="bold">Example: "HttpClient.setConnectionTimeout(5000)"</text>
+  <!-- Standard Analyzer -->
+  <rect x="30" y="155" width="350" height="100" rx="6" fill="#313244" stroke="#f38ba8" stroke-width="1.5"/>
+  <text x="205" y="175" text-anchor="middle" fill="#f38ba8" font-size="11" font-weight="bold">Standard Analyzer (default)</text>
+  <text x="45" y="200" fill="#cdd6f4" font-size="10">Tokens: [httpclient, setconnectiontimeout, 5000]</text>
+  <text x="45" y="220" fill="#f38ba8" font-size="10">✗ "setConnectionTimeout" → unsearchable as method</text>
+  <text x="45" y="240" fill="#f38ba8" font-size="10">✗ camelCase boundaries lost</text>
+  <!-- Code-Aware Analyzer -->
+  <rect x="420" y="155" width="350" height="100" rx="6" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="595" y="175" text-anchor="middle" fill="#a6e3a1" font-size="11" font-weight="bold">Code-Aware Analyzer</text>
+  <text x="435" y="200" fill="#cdd6f4" font-size="10">Tokens: [http, client, httpclient, set,</text>
+  <text x="435" y="215" fill="#cdd6f4" font-size="10">  connection, timeout, setconnectiontimeout, 5000]</text>
+  <text x="435" y="240" fill="#a6e3a1" font-size="10">✓ camelCase split + original preserved</text>
+  <!-- Multi-field Strategy -->
+  <text x="400" y="290" text-anchor="middle" fill="#cdd6f4" font-size="13" font-weight="bold">Multi-Field Analysis Strategy</text>
+  <rect x="30" y="305" width="230" height="70" rx="4" fill="#313244" stroke="#89b4fa" stroke-width="1.5"/>
+  <text x="145" y="325" text-anchor="middle" fill="#89b4fa" font-size="11" font-weight="bold">title (text)</text>
+  <text x="45" y="345" fill="#cdd6f4" font-size="10">analyzer: code_aware</text>
+  <text x="45" y="360" fill="#cdd6f4" font-size="10">boost: 3.0</text>
+  <rect x="285" y="305" width="230" height="70" rx="4" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="400" y="325" text-anchor="middle" fill="#a6e3a1" font-size="11" font-weight="bold">body (text)</text>
+  <text x="300" y="345" fill="#cdd6f4" font-size="10">analyzer: code_aware</text>
+  <text x="300" y="360" fill="#cdd6f4" font-size="10">boost: 1.0</text>
+  <rect x="540" y="305" width="230" height="70" rx="4" fill="#313244" stroke="#f9e2af" stroke-width="1.5"/>
+  <text x="655" y="325" text-anchor="middle" fill="#f9e2af" font-size="11" font-weight="bold">title.exact (keyword)</text>
+  <text x="555" y="345" fill="#cdd6f4" font-size="10">no analysis</text>
+  <text x="555" y="360" fill="#cdd6f4" font-size="10">exact match only</text>
+  <defs><marker id="arrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#585b70"/></marker></defs>
+</svg>

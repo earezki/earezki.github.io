@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 480" font-family="monospace">
+  <rect width="800" height="480" fill="#1e1e2e"/>
+  <text x="400" y="30" text-anchor="middle" fill="#cdd6f4" font-size="16" font-weight="bold">Multi-Tenant Search Architecture Comparison</text>
+  <!-- Option A: Index per tenant -->
+  <rect x="30" y="50" width="230" height="260" rx="6" fill="#313244" stroke="#89b4fa" stroke-width="2"/>
+  <text x="145" y="75" text-anchor="middle" fill="#89b4fa" font-size="12" font-weight="bold">Index-per-Tenant</text>
+  <rect x="50" y="90" width="85" height="40" rx="4" fill="#45475a" stroke="#89b4fa" stroke-width="1"/>
+  <text x="92" y="115" text-anchor="middle" fill="#89b4fa" font-size="9">acme-docs</text>
+  <rect x="155" y="90" width="85" height="40" rx="4" fill="#45475a" stroke="#89b4fa" stroke-width="1"/>
+  <text x="197" y="115" text-anchor="middle" fill="#89b4fa" font-size="9">beta-docs</text>
+  <rect x="50" y="140" width="85" height="40" rx="4" fill="#45475a" stroke="#89b4fa" stroke-width="1"/>
+  <text x="92" y="165" text-anchor="middle" fill="#89b4fa" font-size="9">corp-docs</text>
+  <rect x="155" y="140" width="85" height="40" rx="4" fill="#45475a" stroke="#585b70" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="197" y="165" text-anchor="middle" fill="#cdd6f4" font-size="9">... N</text>
+  <text x="50" y="205" fill="#a6e3a1" font-size="9">✓ strongest isolation</text>
+  <text x="50" y="220" fill="#a6e3a1" font-size="9">✓ per-tenant scaling</text>
+  <text x="50" y="235" fill="#a6e3a1" font-size="9">✓ per-tenant mappings</text>
+  <text x="50" y="255" fill="#f38ba8" font-size="9">✗ shard explosion at scale</text>
+  <text x="50" y="270" fill="#f38ba8" font-size="9">✗ O(N) cluster state</text>
+  <text x="50" y="290" fill="#f9e2af" font-size="9">Best: &lt;100 tenants</text>
+  <!-- Option B: Shared index with routing -->
+  <rect x="285" y="50" width="230" height="260" rx="6" fill="#313244" stroke="#a6e3a1" stroke-width="2"/>
+  <text x="400" y="75" text-anchor="middle" fill="#a6e3a1" font-size="12" font-weight="bold">Shared + Routing</text>
+  <rect x="305" y="90" width="190" height="90" rx="4" fill="#45475a" stroke="#a6e3a1" stroke-width="1"/>
+  <text x="400" y="112" text-anchor="middle" fill="#a6e3a1" font-size="9" font-weight="bold">docs (single index)</text>
+  <text x="320" y="132" fill="#cdd6f4" font-size="8">tenant_id: acme (filter)</text>
+  <text x="320" y="147" fill="#cdd6f4" font-size="8">_routing: tenant_id</text>
+  <text x="320" y="162" fill="#cdd6f4" font-size="8">→ shard = hash(acme) % N</text>
+  <text x="305" y="205" fill="#a6e3a1" font-size="9">✓ minimal shard count</text>
+  <text x="305" y="220" fill="#a6e3a1" font-size="9">✓ single mapping</text>
+  <text x="305" y="235" fill="#a6e3a1" font-size="9">✓ simple operations</text>
+  <text x="305" y="255" fill="#f38ba8" font-size="9">✗ noisy neighbor risk</text>
+  <text x="305" y="270" fill="#f38ba8" font-size="9">✗ hot shard if tenant skewed</text>
+  <text x="305" y="290" fill="#f9e2af" font-size="9">Best: 100-10k tenants</text>
+  <!-- Option C: Hybrid -->
+  <rect x="540" y="50" width="230" height="260" rx="6" fill="#313244" stroke="#f9e2af" stroke-width="2"/>
+  <text x="655" y="75" text-anchor="middle" fill="#f9e2af" font-size="12" font-weight="bold">Hybrid (Tiered)</text>
+  <rect x="560" y="90" width="85" height="35" rx="4" fill="#45475a" stroke="#f38ba8" stroke-width="1"/>
+  <text x="602" y="112" text-anchor="middle" fill="#f38ba8" font-size="8">acme-docs</text>
+  <text x="602" y="122" text-anchor="middle" fill="#cdd6f4" font-size="7">enterprise</text>
+  <rect x="665" y="90" width="85" height="35" rx="4" fill="#45475a" stroke="#f38ba8" stroke-width="1"/>
+  <text x="707" y="112" text-anchor="middle" fill="#f38ba8" font-size="8">mega-docs</text>
+  <text x="707" y="122" text-anchor="middle" fill="#cdd6f4" font-size="7">enterprise</text>
+  <rect x="560" y="135" width="190" height="40" rx="4" fill="#45475a" stroke="#a6e3a1" stroke-width="1"/>
+  <text x="655" y="155" text-anchor="middle" fill="#a6e3a1" font-size="8">shared-docs (all others)</text>
+  <text x="655" y="168" text-anchor="middle" fill="#cdd6f4" font-size="7">routing + filter</text>
+  <text x="560" y="205" fill="#a6e3a1" font-size="9">✓ best of both worlds</text>
+  <text x="560" y="220" fill="#a6e3a1" font-size="9">✓ isolation for big tenants</text>
+  <text x="560" y="235" fill="#a6e3a1" font-size="9">✓ efficiency for small ones</text>
+  <text x="560" y="255" fill="#f38ba8" font-size="9">✗ routing layer complexity</text>
+  <text x="560" y="270" fill="#f38ba8" font-size="9">✗ promotion/demotion logic</text>
+  <text x="560" y="290" fill="#f9e2af" font-size="9">Best: 10k+ tenants</text>
+  <!-- Decision rule -->
+  <rect x="30" y="330" width="740" height="130" rx="6" fill="#313244" stroke="#89b4fa" stroke-width="1.5"/>
+  <text x="400" y="355" text-anchor="middle" fill="#89b4fa" font-size="12" font-weight="bold">Decision Rule</text>
+  <text x="50" y="380" fill="#cdd6f4" font-size="10">tenants ≤ 50 &amp;&amp; each has unique mappings     → index-per-tenant</text>
+  <text x="50" y="400" fill="#cdd6f4" font-size="10">tenants ≤ 10k &amp;&amp; uniform schema               → shared index + routing</text>
+  <text x="50" y="420" fill="#cdd6f4" font-size="10">tenants &gt; 10k || mix of enterprise + free tier → hybrid tiered</text>
+  <text x="50" y="445" fill="#f38ba8" font-size="10">⚠ Always enforce tenant_id filter in application layer — never rely on client-supplied routing alone</text>
+</svg>

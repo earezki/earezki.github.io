@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 280" width="900" height="280">
+  <rect width="900" height="280" rx="12" fill="#1e1e2e"/>
+  <text x="450" y="32" text-anchor="middle" font-family="monospace" font-size="15" font-weight="bold" fill="#cdd6f4">Cryptographic Key Lifecycle State Machine</text>
+
+  <!-- States -->
+  <rect x="30" y="80" width="110" height="45" rx="6" fill="#181825" stroke="#585b70" stroke-width="1.5"/>
+  <text x="85" y="100" text-anchor="middle" font-family="monospace" font-size="10" fill="#6c7086">PENDING</text>
+  <text x="85" y="117" text-anchor="middle" font-family="monospace" font-size="7" fill="#585b70">Not in JWKS</text>
+
+  <rect x="175" y="80" width="110" height="45" rx="6" fill="#181825" stroke="#89b4fa" stroke-width="1.5"/>
+  <text x="230" y="100" text-anchor="middle" font-family="monospace" font-size="10" font-weight="bold" fill="#89b4fa">ACTIVE</text>
+  <text x="230" y="117" text-anchor="middle" font-family="monospace" font-size="7" fill="#89b4fa">In JWKS, validate</text>
+
+  <rect x="320" y="80" width="120" height="45" rx="6" fill="#181825" stroke="#a6e3a1" stroke-width="2"/>
+  <text x="380" y="100" text-anchor="middle" font-family="monospace" font-size="10" font-weight="bold" fill="#a6e3a1">SIGNING</text>
+  <text x="380" y="117" text-anchor="middle" font-family="monospace" font-size="7" fill="#a6e3a1">In JWKS, sign+validate</text>
+
+  <rect x="475" y="80" width="120" height="45" rx="6" fill="#181825" stroke="#fab387" stroke-width="1.5"/>
+  <text x="535" y="100" text-anchor="middle" font-family="monospace" font-size="10" font-weight="bold" fill="#fab387">RETIRING</text>
+  <text x="535" y="117" text-anchor="middle" font-family="monospace" font-size="7" fill="#fab387">In JWKS, validate only</text>
+
+  <rect x="630" y="80" width="110" height="45" rx="6" fill="#181825" stroke="#585b70" stroke-width="1.5"/>
+  <text x="685" y="100" text-anchor="middle" font-family="monospace" font-size="10" fill="#6c7086">RETIRED</text>
+  <text x="685" y="117" text-anchor="middle" font-family="monospace" font-size="7" fill="#585b70">Not in JWKS</text>
+
+  <rect x="775" y="80" width="100" height="45" rx="6" fill="#181825" stroke="#f38ba8" stroke-width="1.5"/>
+  <text x="825" y="100" text-anchor="middle" font-family="monospace" font-size="10" fill="#f38ba8">DESTROYED</text>
+  <text x="825" y="117" text-anchor="middle" font-family="monospace" font-size="7" fill="#f38ba8">Key material wiped</text>
+
+  <!-- Arrows between states -->
+  <line x1="140" y1="102" x2="172" y2="102" stroke="#585b70" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="285" y1="102" x2="318" y2="102" stroke="#89b4fa" stroke-width="2" marker-end="url(#arr-b)"/>
+  <line x1="440" y1="102" x2="473" y2="102" stroke="#a6e3a1" stroke-width="2" marker-end="url(#arr-g)"/>
+  <line x1="595" y1="102" x2="628" y2="102" stroke="#fab387" stroke-width="2" marker-end="url(#arr-o)"/>
+  <line x1="740" y1="102" x2="773" y2="102" stroke="#585b70" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- Timing annotations -->
+  <text x="155" y="145" text-anchor="middle" font-family="monospace" font-size="8" fill="#6c7086">generate</text>
+  <text x="300" y="145" text-anchor="middle" font-family="monospace" font-size="8" fill="#6c7086">publish to</text>
+  <text x="300" y="155" text-anchor="middle" font-family="monospace" font-size="8" fill="#6c7086">JWKS</text>
+  <text x="455" y="145" text-anchor="middle" font-family="monospace" font-size="8" fill="#6c7086">promote</text>
+  <text x="540" y="145" text-anchor="middle" font-family="monospace" font-size="8" fill="#6c7086">demote after</text>
+  <text x="540" y="155" text-anchor="middle" font-family="monospace" font-size="8" fill="#6c7086">90 days</text>
+  <text x="685" y="145" text-anchor="middle" font-family="monospace" font-size="8" fill="#6c7086">after max</text>
+  <text x="685" y="155" text-anchor="middle" font-family="monospace" font-size="8" fill="#6c7086">token TTL</text>
+  <text x="810" y="145" text-anchor="middle" font-family="monospace" font-size="8" fill="#6c7086">after 30d</text>
+
+  <!-- Key invariant -->
+  <rect x="50" y="175" width="800" height="40" rx="5" fill="#181825" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="450" y="197" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6e3a1">Invariant: Exactly ONE key in SIGNING state at any time. Multiple keys may be ACTIVE or RETIRING.</text>
+
+  <!-- JWKS visibility bar -->
+  <rect x="50" y="230" width="800" height="35" rx="5" fill="#1e1e2e" stroke="#585b70" stroke-width="1"/>
+  <text x="85" y="252" font-family="monospace" font-size="9" fill="#6c7086">JWKS:</text>
+  <rect x="175" y="238" width="420" height="18" rx="3" fill="#89b4fa" opacity="0.2"/>
+  <text x="385" y="251" text-anchor="middle" font-family="monospace" font-size="8" fill="#89b4fa">Visible in JWKS endpoint (ACTIVE + SIGNING + RETIRING)</text>
+
+  <defs>
+    <marker id="arr" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <path d="M0,0 L7,2.5 L0,5" fill="none" stroke="#585b70" stroke-width="1"/>
+    </marker>
+    <marker id="arr-b" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <path d="M0,0 L7,2.5 L0,5" fill="none" stroke="#89b4fa" stroke-width="1"/>
+    </marker>
+    <marker id="arr-g" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <path d="M0,0 L7,2.5 L0,5" fill="none" stroke="#a6e3a1" stroke-width="1"/>
+    </marker>
+    <marker id="arr-o" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <path d="M0,0 L7,2.5 L0,5" fill="none" stroke="#fab387" stroke-width="1"/>
+    </marker>
+  </defs>
+</svg>

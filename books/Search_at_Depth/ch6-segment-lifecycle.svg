@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 350" font-family="monospace">
+  <rect width="800" height="350" fill="#1e1e2e"/>
+  <defs><marker id="arr" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#585b70"/></marker></defs>
+  <text x="400" y="30" text-anchor="middle" fill="#cdd6f4" font-size="16" font-weight="bold">Segment Lifecycle</text>
+  <!-- Timeline -->
+  <line x1="50" y1="180" x2="750" y2="180" stroke="#585b70" stroke-width="1"/>
+  <!-- Stage 1: Buffer -->
+  <rect x="60" y="80" width="130" height="80" rx="6" fill="#313244" stroke="#f9e2af" stroke-width="1.5"/>
+  <text x="125" y="105" text-anchor="middle" fill="#f9e2af" font-size="11" font-weight="bold">In-Memory</text>
+  <text x="125" y="120" text-anchor="middle" fill="#f9e2af" font-size="11" font-weight="bold">Buffer</text>
+  <text x="125" y="145" text-anchor="middle" fill="#cdd6f4" font-size="9">not searchable</text>
+  <line x1="125" y1="160" x2="125" y2="175" stroke="#f9e2af" stroke-width="1.5"/>
+  <circle cx="125" cy="180" r="5" fill="#f9e2af"/>
+  <!-- Arrow -->
+  <line x1="190" y1="120" x2="230" y2="120" stroke="#585b70" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="210" y="112" text-anchor="middle" fill="#a6e3a1" font-size="9">refresh</text>
+  <!-- Stage 2: New Segment -->
+  <rect x="235" y="80" width="130" height="80" rx="6" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="300" y="105" text-anchor="middle" fill="#a6e3a1" font-size="11" font-weight="bold">New Segment</text>
+  <text x="300" y="125" text-anchor="middle" fill="#cdd6f4" font-size="9">searchable</text>
+  <text x="300" y="140" text-anchor="middle" fill="#cdd6f4" font-size="9">immutable</text>
+  <line x1="300" y1="160" x2="300" y2="175" stroke="#a6e3a1" stroke-width="1.5"/>
+  <circle cx="300" cy="180" r="5" fill="#a6e3a1"/>
+  <!-- Arrow -->
+  <line x1="365" y1="120" x2="405" y2="120" stroke="#585b70" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="385" y="112" text-anchor="middle" fill="#89b4fa" font-size="9">merge</text>
+  <!-- Stage 3: Merged Segment -->
+  <rect x="410" y="65" width="150" height="100" rx="6" fill="#313244" stroke="#89b4fa" stroke-width="2"/>
+  <text x="485" y="90" text-anchor="middle" fill="#89b4fa" font-size="11" font-weight="bold">Merged</text>
+  <text x="485" y="105" text-anchor="middle" fill="#89b4fa" font-size="11" font-weight="bold">Segment</text>
+  <text x="485" y="125" text-anchor="middle" fill="#cdd6f4" font-size="9">larger, fewer segments</text>
+  <text x="485" y="140" text-anchor="middle" fill="#cdd6f4" font-size="9">deleted docs reclaimed</text>
+  <line x1="485" y1="165" x2="485" y2="175" stroke="#89b4fa" stroke-width="1.5"/>
+  <circle cx="485" cy="180" r="5" fill="#89b4fa"/>
+  <!-- Arrow -->
+  <line x1="560" y1="120" x2="600" y2="120" stroke="#585b70" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="580" y="112" text-anchor="middle" fill="#f38ba8" font-size="9">delete</text>
+  <!-- Stage 4: Deleted -->
+  <rect x="605" y="80" width="130" height="80" rx="6" fill="#313244" stroke="#f38ba8" stroke-width="1.5"/>
+  <text x="670" y="105" text-anchor="middle" fill="#f38ba8" font-size="11" font-weight="bold">Old Segments</text>
+  <text x="670" y="125" text-anchor="middle" fill="#cdd6f4" font-size="9">deleted after</text>
+  <text x="670" y="140" text-anchor="middle" fill="#cdd6f4" font-size="9">merge completes</text>
+  <line x1="670" y1="160" x2="670" y2="175" stroke="#f38ba8" stroke-width="1.5"/>
+  <circle cx="670" cy="180" r="5" fill="#f38ba8"/>
+  <!-- Key metrics -->
+  <rect x="50" y="210" width="330" height="120" rx="6" fill="#313244" stroke="#89b4fa" stroke-width="1"/>
+  <text x="215" y="235" text-anchor="middle" fill="#89b4fa" font-size="11" font-weight="bold">Merge Policy (Tiered)</text>
+  <text x="65" y="260" fill="#cdd6f4" font-size="10">max_merge_at_once: 10</text>
+  <text x="65" y="278" fill="#cdd6f4" font-size="10">segments_per_tier: 10</text>
+  <text x="65" y="296" fill="#cdd6f4" font-size="10">max_merged_segment: 5GB</text>
+  <text x="65" y="314" fill="#cdd6f4" font-size="10">floor_segment: 2MB</text>
+  <rect x="420" y="210" width="330" height="120" rx="6" fill="#313244" stroke="#f9e2af" stroke-width="1"/>
+  <text x="585" y="235" text-anchor="middle" fill="#f9e2af" font-size="11" font-weight="bold">Write Path Settings</text>
+  <text x="435" y="260" fill="#cdd6f4" font-size="10">refresh_interval: 1s (default)</text>
+  <text x="435" y="278" fill="#cdd6f4" font-size="10">refresh_interval: -1 (bulk import)</text>
+  <text x="435" y="296" fill="#cdd6f4" font-size="10">translog.durability: request</text>
+  <text x="435" y="314" fill="#cdd6f4" font-size="10">flush_threshold: 512MB</text>
+</svg>
