@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" width="900" height="500">
+  <style>
+    svg { font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    .title { font-weight: 800; font-size: 20px; fill: #cdd6f4; letter-spacing: 1.5px; }
+    .box-title { font-weight: 700; font-size: 14px; fill: #cdd6f4; }
+    .box-sub { font-weight: 500; font-size: 11px; fill: #a6adc8; }
+    .metric { font-weight: 700; font-size: 12px; fill: #a6e3a1; }
+    .warn { font-weight: 600; font-size: 11px; fill: #f38ba8; }
+  </style>
+  <defs>
+    <marker id="arr6" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#6c7086"/>
+    </marker>
+  </defs>
+  <rect width="900" height="500" rx="16" fill="#1e1e2e"/>
+  <text x="450" y="38" text-anchor="middle" class="title">SMALL MODELS: LOCAL INFERENCE STACK</text>
+
+  <!-- Model Options -->
+  <rect x="50" y="70" width="250" height="130" rx="12" fill="#313244" stroke="#89b4fa" stroke-width="2"/>
+  <text x="175" y="95" text-anchor="middle" class="box-title">Model Options</text>
+  <line x1="70" y1="105" x2="280" y2="105" stroke="#45475a" stroke-width="1"/>
+  <text x="70" y="125" class="box-sub">Qwen2.5-7B-Instruct</text>
+  <text x="230" y="125" class="metric">Best quality</text>
+  <text x="70" y="145" class="box-sub">Mistral-7B-Instruct-v0.3</text>
+  <text x="230" y="145" class="metric">Fast</text>
+  <text x="70" y="165" class="box-sub">Phi-3.5-mini (3.8B)</text>
+  <text x="230" y="165" class="metric">Lightweight</text>
+  <text x="70" y="185" class="box-sub">Llama-3.1-8B-Instruct</text>
+  <text x="230" y="185" class="metric">Balanced</text>
+
+  <!-- Inference Server -->
+  <rect x="370" y="70" width="220" height="130" rx="12" fill="#313244" stroke="#a6e3a1" stroke-width="2"/>
+  <text x="480" y="95" text-anchor="middle" class="box-title">Inference Server</text>
+  <line x1="390" y1="105" x2="570" y2="105" stroke="#45475a" stroke-width="1"/>
+  <text x="480" y="128" text-anchor="middle" class="box-sub">llama-cpp-python</text>
+  <text x="480" y="148" text-anchor="middle" class="box-sub">OpenAI-compatible API</text>
+  <text x="480" y="168" text-anchor="middle" class="box-sub">GGUF quantized models</text>
+  <text x="480" y="188" text-anchor="middle" class="metric">4-bit: ~4GB RAM</text>
+
+  <!-- Quantization -->
+  <rect x="660" y="70" width="200" height="130" rx="12" fill="#313244" stroke="#f9e2af" stroke-width="2"/>
+  <text x="760" y="95" text-anchor="middle" class="box-title">Quantization</text>
+  <line x1="680" y1="105" x2="840" y2="105" stroke="#45475a" stroke-width="1"/>
+  <text x="760" y="128" text-anchor="middle" class="box-sub">Q4_K_M (recommended)</text>
+  <text x="760" y="148" text-anchor="middle" class="metric">Good quality / size ratio</text>
+  <text x="760" y="168" text-anchor="middle" class="box-sub">Q5_K_M (higher quality)</text>
+  <text x="760" y="188" text-anchor="middle" class="warn">Needs more RAM</text>
+
+  <!-- Arrows -->
+  <line x1="300" y1="135" x2="368" y2="135" stroke="#6c7086" stroke-width="2" marker-end="url(#arr6)"/>
+  <line x1="590" y1="135" x2="658" y2="135" stroke="#6c7086" stroke-width="2" marker-end="url(#arr6)"/>
+
+  <!-- Prompt Template -->
+  <rect x="130" y="260" width="640" height="110" rx="12" fill="#313244" stroke="#cba6f7" stroke-width="2"/>
+  <text x="450" y="288" text-anchor="middle" class="box-title">Structured Prompt Template</text>
+  <line x1="150" y1="298" x2="750" y2="298" stroke="#45475a" stroke-width="1"/>
+  <text x="170" y="318" class="box-sub">[SYSTEM] You are a search assistant. Cite sources as [1], [2]...</text>
+  <text x="170" y="338" class="box-sub">[CONTEXT] {chunked_sources_with_numbers}</text>
+  <text x="170" y="358" class="box-sub">[USER] {rewritten_query}</text>
+
+  <path d="M 480 200 L 480 258" fill="none" stroke="#6c7086" stroke-width="2" marker-end="url(#arr6)"/>
+
+  <!-- Streaming Output -->
+  <rect x="250" y="420" width="400" height="60" rx="12" fill="#313244" stroke="#f38ba8" stroke-width="2"/>
+  <text x="450" y="448" text-anchor="middle" class="box-title">Streaming Token Output</text>
+  <text x="450" y="466" text-anchor="middle" class="box-sub">yield token-by-token via async generator</text>
+
+  <line x1="450" y1="370" x2="450" y2="418" stroke="#6c7086" stroke-width="2" marker-end="url(#arr6)"/>
+</svg>

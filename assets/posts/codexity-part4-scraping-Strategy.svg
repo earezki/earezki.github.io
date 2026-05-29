@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" width="900" height="520">
+  <style>
+    svg { font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    .title { font-weight: 800; font-size: 20px; fill: #cdd6f4; letter-spacing: 1.5px; }
+    .box-title { font-weight: 700; font-size: 14px; fill: #cdd6f4; }
+    .box-sub { font-weight: 500; font-size: 11px; fill: #a6adc8; }
+    .decision { font-weight: 600; font-size: 12px; fill: #f9e2af; }
+  </style>
+  <defs>
+    <marker id="arr4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#6c7086"/>
+    </marker>
+  </defs>
+  <rect width="900" height="520" rx="16" fill="#1e1e2e"/>
+  <text x="450" y="38" text-anchor="middle" class="title">SCRAPING STRATEGY: TIERED APPROACH</text>
+
+  <!-- URL Input -->
+  <rect x="350" y="60" width="200" height="50" rx="12" fill="#313244" stroke="#89b4fa" stroke-width="2"/>
+  <text x="450" y="90" text-anchor="middle" class="box-title">URL to Scrape</text>
+
+  <!-- Decision diamond -->
+  <polygon points="450,140 550,190 450,240 350,190" fill="#313244" stroke="#f9e2af" stroke-width="2"/>
+  <text x="450" y="195" text-anchor="middle" class="decision">JS needed?</text>
+
+  <line x1="450" y1="110" x2="450" y2="140" stroke="#6c7086" stroke-width="2" marker-end="url(#arr4)"/>
+
+  <!-- No: httpx path -->
+  <text x="290" y="185" class="decision">No</text>
+  <rect x="80" y="260" width="230" height="80" rx="12" fill="#313244" stroke="#a6e3a1" stroke-width="2"/>
+  <text x="195" y="290" text-anchor="middle" class="box-title">httpx (async)</text>
+  <text x="195" y="310" text-anchor="middle" class="box-sub">Fast, lightweight</text>
+  <text x="195" y="326" text-anchor="middle" class="box-sub">Custom headers + proxy rotation</text>
+
+  <path d="M 350 190 L 195 190 L 195 258" fill="none" stroke="#6c7086" stroke-width="2" marker-end="url(#arr4)"/>
+
+  <!-- Yes: Playwright path -->
+  <text x="565" y="185" class="decision">Yes</text>
+  <rect x="590" y="260" width="230" height="80" rx="12" fill="#313244" stroke="#f38ba8" stroke-width="2"/>
+  <text x="705" y="290" text-anchor="middle" class="box-title">Playwright (async)</text>
+  <text x="705" y="310" text-anchor="middle" class="box-sub">Full browser rendering</text>
+  <text x="705" y="326" text-anchor="middle" class="box-sub">Stealth mode, wait for content</text>
+
+  <path d="M 550 190 L 705 190 L 705 258" fill="none" stroke="#6c7086" stroke-width="2" marker-end="url(#arr4)"/>
+
+  <!-- Both converge to HTML Stripper -->
+  <rect x="300" y="400" width="300" height="80" rx="12" fill="#313244" stroke="#cba6f7" stroke-width="2"/>
+  <text x="450" y="430" text-anchor="middle" class="box-title">HTML Stripper</text>
+  <text x="450" y="450" text-anchor="middle" class="box-sub">BeautifulSoup + readability-lxml</text>
+  <text x="450" y="466" text-anchor="middle" class="box-sub">Remove nav, ads, footers, scripts</text>
+
+  <path d="M 195 340 L 195 380 L 450 380 L 450 398" fill="none" stroke="#6c7086" stroke-width="2" marker-end="url(#arr4)"/>
+  <path d="M 705 340 L 705 380 L 450 380" fill="none" stroke="#6c7086" stroke-width="2"/>
+</svg>

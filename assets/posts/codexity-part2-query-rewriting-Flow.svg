@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 450" width="850" height="450">
+  <style>
+    svg { font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    .title { font-weight: 800; font-size: 20px; fill: #cdd6f4; letter-spacing: 1.5px; }
+    .box-title { font-weight: 700; font-size: 14px; fill: #cdd6f4; }
+    .box-sub { font-weight: 500; font-size: 11px; fill: #a6adc8; }
+    .example { font-weight: 400; font-size: 11px; fill: #f9e2af; font-style: italic; }
+  </style>
+  <defs>
+    <marker id="arr2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#6c7086"/>
+    </marker>
+  </defs>
+  <rect width="850" height="450" rx="16" fill="#1e1e2e"/>
+  <text x="425" y="38" text-anchor="middle" class="title">QUERY REWRITING PIPELINE</text>
+
+  <!-- Raw Query -->
+  <rect x="40" y="70" width="220" height="85" rx="12" fill="#313244" stroke="#89b4fa" stroke-width="2"/>
+  <text x="150" y="95" text-anchor="middle" class="box-title">Raw User Query</text>
+  <text x="150" y="115" text-anchor="middle" class="example">"what's better for my startup,</text>
+  <text x="150" y="130" text-anchor="middle" class="example">postgres or mongo?"</text>
+
+  <!-- Intent Classifier -->
+  <rect x="320" y="70" width="200" height="85" rx="12" fill="#313244" stroke="#a6e3a1" stroke-width="2"/>
+  <text x="420" y="95" text-anchor="middle" class="box-title">Intent Classifier</text>
+  <text x="420" y="115" text-anchor="middle" class="box-sub">comparison / factual /</text>
+  <text x="420" y="130" text-anchor="middle" class="box-sub">how-to / opinion</text>
+
+  <!-- Query Decomposer -->
+  <rect x="580" y="70" width="230" height="85" rx="12" fill="#313244" stroke="#cba6f7" stroke-width="2"/>
+  <text x="695" y="95" text-anchor="middle" class="box-title">Query Decomposer</text>
+  <text x="695" y="115" text-anchor="middle" class="example">q1: "PostgreSQL vs MongoDB</text>
+  <text x="695" y="130" text-anchor="middle" class="example">startup use cases 2026"</text>
+
+  <!-- Arrows -->
+  <line x1="260" y1="112" x2="318" y2="112" stroke="#6c7086" stroke-width="2" marker-end="url(#arr2)"/>
+  <line x1="520" y1="112" x2="578" y2="112" stroke="#6c7086" stroke-width="2" marker-end="url(#arr2)"/>
+
+  <!-- Search Queries -->
+  <rect x="160" y="220" width="530" height="100" rx="12" fill="#313244" stroke="#f9e2af" stroke-width="2"/>
+  <text x="425" y="248" text-anchor="middle" class="box-title">Generated Search Queries</text>
+  <text x="425" y="272" text-anchor="middle" class="example">1. "PostgreSQL vs MongoDB performance startup 2026"</text>
+  <text x="425" y="290" text-anchor="middle" class="example">2. "MongoDB flexible schema startup advantages"</text>
+  <text x="425" y="308" text-anchor="middle" class="example">3. "PostgreSQL JSONB features NoSQL comparison"</text>
+
+  <!-- Arrow down -->
+  <path d="M 695 155 L 695 195 L 425 195 L 425 218" fill="none" stroke="#6c7086" stroke-width="2" marker-end="url(#arr2)"/>
+
+  <!-- DuckDuckGo -->
+  <rect x="260" y="370" width="330" height="60" rx="12" fill="#313244" stroke="#f38ba8" stroke-width="2"/>
+  <text x="425" y="398" text-anchor="middle" class="box-title">DuckDuckGo Async Search</text>
+  <text x="425" y="416" text-anchor="middle" class="box-sub">Parallel execution, 3 queries concurrently</text>
+
+  <line x1="425" y1="320" x2="425" y2="368" stroke="#6c7086" stroke-width="2" marker-end="url(#arr2)"/>
+</svg>
