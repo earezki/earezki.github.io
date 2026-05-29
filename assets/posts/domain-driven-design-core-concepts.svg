@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid meet">
+  <style>
+    svg { font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    .title { font-size: 18px; font-weight: 700; fill: #f8fafc; text-anchor: middle; }
+    .label { font-size: 12px; font-weight: 600; fill: #f8fafc; text-anchor: middle; }
+    .sublabel { font-size: 10px; fill: #94a3b8; text-anchor: middle; }
+    .box-label { font-size: 11px; font-weight: 600; fill: #f8fafc; text-anchor: middle; }
+  </style>
+  <rect width="800" height="500" rx="16" fill="#0f172a"/>
+
+  <!-- Title -->
+  <text x="400" y="35" class="title">Domain-Driven Design — Core Concepts</text>
+
+  <!-- Bounded Contexts -->
+  <!-- BC 1: Subscription -->
+  <rect x="40" y="60" width="230" height="180" rx="12" fill="#1e293b" stroke="#7c3aed" stroke-width="2" stroke-dasharray="6 4"/>
+  <text x="155" y="85" class="label" fill="#a78bfa">Bounded Context</text>
+  <text x="155" y="102" class="box-label">Subscription</text>
+  <rect x="60" y="115" width="190" height="60" rx="8" fill="#292524" stroke="#7c3aed" stroke-width="1"/>
+  <text x="155" y="135" class="box-label">Client</text>
+  <text x="155" y="152" class="sublabel">email, name, opt-in channels</text>
+  <text x="155" y="167" class="sublabel">(different from Billing Client)</text>
+  <rect x="60" y="185" width="190" height="40" rx="8" fill="#292524" stroke="#7c3aed" stroke-width="1"/>
+  <text x="155" y="210" class="sublabel">Ubiquitous Language A</text>
+
+  <!-- BC 2: Billing -->
+  <rect x="290" y="60" width="230" height="180" rx="12" fill="#1e293b" stroke="#2563eb" stroke-width="2" stroke-dasharray="6 4"/>
+  <text x="405" y="85" class="label" fill="#60a5fa">Bounded Context</text>
+  <text x="405" y="102" class="box-label">Billing</text>
+  <rect x="310" y="115" width="190" height="60" rx="8" fill="#292524" stroke="#2563eb" stroke-width="1"/>
+  <text x="405" y="135" class="box-label">Client</text>
+  <text x="405" y="152" class="sublabel">name, billing info, credit card</text>
+  <text x="405" y="167" class="sublabel">address, validation rules</text>
+  <rect x="310" y="185" width="190" height="40" rx="8" fill="#292524" stroke="#2563eb" stroke-width="1"/>
+  <text x="405" y="210" class="sublabel">Ubiquitous Language B</text>
+
+  <!-- BC 3: Shipping -->
+  <rect x="540" y="60" width="230" height="180" rx="12" fill="#1e293b" stroke="#059669" stroke-width="2" stroke-dasharray="6 4"/>
+  <text x="655" y="85" class="label" fill="#34d399">Bounded Context</text>
+  <text x="655" y="102" class="box-label">Shipping</text>
+  <rect x="560" y="115" width="190" height="60" rx="8" fill="#292524" stroke="#059669" stroke-width="1"/>
+  <text x="655" y="135" class="box-label">Client</text>
+  <text x="655" y="152" class="sublabel">name, address, delivery prefs</text>
+  <text x="655" y="167" class="sublabel">tracking, carrier rules</text>
+  <rect x="560" y="185" width="190" height="40" rx="8" fill="#292524" stroke="#059669" stroke-width="1"/>
+  <text x="655" y="210" class="sublabel">Ubiquitous Language C</text>
+
+  <!-- Context Map arrows -->
+  <line x1="270" y1="150" x2="290" y2="150" stroke="#475569" stroke-width="2" marker-end="url(#ctxArrow)"/>
+  <line x1="520" y1="150" x2="540" y2="150" stroke="#475569" stroke-width="2" marker-end="url(#ctxArrow)"/>
+
+  <!-- Domain Model section -->
+  <rect x="100" y="270" width="600" height="200" rx="12" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+  <text x="400" y="295" class="label">Domain Model Building Blocks</text>
+
+  <!-- Entities -->
+  <rect x="130" y="310" width="130" height="60" rx="8" fill="#7c3aed" opacity="0.8"/>
+  <text x="195" y="338" class="box-label">Entities</text>
+  <text x="195" y="356" class="sublabel">Identity + Lifecycle</text>
+
+  <!-- Value Objects -->
+  <rect x="280" y="310" width="130" height="60" rx="8" fill="#2563eb" opacity="0.8"/>
+  <text x="345" y="338" class="box-label">Value Objects</text>
+  <text x="345" y="356" class="sublabel">Immutable, no identity</text>
+
+  <!-- Aggregates -->
+  <rect x="430" y="310" width="130" height="60" rx="8" fill="#059669" opacity="0.8"/>
+  <text x="495" y="338" class="box-label">Aggregates</text>
+  <text x="495" y="356" class="sublabel">Consistency boundary</text>
+
+  <!-- Repositories -->
+  <rect x="130" y="390" width="130" height="60" rx="8" fill="#d97706" opacity="0.8"/>
+  <text x="195" y="418" class="box-label">Repositories</text>
+  <text x="195" y="436" class="sublabel">Persistence abstraction</text>
+
+  <!-- Domain Events -->
+  <rect x="280" y="390" width="130" height="60" rx="8" fill="#dc2626" opacity="0.8"/>
+  <text x="345" y="418" class="box-label">Domain Events</text>
+  <text x="345" y="436" class="sublabel">Something happened</text>
+
+  <!-- Domain Services -->
+  <rect x="430" y="390" width="130" height="60" rx="8" fill="#0891b2" opacity="0.8"/>
+  <text x="495" y="418" class="box-label">Domain Services</text>
+  <text x="495" y="436" class="sublabel">Cross-entity logic</text>
+
+  <!-- Sub-domain vs BC annotation -->
+  <rect x="590" y="310" width="100" height="140" rx="8" fill="#292524" stroke="#fbbf24" stroke-width="1.5" stroke-dasharray="4 2"/>
+  <text x="640" y="345" class="sublabel" fill="#fbbf24">Sub-domain</text>
+  <text x="640" y="362" class="sublabel" fill="#fbbf24">= Problem</text>
+  <text x="640" y="385" class="sublabel" fill="#fbbf24">Bounded Ctx</text>
+  <text x="640" y="402" class="sublabel" fill="#fbbf24">= Solution</text>
+  <text x="640" y="430" class="sublabel" fill="#94a3b8">"Floor vs</text>
+  <text x="640" y="444" class="sublabel" fill="#94a3b8">Carpet"</text>
+
+  <defs>
+    <marker id="ctxArrow" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <polygon points="0,0 8,3 0,6" fill="#475569"/>
+    </marker>
+  </defs>
+</svg>

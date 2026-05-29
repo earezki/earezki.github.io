@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 400" preserveAspectRatio="xMidYMid meet">
+  <style>
+    svg { font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    .title { font-size: 16px; font-weight: 700; fill: #f8fafc; text-anchor: middle; }
+    .label { font-size: 12px; font-weight: 600; fill: #f8fafc; text-anchor: middle; }
+    .sublabel { font-size: 10px; fill: #94a3b8; text-anchor: middle; }
+  </style>
+  <rect width="700" height="400" rx="16" fill="#0f172a"/>
+
+  <!-- Title -->
+  <text x="350" y="35" class="title">Traditional Layered Architecture</text>
+  <text x="350" y="55" class="sublabel">Dependencies flow downward — domain depends on infrastructure</text>
+
+  <!-- Presentation Layer -->
+  <rect x="150" y="75" width="400" height="70" rx="10" fill="#2563eb" opacity="0.85"/>
+  <text x="350" y="107" class="label">Presentation Layer</text>
+  <text x="350" y="127" class="sublabel">Controllers, Views, REST endpoints</text>
+
+  <!-- Arrow -->
+  <line x1="350" y1="145" x2="350" y2="165" stroke="#64748b" stroke-width="2.5" marker-end="url(#layerArrow)"/>
+
+  <!-- Domain/Business Layer -->
+  <rect x="150" y="170" width="400" height="70" rx="10" fill="#7c3aed" opacity="0.85"/>
+  <text x="350" y="202" class="label">Domain / Business Logic Layer</text>
+  <text x="350" y="222" class="sublabel">Services, Use Cases, Business Rules</text>
+
+  <!-- Arrow -->
+  <line x1="350" y1="240" x2="350" y2="260" stroke="#64748b" stroke-width="2.5" marker-end="url(#layerArrow)"/>
+
+  <!-- Data Access / Infrastructure Layer -->
+  <rect x="150" y="265" width="400" height="70" rx="10" fill="#d97706" opacity="0.85"/>
+  <text x="350" y="297" class="label">Infrastructure / Data Access Layer</text>
+  <text x="350" y="317" class="sublabel">Repositories, ORM, Database, External APIs</text>
+
+  <!-- Problem callout -->
+  <rect x="570" y="170" width="115" height="70" rx="8" fill="#292524" stroke="#ef4444" stroke-width="1.5"/>
+  <text x="627" y="195" class="sublabel" fill="#fca5a5">Problem:</text>
+  <text x="627" y="212" class="sublabel" fill="#fca5a5">Domain depends</text>
+  <text x="627" y="226" class="sublabel" fill="#fca5a5">on infrastructure</text>
+
+  <!-- Coupling indicator -->
+  <line x1="550" y1="205" x2="570" y2="205" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="3 2"/>
+
+  <!-- Database -->
+  <rect x="250" y="355" width="200" height="35" rx="8" fill="#1e293b" stroke="#d97706" stroke-width="1.5"/>
+  <text x="350" y="377" class="sublabel" fill="#fbbf24">PostgreSQL / MySQL / MongoDB</text>
+  <line x1="350" y1="335" x2="350" y2="355" stroke="#64748b" stroke-width="2" marker-end="url(#layerArrow)"/>
+
+  <defs>
+    <marker id="layerArrow" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <polygon points="0,0 8,3 0,6" fill="#64748b"/>
+    </marker>
+  </defs>
+</svg>

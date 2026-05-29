@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 500" preserveAspectRatio="xMidYMid meet">
+  <style>
+    svg { font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    .title { font-size: 16px; font-weight: 700; fill: #f8fafc; text-anchor: middle; }
+    .label { font-size: 11px; font-weight: 600; fill: #f8fafc; text-anchor: middle; }
+    .sublabel { font-size: 9px; fill: #94a3b8; text-anchor: middle; }
+    .port-label { font-size: 9px; font-weight: 600; fill: #fbbf24; text-anchor: middle; }
+  </style>
+  <rect width="700" height="500" rx="16" fill="#0f172a"/>
+
+  <!-- Title -->
+  <text x="350" y="32" class="title">Hexagonal Architecture (Ports &amp; Adapters)</text>
+  <text x="350" y="50" class="sublabel">Dependencies point inward — domain knows nothing about infrastructure</text>
+
+  <!-- Outer hexagon (Adapters) -->
+  <polygon points="350,70 560,155 560,345 350,430 140,345 140,155" fill="none" stroke="#334155" stroke-width="2"/>
+
+  <!-- Inner hexagon (Domain) -->
+  <polygon points="350,140 470,195 470,305 350,360 230,305 230,195" fill="#1e293b" stroke="#7c3aed" stroke-width="2.5"/>
+
+  <!-- Domain core label -->
+  <text x="350" y="225" class="label" fill="#a78bfa">DOMAIN</text>
+  <text x="350" y="245" class="sublabel" fill="#c4b5fd">Entities, Value Objects</text>
+  <text x="350" y="260" class="sublabel" fill="#c4b5fd">Use Cases, Business Rules</text>
+  <text x="350" y="280" class="sublabel" fill="#c4b5fd">Domain Events</text>
+
+  <!-- Ports (on hexagon edges) -->
+  <!-- Left ports (driving/input) -->
+  <circle cx="230" cy="220" r="8" fill="#fbbf24"/>
+  <text x="230" y="210" class="port-label">Port</text>
+  <circle cx="230" cy="280" r="8" fill="#fbbf24"/>
+  <text x="230" y="295" class="port-label">Port</text>
+
+  <!-- Right ports (driven/output) -->
+  <circle cx="470" cy="220" r="8" fill="#fbbf24"/>
+  <text x="470" y="210" class="port-label">Port</text>
+  <circle cx="470" cy="280" r="8" fill="#fbbf24"/>
+  <text x="470" y="295" class="port-label">Port</text>
+
+  <!-- Top port -->
+  <circle cx="350" cy="140" r="8" fill="#fbbf24"/>
+  <text x="350" y="130" class="port-label">Port</text>
+
+  <!-- Bottom port -->
+  <circle cx="350" cy="360" r="8" fill="#fbbf24"/>
+  <text x="350" y="378" class="port-label">Port</text>
+
+  <!-- Input Adapters (left side) -->
+  <rect x="30" y="180" width="95" height="40" rx="6" fill="#2563eb" opacity="0.85"/>
+  <text x="77" y="197" class="label">REST API</text>
+  <text x="77" y="211" class="sublabel">Controller</text>
+  <line x1="125" y1="200" x2="222" y2="220" stroke="#2563eb" stroke-width="1.5" marker-end="url(#blueArrow)"/>
+
+  <rect x="30" y="260" width="95" height="40" rx="6" fill="#2563eb" opacity="0.85"/>
+  <text x="77" y="277" class="label">CLI / Events</text>
+  <text x="77" y="291" class="sublabel">Commands / Queue</text>
+  <line x1="125" y1="280" x2="222" y2="280" stroke="#2563eb" stroke-width="1.5" marker-end="url(#blueArrow)"/>
+
+  <!-- Output Adapters (right side) -->
+  <rect x="575" y="180" width="95" height="40" rx="6" fill="#059669" opacity="0.85"/>
+  <text x="622" y="197" class="label">PostgreSQL</text>
+  <text x="622" y="211" class="sublabel">Repository</text>
+  <line x1="478" y1="220" x2="575" y2="200" stroke="#059669" stroke-width="1.5" marker-end="url(#greenArrow)"/>
+
+  <rect x="575" y="260" width="95" height="40" rx="6" fill="#059669" opacity="0.85"/>
+  <text x="622" y="277" class="label">Stripe / MQ</text>
+  <text x="622" y="291" class="sublabel">Payment / Events</text>
+  <line x1="478" y1="280" x2="575" y2="280" stroke="#059669" stroke-width="1.5" marker-end="url(#greenArrow)"/>
+
+  <!-- Top adapter -->
+  <rect x="302" y="70" width="95" height="40" rx="6" fill="#2563eb" opacity="0.85"/>
+  <text x="350" y="87" class="label">gRPC</text>
+  <text x="350" y="101" class="sublabel">Service</text>
+  <line x1="350" y1="110" x2="350" y2="132" stroke="#2563eb" stroke-width="1.5" marker-end="url(#blueArrow)"/>
+
+  <!-- Bottom adapter -->
+  <rect x="302" y="390" width="95" height="40" rx="6" fill="#059669" opacity="0.85"/>
+  <text x="350" y="407" class="label">Redis</text>
+  <text x="350" y="421" class="sublabel">Cache</text>
+  <line x1="350" y1="368" x2="350" y2="390" stroke="#059669" stroke-width="1.5" marker-end="url(#greenArrow2)"/>
+
+  <!-- Legend -->
+  <rect x="30" y="445" width="12" height="12" rx="3" fill="#2563eb"/>
+  <text x="48" y="455" class="sublabel" text-anchor="start" fill="#60a5fa">Input Adapters (Driving)</text>
+  <rect x="180" y="445" width="12" height="12" rx="3" fill="#059669"/>
+  <text x="198" y="455" class="sublabel" text-anchor="start" fill="#34d399">Output Adapters (Driven)</text>
+  <circle cx="340" cy="451" r="5" fill="#fbbf24"/>
+  <text x="352" y="455" class="sublabel" text-anchor="start" fill="#fbbf24">Ports (Interfaces)</text>
+  <rect x="460" y="445" width="12" height="12" rx="3" fill="none" stroke="#7c3aed" stroke-width="2"/>
+  <text x="478" y="455" class="sublabel" text-anchor="start" fill="#a78bfa">Domain Core</text>
+
+  <!-- Key insight -->
+  <text x="350" y="485" class="sublabel" fill="#f8fafc">Everything depends on the domain. Infrastructure and UI are implementation details.</text>
+
+  <defs>
+    <marker id="blueArrow" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <polygon points="0,0 8,3 0,6" fill="#2563eb"/>
+    </marker>
+    <marker id="greenArrow" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <polygon points="0,0 8,3 0,6" fill="#059669"/>
+    </marker>
+    <marker id="greenArrow2" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <polygon points="0,0 8,3 0,6" fill="#059669"/>
+    </marker>
+  </defs>
+</svg>

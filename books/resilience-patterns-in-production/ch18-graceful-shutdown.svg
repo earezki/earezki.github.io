@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 350" width="800" height="350">
+  <rect width="800" height="350" fill="#1e1e2e" rx="8"/>
+  <text x="400" y="30" text-anchor="middle" fill="#cdd6f4" font-family="sans-serif" font-size="16" font-weight="bold">Graceful Shutdown Sequence</text>
+
+  <!-- Timeline -->
+  <line x1="60" y1="70" x2="740" y2="70" stroke="#585b70" stroke-width="2"/>
+
+  <!-- SIGTERM -->
+  <line x1="100" y1="55" x2="100" y2="85" stroke="#f38ba8" stroke-width="3"/>
+  <text x="100" y="50" text-anchor="middle" fill="#f38ba8" font-family="sans-serif" font-size="11" font-weight="bold">SIGTERM</text>
+
+  <!-- Phase 1: Stop accepting -->
+  <rect x="120" y="60" width="120" height="20" rx="3" fill="#f38ba8" fill-opacity="0.3"/>
+  <text x="180" y="75" text-anchor="middle" fill="#f38ba8" font-family="sans-serif" font-size="9">Stop accepting</text>
+
+  <!-- Phase 2: Drain -->
+  <rect x="250" y="60" width="250" height="20" rx="3" fill="#fab387" fill-opacity="0.3"/>
+  <text x="375" y="75" text-anchor="middle" fill="#fab387" font-family="sans-serif" font-size="9">Drain in-flight requests</text>
+
+  <!-- Phase 3: Close connections -->
+  <rect x="510" y="60" width="100" height="20" rx="3" fill="#89b4fa" fill-opacity="0.3"/>
+  <text x="560" y="75" text-anchor="middle" fill="#89b4fa" font-family="sans-serif" font-size="9">Close connections</text>
+
+  <!-- Phase 4: Exit -->
+  <line x1="620" y1="55" x2="620" y2="85" stroke="#a6e3a1" stroke-width="3"/>
+  <text x="620" y="50" text-anchor="middle" fill="#a6e3a1" font-family="sans-serif" font-size="11" font-weight="bold">EXIT 0</text>
+
+  <!-- SIGKILL deadline -->
+  <line x1="700" y1="55" x2="700" y2="85" stroke="#f38ba8" stroke-width="3" stroke-dasharray="4"/>
+  <text x="700" y="50" text-anchor="middle" fill="#f38ba8" font-family="sans-serif" font-size="10">SIGKILL (30s)</text>
+
+  <!-- Detail boxes -->
+  <rect x="40" y="100" width="170" height="100" rx="4" fill="#313244" stroke="#f38ba8" stroke-width="1"/>
+  <text x="125" y="120" text-anchor="middle" fill="#f38ba8" font-family="sans-serif" font-size="11" font-weight="bold">1. Mark unhealthy</text>
+  <text x="55" y="140" fill="#a6adc8" font-family="sans-serif" font-size="10">/health returns 503</text>
+  <text x="55" y="155" fill="#a6adc8" font-family="sans-serif" font-size="10">LB stops sending traffic</text>
+  <text x="55" y="170" fill="#a6adc8" font-family="sans-serif" font-size="10">K8s removes from</text>
+  <text x="55" y="183" fill="#a6adc8" font-family="sans-serif" font-size="10">Service endpoints</text>
+
+  <rect x="225" y="100" width="170" height="100" rx="4" fill="#313244" stroke="#fab387" stroke-width="1"/>
+  <text x="310" y="120" text-anchor="middle" fill="#fab387" font-family="sans-serif" font-size="11" font-weight="bold">2. Drain requests</text>
+  <text x="240" y="140" fill="#a6adc8" font-family="sans-serif" font-size="10">Complete in-flight work</text>
+  <text x="240" y="155" fill="#a6adc8" font-family="sans-serif" font-size="10">Flush Kafka producers</text>
+  <text x="240" y="170" fill="#a6adc8" font-family="sans-serif" font-size="10">Commit pending offsets</text>
+  <text x="240" y="183" fill="#a6adc8" font-family="sans-serif" font-size="10">Finish DB transactions</text>
+
+  <rect x="410" y="100" width="170" height="100" rx="4" fill="#313244" stroke="#89b4fa" stroke-width="1"/>
+  <text x="495" y="120" text-anchor="middle" fill="#89b4fa" font-family="sans-serif" font-size="11" font-weight="bold">3. Close resources</text>
+  <text x="425" y="140" fill="#a6adc8" font-family="sans-serif" font-size="10">Close DB connection pool</text>
+  <text x="425" y="155" fill="#a6adc8" font-family="sans-serif" font-size="10">Close Redis connections</text>
+  <text x="425" y="170" fill="#a6adc8" font-family="sans-serif" font-size="10">Flush metrics buffer</text>
+  <text x="425" y="183" fill="#a6adc8" font-family="sans-serif" font-size="10">Final log entry</text>
+
+  <rect x="595" y="100" width="170" height="100" rx="4" fill="#313244" stroke="#a6e3a1" stroke-width="1"/>
+  <text x="680" y="120" text-anchor="middle" fill="#a6e3a1" font-family="sans-serif" font-size="11" font-weight="bold">4. Exit</text>
+  <text x="610" y="140" fill="#a6adc8" font-family="sans-serif" font-size="10">Exit code 0</text>
+  <text x="610" y="155" fill="#a6adc8" font-family="sans-serif" font-size="10">Pod terminates cleanly</text>
+  <text x="610" y="170" fill="#a6adc8" font-family="sans-serif" font-size="10">Replacement pod already</text>
+  <text x="610" y="183" fill="#a6adc8" font-family="sans-serif" font-size="10">running (rolling update)</text>
+
+  <!-- Warning -->
+  <rect x="100" y="225" width="600" height="55" rx="6" fill="#313244" stroke="#f38ba8" stroke-width="2"/>
+  <text x="400" y="248" text-anchor="middle" fill="#f38ba8" font-family="sans-serif" font-size="12" font-weight="bold">Common failure: Spring Boot default graceful shutdown timeout is 30s</text>
+  <text x="400" y="268" text-anchor="middle" fill="#a6adc8" font-family="sans-serif" font-size="11">If Kubernetes terminationGracePeriodSeconds is also 30s, SIGKILL fires before drain completes.</text>
+
+  <!-- Fix -->
+  <rect x="100" y="290" width="600" height="45" rx="6" fill="#313244" stroke="#a6e3a1" stroke-width="1"/>
+  <text x="400" y="310" text-anchor="middle" fill="#a6e3a1" font-family="sans-serif" font-size="11">Fix: server.shutdown=graceful, spring.lifecycle.timeout-per-shutdown-phase=25s</text>
+  <text x="400" y="327" text-anchor="middle" fill="#a6e3a1" font-family="sans-serif" font-size="11">Kubernetes terminationGracePeriodSeconds=35s (always greater)</text>
+</svg>

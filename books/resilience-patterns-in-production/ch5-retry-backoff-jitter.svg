@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" width="800" height="400">
+  <rect width="800" height="400" fill="#1e1e2e" rx="8"/>
+  <text x="400" y="30" text-anchor="middle" fill="#cdd6f4" font-family="sans-serif" font-size="16" font-weight="bold">Retry Backoff with Jitter</text>
+
+  <!-- Axes -->
+  <line x1="80" y1="50" x2="80" y2="320" stroke="#585b70" stroke-width="1"/>
+  <line x1="80" y1="320" x2="750" y2="320" stroke="#585b70" stroke-width="1"/>
+  <text x="40" y="190" text-anchor="middle" fill="#a6adc8" font-family="sans-serif" font-size="11" transform="rotate(-90 40 190)">Wait time (ms)</text>
+  <text x="400" y="345" text-anchor="middle" fill="#a6adc8" font-family="sans-serif" font-size="11">Retry attempt</text>
+
+  <!-- Y-axis labels -->
+  <text x="70" y="320" text-anchor="end" fill="#a6adc8" font-family="sans-serif" font-size="10">0</text>
+  <text x="70" y="260" text-anchor="end" fill="#a6adc8" font-family="sans-serif" font-size="10">1s</text>
+  <text x="70" y="200" text-anchor="end" fill="#a6adc8" font-family="sans-serif" font-size="10">2s</text>
+  <text x="70" y="140" text-anchor="end" fill="#a6adc8" font-family="sans-serif" font-size="10">4s</text>
+  <text x="70" y="80" text-anchor="end" fill="#a6adc8" font-family="sans-serif" font-size="10">8s</text>
+
+  <!-- X-axis labels -->
+  <text x="180" y="338" text-anchor="middle" fill="#a6adc8" font-family="sans-serif" font-size="10">1</text>
+  <text x="320" y="338" text-anchor="middle" fill="#a6adc8" font-family="sans-serif" font-size="10">2</text>
+  <text x="460" y="338" text-anchor="middle" fill="#a6adc8" font-family="sans-serif" font-size="10">3</text>
+  <text x="600" y="338" text-anchor="middle" fill="#a6adc8" font-family="sans-serif" font-size="10">4</text>
+
+  <!-- Fixed delay (BAD) -->
+  <line x1="180" y1="260" x2="320" y2="260" stroke="#f38ba8" stroke-width="2" stroke-dasharray="6"/>
+  <line x1="320" y1="260" x2="460" y2="260" stroke="#f38ba8" stroke-width="2" stroke-dasharray="6"/>
+  <line x1="460" y1="260" x2="600" y2="260" stroke="#f38ba8" stroke-width="2" stroke-dasharray="6"/>
+  <circle cx="180" cy="260" r="5" fill="#f38ba8"/>
+  <circle cx="320" cy="260" r="5" fill="#f38ba8"/>
+  <circle cx="460" cy="260" r="5" fill="#f38ba8"/>
+  <circle cx="600" cy="260" r="5" fill="#f38ba8"/>
+
+  <!-- Exponential no jitter -->
+  <line x1="180" y1="260" x2="320" y2="200" stroke="#fab387" stroke-width="2"/>
+  <line x1="320" y1="200" x2="460" y2="140" stroke="#fab387" stroke-width="2"/>
+  <line x1="460" y1="140" x2="600" y2="80" stroke="#fab387" stroke-width="2"/>
+  <circle cx="180" cy="260" r="5" fill="#fab387"/>
+  <circle cx="320" cy="200" r="5" fill="#fab387"/>
+  <circle cx="460" cy="140" r="5" fill="#fab387"/>
+  <circle cx="600" cy="80" r="5" fill="#fab387"/>
+
+  <!-- Exponential with jitter (multiple instances) -->
+  <circle cx="180" cy="275" r="4" fill="#a6e3a1" opacity="0.7"/>
+  <circle cx="180" cy="250" r="4" fill="#a6e3a1" opacity="0.7"/>
+  <circle cx="180" cy="290" r="4" fill="#a6e3a1" opacity="0.7"/>
+
+  <circle cx="320" cy="220" r="4" fill="#a6e3a1" opacity="0.7"/>
+  <circle cx="320" cy="180" r="4" fill="#a6e3a1" opacity="0.7"/>
+  <circle cx="320" cy="240" r="4" fill="#a6e3a1" opacity="0.7"/>
+
+  <circle cx="460" cy="160" r="4" fill="#a6e3a1" opacity="0.7"/>
+  <circle cx="460" cy="110" r="4" fill="#a6e3a1" opacity="0.7"/>
+  <circle cx="460" cy="190" r="4" fill="#a6e3a1" opacity="0.7"/>
+
+  <circle cx="600" cy="100" r="4" fill="#a6e3a1" opacity="0.7"/>
+  <circle cx="600" cy="60" r="4" fill="#a6e3a1" opacity="0.7"/>
+  <circle cx="600" cy="130" r="4" fill="#a6e3a1" opacity="0.7"/>
+
+  <!-- Jitter ranges -->
+  <rect x="170" y="248" width="20" height="44" rx="2" fill="#a6e3a1" fill-opacity="0.1" stroke="#a6e3a1" stroke-width="1" stroke-dasharray="3"/>
+  <rect x="310" y="178" width="20" height="64" rx="2" fill="#a6e3a1" fill-opacity="0.1" stroke="#a6e3a1" stroke-width="1" stroke-dasharray="3"/>
+  <rect x="450" y="108" width="20" height="84" rx="2" fill="#a6e3a1" fill-opacity="0.1" stroke="#a6e3a1" stroke-width="1" stroke-dasharray="3"/>
+  <rect x="590" y="58" width="20" height="74" rx="2" fill="#a6e3a1" fill-opacity="0.1" stroke="#a6e3a1" stroke-width="1" stroke-dasharray="3"/>
+
+  <!-- Legend -->
+  <line x1="100" y1="370" x2="130" y2="370" stroke="#f38ba8" stroke-width="2" stroke-dasharray="6"/>
+  <text x="140" y="374" fill="#f38ba8" font-family="sans-serif" font-size="10">Fixed delay (retry storm)</text>
+
+  <line x1="310" y1="370" x2="340" y2="370" stroke="#fab387" stroke-width="2"/>
+  <text x="350" y="374" fill="#fab387" font-family="sans-serif" font-size="10">Exponential (synchronized thundering herd)</text>
+
+  <circle cx="580" cy="370" r="4" fill="#a6e3a1"/>
+  <text x="590" y="374" fill="#a6e3a1" font-family="sans-serif" font-size="10">Exponential + jitter (distributed)</text>
+</svg>

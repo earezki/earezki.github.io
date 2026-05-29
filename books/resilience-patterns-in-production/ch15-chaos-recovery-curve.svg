@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 350" width="800" height="350">
+  <rect width="800" height="350" fill="#1e1e2e" rx="8"/>
+  <text x="400" y="30" text-anchor="middle" fill="#cdd6f4" font-family="sans-serif" font-size="16" font-weight="bold">Chaos Experiment Recovery Curve</text>
+
+  <!-- Axes -->
+  <line x1="80" y1="50" x2="80" y2="280" stroke="#585b70" stroke-width="1"/>
+  <line x1="80" y1="280" x2="750" y2="280" stroke="#585b70" stroke-width="1"/>
+  <text x="35" y="170" text-anchor="middle" fill="#a6adc8" font-family="sans-serif" font-size="11" transform="rotate(-90 35 170)">Success Rate (%)</text>
+  <text x="400" y="310" text-anchor="middle" fill="#a6adc8" font-family="sans-serif" font-size="11">Time</text>
+
+  <!-- Y labels -->
+  <text x="70" y="284" text-anchor="end" fill="#a6adc8" font-family="sans-serif" font-size="10">0</text>
+  <text x="70" y="220" text-anchor="end" fill="#a6adc8" font-family="sans-serif" font-size="10">50</text>
+  <text x="70" y="160" text-anchor="end" fill="#a6adc8" font-family="sans-serif" font-size="10">80</text>
+  <text x="70" y="80" text-anchor="end" fill="#a6adc8" font-family="sans-serif" font-size="10">100</text>
+  <line x1="80" y1="80" x2="750" y2="80" stroke="#585b70" stroke-width="1" stroke-dasharray="4"/>
+
+  <!-- Steady state -->
+  <line x1="80" y1="80" x2="200" y2="80" stroke="#a6e3a1" stroke-width="3"/>
+
+  <!-- Fault injection starts -->
+  <line x1="200" y1="50" x2="200" y2="280" stroke="#f38ba8" stroke-width="1" stroke-dasharray="4"/>
+  <text x="200" y="45" text-anchor="middle" fill="#f38ba8" font-family="sans-serif" font-size="10">Fault injected</text>
+
+  <!-- Drop -->
+  <line x1="200" y1="80" x2="250" y2="210" stroke="#f38ba8" stroke-width="3"/>
+
+  <!-- Circuit breaker activates -->
+  <line x1="280" y1="50" x2="280" y2="280" stroke="#fab387" stroke-width="1" stroke-dasharray="4"/>
+  <text x="280" y="45" text-anchor="middle" fill="#fab387" font-family="sans-serif" font-size="10">CB opens</text>
+
+  <!-- Stabilize with fallback -->
+  <path d="M 250 210 Q 265 240 280 200 Q 300 180 350 160" fill="none" stroke="#fab387" stroke-width="3"/>
+
+  <!-- Steady degraded -->
+  <line x1="350" y1="160" x2="450" y2="160" stroke="#fab387" stroke-width="3"/>
+  <text x="400" y="150" text-anchor="middle" fill="#fab387" font-family="sans-serif" font-size="10">Degraded mode (fallbacks)</text>
+
+  <!-- Fault removed -->
+  <line x1="450" y1="50" x2="450" y2="280" stroke="#a6e3a1" stroke-width="1" stroke-dasharray="4"/>
+  <text x="450" y="45" text-anchor="middle" fill="#a6e3a1" font-family="sans-serif" font-size="10">Fault removed</text>
+
+  <!-- Half-open probes -->
+  <line x1="500" y1="50" x2="500" y2="280" stroke="#89b4fa" stroke-width="1" stroke-dasharray="4"/>
+  <text x="500" y="300" text-anchor="middle" fill="#89b4fa" font-family="sans-serif" font-size="10">Half-open probe</text>
+
+  <!-- Recovery -->
+  <path d="M 450 160 Q 475 155 500 140 Q 530 120 560 100 Q 590 85 620 80" fill="none" stroke="#a6e3a1" stroke-width="3"/>
+  <line x1="620" y1="80" x2="750" y2="80" stroke="#a6e3a1" stroke-width="3"/>
+
+  <!-- Metrics -->
+  <text x="680" y="75" fill="#a6e3a1" font-family="sans-serif" font-size="10">Full recovery</text>
+
+  <!-- Key metrics box -->
+  <rect x="550" y="200" width="200" height="70" rx="4" fill="#313244" stroke="#585b70" stroke-width="1"/>
+  <text x="650" y="220" text-anchor="middle" fill="#cdd6f4" font-family="sans-serif" font-size="11" font-weight="bold">Recovery Metrics</text>
+  <text x="565" y="237" fill="#a6adc8" font-family="sans-serif" font-size="10">Time to detect: 10s</text>
+  <text x="565" y="252" fill="#a6adc8" font-family="sans-serif" font-size="10">Time to recover: 90s</text>
+  <text x="565" y="267" fill="#a6adc8" font-family="sans-serif" font-size="10">Degraded SLA: 80% success</text>
+</svg>

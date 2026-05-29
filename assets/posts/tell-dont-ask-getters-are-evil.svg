@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" preserveAspectRatio="xMidYMid meet">
+  <style>
+    svg { font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    .title { font-size: 18px; font-weight: 700; fill: #f8fafc; text-anchor: middle; }
+    .label { font-size: 13px; font-weight: 600; fill: #f8fafc; text-anchor: middle; }
+    .sublabel { font-size: 11px; fill: #94a3b8; text-anchor: middle; }
+    .code { font-size: 11px; font-family: 'JetBrains Mono', monospace; fill: #e2e8f0; }
+    .bad { fill: #ef4444; }
+    .good { fill: #22c55e; }
+  </style>
+  <rect width="800" height="450" rx="16" fill="#0f172a"/>
+
+  <!-- Title -->
+  <text x="400" y="40" class="title">Tell, Don't Ask — Encapsulate Behavior</text>
+
+  <!-- BAD: Ask pattern (left) -->
+  <rect x="40" y="70" width="340" height="340" rx="12" fill="#1e293b" stroke="#ef4444" stroke-width="2" opacity="0.9"/>
+  <text x="210" y="100" class="label bad">✗ Ask (Getters Leak Logic)</text>
+
+  <!-- Caller box -->
+  <rect x="70" y="120" width="280" height="50" rx="8" fill="#292524" stroke="#78716c" stroke-width="1"/>
+  <text x="80" y="142" class="code">caller</text>
+  <text x="80" y="158" class="code" fill="#94a3b8">price = product.getPrice()</text>
+
+  <!-- Arrow down -->
+  <line x1="210" y1="170" x2="210" y2="195" stroke="#ef4444" stroke-width="2" marker-end="url(#redArrow)"/>
+
+  <!-- Logic scattered -->
+  <rect x="70" y="200" width="280" height="70" rx="8" fill="#292524" stroke="#78716c" stroke-width="1"/>
+  <text x="80" y="222" class="code">// Logic scattered everywhere</text>
+  <text x="80" y="240" class="code" fill="#fbbf24">tax = price * taxRate</text>
+  <text x="80" y="258" class="code" fill="#fbbf24">total = price + tax - discount</text>
+
+  <!-- Duplicated -->
+  <rect x="70" y="290" width="280" height="50" rx="8" fill="#292524" stroke="#78716c" stroke-width="1"/>
+  <text x="80" y="312" class="code" fill="#ef4444">// Another caller — duplicates logic</text>
+  <text x="80" y="328" class="code" fill="#ef4444">total = product.getPrice() * qty</text>
+
+  <!-- Risk label -->
+  <text x="210" y="370" class="sublabel bad">Invariants scattered, easy to miss tax/promo</text>
+
+  <!-- GOOD: Tell pattern (right) -->
+  <rect x="420" y="70" width="340" height="340" rx="12" fill="#1e293b" stroke="#22c55e" stroke-width="2" opacity="0.9"/>
+  <text x="590" y="100" class="label good">✓ Tell (Behavior Inside Object)</text>
+
+  <!-- Caller box -->
+  <rect x="450" y="120" width="280" height="50" rx="8" fill="#292524" stroke="#78716c" stroke-width="1"/>
+  <text x="460" y="142" class="code">caller</text>
+  <text x="460" y="158" class="code" fill="#94a3b8">product.getCostFor(qty)</text>
+
+  <!-- Arrow down -->
+  <line x1="590" y1="170" x2="590" y2="195" stroke="#22c55e" stroke-width="2" marker-end="url(#greenArrow)"/>
+
+  <!-- Object encapsulates -->
+  <rect x="450" y="200" width="280" height="100" rx="8" fill="#292524" stroke="#78716c" stroke-width="1"/>
+  <text x="460" y="222" class="code" fill="#22c55e">class Product {</text>
+  <text x="460" y="242" class="code" fill="#22c55e">  getCostFor(qty) {</text>
+  <text x="460" y="262" class="code" fill="#22c55e">    return cost * qty</text>
+  <text x="460" y="282" class="code" fill="#22c55e">  }</text>
+  <text x="460" y="295" class="code" fill="#22c55e">}</text>
+
+  <!-- Benefit label -->
+  <text x="590" y="340" class="sublabel good">Logic centralized, single source of truth</text>
+  <text x="590" y="358" class="sublabel good">Callers don't need to know internals</text>
+
+  <defs>
+    <marker id="redArrow" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <polygon points="0,0 8,3 0,6" fill="#ef4444"/>
+    </marker>
+    <marker id="greenArrow" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <polygon points="0,0 8,3 0,6" fill="#22c55e"/>
+    </marker>
+  </defs>
+</svg>

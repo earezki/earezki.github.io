@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" width="800" height="400">
+  <rect width="800" height="400" fill="#1e1e2e" rx="8"/>
+  <text x="400" y="35" text-anchor="middle" fill="#cdd6f4" font-family="sans-serif" font-size="16" font-weight="bold">Timeout Layering: Where Latency Accumulates</text>
+
+  <!-- Client -->
+  <rect x="30" y="70" width="100" height="40" rx="4" fill="#313244" stroke="#89b4fa" stroke-width="2"/>
+  <text x="80" y="95" text-anchor="middle" fill="#cdd6f4" font-family="sans-serif" font-size="11">Client</text>
+
+  <!-- Gateway -->
+  <rect x="180" y="70" width="100" height="40" rx="4" fill="#313244" stroke="#89b4fa" stroke-width="2"/>
+  <text x="230" y="95" text-anchor="middle" fill="#cdd6f4" font-family="sans-serif" font-size="11">API Gateway</text>
+  <text x="230" y="125" text-anchor="middle" fill="#fab387" font-family="sans-serif" font-size="10">timeout: 30s</text>
+
+  <!-- Payment -->
+  <rect x="340" y="70" width="100" height="40" rx="4" fill="#313244" stroke="#89b4fa" stroke-width="2"/>
+  <text x="390" y="95" text-anchor="middle" fill="#cdd6f4" font-family="sans-serif" font-size="11">Payment Svc</text>
+  <text x="390" y="125" text-anchor="middle" fill="#fab387" font-family="sans-serif" font-size="10">timeout: 10s</text>
+
+  <!-- Fraud -->
+  <rect x="500" y="70" width="100" height="40" rx="4" fill="#313244" stroke="#89b4fa" stroke-width="2"/>
+  <text x="550" y="95" text-anchor="middle" fill="#cdd6f4" font-family="sans-serif" font-size="11">Fraud Svc</text>
+  <text x="550" y="125" text-anchor="middle" fill="#fab387" font-family="sans-serif" font-size="10">timeout: 5s</text>
+
+  <!-- External -->
+  <rect x="660" y="70" width="100" height="40" rx="4" fill="#313244" stroke="#f38ba8" stroke-width="2"/>
+  <text x="710" y="88" text-anchor="middle" fill="#f38ba8" font-family="sans-serif" font-size="11">External</text>
+  <text x="710" y="102" text-anchor="middle" fill="#f38ba8" font-family="sans-serif" font-size="11">Scoring API</text>
+  <text x="710" y="125" text-anchor="middle" fill="#f38ba8" font-family="sans-serif" font-size="10">no timeout set!</text>
+
+  <!-- Arrows -->
+  <line x1="130" y1="90" x2="175" y2="90" stroke="#89b4fa" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="280" y1="90" x2="335" y2="90" stroke="#89b4fa" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="440" y1="90" x2="495" y2="90" stroke="#89b4fa" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="600" y1="90" x2="655" y2="90" stroke="#f38ba8" stroke-width="1.5" marker-end="url(#arrR)"/>
+
+  <!-- BAD scenario -->
+  <text x="400" y="170" text-anchor="middle" fill="#f38ba8" font-family="sans-serif" font-size="13" font-weight="bold">BAD: Outer timeout shorter than inner chain</text>
+  <rect x="80" y="185" width="640" height="30" rx="4" fill="none" stroke="#585b70" stroke-width="1" stroke-dasharray="4"/>
+  <text x="90" y="205" fill="#a6adc8" font-family="sans-serif" font-size="10">Gateway 30s</text>
+  <rect x="180" y="190" width="540" height="20" rx="3" fill="none" stroke="#fab387" stroke-width="1"/>
+  <text x="190" y="204" fill="#fab387" font-family="sans-serif" font-size="10">Payment 10s + Fraud 5s + External ???</text>
+  <rect x="500" y="192" width="220" height="16" rx="3" fill="#f38ba8" fill-opacity="0.3"/>
+  <text x="510" y="204" fill="#f38ba8" font-family="sans-serif" font-size="10">External hangs 120s: everything waits</text>
+
+  <!-- GOOD scenario -->
+  <text x="400" y="250" text-anchor="middle" fill="#a6e3a1" font-family="sans-serif" font-size="13" font-weight="bold">GOOD: Timeouts decrease inward, all explicit</text>
+  <rect x="80" y="265" width="640" height="80" rx="4" fill="none" stroke="#585b70" stroke-width="1" stroke-dasharray="4"/>
+
+  <rect x="90" y="275" width="600" height="16" rx="3" fill="#a6e3a1" fill-opacity="0.15" stroke="#a6e3a1" stroke-width="1"/>
+  <text x="100" y="287" fill="#a6e3a1" font-family="sans-serif" font-size="10">Gateway: 8s total budget</text>
+
+  <rect x="130" y="297" width="400" height="16" rx="3" fill="#89b4fa" fill-opacity="0.15" stroke="#89b4fa" stroke-width="1"/>
+  <text x="140" y="309" fill="#89b4fa" font-family="sans-serif" font-size="10">Payment: 5s (leaves 3s for gateway overhead)</text>
+
+  <rect x="170" y="319" width="250" height="16" rx="3" fill="#fab387" fill-opacity="0.15" stroke="#fab387" stroke-width="1"/>
+  <text x="180" y="331" fill="#fab387" font-family="sans-serif" font-size="10">Fraud: 2s (leaves 3s for payment logic)</text>
+
+  <!-- Rule -->
+  <text x="400" y="380" text-anchor="middle" fill="#cdd6f4" font-family="sans-serif" font-size="12">Rule: timeout(outer) > timeout(inner) + processing overhead. Always.</text>
+
+  <defs>
+    <marker id="arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#89b4fa"/>
+    </marker>
+    <marker id="arrR" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#f38ba8"/>
+    </marker>
+  </defs>
+</svg>

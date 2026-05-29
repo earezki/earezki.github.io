@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <rect width="800" height="500" fill="#1e1e2e" rx="8"/>
+  <text x="400" y="35" text-anchor="middle" fill="#cdd6f4" font-family="sans-serif" font-size="16" font-weight="bold">Circuit Breaker State Machine</text>
+
+  <!-- CLOSED state -->
+  <circle cx="150" cy="200" r="60" fill="#313244" stroke="#a6e3a1" stroke-width="3"/>
+  <text x="150" y="195" text-anchor="middle" fill="#a6e3a1" font-family="sans-serif" font-size="14" font-weight="bold">CLOSED</text>
+  <text x="150" y="215" text-anchor="middle" fill="#a6adc8" font-family="sans-serif" font-size="10">Requests pass through</text>
+  <text x="150" y="230" text-anchor="middle" fill="#a6adc8" font-family="sans-serif" font-size="10">Failures counted</text>
+
+  <!-- OPEN state -->
+  <circle cx="650" cy="200" r="60" fill="#313244" stroke="#f38ba8" stroke-width="3"/>
+  <text x="650" y="195" text-anchor="middle" fill="#f38ba8" font-family="sans-serif" font-size="14" font-weight="bold">OPEN</text>
+  <text x="650" y="215" text-anchor="middle" fill="#a6adc8" font-family="sans-serif" font-size="10">Requests rejected</text>
+  <text x="650" y="230" text-anchor="middle" fill="#a6adc8" font-family="sans-serif" font-size="10">Fallback invoked</text>
+
+  <!-- HALF_OPEN state -->
+  <circle cx="400" cy="400" r="60" fill="#313244" stroke="#fab387" stroke-width="3"/>
+  <text x="400" y="390" text-anchor="middle" fill="#fab387" font-family="sans-serif" font-size="14" font-weight="bold">HALF</text>
+  <text x="400" y="407" text-anchor="middle" fill="#fab387" font-family="sans-serif" font-size="14" font-weight="bold">OPEN</text>
+  <text x="400" y="427" text-anchor="middle" fill="#a6adc8" font-family="sans-serif" font-size="10">Probe requests only</text>
+
+  <!-- CLOSED -> OPEN -->
+  <path d="M 210 185 Q 400 80 590 185" fill="none" stroke="#f38ba8" stroke-width="2" marker-end="url(#arrowR)"/>
+  <text x="400" y="110" text-anchor="middle" fill="#f38ba8" font-family="sans-serif" font-size="11">failure rate >= threshold</text>
+  <text x="400" y="125" text-anchor="middle" fill="#a6adc8" font-family="sans-serif" font-size="10">(e.g. 50% of last 100 calls)</text>
+
+  <!-- OPEN -> HALF_OPEN -->
+  <path d="M 610 245 Q 580 380 460 400" fill="none" stroke="#fab387" stroke-width="2" marker-end="url(#arrowO)"/>
+  <text x="580" y="340" text-anchor="middle" fill="#fab387" font-family="sans-serif" font-size="11">wait duration expires</text>
+  <text x="580" y="355" text-anchor="middle" fill="#a6adc8" font-family="sans-serif" font-size="10">(e.g. 60 seconds)</text>
+
+  <!-- HALF_OPEN -> CLOSED -->
+  <path d="M 340 400 Q 200 380 160 260" fill="none" stroke="#a6e3a1" stroke-width="2" marker-end="url(#arrowG)"/>
+  <text x="200" y="355" text-anchor="middle" fill="#a6e3a1" font-family="sans-serif" font-size="11">probe succeeds</text>
+  <text x="200" y="370" text-anchor="middle" fill="#a6adc8" font-family="sans-serif" font-size="10">(N successful probes)</text>
+
+  <!-- HALF_OPEN -> OPEN -->
+  <path d="M 460 395 Q 560 420 615 260" fill="none" stroke="#f38ba8" stroke-width="2" marker-end="url(#arrowR)"/>
+  <text x="570" y="420" fill="#f38ba8" font-family="sans-serif" font-size="11">probe fails</text>
+
+  <!-- Self-loop on CLOSED -->
+  <path d="M 100 165 Q 60 120 105 160" fill="none" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="55" y="135" fill="#a6e3a1" font-family="sans-serif" font-size="9">success: reset count</text>
+
+  <!-- Legend -->
+  <rect x="30" y="460" width="12" height="12" rx="2" fill="#a6e3a1"/>
+  <text x="48" y="471" fill="#a6adc8" font-family="sans-serif" font-size="10">Normal flow</text>
+  <rect x="150" y="460" width="12" height="12" rx="2" fill="#f38ba8"/>
+  <text x="168" y="471" fill="#a6adc8" font-family="sans-serif" font-size="10">Failure path</text>
+  <rect x="280" y="460" width="12" height="12" rx="2" fill="#fab387"/>
+  <text x="298" y="471" fill="#a6adc8" font-family="sans-serif" font-size="10">Recovery probe</text>
+
+  <defs>
+    <marker id="arrowR" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#f38ba8"/>
+    </marker>
+    <marker id="arrowG" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#a6e3a1"/>
+    </marker>
+    <marker id="arrowO" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#fab387"/>
+    </marker>
+  </defs>
+</svg>

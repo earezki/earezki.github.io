@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid meet">
+  <style>
+    svg { font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    .title { font-size: 18px; font-weight: 700; fill: #f8fafc; text-anchor: middle; }
+    .label { font-size: 11px; font-weight: 600; fill: #f8fafc; text-anchor: middle; }
+    .sublabel { font-size: 9px; fill: #94a3b8; text-anchor: middle; }
+    .num { font-size: 16px; font-weight: 800; fill: #38bdf8; text-anchor: middle; }
+  </style>
+  <rect width="800" height="500" rx="16" fill="#0f172a"/>
+
+  <!-- Title -->
+  <text x="400" y="35" class="title">Massively Scaling a Web Application</text>
+  <text x="400" y="55" class="sublabel">From single server to multi-region deployment</text>
+
+  <!-- Step 1: Single Server -->
+  <rect x="30" y="75" width="130" height="80" rx="8" fill="#1e293b" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="95" y="98" class="num">1</text>
+  <text x="95" y="118" class="label">Single Server</text>
+  <text x="95" y="135" class="sublabel">App + DB on one host</text>
+  <text x="95" y="148" class="sublabel">Simple, limited</text>
+
+  <!-- Step 2: Vertical -->
+  <rect x="175" y="75" width="130" height="80" rx="8" fill="#1e293b" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="240" y="98" class="num">2</text>
+  <text x="240" y="118" class="label">Vertical Scale</text>
+  <text x="240" y="135" class="sublabel">Bigger machine</text>
+  <text x="240" y="148" class="sublabel">CPU, RAM, SSD</text>
+
+  <!-- Step 3: Horizontal -->
+  <rect x="320" y="75" width="130" height="80" rx="8" fill="#1e293b" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="385" y="98" class="num">3</text>
+  <text x="385" y="118" class="label">Horizontal Scale</text>
+  <text x="385" y="135" class="sublabel">Multiple instances</text>
+  <text x="385" y="148" class="sublabel">Distribute load</text>
+
+  <!-- Step 4: Stateless -->
+  <rect x="465" y="75" width="130" height="80" rx="8" fill="#1e293b" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="530" y="98" class="num">4</text>
+  <text x="530" y="118" class="label">Stateless</text>
+  <text x="530" y="135" class="sublabel">Externalize session</text>
+  <text x="530" y="148" class="sublabel">Any server handles</text>
+
+  <!-- Step 5: Load Balancer -->
+  <rect x="610" y="75" width="155" height="80" rx="8" fill="#1e293b" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="687" y="98" class="num">5</text>
+  <text x="687" y="118" class="label">Load Balancer</text>
+  <text x="687" y="135" class="sublabel">Traffic distribution</text>
+  <text x="687" y="148" class="sublabel">Health checks</text>
+
+  <!-- Arrows row 1 -->
+  <line x1="160" y1="115" x2="175" y2="115" stroke="#475569" stroke-width="1.5" marker-end="url(#scaleArrow)"/>
+  <line x1="305" y1="115" x2="320" y2="115" stroke="#475569" stroke-width="1.5" marker-end="url(#scaleArrow)"/>
+  <line x1="450" y1="115" x2="465" y2="115" stroke="#475569" stroke-width="1.5" marker-end="url(#scaleArrow)"/>
+  <line x1="595" y1="115" x2="610" y2="115" stroke="#475569" stroke-width="1.5" marker-end="url(#scaleArrow)"/>
+
+  <!-- Step 6: Database Choice -->
+  <rect x="30" y="195" width="130" height="80" rx="8" fill="#1e293b" stroke="#059669" stroke-width="1.5"/>
+  <text x="95" y="218" class="num">6</text>
+  <text x="95" y="238" class="label">Database Choice</text>
+  <text x="95" y="255" class="sublabel">SQL vs NoSQL</text>
+  <text x="95" y="268" class="sublabel">CAP trade-offs</text>
+
+  <!-- Step 7: DB Replication -->
+  <rect x="175" y="195" width="130" height="80" rx="8" fill="#1e293b" stroke="#059669" stroke-width="1.5"/>
+  <text x="240" y="218" class="num">7</text>
+  <text x="240" y="238" class="label">DB Replication</text>
+  <text x="240" y="255" class="sublabel">Primary-Replica</text>
+  <text x="240" y="268" class="sublabel">Read scalability</text>
+
+  <!-- Step 8: DB Sharding -->
+  <rect x="320" y="195" width="130" height="80" rx="8" fill="#1e293b" stroke="#059669" stroke-width="1.5"/>
+  <text x="385" y="218" class="num">8</text>
+  <text x="385" y="238" class="label">DB Sharding</text>
+  <text x="385" y="255" class="sublabel">Partition data</text>
+  <text x="385" y="268" class="sublabel">Write scalability</text>
+
+  <!-- Step 9: Caching -->
+  <rect x="465" y="195" width="130" height="80" rx="8" fill="#1e293b" stroke="#d97706" stroke-width="1.5"/>
+  <text x="530" y="218" class="num">9</text>
+  <text x="530" y="238" class="label">Caching</text>
+  <text x="530" y="255" class="sublabel">Redis, Memcached</text>
+  <text x="530" y="268" class="sublabel">Reduce DB load</text>
+
+  <!-- Step 10: CDN -->
+  <rect x="610" y="195" width="155" height="80" rx="8" fill="#1e293b" stroke="#d97706" stroke-width="1.5"/>
+  <text x="687" y="218" class="num">10</text>
+  <text x="687" y="238" class="label">CDN</text>
+  <text x="687" y="255" class="sublabel">Static assets at edge</text>
+  <text x="687" y="268" class="sublabel">Global latency ↓</text>
+
+  <!-- Arrows row 2 -->
+  <line x1="160" y1="235" x2="175" y2="235" stroke="#475569" stroke-width="1.5" marker-end="url(#scaleArrow)"/>
+  <line x1="305" y1="235" x2="320" y2="235" stroke="#475569" stroke-width="1.5" marker-end="url(#scaleArrow)"/>
+  <line x1="450" y1="235" x2="465" y2="235" stroke="#475569" stroke-width="1.5" marker-end="url(#scaleArrow)"/>
+  <line x1="595" y1="235" x2="610" y2="235" stroke="#475569" stroke-width="1.5" marker-end="url(#scaleArrow)"/>
+
+  <!-- Step 11: Multi-Region -->
+  <rect x="250" y="315" width="300" height="80" rx="12" fill="#1e293b" stroke="#dc2626" stroke-width="2"/>
+  <text x="400" y="340" class="num">11</text>
+  <text x="400" y="360" class="label">Multi-Region Deployment</text>
+  <text x="400" y="377" class="sublabel">Disaster recovery, geo-proximity, compliance</text>
+  <text x="400" y="390" class="sublabel">Active-Active or Active-Passive</text>
+
+  <!-- Arrow from row 2 to multi-region -->
+  <line x1="400" y1="275" x2="400" y2="315" stroke="#475569" stroke-width="2" marker-end="url(#scaleArrow)"/>
+
+  <!-- Scale indicator -->
+  <rect x="60" y="430" width="680" height="45" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="100" y="452" class="sublabel" text-anchor="start" fill="#38bdf8">1 user</text>
+  <text x="400" y="452" class="sublabel" fill="#38bdf8">→ Scale →</text>
+  <text x="700" y="452" class="sublabel" fill="#38bdf8">Millions of users</text>
+
+  <!-- Gradient bar -->
+  <defs>
+    <linearGradient id="scaleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#2563eb;stop-opacity:0.8"/>
+      <stop offset="50%" style="stop-color:#7c3aed;stop-opacity:0.8"/>
+      <stop offset="100%" style="stop-color:#dc2626;stop-opacity:0.8"/>
+    </linearGradient>
+    <marker id="scaleArrow" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <polygon points="0,0 8,3 0,6" fill="#475569"/>
+    </marker>
+  </defs>
+  <rect x="80" y="460" width="640" height="6" rx="3" fill="url(#scaleGrad)"/>
+</svg>
