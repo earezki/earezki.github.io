@@ -1,0 +1,69 @@
+<svg viewBox="0 0 800 400" width="800" height="400" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="400" fill="#1e1e2e" rx="8"/>
+  <text x="400" y="35" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="16" font-weight="bold">Blue-Green Projection Rebuild</text>
+
+  <!-- Phase labels -->
+  <text x="60" y="70" fill="#89b4fa" font-family="monospace" font-size="12" font-weight="bold">Phase 1: Clear</text>
+  <text x="260" y="70" fill="#a6e3a1" font-family="monospace" font-size="12" font-weight="bold">Phase 2: Replay</text>
+  <text x="460" y="70" fill="#f9e2af" font-family="monospace" font-size="12" font-weight="bold">Phase 3: Catch-up</text>
+  <text x="640" y="70" fill="#f38ba8" font-family="monospace" font-size="12" font-weight="bold">Phase 4: Swap</text>
+
+  <!-- Active table (Blue) serving traffic throughout -->
+  <rect x="40" y="90" width="720" height="50" fill="#313244" stroke="#89b4fa" stroke-width="1.5" rx="4"/>
+  <text x="400" y="110" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="11" font-weight="bold">BLUE table (active) - serving reads throughout rebuild</text>
+  <text x="400" y="130" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">VIEW order_summary → order_summary_blue</text>
+
+  <!-- Arrow down -->
+  <line x1="400" y1="140" x2="400" y2="165" stroke="#45475a" stroke-width="1" stroke-dasharray="4"/>
+
+  <!-- Green table phases -->
+  <!-- Phase 1: Clear -->
+  <rect x="40" y="165" width="170" height="100" fill="#313244" stroke="#89b4fa" stroke-width="1" rx="4"/>
+  <text x="125" y="190" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="10">GREEN table</text>
+  <text x="125" y="210" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">TRUNCATE</text>
+  <text x="125" y="230" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">order_summary_green</text>
+  <rect x="60" y="240" width="130" height="15" fill="#1e1e2e" stroke="#45475a" stroke-width="0.5" rx="2"/>
+  <text x="125" y="252" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="8">empty</text>
+
+  <!-- Arrow -->
+  <line x1="210" y1="215" x2="240" y2="215" stroke="#a6e3a1" stroke-width="1.5"/>
+  <polygon points="240,215 234,211 234,219" fill="#a6e3a1"/>
+
+  <!-- Phase 2: Replay -->
+  <rect x="240" y="165" width="170" height="100" fill="#313244" stroke="#a6e3a1" stroke-width="1" rx="4"/>
+  <text x="325" y="190" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10">GREEN table</text>
+  <text x="325" y="210" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">Replay all events</text>
+  <text x="325" y="230" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">from position 0</text>
+  <rect x="260" y="240" width="60" height="15" fill="#a6e3a1" stroke="#a6e3a1" stroke-width="0.5" rx="2" opacity="0.3"/>
+  <rect x="320" y="240" width="70" height="15" fill="#1e1e2e" stroke="#45475a" stroke-width="0.5" rx="2"/>
+  <text x="325" y="252" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="8">filling...</text>
+
+  <!-- Arrow -->
+  <line x1="410" y1="215" x2="440" y2="215" stroke="#f9e2af" stroke-width="1.5"/>
+  <polygon points="440,215 434,211 434,219" fill="#f9e2af"/>
+
+  <!-- Phase 3: Catch-up -->
+  <rect x="440" y="165" width="160" height="100" fill="#313244" stroke="#f9e2af" stroke-width="1" rx="4"/>
+  <text x="520" y="190" text-anchor="middle" fill="#f9e2af" font-family="monospace" font-size="10">GREEN table</text>
+  <text x="520" y="210" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">Process events</text>
+  <text x="520" y="230" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">since replay started</text>
+  <rect x="460" y="240" width="120" height="15" fill="#a6e3a1" stroke="#a6e3a1" stroke-width="0.5" rx="2" opacity="0.3"/>
+  <text x="520" y="252" text-anchor="middle" fill="#f9e2af" font-family="monospace" font-size="8">catching up</text>
+
+  <!-- Arrow -->
+  <line x1="600" y1="215" x2="630" y2="215" stroke="#f38ba8" stroke-width="1.5"/>
+  <polygon points="630,215 624,211 624,219" fill="#f38ba8"/>
+
+  <!-- Phase 4: Swap -->
+  <rect x="630" y="165" width="130" height="100" fill="#313244" stroke="#f38ba8" stroke-width="2" rx="4"/>
+  <text x="695" y="190" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="10" font-weight="bold">SWAP</text>
+  <text x="695" y="210" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="8">CREATE OR REPLACE</text>
+  <text x="695" y="225" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="8">VIEW → GREEN</text>
+  <text x="695" y="248" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="8">Zero downtime</text>
+
+  <!-- Bottom summary -->
+  <rect x="40" y="290" width="720" height="85" fill="#313244" stroke="#45475a" stroke-width="1" rx="4"/>
+  <text x="400" y="315" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="11" font-weight="bold">Why Blue-Green?</text>
+  <text x="400" y="340" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="10">Reads are never interrupted. The active table serves traffic while the</text>
+  <text x="400" y="358" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="10">inactive table is rebuilt. The view swap is atomic in PostgreSQL.</text>
+</svg>

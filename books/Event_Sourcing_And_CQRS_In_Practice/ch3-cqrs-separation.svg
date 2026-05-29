@@ -1,0 +1,82 @@
+<svg viewBox="0 0 800 400" width="800" height="400" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="400" fill="#1e1e2e" rx="8"/>
+  <text x="400" y="35" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="16" font-weight="bold">CQRS: Command and Query Separation</text>
+
+  <!-- Command side -->
+  <rect x="40" y="60" width="320" height="300" fill="#1e1e2e" stroke="#f38ba8" stroke-width="1.5" rx="6" stroke-dasharray="6"/>
+  <text x="200" y="85" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="13" font-weight="bold">WRITE SIDE</text>
+
+  <!-- Command -->
+  <rect x="80" y="105" width="120" height="35" fill="#313244" stroke="#f38ba8" stroke-width="1" rx="4"/>
+  <text x="140" y="127" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="10">Command</text>
+
+  <!-- Arrow -->
+  <line x1="200" y1="122" x2="230" y2="122" stroke="#6c7086" stroke-width="1"/>
+  <polygon points="230,122 224,118 224,126" fill="#6c7086"/>
+
+  <!-- Command Handler -->
+  <rect x="230" y="100" width="110" height="45" fill="#313244" stroke="#f38ba8" stroke-width="1" rx="4"/>
+  <text x="285" y="120" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="9">Command</text>
+  <text x="285" y="135" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="9">Handler</text>
+
+  <!-- Arrow down to aggregate -->
+  <line x1="285" y1="145" x2="285" y2="170" stroke="#6c7086" stroke-width="1"/>
+  <polygon points="285,170 281,164 289,164" fill="#6c7086"/>
+
+  <!-- Aggregate -->
+  <rect x="220" y="170" width="130" height="45" fill="#313244" stroke="#f9e2af" stroke-width="1.5" rx="4"/>
+  <text x="285" y="190" text-anchor="middle" fill="#f9e2af" font-family="monospace" font-size="10">Aggregate</text>
+  <text x="285" y="205" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">Business Rules</text>
+
+  <!-- Arrow down to event store -->
+  <line x1="285" y1="215" x2="285" y2="240" stroke="#6c7086" stroke-width="1"/>
+  <polygon points="285,240 281,234 289,234" fill="#6c7086"/>
+
+  <!-- Event Store -->
+  <rect x="200" y="240" width="150" height="45" fill="#313244" stroke="#a6e3a1" stroke-width="1.5" rx="4"/>
+  <text x="275" y="260" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10">Event Store</text>
+  <text x="275" y="275" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">Append-only</text>
+
+  <!-- Events flow arrow to right side -->
+  <line x1="350" y1="262" x2="440" y2="262" stroke="#a6e3a1" stroke-width="1.5"/>
+  <polygon points="440,262 434,258 434,266" fill="#a6e3a1"/>
+  <text x="395" y="255" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="8">events</text>
+
+  <!-- Query side -->
+  <rect x="440" y="60" width="320" height="300" fill="#1e1e2e" stroke="#89b4fa" stroke-width="1.5" rx="6" stroke-dasharray="6"/>
+  <text x="600" y="85" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="13" font-weight="bold">READ SIDE</text>
+
+  <!-- Projection -->
+  <rect x="460" y="240" width="130" height="45" fill="#313244" stroke="#89b4fa" stroke-width="1" rx="4"/>
+  <text x="525" y="260" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="10">Projection</text>
+  <text x="525" y="275" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">Event Handler</text>
+
+  <!-- Arrow up to read model -->
+  <line x1="525" y1="240" x2="525" y2="210" stroke="#6c7086" stroke-width="1"/>
+  <polygon points="525,210 521,216 529,216" fill="#6c7086"/>
+
+  <!-- Read Model -->
+  <rect x="470" y="165" width="130" height="45" fill="#313244" stroke="#89b4fa" stroke-width="1.5" rx="4"/>
+  <text x="535" y="185" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="10">Read Model</text>
+  <text x="535" y="200" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">Optimized Views</text>
+
+  <!-- Arrow up to query handler -->
+  <line x1="535" y1="165" x2="535" y2="145" stroke="#6c7086" stroke-width="1"/>
+  <polygon points="535,145 531,151 539,151" fill="#6c7086"/>
+
+  <!-- Query Handler -->
+  <rect x="480" y="100" width="110" height="45" fill="#313244" stroke="#89b4fa" stroke-width="1" rx="4"/>
+  <text x="535" y="120" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="9">Query</text>
+  <text x="535" y="135" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="9">Handler</text>
+
+  <!-- Query -->
+  <rect x="620" y="105" width="120" height="35" fill="#313244" stroke="#89b4fa" stroke-width="1" rx="4"/>
+  <text x="680" y="127" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="10">Query</text>
+
+  <!-- Arrow -->
+  <line x1="620" y1="122" x2="590" y2="122" stroke="#6c7086" stroke-width="1"/>
+  <polygon points="590,122 596,118 596,126" fill="#6c7086"/>
+
+  <!-- Eventually consistent label -->
+  <text x="400" y="390" text-anchor="middle" fill="#f9e2af" font-family="monospace" font-size="11">Eventually Consistent</text>
+</svg>

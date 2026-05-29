@@ -1,0 +1,48 @@
+<svg viewBox="0 0 800 350" width="800" height="350" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="350" fill="#1e1e2e" rx="8"/>
+  <text x="400" y="35" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="16" font-weight="bold">Read Model Storage: Trade-offs by Engine</text>
+
+  <!-- PostgreSQL -->
+  <rect x="40" y="60" width="220" height="130" fill="#313244" stroke="#f9e2af" stroke-width="1.5" rx="6"/>
+  <text x="150" y="85" text-anchor="middle" fill="#f9e2af" font-family="monospace" font-size="12" font-weight="bold">PostgreSQL</text>
+  <text x="150" y="108" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10">+ Transactional</text>
+  <text x="150" y="125" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10">+ ACID with events</text>
+  <text x="150" y="142" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10">+ Complex queries</text>
+  <text x="150" y="162" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="10">- Read latency at scale</text>
+  <text x="150" y="182" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">Best for: primary read models</text>
+
+  <!-- Redis -->
+  <rect x="290" y="60" width="220" height="130" fill="#313244" stroke="#f38ba8" stroke-width="1.5" rx="6"/>
+  <text x="400" y="85" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="12" font-weight="bold">Redis</text>
+  <text x="400" y="108" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10">+ Sub-ms reads</text>
+  <text x="400" y="125" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10">+ Key-value lookup</text>
+  <text x="400" y="142" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="10">- No transactions</text>
+  <text x="400" y="162" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="10">- Limited queries</text>
+  <text x="400" y="182" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">Best for: hot cache, lookups</text>
+
+  <!-- Elasticsearch -->
+  <rect x="540" y="60" width="220" height="130" fill="#313244" stroke="#a6e3a1" stroke-width="1.5" rx="6"/>
+  <text x="650" y="85" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="12" font-weight="bold">Elasticsearch</text>
+  <text x="650" y="108" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10">+ Full-text search</text>
+  <text x="650" y="125" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10">+ Faceted queries</text>
+  <text x="650" y="142" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="10">- No transactions</text>
+  <text x="650" y="162" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="10">- Complex ops</text>
+  <text x="650" y="182" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">Best for: search, analytics</text>
+
+  <!-- Consistency trade-off bar -->
+  <rect x="40" y="220" width="720" height="40" fill="#313244" stroke="#45475a" stroke-width="1" rx="4"/>
+  <text x="400" y="245" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="11" font-weight="bold">Consistency Spectrum</text>
+
+  <line x1="80" y1="280" x2="720" y2="280" stroke="#45475a" stroke-width="2"/>
+  <circle cx="150" cy="280" r="8" fill="#f9e2af"/>
+  <text x="150" y="305" text-anchor="middle" fill="#f9e2af" font-family="monospace" font-size="9">Strong</text>
+  <text x="150" y="320" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="8">PostgreSQL</text>
+
+  <circle cx="450" cy="280" r="8" fill="#f38ba8"/>
+  <text x="450" y="305" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="9">Eventual</text>
+  <text x="450" y="320" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="8">Redis</text>
+
+  <circle cx="650" cy="280" r="8" fill="#a6e3a1"/>
+  <text x="650" y="305" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="9">Eventual</text>
+  <text x="650" y="320" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="8">Elasticsearch</text>
+</svg>

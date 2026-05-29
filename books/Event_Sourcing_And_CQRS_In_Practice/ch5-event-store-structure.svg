@@ -1,0 +1,63 @@
+<svg viewBox="0 0 800 320" width="800" height="320" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="320" fill="#1e1e2e" rx="8"/>
+  <text x="400" y="35" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="16" font-weight="bold">Event Store: Append-Only with Optimistic Concurrency</text>
+
+  <!-- Table header -->
+  <rect x="40" y="55" width="720" height="30" fill="#313244" stroke="#89b4fa" stroke-width="1" rx="4"/>
+  <text x="90" y="75" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="9" font-weight="bold">global_pos</text>
+  <text x="200" y="75" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="9" font-weight="bold">stream_id</text>
+  <text x="310" y="75" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="9" font-weight="bold">seq_num</text>
+  <text x="430" y="75" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="9" font-weight="bold">event_type</text>
+  <text x="570" y="75" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="9" font-weight="bold">payload (JSONB)</text>
+  <text x="710" y="75" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="9" font-weight="bold">occurred_at</text>
+
+  <!-- Row 1 -->
+  <rect x="40" y="87" width="720" height="25" fill="#1e1e2e" stroke="#45475a" stroke-width="0.5"/>
+  <text x="90" y="104" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">1</text>
+  <text x="200" y="104" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="9">order-001</text>
+  <text x="310" y="104" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="9">0</text>
+  <text x="430" y="104" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="9">OrderPlaced</text>
+  <text x="570" y="104" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">{orderId, items...}</text>
+  <text x="710" y="104" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">10:00:01</text>
+
+  <!-- Row 2 -->
+  <rect x="40" y="112" width="720" height="25" fill="#313244" stroke="#45475a" stroke-width="0.5"/>
+  <text x="90" y="129" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">2</text>
+  <text x="200" y="129" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="9">order-002</text>
+  <text x="310" y="129" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="9">0</text>
+  <text x="430" y="129" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="9">OrderPlaced</text>
+  <text x="570" y="129" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">{orderId, items...}</text>
+  <text x="710" y="129" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">10:00:02</text>
+
+  <!-- Row 3 -->
+  <rect x="40" y="137" width="720" height="25" fill="#1e1e2e" stroke="#45475a" stroke-width="0.5"/>
+  <text x="90" y="154" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">3</text>
+  <text x="200" y="154" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="9">order-001</text>
+  <text x="310" y="154" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="9">1</text>
+  <text x="430" y="154" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="9">PaymentAuth</text>
+  <text x="570" y="154" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">{authCode...}</text>
+  <text x="710" y="154" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">10:00:05</text>
+
+  <!-- Row 4 -->
+  <rect x="40" y="162" width="720" height="25" fill="#313244" stroke="#45475a" stroke-width="0.5"/>
+  <text x="90" y="179" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">4</text>
+  <text x="200" y="179" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="9">order-001</text>
+  <text x="310" y="179" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="9">2</text>
+  <text x="430" y="179" text-anchor="middle" fill="#f9e2af" font-family="monospace" font-size="9">OrderConfirmed</text>
+  <text x="570" y="179" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">{confirmedAt...}</text>
+  <text x="710" y="179" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">10:00:06</text>
+
+  <!-- Concurrency check -->
+  <rect x="40" y="210" width="350" height="90" fill="#313244" stroke="#f38ba8" stroke-width="1" rx="4"/>
+  <text x="215" y="230" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="10" font-weight="bold">Optimistic Concurrency</text>
+  <text x="215" y="250" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="9">UNIQUE (stream_id, sequence_number)</text>
+  <text x="215" y="270" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">Conflict → SQLSTATE 23505</text>
+  <text x="215" y="290" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">Retry: reload → revalidate → retry</text>
+
+  <!-- Append only -->
+  <rect x="410" y="210" width="350" height="90" fill="#313244" stroke="#a6e3a1" stroke-width="1" rx="4"/>
+  <text x="585" y="230" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10" font-weight="bold">Append-Only Guarantee</text>
+  <text x="585" y="250" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="9">No UPDATE or DELETE allowed</text>
+  <text x="585" y="270" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">Enforced by DB trigger</text>
+  <text x="585" y="290" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">global_position: total ordering</text>
+</svg>

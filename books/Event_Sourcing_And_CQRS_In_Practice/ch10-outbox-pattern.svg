@@ -1,0 +1,72 @@
+<svg viewBox="0 0 800 420" width="800" height="420" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="420" fill="#1e1e2e" rx="8"/>
+  <text x="400" y="35" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="16" font-weight="bold">Outbox Pattern: Reliable Event Publishing</text>
+
+  <!-- The Problem -->
+  <text x="400" y="65" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="11">Problem: Two writes (DB + Kafka) cannot be atomic</text>
+
+  <!-- Application -->
+  <rect x="280" y="85" width="120" height="40" fill="#313244" stroke="#89b4fa" stroke-width="1.5" rx="4"/>
+  <text x="340" y="110" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="10">Application</text>
+
+  <!-- Single transaction bracket -->
+  <rect x="60" y="135" width="370" height="120" fill="#1e1e2e" stroke="#a6e3a1" stroke-width="2" rx="6" stroke-dasharray="6"/>
+  <text x="245" y="155" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10" font-weight="bold">Single Transaction</text>
+
+  <!-- Arrow down to event store -->
+  <line x1="300" y1="125" x2="200" y2="165" stroke="#6c7086" stroke-width="1"/>
+  <polygon points="200,165 204,158 208,165" fill="#6c7086"/>
+
+  <!-- Event Store -->
+  <rect x="100" y="170" width="150" height="40" fill="#313244" stroke="#a6e3a1" stroke-width="1" rx="4"/>
+  <text x="175" y="195" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10">Event Store</text>
+
+  <!-- Arrow down to outbox -->
+  <line x1="370" y1="125" x2="350" y2="165" stroke="#6c7086" stroke-width="1"/>
+  <polygon points="350,165 346,158 354,158" fill="#6c7086"/>
+
+  <!-- Outbox table -->
+  <rect x="270" y="170" width="150" height="40" fill="#313244" stroke="#f9e2af" stroke-width="1.5" rx="4"/>
+  <text x="345" y="195" text-anchor="middle" fill="#f9e2af" font-family="monospace" font-size="10">Outbox Table</text>
+
+  <!-- Transaction label -->
+  <text x="245" y="245" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="9">Both in same DB transaction</text>
+
+  <!-- Outbox Relay (separate process) -->
+  <rect x="440" y="135" width="140" height="120" fill="#313244" stroke="#cba6f7" stroke-width="1.5" rx="6"/>
+  <text x="510" y="165" text-anchor="middle" fill="#cba6f7" font-family="monospace" font-size="10" font-weight="bold">Outbox Relay</text>
+  <text x="510" y="185" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="8">SELECT ... FOR</text>
+  <text x="510" y="200" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="8">UPDATE SKIP LOCKED</text>
+  <text x="510" y="220" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="8">poll every 100ms</text>
+  <text x="510" y="240" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="8">mark processed</text>
+
+  <!-- Arrow from outbox to relay -->
+  <line x1="420" y1="190" x2="440" y2="190" stroke="#f9e2af" stroke-width="1.5"/>
+  <polygon points="440,190 434,186 434,194" fill="#f9e2af"/>
+
+  <!-- Arrow from relay to Kafka -->
+  <line x1="580" y1="195" x2="620" y2="195" stroke="#cba6f7" stroke-width="1.5"/>
+  <polygon points="620,195 614,191 614,199" fill="#cba6f7"/>
+
+  <!-- Kafka -->
+  <rect x="620" y="140" width="140" height="110" fill="#313244" stroke="#f38ba8" stroke-width="1.5" rx="6"/>
+  <text x="690" y="170" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="11" font-weight="bold">Kafka</text>
+  <text x="690" y="190" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">acks=all</text>
+  <text x="690" y="205" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">idempotence=true</text>
+  <text x="690" y="225" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">order-events topic</text>
+
+  <!-- Consumers -->
+  <line x1="690" y1="250" x2="690" y2="280" stroke="#f38ba8" stroke-width="1.5"/>
+  <polygon points="690,280 686,274 694,274" fill="#f38ba8"/>
+
+  <rect x="600" y="280" width="180" height="60" fill="#313244" stroke="#89b4fa" stroke-width="1" rx="4"/>
+  <text x="690" y="305" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="10">External Consumers</text>
+  <text x="690" y="325" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">Projections, Sagas, etc.</text>
+
+  <!-- Guarantee box -->
+  <rect x="40" y="290" width="420" height="100" fill="#313244" stroke="#45475a" stroke-width="1" rx="4"/>
+  <text x="250" y="315" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="11" font-weight="bold">Guarantees</text>
+  <text x="250" y="340" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="9">Event store + outbox: same transaction (atomic)</text>
+  <text x="250" y="358" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="9">Relay + Kafka: at-least-once delivery</text>
+  <text x="250" y="376" text-anchor="middle" fill="#f9e2af" font-family="monospace" font-size="9">Consumers must be idempotent</text>
+</svg>

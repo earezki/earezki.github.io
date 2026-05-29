@@ -1,0 +1,63 @@
+<svg viewBox="0 0 800 450" width="800" height="450" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="450" fill="#1e1e2e" rx="8"/>
+  <text x="400" y="35" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="16" font-weight="bold">Observability: Metrics for Event-Sourced Systems</text>
+
+  <!-- Row 1: Overview -->
+  <text x="60" y="65" fill="#89b4fa" font-family="monospace" font-size="11" font-weight="bold">System Health (single-stat panels)</text>
+
+  <rect x="40" y="75" width="160" height="50" fill="#313244" stroke="#a6e3a1" stroke-width="1.5" rx="4"/>
+  <text x="120" y="95" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="8">Total Events</text>
+  <text x="120" y="115" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="14" font-weight="bold">4,523,891</text>
+
+  <rect x="220" y="75" width="160" height="50" fill="#313244" stroke="#a6e3a1" stroke-width="1.5" rx="4"/>
+  <text x="300" y="95" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="8">Projection Lag</text>
+  <text x="300" y="115" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="14" font-weight="bold">12 events</text>
+
+  <rect x="400" y="75" width="160" height="50" fill="#313244" stroke="#a6e3a1" stroke-width="1.5" rx="4"/>
+  <text x="480" y="95" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="8">Stuck Sagas</text>
+  <text x="480" y="115" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="14" font-weight="bold">0</text>
+
+  <rect x="580" y="75" width="160" height="50" fill="#313244" stroke="#f9e2af" stroke-width="1.5" rx="4"/>
+  <text x="660" y="95" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="8">Outbox Pending</text>
+  <text x="660" y="115" text-anchor="middle" fill="#f9e2af" font-family="monospace" font-size="14" font-weight="bold">3</text>
+
+  <!-- Row 2: Write Side -->
+  <text x="60" y="155" fill="#f38ba8" font-family="monospace" font-size="11" font-weight="bold">Write Side</text>
+
+  <rect x="40" y="165" width="230" height="80" fill="#313244" stroke="#f38ba8" stroke-width="1" rx="4"/>
+  <text x="155" y="185" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="9">events.appended/sec</text>
+  <!-- Sparkline -->
+  <polyline points="60,230 80,225 100,220 120,228 140,215 160,218 180,210 200,222 220,208 240,212" fill="none" stroke="#f38ba8" stroke-width="1.5"/>
+
+  <rect x="290" y="165" width="230" height="80" fill="#313244" stroke="#f38ba8" stroke-width="1" rx="4"/>
+  <text x="405" y="185" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="9">append.latency (p50/p95/p99)</text>
+  <polyline points="310,230 330,228 350,225 370,228 390,220 410,215 430,225 450,218 470,222 490,220" fill="none" stroke="#f38ba8" stroke-width="1"/>
+  <polyline points="310,220 330,218 350,215 370,220 390,210 410,208 430,218 450,212 470,215 490,210" fill="none" stroke="#f9e2af" stroke-width="1"/>
+
+  <rect x="540" y="165" width="200" height="80" fill="#313244" stroke="#f38ba8" stroke-width="1" rx="4"/>
+  <text x="640" y="185" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="9">concurrency.failures/min</text>
+  <polyline points="560,230 580,230 600,228 620,230 640,230 660,225 680,230 700,228 720,230" fill="none" stroke="#f38ba8" stroke-width="1.5"/>
+
+  <!-- Row 3: Read Side (most important) -->
+  <text x="60" y="275" fill="#a6e3a1" font-family="monospace" font-size="11" font-weight="bold">Read Side (most watched)</text>
+
+  <rect x="40" y="285" width="340" height="80" fill="#313244" stroke="#a6e3a1" stroke-width="2" rx="4"/>
+  <text x="210" y="305" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10" font-weight="bold">projection.lag.events</text>
+  <!-- Sparkline showing lag -->
+  <polyline points="60,350 90,348 120,345 150,340 180,342 210,338 240,335 270,340 300,335 330,330 360,335" fill="none" stroke="#a6e3a1" stroke-width="2"/>
+  <line x1="60" y1="355" x2="360" y2="355" stroke="#f38ba8" stroke-width="1" stroke-dasharray="3"/>
+  <text x="370" y="358" fill="#f38ba8" font-family="monospace" font-size="7">alert: 1000</text>
+
+  <rect x="400" y="285" width="340" height="80" fill="#313244" stroke="#89b4fa" stroke-width="1" rx="4"/>
+  <text x="570" y="305" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="9">events.processed/sec + errors</text>
+  <polyline points="420,345 450,340 480,338 510,342 540,335 570,340 600,338 630,342 660,340 690,335 720,338" fill="none" stroke="#89b4fa" stroke-width="1.5"/>
+
+  <!-- Alerting rules -->
+  <rect x="40" y="385" width="720" height="50" fill="#313244" stroke="#f38ba8" stroke-width="1" rx="4"/>
+  <text x="60" y="405" fill="#f38ba8" font-family="monospace" font-size="9" font-weight="bold">Alert Rules:</text>
+  <text x="170" y="405" fill="#6c7086" font-family="monospace" font-size="8">ProjectionLagHigh (>1K, 5m)</text>
+  <text x="375" y="405" fill="#6c7086" font-family="monospace" font-size="8">SagaStuck (>0, 15m)</text>
+  <text x="545" y="405" fill="#6c7086" font-family="monospace" font-size="8">OutboxStale (>300s)</text>
+  <text x="60" y="425" fill="#f38ba8" font-family="monospace" font-size="9" font-weight="bold">Critical:</text>
+  <text x="130" y="425" fill="#6c7086" font-family="monospace" font-size="8">ProjectionLagCritical (>10K, 2m) = stale reads visible to users</text>
+</svg>

@@ -1,0 +1,70 @@
+<svg viewBox="0 0 800 380" width="800" height="380" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="380" fill="#1e1e2e" rx="8"/>
+  <text x="400" y="35" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="16" font-weight="bold">Upcasting Chain: V1 → V2 → V3</text>
+
+  <!-- V1 Event (stored) -->
+  <rect x="30" y="70" width="200" height="120" fill="#313244" stroke="#f38ba8" stroke-width="1.5" rx="4"/>
+  <text x="130" y="95" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="11" font-weight="bold">V1 (stored)</text>
+  <text x="130" y="115" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">orderId: "o1"</text>
+  <text x="130" y="132" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">shippingAddress: {...}</text>
+  <text x="130" y="149" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">total: 49.99</text>
+  <text x="130" y="166" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="8">no schemaVersion</text>
+  <text x="130" y="182" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="8">no promotionCode</text>
+
+  <!-- Upcaster 1 -->
+  <rect x="260" y="100" width="80" height="60" fill="#f9e2af" fill-opacity="0.15" stroke="#f9e2af" stroke-width="1.5" rx="20"/>
+  <text x="300" y="125" text-anchor="middle" fill="#f9e2af" font-family="monospace" font-size="9" font-weight="bold">Upcast</text>
+  <text x="300" y="145" text-anchor="middle" fill="#f9e2af" font-family="monospace" font-size="9">V1→V2</text>
+
+  <!-- Arrow -->
+  <line x1="230" y1="130" x2="260" y2="130" stroke="#f9e2af" stroke-width="1.5"/>
+  <polygon points="260,130 254,126 254,134" fill="#f9e2af"/>
+
+  <!-- V2 Event (intermediate) -->
+  <rect x="370" y="70" width="200" height="120" fill="#313244" stroke="#89b4fa" stroke-width="1.5" rx="4"/>
+  <text x="470" y="95" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="11" font-weight="bold">V2 (intermediate)</text>
+  <text x="470" y="115" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">orderId: "o1"</text>
+  <text x="470" y="132" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="9">deliveryAddress: {...}</text>
+  <text x="470" y="149" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">total: 49.99</text>
+  <text x="470" y="166" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="9">promotionCode: ""</text>
+  <text x="470" y="182" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="8">schemaVersion: 2</text>
+
+  <!-- Arrow -->
+  <line x1="340" y1="130" x2="370" y2="130" stroke="#f9e2af" stroke-width="1.5"/>
+  <polygon points="370,130 364,126 364,134" fill="#f9e2af"/>
+
+  <!-- Upcaster 2 -->
+  <rect x="600" y="100" width="80" height="60" fill="#cba6f7" fill-opacity="0.15" stroke="#cba6f7" stroke-width="1.5" rx="20"/>
+  <text x="640" y="125" text-anchor="middle" fill="#cba6f7" font-family="monospace" font-size="9" font-weight="bold">Upcast</text>
+  <text x="640" y="145" text-anchor="middle" fill="#cba6f7" font-family="monospace" font-size="9">V2→V3</text>
+
+  <!-- Arrow -->
+  <line x1="570" y1="130" x2="600" y2="130" stroke="#cba6f7" stroke-width="1.5"/>
+  <polygon points="600,130 594,126 594,134" fill="#cba6f7"/>
+
+  <!-- Arrow down to final -->
+  <line x1="640" y1="160" x2="640" y2="200" stroke="#cba6f7" stroke-width="1.5"/>
+  <polygon points="640,200 636,194 644,194" fill="#cba6f7"/>
+
+  <!-- V3 Event (final) -->
+  <rect x="520" y="200" width="240" height="90" fill="#313244" stroke="#a6e3a1" stroke-width="2" rx="4"/>
+  <text x="640" y="225" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="11" font-weight="bold">V3 (current schema)</text>
+  <text x="640" y="248" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="9">Ready for deserialization</text>
+  <text x="640" y="265" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="9">into current Java record</text>
+  <text x="640" y="282" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="8">schemaVersion: 3</text>
+
+  <!-- Classification table -->
+  <rect x="30" y="220" width="450" height="140" fill="#313244" stroke="#45475a" stroke-width="1" rx="4"/>
+  <text x="255" y="245" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="11" font-weight="bold">Schema Change Safety</text>
+
+  <text x="50" y="270" fill="#a6e3a1" font-family="monospace" font-size="9">Safe (no upcaster):</text>
+  <text x="230" y="270" fill="#6c7086" font-family="monospace" font-size="9">Add optional field, remove unused field</text>
+
+  <text x="50" y="295" fill="#f9e2af" font-family="monospace" font-size="9">Upcaster required:</text>
+  <text x="230" y="295" fill="#6c7086" font-family="monospace" font-size="9">Rename field, change type, add required</text>
+
+  <text x="50" y="320" fill="#f38ba8" font-family="monospace" font-size="9">Migration required:</text>
+  <text x="230" y="320" fill="#6c7086" font-family="monospace" font-size="9">Split event, merge events</text>
+
+  <text x="255" y="348" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="8">Version detection: schemaVersion field, absent = v1</text>
+</svg>

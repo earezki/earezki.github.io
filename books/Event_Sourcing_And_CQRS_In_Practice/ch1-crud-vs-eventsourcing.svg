@@ -1,0 +1,43 @@
+<svg viewBox="0 0 800 400" width="800" height="400" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="400" fill="#1e1e2e" rx="8"/>
+  <text x="400" y="35" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="16" font-weight="bold">CRUD vs Event Sourcing: What Gets Stored</text>
+
+  <!-- CRUD side -->
+  <text x="200" y="70" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="14" font-weight="bold">CRUD</text>
+  <rect x="60" y="85" width="280" height="40" fill="#313244" stroke="#f38ba8" stroke-width="1.5" rx="4"/>
+  <text x="200" y="110" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="12">orders: status = "shipped"</text>
+  <text x="200" y="145" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="11">Only current state survives</text>
+  <text x="200" y="165" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="11">History is lost on UPDATE</text>
+
+  <!-- Arrow -->
+  <line x1="200" y1="180" x2="200" y2="210" stroke="#6c7086" stroke-width="1" stroke-dasharray="4"/>
+  <text x="200" y="230" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="11">? How did it get here ?</text>
+
+  <!-- Event Sourcing side -->
+  <text x="600" y="70" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="14" font-weight="bold">Event Sourcing</text>
+
+  <rect x="460" y="85" width="280" height="30" fill="#313244" stroke="#a6e3a1" stroke-width="1" rx="4"/>
+  <text x="600" y="105" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="11">1. OrderPlaced</text>
+
+  <rect x="460" y="120" width="280" height="30" fill="#313244" stroke="#a6e3a1" stroke-width="1" rx="4"/>
+  <text x="600" y="140" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="11">2. PaymentAuthorized</text>
+
+  <rect x="460" y="155" width="280" height="30" fill="#313244" stroke="#a6e3a1" stroke-width="1" rx="4"/>
+  <text x="600" y="175" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="11">3. OrderConfirmed</text>
+
+  <rect x="460" y="190" width="280" height="30" fill="#313244" stroke="#a6e3a1" stroke-width="1" rx="4"/>
+  <text x="600" y="210" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="11">4. InventoryReserved</text>
+
+  <rect x="460" y="225" width="280" height="30" fill="#313244" stroke="#89b4fa" stroke-width="1.5" rx="4"/>
+  <text x="600" y="245" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="11">5. FulfilmentDispatched</text>
+
+  <text x="600" y="280" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="11">Every state transition recorded</text>
+  <text x="600" y="300" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="11">Replay to any point in time</text>
+
+  <!-- Bottom comparison -->
+  <line x1="50" y1="330" x2="750" y2="330" stroke="#45475a" stroke-width="1"/>
+  <text x="200" y="360" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="12">UPDATE orders SET status</text>
+  <text x="200" y="380" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="11">Destructive mutation</text>
+  <text x="600" y="360" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="12">INSERT INTO event_store</text>
+  <text x="600" y="380" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="11">Append-only accumulation</text>
+</svg>

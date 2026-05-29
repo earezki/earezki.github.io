@@ -1,0 +1,51 @@
+<svg viewBox="0 0 800 400" width="800" height="400" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="400" fill="#1e1e2e" rx="8"/>
+  <text x="400" y="35" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="16" font-weight="bold">Time-Travel Debugging: State at Any Point</text>
+
+  <!-- Timeline -->
+  <line x1="60" y1="120" x2="740" y2="120" stroke="#45475a" stroke-width="2"/>
+
+  <!-- Events on timeline -->
+  <circle cx="120" cy="120" r="6" fill="#a6e3a1"/>
+  <text x="120" y="105" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="8">OrderPlaced</text>
+  <text x="120" y="145" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="7">v0 10:00</text>
+
+  <circle cx="260" cy="120" r="6" fill="#89b4fa"/>
+  <text x="260" y="105" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="8">PaymentAuth</text>
+  <text x="260" y="145" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="7">v1 10:05</text>
+
+  <circle cx="400" cy="120" r="6" fill="#f9e2af"/>
+  <text x="400" y="105" text-anchor="middle" fill="#f9e2af" font-family="monospace" font-size="8">Confirmed</text>
+  <text x="400" y="145" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="7">v2 10:06</text>
+
+  <circle cx="540" cy="120" r="6" fill="#cba6f7"/>
+  <text x="540" y="105" text-anchor="middle" fill="#cba6f7" font-family="monospace" font-size="8">InvReserved</text>
+  <text x="540" y="145" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="7">v3 10:10</text>
+
+  <circle cx="680" cy="120" r="6" fill="#f38ba8"/>
+  <text x="680" y="105" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="8">Dispatched</text>
+  <text x="680" y="145" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="7">v4 11:00</text>
+
+  <!-- Query arrow pointing to specific time -->
+  <line x1="330" y1="180" x2="330" y2="125" stroke="#f38ba8" stroke-width="2" stroke-dasharray="4"/>
+  <polygon points="330,125 326,131 334,131" fill="#f38ba8"/>
+  <text x="330" y="200" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="10" font-weight="bold">stateAt(10:05:30)</text>
+
+  <!-- State box at that time -->
+  <rect x="220" y="210" width="220" height="80" fill="#313244" stroke="#f38ba8" stroke-width="1.5" rx="4"/>
+  <text x="330" y="235" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="10" font-weight="bold">State at 10:05:30</text>
+  <text x="330" y="255" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="9">status: PAYMENT_AUTHORIZED</text>
+  <text x="330" y="275" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">version: 1, total: $49.99</text>
+
+  <!-- Tools box -->
+  <rect x="40" y="310" width="340" height="70" fill="#313244" stroke="#89b4fa" stroke-width="1" rx="4"/>
+  <text x="210" y="335" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="10" font-weight="bold">Debugging Tools</text>
+  <text x="60" y="355" fill="#6c7086" font-family="monospace" font-size="9">StreamInspector: full event history</text>
+  <text x="60" y="370" fill="#6c7086" font-family="monospace" font-size="9">TimelineBuilder: state at version/time</text>
+
+  <!-- Drift detection box -->
+  <rect x="420" y="310" width="340" height="70" fill="#313244" stroke="#f9e2af" stroke-width="1" rx="4"/>
+  <text x="590" y="335" text-anchor="middle" fill="#f9e2af" font-family="monospace" font-size="10" font-weight="bold">Drift Detection</text>
+  <text x="440" y="355" fill="#6c7086" font-family="monospace" font-size="9">Compare projection vs replayed events</text>
+  <text x="440" y="370" fill="#6c7086" font-family="monospace" font-size="9">Batch sampling for systematic checks</text>
+</svg>

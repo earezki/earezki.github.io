@@ -1,0 +1,95 @@
+<svg viewBox="0 0 800 500" width="800" height="500" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="500" fill="#1e1e2e" rx="8"/>
+  <text x="400" y="30" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="16" font-weight="bold">Order Fulfilment Saga: State Machine</text>
+
+  <!-- States -->
+  <!-- STARTED -->
+  <rect x="30" y="60" width="110" height="35" fill="#313244" stroke="#a6e3a1" stroke-width="2" rx="16"/>
+  <text x="85" y="82" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="9">STARTED</text>
+
+  <!-- AWAITING_PAYMENT -->
+  <rect x="200" y="60" width="150" height="35" fill="#313244" stroke="#89b4fa" stroke-width="1.5" rx="16"/>
+  <text x="275" y="82" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="9">AWAITING_PAYMENT</text>
+
+  <!-- AWAITING_INVENTORY -->
+  <rect x="420" y="60" width="160" height="35" fill="#313244" stroke="#89b4fa" stroke-width="1.5" rx="16"/>
+  <text x="500" y="82" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="9">AWAITING_INVENTORY</text>
+
+  <!-- AWAITING_FULFILMENT -->
+  <rect x="640" y="60" width="140" height="35" fill="#313244" stroke="#89b4fa" stroke-width="1.5" rx="16"/>
+  <text x="710" y="82" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="9">AWAITING_FULFIL</text>
+
+  <!-- COMPLETED -->
+  <rect x="660" y="150" width="110" height="35" fill="#313244" stroke="#a6e3a1" stroke-width="2" rx="16"/>
+  <text x="715" y="172" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="9">COMPLETED</text>
+
+  <!-- Happy path arrows -->
+  <line x1="140" y1="77" x2="200" y2="77" stroke="#a6e3a1" stroke-width="1.5"/>
+  <polygon points="200,77 194,73 194,81" fill="#a6e3a1"/>
+  <text x="170" y="68" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="7">OrderPlaced</text>
+
+  <line x1="350" y1="77" x2="420" y2="77" stroke="#a6e3a1" stroke-width="1.5"/>
+  <polygon points="420,77 414,73 414,81" fill="#a6e3a1"/>
+  <text x="385" y="68" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="7">PaymentAuth</text>
+
+  <line x1="580" y1="77" x2="640" y2="77" stroke="#a6e3a1" stroke-width="1.5"/>
+  <polygon points="640,77 634,73 634,81" fill="#a6e3a1"/>
+  <text x="610" y="68" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="7">InvReserved</text>
+
+  <line x1="710" y1="95" x2="710" y2="150" stroke="#a6e3a1" stroke-width="1.5"/>
+  <polygon points="710,150 706,144 714,144" fill="#a6e3a1"/>
+  <text x="740" y="125" fill="#a6e3a1" font-family="monospace" font-size="7">Dispatched</text>
+
+  <!-- Compensation path -->
+  <text x="400" y="230" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="12" font-weight="bold">Compensation Path (failure at any step)</text>
+
+  <!-- COMPENSATING_INVENTORY -->
+  <rect x="420" y="255" width="170" height="35" fill="#313244" stroke="#f38ba8" stroke-width="1.5" rx="16"/>
+  <text x="505" y="277" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="9">COMP_INVENTORY</text>
+
+  <!-- COMPENSATING_PAYMENT -->
+  <rect x="200" y="255" width="160" height="35" fill="#313244" stroke="#f38ba8" stroke-width="1.5" rx="16"/>
+  <text x="280" y="277" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="9">COMP_PAYMENT</text>
+
+  <!-- FAILED -->
+  <rect x="30" y="255" width="110" height="35" fill="#313244" stroke="#f38ba8" stroke-width="2" rx="16"/>
+  <text x="85" y="277" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="9">FAILED</text>
+
+  <!-- Failure triggers -->
+  <line x1="500" y1="95" x2="505" y2="255" stroke="#f38ba8" stroke-width="1" stroke-dasharray="4"/>
+  <text x="530" y="175" fill="#f38ba8" font-family="monospace" font-size="7" transform="rotate(85,530,175)">InvFailed</text>
+
+  <line x1="710" y1="95" x2="550" y2="255" stroke="#f38ba8" stroke-width="1" stroke-dasharray="4"/>
+  <text x="650" y="180" fill="#f38ba8" font-family="monospace" font-size="7">FulfilFailed</text>
+
+  <!-- Compensation arrows -->
+  <line x1="420" y1="272" x2="360" y2="272" stroke="#f38ba8" stroke-width="1.5"/>
+  <polygon points="360,272 366,268 366,276" fill="#f38ba8"/>
+  <text x="390" y="262" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="7">InvReleased</text>
+
+  <line x1="200" y1="272" x2="140" y2="272" stroke="#f38ba8" stroke-width="1.5"/>
+  <polygon points="140,272 146,268 146,276" fill="#f38ba8"/>
+  <text x="170" y="262" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="7">PayReleased</text>
+
+  <!-- Payment failure shortcut -->
+  <line x1="275" y1="95" x2="280" y2="255" stroke="#f38ba8" stroke-width="1" stroke-dasharray="4"/>
+  <text x="260" y="175" fill="#f38ba8" font-family="monospace" font-size="7">PayFailed</text>
+
+  <!-- Direct to failed from payment -->
+  <line x1="275" y1="95" x2="85" y2="255" stroke="#f9e2af" stroke-width="1" stroke-dasharray="4"/>
+  <text x="160" y="200" fill="#f9e2af" font-family="monospace" font-size="7">direct cancel</text>
+
+  <!-- Legend -->
+  <rect x="40" y="320" width="720" height="150" fill="#313244" stroke="#45475a" stroke-width="1" rx="4"/>
+  <text x="400" y="345" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="11" font-weight="bold">Saga Properties</text>
+
+  <line x1="70" y1="365" x2="110" y2="365" stroke="#a6e3a1" stroke-width="2"/>
+  <text x="120" y="369" fill="#a6e3a1" font-family="monospace" font-size="9">Happy path: each step succeeds</text>
+
+  <line x1="70" y1="390" x2="110" y2="390" stroke="#f38ba8" stroke-width="2" stroke-dasharray="4"/>
+  <text x="120" y="394" fill="#f38ba8" font-family="monospace" font-size="9">Compensation: undo in reverse order</text>
+
+  <text x="70" y="420" fill="#cdd6f4" font-family="monospace" font-size="9">Pure state machine: receives events, produces commands</text>
+  <text x="70" y="440" fill="#cdd6f4" font-family="monospace" font-size="9">Testable without infrastructure (no DB, no Kafka, no containers)</text>
+  <text x="70" y="460" fill="#f9e2af" font-family="monospace" font-size="9">Timeout handling required for stuck states</text>
+</svg>
