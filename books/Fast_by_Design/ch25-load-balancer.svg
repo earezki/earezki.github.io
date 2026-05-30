@@ -1,0 +1,146 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 650" width="900" height="650">
+  <rect width="900" height="650" rx="8" fill="#1e1e2e"/>
+
+  <!-- Title -->
+  <text x="450" y="28" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="14" font-weight="bold">Load Balancer Request Path: Latency at Each Hop</text>
+  <text x="450" y="48" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="10">Content Platform: Client → L4 NLB → Nginx L7 → Article Service Backend</text>
+
+  <!-- Main flow: horizontal boxes connected by arrows -->
+
+  <!-- Client -->
+  <rect x="30" y="110" width="100" height="60" rx="6" fill="#313244" stroke="#89b4fa" stroke-width="2"/>
+  <text x="80" y="137" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="10">Client</text>
+  <text x="80" y="155" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="8">Browser/App</text>
+
+  <!-- Arrow: Client → L4 LB -->
+  <line x1="130" y1="140" x2="185" y2="140" stroke="#cdd6f4" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+  <text x="157" y="132" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="7">Internet</text>
+
+  <!-- L4 Load Balancer -->
+  <rect x="185" y="100" width="130" height="80" rx="6" fill="#313244" stroke="#a6e3a1" stroke-width="2"/>
+  <text x="250" y="127" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10">L4 NLB</text>
+  <text x="250" y="145" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="8">TCP Pass-through</text>
+  <text x="250" y="163" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="9">+0.05ms</text>
+
+  <!-- Arrow: L4 → Nginx -->
+  <line x1="315" y1="140" x2="375" y2="140" stroke="#cdd6f4" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+  <text x="345" y="132" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="7">TCP</text>
+
+  <!-- Nginx L7 (larger box with internal stages) -->
+  <rect x="375" y="80" width="220" height="120" rx="6" fill="#313244" stroke="#f38ba8" stroke-width="2"/>
+  <text x="485" y="100" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="10" font-weight="bold">Nginx (L7 Proxy)</text>
+
+  <!-- Internal stages within Nginx -->
+  <rect x="385" y="108" width="95" height="30" rx="3" fill="#f38ba8" opacity="0.2" stroke="#f38ba8" stroke-width="0.5"/>
+  <text x="432" y="120" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="7">TLS Terminate</text>
+  <text x="432" y="133" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="7">0.1-0.5ms</text>
+
+  <rect x="490" y="108" width="95" height="30" rx="3" fill="#f9e2af" opacity="0.2" stroke="#f9e2af" stroke-width="0.5"/>
+  <text x="537" y="120" text-anchor="middle" fill="#f9e2af" font-family="monospace" font-size="7">Route Decision</text>
+  <text x="537" y="133" text-anchor="middle" fill="#f9e2af" font-family="monospace" font-size="7">0.01-0.1ms</text>
+
+  <rect x="385" y="143" width="95" height="30" rx="3" fill="#89b4fa" opacity="0.2" stroke="#89b4fa" stroke-width="0.5"/>
+  <text x="432" y="155" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="7">Headers Add</text>
+  <text x="432" y="168" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="7">0.005ms</text>
+
+  <rect x="490" y="143" width="95" height="30" rx="3" fill="#fab387" opacity="0.2" stroke="#fab387" stroke-width="0.5"/>
+  <text x="537" y="155" text-anchor="middle" fill="#fab387" font-family="monospace" font-size="7">Req Buffer</text>
+  <text x="537" y="168" text-anchor="middle" fill="#fab387" font-family="monospace" font-size="7">0-5ms</text>
+
+  <text x="485" y="192" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="9">Total: +0.2-0.5ms (typical)</text>
+
+  <!-- Arrow: Nginx → Backend -->
+  <line x1="595" y1="140" x2="650" y2="140" stroke="#cdd6f4" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+  <text x="622" y="132" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="7">Keep-alive</text>
+
+  <!-- Backend -->
+  <rect x="650" y="100" width="130" height="80" rx="6" fill="#313244" stroke="#89b4fa" stroke-width="2"/>
+  <text x="715" y="127" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="10">Article Service</text>
+  <text x="715" y="145" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="8">Java (Spring Boot)</text>
+  <text x="715" y="163" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="9">12ms (app logic)</text>
+
+  <!-- Response path (below) -->
+  <text x="450" y="240" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">← Response path (buffered by Nginx, streamed to client) →</text>
+  <line x1="130" y1="250" x2="780" y2="250" stroke="#45475a" stroke-width="0.5" stroke-dasharray="4"/>
+
+  <!-- Latency breakdown table -->
+  <text x="450" y="280" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="11" font-weight="bold">Latency Budget Breakdown</text>
+
+  <!-- Table headers -->
+  <text x="120" y="310" text-anchor="start" fill="#6c7086" font-family="monospace" font-size="9">Stage</text>
+  <text x="420" y="310" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">Best Case</text>
+  <text x="560" y="310" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">Worst Case</text>
+  <text x="700" y="310" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">Typical (P50)</text>
+  <line x1="100" y1="318" x2="800" y2="318" stroke="#45475a" stroke-width="0.5"/>
+
+  <!-- Row 1: L4 NLB -->
+  <rect x="100" y="322" width="700" height="28" rx="2" fill="#a6e3a1" opacity="0.05"/>
+  <text x="120" y="340" text-anchor="start" fill="#a6e3a1" font-family="monospace" font-size="9">L4 NLB (TCP forward)</text>
+  <text x="420" y="340" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="9">0.03ms</text>
+  <text x="560" y="340" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="9">0.1ms</text>
+  <text x="700" y="340" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="9">0.05ms</text>
+
+  <!-- Row 2: TLS Termination -->
+  <rect x="100" y="352" width="700" height="28" rx="2" fill="#f38ba8" opacity="0.05"/>
+  <text x="120" y="370" text-anchor="start" fill="#f38ba8" font-family="monospace" font-size="9">TLS termination</text>
+  <text x="420" y="370" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="9">0.05ms (resumed)</text>
+  <text x="560" y="370" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="9">0.8ms (full)</text>
+  <text x="700" y="370" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="9">0.1ms</text>
+
+  <!-- Row 3: Routing -->
+  <rect x="100" y="382" width="700" height="28" rx="2" fill="#f9e2af" opacity="0.05"/>
+  <text x="120" y="400" text-anchor="start" fill="#f9e2af" font-family="monospace" font-size="9">HTTP routing decision</text>
+  <text x="420" y="400" text-anchor="middle" fill="#f9e2af" font-family="monospace" font-size="9">0.01ms (exact)</text>
+  <text x="560" y="400" text-anchor="middle" fill="#f9e2af" font-family="monospace" font-size="9">0.5ms (regex)</text>
+  <text x="700" y="400" text-anchor="middle" fill="#f9e2af" font-family="monospace" font-size="9">0.02ms</text>
+
+  <!-- Row 4: Buffering -->
+  <rect x="100" y="412" width="700" height="28" rx="2" fill="#fab387" opacity="0.05"/>
+  <text x="120" y="430" text-anchor="start" fill="#fab387" font-family="monospace" font-size="9">Request/Response buffering</text>
+  <text x="420" y="430" text-anchor="middle" fill="#fab387" font-family="monospace" font-size="9">0ms (streaming)</text>
+  <text x="560" y="430" text-anchor="middle" fill="#fab387" font-family="monospace" font-size="9">10ms (large body)</text>
+  <text x="700" y="430" text-anchor="middle" fill="#fab387" font-family="monospace" font-size="9">0.06ms</text>
+
+  <!-- Row 5: Backend connection -->
+  <rect x="100" y="442" width="700" height="28" rx="2" fill="#89b4fa" opacity="0.05"/>
+  <text x="120" y="460" text-anchor="start" fill="#89b4fa" font-family="monospace" font-size="9">Backend connection (keepalive)</text>
+  <text x="420" y="460" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="9">0.02ms (reused)</text>
+  <text x="560" y="460" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="9">2ms (new TCP)</text>
+  <text x="700" y="460" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="9">0.02ms</text>
+
+  <!-- Row 6: App processing -->
+  <rect x="100" y="472" width="700" height="28" rx="2" fill="#cdd6f4" opacity="0.05"/>
+  <text x="120" y="490" text-anchor="start" fill="#cdd6f4" font-family="monospace" font-size="9">Application processing</text>
+  <text x="420" y="490" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="9">8ms</text>
+  <text x="560" y="490" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="9">50ms</text>
+  <text x="700" y="490" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="9">12ms</text>
+
+  <!-- Totals -->
+  <line x1="100" y1="505" x2="800" y2="505" stroke="#45475a" stroke-width="1"/>
+  <text x="120" y="525" text-anchor="start" fill="#cdd6f4" font-family="monospace" font-size="10" font-weight="bold">TOTAL</text>
+  <text x="420" y="525" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10" font-weight="bold">8.11ms</text>
+  <text x="560" y="525" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="10" font-weight="bold">63.4ms</text>
+  <text x="700" y="525" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="10" font-weight="bold">12.25ms</text>
+
+  <!-- Proxy overhead annotation -->
+  <rect x="120" y="545" width="660" height="45" rx="4" fill="#313244" stroke="#45475a" stroke-width="1"/>
+  <text x="450" y="565" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="9">Proxy overhead (typical): 0.25ms / 12.25ms total = 2% of request latency</text>
+  <text x="450" y="582" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="9">Proxy overhead (worst): 13.4ms / 63.4ms total = 21% (TLS full + buffering + new conn)</text>
+
+  <!-- Arrow marker definition -->
+  <defs>
+    <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#cdd6f4"/>
+    </marker>
+  </defs>
+
+  <!-- Legend -->
+  <rect x="100" y="600" width="12" height="12" rx="2" fill="#a6e3a1" opacity="0.5"/>
+  <text x="118" y="610" text-anchor="start" fill="#6c7086" font-family="monospace" font-size="8">L4 (minimal overhead)</text>
+  <rect x="280" y="600" width="12" height="12" rx="2" fill="#f38ba8" opacity="0.5"/>
+  <text x="298" y="610" text-anchor="start" fill="#6c7086" font-family="monospace" font-size="8">L7 (TLS + HTTP processing)</text>
+  <rect x="500" y="600" width="12" height="12" rx="2" fill="#89b4fa" opacity="0.5"/>
+  <text x="518" y="610" text-anchor="start" fill="#6c7086" font-family="monospace" font-size="8">Backend (application)</text>
+  <rect x="680" y="600" width="12" height="12" rx="2" fill="#fab387" opacity="0.5"/>
+  <text x="698" y="610" text-anchor="start" fill="#6c7086" font-family="monospace" font-size="8">Buffering</text>
+</svg>

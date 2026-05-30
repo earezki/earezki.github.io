@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 650" width="900" height="650">
+  <rect width="900" height="650" rx="8" fill="#1e1e2e"/>
+
+  <!-- Title -->
+  <text x="450" y="30" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="15" font-weight="bold">PostgreSQL Execution Plan Tree: Article Search Query</text>
+
+  <!-- Root node: Limit -->
+  <rect x="335" y="50" width="230" height="48" rx="6" fill="#181825" stroke="#89b4fa" stroke-width="2"/>
+  <text x="450" y="70" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="11" font-weight="bold">Limit</text>
+  <text x="450" y="86" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">rows=20 | cost=0.87..52.33</text>
+
+  <!-- Edge: Limit -> Nested Loop Semi Join 1 -->
+  <line x1="450" y1="98" x2="450" y2="130" stroke="#45475a" stroke-width="1.5"/>
+
+  <!-- Node: Nested Loop Semi Join (exists categories) -->
+  <rect x="300" y="130" width="300" height="48" rx="6" fill="#181825" stroke="#a6e3a1" stroke-width="2"/>
+  <text x="450" y="150" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="11" font-weight="bold">Nested Loop Semi Join</text>
+  <text x="450" y="166" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">rows=3200 | actual time=0.311..0.878</text>
+
+  <!-- Edges from Semi Join 1 -->
+  <line x1="380" y1="178" x2="250" y2="220" stroke="#45475a" stroke-width="1.5"/>
+  <line x1="520" y1="178" x2="670" y2="220" stroke="#45475a" stroke-width="1.5"/>
+
+  <!-- Node: Nested Loop Semi Join (exists tags) -->
+  <rect x="100" y="220" width="300" height="48" rx="6" fill="#181825" stroke="#a6e3a1" stroke-width="2"/>
+  <text x="250" y="240" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="11" font-weight="bold">Nested Loop Semi Join</text>
+  <text x="250" y="256" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">rows=6400 | actual time=0.198..0.612</text>
+
+  <!-- Node: Index Scan (article_tags for category check) -->
+  <rect x="550" y="220" width="280" height="48" rx="6" fill="#181825" stroke="#89b4fa" stroke-width="2"/>
+  <text x="690" y="240" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="10" font-weight="bold">Index Scan</text>
+  <text x="690" y="256" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">article_categories | loops=42</text>
+
+  <!-- Edges from Semi Join 2 -->
+  <line x1="180" y1="268" x2="130" y2="320" stroke="#45475a" stroke-width="1.5"/>
+  <line x1="320" y1="268" x2="400" y2="320" stroke="#45475a" stroke-width="1.5"/>
+
+  <!-- Node: Index Scan (articles - main scan) -->
+  <rect x="30" y="320" width="250" height="60" rx="6" fill="#181825" stroke="#f38ba8" stroke-width="2"/>
+  <text x="155" y="340" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="10" font-weight="bold">Index Scan Backward</text>
+  <text x="155" y="356" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="9">idx_articles_status_viewcount</text>
+  <text x="155" y="370" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">rows=45 | Buffers: hit=8</text>
+
+  <!-- Node: Index Scan (article_tags for tag check) -->
+  <rect x="310" y="320" width="250" height="60" rx="6" fill="#181825" stroke="#89b4fa" stroke-width="2"/>
+  <text x="435" y="340" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="10" font-weight="bold">Index Scan</text>
+  <text x="435" y="356" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="9">idx_article_tags_article_id</text>
+  <text x="435" y="370" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">loops=45 | Buffers: hit=54</text>
+
+  <!-- Separator line -->
+  <line x1="30" y1="420" x2="870" y2="420" stroke="#313244" stroke-width="1" stroke-dasharray="4,4"/>
+
+  <!-- Comparison section title -->
+  <text x="450" y="445" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="13" font-weight="bold">ORM Join Query vs EXISTS Subquery Comparison</text>
+
+  <!-- ORM Query box -->
+  <rect x="40" y="465" width="380" height="150" rx="6" fill="#181825" stroke="#f38ba8" stroke-width="2"/>
+  <text x="230" y="488" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="11" font-weight="bold">ORM: JOIN + Sort</text>
+  <line x1="60" y1="498" x2="400" y2="498" stroke="#313244" stroke-width="1"/>
+  <text x="70" y="518" fill="#cdd6f4" font-family="monospace" font-size="10">Execution Time: 42.198 ms</text>
+  <text x="70" y="536" fill="#cdd6f4" font-family="monospace" font-size="10">Buffers: shared hit=12842</text>
+  <text x="70" y="554" fill="#cdd6f4" font-family="monospace" font-size="10">Sort: external merge Disk: 45MB</text>
+  <text x="70" y="572" fill="#cdd6f4" font-family="monospace" font-size="10">Rows processed: 3000</text>
+  <text x="70" y="590" fill="#f38ba8" font-family="monospace" font-size="10">Row width: 15,420 bytes</text>
+  <text x="70" y="608" fill="#f38ba8" font-family="monospace" font-size="10">Cartesian join explosion</text>
+
+  <!-- Hand-tuned query box -->
+  <rect x="480" y="465" width="380" height="150" rx="6" fill="#181825" stroke="#a6e3a1" stroke-width="2"/>
+  <text x="670" y="488" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="11" font-weight="bold">Tuned: EXISTS + LIMIT</text>
+  <line x1="500" y1="498" x2="840" y2="498" stroke="#313244" stroke-width="1"/>
+  <text x="510" y="518" fill="#cdd6f4" font-family="monospace" font-size="10">Execution Time: 0.934 ms</text>
+  <text x="510" y="536" fill="#cdd6f4" font-family="monospace" font-size="10">Buffers: shared hit=124</text>
+  <text x="510" y="554" fill="#cdd6f4" font-family="monospace" font-size="10">Sort: none (index ordered)</text>
+  <text x="510" y="572" fill="#cdd6f4" font-family="monospace" font-size="10">Rows processed: 20</text>
+  <text x="510" y="590" fill="#a6e3a1" font-family="monospace" font-size="10">Row width: 148 bytes</text>
+  <text x="510" y="608" fill="#a6e3a1" font-family="monospace" font-size="10">Semi-join stops at first match</text>
+
+  <!-- Speedup annotation -->
+  <rect x="365" y="620" width="170" height="24" rx="12" fill="#a6e3a1" fill-opacity="0.15" stroke="#a6e3a1" stroke-width="1"/>
+  <text x="450" y="636" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="11" font-weight="bold">45x faster</text>
+</svg>

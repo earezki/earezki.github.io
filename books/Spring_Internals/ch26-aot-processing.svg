@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520" width="800" height="520">
+  <rect width="800" height="520" fill="#1e1e2e" rx="8"/>
+  <text x="400" y="35" fill="#cdd6f4" font-family="system-ui, sans-serif" font-size="18" font-weight="bold" text-anchor="middle">Spring AOT Processing &amp; Native Image Compilation</text>
+
+  <!-- Build time -->
+  <rect x="30" y="55" width="740" height="200" rx="8" fill="#2a2a3d" stroke="#89b4fa" stroke-width="2"/>
+  <text x="400" y="78" fill="#89b4fa" font-family="system-ui, sans-serif" font-size="14" font-weight="bold" text-anchor="middle">Build Time (mvn -Pnative spring-boot:process-aot)</text>
+
+  <!-- Step 1 -->
+  <rect x="60" y="90" width="200" height="65" rx="4" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="160" y="108" fill="#a6e3a1" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" text-anchor="middle">1. Start Temporary Context</text>
+  <text x="160" y="125" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="8" text-anchor="middle">ApplicationContextInitializer</text>
+  <text x="160" y="138" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="8" text-anchor="middle">runs all @Conditional checks</text>
+  <text x="160" y="150" fill="#585b70" font-family="system-ui, sans-serif" font-size="8" text-anchor="middle">Resolves final bean definitions</text>
+
+  <line x1="260" y1="122" x2="290" y2="122" stroke="#585b70" stroke-width="1"/>
+  <polygon points="289,118 297,122 289,126" fill="#585b70"/>
+
+  <!-- Step 2 -->
+  <rect x="295" y="90" width="200" height="65" rx="4" fill="#313244" stroke="#f9e2af" stroke-width="1.5"/>
+  <text x="395" y="108" fill="#f9e2af" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" text-anchor="middle">2. Generate AOT Artifacts</text>
+  <text x="395" y="125" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="8" text-anchor="middle">BeanRegistrationAotProcessor</text>
+  <text x="395" y="138" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="8" text-anchor="middle">→ Java source for each bean</text>
+  <text x="395" y="150" fill="#585b70" font-family="system-ui, sans-serif" font-size="8" text-anchor="middle">No reflection needed at runtime</text>
+
+  <line x1="495" y1="122" x2="525" y2="122" stroke="#585b70" stroke-width="1"/>
+  <polygon points="524,118 532,122 524,126" fill="#585b70"/>
+
+  <!-- Step 3 -->
+  <rect x="530" y="90" width="220" height="65" rx="4" fill="#313244" stroke="#f38ba8" stroke-width="1.5"/>
+  <text x="640" y="108" fill="#f38ba8" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" text-anchor="middle">3. Generate Hint Files</text>
+  <text x="640" y="125" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="8" text-anchor="middle">RuntimeHintsRegistrar</text>
+  <text x="640" y="138" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="8" text-anchor="middle">reflect-config.json</text>
+  <text x="640" y="150" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="8" text-anchor="middle">resource-config.json, proxy-config.json</text>
+
+  <!-- Output artifacts -->
+  <rect x="60" y="170" width="700" height="35" rx="4" fill="#313244" stroke="#585b70" stroke-width="1"/>
+  <text x="400" y="192" fill="#cdd6f4" font-family="system-ui, sans-serif" font-size="10" text-anchor="middle">Output: target/spring-aot/main/ → Generated Java sources + GraalVM hint JSON files + proxy class definitions</text>
+
+  <!-- Arrow down -->
+  <line x1="400" y1="215" x2="400" y2="230" stroke="#585b70" stroke-width="1"/>
+  <text x="400" y="225" fill="#585b70" font-family="system-ui, sans-serif" font-size="8" text-anchor="middle">compile</text>
+
+  <!-- GraalVM compilation -->
+  <rect x="30" y="265" width="740" height="70" rx="8" fill="#2a2a3d" stroke="#f38ba8" stroke-width="2"/>
+  <text x="400" y="290" fill="#f38ba8" font-family="system-ui, sans-serif" font-size="14" font-weight="bold" text-anchor="middle">GraalVM native-image Compiler</text>
+  <text x="400" y="310" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="9" text-anchor="middle">Static analysis: reachability check. Unreachable code removed. Class init moved to build time.</text>
+  <text x="400" y="325" fill="#585b70" font-family="system-ui, sans-serif" font-size="9" text-anchor="middle">Reflection/dynamic proxies only work if registered in hint files.</text>
+
+  <line x1="400" y1="335" x2="400" y2="355" stroke="#585b70" stroke-width="1.5"/>
+  <polygon points="396,354 400,362 404,354" fill="#585b70"/>
+
+  <!-- Runtime comparison -->
+  <rect x="30" y="360" width="350" height="90" rx="6" fill="#2a2a3d" stroke="#a6e3a1" stroke-width="2"/>
+  <text x="205" y="382" fill="#a6e3a1" font-family="system-ui, sans-serif" font-size="13" font-weight="bold" text-anchor="middle">Native Binary (Runtime)</text>
+  <text x="205" y="400" fill="#a6e3a1" font-family="system-ui, sans-serif" font-size="10" text-anchor="middle">Startup: ~50ms | Memory: ~80MB</text>
+  <text x="205" y="418" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="9" text-anchor="middle">No JVM, no classpath scanning</text>
+  <text x="205" y="435" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="9" text-anchor="middle">No reflection, no CGLIB at runtime</text>
+  <text x="205" y="448" fill="#585b70" font-family="system-ui, sans-serif" font-size="8" text-anchor="middle">Proxies pre-generated at build time</text>
+
+  <rect x="420" y="360" width="350" height="90" rx="6" fill="#2a2a3d" stroke="#89b4fa" stroke-width="1.5"/>
+  <text x="595" y="382" fill="#89b4fa" font-family="system-ui, sans-serif" font-size="13" font-weight="bold" text-anchor="middle">JVM (Traditional Runtime)</text>
+  <text x="595" y="400" fill="#89b4fa" font-family="system-ui, sans-serif" font-size="10" text-anchor="middle">Startup: ~2-5s | Memory: ~300MB</text>
+  <text x="595" y="418" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="9" text-anchor="middle">Classpath scanning, reflection, CGLIB</text>
+  <text x="595" y="435" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="9" text-anchor="middle">JIT optimization over time (peak perf)</text>
+  <text x="595" y="448" fill="#585b70" font-family="system-ui, sans-serif" font-size="8" text-anchor="middle">Better long-running throughput</text>
+
+  <!-- Bottom warning -->
+  <rect x="50" y="465" width="700" height="40" rx="4" fill="#313244" stroke="#f38ba8" stroke-width="1.5"/>
+  <text x="400" y="483" fill="#f38ba8" font-family="system-ui, sans-serif" font-size="10" text-anchor="middle">What breaks in native: reflection without hints, Class.forName(), runtime proxy generation,</text>
+  <text x="400" y="498" fill="#f38ba8" font-family="system-ui, sans-serif" font-size="10" text-anchor="middle">serialization, JNI, dynamic class loading. Test with: ./mvnw -Pnative spring-boot:build-image</text>
+</svg>

@@ -1,0 +1,167 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700" width="900" height="700">
+  <rect width="900" height="700" rx="8" fill="#1e1e2e"/>
+
+  <!-- Title -->
+  <text x="450" y="28" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="15" font-weight="bold">MVCC Tuple Versioning and Vacuum Cleanup</text>
+
+  <!-- Timeline arrow -->
+  <line x1="50" y1="60" x2="850" y2="60" stroke="#45475a" stroke-width="1.5" marker-end="url(#arrowTime)"/>
+  <text x="870" y="64" fill="#6c7086" font-family="monospace" font-size="9">time</text>
+
+  <!-- Transaction labels on timeline -->
+  <circle cx="150" cy="60" r="4" fill="#89b4fa"/>
+  <text x="150" y="50" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="9">TX 100</text>
+  <text x="150" y="78" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="8">INSERT</text>
+
+  <circle cx="350" cy="60" r="4" fill="#f9e2af"/>
+  <text x="350" y="50" text-anchor="middle" fill="#f9e2af" font-family="monospace" font-size="9">TX 200</text>
+  <text x="350" y="78" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="8">UPDATE</text>
+
+  <circle cx="550" cy="60" r="4" fill="#f9e2af"/>
+  <text x="550" y="50" text-anchor="middle" fill="#f9e2af" font-family="monospace" font-size="9">TX 300</text>
+  <text x="550" y="78" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="8">UPDATE</text>
+
+  <circle cx="750" cy="60" r="4" fill="#a6e3a1"/>
+  <text x="750" y="50" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="9">VACUUM</text>
+  <text x="750" y="78" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="8">cleanup</text>
+
+  <!-- Heap Page visualization -->
+  <text x="60" y="110" fill="#cdd6f4" font-family="monospace" font-size="11" font-weight="bold">Heap Page (8KB)</text>
+
+  <!-- Page box -->
+  <rect x="50" y="120" width="800" height="200" rx="4" fill="#181825" stroke="#45475a" stroke-width="1.5"/>
+
+  <!-- Page header -->
+  <rect x="50" y="120" width="800" height="22" rx="4" fill="#313244"/>
+  <text x="450" y="135" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">Page Header (24 bytes) | Line Pointers: [LP1 -> offset 1] [LP2 -> offset 2] [LP3 -> offset 3]</text>
+
+  <!-- Tuple 1: Original (dead after TX 200) -->
+  <rect x="70" y="155" width="220" height="75" rx="4" fill="#181825" stroke="#f38ba8" stroke-width="2"/>
+  <text x="180" y="172" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="9" font-weight="bold">Tuple v1 (DEAD)</text>
+  <text x="180" y="188" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="8">xmin=100 (committed)</text>
+  <text x="180" y="200" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="8">xmax=200 (committed)</text>
+  <text x="180" y="212" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="8">ctid=(0,2)</text>
+  <text x="180" y="224" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="8">view_count = 100</text>
+
+  <!-- Arrow: ctid points to tuple 2 -->
+  <line x1="290" y1="200" x2="330" y2="200" stroke="#f9e2af" stroke-width="1.5" marker-end="url(#arrowYellow)"/>
+
+  <!-- Tuple 2: After first UPDATE (dead after TX 300) -->
+  <rect x="330" y="155" width="220" height="75" rx="4" fill="#181825" stroke="#f9e2af" stroke-width="2"/>
+  <text x="440" y="172" text-anchor="middle" fill="#f9e2af" font-family="monospace" font-size="9" font-weight="bold">Tuple v2 (DEAD)</text>
+  <text x="440" y="188" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="8">xmin=200 (committed)</text>
+  <text x="440" y="200" text-anchor="middle" fill="#f9e2af" font-family="monospace" font-size="8">xmax=300 (committed)</text>
+  <text x="440" y="212" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="8">ctid=(0,3)</text>
+  <text x="440" y="224" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="8">view_count = 101</text>
+
+  <!-- Arrow: ctid points to tuple 3 -->
+  <line x1="550" y1="200" x2="590" y2="200" stroke="#f9e2af" stroke-width="1.5" marker-end="url(#arrowYellow)"/>
+
+  <!-- Tuple 3: Current live version -->
+  <rect x="590" y="155" width="220" height="75" rx="4" fill="#181825" stroke="#a6e3a1" stroke-width="2"/>
+  <text x="700" y="172" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="9" font-weight="bold">Tuple v3 (LIVE)</text>
+  <text x="700" y="188" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="8">xmin=300 (committed)</text>
+  <text x="700" y="200" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="8">xmax=0 (not deleted)</text>
+  <text x="700" y="212" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="8">ctid=(0,3) (self)</text>
+  <text x="700" y="224" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="8">view_count = 102</text>
+
+  <!-- Free space label -->
+  <rect x="70" y="245" width="740" height="25" rx="3" fill="#313244" stroke="#45475a" stroke-width="1" stroke-dasharray="3"/>
+  <text x="440" y="262" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">Free space (fillfactor reserve): available for future HOT updates</text>
+
+  <!-- After VACUUM section -->
+  <text x="60" y="345" fill="#cdd6f4" font-family="monospace" font-size="11" font-weight="bold">After VACUUM Cleanup</text>
+
+  <!-- Page box after vacuum -->
+  <rect x="50" y="355" width="800" height="160" rx="4" fill="#181825" stroke="#a6e3a1" stroke-width="1.5"/>
+
+  <!-- Page header -->
+  <rect x="50" y="355" width="800" height="22" rx="4" fill="#313244"/>
+  <text x="450" y="370" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">Page Header | Line Pointers: [LP1 -> DEAD] [LP2 -> DEAD] [LP3 -> offset 3]</text>
+
+  <!-- Reclaimed space -->
+  <rect x="70" y="390" width="220" height="55" rx="4" fill="#1e3a1e" stroke="#a6e3a1" stroke-width="1" stroke-dasharray="4"/>
+  <text x="180" y="412" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="9">RECLAIMED</text>
+  <text x="180" y="428" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="8">Dead item pointers cleared</text>
+  <text x="180" y="440" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="8">Space reusable for new tuples</text>
+
+  <rect x="330" y="390" width="220" height="55" rx="4" fill="#1e3a1e" stroke="#a6e3a1" stroke-width="1" stroke-dasharray="4"/>
+  <text x="440" y="412" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="9">RECLAIMED</text>
+  <text x="440" y="428" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="8">144 bytes freed</text>
+  <text x="440" y="440" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="8">(2 dead tuples removed)</text>
+
+  <!-- Surviving tuple -->
+  <rect x="590" y="390" width="220" height="55" rx="4" fill="#181825" stroke="#a6e3a1" stroke-width="2"/>
+  <text x="700" y="408" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="9" font-weight="bold">Tuple v3 (LIVE)</text>
+  <text x="700" y="424" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="8">xmin=300, xmax=0</text>
+  <text x="700" y="438" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="8">view_count = 102</text>
+
+  <!-- Free space after vacuum -->
+  <rect x="70" y="460" width="740" height="25" rx="3" fill="#1e3a1e" stroke="#a6e3a1" stroke-width="1"/>
+  <text x="440" y="477" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="9">Total free space: 7.8 KB (page nearly empty, ready for reuse)</text>
+
+  <!-- Visibility Map section -->
+  <text x="60" y="530" fill="#cdd6f4" font-family="monospace" font-size="11" font-weight="bold">Visibility Map (1 bit per page)</text>
+
+  <rect x="50" y="540" width="800" height="45" rx="4" fill="#181825" stroke="#45475a" stroke-width="1"/>
+
+  <!-- VM bits -->
+  <rect x="70" y="550" width="30" height="25" rx="2" fill="#f38ba8" opacity="0.3"/>
+  <text x="85" y="567" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="9">0</text>
+  <text x="85" y="580" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="7">pg 0</text>
+
+  <rect x="110" y="550" width="30" height="25" rx="2" fill="#a6e3a1" opacity="0.3"/>
+  <text x="125" y="567" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="9">1</text>
+  <text x="125" y="580" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="7">pg 1</text>
+
+  <rect x="150" y="550" width="30" height="25" rx="2" fill="#a6e3a1" opacity="0.3"/>
+  <text x="165" y="567" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="9">1</text>
+  <text x="165" y="580" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="7">pg 2</text>
+
+  <rect x="190" y="550" width="30" height="25" rx="2" fill="#f38ba8" opacity="0.3"/>
+  <text x="205" y="567" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="9">0</text>
+  <text x="205" y="580" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="7">pg 3</text>
+
+  <rect x="230" y="550" width="30" height="25" rx="2" fill="#a6e3a1" opacity="0.3"/>
+  <text x="245" y="567" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="9">1</text>
+  <text x="245" y="580" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="7">pg 4</text>
+
+  <rect x="270" y="550" width="30" height="25" rx="2" fill="#a6e3a1" opacity="0.3"/>
+  <text x="285" y="567" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="9">1</text>
+  <text x="285" y="580" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="7">pg 5</text>
+
+  <rect x="310" y="550" width="30" height="25" rx="2" fill="#a6e3a1" opacity="0.3"/>
+  <text x="325" y="567" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="9">1</text>
+  <text x="325" y="580" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="7">pg 6</text>
+
+  <text x="365" y="567" fill="#6c7086" font-family="monospace" font-size="9">...</text>
+
+  <!-- Legend for VM -->
+  <rect x="420" y="550" width="12" height="12" rx="2" fill="#a6e3a1" opacity="0.3"/>
+  <text x="438" y="560" fill="#a6e3a1" font-family="monospace" font-size="9">1 = all visible (skip in vacuum, allow Index Only Scan)</text>
+  <rect x="420" y="566" width="12" height="12" rx="2" fill="#f38ba8" opacity="0.3"/>
+  <text x="438" y="576" fill="#f38ba8" font-family="monospace" font-size="9">0 = may have dead tuples (vacuum must check, heap fetch needed)</text>
+
+  <!-- HOT Update section -->
+  <text x="60" y="615" fill="#cdd6f4" font-family="monospace" font-size="11" font-weight="bold">HOT Update (Heap-Only Tuple): No Index Maintenance</text>
+
+  <rect x="50" y="625" width="380" height="55" rx="4" fill="#181825" stroke="#89b4fa" stroke-width="1.5"/>
+  <text x="240" y="642" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="9">Conditions: non-indexed column changed + free space on page</text>
+  <text x="240" y="658" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="9">Result: index entries unchanged, chain via ctid</text>
+  <text x="240" y="672" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="9">Benefit: 61% faster UPDATEs (skip index maintenance)</text>
+
+  <rect x="460" y="625" width="380" height="55" rx="4" fill="#181825" stroke="#f9e2af" stroke-width="1.5"/>
+  <text x="650" y="642" text-anchor="middle" fill="#f9e2af" font-family="monospace" font-size="9">fillfactor = 85: leave 15% free per page</text>
+  <text x="650" y="658" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="9">HOT ratio: 55% (ff=100) -> 92% (ff=85) -> 95% (ff=70)</text>
+  <text x="650" y="672" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">Trade-off: 17% more storage for 61% faster updates</text>
+
+  <!-- Arrow markers -->
+  <defs>
+    <marker id="arrowTime" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#45475a"/>
+    </marker>
+    <marker id="arrowYellow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#f9e2af"/>
+    </marker>
+  </defs>
+</svg>

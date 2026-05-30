@@ -1,0 +1,37 @@
+<svg viewBox="0 0 800 400" width="800" height="400" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="400" fill="#1e1e2e" rx="8"/>
+  <text x="400" y="30" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="16" font-weight="bold">Read Preferences: Consistency vs Latency Trade-offs</text>
+  <!-- Replica set -->
+  <rect x="300" y="55" width="120" height="40" fill="#313244" stroke="#a6e3a1" stroke-width="2" rx="6"/>
+  <text x="360" y="80" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="11">Primary</text>
+  <rect x="100" y="130" width="120" height="40" fill="#313244" stroke="#89b4fa" stroke-width="2" rx="6"/>
+  <text x="160" y="155" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="11">Secondary 1</text>
+  <rect x="500" y="130" width="120" height="40" fill="#313244" stroke="#89b4fa" stroke-width="2" rx="6"/>
+  <text x="560" y="155" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="11">Secondary 2</text>
+  <!-- Replication arrows -->
+  <path d="M320,95 L200,130" fill="none" stroke="#585b70" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <path d="M400,95 L520,130" fill="none" stroke="#585b70" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="250" y="105" fill="#a6adc8" font-family="monospace" font-size="8">repl lag: 50ms</text>
+  <text x="470" y="105" fill="#a6adc8" font-family="monospace" font-size="8">repl lag: 120ms</text>
+  <!-- Read preference options -->
+  <rect x="50" y="200" width="200" height="80" fill="#313244" stroke="#a6e3a1" stroke-width="1" rx="6"/>
+  <text x="150" y="225" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="11">primary</text>
+  <text x="150" y="245" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="9">Always consistent</text>
+  <text x="150" y="262" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="9">Primary bears all load</text>
+  <text x="150" y="275" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="9">p99: 15ms</text>
+  <rect x="300" y="200" width="200" height="80" fill="#313244" stroke="#89b4fa" stroke-width="1" rx="6"/>
+  <text x="400" y="225" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="11">secondaryPreferred</text>
+  <text x="400" y="245" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="9">May read stale data</text>
+  <text x="400" y="262" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="9">Load distributed</text>
+  <text x="400" y="275" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="9">p99: 8ms</text>
+  <rect x="550" y="200" width="200" height="80" fill="#313244" stroke="#f9e2af" stroke-width="1" rx="6"/>
+  <text x="650" y="225" text-anchor="middle" fill="#f9e2af" font-family="monospace" font-size="11">nearest</text>
+  <text x="650" y="245" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="9">Lowest network latency</text>
+  <text x="650" y="262" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="9">May read from any node</text>
+  <text x="650" y="275" text-anchor="middle" fill="#f9e2af" font-family="monospace" font-size="9">p99: 5ms</text>
+  <!-- Decision rule -->
+  <rect x="60" y="310" width="680" height="70" fill="#313244" stroke="#89b4fa" stroke-width="1" rx="6"/>
+  <text x="400" y="335" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="12" font-weight="bold">Decision Rules</text>
+  <text x="400" y="355" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10">Financial data, user-facing writes-then-reads: primary (consistency wins)</text>
+  <text x="400" y="373" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="10">Analytics, dashboards, activity feeds: secondaryPreferred (latency wins, stale OK)</text>
+</svg>

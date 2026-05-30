@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 530" width="800" height="530">
+  <rect width="800" height="530" fill="#1e1e2e" rx="8"/>
+  <text x="400" y="35" fill="#cdd6f4" font-family="system-ui, sans-serif" font-size="18" font-weight="bold" text-anchor="middle">JWT Authentication + Token Lifecycle</text>
+
+  <!-- Login request -->
+  <rect x="50" y="55" width="160" height="30" rx="4" fill="#45475a" stroke="#cdd6f4" stroke-width="1"/>
+  <text x="130" y="75" fill="#cdd6f4" font-family="system-ui, sans-serif" font-size="10" text-anchor="middle">POST /auth/token</text>
+
+  <line x1="210" y1="70" x2="260" y2="70" stroke="#585b70" stroke-width="1"/>
+  <polygon points="259,66 267,70 259,74" fill="#585b70"/>
+
+  <!-- Authorization Server -->
+  <rect x="265" y="50" width="280" height="80" rx="6" fill="#2a2a3d" stroke="#89b4fa" stroke-width="2"/>
+  <text x="405" y="72" fill="#89b4fa" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" text-anchor="middle">Spring Authorization Server</text>
+  <text x="405" y="90" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="9" text-anchor="middle">OAuth2TokenEndpointFilter</text>
+  <text x="405" y="105" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="9" text-anchor="middle">→ JwtGenerator → signs with RSA private key</text>
+  <text x="405" y="120" fill="#585b70" font-family="system-ui, sans-serif" font-size="9" text-anchor="middle">Returns: { access_token, refresh_token, expires_in }</text>
+
+  <line x1="545" y1="90" x2="590" y2="90" stroke="#a6e3a1" stroke-width="1.5"/>
+  <polygon points="589,86 597,90 589,94" fill="#a6e3a1"/>
+
+  <!-- JWT Token -->
+  <rect x="595" y="55" width="170" height="70" rx="6" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="680" y="75" fill="#a6e3a1" font-family="system-ui, sans-serif" font-size="11" font-weight="bold" text-anchor="middle">JWT Token</text>
+  <text x="680" y="92" fill="#f38ba8" font-family="monospace" font-size="8" text-anchor="middle">header.payload.signature</text>
+  <text x="680" y="107" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="8" text-anchor="middle">sub, roles, tenant, exp</text>
+
+  <!-- API Request with token -->
+  <rect x="50" y="160" width="200" height="30" rx="4" fill="#45475a" stroke="#cdd6f4" stroke-width="1"/>
+  <text x="150" y="180" fill="#cdd6f4" font-family="system-ui, sans-serif" font-size="10" text-anchor="middle">GET /api/orders (Bearer token)</text>
+
+  <line x1="250" y1="175" x2="290" y2="175" stroke="#585b70" stroke-width="1"/>
+  <polygon points="289,171 297,175 289,179" fill="#585b70"/>
+
+  <!-- Resource Server validation -->
+  <rect x="80" y="210" width="640" height="250" rx="8" fill="#2a2a3d" stroke="#89b4fa" stroke-width="2"/>
+  <text x="400" y="232" fill="#89b4fa" font-family="system-ui, sans-serif" font-size="13" font-weight="bold" text-anchor="middle">Resource Server — Token Validation Pipeline</text>
+
+  <!-- Step 1 -->
+  <rect x="110" y="245" width="580" height="38" rx="4" fill="#313244" stroke="#89b4fa" stroke-width="1"/>
+  <text x="125" y="260" fill="#f9e2af" font-family="monospace" font-size="10">1</text>
+  <text x="145" y="260" fill="#cdd6f4" font-family="system-ui, sans-serif" font-size="10">BearerTokenAuthenticationFilter extracts token from Authorization header</text>
+  <text x="145" y="276" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="9">Creates BearerTokenAuthenticationToken → passes to AuthenticationManager</text>
+
+  <!-- Step 2 -->
+  <rect x="110" y="290" width="580" height="38" rx="4" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="125" y="305" fill="#f9e2af" font-family="monospace" font-size="10">2</text>
+  <text x="145" y="305" fill="#a6e3a1" font-family="system-ui, sans-serif" font-size="10">JwtAuthenticationProvider validates token</text>
+  <text x="145" y="321" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="9">NimbusJwtDecoder verifies signature using JWK Set (fetched from /oauth2/jwks endpoint)</text>
+
+  <!-- Step 3 -->
+  <rect x="110" y="335" width="580" height="38" rx="4" fill="#313244" stroke="#f9e2af" stroke-width="1.5"/>
+  <text x="125" y="350" fill="#f9e2af" font-family="monospace" font-size="10">3</text>
+  <text x="145" y="350" fill="#f9e2af" font-family="system-ui, sans-serif" font-size="10">JwtAuthenticationConverter maps claims → authorities</text>
+  <text x="145" y="366" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="9">Custom converter: jwt.getClaim("roles") → GrantedAuthority("ROLE_" + role)</text>
+
+  <!-- Step 4 -->
+  <rect x="110" y="380" width="580" height="38" rx="4" fill="#313244" stroke="#a6e3a1" stroke-width="1"/>
+  <text x="125" y="395" fill="#f9e2af" font-family="monospace" font-size="10">4</text>
+  <text x="145" y="395" fill="#a6e3a1" font-family="system-ui, sans-serif" font-size="10">JwtAuthenticationToken stored in SecurityContextHolder</text>
+  <text x="145" y="411" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="9">Request proceeds to DispatcherServlet → @PreAuthorize checks use this context</text>
+
+  <!-- Bottom notes -->
+  <rect x="50" y="475" width="700" height="35" rx="4" fill="#313244" stroke="#f38ba8" stroke-width="1"/>
+  <text x="400" y="493" fill="#f38ba8" font-family="system-ui, sans-serif" font-size="10" text-anchor="middle">Common failure: JWK Set endpoint unreachable → all tokens rejected. Set spring.security.oauth2.resourceserver.jwt.jwk-set-uri correctly.</text>
+  <text x="400" y="507" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="10" text-anchor="middle">Token validation is stateless — no session, no database lookup. Scale horizontally.</text>
+</svg>

@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <rect width="800" height="500" fill="#1e1e2e" rx="8"/>
+  <text x="400" y="35" fill="#cdd6f4" font-family="system-ui, sans-serif" font-size="18" font-weight="bold" text-anchor="middle">Bean Definition vs Bean Instance</text>
+
+  <!-- Phase 1: Definition -->
+  <rect x="30" y="60" width="350" height="380" rx="8" fill="#2a2a3d" stroke="#a6e3a1" stroke-width="2"/>
+  <text x="205" y="85" fill="#a6e3a1" font-family="system-ui, sans-serif" font-size="14" font-weight="bold" text-anchor="middle">Phase 1: Bean Definitions</text>
+  <text x="205" y="102" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="10" text-anchor="middle">refresh() step 5: invokeBeanFactoryPostProcessors</text>
+
+  <rect x="50" y="115" width="310" height="35" rx="4" fill="#313244" stroke="#a6e3a1" stroke-width="1"/>
+  <text x="205" y="137" fill="#a6e3a1" font-family="monospace" font-size="11" text-anchor="middle">DefaultListableBeanFactory</text>
+
+  <!-- BeanDefinition entries -->
+  <rect x="60" y="165" width="290" height="55" rx="4" fill="#313244" stroke="#89b4fa" stroke-width="1"/>
+  <text x="75" y="183" fill="#89b4fa" font-family="monospace" font-size="10">"orderService"</text>
+  <text x="75" y="200" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="9">ScannedGenericBeanDefinition</text>
+  <text x="75" y="214" fill="#585b70" font-family="system-ui, sans-serif" font-size="9">scope=singleton, lazy=false, class=OrderService</text>
+
+  <rect x="60" y="230" width="290" height="55" rx="4" fill="#313244" stroke="#89b4fa" stroke-width="1"/>
+  <text x="75" y="248" fill="#89b4fa" font-family="monospace" font-size="10">"dataSource"</text>
+  <text x="75" y="265" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="9">ConfigurationClassBeanDefinition</text>
+  <text x="75" y="279" fill="#585b70" font-family="system-ui, sans-serif" font-size="9">scope=singleton, factoryMethod=dataSource</text>
+
+  <rect x="60" y="295" width="290" height="55" rx="4" fill="#313244" stroke="#89b4fa" stroke-width="1"/>
+  <text x="75" y="313" fill="#89b4fa" font-family="monospace" font-size="10">"tenantResolver"</text>
+  <text x="75" y="330" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="9">AnnotatedGenericBeanDefinition</text>
+  <text x="75" y="344" fill="#585b70" font-family="system-ui, sans-serif" font-size="9">scope=request, proxyMode=TARGET_CLASS</text>
+
+  <text x="205" y="380" fill="#f9e2af" font-family="system-ui, sans-serif" font-size="10" text-anchor="middle">Metadata only. No objects created yet.</text>
+  <text x="205" y="395" fill="#f9e2af" font-family="system-ui, sans-serif" font-size="10" text-anchor="middle">BeanFactoryPostProcessors can modify these.</text>
+  <text x="205" y="410" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="9" text-anchor="middle">Inspect: /actuator/beans shows definitions</text>
+
+  <!-- Arrow between phases -->
+  <line x1="380" y1="250" x2="420" y2="250" stroke="#585b70" stroke-width="2"/>
+  <polygon points="419,246 427,250 419,254" fill="#585b70"/>
+  <text x="400" y="240" fill="#585b70" font-family="system-ui, sans-serif" font-size="9" text-anchor="middle">step 11</text>
+
+  <!-- Phase 2: Instances -->
+  <rect x="420" y="60" width="350" height="380" rx="8" fill="#2a2a3d" stroke="#f38ba8" stroke-width="2"/>
+  <text x="595" y="85" fill="#f38ba8" font-family="system-ui, sans-serif" font-size="14" font-weight="bold" text-anchor="middle">Phase 2: Bean Instances</text>
+  <text x="595" y="102" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="10" text-anchor="middle">refresh() step 11: finishBeanFactoryInitialization</text>
+
+  <rect x="440" y="115" width="310" height="35" rx="4" fill="#313244" stroke="#f38ba8" stroke-width="1"/>
+  <text x="595" y="137" fill="#f38ba8" font-family="monospace" font-size="11" text-anchor="middle">singletonObjects map</text>
+
+  <!-- Bean instances -->
+  <rect x="450" y="165" width="290" height="55" rx="4" fill="#313244" stroke="#cdd6f4" stroke-width="1"/>
+  <text x="465" y="183" fill="#cdd6f4" font-family="monospace" font-size="10">"orderService"</text>
+  <text x="465" y="200" fill="#f9e2af" font-family="system-ui, sans-serif" font-size="9">OrderService$$SpringCGLIB$$0</text>
+  <text x="465" y="214" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="9">CGLIB proxy wrapping real OrderService</text>
+
+  <rect x="450" y="230" width="290" height="55" rx="4" fill="#313244" stroke="#cdd6f4" stroke-width="1"/>
+  <text x="465" y="248" fill="#cdd6f4" font-family="monospace" font-size="10">"dataSource"</text>
+  <text x="465" y="265" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="9">HikariDataSource instance</text>
+  <text x="465" y="279" fill="#585b70" font-family="system-ui, sans-serif" font-size="9">Connection pool initialized, threads started</text>
+
+  <rect x="450" y="295" width="290" height="55" rx="4" fill="#313244" stroke="#cdd6f4" stroke-width="1"/>
+  <text x="465" y="313" fill="#cdd6f4" font-family="monospace" font-size="10">"tenantResolver"</text>
+  <text x="465" y="330" fill="#f9e2af" font-family="system-ui, sans-serif" font-size="9">ScopedProxy (CGLIB)</text>
+  <text x="465" y="344" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="9">Actual instance created per HTTP request</text>
+
+  <text x="595" y="380" fill="#f9e2af" font-family="system-ui, sans-serif" font-size="10" text-anchor="middle">Live objects. @PostConstruct called.</text>
+  <text x="595" y="395" fill="#f9e2af" font-family="system-ui, sans-serif" font-size="10" text-anchor="middle">BeanPostProcessors wrap/modify these.</text>
+  <text x="595" y="410" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="9" text-anchor="middle">Proxies created by AbstractAutoProxyCreator</text>
+
+  <!-- Bottom note -->
+  <rect x="50" y="455" width="700" height="30" rx="4" fill="#313244" stroke="#f9e2af" stroke-width="1"/>
+  <text x="400" y="475" fill="#f9e2af" font-family="system-ui, sans-serif" font-size="11" text-anchor="middle">Key insight: BeanDefinition is metadata. Bean instance is a live object. They exist at different lifecycle phases.</text>
+</svg>

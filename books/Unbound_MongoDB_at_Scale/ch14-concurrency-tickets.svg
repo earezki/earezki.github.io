@@ -1,0 +1,44 @@
+<svg viewBox="0 0 800 380" width="800" height="380" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="380" fill="#1e1e2e" rx="8"/>
+  <text x="400" y="30" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="16" font-weight="bold">WiredTiger Concurrency Tickets</text>
+  <!-- Read tickets -->
+  <text x="200" y="60" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="13" font-weight="bold">Read Tickets (128 default)</text>
+  <rect x="50" y="75" width="300" height="30" fill="#89b4fa" fill-opacity="0.3" stroke="#89b4fa" stroke-width="1" rx="4"/>
+  <rect x="50" y="75" width="240" height="30" fill="#89b4fa" rx="4"/>
+  <text x="170" y="95" text-anchor="middle" fill="#1e1e2e" font-family="monospace" font-size="10">102 in use</text>
+  <text x="330" y="95" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="10">26 free</text>
+  <!-- Write tickets -->
+  <text x="600" y="60" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="13" font-weight="bold">Write Tickets (128 default)</text>
+  <rect x="450" y="75" width="300" height="30" fill="#a6e3a1" fill-opacity="0.3" stroke="#a6e3a1" stroke-width="1" rx="4"/>
+  <rect x="450" y="75" width="290" height="30" fill="#f38ba8" rx="4"/>
+  <text x="595" y="95" text-anchor="middle" fill="#1e1e2e" font-family="monospace" font-size="10">126 in use (DANGER)</text>
+  <text x="740" y="95" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="10">2</text>
+  <!-- Timeline -->
+  <text x="400" y="140" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="13" font-weight="bold">Thread Starvation Timeline</text>
+  <line x1="80" y1="170" x2="720" y2="170" stroke="#585b70" stroke-width="1"/>
+  <!-- Normal -->
+  <rect x="80" y="155" width="180" height="30" fill="#a6e3a1" fill-opacity="0.2" stroke="#a6e3a1" stroke-width="1" rx="4"/>
+  <text x="170" y="175" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="9">Normal: tickets available</text>
+  <!-- Pressure -->
+  <rect x="260" y="155" width="180" height="30" fill="#f9e2af" fill-opacity="0.2" stroke="#f9e2af" stroke-width="1" rx="4"/>
+  <text x="350" y="175" text-anchor="middle" fill="#f9e2af" font-family="monospace" font-size="9">Pressure: threads waiting</text>
+  <!-- Starvation -->
+  <rect x="440" y="155" width="280" height="30" fill="#f38ba8" fill-opacity="0.2" stroke="#f38ba8" stroke-width="1" rx="4"/>
+  <text x="580" y="175" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="9">Starvation: operations queued, latency spikes</text>
+  <!-- Symptoms -->
+  <rect x="60" y="210" width="320" height="140" fill="#313244" stroke="#f38ba8" stroke-width="1" rx="6"/>
+  <text x="220" y="235" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="12" font-weight="bold">Symptoms of Ticket Exhaustion</text>
+  <text x="220" y="260" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="10">db.serverStatus().wiredTiger.</text>
+  <text x="220" y="278" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="10">concurrentTransactions.write</text>
+  <text x="220" y="298" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="10">.available: 0</text>
+  <text x="220" y="318" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="10">.totalTickets: 128</text>
+  <text x="220" y="338" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="10">.out: 128 (fully exhausted)</text>
+  <!-- Fix -->
+  <rect x="420" y="210" width="320" height="140" fill="#313244" stroke="#a6e3a1" stroke-width="1" rx="6"/>
+  <text x="580" y="235" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="12" font-weight="bold">Diagnosis and Fix</text>
+  <text x="580" y="260" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="10">1. Check slow queries log</text>
+  <text x="580" y="280" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="10">2. Long-running writes hold tickets</text>
+  <text x="580" y="300" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10">Fix: Optimize slow writes first</text>
+  <text x="580" y="320" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10">Fix: Batch small writes</text>
+  <text x="580" y="340" text-anchor="middle" fill="#f9e2af" font-family="monospace" font-size="10">Last resort: increase ticket count</text>
+</svg>

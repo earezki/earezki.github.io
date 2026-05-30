@@ -1,0 +1,135 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" width="900" height="500">
+  <defs>
+    <style>
+      text { font-family: 'Consolas', 'Monaco', monospace; }
+    </style>
+    <marker id="arr" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#89b4fa"/>
+    </marker>
+    <marker id="arr-green" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#a6e3a1"/>
+    </marker>
+    <marker id="arr-orange" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#fab387"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="500" fill="#1e1e2e" rx="8"/>
+
+  <!-- Title -->
+  <text x="450" y="28" fill="#cdd6f4" font-size="14" font-weight="bold" text-anchor="middle">JIT Tiered Compilation Pipeline: From Bytecode to Machine Code</text>
+
+  <!-- Source Code -->
+  <rect x="30" y="50" width="140" height="60" fill="#313244" rx="6" stroke="#6c7086" stroke-width="1"/>
+  <text x="100" y="75" fill="#cdd6f4" font-size="11" text-anchor="middle" font-weight="bold">Java Source</text>
+  <text x="100" y="92" fill="#6c7086" font-size="9" text-anchor="middle">.java files</text>
+
+  <!-- Arrow: source to bytecode -->
+  <line x1="175" y1="80" x2="210" y2="80" stroke="#89b4fa" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="193" y="72" fill="#6c7086" font-size="8" text-anchor="middle">javac</text>
+
+  <!-- Bytecode -->
+  <rect x="218" y="50" width="140" height="60" fill="#313244" rx="6" stroke="#6c7086" stroke-width="1"/>
+  <text x="288" y="75" fill="#cdd6f4" font-size="11" text-anchor="middle" font-weight="bold">Bytecode</text>
+  <text x="288" y="92" fill="#6c7086" font-size="9" text-anchor="middle">.class files</text>
+
+  <!-- Arrow: bytecode to interpreter -->
+  <line x1="288" y1="115" x2="288" y2="148" stroke="#89b4fa" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- =================== TIER 0: INTERPRETER =================== -->
+  <rect x="30" y="155" width="840" height="65" fill="#313244" rx="6" stroke="#45475a" stroke-width="1"/>
+
+  <!-- Tier label -->
+  <rect x="40" y="165" width="80" height="24" fill="#6c7086" rx="3"/>
+  <text x="80" y="182" fill="#1e1e2e" font-size="10" text-anchor="middle" font-weight="bold">Tier 0</text>
+
+  <text x="140" y="182" fill="#cdd6f4" font-size="12" font-weight="bold">Interpreter</text>
+  <text x="140" y="200" fill="#6c7086" font-size="10">No compilation. Collects invocation counts.</text>
+
+  <!-- Profiling counters -->
+  <rect x="450" y="162" width="200" height="48" fill="#45475a" rx="4"/>
+  <text x="550" y="180" fill="#cdd6f4" font-size="10" text-anchor="middle">Invocation counter: 0 / 10,000</text>
+  <text x="550" y="196" fill="#cdd6f4" font-size="10" text-anchor="middle">Back-edge counter: 0 / 14,000</text>
+
+  <!-- Speed indicator -->
+  <rect x="680" y="168" width="170" height="36" fill="#f38ba8" rx="4" opacity="0.3"/>
+  <text x="765" y="191" fill="#f38ba8" font-size="11" text-anchor="middle">Speed: 1x (baseline)</text>
+
+  <!-- Arrow: interpreter to C1 -->
+  <line x1="288" y1="225" x2="288" y2="248" stroke="#a6e3a1" stroke-width="2" marker-end="url(#arr-green)"/>
+  <text x="300" y="240" fill="#a6e3a1" font-size="8">threshold hit</text>
+
+  <!-- =================== TIER 1-3: C1 COMPILER =================== -->
+  <rect x="30" y="255" width="840" height="90" fill="#313244" rx="6" stroke="#45475a" stroke-width="1"/>
+
+  <rect x="40" y="265" width="80" height="24" fill="#a6e3a1" rx="3"/>
+  <text x="80" y="282" fill="#1e1e2e" font-size="10" text-anchor="middle" font-weight="bold">Tier 1-3</text>
+
+  <text x="140" y="282" fill="#a6e3a1" font-size="12" font-weight="bold">C1 Compiler (Client)</text>
+  <text x="140" y="300" fill="#6c7086" font-size="10">Fast compilation. Basic optimizations. Collects profiling data.</text>
+
+  <!-- C1 optimizations -->
+  <rect x="140" y="310" width="120" height="24" fill="#45475a" rx="3"/>
+  <text x="200" y="326" fill="#cdd6f4" font-size="9" text-anchor="middle">Inlining (simple)</text>
+
+  <rect x="270" y="310" width="120" height="24" fill="#45475a" rx="3"/>
+  <text x="330" y="326" fill="#cdd6f4" font-size="9" text-anchor="middle">Null check elim.</text>
+
+  <rect x="400" y="310" width="120" height="24" fill="#45475a" rx="3"/>
+  <text x="460" y="326" fill="#cdd6f4" font-size="9" text-anchor="middle">Range check elim.</text>
+
+  <!-- Profiling in C1 -->
+  <rect x="550" y="265" width="160" height="48" fill="#45475a" rx="4"/>
+  <text x="630" y="283" fill="#cdd6f4" font-size="10" text-anchor="middle">Type profile data</text>
+  <text x="630" y="299" fill="#cdd6f4" font-size="10" text-anchor="middle">Branch frequencies</text>
+
+  <!-- Speed indicator -->
+  <rect x="740" y="268" width="120" height="36" fill="#a6e3a1" rx="4" opacity="0.3"/>
+  <text x="800" y="291" fill="#a6e3a1" font-size="11" text-anchor="middle">Speed: 5-10x</text>
+
+  <!-- Arrow: C1 to C2 -->
+  <line x1="288" y1="350" x2="288" y2="373" stroke="#fab387" stroke-width="2" marker-end="url(#arr-orange)"/>
+  <text x="300" y="365" fill="#fab387" font-size="8">hot method</text>
+
+  <!-- =================== TIER 4: C2 COMPILER =================== -->
+  <rect x="30" y="380" width="840" height="100" fill="#313244" rx="6" stroke="#fab387" stroke-width="1"/>
+
+  <rect x="40" y="390" width="80" height="24" fill="#fab387" rx="3"/>
+  <text x="80" y="407" fill="#1e1e2e" font-size="10" text-anchor="middle" font-weight="bold">Tier 4</text>
+
+  <text x="140" y="407" fill="#fab387" font-size="12" font-weight="bold">C2 Compiler (Server)</text>
+  <text x="140" y="425" fill="#6c7086" font-size="10">Aggressive optimizations. Slow compilation. Maximum throughput.</text>
+
+  <!-- C2 optimizations - THE ONES THAT BREAK BENCHMARKS -->
+  <rect x="50" y="438" width="115" height="28" fill="#f38ba8" rx="3" opacity="0.8"/>
+  <text x="108" y="456" fill="#1e1e2e" font-size="9" text-anchor="middle" font-weight="bold">Dead code elim.</text>
+
+  <rect x="175" y="438" width="115" height="28" fill="#f38ba8" rx="3" opacity="0.8"/>
+  <text x="233" y="456" fill="#1e1e2e" font-size="9" text-anchor="middle" font-weight="bold">Constant folding</text>
+
+  <rect x="300" y="438" width="115" height="28" fill="#f38ba8" rx="3" opacity="0.8"/>
+  <text x="358" y="456" fill="#1e1e2e" font-size="9" text-anchor="middle" font-weight="bold">Loop unrolling</text>
+
+  <rect x="425" y="438" width="115" height="28" fill="#f38ba8" rx="3" opacity="0.8"/>
+  <text x="483" y="456" fill="#1e1e2e" font-size="9" text-anchor="middle" font-weight="bold">Escape analysis</text>
+
+  <rect x="550" y="438" width="115" height="28" fill="#45475a" rx="3"/>
+  <text x="608" y="456" fill="#cdd6f4" font-size="9" text-anchor="middle">Vectorization</text>
+
+  <rect x="675" y="438" width="115" height="28" fill="#45475a" rx="3"/>
+  <text x="733" y="456" fill="#cdd6f4" font-size="9" text-anchor="middle">Lock coarsening</text>
+
+  <!-- Speed indicator -->
+  <rect x="800" y="393" width="60" height="36" fill="#fab387" rx="4" opacity="0.3"/>
+  <text x="830" y="416" fill="#fab387" font-size="11" text-anchor="middle">10-30x</text>
+
+  <!-- Warning box -->
+  <rect x="50" y="472" width="820" height="20" fill="none" rx="3"/>
+  <text x="460" y="486" fill="#f38ba8" font-size="10" text-anchor="middle" font-weight="bold">Red boxes = optimizations that invalidate naive benchmarks. JMH's Blackhole and @State prevent these.</text>
+
+  <!-- Deopt arrow -->
+  <line x1="750" y1="380" x2="750" y2="350" stroke="#f38ba8" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arr)"/>
+  <text x="790" y="365" fill="#f38ba8" font-size="8">Deoptimization</text>
+  <text x="790" y="376" fill="#6c7086" font-size="7">(speculation failed)</text>
+</svg>

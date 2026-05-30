@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 440" width="800" height="440">
+  <rect width="800" height="440" fill="#1e1e2e" rx="8"/>
+  <text x="400" y="35" fill="#cdd6f4" font-family="system-ui, sans-serif" font-size="18" font-weight="bold" text-anchor="middle">Spring Boot Starter Module Structure</text>
+
+  <!-- Main app -->
+  <rect x="250" y="55" width="300" height="40" rx="6" fill="#313244" stroke="#cdd6f4" stroke-width="2"/>
+  <text x="400" y="80" fill="#cdd6f4" font-family="system-ui, sans-serif" font-size="13" font-weight="bold" text-anchor="middle">my-app (Spring Boot application)</text>
+
+  <line x1="400" y1="95" x2="400" y2="115" stroke="#585b70" stroke-width="1.5"/>
+  <polygon points="396,114 400,122 404,114" fill="#585b70"/>
+  <text x="412" y="110" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="9">depends on</text>
+
+  <!-- Starter -->
+  <rect x="200" y="120" width="400" height="60" rx="6" fill="#2a2a3d" stroke="#89b4fa" stroke-width="2"/>
+  <text x="400" y="142" fill="#89b4fa" font-family="system-ui, sans-serif" font-size="13" font-weight="bold" text-anchor="middle">tenant-management-spring-boot-starter</text>
+  <text x="400" y="160" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="10" text-anchor="middle">pom.xml only — no code. Pulls in autoconfigure + dependencies.</text>
+  <text x="400" y="175" fill="#585b70" font-family="system-ui, sans-serif" font-size="9" text-anchor="middle">Convention: {name}-spring-boot-starter</text>
+
+  <!-- Dependencies from starter -->
+  <line x1="300" y1="180" x2="200" y2="220" stroke="#585b70" stroke-width="1"/>
+  <line x1="500" y1="180" x2="600" y2="220" stroke="#585b70" stroke-width="1"/>
+
+  <!-- Autoconfigure module -->
+  <rect x="30" y="220" width="350" height="120" rx="6" fill="#2a2a3d" stroke="#a6e3a1" stroke-width="2"/>
+  <text x="205" y="245" fill="#a6e3a1" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" text-anchor="middle">tenant-management-autoconfigure</text>
+
+  <rect x="50" y="255" width="310" height="22" rx="3" fill="#313244" stroke="#585b70" stroke-width="1"/>
+  <text x="65" y="271" fill="#f9e2af" font-family="monospace" font-size="9">TenantAutoConfiguration.java</text>
+  <text x="290" y="271" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="8">@AutoConfiguration</text>
+
+  <rect x="50" y="282" width="310" height="22" rx="3" fill="#313244" stroke="#585b70" stroke-width="1"/>
+  <text x="65" y="298" fill="#f9e2af" font-family="monospace" font-size="9">TenantProperties.java</text>
+  <text x="290" y="298" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="8">@ConfigurationProperties</text>
+
+  <rect x="50" y="309" width="310" height="22" rx="3" fill="#313244" stroke="#585b70" stroke-width="1"/>
+  <text x="65" y="325" fill="#f9e2af" font-family="monospace" font-size="9">META-INF/spring/o.s.b.a.AutoConfiguration.imports</text>
+
+  <!-- Third-party lib -->
+  <rect x="420" y="220" width="350" height="80" rx="6" fill="#2a2a3d" stroke="#f38ba8" stroke-width="1.5"/>
+  <text x="595" y="245" fill="#f38ba8" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" text-anchor="middle">tenant-management-core</text>
+  <text x="595" y="265" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="10" text-anchor="middle">Plain Java library. No Spring dependency.</text>
+  <text x="595" y="280" fill="#585b70" font-family="system-ui, sans-serif" font-size="9" text-anchor="middle">TenantResolver, TenantContext, etc.</text>
+  <text x="595" y="295" fill="#585b70" font-family="system-ui, sans-serif" font-size="9" text-anchor="middle">Can be used without Spring Boot</text>
+
+  <!-- Autoconfigure depends on core -->
+  <line x1="380" y1="280" x2="420" y2="260" stroke="#585b70" stroke-width="1" stroke-dasharray="4"/>
+  <text x="400" y="255" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="8" text-anchor="middle">optional</text>
+
+  <!-- Bottom notes -->
+  <rect x="50" y="360" width="700" height="65" rx="6" fill="#313244" stroke="#f9e2af" stroke-width="1"/>
+  <text x="400" y="380" fill="#f9e2af" font-family="system-ui, sans-serif" font-size="11" text-anchor="middle">The Three-Module Pattern</text>
+  <text x="400" y="398" fill="#cdd6f4" font-family="system-ui, sans-serif" font-size="10" text-anchor="middle">1. starter (POM only) → 2. autoconfigure (Spring config + conditions) → 3. core (plain library)</text>
+  <text x="400" y="415" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="10" text-anchor="middle">This separation allows the core library to be used in non-Spring projects (Quarkus, Micronaut, plain Java).</text>
+</svg>

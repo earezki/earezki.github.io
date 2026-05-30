@@ -1,0 +1,161 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700" width="900" height="700">
+  <rect width="900" height="700" rx="8" fill="#1e1e2e"/>
+
+  <!-- Title -->
+  <text x="450" y="28" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="14" font-weight="bold">Payload Optimization: Compression Ratio vs CPU Cost</text>
+
+  <!-- Top section: Compression comparison chart -->
+  <text x="450" y="55" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="10">37KB article list JSON payload (50 articles)</text>
+
+  <!-- Y-axis label (ratio) -->
+  <text x="22" y="220" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9" transform="rotate(-90, 22, 220)">Compression Ratio (x)</text>
+
+  <!-- Y-axis -->
+  <line x1="70" y1="75" x2="70" y2="370" stroke="#45475a" stroke-width="1"/>
+  <!-- Y ticks: 0x to 10x, height=295px, 1x = 29.5px, base at y=370 -->
+  <line x1="65" y1="370" x2="70" y2="370" stroke="#45475a" stroke-width="1"/>
+  <text x="60" y="374" text-anchor="end" fill="#6c7086" font-family="monospace" font-size="8">0x</text>
+  <line x1="65" y1="311" x2="70" y2="311" stroke="#45475a" stroke-width="1"/>
+  <text x="60" y="315" text-anchor="end" fill="#6c7086" font-family="monospace" font-size="8">2x</text>
+  <line x1="65" y1="252" x2="70" y2="252" stroke="#45475a" stroke-width="1"/>
+  <text x="60" y="256" text-anchor="end" fill="#6c7086" font-family="monospace" font-size="8">4x</text>
+  <line x1="65" y1="193" x2="70" y2="193" stroke="#45475a" stroke-width="1"/>
+  <text x="60" y="197" text-anchor="end" fill="#6c7086" font-family="monospace" font-size="8">6x</text>
+  <line x1="65" y1="134" x2="70" y2="134" stroke="#45475a" stroke-width="1"/>
+  <text x="60" y="138" text-anchor="end" fill="#6c7086" font-family="monospace" font-size="8">8x</text>
+  <line x1="65" y1="75" x2="70" y2="75" stroke="#45475a" stroke-width="1"/>
+  <text x="60" y="79" text-anchor="end" fill="#6c7086" font-family="monospace" font-size="8">10x</text>
+
+  <!-- X-axis label -->
+  <text x="450" y="398" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">CPU Time per Compression (microseconds, log scale)</text>
+
+  <!-- X-axis -->
+  <line x1="70" y1="370" x2="850" y2="370" stroke="#45475a" stroke-width="1"/>
+  <!-- X ticks: log scale from 40us to 10000us -->
+  <!-- 40us, 100us, 250us, 500us, 1000us, 2500us, 5000us, 10000us -->
+  <!-- Map: log10(40)=1.60, log10(10000)=4.0. Range=2.4, width=780px -->
+  <!-- x = 70 + (log10(val) - 1.60) * (780/2.4) -->
+  <!-- 40us: x=70 -->
+  <text x="70" y="385" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="8">40</text>
+  <!-- 100us: x=70 + (2.0-1.60)*325 = 70+130 = 200 -->
+  <text x="200" y="385" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="8">100</text>
+  <!-- 250us: x=70 + (2.40-1.60)*325 = 70+260 = 330 -->
+  <text x="330" y="385" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="8">250</text>
+  <!-- 500us: x=70 + (2.70-1.60)*325 = 70+358 = 428 -->
+  <text x="428" y="385" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="8">500</text>
+  <!-- 1000us: x=70 + (3.0-1.60)*325 = 70+455 = 525 -->
+  <text x="525" y="385" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="8">1000</text>
+  <!-- 2500us: x=70 + (3.40-1.60)*325 = 70+585 = 655 -->
+  <text x="655" y="385" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="8">2500</text>
+  <!-- 5000us: x=70 + (3.70-1.60)*325 = 70+683 = 753 -->
+  <text x="753" y="385" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="8">5000</text>
+
+  <!-- Grid lines -->
+  <line x1="200" y1="75" x2="200" y2="370" stroke="#313244" stroke-width="0.5" stroke-dasharray="3"/>
+  <line x1="330" y1="75" x2="330" y2="370" stroke="#313244" stroke-width="0.5" stroke-dasharray="3"/>
+  <line x1="525" y1="75" x2="525" y2="370" stroke="#313244" stroke-width="0.5" stroke-dasharray="3"/>
+  <line x1="70" y1="252" x2="850" y2="252" stroke="#313244" stroke-width="0.5" stroke-dasharray="3"/>
+  <line x1="70" y1="134" x2="850" y2="134" stroke="#313244" stroke-width="0.5" stroke-dasharray="3"/>
+
+  <!-- Optimal zone highlight -->
+  <rect x="70" y="100" width="310" height="180" rx="4" fill="#a6e3a1" opacity="0.05" stroke="#a6e3a1" stroke-width="1" stroke-dasharray="4"/>
+  <text x="225" y="95" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="8">OPTIMAL ZONE (&lt;250us, &gt;5x ratio)</text>
+
+  <!-- Data points: Gzip (red/pink) -->
+  <!-- Gzip-1: 82us, 4.2x. x=70+(1.914-1.60)*325=172, y=370-4.2*29.5=246 -->
+  <circle cx="172" cy="246" r="7" fill="#f38ba8" opacity="0.9"/>
+  <text x="172" y="236" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="8">G1</text>
+  <!-- Gzip-6: 185us, 5.5x. x=70+(2.267-1.60)*325=287, y=370-5.5*29.5=208 -->
+  <circle cx="287" cy="208" r="7" fill="#f38ba8" opacity="0.9"/>
+  <text x="287" y="198" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="8">G6</text>
+  <!-- Gzip-9: 420us, 5.6x. x=70+(2.623-1.60)*325=402, y=370-5.6*29.5=205 -->
+  <circle cx="402" cy="205" r="7" fill="#f38ba8" opacity="0.9"/>
+  <text x="402" y="195" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="8">G9</text>
+  <!-- Gzip line -->
+  <polyline points="172,246 287,208 402,205" fill="none" stroke="#f38ba8" stroke-width="1.5" opacity="0.7"/>
+
+  <!-- Data points: Brotli (blue) -->
+  <!-- Brotli-1: 95us, 4.8x. x=70+(1.978-1.60)*325=193, y=370-4.8*29.5=228 -->
+  <circle cx="193" cy="228" r="7" fill="#89b4fa" opacity="0.9"/>
+  <text x="193" y="218" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="8">B1</text>
+  <!-- Brotli-4: 230us, 7.1x. x=70+(2.362-1.60)*325=318, y=370-7.1*29.5=160 -->
+  <circle cx="318" cy="160" r="7" fill="#89b4fa" opacity="0.9"/>
+  <text x="318" y="150" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="8">B4</text>
+  <!-- Brotli-6: 580us, 7.8x. x=70+(2.763-1.60)*325=448, y=370-7.8*29.5=140 -->
+  <circle cx="448" cy="140" r="7" fill="#89b4fa" opacity="0.9"/>
+  <text x="448" y="130" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="8">B6</text>
+  <!-- Brotli-11: 8200us, 9.1x. x=70+(3.914-1.60)*325=822, y=370-9.1*29.5=102 -->
+  <circle cx="822" cy="102" r="7" fill="#89b4fa" opacity="0.9"/>
+  <text x="822" y="92" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="8">B11</text>
+  <!-- Brotli line -->
+  <polyline points="193,228 318,160 448,140 822,102" fill="none" stroke="#89b4fa" stroke-width="1.5" opacity="0.7"/>
+
+  <!-- Data points: Zstandard (green) -->
+  <!-- Zstd-1: 42us, 5.1x. x=70+(1.623-1.60)*325=78, y=370-5.1*29.5=220 -->
+  <circle cx="78" cy="220" r="7" fill="#a6e3a1" opacity="0.9"/>
+  <text x="92" y="215" text-anchor="start" fill="#a6e3a1" font-family="monospace" font-size="8">Z1</text>
+  <!-- Zstd-3: 68us, 6.8x. x=70+(1.833-1.60)*325=146, y=370-6.8*29.5=169 -->
+  <circle cx="146" cy="169" r="7" fill="#a6e3a1" opacity="0.9"/>
+  <text x="146" y="159" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="8">Z3</text>
+  <!-- Zstd-9: 310us, 7.9x. x=70+(2.491-1.60)*325=360, y=370-7.9*29.5=137 -->
+  <circle cx="360" cy="137" r="7" fill="#a6e3a1" opacity="0.9"/>
+  <text x="360" y="127" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="8">Z9</text>
+  <!-- Zstd-19: 4100us, 8.6x. x=70+(3.613-1.60)*325=724, y=370-8.6*29.5=116 -->
+  <circle cx="724" cy="116" r="7" fill="#a6e3a1" opacity="0.9"/>
+  <text x="724" y="106" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="8">Z19</text>
+  <!-- Zstd line -->
+  <polyline points="78,220 146,169 360,137 724,116" fill="none" stroke="#a6e3a1" stroke-width="1.5" opacity="0.7"/>
+
+  <!-- Legend for top chart -->
+  <circle cx="600" cy="72" r="5" fill="#f38ba8"/>
+  <text x="612" y="76" fill="#f38ba8" font-family="monospace" font-size="9">Gzip (levels 1,6,9)</text>
+  <circle cx="600" cy="88" r="5" fill="#89b4fa"/>
+  <text x="612" y="92" fill="#89b4fa" font-family="monospace" font-size="9">Brotli (levels 1,4,6,11)</text>
+  <circle cx="600" cy="104" r="5" fill="#a6e3a1"/>
+  <text x="612" y="108" fill="#a6e3a1" font-family="monospace" font-size="9">Zstandard (levels 1,3,9,19)</text>
+
+  <!-- Separator -->
+  <line x1="50" y1="420" x2="850" y2="420" stroke="#45475a" stroke-width="1"/>
+
+  <!-- Bottom section: Payload size comparison bars -->
+  <text x="450" y="445" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="12" font-weight="bold">Compressed Payload Size (bytes) - Article List API</text>
+
+  <!-- Horizontal bar chart -->
+  <!-- Scale: 0 to 37450 bytes, width=680px. 1 byte = 0.0182px -->
+  <!-- Base x=150, max x=830 -->
+
+  <!-- Uncompressed: 37450 bytes, full width -->
+  <rect x="150" y="462" width="680" height="22" rx="3" fill="#45475a" opacity="0.7"/>
+  <text x="145" y="477" text-anchor="end" fill="#6c7086" font-family="monospace" font-size="9">Raw JSON</text>
+  <text x="840" y="477" text-anchor="start" fill="#cdd6f4" font-family="monospace" font-size="9">37,450 B</text>
+
+  <!-- Gzip-6: 6820 bytes = 6820/37450*680 = 124px -->
+  <rect x="150" y="492" width="124" height="22" rx="3" fill="#f38ba8" opacity="0.8"/>
+  <text x="145" y="507" text-anchor="end" fill="#f38ba8" font-family="monospace" font-size="9">Gzip-6</text>
+  <text x="280" y="507" text-anchor="start" fill="#cdd6f4" font-family="monospace" font-size="9">6,820 B (5.5x)</text>
+
+  <!-- Zstd-3: 5480 bytes = 5480/37450*680 = 99px -->
+  <rect x="150" y="522" width="99" height="22" rx="3" fill="#a6e3a1" opacity="0.8"/>
+  <text x="145" y="537" text-anchor="end" fill="#a6e3a1" font-family="monospace" font-size="9">Zstd-3</text>
+  <text x="255" y="537" text-anchor="start" fill="#cdd6f4" font-family="monospace" font-size="9">5,480 B (6.8x)</text>
+
+  <!-- Brotli-4: 5240 bytes = 5240/37450*680 = 95px -->
+  <rect x="150" y="552" width="95" height="22" rx="3" fill="#89b4fa" opacity="0.8"/>
+  <text x="145" y="567" text-anchor="end" fill="#89b4fa" font-family="monospace" font-size="9">Brotli-4</text>
+  <text x="251" y="567" text-anchor="start" fill="#cdd6f4" font-family="monospace" font-size="9">5,240 B (7.1x)</text>
+
+  <!-- Brotli-11: 4100 bytes = 4100/37450*680 = 74px -->
+  <rect x="150" y="582" width="74" height="22" rx="3" fill="#89b4fa" opacity="0.6"/>
+  <text x="145" y="597" text-anchor="end" fill="#89b4fa" font-family="monospace" font-size="9">Brotli-11</text>
+  <text x="230" y="597" text-anchor="start" fill="#cdd6f4" font-family="monospace" font-size="9">4,100 B (9.1x) [static only]</text>
+
+  <!-- Zstd-3+dict: 3920 bytes = 3920/37450*680 = 71px -->
+  <rect x="150" y="612" width="71" height="22" rx="3" fill="#a6e3a1" opacity="0.6"/>
+  <text x="145" y="627" text-anchor="end" fill="#a6e3a1" font-family="monospace" font-size="9">Zstd+Dict</text>
+  <text x="227" y="627" text-anchor="start" fill="#cdd6f4" font-family="monospace" font-size="9">3,920 B (9.6x) [internal svc]</text>
+
+  <!-- Recommendation annotation -->
+  <rect x="150" y="650" width="680" height="36" rx="4" fill="#181825" stroke="#a6e3a1" stroke-width="1"/>
+  <text x="160" y="665" fill="#a6e3a1" font-family="monospace" font-size="9">Recommended: Zstd-3 for dynamic API (68us CPU), Brotli-4 for browser (230us CPU),</text>
+  <text x="160" y="680" fill="#a6e3a1" font-family="monospace" font-size="9">Brotli-11 for static pre-compressed assets, Zstd+Dict for internal gRPC (55us CPU)</text>
+</svg>

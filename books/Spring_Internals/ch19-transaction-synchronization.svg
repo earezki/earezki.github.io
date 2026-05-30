@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520" width="800" height="520">
+  <rect width="800" height="520" fill="#1e1e2e" rx="8"/>
+  <text x="400" y="35" fill="#cdd6f4" font-family="system-ui, sans-serif" font-size="18" font-weight="bold" text-anchor="middle">Transaction Synchronization &amp; Connection Management</text>
+
+  <!-- Request thread -->
+  <rect x="50" y="55" width="700" height="410" rx="8" fill="#2a2a3d" stroke="#89b4fa" stroke-width="2"/>
+  <text x="400" y="78" fill="#89b4fa" font-family="system-ui, sans-serif" font-size="13" font-weight="bold" text-anchor="middle">Thread: http-nio-8080-exec-1</text>
+
+  <!-- TransactionInterceptor -->
+  <rect x="80" y="90" width="640" height="35" rx="4" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="400" y="112" fill="#a6e3a1" font-family="system-ui, sans-serif" font-size="11" text-anchor="middle">TransactionInterceptor → PlatformTransactionManager.getTransaction()</text>
+
+  <line x1="400" y1="125" x2="400" y2="140" stroke="#585b70" stroke-width="1"/>
+
+  <!-- TransactionSynchronizationManager -->
+  <rect x="80" y="142" width="640" height="80" rx="6" fill="#313244" stroke="#f9e2af" stroke-width="2"/>
+  <text x="400" y="162" fill="#f9e2af" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" text-anchor="middle">TransactionSynchronizationManager (ThreadLocal storage)</text>
+
+  <rect x="100" y="172" width="195" height="22" rx="3" fill="#2a2a3d" stroke="#585b70" stroke-width="1"/>
+  <text x="197" y="188" fill="#a6adc8" font-family="monospace" font-size="9" text-anchor="middle">resources: ThreadLocal&lt;Map&gt;</text>
+
+  <rect x="305" y="172" width="195" height="22" rx="3" fill="#2a2a3d" stroke="#585b70" stroke-width="1"/>
+  <text x="402" y="188" fill="#a6adc8" font-family="monospace" font-size="9" text-anchor="middle">synchronizations: ThreadLocal&lt;Set&gt;</text>
+
+  <rect x="510" y="172" width="195" height="22" rx="3" fill="#2a2a3d" stroke="#585b70" stroke-width="1"/>
+  <text x="607" y="188" fill="#a6adc8" font-family="monospace" font-size="9" text-anchor="middle">currentTransactionName: ThreadLocal</text>
+
+  <line x1="400" y1="222" x2="400" y2="240" stroke="#585b70" stroke-width="1"/>
+
+  <!-- Connection binding -->
+  <rect x="80" y="242" width="640" height="50" rx="4" fill="#313244" stroke="#89b4fa" stroke-width="1.5"/>
+  <text x="400" y="262" fill="#89b4fa" font-family="system-ui, sans-serif" font-size="11" text-anchor="middle">DataSourceTransactionManager binds Connection to current thread</text>
+  <text x="400" y="280" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="9" text-anchor="middle">resources.get(dataSource) → ConnectionHolder(connection, autoCommit=false)</text>
+
+  <line x1="400" y1="292" x2="400" y2="308" stroke="#585b70" stroke-width="1"/>
+
+  <!-- Repository calls -->
+  <rect x="80" y="310" width="300" height="50" rx="4" fill="#313244" stroke="#cdd6f4" stroke-width="1"/>
+  <text x="230" y="330" fill="#cdd6f4" font-family="system-ui, sans-serif" font-size="11" text-anchor="middle">orderRepository.save(order)</text>
+  <text x="230" y="348" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="9" text-anchor="middle">Gets connection from ThreadLocal — same tx</text>
+
+  <rect x="420" y="310" width="300" height="50" rx="4" fill="#313244" stroke="#cdd6f4" stroke-width="1"/>
+  <text x="570" y="330" fill="#cdd6f4" font-family="system-ui, sans-serif" font-size="11" text-anchor="middle">auditRepository.save(audit)</text>
+  <text x="570" y="348" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="9" text-anchor="middle">Same connection from ThreadLocal — same tx</text>
+
+  <line x1="400" y1="360" x2="400" y2="380" stroke="#585b70" stroke-width="1"/>
+
+  <!-- Commit/Rollback -->
+  <rect x="80" y="382" width="300" height="35" rx="4" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="230" y="404" fill="#a6e3a1" font-family="system-ui, sans-serif" font-size="11" text-anchor="middle">Success → commit() → connection.commit()</text>
+
+  <rect x="420" y="382" width="300" height="35" rx="4" fill="#313244" stroke="#f38ba8" stroke-width="1.5"/>
+  <text x="570" y="404" fill="#f38ba8" font-family="system-ui, sans-serif" font-size="11" text-anchor="middle">Exception → rollback() → connection.rollback()</text>
+
+  <!-- Cleanup -->
+  <rect x="80" y="425" width="640" height="28" rx="4" fill="#313244" stroke="#585b70" stroke-width="1"/>
+  <text x="400" y="444" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="10" text-anchor="middle">TransactionSynchronizationManager.clear() → unbind resources, remove ThreadLocals → return connection to pool</text>
+
+  <!-- Bottom notes -->
+  <rect x="50" y="475" width="700" height="30" rx="4" fill="#313244" stroke="#f38ba8" stroke-width="1"/>
+  <text x="400" y="495" fill="#f38ba8" font-family="system-ui, sans-serif" font-size="10" text-anchor="middle">@Async or Schedulers.boundedElastic() breaks ThreadLocal binding. Use TransactionTemplate for explicit control.</text>
+</svg>

@@ -1,0 +1,165 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 720" width="1000" height="720">
+  <defs>
+    <pattern id="cacheLinePattern" x="0" y="0" width="4" height="4" patternUnits="userSpaceOnUse">
+      <rect width="4" height="4" fill="#313244"/>
+      <rect width="1" height="1" fill="#45475a"/>
+    </pattern>
+  </defs>
+
+  <rect width="1000" height="720" rx="8" fill="#1e1e2e"/>
+  <text x="500" y="32" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="16" font-weight="bold">Memory Layout: ArrayList vs LinkedList with Cache Line Boundaries</text>
+
+  <!-- ArrayList Section -->
+  <text x="30" y="65" fill="#a6e3a1" font-family="monospace" font-size="13" font-weight="bold">ArrayList&lt;Article&gt; - Contiguous Object Array</text>
+  <text x="30" y="82" fill="#7f849c" font-family="monospace" font-size="10">Object[] backing array: references are contiguous, objects may be nearby (TLAB allocation)</text>
+
+  <!-- Cache Line 1 -->
+  <rect x="30" y="95" width="940" height="70" rx="4" fill="none" stroke="#585b70" stroke-width="1" stroke-dasharray="6,3"/>
+  <text x="40" y="110" fill="#585b70" font-family="monospace" font-size="9">Cache Line 0 (64 bytes)</text>
+
+  <!-- Array header -->
+  <rect x="40" y="118" width="80" height="36" rx="3" fill="#45475a" stroke="#89b4fa" stroke-width="1"/>
+  <text x="80" y="134" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="8">Array Header</text>
+  <text x="80" y="147" text-anchor="middle" fill="#7f849c" font-family="monospace" font-size="7">16 bytes</text>
+
+  <!-- References packed -->
+  <rect x="125" y="118" width="48" height="36" rx="3" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="149" y="134" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="8">ref[0]</text>
+  <text x="149" y="147" text-anchor="middle" fill="#7f849c" font-family="monospace" font-size="7">4B</text>
+
+  <rect x="178" y="118" width="48" height="36" rx="3" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="202" y="134" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="8">ref[1]</text>
+  <text x="202" y="147" text-anchor="middle" fill="#7f849c" font-family="monospace" font-size="7">4B</text>
+
+  <rect x="231" y="118" width="48" height="36" rx="3" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="255" y="134" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="8">ref[2]</text>
+  <text x="255" y="147" text-anchor="middle" fill="#7f849c" font-family="monospace" font-size="7">4B</text>
+
+  <rect x="284" y="118" width="48" height="36" rx="3" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="308" y="134" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="8">ref[3]</text>
+  <text x="308" y="147" text-anchor="middle" fill="#7f849c" font-family="monospace" font-size="7">4B</text>
+
+  <rect x="337" y="118" width="48" height="36" rx="3" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="361" y="134" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="8">ref[4]</text>
+  <text x="361" y="147" text-anchor="middle" fill="#7f849c" font-family="monospace" font-size="7">4B</text>
+
+  <rect x="390" y="118" width="48" height="36" rx="3" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="414" y="134" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="8">ref[5]</text>
+  <text x="414" y="147" text-anchor="middle" fill="#7f849c" font-family="monospace" font-size="7">4B</text>
+
+  <rect x="443" y="118" width="48" height="36" rx="3" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="467" y="134" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="8">ref[6]</text>
+  <text x="467" y="147" text-anchor="middle" fill="#7f849c" font-family="monospace" font-size="7">4B</text>
+
+  <rect x="496" y="118" width="48" height="36" rx="3" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="520" y="134" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="8">ref[7]</text>
+  <text x="520" y="147" text-anchor="middle" fill="#7f849c" font-family="monospace" font-size="7">4B</text>
+
+  <rect x="549" y="118" width="48" height="36" rx="3" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="573" y="134" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="8">ref[8]</text>
+  <text x="573" y="147" text-anchor="middle" fill="#7f849c" font-family="monospace" font-size="7">4B</text>
+
+  <rect x="602" y="118" width="48" height="36" rx="3" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="626" y="134" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="8">ref[9]</text>
+  <text x="626" y="147" text-anchor="middle" fill="#7f849c" font-family="monospace" font-size="7">4B</text>
+
+  <rect x="655" y="118" width="52" height="36" rx="3" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="681" y="134" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="8">ref[10]</text>
+  <text x="681" y="147" text-anchor="middle" fill="#7f849c" font-family="monospace" font-size="7">4B</text>
+
+  <rect x="712" y="118" width="52" height="36" rx="3" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="738" y="134" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="8">ref[11]</text>
+  <text x="738" y="147" text-anchor="middle" fill="#7f849c" font-family="monospace" font-size="7">4B</text>
+
+  <text x="780" y="142" fill="#a6e3a1" font-family="monospace" font-size="10">12 refs in 1 cache line!</text>
+  <text x="780" y="156" fill="#a6e3a1" font-family="monospace" font-size="9">(CompressedOops: 4B each)</text>
+
+  <!-- Sequential access arrow -->
+  <text x="30" y="190" fill="#a6e3a1" font-family="monospace" font-size="10">Sequential scan: 1 cache miss per 12 refs = prefetcher-friendly</text>
+
+  <!-- LinkedList Section -->
+  <text x="30" y="225" fill="#f38ba8" font-family="monospace" font-size="13" font-weight="bold">LinkedList&lt;Article&gt; - Scattered Node Objects</text>
+  <text x="30" y="242" fill="#7f849c" font-family="monospace" font-size="10">Each Node: 12B header + 8B prev + 8B next + 8B item = 40B (padded to 48B). Nodes scattered across heap.</text>
+
+  <!-- Node 0 in its cache line -->
+  <rect x="30" y="255" width="200" height="90" rx="4" fill="none" stroke="#585b70" stroke-width="1" stroke-dasharray="6,3"/>
+  <text x="40" y="270" fill="#585b70" font-family="monospace" font-size="9">Cache Line A (64B) @ 0x7f2a00</text>
+  <rect x="40" y="278" width="180" height="55" rx="3" fill="#313244" stroke="#f38ba8" stroke-width="1.5"/>
+  <text x="130" y="296" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="9">Node[0] (48B)</text>
+  <text x="130" y="310" text-anchor="middle" fill="#7f849c" font-family="monospace" font-size="8">hdr|prev|next|item</text>
+  <text x="130" y="326" text-anchor="middle" fill="#7f849c" font-family="monospace" font-size="7">next=0x7f5c80</text>
+
+  <!-- Arrow to Node 1 -->
+  <line x1="220" y1="305" x2="290" y2="305" stroke="#f38ba8" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="252" y="298" fill="#f38ba8" font-family="monospace" font-size="8">ptr chase</text>
+
+  <!-- Node 1 far away -->
+  <rect x="290" y="255" width="200" height="90" rx="4" fill="none" stroke="#585b70" stroke-width="1" stroke-dasharray="6,3"/>
+  <text x="300" y="270" fill="#585b70" font-family="monospace" font-size="9">Cache Line K (64B) @ 0x7f5c80</text>
+  <rect x="300" y="278" width="180" height="55" rx="3" fill="#313244" stroke="#f38ba8" stroke-width="1.5"/>
+  <text x="390" y="296" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="9">Node[1] (48B)</text>
+  <text x="390" y="310" text-anchor="middle" fill="#7f849c" font-family="monospace" font-size="8">hdr|prev|next|item</text>
+  <text x="390" y="326" text-anchor="middle" fill="#7f849c" font-family="monospace" font-size="7">next=0x7f9120</text>
+
+  <!-- Arrow to Node 2 -->
+  <line x1="480" y1="305" x2="550" y2="305" stroke="#f38ba8" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="512" y="298" fill="#f38ba8" font-family="monospace" font-size="8">ptr chase</text>
+
+  <!-- Node 2 -->
+  <rect x="550" y="255" width="200" height="90" rx="4" fill="none" stroke="#585b70" stroke-width="1" stroke-dasharray="6,3"/>
+  <text x="560" y="270" fill="#585b70" font-family="monospace" font-size="9">Cache Line Q (64B) @ 0x7f9120</text>
+  <rect x="560" y="278" width="180" height="55" rx="3" fill="#313244" stroke="#f38ba8" stroke-width="1.5"/>
+  <text x="650" y="296" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="9">Node[2] (48B)</text>
+  <text x="650" y="310" text-anchor="middle" fill="#7f849c" font-family="monospace" font-size="8">hdr|prev|next|item</text>
+  <text x="650" y="326" text-anchor="middle" fill="#7f849c" font-family="monospace" font-size="7">next=0x7fab40</text>
+
+  <line x1="740" y1="305" x2="790" y2="305" stroke="#f38ba8" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="800" y="310" fill="#f38ba8" font-family="monospace" font-size="10">...</text>
+
+  <text x="30" y="368" fill="#f38ba8" font-family="monospace" font-size="10">Pointer chasing: 1 cache miss PER NODE = prefetcher cannot help</text>
+
+  <!-- False Sharing Section -->
+  <text x="30" y="405" fill="#89b4fa" font-family="monospace" font-size="13" font-weight="bold">False Sharing: Two Threads, One Cache Line</text>
+
+  <!-- Shared cache line -->
+  <rect x="100" y="420" width="800" height="80" rx="4" fill="none" stroke="#f38ba8" stroke-width="2"/>
+  <text x="500" y="438" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="10">Single 64-byte Cache Line</text>
+
+  <!-- Thread 1's counter -->
+  <rect x="130" y="448" width="350" height="40" rx="3" fill="#313244" stroke="#89b4fa" stroke-width="2"/>
+  <text x="305" y="465" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="10">Thread 1: volatile long counter1</text>
+  <text x="305" y="480" text-anchor="middle" fill="#7f849c" font-family="monospace" font-size="9">offset 0, 8 bytes</text>
+
+  <!-- Thread 2's counter -->
+  <rect x="520" y="448" width="350" height="40" rx="3" fill="#313244" stroke="#f9e2af" stroke-width="2"/>
+  <text x="695" y="465" text-anchor="middle" fill="#f9e2af" font-family="monospace" font-size="10">Thread 2: volatile long counter2</text>
+  <text x="695" y="480" text-anchor="middle" fill="#7f849c" font-family="monospace" font-size="9">offset 8, 8 bytes</text>
+
+  <text x="100" y="520" fill="#f38ba8" font-family="monospace" font-size="10">Thread 1 writes counter1 -> invalidates ENTIRE cache line on Thread 2's core</text>
+  <text x="100" y="537" fill="#f38ba8" font-family="monospace" font-size="10">Thread 2 writes counter2 -> invalidates ENTIRE cache line on Thread 1's core</text>
+  <text x="100" y="554" fill="#f38ba8" font-family="monospace" font-size="10">Result: constant MESI invalidation traffic, throughput drops 5-10x</text>
+
+  <!-- Fixed version with @Contended -->
+  <text x="30" y="590" fill="#a6e3a1" font-family="monospace" font-size="13" font-weight="bold">Fix: @Contended Adds 128B Padding</text>
+
+  <rect x="30" y="605" width="200" height="55" rx="4" fill="none" stroke="#a6e3a1" stroke-width="2"/>
+  <text x="130" y="620" text-anchor="middle" fill="#585b70" font-family="monospace" font-size="9">Cache Line X</text>
+  <rect x="40" y="628" width="180" height="24" rx="3" fill="#313244" stroke="#89b4fa" stroke-width="1.5"/>
+  <text x="130" y="644" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="9">@Contended counter1</text>
+
+  <rect x="240" y="615" width="200" height="35" rx="3" fill="#45475a" stroke="#585b70" stroke-width="1" stroke-dasharray="3"/>
+  <text x="340" y="637" text-anchor="middle" fill="#585b70" font-family="monospace" font-size="9">128B padding</text>
+
+  <rect x="450" y="605" width="200" height="55" rx="4" fill="none" stroke="#a6e3a1" stroke-width="2"/>
+  <text x="550" y="620" text-anchor="middle" fill="#585b70" font-family="monospace" font-size="9">Cache Line Y</text>
+  <rect x="460" y="628" width="180" height="24" rx="3" fill="#313244" stroke="#f9e2af" stroke-width="1.5"/>
+  <text x="550" y="644" text-anchor="middle" fill="#f9e2af" font-family="monospace" font-size="9">@Contended counter2</text>
+
+  <text x="680" y="640" fill="#a6e3a1" font-family="monospace" font-size="10">No sharing!</text>
+
+  <!-- Performance comparison -->
+  <rect x="30" y="670" width="940" height="38" rx="4" fill="#313244" stroke="#585b70" stroke-width="1"/>
+  <text x="50" y="690" fill="#a6e3a1" font-family="monospace" font-size="10">ArrayList iteration: ~0.3ns/element</text>
+  <text x="340" y="690" fill="#f38ba8" font-family="monospace" font-size="10">LinkedList iteration: ~4.2ns/element (14x slower)</text>
+  <text x="720" y="690" fill="#89b4fa" font-family="monospace" font-size="10">False sharing fix: 5-10x recovery</text>
+</svg>

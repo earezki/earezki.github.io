@@ -1,0 +1,51 @@
+<svg viewBox="0 0 800 450" width="800" height="450" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="450" fill="#1e1e2e" rx="8"/>
+  <text x="400" y="30" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="16" font-weight="bold">Aggregation Pipeline: Stage Reordering Optimization</text>
+  <!-- Slow pipeline -->
+  <text x="200" y="60" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="12" font-weight="bold">// SLOW: Unoptimized Order</text>
+  <rect x="50" y="75" width="130" height="35" fill="#313244" stroke="#f38ba8" stroke-width="2" rx="4"/>
+  <text x="115" y="97" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="10">$lookup</text>
+  <line x1="115" y1="110" x2="115" y2="125" stroke="#585b70" stroke-width="1.5"/>
+  <rect x="50" y="125" width="130" height="35" fill="#313244" stroke="#f38ba8" stroke-width="1" rx="4"/>
+  <text x="115" y="147" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="10">$unwind</text>
+  <line x1="115" y1="160" x2="115" y2="175" stroke="#585b70" stroke-width="1.5"/>
+  <rect x="50" y="175" width="130" height="35" fill="#313244" stroke="#f38ba8" stroke-width="1" rx="4"/>
+  <text x="115" y="197" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="10">$match</text>
+  <line x1="115" y1="210" x2="115" y2="225" stroke="#585b70" stroke-width="1.5"/>
+  <rect x="50" y="225" width="130" height="35" fill="#313244" stroke="#f38ba8" stroke-width="1" rx="4"/>
+  <text x="115" y="247" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="10">$group</text>
+  <text x="200" y="100" fill="#a6adc8" font-family="monospace" font-size="8">2.8M docs into $lookup</text>
+  <text x="200" y="150" fill="#a6adc8" font-family="monospace" font-size="8">8.4M expanded docs</text>
+  <text x="200" y="200" fill="#a6adc8" font-family="monospace" font-size="8">filters to 120K</text>
+  <text x="200" y="250" fill="#a6adc8" font-family="monospace" font-size="8">aggregates to 200</text>
+  <text x="115" y="280" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="10">4,200ms, 340MB RAM</text>
+  <!-- Fast pipeline -->
+  <text x="580" y="60" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="12" font-weight="bold">// FAST: $match First</text>
+  <rect x="500" y="75" width="130" height="35" fill="#313244" stroke="#a6e3a1" stroke-width="2" rx="4"/>
+  <text x="565" y="97" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10">$match</text>
+  <line x1="565" y1="110" x2="565" y2="125" stroke="#585b70" stroke-width="1.5"/>
+  <rect x="500" y="125" width="130" height="35" fill="#313244" stroke="#a6e3a1" stroke-width="1" rx="4"/>
+  <text x="565" y="147" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="10">$lookup</text>
+  <line x1="565" y1="160" x2="565" y2="175" stroke="#585b70" stroke-width="1.5"/>
+  <rect x="500" y="175" width="130" height="35" fill="#313244" stroke="#a6e3a1" stroke-width="1" rx="4"/>
+  <text x="565" y="197" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="10">$unwind</text>
+  <line x1="565" y1="210" x2="565" y2="225" stroke="#585b70" stroke-width="1.5"/>
+  <rect x="500" y="225" width="130" height="35" fill="#313244" stroke="#a6e3a1" stroke-width="1" rx="4"/>
+  <text x="565" y="247" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="10">$group</text>
+  <text x="650" y="100" fill="#a6adc8" font-family="monospace" font-size="8">filters to 120K first</text>
+  <text x="650" y="150" fill="#a6adc8" font-family="monospace" font-size="8">120K into $lookup</text>
+  <text x="650" y="200" fill="#a6adc8" font-family="monospace" font-size="8">360K expanded docs</text>
+  <text x="650" y="250" fill="#a6adc8" font-family="monospace" font-size="8">aggregates to 200</text>
+  <text x="565" y="280" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10">180ms, 14MB RAM</text>
+  <!-- Arrow -->
+  <path d="M310,180 L370,180 L370,180 L430,180" fill="none" stroke="#f9e2af" stroke-width="2"/>
+  <polygon points="430,175 445,180 430,185" fill="#f9e2af"/>
+  <text x="370" y="170" text-anchor="middle" fill="#f9e2af" font-family="monospace" font-size="10">23x faster</text>
+  <!-- Rules -->
+  <rect x="60" y="310" width="680" height="110" fill="#313244" stroke="#89b4fa" stroke-width="1" rx="6"/>
+  <text x="400" y="335" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="13" font-weight="bold">Pipeline Optimization Rules</text>
+  <text x="400" y="358" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10">1. $match as early as possible (reduces documents flowing through later stages)</text>
+  <text x="400" y="378" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10">2. $project/$addFields before $lookup (reduce document size before join)</text>
+  <text x="400" y="398" text-anchor="middle" fill="#f9e2af" font-family="monospace" font-size="10">3. $sort + $limit together (query planner can use a top-k sort optimization)</text>
+  <text x="400" y="416" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="10">MongoDB may reorder stages automatically, but not across $lookup or $unwind boundaries</text>
+</svg>

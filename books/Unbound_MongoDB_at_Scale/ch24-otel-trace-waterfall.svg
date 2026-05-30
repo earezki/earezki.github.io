@@ -1,0 +1,45 @@
+<svg viewBox="0 0 800 450" width="800" height="450" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="450" fill="#1e1e2e" rx="8"/>
+  <text x="400" y="30" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="16" font-weight="bold">Full-Stack Trace: Spring Controller to MongoDB</text>
+  <!-- Trace waterfall -->
+  <text x="60" y="60" fill="#cdd6f4" font-family="monospace" font-size="12" font-weight="bold">Span</text>
+  <text x="450" y="60" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="12" font-weight="bold">Duration</text>
+  <!-- HTTP span -->
+  <text x="60" y="90" fill="#89b4fa" font-family="monospace" font-size="10">HTTP POST /api/telemetry</text>
+  <rect x="250" y="75" width="500" height="22" fill="#89b4fa" fill-opacity="0.3" stroke="#89b4fa" stroke-width="1" rx="3"/>
+  <text x="755" y="91" fill="#89b4fa" font-family="monospace" font-size="9">142ms</text>
+  <!-- Controller span -->
+  <text x="80" y="120" fill="#a6e3a1" font-family="monospace" font-size="10">TelemetryController.ingest()</text>
+  <rect x="260" y="105" width="480" height="22" fill="#a6e3a1" fill-opacity="0.3" stroke="#a6e3a1" stroke-width="1" rx="3"/>
+  <text x="745" y="121" fill="#a6e3a1" font-family="monospace" font-size="9">138ms</text>
+  <!-- Validation span -->
+  <text x="100" y="150" fill="#f9e2af" font-family="monospace" font-size="10">validate()</text>
+  <rect x="270" y="135" width="30" height="22" fill="#f9e2af" fill-opacity="0.3" stroke="#f9e2af" stroke-width="1" rx="3"/>
+  <text x="305" y="151" fill="#f9e2af" font-family="monospace" font-size="9">2ms</text>
+  <!-- BSON serialize span -->
+  <text x="100" y="180" fill="#fab387" font-family="monospace" font-size="10">BSON serialize</text>
+  <rect x="305" y="165" width="80" height="22" fill="#fab387" fill-opacity="0.3" stroke="#fab387" stroke-width="1" rx="3"/>
+  <text x="390" y="181" fill="#fab387" font-family="monospace" font-size="9">18ms</text>
+  <!-- Connection checkout span -->
+  <text x="100" y="210" fill="#f38ba8" font-family="monospace" font-size="10">pool.checkout()</text>
+  <rect x="390" y="195" width="150" height="22" fill="#f38ba8" fill-opacity="0.4" stroke="#f38ba8" stroke-width="2" rx="3"/>
+  <text x="545" y="211" fill="#f38ba8" font-family="monospace" font-size="9">42ms ← bottleneck</text>
+  <!-- MongoDB insert span -->
+  <text x="100" y="240" fill="#89b4fa" font-family="monospace" font-size="10">mongodb.insert</text>
+  <rect x="545" y="225" width="100" height="22" fill="#89b4fa" fill-opacity="0.3" stroke="#89b4fa" stroke-width="1" rx="3"/>
+  <text x="650" y="241" fill="#89b4fa" font-family="monospace" font-size="9">28ms</text>
+  <!-- Write concern span -->
+  <text x="100" y="270" fill="#a6adc8" font-family="monospace" font-size="10">writeConcern.ack</text>
+  <rect x="650" y="255" width="80" height="22" fill="#a6adc8" fill-opacity="0.3" stroke="#a6adc8" stroke-width="1" rx="3"/>
+  <text x="735" y="271" fill="#a6adc8" font-family="monospace" font-size="9">45ms</text>
+  <!-- OTel configuration -->
+  <rect x="60" y="310" width="680" height="110" fill="#313244" stroke="#89b4fa" stroke-width="1" rx="6"/>
+  <text x="400" y="335" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="12" font-weight="bold">OpenTelemetry Instrumentation Stack</text>
+  <text x="200" y="360" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="10">Spring Boot</text>
+  <text x="200" y="378" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="9">otel-javaagent</text>
+  <text x="400" y="360" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10">MongoDB Driver</text>
+  <text x="400" y="378" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="9">CommandListener</text>
+  <text x="600" y="360" text-anchor="middle" fill="#f9e2af" font-family="monospace" font-size="10">Grafana Tempo</text>
+  <text x="600" y="378" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="9">OTLP exporter</text>
+  <text x="400" y="410" text-anchor="middle" fill="#f9e2af" font-family="monospace" font-size="10">Every span from HTTP to wire protocol, including connection pool wait time</text>
+</svg>

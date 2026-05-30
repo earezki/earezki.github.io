@@ -1,0 +1,33 @@
+<svg viewBox="0 0 800 380" width="800" height="380" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="380" fill="#1e1e2e" rx="8"/>
+  <text x="400" y="30" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="16" font-weight="bold">Storage IOPS: EBS Volume Performance Ceiling</text>
+  <!-- IOPS comparison -->
+  <text x="80" y="70" fill="#a6adc8" font-family="monospace" font-size="11">gp3 (3,000 IOPS base)</text>
+  <rect x="260" y="55" width="150" height="25" fill="#89b4fa" rx="3"/>
+  <text x="420" y="73" fill="#89b4fa" font-family="monospace" font-size="10">3,000 IOPS</text>
+  <text x="80" y="105" fill="#a6adc8" font-family="monospace" font-size="11">gp3 (16,000 IOPS provisioned)</text>
+  <rect x="260" y="90" width="400" height="25" fill="#a6e3a1" rx="3"/>
+  <text x="670" y="108" fill="#a6e3a1" font-family="monospace" font-size="10">16,000 IOPS</text>
+  <text x="80" y="140" fill="#a6adc8" font-family="monospace" font-size="11">io2 (64,000 IOPS)</text>
+  <rect x="260" y="125" width="500" height="25" fill="#f9e2af" rx="3"/>
+  <text x="770" y="143" fill="#f9e2af" font-family="monospace" font-size="10">64K</text>
+  <text x="80" y="175" fill="#a6adc8" font-family="monospace" font-size="11">MongoDB demand (peak)</text>
+  <rect x="260" y="160" width="350" height="25" fill="#f38ba8" rx="3"/>
+  <text x="620" y="178" fill="#f38ba8" font-family="monospace" font-size="10">~12,000 IOPS needed</text>
+  <!-- The problem -->
+  <rect x="60" y="210" width="320" height="140" fill="#313244" stroke="#f38ba8" stroke-width="1" rx="6"/>
+  <text x="220" y="235" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="12" font-weight="bold">The Symptom</text>
+  <text x="220" y="258" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="10">MongoDB latency spikes to 500ms+</text>
+  <text x="220" y="278" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="10">serverStatus shows high I/O wait</text>
+  <text x="220" y="298" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="10">EBS burst credits exhausted</text>
+  <text x="220" y="318" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="10">CloudWatch: VolumeQueueLength > 10</text>
+  <text x="220" y="338" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="10">gp3 throttled to 3,000 baseline</text>
+  <!-- The fix -->
+  <rect x="420" y="210" width="320" height="140" fill="#313244" stroke="#a6e3a1" stroke-width="1" rx="6"/>
+  <text x="580" y="235" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="12" font-weight="bold">The Fix</text>
+  <text x="580" y="258" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10">1. Provision IOPS: 2x peak demand</text>
+  <text x="580" y="278" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10">2. Set throughput: 500 MB/s for gp3</text>
+  <text x="580" y="298" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10">3. Alert on VolumeQueueLength > 2</text>
+  <text x="580" y="318" text-anchor="middle" fill="#f9e2af" font-family="monospace" font-size="10">Cost: gp3 provisioned is 3x base</text>
+  <text x="580" y="338" text-anchor="middle" fill="#f9e2af" font-family="monospace" font-size="10">io2 is 8x base, but no throttling</text>
+</svg>

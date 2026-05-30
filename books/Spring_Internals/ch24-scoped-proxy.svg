@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <rect width="800" height="500" fill="#1e1e2e" rx="8"/>
+  <text x="400" y="35" fill="#cdd6f4" font-family="system-ui, sans-serif" font-size="18" font-weight="bold" text-anchor="middle">Scoped Proxy: Request Scope Internals</text>
+
+  <!-- Singleton bean -->
+  <rect x="50" y="55" width="300" height="55" rx="6" fill="#2a2a3d" stroke="#89b4fa" stroke-width="2"/>
+  <text x="200" y="78" fill="#89b4fa" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" text-anchor="middle">OrderService (singleton)</text>
+  <text x="200" y="98" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="9" text-anchor="middle">Injected at startup, lives forever</text>
+
+  <!-- Arrow to proxy -->
+  <line x1="200" y1="110" x2="200" y2="135" stroke="#585b70" stroke-width="1.5"/>
+  <polygon points="196,134 200,142 204,134" fill="#585b70"/>
+  <text x="215" y="128" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="9">@Autowired</text>
+
+  <!-- Scoped proxy -->
+  <rect x="50" y="140" width="300" height="65" rx="6" fill="#2a2a3d" stroke="#f9e2af" stroke-width="2"/>
+  <text x="200" y="163" fill="#f9e2af" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" text-anchor="middle">TenantContext$$SpringCGLIB$$0</text>
+  <text x="200" y="180" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="9" text-anchor="middle">Scoped Proxy — CGLIB subclass</text>
+  <text x="200" y="195" fill="#585b70" font-family="system-ui, sans-serif" font-size="9" text-anchor="middle">Implements same interface, delegates every call</text>
+
+  <!-- Two request threads -->
+  <line x1="200" y1="205" x2="200" y2="230" stroke="#585b70" stroke-width="1.5"/>
+
+  <!-- Fan out to two requests -->
+  <line x1="200" y1="230" x2="120" y2="260" stroke="#a6e3a1" stroke-width="1.5"/>
+  <line x1="200" y1="230" x2="550" y2="260" stroke="#89b4fa" stroke-width="1.5"/>
+
+  <!-- Request 1 -->
+  <rect x="30" y="265" width="250" height="130" rx="6" fill="#2a2a3d" stroke="#a6e3a1" stroke-width="2"/>
+  <text x="155" y="288" fill="#a6e3a1" font-family="system-ui, sans-serif" font-size="11" font-weight="bold" text-anchor="middle">Thread: http-exec-1</text>
+  <text x="155" y="305" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="9" text-anchor="middle">Request from tenant-123</text>
+
+  <rect x="50" y="315" width="210" height="35" rx="4" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="155" y="333" fill="#a6e3a1" font-family="system-ui, sans-serif" font-size="10" text-anchor="middle">TenantContext</text>
+  <text x="155" y="347" fill="#a6adc8" font-family="monospace" font-size="8" text-anchor="middle">tenantId = "tenant-123"</text>
+
+  <text x="155" y="375" fill="#585b70" font-family="system-ui, sans-serif" font-size="8" text-anchor="middle">RequestAttributes → ThreadLocal</text>
+  <text x="155" y="388" fill="#585b70" font-family="system-ui, sans-serif" font-size="8" text-anchor="middle">Destroyed at request end</text>
+
+  <!-- Request 2 -->
+  <rect x="430" y="265" width="250" height="130" rx="6" fill="#2a2a3d" stroke="#89b4fa" stroke-width="2"/>
+  <text x="555" y="288" fill="#89b4fa" font-family="system-ui, sans-serif" font-size="11" font-weight="bold" text-anchor="middle">Thread: http-exec-2</text>
+  <text x="555" y="305" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="9" text-anchor="middle">Request from tenant-456</text>
+
+  <rect x="450" y="315" width="210" height="35" rx="4" fill="#313244" stroke="#89b4fa" stroke-width="1.5"/>
+  <text x="555" y="333" fill="#89b4fa" font-family="system-ui, sans-serif" font-size="10" text-anchor="middle">TenantContext</text>
+  <text x="555" y="347" fill="#a6adc8" font-family="monospace" font-size="8" text-anchor="middle">tenantId = "tenant-456"</text>
+
+  <text x="555" y="375" fill="#585b70" font-family="system-ui, sans-serif" font-size="8" text-anchor="middle">Different instance, same proxy</text>
+  <text x="555" y="388" fill="#585b70" font-family="system-ui, sans-serif" font-size="8" text-anchor="middle">Destroyed at request end</text>
+
+  <!-- How it works -->
+  <rect x="50" y="410" width="700" height="70" rx="6" fill="#313244" stroke="#f9e2af" stroke-width="1.5"/>
+  <text x="400" y="430" fill="#f9e2af" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" text-anchor="middle">How Scoped Proxy Works</text>
+  <text x="70" y="448" fill="#cdd6f4" font-family="system-ui, sans-serif" font-size="10">Proxy.getTenantId() → RequestScope.get("tenantContext", objectFactory) → checks RequestAttributes</text>
+  <text x="70" y="464" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="10">→ Found: return existing bean. Not found: objectFactory.getObject() creates new, stores in request attributes.</text>
+  <text x="70" y="478" fill="#f38ba8" font-family="system-ui, sans-serif" font-size="9">Without proxyMode=TARGET_CLASS: BeanCreationException — can't inject request-scoped bean into singleton.</text>
+</svg>

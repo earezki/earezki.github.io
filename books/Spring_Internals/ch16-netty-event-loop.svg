@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <rect width="800" height="500" fill="#1e1e2e" rx="8"/>
+  <text x="400" y="35" fill="#cdd6f4" font-family="system-ui, sans-serif" font-size="18" font-weight="bold" text-anchor="middle">Netty Event Loop Model (Spring WebFlux)</text>
+
+  <!-- Incoming connections -->
+  <g transform="translate(30, 60)">
+    <rect x="0" y="0" width="80" height="25" rx="3" fill="#45475a" stroke="#cdd6f4" stroke-width="1"/>
+    <text x="40" y="17" fill="#cdd6f4" font-family="system-ui, sans-serif" font-size="9" text-anchor="middle">Client 1</text>
+    <rect x="0" y="30" width="80" height="25" rx="3" fill="#45475a" stroke="#cdd6f4" stroke-width="1"/>
+    <text x="40" y="47" fill="#cdd6f4" font-family="system-ui, sans-serif" font-size="9" text-anchor="middle">Client 2</text>
+    <rect x="0" y="60" width="80" height="25" rx="3" fill="#45475a" stroke="#cdd6f4" stroke-width="1"/>
+    <text x="40" y="77" fill="#cdd6f4" font-family="system-ui, sans-serif" font-size="9" text-anchor="middle">Client N</text>
+  </g>
+
+  <!-- Arrows to boss -->
+  <line x1="110" y1="100" x2="160" y2="100" stroke="#585b70" stroke-width="1"/>
+  <polygon points="159,96 167,100 159,104" fill="#585b70"/>
+
+  <!-- Boss group -->
+  <rect x="165" y="65" width="160" height="80" rx="6" fill="#2a2a3d" stroke="#f9e2af" stroke-width="2"/>
+  <text x="245" y="88" fill="#f9e2af" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" text-anchor="middle">Boss EventLoopGroup</text>
+  <text x="245" y="105" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="9" text-anchor="middle">1 thread (typically)</text>
+  <text x="245" y="120" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="9" text-anchor="middle">Accept connections</text>
+  <text x="245" y="135" fill="#585b70" font-family="system-ui, sans-serif" font-size="9" text-anchor="middle">Register channel to worker</text>
+
+  <!-- Arrow to worker -->
+  <line x1="325" y1="105" x2="380" y2="105" stroke="#585b70" stroke-width="1.5"/>
+  <polygon points="379,101 387,105 379,109" fill="#585b70"/>
+
+  <!-- Worker group -->
+  <rect x="385" y="55" width="380" height="250" rx="8" fill="#2a2a3d" stroke="#89b4fa" stroke-width="2"/>
+  <text x="575" y="78" fill="#89b4fa" font-family="system-ui, sans-serif" font-size="13" font-weight="bold" text-anchor="middle">Worker EventLoopGroup (N threads, default = CPU cores)</text>
+
+  <!-- Event loops -->
+  <rect x="405" y="90" width="170" height="70" rx="4" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="490" y="108" fill="#a6e3a1" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" text-anchor="middle">EventLoop Thread-1</text>
+  <text x="490" y="123" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="8" text-anchor="middle">Selector.select()</text>
+  <text x="490" y="136" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="8" text-anchor="middle">Read → Decode → Handle → Encode → Write</text>
+  <text x="490" y="150" fill="#585b70" font-family="system-ui, sans-serif" font-size="8" text-anchor="middle">Non-blocking I/O for N channels</text>
+
+  <rect x="405" y="170" width="170" height="55" rx="4" fill="#313244" stroke="#a6e3a1" stroke-width="1"/>
+  <text x="490" y="188" fill="#a6e3a1" font-family="system-ui, sans-serif" font-size="10" text-anchor="middle">EventLoop Thread-2</text>
+  <text x="490" y="205" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="8" text-anchor="middle">Same loop: select → process → select</text>
+  <text x="490" y="218" fill="#585b70" font-family="system-ui, sans-serif" font-size="8" text-anchor="middle">Never blocks. Never creates threads.</text>
+
+  <rect x="405" y="235" width="170" height="30" rx="4" fill="#313244" stroke="#585b70" stroke-width="1"/>
+  <text x="490" y="255" fill="#585b70" font-family="system-ui, sans-serif" font-size="10" text-anchor="middle">... Thread-N</text>
+
+  <!-- Channel Pipeline -->
+  <rect x="595" y="90" width="155" height="175" rx="4" fill="#313244" stroke="#f9e2af" stroke-width="1.5"/>
+  <text x="672" y="108" fill="#f9e2af" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" text-anchor="middle">Channel Pipeline</text>
+  
+  <rect x="605" y="115" width="135" height="18" rx="2" fill="#2a2a3d" stroke="#585b70" stroke-width="1"/>
+  <text x="672" y="129" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="8" text-anchor="middle">HttpServerCodec</text>
+  
+  <rect x="605" y="138" width="135" height="18" rx="2" fill="#2a2a3d" stroke="#585b70" stroke-width="1"/>
+  <text x="672" y="152" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="8" text-anchor="middle">HttpObjectAggregator</text>
+  
+  <rect x="605" y="161" width="135" height="18" rx="2" fill="#2a2a3d" stroke="#89b4fa" stroke-width="1"/>
+  <text x="672" y="175" fill="#89b4fa" font-family="system-ui, sans-serif" font-size="8" text-anchor="middle">ReactorHttpHandlerAdapter</text>
+  
+  <rect x="605" y="184" width="135" height="18" rx="2" fill="#2a2a3d" stroke="#89b4fa" stroke-width="1"/>
+  <text x="672" y="198" fill="#89b4fa" font-family="system-ui, sans-serif" font-size="8" text-anchor="middle">HttpWebHandlerAdapter</text>
+  
+  <rect x="605" y="207" width="135" height="18" rx="2" fill="#2a2a3d" stroke="#a6e3a1" stroke-width="1"/>
+  <text x="672" y="221" fill="#a6e3a1" font-family="system-ui, sans-serif" font-size="8" text-anchor="middle">DispatcherHandler</text>
+
+  <rect x="605" y="230" width="135" height="18" rx="2" fill="#2a2a3d" stroke="#a6e3a1" stroke-width="1"/>
+  <text x="672" y="244" fill="#a6e3a1" font-family="system-ui, sans-serif" font-size="8" text-anchor="middle">@Controller handler</text>
+
+  <!-- Comparison box -->
+  <rect x="50" y="325" width="700" height="75" rx="6" fill="#313244" stroke="#f38ba8" stroke-width="2"/>
+  <text x="400" y="345" fill="#f38ba8" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" text-anchor="middle">The Golden Rule: Never Block the Event Loop</text>
+  
+  <text x="70" y="365" fill="#f38ba8" font-family="monospace" font-size="10">// BROKEN: Thread.sleep(), JDBC call, synchronized block, .block()</text>
+  <text x="70" y="382" fill="#a6e3a1" font-family="monospace" font-size="10">// CORRECT: Mono.fromCallable(() → jdbc).subscribeOn(Schedulers.boundedElastic())</text>
+  <text x="70" y="395" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="9">BlockHound detects blocking calls at runtime. Add to test dependencies.</text>
+
+  <!-- Thread count comparison -->
+  <rect x="50" y="415" width="340" height="65" rx="6" fill="#2a2a3d" stroke="#89b4fa" stroke-width="1"/>
+  <text x="220" y="435" fill="#89b4fa" font-family="system-ui, sans-serif" font-size="11" font-weight="bold" text-anchor="middle">WebFlux (Netty)</text>
+  <text x="220" y="453" fill="#a6e3a1" font-family="system-ui, sans-serif" font-size="10" text-anchor="middle">~8 threads handle 10,000 concurrent requests</text>
+  <text x="220" y="470" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="9" text-anchor="middle">Non-blocking. Memory: ~KB per request.</text>
+
+  <rect x="410" y="415" width="340" height="65" rx="6" fill="#2a2a3d" stroke="#f38ba8" stroke-width="1"/>
+  <text x="580" y="435" fill="#f38ba8" font-family="system-ui, sans-serif" font-size="11" font-weight="bold" text-anchor="middle">Spring MVC (Tomcat)</text>
+  <text x="580" y="453" fill="#f38ba8" font-family="system-ui, sans-serif" font-size="10" text-anchor="middle">200 threads for 200 concurrent requests</text>
+  <text x="580" y="470" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="9" text-anchor="middle">Thread-per-request. Memory: ~1MB per thread.</text>
+</svg>

@@ -1,0 +1,38 @@
+<svg viewBox="0 0 800 400" width="800" height="400" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="400" fill="#1e1e2e" rx="8"/>
+  <text x="400" y="30" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="16" font-weight="bold">Chunk Migration: Balancer Overhead During Rebalance</text>
+  <!-- Shards before migration -->
+  <text x="200" y="60" text-anchor="middle" fill="#f9e2af" font-family="monospace" font-size="12" font-weight="bold">Before Balancing</text>
+  <rect x="50" y="75" width="100" height="100" fill="#f38ba8" fill-opacity="0.4" stroke="#f38ba8" stroke-width="2" rx="6"/>
+  <text x="100" y="110" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="10">Shard A</text>
+  <text x="100" y="130" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="10">420 chunks</text>
+  <text x="100" y="150" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="8">CPU: 89%</text>
+  <rect x="170" y="115" width="100" height="60" fill="#a6e3a1" fill-opacity="0.2" stroke="#a6e3a1" stroke-width="1" rx="6"/>
+  <text x="220" y="140" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="10">Shard B</text>
+  <text x="220" y="158" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10">180 chunks</text>
+  <rect x="290" y="125" width="100" height="50" fill="#a6e3a1" fill-opacity="0.2" stroke="#a6e3a1" stroke-width="1" rx="6"/>
+  <text x="340" y="147" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="10">Shard C</text>
+  <text x="340" y="163" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10">150 chunks</text>
+  <!-- Migration arrows -->
+  <path d="M150,130 Q270,60 460,110" fill="none" stroke="#f9e2af" stroke-width="2" stroke-dasharray="6,3" marker-end="url(#arr17)"/>
+  <text x="300" y="70" text-anchor="middle" fill="#f9e2af" font-family="monospace" font-size="9">migrating 80 chunks</text>
+  <text x="300" y="85" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="9">read latency +60% during migration</text>
+  <!-- After balancing -->
+  <text x="620" y="60" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="12" font-weight="bold">After Balancing</text>
+  <rect x="480" y="90" width="100" height="75" fill="#a6e3a1" fill-opacity="0.3" stroke="#a6e3a1" stroke-width="1" rx="6"/>
+  <text x="530" y="120" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="10">Shard A</text>
+  <text x="530" y="140" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10">250 chunks</text>
+  <rect x="600" y="90" width="100" height="75" fill="#a6e3a1" fill-opacity="0.3" stroke="#a6e3a1" stroke-width="1" rx="6"/>
+  <text x="650" y="120" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="10">Shard B</text>
+  <text x="650" y="140" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10">250 chunks</text>
+  <rect x="540" y="170" width="100" height="75" fill="#a6e3a1" fill-opacity="0.3" stroke="#a6e3a1" stroke-width="1" rx="6"/>
+  <text x="590" y="200" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="10">Shard C</text>
+  <text x="590" y="220" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10">250 chunks</text>
+  <!-- Pre-split strategy -->
+  <rect x="60" y="270" width="680" height="100" fill="#313244" stroke="#89b4fa" stroke-width="1" rx="6"/>
+  <text x="400" y="295" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="13" font-weight="bold">Pre-Splitting Strategy</text>
+  <text x="400" y="318" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10">Pre-split chunks before bulk load: sh.splitAt() at known key boundaries</text>
+  <text x="400" y="338" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10">Result: zero migration overhead during initial data load</text>
+  <text x="400" y="358" text-anchor="middle" fill="#f9e2af" font-family="monospace" font-size="10">Schedule balancer windows: db.settings.update({_id:"balancer"}, {activeWindow:{start:"02:00",stop:"06:00"}})</text>
+  <defs><marker id="arr17" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#f9e2af"/></marker></defs>
+</svg>

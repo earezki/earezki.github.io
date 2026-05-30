@@ -1,0 +1,48 @@
+<svg viewBox="0 0 800 500" width="800" height="500" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="500" fill="#1e1e2e" rx="8"/>
+  <text x="400" y="30" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="16" font-weight="bold">Bucket Pattern: One-Document-Per-Event vs Time Buckets</text>
+  <!-- Individual events (SLOW) -->
+  <text x="200" y="65" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="13" font-weight="bold">// SLOW: One Document Per Event</text>
+  <rect x="40" y="80" width="320" height="45" fill="#313244" stroke="#f38ba8" stroke-width="1" rx="4"/>
+  <text x="200" y="100" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="9">{sensorId:"s1", ts: T1, temp: 22.1, humid: 45}</text>
+  <text x="200" y="115" text-anchor="middle" fill="#585b70" font-family="monospace" font-size="8">~180 bytes per document</text>
+  <rect x="40" y="130" width="320" height="45" fill="#313244" stroke="#f38ba8" stroke-width="1" rx="4"/>
+  <text x="200" y="150" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="9">{sensorId:"s1", ts: T2, temp: 22.3, humid: 44}</text>
+  <text x="200" y="165" text-anchor="middle" fill="#585b70" font-family="monospace" font-size="8">~180 bytes per document</text>
+  <rect x="40" y="180" width="320" height="30" fill="#313244" stroke="#585b70" stroke-width="1" rx="4"/>
+  <text x="200" y="200" text-anchor="middle" fill="#585b70" font-family="monospace" font-size="9">... 86,400 docs/sensor/day ...</text>
+  <text x="200" y="230" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="10">1,000 sensors x 86,400 = 86.4M docs/day</text>
+  <text x="200" y="248" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="10">Index size: 4.2 GB/day</text>
+  <!-- Bucketed events (FAST) -->
+  <text x="600" y="65" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="13" font-weight="bold">// FAST: 1-Minute Buckets</text>
+  <rect x="420" y="80" width="360" height="130" fill="#313244" stroke="#a6e3a1" stroke-width="1" rx="4"/>
+  <text x="600" y="100" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="9">{sensorId: "s1",</text>
+  <text x="600" y="115" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="9"> bucket: ISODate("...T14:30:00Z"),</text>
+  <text x="600" y="130" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="9"> count: 60,</text>
+  <text x="600" y="145" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="9"> readings: [{ts:T1,temp:22.1,humid:45},</text>
+  <text x="600" y="160" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="9">            {ts:T2,temp:22.3,humid:44},...],</text>
+  <text x="600" y="175" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="9"> stats: {avgTemp:22.2, maxTemp:23.1}}</text>
+  <rect x="420" y="215" width="360" height="30" fill="#313244" stroke="#585b70" stroke-width="1" rx="4"/>
+  <text x="600" y="235" text-anchor="middle" fill="#585b70" font-family="monospace" font-size="9">~3,200 bytes per bucket (60 readings)</text>
+  <text x="600" y="262" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10">1,000 sensors x 1,440 = 1.44M docs/day</text>
+  <text x="600" y="280" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10">Index size: 72 MB/day</text>
+  <!-- Comparison -->
+  <rect x="100" y="310" width="600" height="160" fill="#313244" stroke="#89b4fa" stroke-width="1" rx="6"/>
+  <text x="400" y="335" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="13" font-weight="bold">Performance Comparison (1-hour range query)</text>
+  <text x="200" y="365" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="11">Metric</text>
+  <text x="400" y="365" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="11">Per-Event</text>
+  <text x="600" y="365" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="11">Bucketed</text>
+  <line x1="120" y1="375" x2="680" y2="375" stroke="#585b70" stroke-width="1"/>
+  <text x="200" y="395" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="10">Docs examined</text>
+  <text x="400" y="395" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="10">3,600</text>
+  <text x="600" y="395" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10">60</text>
+  <text x="200" y="415" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="10">Execution time</text>
+  <text x="400" y="415" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="10">340ms</text>
+  <text x="600" y="415" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10">8ms</text>
+  <text x="200" y="435" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="10">Index entries</text>
+  <text x="400" y="435" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="10">86.4M/day</text>
+  <text x="600" y="435" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10">1.44M/day</text>
+  <text x="200" y="455" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="10">WiredTiger cache</text>
+  <text x="400" y="455" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="10">4.2 GB</text>
+  <text x="600" y="455" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10">280 MB</text>
+</svg>

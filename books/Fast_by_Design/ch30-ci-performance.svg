@@ -1,0 +1,144 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" width="900" height="620">
+  <rect width="900" height="620" rx="8" fill="#1e1e2e"/>
+
+  <!-- Title -->
+  <text x="450" y="28" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="14" font-weight="bold">CI Pipeline with Performance Gate</text>
+  <text x="450" y="48" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="10">PR merge flow: build → test → perf gate → deploy</text>
+
+  <!-- Pipeline arrow backbone -->
+  <line x1="50" y1="130" x2="850" y2="130" stroke="#45475a" stroke-width="2"/>
+
+  <!-- Stage 1: PR Opened -->
+  <rect x="30" y="80" width="110" height="50" rx="6" fill="#313244" stroke="#89b4fa" stroke-width="2"/>
+  <text x="85" y="102" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="11" font-weight="bold">PR Opened</text>
+  <text x="85" y="118" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">trigger</text>
+  <polygon points="140,105 155,105 155,100 165,110 155,120 155,115 140,115" fill="#45475a"/>
+
+  <!-- Stage 2: Build -->
+  <rect x="170" y="80" width="110" height="50" rx="6" fill="#313244" stroke="#a6e3a1" stroke-width="2"/>
+  <text x="225" y="102" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="11" font-weight="bold">Build</text>
+  <text x="225" y="118" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">docker build</text>
+  <polygon points="280,105 295,105 295,100 305,110 295,120 295,115 280,115" fill="#45475a"/>
+
+  <!-- Stage 3: Unit Tests -->
+  <rect x="310" y="80" width="110" height="50" rx="6" fill="#313244" stroke="#a6e3a1" stroke-width="2"/>
+  <text x="365" y="102" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="11" font-weight="bold">Unit Tests</text>
+  <text x="365" y="118" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">pytest</text>
+  <polygon points="420,105 435,105 435,100 445,110 435,120 435,115 420,115" fill="#45475a"/>
+
+  <!-- Stage 4: Perf Gate (highlighted) -->
+  <rect x="450" y="72" width="130" height="66" rx="6" fill="#313244" stroke="#fab387" stroke-width="3"/>
+  <text x="515" y="95" text-anchor="middle" fill="#fab387" font-family="monospace" font-size="11" font-weight="bold">Perf Gate</text>
+  <text x="515" y="111" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="9">Locust 90s</text>
+  <text x="515" y="125" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="9">vs baseline</text>
+  <polygon points="580,105 595,105 595,100 605,110 595,120 595,115 580,115" fill="#45475a"/>
+
+  <!-- Stage 5: Deploy -->
+  <rect x="610" y="80" width="110" height="50" rx="6" fill="#313244" stroke="#a6e3a1" stroke-width="2"/>
+  <text x="665" y="102" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="11" font-weight="bold">Deploy</text>
+  <text x="665" y="118" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">staging</text>
+  <polygon points="720,105 735,105 735,100 745,110 735,120 735,115 720,115" fill="#45475a"/>
+
+  <!-- Stage 6: Merged -->
+  <rect x="750" y="80" width="110" height="50" rx="6" fill="#313244" stroke="#89b4fa" stroke-width="2"/>
+  <text x="805" y="102" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="11" font-weight="bold">Merged</text>
+  <text x="805" y="118" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">main branch</text>
+
+  <!-- Perf Gate Detail Box -->
+  <rect x="80" y="190" width="740" height="200" rx="8" fill="#181825" stroke="#45475a" stroke-width="1"/>
+  <text x="450" y="215" text-anchor="middle" fill="#fab387" font-family="monospace" font-size="13" font-weight="bold">Performance Gate Detail</text>
+
+  <!-- Connector from Perf Gate to Detail -->
+  <line x1="515" y1="138" x2="515" y2="190" stroke="#fab387" stroke-width="1" stroke-dasharray="4"/>
+
+  <!-- Sub-step 1: Start App -->
+  <rect x="105" y="235" width="130" height="45" rx="5" fill="#313244"/>
+  <text x="170" y="254" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="10">Start App</text>
+  <text x="170" y="270" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="8">docker run + seed</text>
+  <polygon points="235,255 248,255 248,251 256,258 248,265 248,261 235,261" fill="#45475a"/>
+
+  <!-- Sub-step 2: Warmup -->
+  <rect x="260" y="235" width="100" height="45" rx="5" fill="#313244"/>
+  <text x="310" y="254" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="10">Warmup</text>
+  <text x="310" y="270" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="8">15s excluded</text>
+  <polygon points="360,255 373,255 373,251 381,258 373,265 373,261 360,261" fill="#45475a"/>
+
+  <!-- Sub-step 3: Locust Run -->
+  <rect x="385" y="235" width="110" height="45" rx="5" fill="#313244" stroke="#fab387" stroke-width="1"/>
+  <text x="440" y="254" text-anchor="middle" fill="#fab387" font-family="monospace" font-size="10">Locust Run</text>
+  <text x="440" y="270" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="8">20 users, 90s</text>
+  <polygon points="495,255 508,255 508,251 516,258 508,265 508,261 495,261" fill="#45475a"/>
+
+  <!-- Sub-step 4: Compare -->
+  <rect x="520" y="235" width="120" height="45" rx="5" fill="#313244"/>
+  <text x="580" y="254" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="10">Compare</text>
+  <text x="580" y="270" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="8">vs baseline.json</text>
+  <polygon points="640,255 653,255 653,251 661,258 653,265 653,261 640,261" fill="#45475a"/>
+
+  <!-- Sub-step 5: Verdict -->
+  <rect x="665" y="235" width="130" height="45" rx="5" fill="#313244"/>
+  <text x="730" y="254" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="10">Pass / Fail</text>
+  <text x="730" y="270" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="8">10% tolerance</text>
+
+  <!-- Pass path -->
+  <rect x="105" y="310" width="340" height="60" rx="5" fill="#1e3a2f" stroke="#a6e3a1" stroke-width="1"/>
+  <text x="275" y="332" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="11" font-weight="bold">PASS: No regression</text>
+  <text x="275" y="350" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="9">/api/articles p95: 115ms &lt;= 132ms</text>
+  <text x="275" y="362" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="9">/api/search   p95: 190ms &lt;= 220ms</text>
+
+  <!-- Fail path -->
+  <rect x="465" y="310" width="340" height="60" rx="5" fill="#3a1e1e" stroke="#f38ba8" stroke-width="1"/>
+  <text x="635" y="332" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="11" font-weight="bold">FAIL: Regression detected</text>
+  <text x="635" y="350" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="9">/api/search p95: 285ms &gt; 220ms (+42.5%)</text>
+  <text x="635" y="362" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="9">PR comment posted, merge blocked</text>
+
+  <!-- Post-merge flow -->
+  <rect x="80" y="420" width="740" height="170" rx="8" fill="#181825" stroke="#45475a" stroke-width="1"/>
+  <text x="450" y="445" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="13" font-weight="bold">Post-Merge: Long-Term Tracking (main branch only)</text>
+
+  <!-- Archive step -->
+  <rect x="105" y="465" width="150" height="50" rx="5" fill="#313244"/>
+  <text x="180" y="486" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="10">Archive to S3</text>
+  <text x="180" y="502" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="8">perf-results/*.json</text>
+
+  <!-- Prometheus step -->
+  <rect x="290" y="465" width="150" height="50" rx="5" fill="#313244"/>
+  <text x="365" y="486" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="10">Push Prometheus</text>
+  <text x="365" y="502" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="8">via Pushgateway</text>
+
+  <!-- Grafana step -->
+  <rect x="475" y="465" width="150" height="50" rx="5" fill="#313244"/>
+  <text x="550" y="486" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="10">Grafana Dashboard</text>
+  <text x="550" y="502" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="8">trend + drift alerts</text>
+
+  <!-- Drift Detector step -->
+  <rect x="660" y="465" width="140" height="50" rx="5" fill="#313244" stroke="#f9e2af" stroke-width="1"/>
+  <text x="730" y="486" text-anchor="middle" fill="#f9e2af" font-family="monospace" font-size="10">Drift Detector</text>
+  <text x="730" y="502" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="8">weekly cron</text>
+
+  <!-- Arrows between post-merge steps -->
+  <polygon points="255,490 268,490 268,486 276,493 268,500 268,496 255,496" fill="#45475a"/>
+  <polygon points="440,490 453,490 453,486 461,493 453,500 453,496 440,496" fill="#45475a"/>
+  <polygon points="625,490 638,490 638,486 646,493 638,500 638,496 625,496" fill="#45475a"/>
+
+  <!-- Drift feedback arrow (curved, back to baseline) -->
+  <path d="M730,515 L730,555 L180,555 L180,545" stroke="#f9e2af" stroke-width="1" fill="none" stroke-dasharray="4" marker-end="url(#arrowYellow)"/>
+  <text x="450" y="570" text-anchor="middle" fill="#f9e2af" font-family="monospace" font-size="9">baseline update proposal (monthly)</text>
+
+  <!-- Arrow marker definitions -->
+  <defs>
+    <marker id="arrowYellow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0,0 8,3 0,6" fill="#f9e2af"/>
+    </marker>
+  </defs>
+
+  <!-- Legend -->
+  <rect x="105" y="537" width="10" height="10" rx="2" fill="#a6e3a1"/>
+  <text x="120" y="547" fill="#6c7086" font-family="monospace" font-size="9">Pass</text>
+  <rect x="160" y="537" width="10" height="10" rx="2" fill="#f38ba8"/>
+  <text x="175" y="547" fill="#6c7086" font-family="monospace" font-size="9">Fail</text>
+  <rect x="210" y="537" width="10" height="10" rx="2" fill="#fab387"/>
+  <text x="225" y="547" fill="#6c7086" font-family="monospace" font-size="9">Perf Gate</text>
+  <rect x="290" y="537" width="10" height="10" rx="2" fill="#f9e2af"/>
+  <text x="305" y="547" fill="#6c7086" font-family="monospace" font-size="9">Drift Feedback</text>
+</svg>

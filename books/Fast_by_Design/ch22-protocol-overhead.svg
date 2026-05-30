@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 650" width="900" height="650">
+  <rect width="900" height="650" rx="8" fill="#1e1e2e"/>
+
+  <!-- Title -->
+  <text x="450" y="28" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="14" font-weight="bold">Protocol Overhead: Connection Setup + Request Cost Comparison</text>
+
+  <!-- Subtitle -->
+  <text x="450" y="50" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="10">Stacked bar chart: time before first application byte (80ms RTT)</text>
+
+  <!-- Y-axis label -->
+  <text x="18" y="320" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="10" transform="rotate(-90, 18, 320)">Time (ms)</text>
+
+  <!-- Y-axis -->
+  <line x1="80" y1="80" x2="80" y2="520" stroke="#45475a" stroke-width="1"/>
+  <!-- Y-axis ticks and labels -->
+  <line x1="75" y1="80" x2="80" y2="80" stroke="#45475a" stroke-width="1"/>
+  <text x="70" y="84" text-anchor="end" fill="#6c7086" font-family="monospace" font-size="9">600</text>
+  <line x1="75" y1="153" x2="80" y2="153" stroke="#45475a" stroke-width="1"/>
+  <text x="70" y="157" text-anchor="end" fill="#6c7086" font-family="monospace" font-size="9">500</text>
+  <line x1="75" y1="226" x2="80" y2="226" stroke="#45475a" stroke-width="1"/>
+  <text x="70" y="230" text-anchor="end" fill="#6c7086" font-family="monospace" font-size="9">400</text>
+  <line x1="75" y1="300" x2="80" y2="300" stroke="#45475a" stroke-width="1"/>
+  <text x="70" y="304" text-anchor="end" fill="#6c7086" font-family="monospace" font-size="9">300</text>
+  <line x1="75" y1="373" x2="80" y2="373" stroke="#45475a" stroke-width="1"/>
+  <text x="70" y="377" text-anchor="end" fill="#6c7086" font-family="monospace" font-size="9">200</text>
+  <line x1="75" y1="446" x2="80" y2="446" stroke="#45475a" stroke-width="1"/>
+  <text x="70" y="450" text-anchor="end" fill="#6c7086" font-family="monospace" font-size="9">100</text>
+  <line x1="75" y1="520" x2="80" y2="520" stroke="#45475a" stroke-width="1"/>
+  <text x="70" y="524" text-anchor="end" fill="#6c7086" font-family="monospace" font-size="9">0</text>
+
+  <!-- X-axis -->
+  <line x1="80" y1="520" x2="860" y2="520" stroke="#45475a" stroke-width="1"/>
+
+  <!-- Grid lines (horizontal, dashed) -->
+  <line x1="80" y1="153" x2="860" y2="153" stroke="#313244" stroke-width="0.5" stroke-dasharray="4"/>
+  <line x1="80" y1="226" x2="860" y2="226" stroke="#313244" stroke-width="0.5" stroke-dasharray="4"/>
+  <line x1="80" y1="300" x2="860" y2="300" stroke="#313244" stroke-width="0.5" stroke-dasharray="4"/>
+  <line x1="80" y1="373" x2="860" y2="373" stroke="#313244" stroke-width="0.5" stroke-dasharray="4"/>
+  <line x1="80" y1="446" x2="860" y2="446" stroke="#313244" stroke-width="0.5" stroke-dasharray="4"/>
+
+  <!-- Scale: 0-600ms, height 440px. 1ms = 0.733px. Base at y=520 -->
+  <!-- HTTP/1.1 + TLS 1.2: TCP=80ms, TLS=160ms, Request=72ms. Total=312ms -->
+  <!-- Bar 1: HTTP/1.1 + TLS 1.2 (x=120, width=120) -->
+  <!-- TCP handshake: 80ms = 58.7px -->
+  <rect x="120" y="291" width="120" height="59" rx="2" fill="#f38ba8" opacity="0.9"/>
+  <!-- TLS handshake: 160ms = 117.3px -->
+  <rect x="120" y="174" width="120" height="117" rx="2" fill="#fab387" opacity="0.9"/>
+  <!-- Request overhead: 72ms = 52.8px -->
+  <rect x="120" y="121" width="120" height="53" rx="2" fill="#89b4fa" opacity="0.9"/>
+  <!-- Label -->
+  <text x="180" y="540" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="9">HTTP/1.1</text>
+  <text x="180" y="554" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="8">TLS 1.2</text>
+  <!-- Total label -->
+  <text x="180" y="113" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="10" font-weight="bold">312ms</text>
+
+  <!-- Bar 2: HTTP/1.1 + TLS 1.3 (x=280, width=120) -->
+  <!-- TCP: 80ms = 58.7px -->
+  <rect x="280" y="345" width="120" height="59" rx="2" fill="#f38ba8" opacity="0.9"/>
+  <!-- TLS: 80ms = 58.7px -->
+  <rect x="280" y="286" width="120" height="59" rx="2" fill="#fab387" opacity="0.9"/>
+  <!-- Request: 72ms = 52.8px -->
+  <rect x="280" y="234" width="120" height="52" rx="2" fill="#89b4fa" opacity="0.9"/>
+  <!-- Label -->
+  <text x="340" y="540" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="9">HTTP/1.1</text>
+  <text x="340" y="554" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="8">TLS 1.3</text>
+  <text x="340" y="226" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="10" font-weight="bold">232ms</text>
+
+  <!-- Bar 3: HTTP/2 + TLS 1.3 (x=440, width=120) -->
+  <!-- TCP: 80ms = 58.7px (one connection, amortized) -->
+  <rect x="440" y="404" width="120" height="59" rx="2" fill="#f38ba8" opacity="0.9"/>
+  <!-- TLS: 80ms = 58.7px (ALPN negotiates h2) -->
+  <rect x="440" y="345" width="120" height="59" rx="2" fill="#fab387" opacity="0.9"/>
+  <!-- Request: 14ms multiplexed = 10.3px -->
+  <rect x="440" y="335" width="120" height="10" rx="2" fill="#89b4fa" opacity="0.9"/>
+  <!-- Label -->
+  <text x="500" y="540" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="9">HTTP/2</text>
+  <text x="500" y="554" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="8">TLS 1.3</text>
+  <text x="500" y="327" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10" font-weight="bold">94ms</text>
+
+  <!-- Bar 4: HTTP/3 + QUIC (x=600, width=120) -->
+  <!-- QUIC handshake (combined TCP+TLS): 80ms = 58.7px -->
+  <rect x="600" y="404" width="120" height="59" rx="2" fill="#a6e3a1" opacity="0.9"/>
+  <!-- Request: 12ms = 8.8px -->
+  <rect x="600" y="395" width="120" height="9" rx="2" fill="#89b4fa" opacity="0.9"/>
+  <!-- Label -->
+  <text x="660" y="540" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="9">HTTP/3</text>
+  <text x="660" y="554" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="8">QUIC</text>
+  <text x="660" y="387" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10" font-weight="bold">78ms</text>
+
+  <!-- Bar 5: gRPC (x=760, width=120) -->
+  <!-- Connection (HTTP/2): 50ms amortized = 36.7px (internal 0.5ms RTT scaled for visibility) -->
+  <rect x="760" y="438" width="120" height="37" rx="2" fill="#fab387" opacity="0.9"/>
+  <!-- Serialization advantage: shown as smaller request block -->
+  <rect x="760" y="432" width="120" height="6" rx="2" fill="#89b4fa" opacity="0.9"/>
+  <!-- Label -->
+  <text x="820" y="540" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="9">gRPC</text>
+  <text x="820" y="554" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="8">HTTP/2+Proto</text>
+  <text x="820" y="424" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10" font-weight="bold">62ms</text>
+
+  <!-- Legend -->
+  <rect x="100" y="580" width="14" height="14" rx="2" fill="#f38ba8" opacity="0.9"/>
+  <text x="120" y="592" fill="#cdd6f4" font-family="monospace" font-size="10">TCP Handshake</text>
+
+  <rect x="280" y="580" width="14" height="14" rx="2" fill="#fab387" opacity="0.9"/>
+  <text x="300" y="592" fill="#cdd6f4" font-family="monospace" font-size="10">TLS/QUIC Handshake</text>
+
+  <rect x="500" y="580" width="14" height="14" rx="2" fill="#89b4fa" opacity="0.9"/>
+  <text x="520" y="592" fill="#cdd6f4" font-family="monospace" font-size="10">Request Processing + Serialization</text>
+
+  <!-- Annotations -->
+  <text x="450" y="618" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">P50 latency for article list API (50 articles), 80ms RTT, 1000 concurrent users</text>
+  <text x="450" y="635" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">HTTP/2 and gRPC amortize connection cost across all concurrent requests</text>
+
+  <!-- Arrow markers -->
+  <defs>
+    <marker id="arrowGreen" markerWidth="6" markerHeight="6" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6" fill="none" stroke="#a6e3a1" stroke-width="1"/>
+    </marker>
+  </defs>
+
+  <!-- Improvement annotation arrow -->
+  <line x1="175" y1="100" x2="820" y2="100" stroke="#a6e3a1" stroke-width="1" stroke-dasharray="3" marker-end="url(#arrowGreen)"/>
+  <text x="500" y="93" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="9">5.0x latency reduction</text>
+</svg>

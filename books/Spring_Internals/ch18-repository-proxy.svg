@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 480" width="800" height="480">
+  <rect width="800" height="480" fill="#1e1e2e" rx="8"/>
+  <text x="400" y="35" fill="#cdd6f4" font-family="system-ui, sans-serif" font-size="18" font-weight="bold" text-anchor="middle">Spring Data Repository Proxy Generation</text>
+
+  <!-- Interface -->
+  <rect x="200" y="55" width="400" height="50" rx="6" fill="#313244" stroke="#89b4fa" stroke-width="2"/>
+  <text x="400" y="75" fill="#89b4fa" font-family="system-ui, sans-serif" font-size="13" font-weight="bold" text-anchor="middle">OrderRepository extends JpaRepository</text>
+  <text x="400" y="95" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="10" text-anchor="middle">Your code: only an interface. No implementation class.</text>
+
+  <line x1="400" y1="105" x2="400" y2="125" stroke="#585b70" stroke-width="1.5"/>
+  <polygon points="396,124 400,132 404,124" fill="#585b70"/>
+
+  <!-- Infrastructure -->
+  <rect x="100" y="130" width="600" height="55" rx="6" fill="#2a2a3d" stroke="#f9e2af" stroke-width="1.5"/>
+  <text x="400" y="150" fill="#f9e2af" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" text-anchor="middle">RepositoryFactorySupport (at startup)</text>
+  <text x="400" y="170" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="9" text-anchor="middle">JpaRepositoryFactory scans for repository interfaces → generates proxy for each via ProxyFactory</text>
+  <text x="400" y="182" fill="#585b70" font-family="system-ui, sans-serif" font-size="9" text-anchor="middle">@EnableJpaRepositories triggers RepositoryBeanDefinitionRegistrarPostProcessor</text>
+
+  <line x1="400" y1="185" x2="400" y2="205" stroke="#585b70" stroke-width="1.5"/>
+  <polygon points="396,204 400,212 404,204" fill="#585b70"/>
+
+  <!-- Generated proxy -->
+  <rect x="50" y="210" width="700" height="180" rx="8" fill="#2a2a3d" stroke="#a6e3a1" stroke-width="2"/>
+  <text x="400" y="232" fill="#a6e3a1" font-family="system-ui, sans-serif" font-size="13" font-weight="bold" text-anchor="middle">OrderRepository$$JdkProxy (generated at runtime)</text>
+
+  <!-- Invocation handler -->
+  <rect x="80" y="245" width="640" height="35" rx="4" fill="#313244" stroke="#89b4fa" stroke-width="1.5"/>
+  <text x="400" y="267" fill="#89b4fa" font-family="system-ui, sans-serif" font-size="11" text-anchor="middle">QueryExecutorMethodInterceptor — routes each method call to the correct strategy</text>
+
+  <!-- Method routing -->
+  <rect x="80" y="290" width="200" height="45" rx="4" fill="#313244" stroke="#a6e3a1" stroke-width="1"/>
+  <text x="180" y="308" fill="#a6e3a1" font-family="monospace" font-size="9" text-anchor="middle">findByTenantId(id)</text>
+  <text x="180" y="325" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="8" text-anchor="middle">→ PartTreeJpaQuery</text>
+  <text x="180" y="335" fill="#585b70" font-family="system-ui, sans-serif" font-size="8" text-anchor="middle">Parsed from method name</text>
+
+  <rect x="300" y="290" width="200" height="45" rx="4" fill="#313244" stroke="#f9e2af" stroke-width="1"/>
+  <text x="400" y="308" fill="#f9e2af" font-family="monospace" font-size="9" text-anchor="middle">@Query("SELECT o...")</text>
+  <text x="400" y="325" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="8" text-anchor="middle">→ NativeJpaQuery</text>
+  <text x="400" y="335" fill="#585b70" font-family="system-ui, sans-serif" font-size="8" text-anchor="middle">JPQL/native SQL</text>
+
+  <rect x="520" y="290" width="200" height="45" rx="4" fill="#313244" stroke="#cdd6f4" stroke-width="1"/>
+  <text x="620" y="308" fill="#cdd6f4" font-family="monospace" font-size="9" text-anchor="middle">save(entity)</text>
+  <text x="620" y="325" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="8" text-anchor="middle">→ SimpleJpaRepository</text>
+  <text x="620" y="335" fill="#585b70" font-family="system-ui, sans-serif" font-size="8" text-anchor="middle">Default CRUD impl</text>
+
+  <!-- TransactionInterceptor layer -->
+  <rect x="80" y="345" width="640" height="28" rx="4" fill="#313244" stroke="#f38ba8" stroke-width="1.5"/>
+  <text x="400" y="364" fill="#f38ba8" font-family="system-ui, sans-serif" font-size="10" text-anchor="middle">TransactionInterceptor — @Transactional(readOnly=true) by default on all query methods</text>
+
+  <!-- Bottom notes -->
+  <rect x="50" y="405" width="700" height="55" rx="6" fill="#313244" stroke="#f9e2af" stroke-width="1"/>
+  <text x="400" y="425" fill="#f9e2af" font-family="system-ui, sans-serif" font-size="11" text-anchor="middle">The repository is a JDK dynamic proxy (interfaces only). It's proxy-based (CH8 rules apply).</text>
+  <text x="400" y="443" fill="#cdd6f4" font-family="system-ui, sans-serif" font-size="10" text-anchor="middle">Query derivation validated at startup: misspelled property names → BeanCreationException (fail-fast).</text>
+  <text x="400" y="457" fill="#a6adc8" font-family="system-ui, sans-serif" font-size="9" text-anchor="middle">Debug: spring.jpa.show-sql=true + logging.level.org.springframework.data=DEBUG to see generated queries</text>
+</svg>

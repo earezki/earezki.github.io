@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" width="900" height="620">
+  <rect width="900" height="620" rx="8" fill="#1e1e2e"/>
+
+  <!-- Title -->
+  <text x="450" y="30" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="16" font-weight="bold">Serialization Format Comparison: Parse Time vs Payload Size</text>
+
+  <!-- Chart area -->
+  <rect x="80" y="50" width="790" height="320" rx="4" fill="#181825" stroke="#45475a" stroke-width="1"/>
+
+  <!-- Y-axis label -->
+  <text x="22" y="210" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="11" transform="rotate(-90 22 210)">Parse Time (ns)</text>
+
+  <!-- Y-axis grid lines and labels -->
+  <line x1="100" y1="80" x2="850" y2="80" stroke="#313244" stroke-width="1" stroke-dasharray="4,4"/>
+  <text x="90" y="84" text-anchor="end" fill="#6c7086" font-family="monospace" font-size="9">2000</text>
+
+  <line x1="100" y1="140" x2="850" y2="140" stroke="#313244" stroke-width="1" stroke-dasharray="4,4"/>
+  <text x="90" y="144" text-anchor="end" fill="#6c7086" font-family="monospace" font-size="9">1500</text>
+
+  <line x1="100" y1="200" x2="850" y2="200" stroke="#313244" stroke-width="1" stroke-dasharray="4,4"/>
+  <text x="90" y="204" text-anchor="end" fill="#6c7086" font-family="monospace" font-size="9">1000</text>
+
+  <line x1="100" y1="260" x2="850" y2="260" stroke="#313244" stroke-width="1" stroke-dasharray="4,4"/>
+  <text x="90" y="264" text-anchor="end" fill="#6c7086" font-family="monospace" font-size="9">500</text>
+
+  <line x1="100" y1="320" x2="850" y2="320" stroke="#313244" stroke-width="1" stroke-dasharray="4,4"/>
+  <text x="90" y="324" text-anchor="end" fill="#6c7086" font-family="monospace" font-size="9">0</text>
+
+  <!-- Payload categories -->
+  <text x="210" y="350" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="10">Tiny (ViewEvent)</text>
+  <text x="410" y="350" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="10">Small (Metadata)</text>
+  <text x="610" y="350" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="10">Medium (Article)</text>
+
+  <!-- Tiny payload group (310ns JSON, 190ns MsgPack, 48ns Protobuf) -->
+  <!-- JSON bar - red -->
+  <rect x="150" y="246" width="30" height="74" rx="2" fill="#f38ba8"/>
+  <text x="165" y="240" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="8">310</text>
+  <!-- MessagePack bar - yellow -->
+  <rect x="185" y="275" width="30" height="45" rx="2" fill="#f9e2af"/>
+  <text x="200" y="269" text-anchor="middle" fill="#f9e2af" font-family="monospace" font-size="8">190</text>
+  <!-- Protobuf bar - green -->
+  <rect x="220" y="309" width="30" height="11" rx="2" fill="#a6e3a1"/>
+  <text x="235" y="304" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="8">48</text>
+
+  <!-- Small payload group (680ns JSON, 580ns MsgPack, 120ns Protobuf) -->
+  <!-- JSON bar -->
+  <rect x="350" y="157" width="30" height="163" rx="2" fill="#f38ba8"/>
+  <text x="365" y="151" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="8">680</text>
+  <!-- MessagePack bar -->
+  <rect x="385" y="181" width="30" height="139" rx="2" fill="#f9e2af"/>
+  <text x="400" y="175" text-anchor="middle" fill="#f9e2af" font-family="monospace" font-size="8">580</text>
+  <!-- Protobuf bar -->
+  <rect x="420" y="291" width="30" height="29" rx="2" fill="#a6e3a1"/>
+  <text x="435" y="285" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="8">120</text>
+
+  <!-- Medium payload group (1820ns JSON, 1580ns MsgPack, 310ns Protobuf) -->
+  <!-- JSON bar -->
+  <rect x="550" y="101" width="30" height="219" rx="2" fill="#f38ba8"/>
+  <text x="565" y="95" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="8">1820</text>
+  <!-- MessagePack bar -->
+  <rect x="585" y="130" width="30" height="190" rx="2" fill="#f9e2af"/>
+  <text x="600" y="124" text-anchor="middle" fill="#f9e2af" font-family="monospace" font-size="8">1580</text>
+  <!-- Protobuf bar -->
+  <rect x="620" y="283" width="30" height="37" rx="2" fill="#a6e3a1"/>
+  <text x="635" y="277" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="8">310</text>
+
+  <!-- Payload size comparison (bottom section) -->
+  <rect x="80" y="370" width="790" height="110" rx="4" fill="#181825" stroke="#45475a" stroke-width="1"/>
+  <text x="450" y="392" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="12" font-weight="bold">Wire Size (bytes)</text>
+
+  <!-- Tiny sizes -->
+  <text x="210" y="412" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">Tiny</text>
+  <rect x="145" y="418" width="54" height="12" rx="2" fill="#f38ba8"/>
+  <text x="205" y="428" fill="#f38ba8" font-family="monospace" font-size="8">180 B</text>
+  <rect x="145" y="434" width="33" height="12" rx="2" fill="#f9e2af"/>
+  <text x="183" y="444" fill="#f9e2af" font-family="monospace" font-size="8">110 B</text>
+  <rect x="145" y="450" width="14" height="12" rx="2" fill="#a6e3a1"/>
+  <text x="164" y="460" fill="#a6e3a1" font-family="monospace" font-size="8">42 B</text>
+
+  <!-- Small sizes -->
+  <text x="410" y="412" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">Small</text>
+  <rect x="345" y="418" width="78" height="12" rx="2" fill="#f38ba8"/>
+  <text x="428" y="428" fill="#f38ba8" font-family="monospace" font-size="8">520 B</text>
+  <rect x="345" y="434" width="55" height="12" rx="2" fill="#f9e2af"/>
+  <text x="405" y="444" fill="#f9e2af" font-family="monospace" font-size="8">370 B</text>
+  <rect x="345" y="450" width="32" height="12" rx="2" fill="#a6e3a1"/>
+  <text x="382" y="460" fill="#a6e3a1" font-family="monospace" font-size="8">215 B</text>
+
+  <!-- Medium sizes -->
+  <text x="610" y="412" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">Medium</text>
+  <rect x="545" y="418" width="130" height="12" rx="2" fill="#f38ba8"/>
+  <text x="680" y="428" fill="#f38ba8" font-family="monospace" font-size="8">5,240 B</text>
+  <rect x="545" y="434" width="97" height="12" rx="2" fill="#f9e2af"/>
+  <text x="647" y="444" fill="#f9e2af" font-family="monospace" font-size="8">3,890 B</text>
+  <rect x="545" y="450" width="79" height="12" rx="2" fill="#a6e3a1"/>
+  <text x="629" y="460" fill="#a6e3a1" font-family="monospace" font-size="8">3,180 B</text>
+
+  <!-- Legend -->
+  <rect x="80" y="495" width="790" height="35" rx="4" fill="#181825" stroke="#45475a" stroke-width="1"/>
+  <rect x="150" y="507" width="14" height="14" rx="2" fill="#f38ba8"/>
+  <text x="170" y="518" fill="#f38ba8" font-family="monospace" font-size="10">Jackson JSON</text>
+  <rect x="350" y="507" width="14" height="14" rx="2" fill="#f9e2af"/>
+  <text x="370" y="518" fill="#f9e2af" font-family="monospace" font-size="10">MessagePack</text>
+  <rect x="550" y="507" width="14" height="14" rx="2" fill="#a6e3a1"/>
+  <text x="570" y="518" fill="#a6e3a1" font-family="monospace" font-size="10">Protobuf</text>
+
+  <!-- Annotation -->
+  <rect x="200" y="548" width="500" height="55" rx="6" fill="#313244" stroke="#a6e3a1" stroke-width="1"/>
+  <text x="450" y="568" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10" font-weight="bold">Protobuf: 5-6x faster parsing, 40-75% smaller wire size</text>
+  <text x="450" y="585" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">Trade-off: schema management, code generation, binary debugging</text>
+  <text x="450" y="598" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">MessagePack: 15% faster, 25% smaller, zero schema cost</text>
+</svg>

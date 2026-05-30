@@ -1,0 +1,136 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 650" width="900" height="650">
+  <defs>
+    <marker id="arrBlue" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#89b4fa"/>
+    </marker>
+    <marker id="arrGreen" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#a6e3a1"/>
+    </marker>
+    <marker id="arrRed" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#f38ba8"/>
+    </marker>
+  </defs>
+  <rect width="900" height="650" rx="8" fill="#1e1e2e"/>
+
+  <!-- Title -->
+  <text x="450" y="30" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="16" font-weight="bold">When O(n) Loses: Constant Factors and Cache Effects on Real Hardware</text>
+
+  <!-- Chart area -->
+  <rect x="70" y="50" width="800" height="370" rx="4" fill="#181825" stroke="#45475a" stroke-width="1"/>
+
+  <!-- Y-axis label -->
+  <text x="18" y="235" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="11" transform="rotate(-90 18 235)">Time per element (ns)</text>
+
+  <!-- X-axis label -->
+  <text x="470" y="440" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="11">Array Size (elements)</text>
+
+  <!-- Y-axis grid and labels (log scale appearance) -->
+  <line x1="90" y1="80" x2="850" y2="80" stroke="#313244" stroke-width="1" stroke-dasharray="4,4"/>
+  <text x="80" y="84" text-anchor="end" fill="#6c7086" font-family="monospace" font-size="9">50</text>
+
+  <line x1="90" y1="130" x2="850" y2="130" stroke="#313244" stroke-width="1" stroke-dasharray="4,4"/>
+  <text x="80" y="134" text-anchor="end" fill="#6c7086" font-family="monospace" font-size="9">20</text>
+
+  <line x1="90" y1="190" x2="850" y2="190" stroke="#313244" stroke-width="1" stroke-dasharray="4,4"/>
+  <text x="80" y="194" text-anchor="end" fill="#6c7086" font-family="monospace" font-size="9">10</text>
+
+  <line x1="90" y1="250" x2="850" y2="250" stroke="#313244" stroke-width="1" stroke-dasharray="4,4"/>
+  <text x="80" y="254" text-anchor="end" fill="#6c7086" font-family="monospace" font-size="9">5</text>
+
+  <line x1="90" y1="310" x2="850" y2="310" stroke="#313244" stroke-width="1" stroke-dasharray="4,4"/>
+  <text x="80" y="314" text-anchor="end" fill="#6c7086" font-family="monospace" font-size="9">1</text>
+
+  <line x1="90" y1="370" x2="850" y2="370" stroke="#313244" stroke-width="1" stroke-dasharray="4,4"/>
+  <text x="80" y="374" text-anchor="end" fill="#6c7086" font-family="monospace" font-size="9">0.3</text>
+
+  <!-- X-axis labels -->
+  <text x="180" y="430" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">10K</text>
+  <text x="350" y="430" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">100K</text>
+  <text x="520" y="430" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">500K</text>
+  <text x="690" y="430" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">1M</text>
+  <text x="820" y="430" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">10M</text>
+
+  <!-- Array scan O(n) - FAST - green, flat low line -->
+  <polyline points="180,370 350,368 520,365 690,362 820,360"
+    fill="none" stroke="#a6e3a1" stroke-width="2.5"/>
+  <circle cx="180" cy="370" r="4" fill="#a6e3a1"/>
+  <circle cx="350" cy="368" r="4" fill="#a6e3a1"/>
+  <circle cx="520" cy="365" r="4" fill="#a6e3a1"/>
+  <circle cx="690" cy="362" r="4" fill="#a6e3a1"/>
+  <circle cx="820" cy="360" r="4" fill="#a6e3a1"/>
+  <text x="835" y="355" fill="#a6e3a1" font-family="monospace" font-size="9">0.28 ns</text>
+
+  <!-- Array sort O(n log n) - blue, moderate line -->
+  <polyline points="180,195 350,180 520,170 690,162 820,155"
+    fill="none" stroke="#89b4fa" stroke-width="2.5"/>
+  <circle cx="180" cy="195" r="4" fill="#89b4fa"/>
+  <circle cx="350" cy="180" r="4" fill="#89b4fa"/>
+  <circle cx="520" cy="170" r="4" fill="#89b4fa"/>
+  <circle cx="690" cy="162" r="4" fill="#89b4fa"/>
+  <circle cx="820" cy="155" r="4" fill="#89b4fa"/>
+  <text x="835" y="150" fill="#89b4fa" font-family="monospace" font-size="9">14 ns</text>
+
+  <!-- LinkedList scan O(n) - SLOW - red, high line -->
+  <polyline points="180,232 350,205 520,190 690,180 820,172"
+    fill="none" stroke="#f38ba8" stroke-width="2.5"/>
+  <circle cx="180" cy="232" r="4" fill="#f38ba8"/>
+  <circle cx="350" cy="205" r="4" fill="#f38ba8"/>
+  <circle cx="520" cy="190" r="4" fill="#f38ba8"/>
+  <circle cx="690" cy="180" r="4" fill="#f38ba8"/>
+  <circle cx="820" cy="172" r="4" fill="#f38ba8"/>
+  <text x="835" y="167" fill="#f38ba8" font-family="monospace" font-size="9">8.2 ns</text>
+
+  <!-- Boxed array scan O(n) - yellow, between red and blue -->
+  <polyline points="180,260 350,240 520,225 690,218 820,212"
+    fill="none" stroke="#f9e2af" stroke-width="2.5" stroke-dasharray="6,3"/>
+  <circle cx="180" cy="260" r="4" fill="#f9e2af"/>
+  <circle cx="350" cy="240" r="4" fill="#f9e2af"/>
+  <circle cx="520" cy="225" r="4" fill="#f9e2af"/>
+  <circle cx="690" cy="218" r="4" fill="#f9e2af"/>
+  <circle cx="820" cy="212" r="4" fill="#f9e2af"/>
+  <text x="835" y="207" fill="#f9e2af" font-family="monospace" font-size="9">4.8 ns</text>
+
+  <!-- Annotations -->
+  <!-- Red crosses blue annotation -->
+  <rect x="380" y="152" width="220" height="40" rx="3" fill="#313244" stroke="#f38ba8" stroke-width="1"/>
+  <text x="490" y="168" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="8" font-weight="bold">LinkedList O(n) is SLOWER</text>
+  <text x="490" y="182" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="8">than Array.sort O(n log n)</text>
+
+  <!-- Green annotation -->
+  <rect x="390" y="338" width="250" height="22" rx="3" fill="#313244" stroke="#a6e3a1" stroke-width="1"/>
+  <text x="515" y="353" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="8" font-weight="bold">int[] scan: perfect cache locality = 0.28 ns/elem</text>
+
+  <!-- Legend -->
+  <rect x="70" y="460" width="800" height="35" rx="4" fill="#181825" stroke="#45475a" stroke-width="1"/>
+  <line x1="90" y1="478" x2="120" y2="478" stroke="#a6e3a1" stroke-width="2.5"/>
+  <text x="125" y="482" fill="#a6e3a1" font-family="monospace" font-size="9">int[] scan O(n)</text>
+  <line x1="260" y1="478" x2="290" y2="478" stroke="#f9e2af" stroke-width="2.5" stroke-dasharray="6,3"/>
+  <text x="295" y="482" fill="#f9e2af" font-family="monospace" font-size="9">Integer[] scan O(n)</text>
+  <line x1="450" y1="478" x2="480" y2="478" stroke="#f38ba8" stroke-width="2.5"/>
+  <text x="485" y="482" fill="#f38ba8" font-family="monospace" font-size="9">LinkedList scan O(n)</text>
+  <line x1="650" y1="478" x2="680" y2="478" stroke="#89b4fa" stroke-width="2.5"/>
+  <text x="685" y="482" fill="#89b4fa" font-family="monospace" font-size="9">Array sort O(n log n)</text>
+
+  <!-- Bottom explanatory section -->
+  <rect x="70" y="510" width="800" height="130" rx="6" fill="#181825" stroke="#45475a" stroke-width="1"/>
+  <text x="470" y="535" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="12" font-weight="bold">Why Complexity Analysis Lies</text>
+
+  <!-- Three columns -->
+  <rect x="90" y="548" width="230" height="75" rx="3" fill="#313244" stroke="#f38ba8" stroke-width="1"/>
+  <text x="205" y="565" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="9" font-weight="bold">Cache Misses (per element)</text>
+  <text x="205" y="582" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="8">int[] scan: 0.06 L1 misses</text>
+  <text x="205" y="596" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="8">Integer[]: 4.2 L1 misses</text>
+  <text x="205" y="610" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="8">LinkedList: 1.0+ LLC misses</text>
+
+  <rect x="340" y="548" width="230" height="75" rx="3" fill="#313244" stroke="#89b4fa" stroke-width="1"/>
+  <text x="455" y="565" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="9" font-weight="bold">Memory per Element</text>
+  <text x="455" y="582" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="8">int[]: 4 bytes</text>
+  <text x="455" y="596" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="8">Integer[]: 20 bytes</text>
+  <text x="455" y="610" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="8">LinkedList: 48 bytes/node</text>
+
+  <rect x="590" y="548" width="260" height="75" rx="3" fill="#313244" stroke="#a6e3a1" stroke-width="1"/>
+  <text x="720" y="565" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="9" font-weight="bold">Constant Factor (vs int[])</text>
+  <text x="720" y="582" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="8">int[] scan: 1.0x (baseline)</text>
+  <text x="720" y="596" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="8">Integer[] scan: 17x slower</text>
+  <text x="720" y="610" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="8">LinkedList scan: 29x slower</text>
+</svg>

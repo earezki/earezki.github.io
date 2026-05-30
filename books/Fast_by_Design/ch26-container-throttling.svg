@@ -1,0 +1,175 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" width="900" height="620">
+  <rect width="900" height="620" rx="8" fill="#1e1e2e"/>
+
+  <!-- Title -->
+  <text x="450" y="28" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="14" font-weight="bold">CFS Bandwidth Throttling: CPU Quota Exhaustion and Latency Spikes</text>
+  <text x="450" y="48" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="10">Article Service: 2-core limit (200ms quota per 100ms period), G1GC with 25 ParallelGCThreads</text>
+
+  <!-- Arrow marker -->
+  <defs>
+    <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#cdd6f4"/>
+    </marker>
+    <marker id="arrowRed" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#f38ba8"/>
+    </marker>
+  </defs>
+
+  <!-- Timeline axis -->
+  <text x="60" y="90" text-anchor="end" fill="#6c7086" font-family="monospace" font-size="9">Time</text>
+  <line x1="70" y1="87" x2="850" y2="87" stroke="#6c7086" stroke-width="1" marker-end="url(#arrowhead)"/>
+
+  <!-- Period markers -->
+  <line x1="70" y1="82" x2="70" y2="92" stroke="#6c7086" stroke-width="1"/>
+  <text x="70" y="105" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="8">0ms</text>
+
+  <line x1="330" y1="82" x2="330" y2="92" stroke="#6c7086" stroke-width="1"/>
+  <text x="330" y="105" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="8">30ms</text>
+
+  <line x1="460" y1="82" x2="460" y2="92" stroke="#6c7086" stroke-width="1"/>
+  <text x="460" y="105" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="8">60ms</text>
+
+  <line x1="720" y1="82" x2="720" y2="92" stroke="#6c7086" stroke-width="1"/>
+  <text x="720" y="105" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="8">100ms</text>
+
+  <text x="720" y="118" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="7">(new period)</text>
+
+  <!-- Period bracket -->
+  <line x1="70" y1="130" x2="70" y2="140" stroke="#45475a" stroke-width="1"/>
+  <line x1="70" y1="140" x2="720" y2="140" stroke="#45475a" stroke-width="1" stroke-dasharray="4"/>
+  <line x1="720" y1="130" x2="720" y2="140" stroke="#45475a" stroke-width="1"/>
+  <text x="395" y="155" text-anchor="middle" fill="#45475a" font-family="monospace" font-size="8">CFS Period: 100ms</text>
+
+  <!-- CPU Usage row -->
+  <text x="60" y="195" text-anchor="end" fill="#cdd6f4" font-family="monospace" font-size="9">CPU</text>
+  <text x="60" y="207" text-anchor="end" fill="#cdd6f4" font-family="monospace" font-size="9">Usage</text>
+
+  <!-- CPU baseline (0) -->
+  <line x1="70" y1="230" x2="850" y2="230" stroke="#45475a" stroke-width="0.5" stroke-dasharray="2"/>
+  <text x="66" y="234" text-anchor="end" fill="#45475a" font-family="monospace" font-size="7">0</text>
+
+  <!-- CPU 2-core line -->
+  <line x1="70" y1="200" x2="850" y2="200" stroke="#f9e2af" stroke-width="0.5" stroke-dasharray="4"/>
+  <text x="66" y="204" text-anchor="end" fill="#f9e2af" font-family="monospace" font-size="7">2c</text>
+
+  <!-- CPU 4-core line -->
+  <line x1="70" y1="170" x2="850" y2="170" stroke="#f38ba8" stroke-width="0.5" stroke-dasharray="4"/>
+  <text x="66" y="174" text-anchor="end" fill="#f38ba8" font-family="monospace" font-size="7">4c</text>
+
+  <!-- Phase 1: App threads (0-18ms) - moderate CPU -->
+  <rect x="70" y="210" width="165" height="20" rx="2" fill="#a6e3a1" opacity="0.6"/>
+  <text x="152" y="224" text-anchor="middle" fill="#1e1e2e" font-family="monospace" font-size="8" font-weight="bold">App threads (1.2c)</text>
+
+  <!-- Phase 2: GC burst (18-38ms) - 4 cores -->
+  <rect x="235" y="172" width="95" height="58" rx="2" fill="#f38ba8" opacity="0.7"/>
+  <text x="282" y="193" text-anchor="middle" fill="#1e1e2e" font-family="monospace" font-size="8" font-weight="bold">GC Pause</text>
+  <text x="282" y="205" text-anchor="middle" fill="#1e1e2e" font-family="monospace" font-size="7">25 threads</text>
+  <text x="282" y="217" text-anchor="middle" fill="#1e1e2e" font-family="monospace" font-size="7">4+ cores</text>
+
+  <!-- Phase 3: App resumes briefly (38-60ms) -->
+  <rect x="330" y="210" width="130" height="20" rx="2" fill="#a6e3a1" opacity="0.6"/>
+  <text x="395" y="224" text-anchor="middle" fill="#1e1e2e" font-family="monospace" font-size="8" font-weight="bold">App (2c)</text>
+
+  <!-- Phase 4: THROTTLED (60-100ms) -->
+  <rect x="460" y="172" width="260" height="58" rx="2" fill="#f38ba8" opacity="0.25" stroke="#f38ba8" stroke-width="2" stroke-dasharray="6"/>
+  <text x="590" y="195" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="12" font-weight="bold">THROTTLED</text>
+  <text x="590" y="212" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="9">All threads frozen (0 CPU)</text>
+  <text x="590" y="225" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="8">Quota exhausted: 200ms used</text>
+
+  <!-- New period resumes -->
+  <rect x="720" y="210" width="120" height="20" rx="2" fill="#a6e3a1" opacity="0.6"/>
+  <text x="780" y="224" text-anchor="middle" fill="#1e1e2e" font-family="monospace" font-size="8" font-weight="bold">Resumes</text>
+
+  <!-- Quota consumption row -->
+  <text x="60" y="275" text-anchor="end" fill="#cdd6f4" font-family="monospace" font-size="9">Quota</text>
+  <text x="60" y="287" text-anchor="end" fill="#cdd6f4" font-family="monospace" font-size="9">Used</text>
+
+  <!-- Quota bar background -->
+  <rect x="70" y="270" width="650" height="24" rx="3" fill="#313244" stroke="#45475a" stroke-width="0.5"/>
+
+  <!-- Quota fill: app phase (0-18ms) = ~50ms quota -->
+  <rect x="70" y="270" width="80" height="24" rx="3" fill="#a6e3a1" opacity="0.5"/>
+  <text x="110" y="286" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="7">50ms</text>
+
+  <!-- Quota fill: GC phase = 500ms quota (shown compressed) -->
+  <rect x="150" y="270" width="250" height="24" fill="#f38ba8" opacity="0.5"/>
+  <text x="275" y="286" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="7">+500ms (GC: 25 threads x 20ms)</text>
+
+  <!-- Quota limit marker -->
+  <line x1="400" y1="265" x2="400" y2="300" stroke="#f9e2af" stroke-width="2"/>
+  <text x="400" y="310" text-anchor="middle" fill="#f9e2af" font-family="monospace" font-size="8" font-weight="bold">200ms quota limit</text>
+
+  <!-- Overflow indicator -->
+  <rect x="400" y="270" width="320" height="24" fill="#f38ba8" opacity="0.15" stroke="#f38ba8" stroke-width="1" stroke-dasharray="3"/>
+  <text x="560" y="286" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="7">OVERFLOW: 350ms over quota</text>
+
+  <!-- Request latency row -->
+  <text x="60" y="350" text-anchor="end" fill="#cdd6f4" font-family="monospace" font-size="9">Request</text>
+  <text x="60" y="362" text-anchor="end" fill="#cdd6f4" font-family="monospace" font-size="9">Latency</text>
+
+  <!-- Normal request (arrives at t=5ms, completes at t=17ms) -->
+  <rect x="105" y="345" width="60" height="18" rx="3" fill="#a6e3a1" opacity="0.7"/>
+  <text x="135" y="358" text-anchor="middle" fill="#1e1e2e" font-family="monospace" font-size="7">12ms</text>
+  <text x="135" y="375" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="7">normal</text>
+
+  <!-- Throttled request (arrives at t=55ms, stuck until t=100ms + processing) -->
+  <rect x="425" y="340" width="310" height="24" rx="3" fill="#f38ba8" opacity="0.5" stroke="#f38ba8" stroke-width="1"/>
+  <text x="580" y="356" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="8" font-weight="bold">Request stalled: 40ms throttle + 12ms processing = 52ms</text>
+  <text x="580" y="378" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="8">P99 spike: 12ms → 180ms+</text>
+
+  <!-- Incoming request arrow -->
+  <line x1="425" y1="330" x2="425" y2="340" stroke="#89b4fa" stroke-width="1.5" marker-end="url(#arrowRed)"/>
+  <text x="425" y="327" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="7">Request arrives</text>
+
+  <!-- Comparison section -->
+  <line x1="70" y1="400" x2="840" y2="400" stroke="#45475a" stroke-width="0.5"/>
+  <text x="450" y="420" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="11" font-weight="bold">Fix: Reduce GC Threads (25 → 4) and Remove CPU Limit</text>
+
+  <!-- Before/After comparison boxes -->
+  <!-- Before -->
+  <rect x="80" y="435" width="350" height="155" rx="6" fill="#313244" stroke="#f38ba8" stroke-width="1.5"/>
+  <text x="255" y="455" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="10" font-weight="bold">BEFORE: 25 GC Threads, 2-Core Limit</text>
+
+  <text x="100" y="478" fill="#6c7086" font-family="monospace" font-size="9">GC quota burst:</text>
+  <text x="310" y="478" text-anchor="end" fill="#f38ba8" font-family="monospace" font-size="9">500ms (25 x 20ms)</text>
+
+  <text x="100" y="496" fill="#6c7086" font-family="monospace" font-size="9">Available quota:</text>
+  <text x="310" y="496" text-anchor="end" fill="#f9e2af" font-family="monospace" font-size="9">200ms</text>
+
+  <text x="100" y="514" fill="#6c7086" font-family="monospace" font-size="9">Throttle rate:</text>
+  <text x="310" y="514" text-anchor="end" fill="#f38ba8" font-family="monospace" font-size="9">3.2% of periods</text>
+
+  <text x="100" y="532" fill="#6c7086" font-family="monospace" font-size="9">P99 latency:</text>
+  <text x="310" y="532" text-anchor="end" fill="#f38ba8" font-family="monospace" font-size="9" font-weight="bold">178ms</text>
+
+  <text x="100" y="550" fill="#6c7086" font-family="monospace" font-size="9">P99.9 latency:</text>
+  <text x="310" y="550" text-anchor="end" fill="#f38ba8" font-family="monospace" font-size="9">312ms</text>
+
+  <text x="100" y="575" fill="#6c7086" font-family="monospace" font-size="9">Pod restarts/day:</text>
+  <text x="310" y="575" text-anchor="end" fill="#f38ba8" font-family="monospace" font-size="9">0.3 (OOM)</text>
+
+  <!-- After -->
+  <rect x="470" y="435" width="350" height="155" rx="6" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="645" y="455" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10" font-weight="bold">AFTER: 4 GC Threads, No CPU Limit</text>
+
+  <text x="490" y="478" fill="#6c7086" font-family="monospace" font-size="9">GC quota burst:</text>
+  <text x="700" y="478" text-anchor="end" fill="#a6e3a1" font-family="monospace" font-size="9">112ms (4 x 28ms)</text>
+
+  <text x="490" y="496" fill="#6c7086" font-family="monospace" font-size="9">Available quota:</text>
+  <text x="700" y="496" text-anchor="end" fill="#a6e3a1" font-family="monospace" font-size="9">unlimited</text>
+
+  <text x="490" y="514" fill="#6c7086" font-family="monospace" font-size="9">Throttle rate:</text>
+  <text x="700" y="514" text-anchor="end" fill="#a6e3a1" font-family="monospace" font-size="9">0%</text>
+
+  <text x="490" y="532" fill="#6c7086" font-family="monospace" font-size="9">P99 latency:</text>
+  <text x="700" y="532" text-anchor="end" fill="#a6e3a1" font-family="monospace" font-size="9" font-weight="bold">27ms (6.6x better)</text>
+
+  <text x="490" y="550" fill="#6c7086" font-family="monospace" font-size="9">P99.9 latency:</text>
+  <text x="700" y="550" text-anchor="end" fill="#a6e3a1" font-family="monospace" font-size="9">45ms (6.9x better)</text>
+
+  <text x="490" y="575" fill="#6c7086" font-family="monospace" font-size="9">Pod restarts/day:</text>
+  <text x="700" y="575" text-anchor="end" fill="#a6e3a1" font-family="monospace" font-size="9">0</text>
+
+  <!-- Arrow between boxes -->
+  <line x1="430" y1="512" x2="470" y2="512" stroke="#cdd6f4" stroke-width="2" marker-end="url(#arrowhead)"/>
+</svg>

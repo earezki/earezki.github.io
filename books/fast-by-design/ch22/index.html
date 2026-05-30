@@ -1,0 +1,633 @@
+<!DOCTYPE html><html lang="en" data-theme="dark"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Protocol Overhead: HTTP/1.1 vs HTTP/2 vs HTTP/3 and gRPC in Numbers - fast by design • Dev|Journal</title><meta name="description" content="Technical blog covering software architecture, backend development, and engineering best practices."><meta name="keywords" content="software architecture, backend development, microservices, Java, Python, Spring Boot, technical blog"><meta name="author" content="El Mehdi Arezki"><meta name="robots" content="index,follow"><meta property="og:type" content="website"><meta property="og:url" content="https://earezki.com/books/fast-by-design/ch22/"><meta property="og:title" content="Protocol Overhead: HTTP/1.1 vs HTTP/2 vs HTTP/3 and gRPC in Numbers - fast by design • Dev|Journal"><meta property="og:site_name" content="Dev|Journal"><meta property="og:description" content="Technical blog covering software architecture, backend development, and engineering best practices."><meta property="og:image" content="https://earezki.com/assets/og-image-default.svg"><meta property="og:locale" content="en_US"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:url" content="https://earezki.com/books/fast-by-design/ch22/"><meta name="twitter:title" content="Protocol Overhead: HTTP/1.1 vs HTTP/2 vs HTTP/3 and gRPC in Numbers - fast by design • Dev|Journal"><meta name="twitter:description" content="Technical blog covering software architecture, backend development, and engineering best practices."><meta name="twitter:image" content="https://earezki.com/assets/og-image-default.svg"><meta name="twitter:site" content="@earezki"><meta name="twitter:creator" content="@earezki"><link rel="canonical" href="https://earezki.com/books/fast-by-design/ch22/"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"><link rel="dns-prefetch" href="https://cloud.umami.is"><script defer src="https://cloud.umami.is/script.js" data-website-id="4a26531d-1053-4f79-97a6-06a1366aff91"></script><!-- Self-hosted Inter font — eliminates render-blocking Google Fonts request --><link rel="preload" as="font" type="font/woff2" href="/fonts/inter-latin-regular.woff2" crossorigin><!-- WebSite structured data --><script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Dev|Journal","url":"https://earezki.com","description":"Technical blog covering software architecture, backend development, and engineering best practices.","author":{"@type":"Person","name":"El Mehdi Arezki","url":"https://earezki.com/about"},"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://earezki.com/search?q={search_term_string}"},"query-input":"required name=search_term_string"}}</script><!-- Theme initialization - parse Zustand persist format --><script>
+      (function () {
+        try {
+          const raw = localStorage.getItem("theme");
+          if (raw) {
+            // Zustand persist stores as JSON: {"state":{"theme":"light"},"version":0}
+            const parsed = JSON.parse(raw);
+            const theme = parsed?.state?.theme || "dark";
+
+            if (theme === "light") {
+              document.documentElement.setAttribute("data-theme", "light");
+            } else if (theme === "system") {
+              const prefersDark = window.matchMedia(
+                "(prefers-color-scheme: dark)",
+              ).matches;
+              document.documentElement.setAttribute(
+                "data-theme",
+                prefersDark ? "dark" : "light",
+              );
+            } else {
+              document.documentElement.setAttribute("data-theme", "dark");
+            }
+          }
+        } catch (e) {
+          // Fallback to dark if parsing fails
+          document.documentElement.setAttribute("data-theme", "dark");
+        }
+      })();
+    </script><link rel="stylesheet" href="/_astro/_slug_.CcNoc0MY.css"></head> <body class="min-h-screen flex flex-col bg-background text-foreground"> <!-- Skip to content link --> <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:p-4 focus:bg-primary focus:text-primary-foreground focus:rounded-lg">
+Skip to main content
+</a> <!-- Smart Header with hide/show on scroll --> <style>astro-island,astro-slot,astro-static-slot{display:contents}</style><script>(()=>{var e=async t=>{await(await t())()};(self.Astro||(self.Astro={})).only=e;window.dispatchEvent(new Event("astro:only"));})();</script><script>(()=>{var A=Object.defineProperty;var g=(i,o,a)=>o in i?A(i,o,{enumerable:!0,configurable:!0,writable:!0,value:a}):i[o]=a;var d=(i,o,a)=>g(i,typeof o!="symbol"?o+"":o,a);{let i={0:t=>m(t),1:t=>a(t),2:t=>new RegExp(t),3:t=>new Date(t),4:t=>new Map(a(t)),5:t=>new Set(a(t)),6:t=>BigInt(t),7:t=>new URL(t),8:t=>new Uint8Array(t),9:t=>new Uint16Array(t),10:t=>new Uint32Array(t),11:t=>1/0*t},o=t=>{let[l,e]=t;return l in i?i[l](e):void 0},a=t=>t.map(o),m=t=>typeof t!="object"||t===null?t:Object.fromEntries(Object.entries(t).map(([l,e])=>[l,o(e)]));class y extends HTMLElement{constructor(){super(...arguments);d(this,"Component");d(this,"hydrator");d(this,"hydrate",async()=>{var b;if(!this.hydrator||!this.isConnected)return;let e=(b=this.parentElement)==null?void 0:b.closest("astro-island[ssr]");if(e){e.addEventListener("astro:hydrate",this.hydrate,{once:!0});return}let c=this.querySelectorAll("astro-slot"),n={},h=this.querySelectorAll("template[data-astro-template]");for(let r of h){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("data-astro-template")||"default"]=r.innerHTML,r.remove())}for(let r of c){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("name")||"default"]=r.innerHTML)}let p;try{p=this.hasAttribute("props")?m(JSON.parse(this.getAttribute("props"))):{}}catch(r){let s=this.getAttribute("component-url")||"<unknown>",v=this.getAttribute("component-export");throw v&&(s+=` (export ${v})`),console.error(`[hydrate] Error parsing props for component ${s}`,this.getAttribute("props"),r),r}let u;await this.hydrator(this)(this.Component,p,n,{client:this.getAttribute("client")}),this.removeAttribute("ssr"),this.dispatchEvent(new CustomEvent("astro:hydrate"))});d(this,"unmount",()=>{this.isConnected||this.dispatchEvent(new CustomEvent("astro:unmount"))})}disconnectedCallback(){document.removeEventListener("astro:after-swap",this.unmount),document.addEventListener("astro:after-swap",this.unmount,{once:!0})}connectedCallback(){if(!this.hasAttribute("await-children")||document.readyState==="interactive"||document.readyState==="complete")this.childrenConnectedCallback();else{let e=()=>{document.removeEventListener("DOMContentLoaded",e),c.disconnect(),this.childrenConnectedCallback()},c=new MutationObserver(()=>{var n;((n=this.lastChild)==null?void 0:n.nodeType)===Node.COMMENT_NODE&&this.lastChild.nodeValue==="astro:end"&&(this.lastChild.remove(),e())});c.observe(this,{childList:!0}),document.addEventListener("DOMContentLoaded",e)}}async childrenConnectedCallback(){let e=this.getAttribute("before-hydration-url");e&&await import(e),this.start()}async start(){let e=JSON.parse(this.getAttribute("opts")),c=this.getAttribute("client");if(Astro[c]===void 0){window.addEventListener(`astro:${c}`,()=>this.start(),{once:!0});return}try{await Astro[c](async()=>{let n=this.getAttribute("renderer-url"),[h,{default:p}]=await Promise.all([import(this.getAttribute("component-url")),n?import(n):()=>()=>{}]),u=this.getAttribute("component-export")||"default";if(!u.includes("."))this.Component=h[u];else{this.Component=h;for(let f of u.split("."))this.Component=this.Component[f]}return this.hydrator=p,this.hydrate},e,this)}catch(n){console.error(`[astro-island] Error hydrating ${this.getAttribute("component-url")}`,n)}}attributeChangedCallback(){this.hydrate()}}d(y,"observedAttributes",["props"]),customElements.get("astro-island")||customElements.define("astro-island",y)}})();</script><astro-island uid="1YpyxB" component-url="/_astro/SmartHeader.CGv_TxFa.js" component-export="SmartHeader" renderer-url="/_astro/client.BWL821IS.js" props="{}" ssr client="only" opts="{&quot;name&quot;:&quot;SmartHeader&quot;,&quot;value&quot;:&quot;preact&quot;}"></astro-island> <!-- Command Palette --> <astro-island uid="1KbDpu" component-url="/_astro/CommandPalette.C4siRRTT.js" component-export="CommandPalette" renderer-url="/_astro/client.BWL821IS.js" props="{}" ssr client="only" opts="{&quot;name&quot;:&quot;CommandPalette&quot;,&quot;value&quot;:&quot;preact&quot;}"></astro-island> <!-- Main Content with fade-in --> <main id="main-content" class="flex-1 container mx-auto px-4 py-8 animate-fade-in" tabindex="-1">  <script>(()=>{var l=(n,t)=>{let i=async()=>{await(await n())()},e=typeof t.value=="object"?t.value:void 0,s={timeout:e==null?void 0:e.timeout};"requestIdleCallback"in window?window.requestIdleCallback(i,s):setTimeout(i,s.timeout||200)};(self.Astro||(self.Astro={})).idle=l;window.dispatchEvent(new Event("astro:idle"));})();</script><astro-island uid="Z2fWiir" component-url="/_astro/ChapterReadingTracker.D0d0lldC.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;bookSlug&quot;:[0,&quot;fast-by-design&quot;],&quot;chapterSlug&quot;:[0,&quot;fast-by-design/ch22&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ChapterReadingTracker&quot;,&quot;value&quot;:true}" await-children><div class="fixed top-0 left-0 w-full h-1 z-50 bg-muted/20 fixed top-0 left-0 w-full z-50"><div class="h-full bg-primary transition-all duration-100 ease-out" style="width:0%;"></div></div><!--astro:end--></astro-island> <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8"> <div class="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-8"> <!-- Left Sidebar: Book TOC --> <aside class="hidden lg:block"> <nav class="book-toc sticky top-20 hidden lg:block w-64 pr-3 border-r border-border/30"> <div class="mb-4"> <a href="/books/" class="text-[10px] font-medium text-muted-foreground hover:text-primary block mb-2">← Library</a> <h2 class="font-semibold text-xs leading-tight truncate mb-3" title="fast by design">fast by design</h2> <astro-island uid="Z5BX6b" component-url="/_astro/BookProgress.Dm54L5Al.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;bookSlug&quot;:[0,&quot;fast-by-design&quot;],&quot;allChapters&quot;:[1,[[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch1-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch1-s2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch2-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch2-s2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch3&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch3-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch3-s2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch4&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch4-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch4-s2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch5&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch5-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch5-s2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch6&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch6-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch6-s2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch7&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch7-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch7-s2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch8&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch8-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch8-s2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch9&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch9-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch9-s2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch10&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch10-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch10-s2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch11&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch11-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch11-s2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch12&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch12-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch12-s2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch13&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch13-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch13-s2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch14&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch14-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch14-s2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch15&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch15-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch15-s2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch16&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch16-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch16-s2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch17&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch17-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch17-s2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch18&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch18-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch18-s2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch19&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch19-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch19-s2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch20&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch20-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch20-s2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch21&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch21-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch21-s2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch22&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch22-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch22-s2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch23&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch23-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch23-s2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch24&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch24-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch24-s2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch25&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch25-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch25-s2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch26&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch26-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch26-s2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch27&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch27-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch27-s2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch28&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch28-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch28-s2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch29&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch29-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch29-s2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch30&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch30-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-by-design/ch30-s2&quot;]}]]],&quot;variant&quot;:[0,&quot;sidebar&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;BookProgress&quot;,&quot;value&quot;:true}"></astro-island> </div> <ul class="space-y-0.5"> <li class="leading-none relative group"> <a href="/books/fast-by-design/ch1/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30 font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="The Measurement Discipline: Benchmarks, Profilers, and Why Your Intuition Is Wrong"> The Measurement Discipline: Benchmarks, Profilers, and Why Your Intuition Is Wrong </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="ZsTLat" component-url="/_astro/ReadStatusIndicator.CPttHqPN.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;fast-by-design&quot;],&quot;slug&quot;:[0,&quot;fast-by-design/ch1&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/fast-by-design/ch2/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30 font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="JVM Profiling: CPU Flames, Allocation Profiling, and Reading a Heap Dump Without Guessing"> JVM Profiling: CPU Flames, Allocation Profiling, and Reading a Heap Dump Without Guessing </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="ZsTDa6" component-url="/_astro/ReadStatusIndicator.CPttHqPN.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;fast-by-design&quot;],&quot;slug&quot;:[0,&quot;fast-by-design/ch2&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/fast-by-design/ch3/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30 font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="Benchmarking Java Code Correctly: JMH, Warmup, and the JIT Optimizations That Invalidate Naive Tests"> Benchmarking Java Code Correctly: JMH, Warmup, and the JIT Optimizations That Invalidate Naive Tests </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="ZsTv9I" component-url="/_astro/ReadStatusIndicator.CPttHqPN.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;fast-by-design&quot;],&quot;slug&quot;:[0,&quot;fast-by-design/ch3&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/fast-by-design/ch4/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30 font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="Memory Model and Garbage Collection: Choosing a Collector, Tuning Heap Regions, and Eliminating GC Pauses"> Memory Model and Garbage Collection: Choosing a Collector, Tuning Heap Regions, and Eliminating GC Pauses </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="ZsTn9l" component-url="/_astro/ReadStatusIndicator.CPttHqPN.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;fast-by-design&quot;],&quot;slug&quot;:[0,&quot;fast-by-design/ch4&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/fast-by-design/ch5/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30 font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="JIT Compilation Internals: Inlining, Escape Analysis, and the Code the JVM Rewrites Behind You"> JIT Compilation Internals: Inlining, Escape Analysis, and the Code the JVM Rewrites Behind You </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="ZsTf8X" component-url="/_astro/ReadStatusIndicator.CPttHqPN.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;fast-by-design&quot;],&quot;slug&quot;:[0,&quot;fast-by-design/ch5&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/fast-by-design/ch6/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30 font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="Object Allocation and Memory Layout: Cache Lines, False Sharing, and the Cost of Pointer Chasing"> Object Allocation and Memory Layout: Cache Lines, False Sharing, and the Cost of Pointer Chasing </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="ZsT78A" component-url="/_astro/ReadStatusIndicator.CPttHqPN.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;fast-by-design&quot;],&quot;slug&quot;:[0,&quot;fast-by-design/ch6&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/fast-by-design/ch7/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30 font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="Concurrency Performance: Lock Contention, Atomic Operations, and the Cases Where Fewer Threads Is Faster"> Concurrency Performance: Lock Contention, Atomic Operations, and the Cases Where Fewer Threads Is Faster </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="ZsSY8d" component-url="/_astro/ReadStatusIndicator.CPttHqPN.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;fast-by-design&quot;],&quot;slug&quot;:[0,&quot;fast-by-design/ch7&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/fast-by-design/ch8/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30 font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="Virtual Threads and Structured Concurrency: Where They Help and Where They Hurt"> Virtual Threads and Structured Concurrency: Where They Help and Where They Hurt </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="ZsSQ7P" component-url="/_astro/ReadStatusIndicator.CPttHqPN.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;fast-by-design&quot;],&quot;slug&quot;:[0,&quot;fast-by-design/ch8&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/fast-by-design/ch9/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30 font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="Choosing the Right Collection: Access Patterns, Memory Layout, and the Benchmark That Settles the Argument"> Choosing the Right Collection: Access Patterns, Memory Layout, and the Benchmark That Settles the Argument </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="ZsSI7s" component-url="/_astro/ReadStatusIndicator.CPttHqPN.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;fast-by-design&quot;],&quot;slug&quot;:[0,&quot;fast-by-design/ch9&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/fast-by-design/ch10/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30 font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="HashMap Internals and Beyond: Load Factor, Collision Chains, and When to Use Something Else"> HashMap Internals and Beyond: Load Factor, Collision Chains, and When to Use Something Else </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="yh2JD" component-url="/_astro/ReadStatusIndicator.CPttHqPN.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;fast-by-design&quot;],&quot;slug&quot;:[0,&quot;fast-by-design/ch10&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/fast-by-design/ch11/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30 font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="Sorting, Searching, and the Access Pattern That Changes Everything at 1M Records"> Sorting, Searching, and the Access Pattern That Changes Everything at 1M Records </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="yhaK1" component-url="/_astro/ReadStatusIndicator.CPttHqPN.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;fast-by-design&quot;],&quot;slug&quot;:[0,&quot;fast-by-design/ch11&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/fast-by-design/ch12/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30 font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="Probabilistic Data Structures: Bloom Filters, HyperLogLog, and Count-Min Sketch as Production Tools"> Probabilistic Data Structures: Bloom Filters, HyperLogLog, and Count-Min Sketch as Production Tools </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="yhiKo" component-url="/_astro/ReadStatusIndicator.CPttHqPN.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;fast-by-design&quot;],&quot;slug&quot;:[0,&quot;fast-by-design/ch12&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/fast-by-design/ch13/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30 font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="Algorithmic Complexity on Real Data: When O(n log n) Beats O(n) and Why"> Algorithmic Complexity on Real Data: When O(n log n) Beats O(n) and Why </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="yhqKL" component-url="/_astro/ReadStatusIndicator.CPttHqPN.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;fast-by-design&quot;],&quot;slug&quot;:[0,&quot;fast-by-design/ch13&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/fast-by-design/ch14/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30 font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="Serialization Performance: JSON, Protobuf, and the Parsing Cost Nobody Measures"> Serialization Performance: JSON, Protobuf, and the Parsing Cost Nobody Measures </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="yhyL9" component-url="/_astro/ReadStatusIndicator.CPttHqPN.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;fast-by-design&quot;],&quot;slug&quot;:[0,&quot;fast-by-design/ch14&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/fast-by-design/ch15/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30 font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="Caching at the Application Layer: Hit Rates, Eviction, and the Cache That Made Things Slower"> Caching at the Application Layer: Hit Rates, Eviction, and the Cache That Made Things Slower </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="yhGLw" component-url="/_astro/ReadStatusIndicator.CPttHqPN.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;fast-by-design&quot;],&quot;slug&quot;:[0,&quot;fast-by-design/ch15&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/fast-by-design/ch16/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30 font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="Connection Pool Tuning: JDBC, HTTP Clients, and the Pool Size That Is Never What You Think"> Connection Pool Tuning: JDBC, HTTP Clients, and the Pool Size That Is Never What You Think </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="yhOLT" component-url="/_astro/ReadStatusIndicator.CPttHqPN.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;fast-by-design&quot;],&quot;slug&quot;:[0,&quot;fast-by-design/ch16&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/fast-by-design/ch17/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30 font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="Query Performance: Execution Plans, Index Selection, and the Query the ORM Wrote"> Query Performance: Execution Plans, Index Selection, and the Query the ORM Wrote </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="yhWMh" component-url="/_astro/ReadStatusIndicator.CPttHqPN.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;fast-by-design&quot;],&quot;slug&quot;:[0,&quot;fast-by-design/ch17&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/fast-by-design/ch18/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30 font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="Index Design Under Load: Partial Indexes, Covering Indexes, and Index Bloat Over Time"> Index Design Under Load: Partial Indexes, Covering Indexes, and Index Bloat Over Time </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="yi5ME" component-url="/_astro/ReadStatusIndicator.CPttHqPN.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;fast-by-design&quot;],&quot;slug&quot;:[0,&quot;fast-by-design/ch18&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/fast-by-design/ch19/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30 font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="Write Performance: Batch Inserts, COPY, WAL Pressure, and the Commit Rate That Saturates Disk"> Write Performance: Batch Inserts, COPY, WAL Pressure, and the Commit Rate That Saturates Disk </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="yidN2" component-url="/_astro/ReadStatusIndicator.CPttHqPN.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;fast-by-design&quot;],&quot;slug&quot;:[0,&quot;fast-by-design/ch19&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/fast-by-design/ch20/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30 font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="Connection and Transaction Overhead: The Cost Per Query That Accumulates at Scale"> Connection and Transaction Overhead: The Cost Per Query That Accumulates at Scale </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="yl6Vk" component-url="/_astro/ReadStatusIndicator.CPttHqPN.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;fast-by-design&quot;],&quot;slug&quot;:[0,&quot;fast-by-design/ch20&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/fast-by-design/ch21/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30 font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="PostgreSQL Internals for Performance: MVCC, Vacuum, Autovacuum Tuning, and Table Bloat"> PostgreSQL Internals for Performance: MVCC, Vacuum, Autovacuum Tuning, and Table Bloat </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="yleVH" component-url="/_astro/ReadStatusIndicator.CPttHqPN.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;fast-by-design&quot;],&quot;slug&quot;:[0,&quot;fast-by-design/ch21&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/fast-by-design/ch22/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-primary bg-primary/5 text-primary font-medium font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="Protocol Overhead: HTTP/1.1 vs HTTP/2 vs HTTP/3 and gRPC in Numbers"> Protocol Overhead: HTTP/1.1 vs HTTP/2 vs HTTP/3 and gRPC in Numbers </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="ylmW5" component-url="/_astro/ReadStatusIndicator.CPttHqPN.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;fast-by-design&quot;],&quot;slug&quot;:[0,&quot;fast-by-design/ch22&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/fast-by-design/ch22-s1/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30" style="margin-left:0.5rem" title="HTTP/2 Multiplexing and the End of Connection Limits"> HTTP/2 Multiplexing and the End of Connection Limits </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="aUv1r" component-url="/_astro/ReadStatusIndicator.CPttHqPN.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;fast-by-design&quot;],&quot;slug&quot;:[0,&quot;fast-by-design/ch22-s1&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/fast-by-design/ch22-s2/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30" style="margin-left:0.5rem" title="gRPC for Service-to-Service Communication"> gRPC for Service-to-Service Communication </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="aUD1O" component-url="/_astro/ReadStatusIndicator.CPttHqPN.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;fast-by-design&quot;],&quot;slug&quot;:[0,&quot;fast-by-design/ch22-s2&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/fast-by-design/ch23/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30 font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="Payload Optimization: Compression, Partial Responses, and the Wire Cost of Chattiness"> Payload Optimization: Compression, Partial Responses, and the Wire Cost of Chattiness </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="yluWs" component-url="/_astro/ReadStatusIndicator.CPttHqPN.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;fast-by-design&quot;],&quot;slug&quot;:[0,&quot;fast-by-design/ch23&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/fast-by-design/ch24/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30 font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="Service-to-Service Latency: DNS, TCP Handshakes, and Connection Reuse at Scale"> Service-to-Service Latency: DNS, TCP Handshakes, and Connection Reuse at Scale </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="ylCWP" component-url="/_astro/ReadStatusIndicator.CPttHqPN.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;fast-by-design&quot;],&quot;slug&quot;:[0,&quot;fast-by-design/ch24&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/fast-by-design/ch25/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30 font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="Load Balancer and Reverse Proxy Performance: Where Latency Hides Before It Reaches Your Code"> Load Balancer and Reverse Proxy Performance: Where Latency Hides Before It Reaches Your Code </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="ylKXd" component-url="/_astro/ReadStatusIndicator.CPttHqPN.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;fast-by-design&quot;],&quot;slug&quot;:[0,&quot;fast-by-design/ch25&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/fast-by-design/ch26/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30 font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="Container Performance: CPU Throttling, Memory Limits, and the JVM That Does Not Know It Is in a Container"> Container Performance: CPU Throttling, Memory Limits, and the JVM That Does Not Know It Is in a Container </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="ylSXA" component-url="/_astro/ReadStatusIndicator.CPttHqPN.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;fast-by-design&quot;],&quot;slug&quot;:[0,&quot;fast-by-design/ch26&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/fast-by-design/ch27/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30 font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="Kubernetes Scheduling and Resource Contention: Noisy Neighbors, CPU Pinning, and QoS Classes"> Kubernetes Scheduling and Resource Contention: Noisy Neighbors, CPU Pinning, and QoS Classes </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="ym1XX" component-url="/_astro/ReadStatusIndicator.CPttHqPN.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;fast-by-design&quot;],&quot;slug&quot;:[0,&quot;fast-by-design/ch27&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/fast-by-design/ch28/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30 font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="Disk I/O Performance: Sequential vs Random, fsync Cost, and the Storage Choice That Determines Your Ceiling"> Disk I/O Performance: Sequential vs Random, fsync Cost, and the Storage Choice That Determines Your Ceiling </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="ym9Yl" component-url="/_astro/ReadStatusIndicator.CPttHqPN.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;fast-by-design&quot;],&quot;slug&quot;:[0,&quot;fast-by-design/ch28&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/fast-by-design/ch29/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30 font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="Distributed Tracing for Performance: Finding the Slow Thing Across Service Boundaries with OpenTelemetry"> Distributed Tracing for Performance: Finding the Slow Thing Across Service Boundaries with OpenTelemetry </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="ymhYI" component-url="/_astro/ReadStatusIndicator.CPttHqPN.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;fast-by-design&quot;],&quot;slug&quot;:[0,&quot;fast-by-design/ch29&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/fast-by-design/ch30/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30 font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="Continuous Performance Testing: Locust in CI, Regression Detection, and the Baseline That Drifts"> Continuous Performance Testing: Locust in CI, Regression Detection, and the Baseline That Drifts </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="ypb81" component-url="/_astro/ReadStatusIndicator.CPttHqPN.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;fast-by-design&quot;],&quot;slug&quot;:[0,&quot;fast-by-design/ch30&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li> </ul> </nav> <script type="module">const o=document.querySelector(".book-toc");if(o){const t=sessionStorage.getItem("book-toc-scroll");t&&(o.scrollTop=parseInt(t,10)),o.addEventListener("scroll",()=>{sessionStorage.setItem("book-toc-scroll",o.scrollTop.toString())})}</script> </aside> <article class="max-w-3xl mx-auto w-full min-w-0 animate-fade-in"> <nav aria-label="Breadcrumb" class="flex items-center text-xs text-muted-foreground mb-6 flex-wrap animate-fade-in"> <ol class="flex items-center gap-1.5 flex-wrap"> <li> <a href="/" class="hover:text-primary transition-colors duration-200 flex items-center gap-1"> <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg> <span class="hidden sm:inline">Home</span> </a> </li> <li class="flex items-center gap-1.5 min-w-0"> <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground/40 shrink-0"><path d="M9 5l7 7-7 7" /></svg> <a href="/books/" class="hover:text-primary transition-colors duration-200 truncate max-w-[150px]" title="Library"> Library </a> </li><li class="flex items-center gap-1.5 min-w-0"> <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground/40 shrink-0"><path d="M9 5l7 7-7 7" /></svg> <a href="/books/fast-by-design/" class="hover:text-primary transition-colors duration-200 truncate max-w-[150px]" title="fast by design"> fast by design </a> </li><li class="flex items-center gap-1.5 min-w-0"> <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground/40 shrink-0"><path d="M9 5l7 7-7 7" /></svg> <span class="font-medium text-foreground truncate max-w-[200px] sm:max-w-xs" title="Protocol Overhead: HTTP/1.1 vs HTTP/2 vs HTTP/3 and gRPC in Numbers"> Protocol Overhead: HTTP/1.1 vs... </span> </li> </ol> </nav> <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://earezki.com/"},{"@type":"ListItem","position":2,"name":"Library","item":"https://earezki.com/books/"},{"@type":"ListItem","position":3,"name":"fast by design","item":"https://earezki.com/books/fast-by-design/"},{"@type":"ListItem","position":4,"name":"Protocol Overhead: HTTP/1.1 vs HTTP/2 vs HTTP/3 and gRPC in Numbers","item":"https://earezki.com/books/fast-by-design/ch22/"}]}</script> <header class="mb-8 mt-2"> <div class="lg:hidden mb-4"> <a href="/books/" class="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors"> <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 19l-7-7 7-7" /></svg>
+Back to Library
+</a> </div> <!-- Book title badge --> <div class="inline-flex items-center gap-2 px-3 py-1.5 mb-4 rounded-full bg-primary/10 text-primary text-sm font-medium"> <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" /><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" /></svg> fast by design </div> <h1 class="text-3xl md:text-4xl font-bold mb-4 text-gradient"> Protocol Overhead: HTTP/1.1 vs HTTP/2 vs HTTP/3 and gRPC in Numbers </h1> <!-- Reading time and chapter info --> <div class="flex items-center gap-4 text-sm text-muted-foreground mb-6 flex-wrap"> <span class="flex items-center gap-1.5"> <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary/70"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg> 11 min read </span> <span class="flex items-center gap-1.5"> <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary/70"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" /></svg>
+Chapter 64 of 90 </span> <script>(()=>{var e=async t=>{await(await t())()};(self.Astro||(self.Astro={})).load=e;window.dispatchEvent(new Event("astro:load"));})();</script><astro-island uid="Z9w593" component-url="/_astro/FocusMusicToggle.DRdJUHkG.js" component-export="FocusMusicToggle" renderer-url="/_astro/client.BWL821IS.js" props="{}" ssr client="load" opts="{&quot;name&quot;:&quot;FocusMusicToggle&quot;,&quot;value&quot;:true}" await-children><div class="relative inline-flex rounded-full p-[1.5px] overflow-hidden shrink-0"><div class="absolute aspect-square w-[250%] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none" style="animation: border-spin 3s linear infinite; background: conic-gradient(from 0deg, transparent 35%, var(--color-primary) 50%, var(--color-secondary) 65%, transparent 80%);"></div><button class="relative z-10 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-200 cursor-pointer bg-card text-muted-foreground hover:text-primary" aria-label="Play focus music" title="Play focus music"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-headphones h-3.5 w-3.5" aria-hidden="true"><path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"></path></svg><span class="hidden sm:inline">Focus Music</span></button></div><!--astro:end--></astro-island> </div>  </header> <!-- Collapsible Summary -->  <!-- Article Content --> <div class="prose dark:prose-invert max-w-none break-words [overflow-wrap:break-word]"> <h1 id="protocol-overhead-http11-vs-http2-vs-http3-and-grpc-in-numbers">Protocol Overhead: HTTP/1.1 vs HTTP/2 vs HTTP/3 and gRPC in Numbers</h1>
+<p>The content platform serves an article list API that returns 50 article summaries per request. The frontend makes this call on every page load, along with 12 additional requests for recommendations, user state, analytics scripts, fonts, and images. Under HTTP/1.1, the browser opens 6 connections per origin. Those 12 additional requests queue behind the first 6, adding 200ms of waiting time that has nothing to do with server processing.</p>
+<p>Switching to HTTP/2 eliminates the queue. Switching to gRPC for internal service-to-service calls cuts serialization overhead by 60%. This chapter measures each protocol’s overhead on the same workload and shows where the time goes.</p>
+<h2 id="the-cost-of-a-connection">The Cost of a Connection</h2>
+<p><img src="/books/Fast_by_Design/ch22-protocol-overhead.svg" alt="Protocol Overhead Comparison" loading="lazy" decoding="async"></p>
+<p>Before any application data flows, the client and server negotiate a connection. The time spent in this negotiation varies dramatically across protocols:</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plaintext"><code><span class="line"><span>HTTP/1.1 + TLS 1.2:</span></span>
+<span class="line"><span>  TCP handshake:      1 RTT (SYN, SYN-ACK, ACK)</span></span>
+<span class="line"><span>  TLS handshake:      2 RTT (ClientHello, ServerHello+Cert, Finished)</span></span>
+<span class="line"><span>  Total before data:  3 RTT</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>HTTP/1.1 + TLS 1.3:</span></span>
+<span class="line"><span>  TCP handshake:      1 RTT</span></span>
+<span class="line"><span>  TLS handshake:      1 RTT (0.5 RTT savings from combined messages)</span></span>
+<span class="line"><span>  Total before data:  2 RTT</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>HTTP/2 + TLS 1.3:</span></span>
+<span class="line"><span>  TCP handshake:      1 RTT</span></span>
+<span class="line"><span>  TLS handshake:      1 RTT (ALPN negotiates h2 during TLS)</span></span>
+<span class="line"><span>  Total before data:  2 RTT (same as HTTP/1.1+TLS1.3, but one connection serves all)</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>HTTP/3 + QUIC:</span></span>
+<span class="line"><span>  QUIC handshake:     1 RTT (crypto + transport in one flight)</span></span>
+<span class="line"><span>  Total before data:  1 RTT</span></span>
+<span class="line"><span>  Resumption:         0 RTT (0-RTT with cached session ticket)</span></span></code></pre>
+<p>For users on mobile networks with 80ms RTT, this translates to:</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plaintext"><code><span class="line"><span>HTTP/1.1 + TLS 1.2:  240ms before first byte (per connection)</span></span>
+<span class="line"><span>HTTP/1.1 + TLS 1.3:  160ms before first byte (per connection)</span></span>
+<span class="line"><span>HTTP/2 + TLS 1.3:    160ms before first byte (one connection, reused)</span></span>
+<span class="line"><span>HTTP/3 + QUIC:       80ms before first byte</span></span>
+<span class="line"><span>HTTP/3 + 0-RTT:      0ms additional (data sent with handshake)</span></span></code></pre>
+<p>The content platform serves users globally. In Southeast Asia, typical RTT to our US-East servers is 180ms. The protocol choice adds between 180ms and 540ms of pure connection overhead before any application data moves.</p>
+<h2 id="head-of-line-blocking-in-http11">Head-of-Line Blocking in HTTP/1.1</h2>
+<p>HTTP/1.1 is a strictly serial protocol on each connection. The client sends a request, waits for the complete response, then sends the next request. HTTP pipelining was standardized but never reliably deployed due to intermediary incompatibilities. In practice, browsers enforce 6 connections per origin (Chrome, Firefox) or 8 (older IE):</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// SLOW: HTTP/1.1 with 6 concurrent connections, 13 resources needed</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// Timeline for 13 requests on 6 connections (50ms server processing each):</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">//</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// Conn 1: [---req1---][---req7---][---req13---]</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// Conn 2: [---req2---][---req8---]</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// Conn 3: [---req3---][---req9---]</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// Conn 4: [---req4---][---req10--]</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// Conn 5: [---req5---][---req11--]</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// Conn 6: [---req6---][---req12--]</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">//</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// Total time: 3 rounds * 50ms = 150ms (plus connection setup per conn)</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// Actual time with 80ms RTT: 150ms + (6 * 160ms TLS setup) = 1110ms</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// FAST: HTTP/2 single connection, all 13 requests concurrent</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// Timeline for 13 requests on 1 multiplexed connection:</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">//</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// Stream 1:  [---req1---]</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// Stream 3:  [---req2---]</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// Stream 5:  [---req3---]</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// ...</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// Stream 25: [---req13--]</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">//</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// Total time: 50ms (all concurrent) + 160ms (one TLS setup) = 210ms</span></span></code></pre>
+<p>The gap widens with more resources. A typical content platform page loads:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Resource Type</th><th>Count</th><th>Avg Size</th></tr></thead><tbody><tr><td>Article list API</td><td>1</td><td>45KB</td></tr><tr><td>Recommendation API</td><td>1</td><td>12KB</td></tr><tr><td>User state API</td><td>1</td><td>2KB</td></tr><tr><td>Analytics scripts</td><td>3</td><td>35KB each</td></tr><tr><td>Font files</td><td>4</td><td>25KB each</td></tr><tr><td>Hero images</td><td>3</td><td>80KB each</td></tr><tr><td>CSS bundles</td><td>2</td><td>18KB each</td></tr><tr><td>Total</td><td>15</td><td>511KB</td></tr></tbody></table>
+<p>Under HTTP/1.1, the 15 resources require 3 rounds of 6. Under HTTP/2, all 15 fly concurrently on one connection.</p>
+<h2 id="http2-multiplexing">HTTP/2 Multiplexing</h2>
+<p>HTTP/2 replaces the text-based request/response model with binary frames multiplexed over a single TCP connection. Each request/response pair operates on a numbered stream. Frames from different streams interleave on the wire:</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// HTTP/2 frame structure</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// +-----------------------------------------------+</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// |                 Length (24 bits)               |</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// +---------------+-------------------------------+</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// |  Type (8 bits)|  Flags (8 bits)               |</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// +-+-------------+-------------------------------+</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// |R|         Stream Identifier (31 bits)         |</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// +-+---------------------------------------------+</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// |              Frame Payload (0-16384 bytes)     |</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// +-----------------------------------------------+</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// Frame types relevant to performance:</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// DATA (0x0)      - response body chunks</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// HEADERS (0x1)   - compressed headers (HPACK)</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// PRIORITY (0x2)  - stream priority (deprecated in favor of RFC 9218)</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// RST_STREAM (0x3)- cancel a single stream without killing connection</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// SETTINGS (0x4)  - negotiation (max concurrent streams, window size)</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// WINDOW_UPDATE (0x7) - flow control per-stream and connection-level</span></span></code></pre>
+<p>The multiplexing eliminates application-layer HOL blocking but introduces a TCP-layer variant. If a single TCP packet is lost, all streams stall until retransmission completes. This is the motivation for HTTP/3.</p>
+<h2 id="http3-and-quic">HTTP/3 and QUIC</h2>
+<p>QUIC moves transport and TLS into a single UDP-based protocol. Each stream has independent loss recovery. A lost packet on stream 5 does not block data delivery on stream 7:</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// HTTP/3 over QUIC: independent stream loss recovery</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">//</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// TCP (HTTP/2): Packet loss on any stream blocks ALL streams</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// [Stream1-data][Stream2-data][LOST][Stream3-data][Stream4-data]</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">//                                    ^^^^ blocked waiting for retransmit</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">//</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// QUIC (HTTP/3): Packet loss on one stream blocks only THAT stream</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// Stream 1: [data][data][data]          -> delivered</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// Stream 2: [data][LOST][data]          -> stream 2 waits</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// Stream 3: [data][data][data]          -> delivered (independent)</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// Stream 4: [data][data][data]          -> delivered (independent)</span></span></code></pre>
+<p>QUIC also supports connection migration. When a mobile user switches from WiFi to cellular, the connection ID persists. No new handshake required:</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// Connection migration scenario (content platform mobile user):</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// 1. User reading article on WiFi (connection ID: 0x1a2b3c)</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// 2. User walks outside, phone switches to cellular</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// 3. IP address changes from 192.168.1.50 to 100.64.0.7</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// 4. QUIC connection continues with same ID (0x1a2b3c)</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// 5. No re-handshake, no state loss, no request retry</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">//</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// Under HTTP/2 + TCP:</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// 1. TCP connection bound to (src_ip, src_port, dst_ip, dst_port)</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// 2. IP change kills the connection</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// 3. New TCP + TLS handshake: 2 RTT</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// 4. Application must detect failure, reconnect, retry in-flight requests</span></span></code></pre>
+<h2 id="grpc-for-internal-services">gRPC for Internal Services</h2>
+<p>The content platform’s backend consists of 5 services: article-service, search-service, recommendation-service, analytics-service, and user-service. These communicate over the internal network with 0.5ms RTT. At this latency, protocol overhead as a percentage of total request time is significant.</p>
+<p>gRPC combines HTTP/2 transport with Protocol Buffers serialization:</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="protobuf"><code><span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// article_service.proto</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">syntax</span><span style="color:#D73A49;--shiki-dark:#F97583"> =</span><span style="color:#032F62;--shiki-dark:#9ECBFF"> "proto3"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">package</span><span style="color:#032F62;--shiki-dark:#9ECBFF"> content.platform</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">service</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> ArticleService</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  rpc</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> GetArticleList</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#6F42C1;--shiki-dark:#B392F0">ArticleListRequest</span><span style="color:#24292E;--shiki-dark:#E1E4E8">) </span><span style="color:#D73A49;--shiki-dark:#F97583">returns</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#6F42C1;--shiki-dark:#B392F0">ArticleListResponse</span><span style="color:#24292E;--shiki-dark:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  rpc</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> GetArticleBatch</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#6F42C1;--shiki-dark:#B392F0">BatchRequest</span><span style="color:#24292E;--shiki-dark:#E1E4E8">) </span><span style="color:#D73A49;--shiki-dark:#F97583">returns</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#D73A49;--shiki-dark:#F97583">stream</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> ArticleSummary</span><span style="color:#24292E;--shiki-dark:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  rpc</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> StreamViewEvents</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#D73A49;--shiki-dark:#F97583">stream</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> ViewEvent</span><span style="color:#24292E;--shiki-dark:#E1E4E8">) </span><span style="color:#D73A49;--shiki-dark:#F97583">returns</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#6F42C1;--shiki-dark:#B392F0">ViewEventAck</span><span style="color:#24292E;--shiki-dark:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">message</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> ArticleListRequest</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  int32</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> page_size </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> 1</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  string</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> cursor </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> 2</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  repeated</span><span style="color:#D73A49;--shiki-dark:#F97583"> string</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> categories </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> 3</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">message</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> ArticleSummary</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  string</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> id </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> 1</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  string</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> title </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> 2</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  string</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> excerpt </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> 3</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  int64</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> view_count </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> 4</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  int64</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> published_at_epoch </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> 5</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  repeated</span><span style="color:#D73A49;--shiki-dark:#F97583"> string</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> categories </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> 6</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  string</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> author </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> 7</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  string</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> thumbnail_url </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> 8</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">message</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> ArticleListResponse</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  repeated</span><span style="color:#D73A49;--shiki-dark:#F97583"> ArticleSummary</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> articles </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> 1</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  string</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> next_cursor </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> 2</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  int32</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> total_count </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> 3</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<p>The same payload as JSON (REST) vs Protobuf (gRPC):</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plaintext"><code><span class="line"><span>ArticleListResponse with 50 articles:</span></span>
+<span class="line"><span>  JSON:     48,230 bytes (pretty) / 37,450 bytes (minified)</span></span>
+<span class="line"><span>  Protobuf: 14,820 bytes</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Serialization time (50 articles, JMH, warm JVM):</span></span>
+<span class="line"><span>  Jackson JSON serialize:   142 us</span></span>
+<span class="line"><span>  Protobuf serialize:        38 us (3.7x faster)</span></span>
+<span class="line"><span>  Jackson JSON deserialize: 198 us</span></span>
+<span class="line"><span>  Protobuf deserialize:      52 us (3.8x faster)</span></span></code></pre>
+<h2 id="benchmark-article-list-api-across-protocols">Benchmark: Article List API Across Protocols</h2>
+<p>Test setup:</p>
+<ul>
+<li>Server: Spring Boot 3.3, Netty, 4 vCPU, 8GB RAM</li>
+<li>Client: Locust with custom protocol adapters, 10 workers</li>
+<li>Workload: GET /api/articles?page_size=50, 1000 concurrent users</li>
+<li>Network: Simulated 20ms RTT (internal DC), 80ms RTT (user-facing)</li>
+</ul>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D"># locust_http2_benchmark.py</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">from</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> locust </span><span style="color:#D73A49;--shiki-dark:#F97583">import</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> HttpUser, task, between</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">import</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> resource</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">class</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> ArticleListUser</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#6F42C1;--shiki-dark:#B392F0">HttpUser</span><span style="color:#24292E;--shiki-dark:#E1E4E8">):</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    wait_time </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> between(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">0.1</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">0.5</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">    @task</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    def</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> get_articles</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(self):</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">        self</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.client.get(</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">            "/api/articles?page_size=50"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E36209;--shiki-dark:#FFAB70">            headers</span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8">{</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"Accept"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"application/json"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        )</span></span></code></pre>
+<p>Results at 1000 concurrent users, 80ms RTT:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Metric</th><th>HTTP/1.1+TLS1.2</th><th>HTTP/2+TLS1.3</th><th>HTTP/3+QUIC</th><th>gRPC</th></tr></thead><tbody><tr><td>Connection setup</td><td>240ms</td><td>160ms (once)</td><td>80ms (once)</td><td>160ms (once)</td></tr><tr><td>P50 latency</td><td>312ms</td><td>94ms</td><td>78ms</td><td>62ms</td></tr><tr><td>P99 latency</td><td>890ms</td><td>210ms</td><td>185ms</td><td>148ms</td></tr><tr><td>Throughput (req/s)</td><td>2,840</td><td>9,200</td><td>9,800</td><td>11,400</td></tr><tr><td>Connections used</td><td>6,000</td><td>1,000</td><td>1,000</td><td>1,000</td></tr><tr><td>Bandwidth (MB/s)</td><td>106</td><td>98</td><td>95</td><td>38</td></tr><tr><td>Server memory</td><td>2.4GB</td><td>890MB</td><td>920MB</td><td>680MB</td></tr></tbody></table>
+<p>Key observations:</p>
+<ol>
+<li>HTTP/1.1 P50 is 3.3x worse than HTTP/2 because of connection contention and HOL blocking</li>
+<li>HTTP/3 improves P99 by 12% over HTTP/2 due to independent stream loss recovery</li>
+<li>gRPC beats HTTP/3 on latency (Protobuf vs JSON) and bandwidth (2.5x smaller payload)</li>
+<li>HTTP/1.1 uses 6x more connections, consuming 2.7x more server memory for connection state</li>
+</ol>
+<h2 id="connection-setup-under-packet-loss">Connection Setup Under Packet Loss</h2>
+<p>Protocol differences amplify under lossy conditions. Mobile networks commonly experience 1-3% packet loss:</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plaintext"><code><span class="line"><span>1% packet loss, 80ms RTT, connection establishment:</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>HTTP/1.1 + TLS 1.2:</span></span>
+<span class="line"><span>  No loss: 240ms</span></span>
+<span class="line"><span>  1 lost packet in handshake: 240ms + RTO(200ms) = 440ms</span></span>
+<span class="line"><span>  Per-connection cost, 6 connections needed</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>HTTP/2 + TLS 1.3:</span></span>
+<span class="line"><span>  No loss: 160ms</span></span>
+<span class="line"><span>  1 lost packet in handshake: 160ms + RTO(200ms) = 360ms</span></span>
+<span class="line"><span>  Single connection, amortized across all requests</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>HTTP/3 + QUIC:</span></span>
+<span class="line"><span>  No loss: 80ms</span></span>
+<span class="line"><span>  1 lost packet in handshake: 80ms + QUIC_RTO(~100ms) = 180ms</span></span>
+<span class="line"><span>  QUIC faster retransmission than TCP (no head-of-line blocking on ACKs)</span></span>
+<span class="line"><span>  0-RTT resumption: 0ms + data immediately</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>TCP RTO minimum: 200ms (Linux default)</span></span>
+<span class="line"><span>QUIC loss detection: ~100ms (packet threshold + time threshold)</span></span></code></pre>
+<p>Under 2% packet loss, HTTP/2 suffers from TCP HOL blocking. A single lost TCP segment blocks all HTTP/2 streams until retransmission. HTTP/3 isolates loss to individual QUIC streams:</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plaintext"><code><span class="line"><span>2% packet loss, streaming 50 article summaries:</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>HTTP/2: One lost TCP segment blocks all 50 articles</span></span>
+<span class="line"><span>  Completion time P99: 480ms (includes TCP retransmit stall)</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>HTTP/3: Lost QUIC packet blocks only affected stream(s)</span></span>
+<span class="line"><span>  Completion time P99: 210ms (unaffected streams deliver immediately)</span></span></code></pre>
+<h2 id="server-configuration-for-http2">Server Configuration for HTTP/2</h2>
+<p>Spring Boot with Netty supports HTTP/2 out of the box with TLS:</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// application.yml</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// server:</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">//   http2:</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">//     enabled: true</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">//   ssl:</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">//     enabled: true</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">//     protocol: TLS</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">//     enabled-protocols: TLSv1.3</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">//   netty:</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">//     max-concurrent-streams: 250</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">//     initial-window-size: 1048576</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">//     max-header-list-size: 8192</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">@</span><span style="color:#D73A49;--shiki-dark:#F97583">Configuration</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">public</span><span style="color:#D73A49;--shiki-dark:#F97583"> class</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> Http2Config</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> {</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    @</span><span style="color:#D73A49;--shiki-dark:#F97583">Bean</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    public</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> WebServerFactoryCustomizer&#x3C;</span><span style="color:#D73A49;--shiki-dark:#F97583">NettyReactiveWebServerFactory</span><span style="color:#24292E;--shiki-dark:#E1E4E8">> </span><span style="color:#6F42C1;--shiki-dark:#B392F0">http2Customizer</span><span style="color:#24292E;--shiki-dark:#E1E4E8">() {</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">        return</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> factory </span><span style="color:#D73A49;--shiki-dark:#F97583">-></span><span style="color:#24292E;--shiki-dark:#E1E4E8"> factory.</span><span style="color:#6F42C1;--shiki-dark:#B392F0">addServerCustomizers</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(httpServer </span><span style="color:#D73A49;--shiki-dark:#F97583">-></span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            httpServer.</span><span style="color:#6F42C1;--shiki-dark:#B392F0">httpRequestDecoder</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(spec </span><span style="color:#D73A49;--shiki-dark:#F97583">-></span><span style="color:#24292E;--shiki-dark:#E1E4E8"> spec</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">                .</span><span style="color:#6F42C1;--shiki-dark:#B392F0">maxHeaderSize</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">8192</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">                .</span><span style="color:#6F42C1;--shiki-dark:#B392F0">maxInitialLineLength</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">4096</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            )</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        );</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<p>Critical tuning parameters:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Parameter</th><th>Default</th><th>Recommended</th><th>Rationale</th></tr></thead><tbody><tr><td>max-concurrent-streams</td><td>100</td><td>250</td><td>Content pages load 15+ resources; allow headroom</td></tr><tr><td>initial-window-size</td><td>65535</td><td>1048576</td><td>64KB window forces frequent WINDOW_UPDATE frames</td></tr><tr><td>max-header-list-size</td><td>8192</td><td>16384</td><td>Large cookies or auth tokens can exceed 8KB</td></tr></tbody></table>
+<h2 id="trade-offs">Trade-offs</h2>
+<p>HTTP/2 is not universally better. For single large downloads (video streaming, file transfer), HTTP/1.1’s simplicity means less framing overhead. For the content platform’s mixed workload of many small API calls plus some large media, HTTP/2 wins decisively.</p>
+<p>HTTP/3 adoption requires QUIC support in load balancers and CDNs. As of 2024, Cloudflare, Google Cloud, and AWS CloudFront support HTTP/3. Nginx added experimental QUIC in 1.25.0. For the content platform fronted by Cloudflare, HTTP/3 is automatic for browser traffic.</p>
+<p>gRPC is optimal for service-to-service communication where both sides control the stack. It adds complexity: .proto file management, code generation build steps, harder debugging (binary protocol). For the content platform’s 5 internal services with 50+ RPC endpoints, the 3.7x serialization speedup and 2.5x bandwidth reduction justify the investment.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Protocol</th><th>Best For</th><th>Avoid When</th></tr></thead><tbody><tr><td>HTTP/1.1</td><td>Legacy clients, simple proxies</td><td>High-concurrency, mobile users</td></tr><tr><td>HTTP/2</td><td>Browser-facing APIs, mixed resource pages</td><td>Single large transfers, UDP-blocked networks</td></tr><tr><td>HTTP/3</td><td>Mobile users, lossy networks, global users</td><td>Internal DC traffic (0.5ms RTT, no loss)</td></tr><tr><td>gRPC</td><td>Internal services, streaming, high-throughput</td><td>Public APIs, browser clients, debugging ease</td></tr></tbody></table>
+<p>The content platform uses all four: HTTP/3 at the CDN edge for browsers, HTTP/2 between CDN and origin, gRPC between internal services, and HTTP/1.1 only for health check endpoints consumed by legacy monitoring.</p> </div> <!-- Chapter Navigation --> <nav class="mt-16 pt-8 border-t border-border/50"> <div class="grid grid-cols-1 sm:grid-cols-2 gap-4"> <a href="/books/fast-by-design/ch21-s2/" class="group flex items-center gap-4 p-4 rounded-xl border border-border/50 bg-card/50 hover:border-primary/40 hover:bg-card transition-all duration-200"> <div class="shrink-0 w-10 h-10 rounded-lg bg-muted flex items-center justify-center group-hover:bg-primary/10 transition-colors"> <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground group-hover:text-primary transition-colors"><path d="M15 19l-7-7 7-7" /></svg> </div> <div class="min-w-0"> <div class="text-xs text-muted-foreground mb-1">Previous</div> <div class="font-medium text-sm line-clamp-2">Autovacuum Tuning and Bloat Prevention</div> </div> </a> <a href="/books/fast-by-design/ch22-s1/" class="group flex items-center gap-4 p-4 rounded-xl border border-border/50 bg-card/50 hover:border-primary/40 hover:bg-card transition-all duration-200 sm:text-right sm:flex-row-reverse"> <div class="shrink-0 w-10 h-10 rounded-lg bg-muted flex items-center justify-center group-hover:bg-primary/10 transition-colors"> <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground group-hover:text-primary transition-colors"><path d="M9 5l7 7-7 7" /></svg> </div> <div class="min-w-0"> <div class="text-xs text-muted-foreground mb-1">Next</div> <div class="font-medium text-sm line-clamp-2">HTTP/2 Multiplexing and the End of Connection Limits</div> </div> </a> </div> </nav> </article> </div> </div>  </main> <!-- Footer with gradient accent --> <footer class="border-t border-border/50 mt-auto relative bg-background/50 backdrop-blur-sm"> <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent"></div> <div class="container mx-auto px-4 py-8"> <div class="flex flex-col md:flex-row items-center justify-between gap-6">  <div class="flex flex-col items-center md:items-start gap-4"> <nav class="flex flex-wrap items-center justify-center md:justify-start gap-x-6 gap-y-2 text-sm text-muted-foreground"> <a href="/about" class="hover:text-foreground transition-colors">About</a> <a href="/terms" class="hover:text-foreground transition-colors">Terms & License</a> <a href="mailto:arezki.elmehdi@gmail.com?subject=Hello%20Dev|Journal&body=Hi%20Mehdi," class="hover:text-foreground transition-colors">Contact</a> <div class="hidden md:block w-px h-3 bg-border"></div> <a href="https://github.com/earezki" target="_blank" rel="noopener noreferrer" class="hover:text-foreground transition-colors">GitHub</a> <a href="/rss.xml" class="hover:text-foreground transition-colors">RSS</a> <a href="/tags/" class="hover:text-foreground transition-colors">Tags</a> <a href="/learning-paths/" class="hover:text-foreground transition-colors">Paths</a> <a href="/sitemap-index.xml" class="hover:text-foreground transition-colors">Sitemap</a> <a href="/subscribe" class="hover:text-foreground transition-colors">Subscribe</a> </nav> <p class="text-muted-foreground text-sm text-center md:text-left">
+&copy; 2026 AREZKI El Mehdi
+</p> </div>  <div class="w-full md:w-auto md:min-w-[280px]"> <astro-island uid="kvPS3" component-url="/_astro/EmailSubscribeInput.BhXk2aXw.js" component-export="EmailSubscribeInput" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;placeholder&quot;:[0,&quot;Subscribe to newsletter&quot;],&quot;buttonLabel&quot;:[0,&quot;Join&quot;],&quot;glow&quot;:[0,true]}" ssr client="idle" opts="{&quot;name&quot;:&quot;EmailSubscribeInput&quot;,&quot;value&quot;:true}" await-children><form class="relative group "><div class="absolute -inset-0.5 bg-gradient-to-r from-primary via-purple-500 to-pink-500 rounded-lg blur opacity-75 animate-pulse group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div><div class="relative flex items-center bg-background rounded-lg border border-border/50 p-1"><input type="email" required value placeholder="Subscribe to newsletter" class="bg-transparent border-none focus:ring-0 text-sm outline-none placeholder:text-muted-foreground/50 text-foreground w-full px-3 py-1.5"/><button type="submit" class="shrink-0 bg-primary text-primary-foreground rounded-md text-sm font-medium hover:bg-primary/90 transition-colors shadow-sm flex items-center gap-1.5 px-4 py-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send h-3.5 w-3.5" aria-hidden="true"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"></path><path d="m21.854 2.147-10.94 10.939"></path></svg><span class="hidden sm:inline">Join</span></button></div></form><!--astro:end--></astro-island> </div> </div> </div> </footer> <!-- Global persistent audio player --> <astro-island uid="s0SLI" component-url="/_astro/GlobalMiniPlayer.DHYxfY6N.js" component-export="GlobalMiniPlayer" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;latestEpisodeUrl&quot;:[0,&quot;https://weekly.podcast.earezki.com/morning_brief_2026-05-28.mp3&quot;],&quot;latestEpisodeTitle&quot;:[0,&quot;Spaghetti at Scale&quot;],&quot;preloadIfEmpty&quot;:[0,false]}" ssr client="only" opts="{&quot;name&quot;:&quot;GlobalMiniPlayer&quot;,&quot;value&quot;:&quot;preact&quot;}"></astro-island> <!-- SVG lightbox: click any SVG diagram in content to zoom; pinch-to-zoom on mobile --> <script>
+      (function () {
+        function openLightbox(src, alt) {
+          var scale = 1;
+          var pinchStartDist = 0;
+          var pinchStartScale = 1;
+          var lastTap = 0;
+
+          var backdrop = document.createElement("div");
+          Object.assign(backdrop.style, {
+            position: "fixed",
+            top: "0",
+            left: "0",
+            right: "0",
+            bottom: "0",
+            zIndex: "9998",
+            background: "rgba(0,0,0,0.88)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            cursor: "zoom-out",
+          });
+
+          var wrapper = document.createElement("div");
+          Object.assign(wrapper.style, {
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            touchAction: "none",
+            cursor: "default",
+          });
+
+          var img = document.createElement("img");
+          img.src = src;
+          img.alt = alt || "";
+          Object.assign(img.style, {
+            display: "block",
+            width: "90vw",
+            height: "90vh",
+            objectFit: "contain",
+            borderRadius: "6px",
+            boxShadow: "0 24px 48px rgba(0,0,0,0.6)",
+            userSelect: "none",
+            WebkitUserSelect: "none",
+            cursor: "zoom-out",
+            transformOrigin: "center",
+            willChange: "transform",
+          });
+
+          function setScale(s) {
+            scale = Math.min(Math.max(s, 1), 5);
+            img.style.transform = scale === 1 ? "" : "scale(" + scale + ")";
+          }
+
+          img.addEventListener("click", function (e) {
+            e.stopPropagation();
+            if (scale > 1) setScale(1);
+            else close();
+          });
+
+          wrapper.addEventListener(
+            "touchstart",
+            function (e) {
+              if (e.touches.length === 2) {
+                pinchStartDist = Math.hypot(
+                  e.touches[1].clientX - e.touches[0].clientX,
+                  e.touches[1].clientY - e.touches[0].clientY,
+                );
+                pinchStartScale = scale;
+                e.preventDefault();
+              } else if (e.touches.length === 1) {
+                var now = Date.now();
+                if (now - lastTap < 300) {
+                  setScale(scale > 1 ? 1 : 2.5);
+                  e.preventDefault();
+                }
+                lastTap = now;
+              }
+            },
+            { passive: false },
+          );
+
+          wrapper.addEventListener(
+            "touchmove",
+            function (e) {
+              if (e.touches.length === 2) {
+                var dist = Math.hypot(
+                  e.touches[1].clientX - e.touches[0].clientX,
+                  e.touches[1].clientY - e.touches[0].clientY,
+                );
+                setScale(pinchStartScale * (dist / pinchStartDist));
+                e.preventDefault();
+              }
+            },
+            { passive: false },
+          );
+
+          wrapper.addEventListener("touchend", function (e) {
+            if (scale < 1.05) setScale(1);
+          });
+
+          function close() {
+            backdrop.remove();
+            document.removeEventListener("keydown", keyHandler);
+            document.body.style.overflow = "";
+          }
+
+          function keyHandler(e) {
+            if (e.key === "Escape") close();
+          }
+          document.addEventListener("keydown", keyHandler);
+          backdrop.addEventListener("click", close);
+          document.body.style.overflow = "hidden";
+
+          wrapper.appendChild(img);
+          backdrop.appendChild(wrapper);
+          document.body.appendChild(backdrop);
+        }
+
+        function initSvgLightbox() {
+          document
+            .querySelectorAll("main img[src$='.svg']")
+            .forEach(function (img) {
+              if (img.closest("button, a")) return;
+              img.style.cursor = "zoom-in";
+              img.addEventListener("click", function (e) {
+                e.preventDefault();
+                openLightbox(img.src, img.alt);
+              });
+            });
+        }
+
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", initSvgLightbox);
+        } else {
+          initSvgLightbox();
+        }
+      })();
+    </script> <!-- Copy button for code blocks --> <script>
+      (function () {
+        function addCopyButtons() {
+          document
+            .querySelectorAll("pre:not([data-copy-added])")
+            .forEach(function (pre) {
+              pre.setAttribute("data-copy-added", "true");
+              pre.style.position = "relative";
+
+              var btn = document.createElement("button");
+              btn.setAttribute("aria-label", "Copy code");
+              btn.setAttribute("title", "Copy code");
+              btn.className = "code-copy-btn";
+              btn.innerHTML =
+                '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>';
+
+              btn.addEventListener("click", function () {
+                var code = pre.querySelector("code");
+                var text = code ? code.innerText : pre.innerText;
+                navigator.clipboard.writeText(text).then(function () {
+                  btn.innerHTML =
+                    '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>';
+                  btn.setAttribute("aria-label", "Copied!");
+                  setTimeout(function () {
+                    btn.innerHTML =
+                      '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>';
+                    btn.setAttribute("aria-label", "Copy code");
+                  }, 2000);
+                });
+              });
+
+              pre.appendChild(btn);
+            });
+        }
+
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", addCopyButtons);
+        } else {
+          addCopyButtons();
+        }
+      })();
+    </script> </body> </html>

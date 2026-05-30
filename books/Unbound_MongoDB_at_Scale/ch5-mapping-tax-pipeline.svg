@@ -1,0 +1,53 @@
+<svg viewBox="0 0 800 400" width="800" height="400" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="400" fill="#1e1e2e" rx="8"/>
+  <text x="400" y="30" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="16" font-weight="bold">Spring Data Mapping Tax: Request Pipeline</text>
+  <!-- Pipeline stages -->
+  <rect x="30" y="70" width="100" height="50" fill="#313244" stroke="#89b4fa" stroke-width="2" rx="6"/>
+  <text x="80" y="100" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="9">MongoDB Wire</text>
+  <text x="80" y="85" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="8">BSON bytes</text>
+  <path d="M130,95 L155,95" fill="none" stroke="#585b70" stroke-width="1.5" marker-end="url(#arr5)"/>
+  <rect x="155" y="70" width="100" height="50" fill="#313244" stroke="#89b4fa" stroke-width="2" rx="6"/>
+  <text x="205" y="100" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="9">BsonDocument</text>
+  <text x="205" y="85" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="8">0.8ms</text>
+  <path d="M255,95 L280,95" fill="none" stroke="#585b70" stroke-width="1.5" marker-end="url(#arr5)"/>
+  <!-- Spring Data path (slow) -->
+  <rect x="280" y="50" width="110" height="40" fill="#313244" stroke="#f38ba8" stroke-width="2" rx="6"/>
+  <text x="335" y="75" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="9">Reflection</text>
+  <text x="335" y="63" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="8">2.1ms</text>
+  <path d="M390,70 L415,70" fill="none" stroke="#585b70" stroke-width="1.5" marker-end="url(#arr5)"/>
+  <rect x="415" y="50" width="110" height="40" fill="#313244" stroke="#f38ba8" stroke-width="2" rx="6"/>
+  <text x="470" y="75" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="9">Type Convert</text>
+  <text x="470" y="63" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="8">0.9ms</text>
+  <path d="M525,70 L550,70" fill="none" stroke="#585b70" stroke-width="1.5" marker-end="url(#arr5)"/>
+  <rect x="550" y="50" width="100" height="40" fill="#313244" stroke="#f38ba8" stroke-width="2" rx="6"/>
+  <text x="600" y="75" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="9">POJO</text>
+  <text x="600" y="63" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="8">Total: 3.8ms</text>
+  <!-- Direct driver path (fast) -->
+  <rect x="280" y="130" width="110" height="40" fill="#313244" stroke="#a6e3a1" stroke-width="2" rx="6"/>
+  <text x="335" y="155" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="9">Custom Codec</text>
+  <text x="335" y="143" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="8">0.3ms</text>
+  <path d="M390,150 L550,150" fill="none" stroke="#585b70" stroke-width="1.5" marker-end="url(#arr5)"/>
+  <rect x="550" y="130" width="100" height="40" fill="#313244" stroke="#a6e3a1" stroke-width="2" rx="6"/>
+  <text x="600" y="155" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="9">POJO</text>
+  <text x="600" y="143" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="8">Total: 1.1ms</text>
+  <!-- Labels -->
+  <text x="700" y="75" fill="#f38ba8" font-family="monospace" font-size="10">// SLOW</text>
+  <text x="700" y="155" fill="#a6e3a1" font-family="monospace" font-size="10">// FAST</text>
+  <path d="M260,95 Q270,70 280,70" fill="none" stroke="#585b70" stroke-width="1"/>
+  <path d="M260,95 Q270,150 280,150" fill="none" stroke="#585b70" stroke-width="1"/>
+  <!-- JMH results comparison -->
+  <text x="400" y="210" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="14" font-weight="bold">JMH Benchmark: 10,000 Document Reads</text>
+  <rect x="80" y="230" width="300" height="140" fill="#313244" stroke="#f38ba8" stroke-width="1" rx="6"/>
+  <text x="230" y="255" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="12">MongoTemplate (Spring Data)</text>
+  <text x="230" y="280" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="10">Throughput: 2,340 ops/sec</text>
+  <text x="230" y="300" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="10">Avg time: 427 μs/op</text>
+  <text x="230" y="320" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="10">Alloc rate: 5.6 KB/op</text>
+  <text x="230" y="345" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="10">GC pauses: 340ms/min</text>
+  <rect x="420" y="230" width="300" height="140" fill="#313244" stroke="#a6e3a1" stroke-width="1" rx="6"/>
+  <text x="570" y="255" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="12">Custom Codec (Raw Driver)</text>
+  <text x="570" y="280" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="10">Throughput: 8,920 ops/sec</text>
+  <text x="570" y="300" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="10">Avg time: 112 μs/op</text>
+  <text x="570" y="320" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="10">Alloc rate: 1.4 KB/op</text>
+  <text x="570" y="345" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10">GC pauses: 85ms/min</text>
+  <defs><marker id="arr5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#585b70"/></marker></defs>
+</svg>

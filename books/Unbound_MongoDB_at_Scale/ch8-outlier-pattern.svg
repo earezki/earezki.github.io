@@ -1,0 +1,46 @@
+<svg viewBox="0 0 800 420" width="800" height="420" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="420" fill="#1e1e2e" rx="8"/>
+  <text x="400" y="30" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="16" font-weight="bold">Unbounded Array Growth: The Outlier Pattern</text>
+  <!-- Growing document -->
+  <text x="200" y="60" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="13" font-weight="bold">Document Growth Over Time</text>
+  <rect x="60" y="75" width="60" height="40" fill="#89b4fa" stroke="#89b4fa" stroke-width="1" rx="3"/>
+  <text x="90" y="100" text-anchor="middle" fill="#1e1e2e" font-family="monospace" font-size="8">Day 1</text>
+  <text x="90" y="125" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="8">2 KB</text>
+  <rect x="135" y="55" width="60" height="60" fill="#89b4fa" stroke="#89b4fa" stroke-width="1" rx="3"/>
+  <text x="165" y="90" text-anchor="middle" fill="#1e1e2e" font-family="monospace" font-size="8">Month 1</text>
+  <text x="165" y="125" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="8">48 KB</text>
+  <rect x="210" y="30" width="60" height="85" fill="#f9e2af" stroke="#f9e2af" stroke-width="1" rx="3"/>
+  <text x="240" y="80" text-anchor="middle" fill="#1e1e2e" font-family="monospace" font-size="8">Month 6</text>
+  <text x="240" y="125" text-anchor="middle" fill="#f9e2af" font-family="monospace" font-size="8">290 KB</text>
+  <rect x="285" y="10" width="60" height="105" fill="#f38ba8" stroke="#f38ba8" stroke-width="1" rx="3"/>
+  <text x="315" y="70" text-anchor="middle" fill="#1e1e2e" font-family="monospace" font-size="8">Year 1</text>
+  <text x="315" y="125" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="8">580 KB</text>
+  <!-- 16MB limit line -->
+  <line x1="60" y1="8" x2="370" y2="8" stroke="#f38ba8" stroke-width="2" stroke-dasharray="6,3"/>
+  <text x="370" y="12" fill="#f38ba8" font-family="monospace" font-size="9">16 MB BSON limit</text>
+  <!-- Outlier pattern solution -->
+  <text x="600" y="60" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="13" font-weight="bold">Outlier Pattern Solution</text>
+  <!-- Main doc -->
+  <rect x="460" y="75" width="280" height="80" fill="#313244" stroke="#a6e3a1" stroke-width="2" rx="6"/>
+  <text x="600" y="95" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10">Main Document</text>
+  <text x="600" y="112" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="9">followers: [first 500 entries]</text>
+  <text x="600" y="127" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="9">hasOverflow: true</text>
+  <text x="600" y="142" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="9">followerCount: 12,847</text>
+  <!-- Overflow docs -->
+  <rect x="460" y="170" width="130" height="50" fill="#313244" stroke="#89b4fa" stroke-width="1" rx="4"/>
+  <text x="525" y="195" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="9">Overflow Page 1</text>
+  <text x="525" y="210" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="8">entries 501-1000</text>
+  <rect x="610" y="170" width="130" height="50" fill="#313244" stroke="#89b4fa" stroke-width="1" rx="4"/>
+  <text x="675" y="195" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="9">Overflow Page N</text>
+  <text x="675" y="210" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="8">entries N*500+1...</text>
+  <!-- Arrows -->
+  <line x1="540" y1="155" x2="525" y2="170" stroke="#585b70" stroke-width="1.5"/>
+  <line x1="660" y1="155" x2="675" y2="170" stroke="#585b70" stroke-width="1.5"/>
+  <!-- Decision rules -->
+  <rect x="60" y="250" width="680" height="150" fill="#313244" stroke="#89b4fa" stroke-width="1" rx="6"/>
+  <text x="400" y="275" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="13" font-weight="bold">Decision Rule: When to Apply the Outlier Pattern</text>
+  <text x="400" y="305" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="11">Apply when: Array growth is unbounded AND &lt;5% of documents exceed the threshold</text>
+  <text x="400" y="330" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="11">Do not apply when: Most documents exceed the threshold (use a separate collection)</text>
+  <text x="400" y="355" text-anchor="middle" fill="#f9e2af" font-family="monospace" font-size="11">Threshold: Set at 500 entries or when document size exceeds 100 KB</text>
+  <text x="400" y="380" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="10">The 95/5 rule: 95% of documents stay fast. 5% pay a second query. Acceptable trade-off.</text>
+</svg>

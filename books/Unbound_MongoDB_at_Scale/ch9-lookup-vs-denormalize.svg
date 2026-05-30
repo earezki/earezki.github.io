@@ -1,0 +1,45 @@
+<svg viewBox="0 0 800 420" width="800" height="420" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="420" fill="#1e1e2e" rx="8"/>
+  <text x="400" y="30" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="16" font-weight="bold">$lookup vs Denormalization: Memory and Latency</text>
+  <!-- $lookup path -->
+  <text x="200" y="60" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="13" font-weight="bold">$lookup (Normalized)</text>
+  <rect x="50" y="75" width="130" height="40" fill="#313244" stroke="#89b4fa" stroke-width="2" rx="6"/>
+  <text x="115" y="100" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="10">activities</text>
+  <path d="M180,95 L220,95" fill="none" stroke="#f38ba8" stroke-width="2" marker-end="url(#arr9)"/>
+  <text x="200" y="85" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="8">$lookup</text>
+  <rect x="220" y="75" width="130" height="40" fill="#313244" stroke="#89b4fa" stroke-width="2" rx="6"/>
+  <text x="285" y="100" text-anchor="middle" fill="#89b4fa" font-family="monospace" font-size="10">users</text>
+  <rect x="50" y="130" width="300" height="75" fill="#313244" stroke="#f38ba8" stroke-width="1" rx="4"/>
+  <text x="200" y="150" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="10">100MB RAM limit per pipeline stage</text>
+  <text x="200" y="168" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="10">Latency: 420ms (10K activities)</text>
+  <text x="200" y="186" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="10">Fails at 50K+ activities (OOM)</text>
+  <!-- Denormalized path -->
+  <text x="600" y="60" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="13" font-weight="bold">Denormalized (Embedded)</text>
+  <rect x="460" y="75" width="280" height="130" fill="#313244" stroke="#a6e3a1" stroke-width="2" rx="6"/>
+  <text x="600" y="100" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="10">{activityId: "...",</text>
+  <text x="600" y="118" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="10"> type: "sensor_reading",</text>
+  <text x="600" y="136" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="10"> user: {name: "...", avatar: "..."},</text>
+  <text x="600" y="154" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="10"> device: {model: "...", fw: "2.1"}}</text>
+  <text x="600" y="172" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10">Single document, no join</text>
+  <text x="600" y="192" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10">Latency: 3ms</text>
+  <!-- Decision matrix -->
+  <rect x="60" y="240" width="680" height="150" fill="#313244" stroke="#89b4fa" stroke-width="1" rx="6"/>
+  <text x="400" y="265" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="13" font-weight="bold">Decision Matrix</text>
+  <text x="150" y="290" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="10">Criteria</text>
+  <text x="380" y="290" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10">Denormalize</text>
+  <text x="600" y="290" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="10">Normalize + $lookup</text>
+  <line x1="80" y1="298" x2="720" y2="298" stroke="#585b70" stroke-width="1"/>
+  <text x="150" y="318" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="10">Read/write ratio</text>
+  <text x="380" y="318" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10">Read-heavy (>10:1)</text>
+  <text x="600" y="318" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="10">Write-heavy (<3:1)</text>
+  <text x="150" y="340" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="10">Update frequency</text>
+  <text x="380" y="340" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10">Rarely changes</text>
+  <text x="600" y="340" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="10">Changes frequently</text>
+  <text x="150" y="362" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="10">Atomicity need</text>
+  <text x="380" y="362" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10">Read consistency</text>
+  <text x="600" y="362" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="10">Write atomicity</text>
+  <text x="150" y="382" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="10">Data duplication</text>
+  <text x="380" y="382" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10">Acceptable</text>
+  <text x="600" y="382" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="10">Unacceptable</text>
+  <defs><marker id="arr9" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#f38ba8"/></marker></defs>
+</svg>

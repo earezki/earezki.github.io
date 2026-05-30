@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 650" width="900" height="650">
+  <defs>
+    <marker id="arrBlue" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#89b4fa"/>
+    </marker>
+    <marker id="arrGreen" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#a6e3a1"/>
+    </marker>
+    <marker id="arrRed" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#f38ba8"/>
+    </marker>
+  </defs>
+  <rect width="900" height="650" rx="8" fill="#1e1e2e"/>
+
+  <!-- Title -->
+  <text x="450" y="30" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="16" font-weight="bold">Sort Performance: Sequential vs Parallel vs TimSort on Partial Data</text>
+
+  <!-- Y-axis label -->
+  <text x="18" y="340" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="11" transform="rotate(-90 18 340)">Time (microseconds)</text>
+
+  <!-- X-axis label -->
+  <text x="470" y="590" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="11">Array Size</text>
+
+  <!-- Chart area -->
+  <rect x="80" y="50" width="780" height="500" rx="4" fill="#181825" stroke="#45475a" stroke-width="1"/>
+
+  <!-- Y-axis grid lines and labels -->
+  <line x1="80" y1="100" x2="860" y2="100" stroke="#313244" stroke-width="1" stroke-dasharray="4,4"/>
+  <text x="70" y="104" text-anchor="end" fill="#6c7086" font-family="monospace" font-size="9">20,000</text>
+
+  <line x1="80" y1="175" x2="860" y2="175" stroke="#313244" stroke-width="1" stroke-dasharray="4,4"/>
+  <text x="70" y="179" text-anchor="end" fill="#6c7086" font-family="monospace" font-size="9">15,000</text>
+
+  <line x1="80" y1="250" x2="860" y2="250" stroke="#313244" stroke-width="1" stroke-dasharray="4,4"/>
+  <text x="70" y="254" text-anchor="end" fill="#6c7086" font-family="monospace" font-size="9">10,000</text>
+
+  <line x1="80" y1="325" x2="860" y2="325" stroke="#313244" stroke-width="1" stroke-dasharray="4,4"/>
+  <text x="70" y="329" text-anchor="end" fill="#6c7086" font-family="monospace" font-size="9">5,000</text>
+
+  <line x1="80" y1="400" x2="860" y2="400" stroke="#313244" stroke-width="1" stroke-dasharray="4,4"/>
+  <text x="70" y="404" text-anchor="end" fill="#6c7086" font-family="monospace" font-size="9">1,000</text>
+
+  <line x1="80" y1="475" x2="860" y2="475" stroke="#313244" stroke-width="1" stroke-dasharray="4,4"/>
+  <text x="70" y="479" text-anchor="end" fill="#6c7086" font-family="monospace" font-size="9">100</text>
+
+  <line x1="80" y1="540" x2="860" y2="540" stroke="#313244" stroke-width="1" stroke-dasharray="4,4"/>
+  <text x="70" y="544" text-anchor="end" fill="#6c7086" font-family="monospace" font-size="9">10</text>
+
+  <!-- X-axis labels -->
+  <text x="160" y="565" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">1K</text>
+  <text x="290" y="565" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">10K</text>
+  <text x="420" y="565" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">50K</text>
+  <text x="550" y="565" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">100K</text>
+  <text x="680" y="565" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">500K</text>
+  <text x="810" y="565" text-anchor="middle" fill="#6c7086" font-family="monospace" font-size="9">1M</text>
+
+  <!-- Arrays.sort line (red) - SLOW at scale -->
+  <polyline points="160,538 290,505 420,440 550,400 680,260 810,95"
+    fill="none" stroke="#f38ba8" stroke-width="2.5"/>
+  <circle cx="160" cy="538" r="4" fill="#f38ba8"/>
+  <circle cx="290" cy="505" r="4" fill="#f38ba8"/>
+  <circle cx="420" cy="440" r="4" fill="#f38ba8"/>
+  <circle cx="550" cy="400" r="4" fill="#f38ba8"/>
+  <circle cx="680" cy="260" r="4" fill="#f38ba8"/>
+  <circle cx="810" cy="95" r="4" fill="#f38ba8"/>
+  <text x="820" y="88" fill="#f38ba8" font-family="monospace" font-size="9">21,500us</text>
+
+  <!-- Arrays.parallelSort line (green) - FAST at scale -->
+  <polyline points="160,540 290,498 420,460 550,440 680,370 810,310"
+    fill="none" stroke="#a6e3a1" stroke-width="2.5"/>
+  <circle cx="160" cy="540" r="4" fill="#a6e3a1"/>
+  <circle cx="290" cy="498" r="4" fill="#a6e3a1"/>
+  <circle cx="420" cy="460" r="4" fill="#a6e3a1"/>
+  <circle cx="550" cy="440" r="4" fill="#a6e3a1"/>
+  <circle cx="680" cy="370" r="4" fill="#a6e3a1"/>
+  <circle cx="810" cy="310" r="4" fill="#a6e3a1"/>
+  <text x="820" y="303" fill="#a6e3a1" font-family="monospace" font-size="9">5,800us</text>
+
+  <!-- TimSort 1% perturbed line (blue) - FAST on partial -->
+  <polyline points="160,542 290,510 420,488 550,475 680,420 810,385"
+    fill="none" stroke="#89b4fa" stroke-width="2.5" stroke-dasharray="6,3"/>
+  <circle cx="160" cy="542" r="4" fill="#89b4fa"/>
+  <circle cx="290" cy="510" r="4" fill="#89b4fa"/>
+  <circle cx="420" cy="488" r="4" fill="#89b4fa"/>
+  <circle cx="550" cy="475" r="4" fill="#89b4fa"/>
+  <circle cx="680" cy="420" r="4" fill="#89b4fa"/>
+  <circle cx="810" cy="385" r="4" fill="#89b4fa"/>
+  <text x="820" y="378" fill="#89b4fa" font-family="monospace" font-size="9">1,100us</text>
+
+  <!-- Crossover annotation -->
+  <rect x="225" y="490" width="130" height="30" rx="3" fill="#313244" stroke="#f9e2af" stroke-width="1"/>
+  <text x="290" y="510" text-anchor="middle" fill="#f9e2af" font-family="monospace" font-size="9" font-weight="bold">Crossover ~10K</text>
+  <line x1="290" y1="520" x2="290" y2="505" stroke="#f9e2af" stroke-width="1" marker-end="url(#arrBlue)"/>
+
+  <!-- Legend -->
+  <rect x="110" y="608" width="700" height="30" rx="4" fill="#181825" stroke="#45475a" stroke-width="1"/>
+  <line x1="130" y1="623" x2="170" y2="623" stroke="#f38ba8" stroke-width="2.5"/>
+  <text x="175" y="627" fill="#f38ba8" font-family="monospace" font-size="10">Arrays.sort (sequential)</text>
+  <line x1="380" y1="623" x2="420" y2="623" stroke="#a6e3a1" stroke-width="2.5"/>
+  <text x="425" y="627" fill="#a6e3a1" font-family="monospace" font-size="10">Arrays.parallelSort</text>
+  <line x1="610" y1="623" x2="650" y2="623" stroke="#89b4fa" stroke-width="2.5" stroke-dasharray="6,3"/>
+  <text x="655" y="627" fill="#89b4fa" font-family="monospace" font-size="10">TimSort 1% perturbed</text>
+</svg>

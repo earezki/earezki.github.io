@@ -1,0 +1,40 @@
+<svg viewBox="0 0 800 450" width="800" height="450" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="450" fill="#1e1e2e" rx="8"/>
+  <text x="400" y="30" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="16" font-weight="bold">WiredTiger Cache Eviction State Machine</text>
+  <!-- States -->
+  <rect x="300" y="55" width="200" height="45" fill="#313244" stroke="#a6e3a1" stroke-width="2" rx="8"/>
+  <text x="400" y="83" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="12">NORMAL (&lt;80%)</text>
+  <rect x="50" y="170" width="200" height="45" fill="#313244" stroke="#f9e2af" stroke-width="2" rx="8"/>
+  <text x="150" y="198" text-anchor="middle" fill="#f9e2af" font-family="monospace" font-size="12">EVICTION (80-95%)</text>
+  <rect x="550" y="170" width="200" height="45" fill="#313244" stroke="#f38ba8" stroke-width="2" rx="8"/>
+  <text x="650" y="198" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="12">AGGRESSIVE (&gt;95%)</text>
+  <rect x="300" y="290" width="200" height="45" fill="#313244" stroke="#f38ba8" stroke-width="3" rx="8"/>
+  <text x="400" y="318" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="12">STALL (100%)</text>
+  <!-- Arrows -->
+  <path d="M350,100 L200,170" fill="none" stroke="#f9e2af" stroke-width="2" marker-end="url(#arr13)"/>
+  <text x="240" y="130" fill="#f9e2af" font-family="monospace" font-size="9">cache fills</text>
+  <path d="M450,100 L600,170" fill="none" stroke="#f38ba8" stroke-width="2" marker-end="url(#arr13)"/>
+  <text x="560" y="130" fill="#f38ba8" font-family="monospace" font-size="9">rapid fill</text>
+  <path d="M250,192 L300,192" fill="none" stroke="#f9e2af" stroke-width="1.5"/>
+  <path d="M500,192 L550,192" fill="none" stroke="#f38ba8" stroke-width="1.5"/>
+  <text x="400" y="188" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="9">eviction cannot keep up</text>
+  <path d="M250,215 Q400,260 400,290" fill="none" stroke="#f38ba8" stroke-width="2" marker-end="url(#arr13)"/>
+  <path d="M550,215 Q400,260 400,290" fill="none" stroke="#f38ba8" stroke-width="2"/>
+  <text x="400" y="265" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="9">all threads blocked</text>
+  <path d="M150,170 Q150,60 300,72" fill="none" stroke="#a6e3a1" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arr13)"/>
+  <text x="100" y="100" fill="#a6e3a1" font-family="monospace" font-size="9">eviction succeeds</text>
+  <!-- Impact boxes -->
+  <rect x="50" y="360" width="200" height="65" fill="#313244" stroke="#f9e2af" stroke-width="1" rx="4"/>
+  <text x="150" y="382" text-anchor="middle" fill="#f9e2af" font-family="monospace" font-size="10">80-95% Cache Usage</text>
+  <text x="150" y="400" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="9">Background eviction threads</text>
+  <text x="150" y="415" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="9">Latency +10-30%</text>
+  <rect x="300" y="360" width="200" height="65" fill="#313244" stroke="#f38ba8" stroke-width="1" rx="4"/>
+  <text x="400" y="382" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="10">95-100% Cache Usage</text>
+  <text x="400" y="400" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="9">App threads forced to evict</text>
+  <text x="400" y="415" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="9">Latency +200-500%</text>
+  <rect x="550" y="360" width="200" height="65" fill="#313244" stroke="#f38ba8" stroke-width="2" rx="4"/>
+  <text x="650" y="382" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="10">100% (Stall)</text>
+  <text x="650" y="400" text-anchor="middle" fill="#a6adc8" font-family="monospace" font-size="9">All operations blocked</text>
+  <text x="650" y="415" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="9">Effective downtime</text>
+  <defs><marker id="arr13" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#cdd6f4"/></marker></defs>
+</svg>

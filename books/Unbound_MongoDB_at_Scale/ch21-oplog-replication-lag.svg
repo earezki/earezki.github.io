@@ -1,0 +1,35 @@
+<svg viewBox="0 0 800 400" width="800" height="400" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="400" fill="#1e1e2e" rx="8"/>
+  <text x="400" y="30" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="16" font-weight="bold">Oplog: Replication Lag and Recovery Window</text>
+  <!-- Timeline -->
+  <line x1="80" y1="100" x2="720" y2="100" stroke="#585b70" stroke-width="2"/>
+  <text x="80" y="90" fill="#a6adc8" font-family="monospace" font-size="9">t=0</text>
+  <text x="720" y="90" fill="#a6adc8" font-family="monospace" font-size="9">t=24h</text>
+  <!-- Oplog window -->
+  <rect x="80" y="110" width="640" height="25" fill="#a6e3a1" fill-opacity="0.2" stroke="#a6e3a1" stroke-width="1" rx="4"/>
+  <text x="400" y="128" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10">Oplog window: 24 hours (healthy)</text>
+  <!-- Shrinking oplog -->
+  <rect x="80" y="160" width="200" height="25" fill="#f38ba8" fill-opacity="0.3" stroke="#f38ba8" stroke-width="1" rx="4"/>
+  <text x="180" y="178" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="10">Oplog window: 6 hours (danger)</text>
+  <text x="350" y="178" fill="#a6adc8" font-family="monospace" font-size="9">← write spike consumed oplog space</text>
+  <!-- Replication lag diagram -->
+  <text x="400" y="220" text-anchor="middle" fill="#cdd6f4" font-family="monospace" font-size="14" font-weight="bold">Replication Lag Cascade</text>
+  <rect x="300" y="235" width="120" height="35" fill="#313244" stroke="#a6e3a1" stroke-width="2" rx="6"/>
+  <text x="360" y="257" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10">Primary</text>
+  <rect x="80" y="295" width="130" height="35" fill="#313244" stroke="#f9e2af" stroke-width="2" rx="6"/>
+  <text x="145" y="317" text-anchor="middle" fill="#f9e2af" font-family="monospace" font-size="10">Secondary 1</text>
+  <text x="145" y="345" text-anchor="middle" fill="#f9e2af" font-family="monospace" font-size="9">lag: 2 sec</text>
+  <rect x="330" y="295" width="130" height="35" fill="#313244" stroke="#f38ba8" stroke-width="2" rx="6"/>
+  <text x="395" y="317" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="10">Secondary 2</text>
+  <text x="395" y="345" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="9">lag: 45 sec</text>
+  <rect x="580" y="295" width="130" height="35" fill="#313244" stroke="#f38ba8" stroke-width="3" rx="6"/>
+  <text x="645" y="317" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="10">Secondary 3</text>
+  <text x="645" y="345" text-anchor="middle" fill="#f38ba8" font-family="monospace" font-size="9">lag: 5 min (stale!)</text>
+  <!-- Arrows -->
+  <line x1="320" y1="270" x2="180" y2="295" stroke="#585b70" stroke-width="1.5"/>
+  <line x1="360" y1="270" x2="395" y2="295" stroke="#585b70" stroke-width="1.5"/>
+  <line x1="400" y1="270" x2="620" y2="295" stroke="#585b70" stroke-width="1.5"/>
+  <!-- Fix -->
+  <rect x="80" y="360" width="640" height="30" fill="#313244" stroke="#a6e3a1" stroke-width="1" rx="4"/>
+  <text x="400" y="380" text-anchor="middle" fill="#a6e3a1" font-family="monospace" font-size="10">Fix: Size oplog to 2x your peak write rate window. Monitor rs.printReplicationInfo() daily.</text>
+</svg>
