@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 340" font-family="system-ui, -apple-system, sans-serif">
+  <rect width="720" height="340" fill="#0f172a" rx="8"/>
+  <text x="360" y="32" text-anchor="middle" fill="#e2e8f0" font-size="16" font-weight="bold">WASM TypeScript Bridge Architecture</text>
+
+  <!-- TypeScript layer -->
+  <rect x="30" y="60" width="280" height="240" fill="#1e293b" rx="8" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="170" y="84" text-anchor="middle" fill="#38bdf8" font-size="13" font-weight="bold">TypeScript (Main Thread)</text>
+
+  <rect x="50" y="100" width="240" height="40" fill="#0f172a" rx="4" stroke="#475569" stroke-width="1"/>
+  <text x="170" y="124" text-anchor="middle" fill="#e2e8f0" font-size="11">Application Code</text>
+
+  <rect x="50" y="155" width="240" height="40" fill="#0f172a" rx="4" stroke="#38bdf8" stroke-width="1"/>
+  <text x="170" y="179" text-anchor="middle" fill="#38bdf8" font-size="11">Generated Bindings (wasm-bindgen)</text>
+
+  <rect x="50" y="210" width="115" height="40" fill="#0f172a" rx="4" stroke="#475569" stroke-width="1"/>
+  <text x="107" y="234" text-anchor="middle" fill="#94a3b8" font-size="10">ArrayBuffer</text>
+
+  <rect x="175" y="210" width="115" height="40" fill="#0f172a" rx="4" stroke="#475569" stroke-width="1"/>
+  <text x="232" y="234" text-anchor="middle" fill="#94a3b8" font-size="10">SharedMemory</text>
+
+  <rect x="50" y="265" width="240" height="24" fill="#0f172a" rx="4" stroke="#475569" stroke-width="1"/>
+  <text x="170" y="282" text-anchor="middle" fill="#94a3b8" font-size="10">postMessage / transferable</text>
+
+  <!-- Bridge arrows -->
+  <path d="M310 175 L410 175" stroke="#f59e0b" stroke-width="2" stroke-dasharray="6" fill="none" marker-end="url(#wasmArrow)"/>
+  <text x="360" y="168" text-anchor="middle" fill="#f59e0b" font-size="10" font-weight="bold">FFI Call</text>
+  <text x="360" y="195" text-anchor="middle" fill="#94a3b8" font-size="9">~0.02ms overhead</text>
+
+  <!-- WASM layer -->
+  <rect x="410" y="60" width="280" height="240" fill="#1e293b" rx="8" stroke="#22c55e" stroke-width="1.5"/>
+  <text x="550" y="84" text-anchor="middle" fill="#22c55e" font-size="13" font-weight="bold">WebAssembly (Worker)</text>
+
+  <rect x="430" y="100" width="240" height="40" fill="#0f172a" rx="4" stroke="#22c55e" stroke-width="1"/>
+  <text x="550" y="124" text-anchor="middle" fill="#22c55e" font-size="11">Rust / C++ Module (.wasm)</text>
+
+  <rect x="430" y="155" width="240" height="40" fill="#0f172a" rx="4" stroke="#475569" stroke-width="1"/>
+  <text x="550" y="179" text-anchor="middle" fill="#e2e8f0" font-size="11">Linear Memory (64 kB pages)</text>
+
+  <rect x="430" y="210" width="115" height="40" fill="#0f172a" rx="4" stroke="#475569" stroke-width="1"/>
+  <text x="487" y="234" text-anchor="middle" fill="#94a3b8" font-size="10">Stack</text>
+
+  <rect x="555" y="210" width="115" height="40" fill="#0f172a" rx="4" stroke="#475569" stroke-width="1"/>
+  <text x="612" y="234" text-anchor="middle" fill="#94a3b8" font-size="10">Heap</text>
+
+  <!-- Performance comparison -->
+  <rect x="430" y="265" width="240" height="24" fill="#0f172a" rx="4" stroke="#22c55e" stroke-width="1"/>
+  <text x="550" y="282" text-anchor="middle" fill="#22c55e" font-size="10">Near-native execution speed</text>
+
+  <!-- Bottom benchmark -->
+  <rect x="100" y="308" width="180" height="22" fill="#1e293b" rx="4"/>
+  <text x="190" y="323" text-anchor="middle" fill="#f59e0b" font-size="10">TS: 280ms (image resize)</text>
+  <rect x="340" y="308" width="180" height="22" fill="#1e293b" rx="4"/>
+  <text x="430" y="323" text-anchor="middle" fill="#22c55e" font-size="10">WASM: 85ms (3.3x faster)</text>
+
+  <defs>
+    <marker id="wasmArrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#f59e0b"/>
+    </marker>
+  </defs>
+</svg>

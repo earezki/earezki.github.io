@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" width="900" height="500" font-family="monospace">
+  <rect width="900" height="500" fill="#1e1e2e"/>
+  <text x="450" y="30" text-anchor="middle" fill="#cdd6f4" font-size="15" font-weight="bold">Therac-25 Race Condition Timeline</text>
+  
+  <!-- Timeline axis -->
+  <line x1="80" y1="80" x2="850" y2="80" stroke="#585b70" stroke-width="1"/>
+  <text x="80" y="70" fill="#a6adc8" font-size="10">Operator Input</text>
+  
+  <line x1="80" y1="180" x2="850" y2="180" stroke="#585b70" stroke-width="1"/>
+  <text x="80" y="170" fill="#a6adc8" font-size="10">Software State</text>
+  
+  <line x1="80" y1="280" x2="850" y2="280" stroke="#585b70" stroke-width="1"/>
+  <text x="80" y="270" fill="#a6adc8" font-size="10">Hardware State</text>
+
+  <!-- Event 1: Operator types X -->
+  <circle cx="180" cy="80" r="6" fill="#89b4fa"/>
+  <text x="180" y="105" text-anchor="middle" fill="#cdd6f4" font-size="9">Types 'X'</text>
+  <text x="180" y="117" text-anchor="middle" fill="#a6adc8" font-size="8">(photon)</text>
+  
+  <!-- Software sets photon mode -->
+  <line x1="180" y1="86" x2="180" y2="174" stroke="#89b4fa" stroke-width="1" stroke-dasharray="4"/>
+  <rect x="140" y="185" width="80" height="24" rx="3" fill="#313244" stroke="#89b4fa" stroke-width="1"/>
+  <text x="180" y="200" text-anchor="middle" fill="#89b4fa" font-size="9">mode=PHOTON</text>
+  <text x="180" y="212" text-anchor="middle" fill="#a6adc8" font-size="8">energy=25MeV</text>
+
+  <!-- Hardware starts moving -->
+  <line x1="220" y1="186" x2="220" y2="274" stroke="#89b4fa" stroke-width="1" stroke-dasharray="4"/>
+  <rect x="180" y="285" width="100" height="24" rx="3" fill="#313244" stroke="#89b4fa" stroke-width="1"/>
+  <text x="230" y="300" text-anchor="middle" fill="#89b4fa" font-size="9">Turntable moving</text>
+
+  <!-- Event 2: Operator changes to E -->
+  <circle cx="380" cy="80" r="6" fill="#a6e3a1"/>
+  <text x="380" y="105" text-anchor="middle" fill="#cdd6f4" font-size="9">Changes to 'E'</text>
+  <text x="380" y="117" text-anchor="middle" fill="#a6adc8" font-size="8">(electron)</text>
+  
+  <!-- Software updates mode only -->
+  <line x1="380" y1="86" x2="380" y2="174" stroke="#a6e3a1" stroke-width="1" stroke-dasharray="4"/>
+  <rect x="340" y="185" width="80" height="24" rx="3" fill="#313244" stroke="#a6e3a1" stroke-width="1"/>
+  <text x="380" y="200" text-anchor="middle" fill="#a6e3a1" font-size="9">mode=ELEC</text>
+  <text x="380" y="212" text-anchor="middle" fill="#f38ba8" font-size="8">energy=25MeV!</text>
+
+  <!-- RACE WINDOW -->
+  <rect x="370" y="40" width="200" height="30" rx="3" fill="#f38ba8" fill-opacity="0.15" stroke="#f38ba8" stroke-width="1.5" stroke-dasharray="6"/>
+  <text x="470" y="59" text-anchor="middle" fill="#f38ba8" font-size="10" font-weight="bold">RACE WINDOW (~8s)</text>
+
+  <!-- Event 3: Operator presses SET -->
+  <circle cx="480" cy="80" r="6" fill="#f38ba8"/>
+  <text x="480" y="105" text-anchor="middle" fill="#cdd6f4" font-size="9">Presses SET</text>
+  
+  <!-- Beam fires -->
+  <line x1="480" y1="86" x2="480" y2="174" stroke="#f38ba8" stroke-width="2"/>
+  <rect x="440" y="185" width="80" height="24" rx="3" fill="#45475a" stroke="#f38ba8" stroke-width="2"/>
+  <text x="480" y="200" text-anchor="middle" fill="#f38ba8" font-size="9" font-weight="bold">FIRE BEAM</text>
+  
+  <!-- Hardware still wrong -->
+  <rect x="380" y="320" width="160" height="24" rx="3" fill="#45475a" stroke="#f38ba8" stroke-width="2"/>
+  <text x="460" y="337" text-anchor="middle" fill="#f38ba8" font-size="9">No target in path</text>
+  <text x="460" y="350" text-anchor="middle" fill="#f38ba8" font-size="8">25 MeV direct beam</text>
+
+  <!-- Result -->
+  <rect x="580" y="185" width="120" height="30" rx="3" fill="#f38ba8" fill-opacity="0.2" stroke="#f38ba8" stroke-width="2"/>
+  <text x="640" y="204" text-anchor="middle" fill="#f38ba8" font-size="10" font-weight="bold">OVERDOSE</text>
+  <line x1="520" y1="197" x2="580" y2="197" stroke="#f38ba8" stroke-width="2" marker-end="url(#arrowRed)"/>
+
+  <!-- Setup task hasn't run -->
+  <rect x="560" y="230" width="200" height="20" rx="3" fill="#313244"/>
+  <text x="660" y="244" text-anchor="middle" fill="#a6adc8" font-size="9">Setup task has not run yet</text>
+  <text x="660" y="258" text-anchor="middle" fill="#a6adc8" font-size="8">Energy never adjusted to 5 MeV</text>
+
+  <!-- Legend -->
+  <rect x="60" y="400" width="820" height="80" rx="5" fill="#313244"/>
+  <text x="80" y="420" fill="#cdd6f4" font-size="10" font-weight="bold">Key Insight:</text>
+  <text x="80" y="438" fill="#a6adc8" font-size="10">The race condition occurs when the operator corrects a mode selection faster than</text>
+  <text x="80" y="453" fill="#a6adc8" font-size="10">the setup task can reconfigure the beam energy. The hardware interlocks that would</text>
+  <text x="80" y="468" fill="#a6adc8" font-size="10">have caught this state mismatch were removed because the software "had worked before."</text>
+
+  <!-- Arrow marker -->
+  <defs>
+    <marker id="arrowRed" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#f38ba8"/>
+    </marker>
+  </defs>
+</svg>

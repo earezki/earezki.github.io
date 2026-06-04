@@ -1,0 +1,547 @@
+<!DOCTYPE html><html lang="en" data-theme="dark"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>React and Angular: Reconciliation, OnPush, and the Re-renders Nobody Profiled - fast frontend • Dev|Journal</title><meta name="description" content="Technical blog covering software architecture, backend development, and engineering best practices."><meta name="keywords" content="software architecture, backend development, microservices, Java, Python, Spring Boot, technical blog"><meta name="author" content="El Mehdi Arezki"><meta name="robots" content="index,follow"><meta property="og:type" content="website"><meta property="og:url" content="https://earezki.com/books/fast-frontend/ch11/"><meta property="og:title" content="React and Angular: Reconciliation, OnPush, and the Re-renders Nobody Profiled - fast frontend • Dev|Journal"><meta property="og:site_name" content="Dev|Journal"><meta property="og:description" content="Technical blog covering software architecture, backend development, and engineering best practices."><meta property="og:image" content="https://earezki.com/assets/og-image-default.svg"><meta property="og:locale" content="en_US"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:url" content="https://earezki.com/books/fast-frontend/ch11/"><meta name="twitter:title" content="React and Angular: Reconciliation, OnPush, and the Re-renders Nobody Profiled - fast frontend • Dev|Journal"><meta name="twitter:description" content="Technical blog covering software architecture, backend development, and engineering best practices."><meta name="twitter:image" content="https://earezki.com/assets/og-image-default.svg"><meta name="twitter:site" content="@earezki"><meta name="twitter:creator" content="@earezki"><link rel="canonical" href="https://earezki.com/books/fast-frontend/ch11/"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"><link rel="dns-prefetch" href="https://cloud.umami.is"><script defer src="https://cloud.umami.is/script.js" data-website-id="4a26531d-1053-4f79-97a6-06a1366aff91"></script><!-- Self-hosted Inter font — eliminates render-blocking Google Fonts request --><link rel="preload" as="font" type="font/woff2" href="/fonts/inter-latin-regular.woff2" crossorigin><!-- WebSite structured data --><script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Dev|Journal","url":"https://earezki.com","description":"Technical blog covering software architecture, backend development, and engineering best practices.","author":{"@type":"Person","name":"El Mehdi Arezki","url":"https://earezki.com/about"},"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://earezki.com/search?q={search_term_string}"},"query-input":"required name=search_term_string"}}</script><!-- Theme initialization - parse Zustand persist format --><script>
+      (function () {
+        try {
+          const raw = localStorage.getItem("theme");
+          if (raw) {
+            // Zustand persist stores as JSON: {"state":{"theme":"light"},"version":0}
+            const parsed = JSON.parse(raw);
+            const theme = parsed?.state?.theme || "dark";
+
+            if (theme === "light") {
+              document.documentElement.setAttribute("data-theme", "light");
+            } else if (theme === "system") {
+              const prefersDark = window.matchMedia(
+                "(prefers-color-scheme: dark)",
+              ).matches;
+              document.documentElement.setAttribute(
+                "data-theme",
+                prefersDark ? "dark" : "light",
+              );
+            } else {
+              document.documentElement.setAttribute("data-theme", "dark");
+            }
+          }
+        } catch (e) {
+          // Fallback to dark if parsing fails
+          document.documentElement.setAttribute("data-theme", "dark");
+        }
+      })();
+    </script><link rel="stylesheet" href="/_astro/_slug_.DrofoCIc.css"></head> <body class="min-h-screen flex flex-col bg-background text-foreground"> <!-- Skip to content link --> <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:p-4 focus:bg-primary focus:text-primary-foreground focus:rounded-lg">
+Skip to main content
+</a> <!-- Smart Header with hide/show on scroll --> <style>astro-island,astro-slot,astro-static-slot{display:contents}</style><script>(()=>{var e=async t=>{await(await t())()};(self.Astro||(self.Astro={})).only=e;window.dispatchEvent(new Event("astro:only"));})();</script><script>(()=>{var A=Object.defineProperty;var g=(i,o,a)=>o in i?A(i,o,{enumerable:!0,configurable:!0,writable:!0,value:a}):i[o]=a;var d=(i,o,a)=>g(i,typeof o!="symbol"?o+"":o,a);{let i={0:t=>m(t),1:t=>a(t),2:t=>new RegExp(t),3:t=>new Date(t),4:t=>new Map(a(t)),5:t=>new Set(a(t)),6:t=>BigInt(t),7:t=>new URL(t),8:t=>new Uint8Array(t),9:t=>new Uint16Array(t),10:t=>new Uint32Array(t),11:t=>1/0*t},o=t=>{let[l,e]=t;return l in i?i[l](e):void 0},a=t=>t.map(o),m=t=>typeof t!="object"||t===null?t:Object.fromEntries(Object.entries(t).map(([l,e])=>[l,o(e)]));class y extends HTMLElement{constructor(){super(...arguments);d(this,"Component");d(this,"hydrator");d(this,"hydrate",async()=>{var b;if(!this.hydrator||!this.isConnected)return;let e=(b=this.parentElement)==null?void 0:b.closest("astro-island[ssr]");if(e){e.addEventListener("astro:hydrate",this.hydrate,{once:!0});return}let c=this.querySelectorAll("astro-slot"),n={},h=this.querySelectorAll("template[data-astro-template]");for(let r of h){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("data-astro-template")||"default"]=r.innerHTML,r.remove())}for(let r of c){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("name")||"default"]=r.innerHTML)}let p;try{p=this.hasAttribute("props")?m(JSON.parse(this.getAttribute("props"))):{}}catch(r){let s=this.getAttribute("component-url")||"<unknown>",v=this.getAttribute("component-export");throw v&&(s+=` (export ${v})`),console.error(`[hydrate] Error parsing props for component ${s}`,this.getAttribute("props"),r),r}let u;await this.hydrator(this)(this.Component,p,n,{client:this.getAttribute("client")}),this.removeAttribute("ssr"),this.dispatchEvent(new CustomEvent("astro:hydrate"))});d(this,"unmount",()=>{this.isConnected||this.dispatchEvent(new CustomEvent("astro:unmount"))})}disconnectedCallback(){document.removeEventListener("astro:after-swap",this.unmount),document.addEventListener("astro:after-swap",this.unmount,{once:!0})}connectedCallback(){if(!this.hasAttribute("await-children")||document.readyState==="interactive"||document.readyState==="complete")this.childrenConnectedCallback();else{let e=()=>{document.removeEventListener("DOMContentLoaded",e),c.disconnect(),this.childrenConnectedCallback()},c=new MutationObserver(()=>{var n;((n=this.lastChild)==null?void 0:n.nodeType)===Node.COMMENT_NODE&&this.lastChild.nodeValue==="astro:end"&&(this.lastChild.remove(),e())});c.observe(this,{childList:!0}),document.addEventListener("DOMContentLoaded",e)}}async childrenConnectedCallback(){let e=this.getAttribute("before-hydration-url");e&&await import(e),this.start()}async start(){let e=JSON.parse(this.getAttribute("opts")),c=this.getAttribute("client");if(Astro[c]===void 0){window.addEventListener(`astro:${c}`,()=>this.start(),{once:!0});return}try{await Astro[c](async()=>{let n=this.getAttribute("renderer-url"),[h,{default:p}]=await Promise.all([import(this.getAttribute("component-url")),n?import(n):()=>()=>{}]),u=this.getAttribute("component-export")||"default";if(!u.includes("."))this.Component=h[u];else{this.Component=h;for(let f of u.split("."))this.Component=this.Component[f]}return this.hydrator=p,this.hydrate},e,this)}catch(n){console.error(`[astro-island] Error hydrating ${this.getAttribute("component-url")}`,n)}}attributeChangedCallback(){this.hydrate()}}d(y,"observedAttributes",["props"]),customElements.get("astro-island")||customElements.define("astro-island",y)}})();</script><astro-island uid="1YpyxB" component-url="/_astro/SmartHeader.wy4SFEJ7.js" component-export="SmartHeader" renderer-url="/_astro/client.BWL821IS.js" props="{}" ssr client="only" opts="{&quot;name&quot;:&quot;SmartHeader&quot;,&quot;value&quot;:&quot;preact&quot;}"></astro-island> <!-- Command Palette --> <astro-island uid="1KbDpu" component-url="/_astro/CommandPalette.Cu6qLeXr.js" component-export="CommandPalette" renderer-url="/_astro/client.BWL821IS.js" props="{}" ssr client="only" opts="{&quot;name&quot;:&quot;CommandPalette&quot;,&quot;value&quot;:&quot;preact&quot;}"></astro-island> <!-- Main Content with fade-in --> <main id="main-content" class="flex-1 container mx-auto px-4 py-8 animate-fade-in" tabindex="-1">  <script>(()=>{var l=(n,t)=>{let i=async()=>{await(await n())()},e=typeof t.value=="object"?t.value:void 0,s={timeout:e==null?void 0:e.timeout};"requestIdleCallback"in window?window.requestIdleCallback(i,s):setTimeout(i,s.timeout||200)};(self.Astro||(self.Astro={})).idle=l;window.dispatchEvent(new Event("astro:idle"));})();</script><astro-island uid="Z2oXBOw" component-url="/_astro/ChapterReadingTracker.D0d0lldC.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;bookSlug&quot;:[0,&quot;fast-frontend&quot;],&quot;chapterSlug&quot;:[0,&quot;fast-frontend/ch11&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ChapterReadingTracker&quot;,&quot;value&quot;:true}" await-children><div class="fixed top-0 left-0 w-full h-1 z-50 bg-muted/20 fixed top-0 left-0 w-full z-50"><div class="h-full bg-primary transition-all duration-100 ease-out" style="width:0%;"></div></div><!--astro:end--></astro-island> <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8"> <div class="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-8"> <!-- Left Sidebar: Book TOC --> <aside class="hidden lg:block"> <nav class="book-toc sticky top-20 hidden lg:block w-64 pr-3 border-r border-border/30"> <div class="mb-4"> <a href="/books/" class="text-[10px] font-medium text-muted-foreground hover:text-primary block mb-2">← Library</a> <h2 class="font-semibold text-xs leading-tight truncate mb-3" title="fast frontend">fast frontend</h2> <astro-island uid="Ux6D3" component-url="/_astro/BookProgress.FFgAROJr.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;bookSlug&quot;:[0,&quot;fast-frontend&quot;],&quot;allChapters&quot;:[1,[[0,{&quot;slug&quot;:[0,&quot;fast-frontend/ch1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-frontend/ch1-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-frontend/ch1-s2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-frontend/ch2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-frontend/ch2-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-frontend/ch2-s2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-frontend/ch3&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-frontend/ch3-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-frontend/ch3-s2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-frontend/ch4&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-frontend/ch4-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-frontend/ch4-s2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-frontend/ch5&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-frontend/ch5-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-frontend/ch5-s2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-frontend/ch6&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-frontend/ch6-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-frontend/ch6-s2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-frontend/ch7&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-frontend/ch7-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-frontend/ch7-s2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-frontend/ch8&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-frontend/ch8-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-frontend/ch8-s2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-frontend/ch9&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-frontend/ch9-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-frontend/ch9-s2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-frontend/ch10&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-frontend/ch10-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-frontend/ch10-s2&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-frontend/ch11&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-frontend/ch11-s1&quot;]}],[0,{&quot;slug&quot;:[0,&quot;fast-frontend/ch11-s2&quot;]}]]],&quot;variant&quot;:[0,&quot;sidebar&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;BookProgress&quot;,&quot;value&quot;:true}"></astro-island> </div> <ul class="space-y-0.5"> <li class="leading-none relative group"> <a href="/books/fast-frontend/ch1/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30 font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="Profiling the Frontend"> Profiling the Frontend </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="Z1zMRrl" component-url="/_astro/ReadStatusIndicator.CPttHqPN.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;fast-frontend&quot;],&quot;slug&quot;:[0,&quot;fast-frontend/ch1&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/fast-frontend/ch2/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30 font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="Performance in CI/CD"> Performance in CI/CD </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="Z1zMJqX" component-url="/_astro/ReadStatusIndicator.CPttHqPN.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;fast-frontend&quot;],&quot;slug&quot;:[0,&quot;fast-frontend/ch2&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/fast-frontend/ch3/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30 font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="JavaScript and TypeScript Bundle Optimization"> JavaScript and TypeScript Bundle Optimization </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="Z1zMBqA" component-url="/_astro/ReadStatusIndicator.CPttHqPN.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;fast-frontend&quot;],&quot;slug&quot;:[0,&quot;fast-frontend/ch3&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/fast-frontend/ch4/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30 font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="Images and Fonts"> Images and Fonts </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="Z1zMtqd" component-url="/_astro/ReadStatusIndicator.CPttHqPN.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;fast-frontend&quot;],&quot;slug&quot;:[0,&quot;fast-frontend/ch4&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/fast-frontend/ch5/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30 font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="The Rendering Pipeline"> The Rendering Pipeline </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="Z1zMlpP" component-url="/_astro/ReadStatusIndicator.CPttHqPN.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;fast-frontend&quot;],&quot;slug&quot;:[0,&quot;fast-frontend/ch5&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/fast-frontend/ch6/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30 font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="WebAssembly"> WebAssembly </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="Z1zMdps" component-url="/_astro/ReadStatusIndicator.CPttHqPN.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;fast-frontend&quot;],&quot;slug&quot;:[0,&quot;fast-frontend/ch6&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/fast-frontend/ch7/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30 font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="HTTP/2, HTTP/3, and Brotli"> HTTP/2, HTTP/3, and Brotli </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="Z1zM5p5" component-url="/_astro/ReadStatusIndicator.CPttHqPN.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;fast-frontend&quot;],&quot;slug&quot;:[0,&quot;fast-frontend/ch7&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/fast-frontend/ch8/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30 font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="Caching Strategy"> Caching Strategy </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="Z1zLWoH" component-url="/_astro/ReadStatusIndicator.CPttHqPN.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;fast-frontend&quot;],&quot;slug&quot;:[0,&quot;fast-frontend/ch8&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/fast-frontend/ch9/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30 font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="API Design for Frontend Performance"> API Design for Frontend Performance </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="Z1zLOok" component-url="/_astro/ReadStatusIndicator.CPttHqPN.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;fast-frontend&quot;],&quot;slug&quot;:[0,&quot;fast-frontend/ch9&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/fast-frontend/ch10/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30 font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="SSR, Streaming HTML, and Edge Rendering"> SSR, Streaming HTML, and Edge Rendering </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="1EaQTf" component-url="/_astro/ReadStatusIndicator.CPttHqPN.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;fast-frontend&quot;],&quot;slug&quot;:[0,&quot;fast-frontend/ch10&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/fast-frontend/ch11/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-primary bg-primary/5 text-primary font-medium font-semibold text-foreground/90 mt-1.5" style="margin-left:0" title="React and Angular: Reconciliation, OnPush, and the Re-renders Nobody Profiled"> React and Angular: Reconciliation, OnPush, and the Re-renders Nobody Profiled </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="1EaYTC" component-url="/_astro/ReadStatusIndicator.CPttHqPN.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;fast-frontend&quot;],&quot;slug&quot;:[0,&quot;fast-frontend/ch11&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/fast-frontend/ch11-s1/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30" style="margin-left:0.5rem" title="React Render Optimization Patterns"> React Render Optimization Patterns </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="1kUjkJ" component-url="/_astro/ReadStatusIndicator.CPttHqPN.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;fast-frontend&quot;],&quot;slug&quot;:[0,&quot;fast-frontend/ch11-s1&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li><li class="leading-none relative group"> <a href="/books/fast-frontend/ch11-s2/" class="block py-1 pl-1.5 pr-7 text-xs transition-colors border-l-2 text-muted-foreground hover:text-foreground truncate border-transparent hover:border-primary/30" style="margin-left:0.5rem" title="Angular Change Detection and Signal Performance"> Angular Change Detection and Signal Performance </a> <div class="absolute right-1 top-1/2 -translate-y-1/2 transition-opacity"> <astro-island uid="1kUrl7" component-url="/_astro/ReadStatusIndicator.CPttHqPN.js" component-export="default" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;type&quot;:[0,&quot;chapter&quot;],&quot;bookSlug&quot;:[0,&quot;fast-frontend&quot;],&quot;slug&quot;:[0,&quot;fast-frontend/ch11-s2&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadStatusIndicator&quot;,&quot;value&quot;:true}"></astro-island> </div> </li> </ul> </nav> <script type="module">const o=document.querySelector(".book-toc");if(o){const t=sessionStorage.getItem("book-toc-scroll");t&&(o.scrollTop=parseInt(t,10)),o.addEventListener("scroll",()=>{sessionStorage.setItem("book-toc-scroll",o.scrollTop.toString())})}</script> </aside> <article class="max-w-3xl mx-auto w-full min-w-0 animate-fade-in"> <nav aria-label="Breadcrumb" class="flex items-center text-xs text-muted-foreground mb-6 flex-wrap animate-fade-in"> <ol class="flex items-center gap-1.5 flex-wrap"> <li> <a href="/" class="hover:text-primary transition-colors duration-200 flex items-center gap-1"> <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg> <span class="hidden sm:inline">Home</span> </a> </li> <li class="flex items-center gap-1.5 min-w-0"> <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground/40 shrink-0"><path d="M9 5l7 7-7 7" /></svg> <a href="/books/" class="hover:text-primary transition-colors duration-200 truncate max-w-[150px]" title="Library"> Library </a> </li><li class="flex items-center gap-1.5 min-w-0"> <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground/40 shrink-0"><path d="M9 5l7 7-7 7" /></svg> <a href="/books/fast-frontend/" class="hover:text-primary transition-colors duration-200 truncate max-w-[150px]" title="fast frontend"> fast frontend </a> </li><li class="flex items-center gap-1.5 min-w-0"> <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground/40 shrink-0"><path d="M9 5l7 7-7 7" /></svg> <span class="font-medium text-foreground truncate max-w-[200px] sm:max-w-xs" title="React and Angular: Reconciliation, OnPush, and the Re-renders Nobody Profiled"> React and Angular: Reconciliat... </span> </li> </ol> </nav> <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://earezki.com/"},{"@type":"ListItem","position":2,"name":"Library","item":"https://earezki.com/books/"},{"@type":"ListItem","position":3,"name":"fast frontend","item":"https://earezki.com/books/fast-frontend/"},{"@type":"ListItem","position":4,"name":"React and Angular: Reconciliation, OnPush, and the Re-renders Nobody Profiled","item":"https://earezki.com/books/fast-frontend/ch11/"}]}</script> <header class="mb-8 mt-2"> <div class="lg:hidden mb-4"> <a href="/books/" class="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors"> <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 19l-7-7 7-7" /></svg>
+Back to Library
+</a> </div> <!-- Book title badge --> <div class="inline-flex items-center gap-2 px-3 py-1.5 mb-4 rounded-full bg-primary/10 text-primary text-sm font-medium"> <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" /><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" /></svg> fast frontend </div> <h1 class="text-3xl md:text-4xl font-bold mb-4 text-gradient"> React and Angular: Reconciliation, OnPush, and the Re-renders Nobody Profiled </h1> <!-- Reading time and chapter info --> <div class="flex items-center gap-4 text-sm text-muted-foreground mb-6 flex-wrap"> <span class="flex items-center gap-1.5"> <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary/70"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg> 9 min read </span> <span class="flex items-center gap-1.5"> <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary/70"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" /></svg>
+Chapter 31 of 33 </span> <script>(()=>{var e=async t=>{await(await t())()};(self.Astro||(self.Astro={})).load=e;window.dispatchEvent(new Event("astro:load"));})();</script><astro-island uid="Z9w593" component-url="/_astro/FocusMusicToggle.DRdJUHkG.js" component-export="FocusMusicToggle" renderer-url="/_astro/client.BWL821IS.js" props="{}" ssr client="load" opts="{&quot;name&quot;:&quot;FocusMusicToggle&quot;,&quot;value&quot;:true}" await-children><div class="relative inline-flex rounded-full p-[1.5px] overflow-hidden shrink-0"><div class="absolute aspect-square w-[250%] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none" style="animation: border-spin 3s linear infinite; background: conic-gradient(from 0deg, transparent 35%, var(--color-primary) 50%, var(--color-secondary) 65%, transparent 80%);"></div><button class="relative z-10 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-200 cursor-pointer bg-card text-muted-foreground hover:text-primary" aria-label="Play focus music" title="Play focus music"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-headphones h-3.5 w-3.5" aria-hidden="true"><path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"></path></svg><span class="hidden sm:inline">Focus Music</span></button></div><!--astro:end--></astro-island> </div>  </header> <!-- Collapsible Summary -->  <!-- Article Content --> <div class="prose dark:prose-invert max-w-none break-words [overflow-wrap:break-word]"> <h1 id="react-and-angular-reconciliation-onpush-and-the-re-renders-nobody-profiled">React and Angular: Reconciliation, OnPush, and the Re-renders Nobody Profiled</h1>
+<h2 id="the-re-render-tax">The Re-render Tax</h2>
+<p>The e-commerce product listing page renders a grid of 60 product cards. When a user adds a product to the cart, a single state update triggers a re-render. In the default configuration, React re-renders every component in the tree that is a descendant of the state change. Angular runs change detection across every component bound to the default strategy.</p>
+<p>The user clicked “Add to Cart” on one product. The state update changes the cart count from 3 to 4. This triggers:</p>
+<p><strong>React (unoptimized):</strong></p>
+<ul>
+<li><code>ProductListingPage</code> re-renders (owns cart state)</li>
+<li><code>Header</code> re-renders (displays cart count, correct)</li>
+<li><code>ProductGrid</code> re-renders (child of page)</li>
+<li>All 60 <code>ProductCard</code> components re-render (children of grid)</li>
+<li>Each <code>ProductCard</code> re-renders <code>ProductImage</code>, <code>ProductPrice</code>, <code>AddToCartButton</code> (3 children each)</li>
+<li>Total components re-rendered: 244</li>
+<li>Total reconciliation time: 18ms</li>
+</ul>
+<p><strong>Angular (default change detection):</strong></p>
+<ul>
+<li>Zone.js intercepts the click event</li>
+<li><code>ApplicationRef.tick()</code> runs</li>
+<li>Change detection visits every component in the component tree</li>
+<li>244 component checks, each comparing template bindings</li>
+<li>Total change detection time: 14ms</li>
+</ul>
+<p>18ms for React, 14ms for Angular, to update a cart badge from “3” to “4”. On a mid-range phone, these times double: 36ms and 28ms. Each re-render is a long task fragment that contributes to INP.</p>
+<h2 id="react-profiling-re-renders">React: Profiling Re-renders</h2>
+<h3 id="the-react-devtools-profiler">The React DevTools Profiler</h3>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="typescript"><code><span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// Enable profiler in development</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">import</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> { Profiler, </span><span style="color:#D73A49;--shiki-dark:#F97583">type</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> ProfilerOnRenderCallback } </span><span style="color:#D73A49;--shiki-dark:#F97583">from</span><span style="color:#032F62;--shiki-dark:#9ECBFF"> 'react'</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">const</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> onRenderCallback</span><span style="color:#D73A49;--shiki-dark:#F97583">:</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> ProfilerOnRenderCallback</span><span style="color:#D73A49;--shiki-dark:#F97583"> =</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span></span>
+<span class="line"><span style="color:#E36209;--shiki-dark:#FFAB70">  id</span><span style="color:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E36209;--shiki-dark:#FFAB70">  phase</span><span style="color:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E36209;--shiki-dark:#FFAB70">  actualDuration</span><span style="color:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E36209;--shiki-dark:#FFAB70">  baseDuration</span><span style="color:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E36209;--shiki-dark:#FFAB70">  startTime</span><span style="color:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E36209;--shiki-dark:#FFAB70">  commitTime</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">) </span><span style="color:#D73A49;--shiki-dark:#F97583">=></span><span style="color:#24292E;--shiki-dark:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  if</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (actualDuration </span><span style="color:#D73A49;--shiki-dark:#F97583">></span><span style="color:#005CC5;--shiki-dark:#79B8FF"> 5</span><span style="color:#24292E;--shiki-dark:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    console.</span><span style="color:#6F42C1;--shiki-dark:#B392F0">warn</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">      `Slow render: ${</span><span style="color:#24292E;--shiki-dark:#E1E4E8">id</span><span style="color:#032F62;--shiki-dark:#9ECBFF">} (${</span><span style="color:#24292E;--shiki-dark:#E1E4E8">phase</span><span style="color:#032F62;--shiki-dark:#9ECBFF">}) took ${</span><span style="color:#24292E;--shiki-dark:#E1E4E8">actualDuration</span><span style="color:#032F62;--shiki-dark:#9ECBFF">.</span><span style="color:#6F42C1;--shiki-dark:#B392F0">toFixed</span><span style="color:#032F62;--shiki-dark:#9ECBFF">(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">1</span><span style="color:#032F62;--shiki-dark:#9ECBFF">)</span><span style="color:#032F62;--shiki-dark:#9ECBFF">}ms`</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    );</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">};</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">function</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> ProductListingPage</span><span style="color:#24292E;--shiki-dark:#E1E4E8">() {</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  return</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    &#x3C;</span><span style="color:#24292E;--shiki-dark:#E1E4E8">Profiler id</span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"ProductListing"</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> onRender</span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8">{onRenderCallback}</span><span style="color:#D73A49;--shiki-dark:#F97583">></span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">      &#x3C;</span><span style="color:#24292E;--shiki-dark:#E1E4E8">Header </span><span style="color:#D73A49;--shiki-dark:#F97583">/></span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">      &#x3C;</span><span style="color:#24292E;--shiki-dark:#E1E4E8">ProductGrid </span><span style="color:#D73A49;--shiki-dark:#F97583">/></span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    &#x3C;/</span><span style="color:#24292E;--shiki-dark:#E1E4E8">Profiler</span><span style="color:#D73A49;--shiki-dark:#F97583">></span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  );</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<p>The Profiler reports <code>actualDuration</code> (time spent rendering this component and descendants) and <code>baseDuration</code> (estimated time to render without memoization). The <code>phase</code> indicates whether this is a “mount” (first render) or “update” (re-render).</p>
+<h3 id="identifying-wasted-re-renders">Identifying Wasted Re-renders</h3>
+<p>The ProductGrid receives the same props before and after the cart update. Its product list has not changed. Its sort order has not changed. It re-renders because its parent re-rendered, and React re-renders all children by default.</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="tsx"><code><span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// SLOW: ProductGrid re-renders on every cart state change</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">function</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> ProductListingPage</span><span style="color:#24292E;--shiki-dark:#E1E4E8">() {</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  const</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [</span><span style="color:#005CC5;--shiki-dark:#79B8FF">cartItems</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">setCartItems</span><span style="color:#24292E;--shiki-dark:#E1E4E8">] </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> useState</span><span style="color:#24292E;--shiki-dark:#E1E4E8">&#x3C;</span><span style="color:#6F42C1;--shiki-dark:#B392F0">CartItem</span><span style="color:#24292E;--shiki-dark:#E1E4E8">[]>([]);</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  const</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [</span><span style="color:#005CC5;--shiki-dark:#79B8FF">products</span><span style="color:#24292E;--shiki-dark:#E1E4E8">] </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> useState</span><span style="color:#24292E;--shiki-dark:#E1E4E8">&#x3C;</span><span style="color:#6F42C1;--shiki-dark:#B392F0">Product</span><span style="color:#24292E;--shiki-dark:#E1E4E8">[]>(initialProducts);</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  const</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [</span><span style="color:#005CC5;--shiki-dark:#79B8FF">sortBy</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">setSortBy</span><span style="color:#24292E;--shiki-dark:#E1E4E8">] </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> useState</span><span style="color:#24292E;--shiki-dark:#E1E4E8">&#x3C;</span><span style="color:#6F42C1;--shiki-dark:#B392F0">SortOption</span><span style="color:#24292E;--shiki-dark:#E1E4E8">>(</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"price-asc"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  const</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> addToCart</span><span style="color:#D73A49;--shiki-dark:#F97583"> =</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> useCallback</span><span style="color:#24292E;--shiki-dark:#E1E4E8">((</span><span style="color:#E36209;--shiki-dark:#FFAB70">productId</span><span style="color:#D73A49;--shiki-dark:#F97583">:</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> string</span><span style="color:#24292E;--shiki-dark:#E1E4E8">) </span><span style="color:#D73A49;--shiki-dark:#F97583">=></span><span style="color:#24292E;--shiki-dark:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">    setCartItems</span><span style="color:#24292E;--shiki-dark:#E1E4E8">((</span><span style="color:#E36209;--shiki-dark:#FFAB70">prev</span><span style="color:#24292E;--shiki-dark:#E1E4E8">) </span><span style="color:#D73A49;--shiki-dark:#F97583">=></span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [</span><span style="color:#D73A49;--shiki-dark:#F97583">...</span><span style="color:#24292E;--shiki-dark:#E1E4E8">prev, { productId, quantity: </span><span style="color:#005CC5;--shiki-dark:#79B8FF">1</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> }]);</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }, []);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  return</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    &#x3C;></span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      &#x3C;</span><span style="color:#005CC5;--shiki-dark:#79B8FF">Header</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> cartCount</span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8">{cartItems.</span><span style="color:#005CC5;--shiki-dark:#79B8FF">length</span><span style="color:#24292E;--shiki-dark:#E1E4E8">} /></span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      {</span><span style="color:#6A737D;--shiki-dark:#6A737D">/* ProductGrid re-renders when cartItems changes */</span><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      {</span><span style="color:#6A737D;--shiki-dark:#6A737D">/* Even though its props (products, sortBy, addToCart) haven't changed */</span><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      &#x3C;</span><span style="color:#005CC5;--shiki-dark:#79B8FF">ProductGrid</span></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">        products</span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8">{products}</span></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">        sortBy</span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8">{sortBy}</span></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">        onAddToCart</span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8">{addToCart}</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      /></span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    &#x3C;/></span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  );</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<p>The issue: <code>setCartItems</code> triggers a re-render of <code>ProductListingPage</code>. React re-renders every child. <code>ProductGrid</code> receives the same <code>products</code> array, the same <code>sortBy</code> string, and the same <code>addToCart</code> function (stabilized with <code>useCallback</code>). It performs reconciliation on 60 product cards, diffs their virtual DOM trees, and determines that nothing changed. The result is correct (no DOM mutations), but the work is wasted.</p>
+<h3 id="reactmemo-with-measured-justification">React.memo with Measured Justification</h3>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="tsx"><code><span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// FAST: Memoized ProductGrid skips re-render when props are unchanged</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">const</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> ProductGrid</span><span style="color:#D73A49;--shiki-dark:#F97583"> =</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> memo</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#D73A49;--shiki-dark:#F97583">function</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> ProductGrid</span><span style="color:#24292E;--shiki-dark:#E1E4E8">({</span></span>
+<span class="line"><span style="color:#E36209;--shiki-dark:#FFAB70">  products</span><span style="color:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E36209;--shiki-dark:#FFAB70">  sortBy</span><span style="color:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E36209;--shiki-dark:#FFAB70">  onAddToCart</span><span style="color:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span><span style="color:#D73A49;--shiki-dark:#F97583">:</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> ProductGridProps</span><span style="color:#24292E;--shiki-dark:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  const</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> sorted</span><span style="color:#D73A49;--shiki-dark:#F97583"> =</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> useMemo</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    () </span><span style="color:#D73A49;--shiki-dark:#F97583">=></span><span style="color:#6F42C1;--shiki-dark:#B392F0"> sortProducts</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(products, sortBy),</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    [products, sortBy],</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  );</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  return</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    &#x3C;</span><span style="color:#22863A;--shiki-dark:#85E89D">div</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> className</span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"grid grid-cols-3 gap-4"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">></span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      {sorted.</span><span style="color:#6F42C1;--shiki-dark:#B392F0">map</span><span style="color:#24292E;--shiki-dark:#E1E4E8">((</span><span style="color:#E36209;--shiki-dark:#FFAB70">product</span><span style="color:#24292E;--shiki-dark:#E1E4E8">) </span><span style="color:#D73A49;--shiki-dark:#F97583">=></span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        &#x3C;</span><span style="color:#005CC5;--shiki-dark:#79B8FF">ProductCard</span></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">          key</span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8">{product.id}</span></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">          product</span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8">{product}</span></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">          onAddToCart</span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8">{onAddToCart}</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        /></span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      ))}</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    &#x3C;/</span><span style="color:#22863A;--shiki-dark:#85E89D">div</span><span style="color:#24292E;--shiki-dark:#E1E4E8">></span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  );</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">});</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">const</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> ProductCard</span><span style="color:#D73A49;--shiki-dark:#F97583"> =</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> memo</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#D73A49;--shiki-dark:#F97583">function</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> ProductCard</span><span style="color:#24292E;--shiki-dark:#E1E4E8">({</span></span>
+<span class="line"><span style="color:#E36209;--shiki-dark:#FFAB70">  product</span><span style="color:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E36209;--shiki-dark:#FFAB70">  onAddToCart</span><span style="color:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span><span style="color:#D73A49;--shiki-dark:#F97583">:</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> ProductCardProps</span><span style="color:#24292E;--shiki-dark:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  return</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    &#x3C;</span><span style="color:#22863A;--shiki-dark:#85E89D">div</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> className</span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"rounded-lg border p-4"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">></span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      &#x3C;</span><span style="color:#22863A;--shiki-dark:#85E89D">img</span></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">        src</span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8">{product.thumbnailUrl}</span></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">        alt</span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8">{product.name}</span></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">        loading</span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"lazy"</span></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">        width</span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8">{</span><span style="color:#005CC5;--shiki-dark:#79B8FF">280</span><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">        height</span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8">{</span><span style="color:#005CC5;--shiki-dark:#79B8FF">280</span><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      /></span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      &#x3C;</span><span style="color:#22863A;--shiki-dark:#85E89D">h3</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> className</span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"mt-2 font-medium"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">>{product.name}&#x3C;/</span><span style="color:#22863A;--shiki-dark:#85E89D">h3</span><span style="color:#24292E;--shiki-dark:#E1E4E8">></span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      &#x3C;</span><span style="color:#22863A;--shiki-dark:#85E89D">p</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> className</span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"text-lg font-bold"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">>{</span><span style="color:#6F42C1;--shiki-dark:#B392F0">formatPrice</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(product.price)}&#x3C;/</span><span style="color:#22863A;--shiki-dark:#85E89D">p</span><span style="color:#24292E;--shiki-dark:#E1E4E8">></span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      &#x3C;</span><span style="color:#22863A;--shiki-dark:#85E89D">button</span></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">        onClick</span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8">{() </span><span style="color:#D73A49;--shiki-dark:#F97583">=></span><span style="color:#6F42C1;--shiki-dark:#B392F0"> onAddToCart</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(product.id)}</span></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">        className</span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"mt-2 rounded bg-blue-600 px-4 py-2 text-white"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      ></span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        Add to Cart</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      &#x3C;/</span><span style="color:#22863A;--shiki-dark:#85E89D">button</span><span style="color:#24292E;--shiki-dark:#E1E4E8">></span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    &#x3C;/</span><span style="color:#22863A;--shiki-dark:#85E89D">div</span><span style="color:#24292E;--shiki-dark:#E1E4E8">></span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  );</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">});</span></span></code></pre>
+<p>After memoization, the “Add to Cart” click triggers:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Component</th><th>Before memo</th><th>After memo</th></tr></thead><tbody><tr><td>ProductListingPage</td><td>Re-render</td><td>Re-render</td></tr><tr><td>Header</td><td>Re-render</td><td>Re-render</td></tr><tr><td>ProductGrid</td><td>Re-render (18ms)</td><td>Skipped (0.1ms prop comparison)</td></tr><tr><td>60 ProductCards</td><td>Re-render</td><td>Skipped</td></tr><tr><td>Total re-render time</td><td>18ms</td><td>1.2ms</td></tr></tbody></table>
+<p>The 16.8ms saving occurs on every cart interaction. For a user who adds 5 items to the cart during a session, this saves 84ms of main thread time that would otherwise contribute to INP.</p>
+<h3 id="when-not-to-memo">When Not to Memo</h3>
+<p><code>React.memo</code> adds a shallow comparison of all props on every parent re-render. For components that always receive new props (new object references, inline callbacks), the comparison cost is paid without any benefit:</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="tsx"><code><span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// SLOW: memo is wasteful here - style object is new every render</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">const</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> BadMemo</span><span style="color:#D73A49;--shiki-dark:#F97583"> =</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> memo</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#D73A49;--shiki-dark:#F97583">function</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> Widget</span><span style="color:#24292E;--shiki-dark:#E1E4E8">({ </span><span style="color:#E36209;--shiki-dark:#FFAB70">data</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> }</span><span style="color:#D73A49;--shiki-dark:#F97583">:</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> { </span><span style="color:#E36209;--shiki-dark:#FFAB70">data</span><span style="color:#D73A49;--shiki-dark:#F97583">:</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> Data</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> }) {</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  return</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> &#x3C;</span><span style="color:#22863A;--shiki-dark:#85E89D">div</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> style</span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8">{{ color: data.color }}>{data.label}&#x3C;/</span><span style="color:#22863A;--shiki-dark:#85E89D">div</span><span style="color:#24292E;--shiki-dark:#E1E4E8">>;</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">});</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// The parent always passes a new object:</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">function</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> Parent</span><span style="color:#24292E;--shiki-dark:#E1E4E8">() {</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  const</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [</span><span style="color:#005CC5;--shiki-dark:#79B8FF">count</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">setCount</span><span style="color:#24292E;--shiki-dark:#E1E4E8">] </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> useState</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">0</span><span style="color:#24292E;--shiki-dark:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">  // New object reference every render - memo comparison always fails</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  return</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> &#x3C;</span><span style="color:#005CC5;--shiki-dark:#79B8FF">BadMemo</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> data</span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8">{{ color: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"red"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, label: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">`Count: ${</span><span style="color:#24292E;--shiki-dark:#E1E4E8">count</span><span style="color:#032F62;--shiki-dark:#9ECBFF">}`</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> }} />;</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<p>The decision rule: profile first. If the Profiler shows a component re-renders with <code>actualDuration > 2ms</code> and the re-render is triggered by unrelated state changes, <code>React.memo</code> is justified. If the component is cheap to render (&#x3C;1ms) or always receives new props, <code>memo</code> adds cost without benefit.</p>
+<h2 id="angular-onpush-change-detection">Angular: OnPush Change Detection</h2>
+<h3 id="default-vs-onpush">Default vs OnPush</h3>
+<p>Angular’s default change detection strategy checks every component’s template bindings on every change detection cycle. Zone.js triggers change detection on every async event: click, HTTP response, setTimeout, setInterval.</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="typescript"><code><span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// SLOW: Default change detection</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// Every user interaction triggers change detection on this component</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// Even if no inputs changed</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">@</span><span style="color:#6F42C1;--shiki-dark:#B392F0">Component</span><span style="color:#24292E;--shiki-dark:#E1E4E8">({</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  selector: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"app-product-card"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  template: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">`</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">    &#x3C;div class="product-card"></span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">      &#x3C;img [src]="product.thumbnailUrl" [alt]="product.name" /></span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">      &#x3C;h3>{{ product.name }}&#x3C;/h3></span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">      &#x3C;p>{{ product.price | currency }}&#x3C;/p></span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">      &#x3C;button (click)="addToCart.emit(product.id)">Add to Cart&#x3C;/button></span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">    &#x3C;/div></span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">  `</span><span style="color:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">})</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">export</span><span style="color:#D73A49;--shiki-dark:#F97583"> class</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> ProductCardComponent</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  @</span><span style="color:#6F42C1;--shiki-dark:#B392F0">Input</span><span style="color:#24292E;--shiki-dark:#E1E4E8">() </span><span style="color:#E36209;--shiki-dark:#FFAB70">product</span><span style="color:#D73A49;--shiki-dark:#F97583">!:</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> Product</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  @</span><span style="color:#6F42C1;--shiki-dark:#B392F0">Output</span><span style="color:#24292E;--shiki-dark:#E1E4E8">() </span><span style="color:#E36209;--shiki-dark:#FFAB70">addToCart</span><span style="color:#D73A49;--shiki-dark:#F97583"> =</span><span style="color:#D73A49;--shiki-dark:#F97583"> new</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> EventEmitter</span><span style="color:#24292E;--shiki-dark:#E1E4E8">&#x3C;</span><span style="color:#005CC5;--shiki-dark:#79B8FF">string</span><span style="color:#24292E;--shiki-dark:#E1E4E8">>();</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<p>With default detection, every click anywhere on the page triggers Angular to check if <code>product.thumbnailUrl</code>, <code>product.name</code>, or <code>product.price</code> changed. For 60 product cards, that is 180 binding checks per user interaction.</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="typescript"><code><span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// FAST: OnPush change detection</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// Change detection runs only when inputs change by reference or events fire</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">@</span><span style="color:#6F42C1;--shiki-dark:#B392F0">Component</span><span style="color:#24292E;--shiki-dark:#E1E4E8">({</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  selector: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"app-product-card"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  changeDetection: ChangeDetectionStrategy.OnPush,</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  template: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">`</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">    &#x3C;div class="product-card"></span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">      &#x3C;img [src]="product.thumbnailUrl" [alt]="product.name" /></span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">      &#x3C;h3>{{ product.name }}&#x3C;/h3></span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">      &#x3C;p>{{ product.price | currency }}&#x3C;/p></span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">      &#x3C;button (click)="addToCart.emit(product.id)">Add to Cart&#x3C;/button></span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">    &#x3C;/div></span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">  `</span><span style="color:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">})</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">export</span><span style="color:#D73A49;--shiki-dark:#F97583"> class</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> ProductCardComponent</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  @</span><span style="color:#6F42C1;--shiki-dark:#B392F0">Input</span><span style="color:#24292E;--shiki-dark:#E1E4E8">() </span><span style="color:#E36209;--shiki-dark:#FFAB70">product</span><span style="color:#D73A49;--shiki-dark:#F97583">!:</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> Product</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  @</span><span style="color:#6F42C1;--shiki-dark:#B392F0">Output</span><span style="color:#24292E;--shiki-dark:#E1E4E8">() </span><span style="color:#E36209;--shiki-dark:#FFAB70">addToCart</span><span style="color:#D73A49;--shiki-dark:#F97583"> =</span><span style="color:#D73A49;--shiki-dark:#F97583"> new</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> EventEmitter</span><span style="color:#24292E;--shiki-dark:#E1E4E8">&#x3C;</span><span style="color:#005CC5;--shiki-dark:#79B8FF">string</span><span style="color:#24292E;--shiki-dark:#E1E4E8">>();</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<p>With <code>OnPush</code>, Angular skips change detection for <code>ProductCardComponent</code> unless:</p>
+<ol>
+<li>An <code>@Input()</code> property receives a new reference (not deep equality, reference equality)</li>
+<li>An event handler fires within the component</li>
+<li>An Observable bound with <code>async</code> pipe emits</li>
+</ol>
+<p>The product list does not change when a user adds to cart. With <code>OnPush</code> on all 60 product card components, Angular skips 180 binding checks.</p>
+<h3 id="signal-based-reactivity">Signal-Based Reactivity</h3>
+<p>Angular Signals provide fine-grained reactivity without Zone.js:</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="typescript"><code><span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// Angular Signals: surgical updates</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">@</span><span style="color:#6F42C1;--shiki-dark:#B392F0">Component</span><span style="color:#24292E;--shiki-dark:#E1E4E8">({</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  selector: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"app-product-listing"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  standalone: </span><span style="color:#005CC5;--shiki-dark:#79B8FF">true</span><span style="color:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  changeDetection: ChangeDetectionStrategy.OnPush,</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  template: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">`</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">    &#x3C;app-header [cartCount]="cartCount()" /></span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">    &#x3C;div class="grid grid-cols-3 gap-4"></span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">      @for (product of products(); track product.id) {</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">        &#x3C;app-product-card</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">          [product]="product"</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">          (addToCart)="handleAddToCart($event)"</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">        /></span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">      }</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">    &#x3C;/div></span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">  `</span><span style="color:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  imports: [HeaderComponent, ProductCardComponent],</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">})</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">export</span><span style="color:#D73A49;--shiki-dark:#F97583"> class</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> ProductListingComponent</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  private</span><span style="color:#D73A49;--shiki-dark:#F97583"> readonly</span><span style="color:#E36209;--shiki-dark:#FFAB70"> cartService</span><span style="color:#D73A49;--shiki-dark:#F97583"> =</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> inject</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(CartService);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E36209;--shiki-dark:#FFAB70">  products</span><span style="color:#D73A49;--shiki-dark:#F97583"> =</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> signal</span><span style="color:#24292E;--shiki-dark:#E1E4E8">&#x3C;</span><span style="color:#6F42C1;--shiki-dark:#B392F0">Product</span><span style="color:#24292E;--shiki-dark:#E1E4E8">[]>([]);</span></span>
+<span class="line"><span style="color:#E36209;--shiki-dark:#FFAB70">  cartCount</span><span style="color:#D73A49;--shiki-dark:#F97583"> =</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> computed</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(() </span><span style="color:#D73A49;--shiki-dark:#F97583">=></span><span style="color:#005CC5;--shiki-dark:#79B8FF"> this</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.cartService.</span><span style="color:#6F42C1;--shiki-dark:#B392F0">items</span><span style="color:#24292E;--shiki-dark:#E1E4E8">().</span><span style="color:#005CC5;--shiki-dark:#79B8FF">length</span><span style="color:#24292E;--shiki-dark:#E1E4E8">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">  handleAddToCart</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#E36209;--shiki-dark:#FFAB70">productId</span><span style="color:#D73A49;--shiki-dark:#F97583">:</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> string</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span><span style="color:#D73A49;--shiki-dark:#F97583">:</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> void</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">    this</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.cartService.</span><span style="color:#6F42C1;--shiki-dark:#B392F0">addItem</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(productId);</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">    // Only cartCount signal updates</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">    // products signal unchanged = product cards not re-checked</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// Cart service with signals</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">@</span><span style="color:#6F42C1;--shiki-dark:#B392F0">Injectable</span><span style="color:#24292E;--shiki-dark:#E1E4E8">({ providedIn: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"root"</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> })</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">export</span><span style="color:#D73A49;--shiki-dark:#F97583"> class</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> CartService</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#E36209;--shiki-dark:#FFAB70">  items</span><span style="color:#D73A49;--shiki-dark:#F97583"> =</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> signal</span><span style="color:#24292E;--shiki-dark:#E1E4E8">&#x3C;</span><span style="color:#6F42C1;--shiki-dark:#B392F0">CartItem</span><span style="color:#24292E;--shiki-dark:#E1E4E8">[]>([]);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">  addItem</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#E36209;--shiki-dark:#FFAB70">productId</span><span style="color:#D73A49;--shiki-dark:#F97583">:</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> string</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span><span style="color:#D73A49;--shiki-dark:#F97583">:</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> void</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">    this</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.items.</span><span style="color:#6F42C1;--shiki-dark:#B392F0">update</span><span style="color:#24292E;--shiki-dark:#E1E4E8">((</span><span style="color:#E36209;--shiki-dark:#FFAB70">items</span><span style="color:#24292E;--shiki-dark:#E1E4E8">) </span><span style="color:#D73A49;--shiki-dark:#F97583">=></span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [</span><span style="color:#D73A49;--shiki-dark:#F97583">...</span><span style="color:#24292E;--shiki-dark:#E1E4E8">items, { productId, quantity: </span><span style="color:#005CC5;--shiki-dark:#79B8FF">1</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> }]);</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<p>With signals, adding to cart updates only <code>cartCount</code>. The <code>products</code> signal reference does not change, so the <code>@for</code> loop does not re-check product cards. The header re-renders because <code>cartCount()</code> changed.</p>
+<p>Change detection comparison for “Add to Cart”:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Strategy</th><th>Components checked</th><th>Bindings evaluated</th><th>Time</th></tr></thead><tbody><tr><td>Default</td><td>244</td><td>732</td><td>14ms</td></tr><tr><td>OnPush (all components)</td><td>3</td><td>8</td><td>0.8ms</td></tr><tr><td>Signals + OnPush</td><td>2</td><td>4</td><td>0.4ms</td></tr></tbody></table>
+<h3 id="angular-profiling">Angular Profiling</h3>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="typescript"><code><span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">// Angular DevTools profiler equivalent: manual instrumentation</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">import</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> { AfterViewChecked, Component } </span><span style="color:#D73A49;--shiki-dark:#F97583">from</span><span style="color:#032F62;--shiki-dark:#9ECBFF"> "@angular/core"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">@</span><span style="color:#6F42C1;--shiki-dark:#B392F0">Component</span><span style="color:#24292E;--shiki-dark:#E1E4E8">({</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  selector: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"app-product-grid"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">  // ...</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">})</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">export</span><span style="color:#D73A49;--shiki-dark:#F97583"> class</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> ProductGridComponent</span><span style="color:#D73A49;--shiki-dark:#F97583"> implements</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> AfterViewChecked</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  private</span><span style="color:#E36209;--shiki-dark:#FFAB70"> checkCount</span><span style="color:#D73A49;--shiki-dark:#F97583"> =</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> 0</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">  ngAfterViewChecked</span><span style="color:#24292E;--shiki-dark:#E1E4E8">()</span><span style="color:#D73A49;--shiki-dark:#F97583">:</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> void</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">    this</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.checkCount</span><span style="color:#D73A49;--shiki-dark:#F97583">++</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    if</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="color:#005CC5;--shiki-dark:#79B8FF">this</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.checkCount </span><span style="color:#D73A49;--shiki-dark:#F97583">%</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> 100</span><span style="color:#D73A49;--shiki-dark:#F97583"> ===</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> 0</span><span style="color:#24292E;--shiki-dark:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      console.</span><span style="color:#6F42C1;--shiki-dark:#B392F0">log</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#032F62;--shiki-dark:#9ECBFF">`ProductGrid checked ${</span><span style="color:#005CC5;--shiki-dark:#79B8FF">this</span><span style="color:#032F62;--shiki-dark:#9ECBFF">.</span><span style="color:#24292E;--shiki-dark:#E1E4E8">checkCount</span><span style="color:#032F62;--shiki-dark:#9ECBFF">} times`</span><span style="color:#24292E;--shiki-dark:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<p>In production, the Angular DevTools “Profiler” tab shows change detection cycles, component check counts, and time per cycle. A component with high check counts and OnPush disabled is a memoization candidate.</p>
+<h2 id="framework-agnostic-performance-rules">Framework-Agnostic Performance Rules</h2>
+<p>Both React and Angular share the same underlying performance constraint: the browser’s main thread. Both frameworks perform reconciliation/change detection synchronously on the main thread. Both compete with layout, paint, and input handling for the same 16.67ms frame budget (60fps).</p>
+<p>Three rules apply regardless of framework:</p>
+<p><strong>1. Lift state to the narrowest shared ancestor.</strong> If only the header needs cart count, cart state should live in a context/service, not in the page component that wraps the product grid.</p>
+<p><strong>2. Stabilize references.</strong> Functions, objects, and arrays passed as props/inputs must maintain reference identity across renders unless their value changed. In React, this means <code>useCallback</code> and <code>useMemo</code>. In Angular, this means immutable data patterns with OnPush.</p>
+<p><strong>3. Profile before optimizing.</strong> The React Profiler and Angular DevTools Profiler show which components re-render and how long each takes. Adding <code>memo</code> or <code>OnPush</code> to a component that takes &#x3C;1ms to render saves nothing and adds maintenance cost.</p>
+<p>The CI gate from Chapter 2 catches INP regressions caused by excessive re-renders. A Lighthouse audit with simulated throttling surfaces long tasks that include framework reconciliation work. The total blocking time metric in the CI report is the aggregate of all long task overruns, including re-render time.</p>
+<p>For the e-commerce platform:</p>
+<ul>
+<li>Product listing: <code>memo</code> / <code>OnPush</code> on ProductCard (60 instances, 18ms → 1.2ms on cart update)</li>
+<li>Product detail: <code>memo</code> on Reviews and Recommendations (stream independently, heavy render)</li>
+<li>Checkout: No memoization needed (small component tree, all components depend on form state)</li>
+<li>Inventory dashboard: Signals in Angular, <code>useSyncExternalStore</code> in React (real-time data, frequent updates)</li>
+</ul> </div> <!-- Chapter Navigation --> <nav class="mt-16 pt-8 border-t border-border/50"> <div class="grid grid-cols-1 sm:grid-cols-2 gap-4"> <a href="/books/fast-frontend/ch10-s2/" class="group flex items-center gap-4 p-4 rounded-xl border border-border/50 bg-card/50 hover:border-primary/40 hover:bg-card transition-all duration-200"> <div class="shrink-0 w-10 h-10 rounded-lg bg-muted flex items-center justify-center group-hover:bg-primary/10 transition-colors"> <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground group-hover:text-primary transition-colors"><path d="M15 19l-7-7 7-7" /></svg> </div> <div class="min-w-0"> <div class="text-xs text-muted-foreground mb-1">Previous</div> <div class="font-medium text-sm line-clamp-2">Edge Rendering and Static Generation Hybrid</div> </div> </a> <a href="/books/fast-frontend/ch11-s1/" class="group flex items-center gap-4 p-4 rounded-xl border border-border/50 bg-card/50 hover:border-primary/40 hover:bg-card transition-all duration-200 sm:text-right sm:flex-row-reverse"> <div class="shrink-0 w-10 h-10 rounded-lg bg-muted flex items-center justify-center group-hover:bg-primary/10 transition-colors"> <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground group-hover:text-primary transition-colors"><path d="M9 5l7 7-7 7" /></svg> </div> <div class="min-w-0"> <div class="text-xs text-muted-foreground mb-1">Next</div> <div class="font-medium text-sm line-clamp-2">React Render Optimization Patterns</div> </div> </a> </div> </nav> </article> </div> </div>  </main> <!-- Footer with gradient accent --> <footer class="border-t border-border/50 mt-auto relative bg-background/50 backdrop-blur-sm"> <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent"></div> <div class="container mx-auto px-4 py-8"> <div class="flex flex-col md:flex-row items-center justify-between gap-6">  <div class="flex flex-col items-center md:items-start gap-4"> <nav class="flex flex-wrap items-center justify-center md:justify-start gap-x-6 gap-y-2 text-sm text-muted-foreground"> <a href="/about" class="hover:text-foreground transition-colors">About</a> <a href="/terms" class="hover:text-foreground transition-colors">Terms & License</a> <a href="mailto:arezki.elmehdi@gmail.com?subject=Hello%20Dev|Journal&body=Hi%20Mehdi," class="hover:text-foreground transition-colors">Contact</a> <div class="hidden md:block w-px h-3 bg-border"></div> <a href="https://github.com/earezki" target="_blank" rel="noopener noreferrer" class="hover:text-foreground transition-colors">GitHub</a> <a href="/rss.xml" class="hover:text-foreground transition-colors">RSS</a> <a href="/tags/" class="hover:text-foreground transition-colors">Tags</a> <a href="/learning-paths/" class="hover:text-foreground transition-colors">Paths</a> <a href="/sitemap-index.xml" class="hover:text-foreground transition-colors">Sitemap</a> <a href="/subscribe" class="hover:text-foreground transition-colors">Subscribe</a> </nav> <p class="text-muted-foreground text-sm text-center md:text-left">
+&copy; 2026 AREZKI El Mehdi
+</p> </div>  <div class="w-full md:w-auto md:min-w-[280px]"> <astro-island uid="kvPS3" component-url="/_astro/EmailSubscribeInput.DRTECyy2.js" component-export="EmailSubscribeInput" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;placeholder&quot;:[0,&quot;Subscribe to newsletter&quot;],&quot;buttonLabel&quot;:[0,&quot;Join&quot;],&quot;glow&quot;:[0,true]}" ssr client="idle" opts="{&quot;name&quot;:&quot;EmailSubscribeInput&quot;,&quot;value&quot;:true}" await-children><form class="relative group "><div class="absolute -inset-0.5 bg-gradient-to-r from-primary via-purple-500 to-pink-500 rounded-lg blur opacity-75 animate-pulse group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div><div class="relative flex items-center bg-background rounded-lg border border-border/50 p-1"><input type="email" required value placeholder="Subscribe to newsletter" class="bg-transparent border-none focus:ring-0 text-sm outline-none placeholder:text-muted-foreground/50 text-foreground w-full px-3 py-1.5"/><button type="submit" class="shrink-0 bg-primary text-primary-foreground rounded-md text-sm font-medium hover:bg-primary/90 transition-colors shadow-sm flex items-center gap-1.5 px-4 py-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send h-3.5 w-3.5" aria-hidden="true"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"></path><path d="m21.854 2.147-10.94 10.939"></path></svg><span class="hidden sm:inline">Join</span></button></div></form><!--astro:end--></astro-island> </div> </div> </div> </footer> <!-- Global persistent audio player --> <astro-island uid="1rN2YX" component-url="/_astro/GlobalMiniPlayer.Bb9SyHie.js" component-export="GlobalMiniPlayer" renderer-url="/_astro/client.BWL821IS.js" props="{&quot;latestEpisodeUrl&quot;:[0,&quot;https://weekly.podcast.earezki.com/morning_brief_2026-06-03.mp3&quot;],&quot;latestEpisodeTitle&quot;:[0,&quot;The Mayor, The Spec, and The Cliff&quot;],&quot;preloadIfEmpty&quot;:[0,false]}" ssr client="only" opts="{&quot;name&quot;:&quot;GlobalMiniPlayer&quot;,&quot;value&quot;:&quot;preact&quot;}"></astro-island> <!-- SVG lightbox: click any SVG diagram in content to zoom; pinch-to-zoom on mobile --> <script>
+      (function () {
+        function openLightbox(src, alt) {
+          var scale = 1;
+          var pinchStartDist = 0;
+          var pinchStartScale = 1;
+          var lastTap = 0;
+
+          var backdrop = document.createElement("div");
+          Object.assign(backdrop.style, {
+            position: "fixed",
+            top: "0",
+            left: "0",
+            right: "0",
+            bottom: "0",
+            zIndex: "9998",
+            background: "rgba(0,0,0,0.88)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            cursor: "zoom-out",
+          });
+
+          var wrapper = document.createElement("div");
+          Object.assign(wrapper.style, {
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            touchAction: "none",
+            cursor: "default",
+          });
+
+          var img = document.createElement("img");
+          img.src = src;
+          img.alt = alt || "";
+          Object.assign(img.style, {
+            display: "block",
+            width: "90vw",
+            height: "90vh",
+            objectFit: "contain",
+            borderRadius: "6px",
+            boxShadow: "0 24px 48px rgba(0,0,0,0.6)",
+            userSelect: "none",
+            WebkitUserSelect: "none",
+            cursor: "zoom-out",
+            transformOrigin: "center",
+            willChange: "transform",
+          });
+
+          function setScale(s) {
+            scale = Math.min(Math.max(s, 1), 5);
+            img.style.transform = scale === 1 ? "" : "scale(" + scale + ")";
+          }
+
+          img.addEventListener("click", function (e) {
+            e.stopPropagation();
+            if (scale > 1) setScale(1);
+            else close();
+          });
+
+          wrapper.addEventListener(
+            "touchstart",
+            function (e) {
+              if (e.touches.length === 2) {
+                pinchStartDist = Math.hypot(
+                  e.touches[1].clientX - e.touches[0].clientX,
+                  e.touches[1].clientY - e.touches[0].clientY,
+                );
+                pinchStartScale = scale;
+                e.preventDefault();
+              } else if (e.touches.length === 1) {
+                var now = Date.now();
+                if (now - lastTap < 300) {
+                  setScale(scale > 1 ? 1 : 2.5);
+                  e.preventDefault();
+                }
+                lastTap = now;
+              }
+            },
+            { passive: false },
+          );
+
+          wrapper.addEventListener(
+            "touchmove",
+            function (e) {
+              if (e.touches.length === 2) {
+                var dist = Math.hypot(
+                  e.touches[1].clientX - e.touches[0].clientX,
+                  e.touches[1].clientY - e.touches[0].clientY,
+                );
+                setScale(pinchStartScale * (dist / pinchStartDist));
+                e.preventDefault();
+              }
+            },
+            { passive: false },
+          );
+
+          wrapper.addEventListener("touchend", function (e) {
+            if (scale < 1.05) setScale(1);
+          });
+
+          function close() {
+            backdrop.remove();
+            document.removeEventListener("keydown", keyHandler);
+            document.body.style.overflow = "";
+          }
+
+          function keyHandler(e) {
+            if (e.key === "Escape") close();
+          }
+          document.addEventListener("keydown", keyHandler);
+          backdrop.addEventListener("click", close);
+          document.body.style.overflow = "hidden";
+
+          wrapper.appendChild(img);
+          backdrop.appendChild(wrapper);
+          document.body.appendChild(backdrop);
+        }
+
+        function initSvgLightbox() {
+          document
+            .querySelectorAll("main img[src$='.svg']")
+            .forEach(function (img) {
+              if (img.closest("button, a")) return;
+              img.style.cursor = "zoom-in";
+              img.addEventListener("click", function (e) {
+                e.preventDefault();
+                openLightbox(img.src, img.alt);
+              });
+            });
+        }
+
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", initSvgLightbox);
+        } else {
+          initSvgLightbox();
+        }
+      })();
+    </script> <!-- Copy button for code blocks --> <script>
+      (function () {
+        function addCopyButtons() {
+          document
+            .querySelectorAll("pre:not([data-copy-added])")
+            .forEach(function (pre) {
+              pre.setAttribute("data-copy-added", "true");
+              pre.style.position = "relative";
+
+              var btn = document.createElement("button");
+              btn.setAttribute("aria-label", "Copy code");
+              btn.setAttribute("title", "Copy code");
+              btn.className = "code-copy-btn";
+              btn.innerHTML =
+                '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>';
+
+              btn.addEventListener("click", function () {
+                var code = pre.querySelector("code");
+                var text = code ? code.innerText : pre.innerText;
+                navigator.clipboard.writeText(text).then(function () {
+                  btn.innerHTML =
+                    '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>';
+                  btn.setAttribute("aria-label", "Copied!");
+                  setTimeout(function () {
+                    btn.innerHTML =
+                      '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>';
+                    btn.setAttribute("aria-label", "Copy code");
+                  }, 2000);
+                });
+              });
+
+              pre.appendChild(btn);
+            });
+        }
+
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", addCopyButtons);
+        } else {
+          addCopyButtons();
+        }
+      })();
+    </script> </body> </html>

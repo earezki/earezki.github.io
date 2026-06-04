@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 420" width="850" height="420">
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#585b70"/>
+    </marker>
+    <filter id="shadow" x="-2%" y="-2%" width="104%" height="104%">
+      <feDropShadow dx="1" dy="1" stdDeviation="2" flood-color="#000" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="850" height="420" rx="12" fill="#1e1e2e"/>
+
+  <!-- Title -->
+  <text x="425" y="35" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="bold" fill="#cdd6f4">Observability Stack — Free Tier</text>
+
+  <!-- FastAPI Application -->
+  <g filter="url(#shadow)">
+    <rect x="300" y="60" width="250" height="55" rx="8" fill="#313244" stroke="#89b4fa" stroke-width="2"/>
+    <text x="425" y="85" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#89b4fa">FastAPI Application</text>
+    <text x="425" y="105" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#a6adc8">Sentry SDK + Prometheus Client</text>
+  </g>
+
+  <!-- Three pillars -->
+  <!-- Errors arrow -->
+  <line x1="350" y1="115" x2="150" y2="165" stroke="#f38ba8" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Metrics arrow -->
+  <line x1="425" y1="115" x2="425" y2="165" stroke="#a6e3a1" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Logs arrow -->
+  <line x1="500" y1="115" x2="700" y2="165" stroke="#f9e2af" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Sentry (Errors) -->
+  <g filter="url(#shadow)">
+    <rect x="40" y="170" width="220" height="90" rx="8" fill="#313244" stroke="#f38ba8" stroke-width="1.5"/>
+    <text x="150" y="195" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#f38ba8">Sentry</text>
+    <text x="150" y="215" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#a6adc8">Error tracking + grouping</text>
+    <text x="150" y="233" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#a6adc8">Stack traces + context</text>
+    <text x="150" y="251" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#f38ba8">Free: 5,000 errors/month</text>
+  </g>
+
+  <!-- Grafana Cloud (Metrics) -->
+  <g filter="url(#shadow)">
+    <rect x="295" y="170" width="260" height="90" rx="8" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+    <text x="425" y="195" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#a6e3a1">Grafana Cloud</text>
+    <text x="425" y="215" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#a6adc8">Dashboards + alerting</text>
+    <text x="425" y="233" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#a6adc8">Request rate, latency, errors</text>
+    <text x="425" y="251" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#a6e3a1">Free: 10,000 series</text>
+  </g>
+
+  <!-- Docker Logs (Logs) -->
+  <g filter="url(#shadow)">
+    <rect x="590" y="170" width="220" height="90" rx="8" fill="#313244" stroke="#f9e2af" stroke-width="1.5"/>
+    <text x="700" y="195" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#f9e2af">Docker Logs</text>
+    <text x="700" y="215" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#a6adc8">JSON structured logging</text>
+    <text x="700" y="233" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#a6adc8">docker compose logs | jq</text>
+    <text x="700" y="251" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#f9e2af">Free: local storage</text>
+  </g>
+
+  <!-- Grafana Agent -->
+  <g filter="url(#shadow)">
+    <rect x="330" y="290" width="190" height="45" rx="6" fill="#313244" stroke="#cba6f7" stroke-width="1.5"/>
+    <text x="425" y="318" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#cba6f7">Grafana Agent</text>
+  </g>
+
+  <line x1="425" y1="260" x2="425" y2="290" stroke="#585b70" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="460" y="278" font-family="sans-serif" font-size="9" fill="#a6adc8">scrape /metrics</text>
+
+  <!-- node_exporter -->
+  <g filter="url(#shadow)">
+    <rect x="580" y="290" width="190" height="45" rx="6" fill="#313244" stroke="#89b4fa" stroke-width="1.5"/>
+    <text x="675" y="318" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#89b4fa">node_exporter</text>
+  </g>
+
+  <line x1="520" y1="312" x2="580" y2="312" stroke="#585b70" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="550" y="305" font-family="sans-serif" font-size="9" fill="#a6adc8">system</text>
+
+  <!-- Alert flow -->
+  <g filter="url(#shadow)">
+    <rect x="70" y="300" width="220" height="90" rx="8" fill="#313244" stroke="#f38ba8" stroke-width="1.5"/>
+    <text x="180" y="325" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#cdd6f4">Alert Triggers</text>
+    <text x="180" y="345" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#f38ba8">Error rate &gt; 5% for 2 min</text>
+    <text x="180" y="362" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#f9e2af">P95 latency &gt; 1s for 5 min</text>
+    <text x="180" y="379" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#a6e3a1">Disk &gt; 80%, Memory &gt; 90%</text>
+  </g>
+
+  <!-- Total cost -->
+  <g>
+    <rect x="460" y="365" width="340" height="40" rx="8" fill="#313244" stroke="#a6e3a1" stroke-width="2"/>
+    <text x="630" y="390" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#a6e3a1">Total observability cost: $0/month</text>
+  </g>
+</svg>

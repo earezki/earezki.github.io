@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 400" width="900" height="400">
+  <rect width="900" height="400" fill="#0f172a"/>
+  <text x="450" y="30" text-anchor="middle" fill="#e2e8f0" font-family="sans-serif" font-size="16" font-weight="bold">God Class vs Anemic Model: Two Extremes of Class Design</text>
+
+  <!-- Spectrum bar -->
+  <defs>
+    <linearGradient id="designGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ef4444"/>
+      <stop offset="35%" stop-color="#f59e0b"/>
+      <stop offset="50%" stop-color="#22c55e"/>
+      <stop offset="65%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#ef4444"/>
+    </linearGradient>
+  </defs>
+  <rect x="60" y="55" width="780" height="10" rx="5" fill="url(#designGrad)" opacity="0.5"/>
+
+  <!-- Labels on spectrum -->
+  <text x="60" y="50" fill="#ef4444" font-family="sans-serif" font-size="11" font-weight="bold">ANEMIC MODEL</text>
+  <text x="450" y="50" text-anchor="middle" fill="#22c55e" font-family="sans-serif" font-size="11" font-weight="bold">READABLE ZONE</text>
+  <text x="840" y="50" text-anchor="end" fill="#ef4444" font-family="sans-serif" font-size="11" font-weight="bold">GOD CLASS</text>
+
+  <!-- Anemic model box -->
+  <rect x="30" y="80" width="270" height="270" rx="10" fill="#1e293b" stroke="#ef4444" stroke-width="1.5"/>
+  <text x="165" y="105" text-anchor="middle" fill="#ef4444" font-family="sans-serif" font-size="13" font-weight="bold">Anemic Shipment</text>
+
+  <rect x="45" y="115" width="240" height="120" rx="5" fill="#0f172a" stroke="#ef4444" stroke-width="1"/>
+  <text x="165" y="135" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="10">14 fields, 14 getters, 14 setters</text>
+  <text x="60" y="155" fill="#e2e8f0" font-family="monospace" font-size="9">getId() / setId()</text>
+  <text x="60" y="170" fill="#e2e8f0" font-family="monospace" font-size="9">getStatus() / setStatus()</text>
+  <text x="60" y="185" fill="#e2e8f0" font-family="monospace" font-size="9">getWeight() / setWeight()</text>
+  <text x="60" y="200" fill="#e2e8f0" font-family="monospace" font-size="9">getCarrierId() / setCarrierId()</text>
+  <text x="60" y="215" fill="#e2e8f0" font-family="monospace" font-size="9">... 10 more pairs</text>
+  <text x="60" y="230" fill="#ef4444" font-family="sans-serif" font-size="9" font-weight="bold">0 behavior methods</text>
+
+  <text x="165" y="260" text-anchor="middle" fill="#ef4444" font-family="sans-serif" font-size="10">Behavior scattered across</text>
+  <text x="165" y="275" text-anchor="middle" fill="#ef4444" font-family="sans-serif" font-size="10">6 service classes</text>
+  <text x="165" y="295" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="9">Search cost: "grep setStatus"</text>
+  <text x="165" y="310" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="9">→ 6 files, contradictory rules</text>
+  <text x="165" y="335" text-anchor="middle" fill="#ef4444" font-family="sans-serif" font-size="10" font-weight="bold">Destroys by dispersion</text>
+
+  <!-- Readable zone box -->
+  <rect x="315" y="80" width="270" height="270" rx="10" fill="#1e293b" stroke="#22c55e" stroke-width="2"/>
+  <text x="450" y="105" text-anchor="middle" fill="#22c55e" font-family="sans-serif" font-size="13" font-weight="bold">Readable Shipment</text>
+
+  <rect x="330" y="115" width="240" height="120" rx="5" fill="#0f172a" stroke="#22c55e" stroke-width="1"/>
+  <text x="450" y="135" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="10">Focused data + focused behavior</text>
+  <text x="345" y="155" fill="#e2e8f0" font-family="monospace" font-size="9">transitionTo(newStatus)</text>
+  <text x="345" y="170" fill="#e2e8f0" font-family="monospace" font-size="9">isDeliverable()</text>
+  <text x="345" y="185" fill="#e2e8f0" font-family="monospace" font-size="9">isModifiable()</text>
+  <text x="345" y="200" fill="#e2e8f0" font-family="monospace" font-size="9">recalculateCargo(items)</text>
+  <text x="345" y="215" fill="#22c55e" font-family="sans-serif" font-size="9" font-weight="bold">4 methods, owns its invariants</text>
+  <text x="345" y="230" fill="#22c55e" font-family="sans-serif" font-size="9" font-weight="bold">No public setters</text>
+
+  <text x="450" y="260" text-anchor="middle" fill="#22c55e" font-family="sans-serif" font-size="10">Status rules in one place</text>
+  <text x="450" y="275" text-anchor="middle" fill="#22c55e" font-family="sans-serif" font-size="10">VALID_TRANSITIONS map</text>
+  <text x="450" y="295" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="9">Q: "Can delivered be returned?"</text>
+  <text x="450" y="310" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="9">→ 1 file, 1 lookup, 1 answer</text>
+  <text x="450" y="335" text-anchor="middle" fill="#22c55e" font-family="sans-serif" font-size="10" font-weight="bold">Fits in working memory</text>
+
+  <!-- God class box -->
+  <rect x="600" y="80" width="270" height="270" rx="10" fill="#1e293b" stroke="#ef4444" stroke-width="1.5"/>
+  <text x="735" y="105" text-anchor="middle" fill="#ef4444" font-family="sans-serif" font-size="13" font-weight="bold">God ShipmentService</text>
+
+  <rect x="615" y="115" width="240" height="120" rx="5" fill="#0f172a" stroke="#ef4444" stroke-width="1"/>
+  <text x="735" y="135" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="10">47 methods, 23 dependencies</text>
+  <text x="630" y="155" fill="#e2e8f0" font-family="monospace" font-size="9">calculateRate()</text>
+  <text x="630" y="170" fill="#e2e8f0" font-family="monospace" font-size="9">generateLabel()</text>
+  <text x="630" y="185" fill="#e2e8f0" font-family="monospace" font-size="9">updateStatus()</text>
+  <text x="630" y="200" fill="#e2e8f0" font-family="monospace" font-size="9">processTracking()</text>
+  <text x="630" y="215" fill="#e2e8f0" font-family="monospace" font-size="9">... 43 more methods</text>
+  <text x="630" y="230" fill="#ef4444" font-family="sans-serif" font-size="9" font-weight="bold">3,400 lines, 5 subdomains</text>
+
+  <text x="735" y="260" text-anchor="middle" fill="#ef4444" font-family="sans-serif" font-size="10">Rate logic at line 891</text>
+  <text x="735" y="275" text-anchor="middle" fill="#ef4444" font-family="sans-serif" font-size="10">Scroll past 890 unrelated lines</text>
+  <text x="735" y="295" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="9">To understand rate calculation:</text>
+  <text x="735" y="310" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="9">navigate 3,400 lines, filter 23 deps</text>
+  <text x="735" y="335" text-anchor="middle" fill="#ef4444" font-family="sans-serif" font-size="10" font-weight="bold">Destroys by concentration</text>
+
+  <!-- Bottom annotation -->
+  <text x="450" y="380" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="11">Both extremes destroy readability. Move toward the center: classes with cohesive behavior and the data that behavior needs.</text>
+</svg>

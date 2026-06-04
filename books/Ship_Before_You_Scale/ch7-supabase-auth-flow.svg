@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 420" width="850" height="420">
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#585b70"/>
+    </marker>
+    <filter id="shadow" x="-2%" y="-2%" width="104%" height="104%">
+      <feDropShadow dx="1" dy="1" stdDeviation="2" flood-color="#000" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="850" height="420" rx="12" fill="#1e1e2e"/>
+
+  <!-- Title -->
+  <text x="425" y="35" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="bold" fill="#cdd6f4">Supabase Authentication Flow</text>
+
+  <!-- Browser -->
+  <g filter="url(#shadow)">
+    <rect x="30" y="70" width="150" height="50" rx="8" fill="#313244" stroke="#89b4fa" stroke-width="1.5"/>
+    <text x="105" y="100" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="bold" fill="#89b4fa">React App</text>
+  </g>
+
+  <!-- Arrow to Supabase Auth -->
+  <line x1="180" y1="95" x2="290" y2="95" stroke="#585b70" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="235" y="85" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#a6adc8">signInWithPassword()</text>
+
+  <!-- Supabase Auth -->
+  <g filter="url(#shadow)">
+    <rect x="295" y="70" width="180" height="50" rx="8" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+    <text x="385" y="100" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="bold" fill="#a6e3a1">Supabase Auth</text>
+  </g>
+
+  <!-- Arrow back with JWT -->
+  <line x1="385" y1="120" x2="385" y2="165" stroke="#a6e3a1" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="425" y="148" font-family="sans-serif" font-size="10" fill="#a6e3a1">JWT token</text>
+
+  <!-- JWT Token -->
+  <g filter="url(#shadow)">
+    <rect x="310" y="170" width="150" height="40" rx="6" fill="#313244" stroke="#f9e2af" stroke-width="1.5"/>
+    <text x="385" y="195" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#f9e2af">JWT (access_token)</text>
+  </g>
+
+  <!-- Arrow from JWT to API -->
+  <line x1="385" y1="210" x2="385" y2="250" stroke="#585b70" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="450" y="235" font-family="sans-serif" font-size="10" fill="#a6adc8">Authorization: Bearer &lt;jwt&gt;</text>
+
+  <!-- FastAPI -->
+  <g filter="url(#shadow)">
+    <rect x="280" y="255" width="210" height="50" rx="8" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+    <text x="385" y="277" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="bold" fill="#a6e3a1">FastAPI Backend</text>
+    <text x="385" y="295" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#a6adc8">Verify JWT with JWKS</text>
+  </g>
+
+  <!-- Verification steps -->
+  <g filter="url(#shadow)">
+    <rect x="560" y="70" width="260" height="130" rx="8" fill="#313244" stroke="#cba6f7" stroke-width="1.5"/>
+    <text x="690" y="95" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#cba6f7">JWT Verification Steps</text>
+    <text x="580" y="118" font-family="sans-serif" font-size="11" fill="#a6e3a1">1.</text>
+    <text x="600" y="118" font-family="sans-serif" font-size="11" fill="#a6adc8">Decode header (get kid)</text>
+    <text x="580" y="138" font-family="sans-serif" font-size="11" fill="#a6e3a1">2.</text>
+    <text x="600" y="138" font-family="sans-serif" font-size="11" fill="#a6adc8">Fetch JWKS from Supabase</text>
+    <text x="580" y="158" font-family="sans-serif" font-size="11" fill="#a6e3a1">3.</text>
+    <text x="600" y="158" font-family="sans-serif" font-size="11" fill="#a6adc8">Verify signature + expiry</text>
+    <text x="580" y="178" font-family="sans-serif" font-size="11" fill="#a6e3a1">4.</text>
+    <text x="600" y="178" font-family="sans-serif" font-size="11" fill="#a6adc8">Extract user_id from sub claim</text>
+  </g>
+
+  <!-- Key insight box -->
+  <g filter="url(#shadow)">
+    <rect x="560" y="225" width="260" height="80" rx="8" fill="#313244" stroke="#f38ba8" stroke-width="1.5"/>
+    <text x="690" y="250" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#f38ba8">Key Insight</text>
+    <text x="690" y="270" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#a6adc8">No Supabase SDK on the backend.</text>
+    <text x="690" y="288" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#a6adc8">Standard JWT verification only.</text>
+  </g>
+
+  <!-- Database arrow -->
+  <line x1="385" y1="305" x2="385" y2="345" stroke="#585b70" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Database -->
+  <g filter="url(#shadow)">
+    <rect x="290" y="350" width="190" height="50" rx="8" fill="#313244" stroke="#89b4fa" stroke-width="1.5"/>
+    <text x="385" y="372" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="bold" fill="#89b4fa">PostgreSQL</text>
+    <text x="385" y="390" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#a6adc8">Query by user_id</text>
+  </g>
+
+  <!-- Cost label -->
+  <g>
+    <rect x="600" y="355" width="200" height="40" rx="6" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+    <text x="700" y="380" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#a6e3a1">Auth cost: $0/month</text>
+  </g>
+</svg>

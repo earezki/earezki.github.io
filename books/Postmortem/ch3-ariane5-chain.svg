@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" width="900" height="520" font-family="monospace">
+  <rect width="900" height="520" fill="#1e1e2e"/>
+  <text x="450" y="30" text-anchor="middle" fill="#cdd6f4" font-size="15" font-weight="bold">Ariane 5 Flight 501: Failure Propagation Chain</text>
+  
+  <!-- Timeline: T+36.7s to T+39s -->
+  <line x1="80" y1="70" x2="820" y2="70" stroke="#585b70" stroke-width="1"/>
+  <text x="80" y="62" fill="#a6adc8" font-size="9">T+0s</text>
+  <text x="350" y="62" fill="#f38ba8" font-size="9" font-weight="bold">T+36.7s</text>
+  <text x="620" y="62" fill="#f38ba8" font-size="9">T+37s</text>
+  <text x="780" y="62" fill="#f38ba8" font-size="9" font-weight="bold">T+39s</text>
+  
+  <!-- Node 1: BH Overflow -->
+  <rect x="80" y="100" width="200" height="60" rx="5" fill="#313244" stroke="#89b4fa" stroke-width="1.5"/>
+  <text x="180" y="120" text-anchor="middle" fill="#89b4fa" font-size="10" font-weight="bold">BH Value Overflow</text>
+  <text x="180" y="135" text-anchor="middle" fill="#cdd6f4" font-size="9">64-bit float → 16-bit int</text>
+  <text x="180" y="148" text-anchor="middle" fill="#f38ba8" font-size="9">32,768 > 32,767 (INT16_MAX)</text>
+  
+  <!-- Arrow 1→2 -->
+  <line x1="280" y1="130" x2="330" y2="130" stroke="#89b4fa" stroke-width="1.5" marker-end="url(#arrow1)"/>
+  
+  <!-- Node 2: Ada Exception -->
+  <rect x="330" y="100" width="200" height="60" rx="5" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="430" y="120" text-anchor="middle" fill="#a6e3a1" font-size="10" font-weight="bold">Constraint_Error Raised</text>
+  <text x="430" y="135" text-anchor="middle" fill="#cdd6f4" font-size="9">Ada runtime catches overflow</text>
+  <text x="430" y="148" text-anchor="middle" fill="#f38ba8" font-size="9">No exception handler exists</text>
+  
+  <!-- Arrow 2→3 -->
+  <line x1="530" y1="130" x2="580" y2="130" stroke="#a6e3a1" stroke-width="1.5" marker-end="url(#arrow2)"/>
+  
+  <!-- Node 3: SRI Shutdown -->
+  <rect x="580" y="100" width="200" height="60" rx="5" fill="#313244" stroke="#f38ba8" stroke-width="1.5"/>
+  <text x="680" y="120" text-anchor="middle" fill="#f38ba8" font-size="10" font-weight="bold">SRI-2 Shutdown</text>
+  <text x="680" y="135" text-anchor="middle" fill="#cdd6f4" font-size="9">Unhandled exception kills task</text>
+  <text x="680" y="148" text-anchor="middle" fill="#cdd6f4" font-size="9">Writes diagnostic dump to bus</text>
+  
+  <!-- SRI-1 parallel failure -->
+  <rect x="580" y="180" width="200" height="40" rx="5" fill="#313244" stroke="#f38ba8" stroke-width="1.5"/>
+  <text x="680" y="200" text-anchor="middle" fill="#f38ba8" font-size="10" font-weight="bold">SRI-1 Shutdown</text>
+  <text x="680" y="213" text-anchor="middle" fill="#cdd6f4" font-size="9">Identical code, identical failure</text>
+  
+  <!-- Redundancy note -->
+  <rect x="580" y="232" width="200" height="28" rx="3" fill="#f38ba8" fill-opacity="0.1" stroke="#f38ba8" stroke-width="1" stroke-dasharray="4"/>
+  <text x="680" y="250" text-anchor="middle" fill="#f38ba8" font-size="9">Redundancy: ZERO protection</text>
+  
+  <!-- Node 4: OBC Misinterpretation -->
+  <rect x="330" y="290" width="250" height="60" rx="5" fill="#313244" stroke="#f38ba8" stroke-width="2"/>
+  <text x="455" y="310" text-anchor="middle" fill="#f38ba8" font-size="10" font-weight="bold">OBC Misinterprets Diagnostic</text>
+  <text x="455" y="325" text-anchor="middle" fill="#cdd6f4" font-size="9">Reads internal state as velocity data</text>
+  <text x="455" y="338" text-anchor="middle" fill="#cdd6f4" font-size="9">Computes extreme correction needed</text>
+  
+  <line x1="680" y1="260" x2="680" y2="280" stroke="#f38ba8" stroke-width="1.5"/>
+  <line x1="680" y1="280" x2="580" y2="290" stroke="#f38ba8" stroke-width="1.5" marker-end="url(#arrow3)"/>
+  
+  <!-- Node 5: Nozzle Deflection -->
+  <rect x="130" y="290" width="160" height="60" rx="5" fill="#313244" stroke="#f38ba8" stroke-width="2"/>
+  <text x="210" y="310" text-anchor="middle" fill="#f38ba8" font-size="10" font-weight="bold">Full Nozzle Deflection</text>
+  <text x="210" y="325" text-anchor="middle" fill="#cdd6f4" font-size="9">Exceeds structural limits</text>
+  <text x="210" y="338" text-anchor="middle" fill="#cdd6f4" font-size="9">at Mach 1+</text>
+  
+  <line x1="330" y1="320" x2="290" y2="320" stroke="#f38ba8" stroke-width="1.5" marker-end="url(#arrow4)"/>
+  
+  <!-- Node 6: Destruction -->
+  <rect x="130" y="380" width="160" height="50" rx="5" fill="#f38ba8" fill-opacity="0.2" stroke="#f38ba8" stroke-width="2"/>
+  <text x="210" y="400" text-anchor="middle" fill="#f38ba8" font-size="11" font-weight="bold">VEHICLE DESTROYED</text>
+  <text x="210" y="415" text-anchor="middle" fill="#cdd6f4" font-size="9">$370M + 4 satellites</text>
+  
+  <line x1="210" y1="350" x2="210" y2="380" stroke="#f38ba8" stroke-width="2" marker-end="url(#arrow3)"/>
+
+  <!-- Containment opportunities -->
+  <text x="80" y="470" fill="#a6e3a1" font-size="10" font-weight="bold">Missed Containment Points:</text>
+  <text x="80" y="488" fill="#a6adc8" font-size="9">1. Catch exception in SRI  2. Send failure signal instead of dump  3. Validate velocity magnitude in OBC  4. Limit nozzle deflection</text>
+
+  <defs>
+    <marker id="arrow1" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#89b4fa"/></marker>
+    <marker id="arrow2" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#a6e3a1"/></marker>
+    <marker id="arrow3" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#f38ba8"/></marker>
+    <marker id="arrow4" viewBox="0 0 10 10" refX="0" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 10 0 L 0 5 L 10 10 z" fill="#f38ba8"/></marker>
+  </defs>
+</svg>

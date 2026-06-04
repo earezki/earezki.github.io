@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 350" font-family="system-ui, -apple-system, sans-serif">
+  <rect width="720" height="350" fill="#0f172a" rx="8"/>
+  <text x="360" y="32" text-anchor="middle" fill="#e2e8f0" font-size="16" font-weight="bold">HTTP/1.1 vs HTTP/2 Multiplexing</text>
+
+  <!-- HTTP/1.1 section -->
+  <text x="180" y="60" text-anchor="middle" fill="#ef4444" font-size="13" font-weight="bold">HTTP/1.1 (6 connections)</text>
+
+  <!-- 6 separate connection lanes -->
+  <rect x="30" y="75" width="300" height="20" fill="#1e293b" rx="3" stroke="#475569" stroke-width="1"/>
+  <rect x="35" y="78" width="80" height="14" fill="#ef4444" rx="2" opacity="0.8"/>
+  <text x="75" y="89" text-anchor="middle" fill="#0f172a" font-size="8" font-weight="bold">main.js</text>
+  <text x="325" y="89" text-anchor="end" fill="#94a3b8" font-size="8">conn 1</text>
+
+  <rect x="30" y="100" width="300" height="20" fill="#1e293b" rx="3" stroke="#475569" stroke-width="1"/>
+  <rect x="35" y="103" width="60" height="14" fill="#ef4444" rx="2" opacity="0.8"/>
+  <text x="65" y="114" text-anchor="middle" fill="#0f172a" font-size="8" font-weight="bold">style.css</text>
+  <rect x="100" y="103" width="40" height="14" fill="#ef4444" rx="2" opacity="0.6"/>
+  <text x="120" y="114" text-anchor="middle" fill="#0f172a" font-size="7">vendor</text>
+  <text x="325" y="114" text-anchor="end" fill="#94a3b8" font-size="8">conn 2</text>
+
+  <rect x="30" y="125" width="300" height="20" fill="#1e293b" rx="3" stroke="#475569" stroke-width="1"/>
+  <rect x="35" y="128" width="45" height="14" fill="#ef4444" rx="2" opacity="0.8"/>
+  <text x="57" y="139" text-anchor="middle" fill="#0f172a" font-size="7">img1</text>
+  <rect x="85" y="128" width="45" height="14" fill="#ef4444" rx="2" opacity="0.6"/>
+  <text x="107" y="139" text-anchor="middle" fill="#0f172a" font-size="7">img4</text>
+  <text x="325" y="139" text-anchor="end" fill="#94a3b8" font-size="8">conn 3</text>
+
+  <rect x="30" y="150" width="300" height="20" fill="#1e293b" rx="3" stroke="#475569" stroke-width="1"/>
+  <rect x="35" y="153" width="45" height="14" fill="#ef4444" rx="2" opacity="0.8"/>
+  <text x="57" y="164" text-anchor="middle" fill="#0f172a" font-size="7">img2</text>
+  <rect x="85" y="153" width="45" height="14" fill="#ef4444" rx="2" opacity="0.6"/>
+  <text x="107" y="164" text-anchor="middle" fill="#0f172a" font-size="7">img5</text>
+  <text x="325" y="164" text-anchor="end" fill="#94a3b8" font-size="8">conn 4</text>
+
+  <rect x="30" y="175" width="300" height="20" fill="#1e293b" rx="3" stroke="#475569" stroke-width="1"/>
+  <rect x="35" y="178" width="45" height="14" fill="#ef4444" rx="2" opacity="0.8"/>
+  <text x="57" y="189" text-anchor="middle" fill="#0f172a" font-size="7">img3</text>
+  <rect x="85" y="178" width="45" height="14" fill="#ef4444" rx="2" opacity="0.6"/>
+  <text x="107" y="189" text-anchor="middle" fill="#0f172a" font-size="7">font</text>
+  <text x="325" y="189" text-anchor="end" fill="#94a3b8" font-size="8">conn 5</text>
+
+  <rect x="30" y="200" width="300" height="20" fill="#1e293b" rx="3" stroke="#475569" stroke-width="1"/>
+  <rect x="35" y="203" width="55" height="14" fill="#ef4444" rx="2" opacity="0.8"/>
+  <text x="62" y="214" text-anchor="middle" fill="#0f172a" font-size="7">api.json</text>
+  <text x="325" y="214" text-anchor="end" fill="#94a3b8" font-size="8">conn 6</text>
+
+  <!-- Blocked indicator -->
+  <text x="180" y="240" text-anchor="middle" fill="#ef4444" font-size="10">Head-of-line blocking: requests queue behind slow responses</text>
+
+  <!-- HTTP/2 section -->
+  <text x="540" y="60" text-anchor="middle" fill="#22c55e" font-size="13" font-weight="bold">HTTP/2 (1 connection)</text>
+
+  <!-- Single multiplexed connection -->
+  <rect x="390" y="75" width="300" height="170" fill="#1e293b" rx="6" stroke="#22c55e" stroke-width="1.5"/>
+  <text x="685" y="89" text-anchor="end" fill="#22c55e" font-size="9">Single TCP conn</text>
+
+  <!-- Interleaved streams -->
+  <rect x="400" y="85" width="90" height="12" fill="#38bdf8" rx="2" opacity="0.9"/>
+  <text x="445" y="95" text-anchor="middle" fill="#0f172a" font-size="8" font-weight="bold">main.js</text>
+
+  <rect x="400" y="101" width="65" height="12" fill="#22c55e" rx="2" opacity="0.9"/>
+  <text x="432" y="111" text-anchor="middle" fill="#0f172a" font-size="8" font-weight="bold">style.css</text>
+  <rect x="495" y="85" width="40" height="12" fill="#38bdf8" rx="2" opacity="0.6"/>
+  <rect x="470" y="101" width="35" height="12" fill="#22c55e" rx="2" opacity="0.6"/>
+
+  <rect x="400" y="117" width="35" height="12" fill="#f59e0b" rx="2" opacity="0.9"/>
+  <text x="417" y="127" text-anchor="middle" fill="#0f172a" font-size="7">img1</text>
+  <rect x="440" y="117" width="35" height="12" fill="#f59e0b" rx="2" opacity="0.8"/>
+  <text x="457" y="127" text-anchor="middle" fill="#0f172a" font-size="7">img2</text>
+  <rect x="480" y="117" width="35" height="12" fill="#f59e0b" rx="2" opacity="0.7"/>
+  <text x="497" y="127" text-anchor="middle" fill="#0f172a" font-size="7">img3</text>
+
+  <rect x="540" y="85" width="40" height="12" fill="#38bdf8" rx="2" opacity="0.5"/>
+  <rect x="520" y="117" width="35" height="12" fill="#f59e0b" rx="2" opacity="0.6"/>
+  <text x="537" y="127" text-anchor="middle" fill="#0f172a" font-size="7">img4</text>
+
+  <rect x="400" y="133" width="35" height="12" fill="#a78bfa" rx="2" opacity="0.9"/>
+  <text x="417" y="143" text-anchor="middle" fill="#0f172a" font-size="7">img5</text>
+  <rect x="440" y="133" width="50" height="12" fill="#e2e8f0" rx="2" opacity="0.7"/>
+  <text x="465" y="143" text-anchor="middle" fill="#0f172a" font-size="7">font</text>
+
+  <rect x="400" y="149" width="40" height="12" fill="#38bdf8" rx="2" opacity="0.9"/>
+  <text x="420" y="159" text-anchor="middle" fill="#0f172a" font-size="7">api</text>
+
+  <!-- Stream labels -->
+  <text x="540" y="165" text-anchor="middle" fill="#94a3b8" font-size="9">Streams interleaved in single connection</text>
+
+  <!-- Priority indicators -->
+  <rect x="400" y="180" width="280" height="55" fill="#0f172a" rx="4"/>
+  <text x="540" y="196" text-anchor="middle" fill="#e2e8f0" font-size="10" font-weight="bold">Stream Priorities</text>
+  <text x="420" y="212" fill="#38bdf8" font-size="9">HIGH: JS, CSS</text>
+  <text x="530" y="212" fill="#f59e0b" font-size="9">MED: Images</text>
+  <text x="630" y="212" fill="#94a3b8" font-size="9">LOW: Prefetch</text>
+  <text x="540" y="228" text-anchor="middle" fill="#94a3b8" font-size="9">fetchpriority="high|low" controls stream weight</text>
+
+  <!-- Bottom comparison -->
+  <rect x="30" y="260" width="300" height="70" fill="#1e293b" rx="6" stroke="#ef4444" stroke-width="1"/>
+  <text x="180" y="282" text-anchor="middle" fill="#ef4444" font-size="11" font-weight="bold">HTTP/1.1</text>
+  <text x="180" y="300" text-anchor="middle" fill="#94a3b8" font-size="10">6 TCP handshakes (6 x 28ms RTT)</text>
+  <text x="180" y="316" text-anchor="middle" fill="#94a3b8" font-size="10">Head-of-line blocking per connection</text>
+
+  <rect x="390" y="260" width="300" height="70" fill="#1e293b" rx="6" stroke="#22c55e" stroke-width="1"/>
+  <text x="540" y="282" text-anchor="middle" fill="#22c55e" font-size="11" font-weight="bold">HTTP/2</text>
+  <text x="540" y="300" text-anchor="middle" fill="#94a3b8" font-size="10">1 TCP handshake (1 x 28ms RTT)</text>
+  <text x="540" y="316" text-anchor="middle" fill="#94a3b8" font-size="10">Multiplexed streams, priority-based</text>
+</svg>

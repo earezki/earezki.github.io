@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 380" width="850" height="380">
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#585b70"/>
+    </marker>
+    <filter id="shadow" x="-2%" y="-2%" width="104%" height="104%">
+      <feDropShadow dx="1" dy="1" stdDeviation="2" flood-color="#000" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="850" height="380" rx="12" fill="#1e1e2e"/>
+
+  <!-- Title -->
+  <text x="425" y="35" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="bold" fill="#cdd6f4">Pre-signed URL File Upload Flow</text>
+
+  <!-- Step 1: Browser requests URL -->
+  <g filter="url(#shadow)">
+    <rect x="30" y="70" width="160" height="55" rx="8" fill="#313244" stroke="#89b4fa" stroke-width="1.5"/>
+    <text x="110" y="92" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#89b4fa">1. Browser</text>
+    <text x="110" y="112" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#a6adc8">Request upload URL</text>
+  </g>
+
+  <line x1="190" y1="97" x2="280" y2="97" stroke="#585b70" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="235" y="87" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#a6adc8">POST /api/files/upload-url</text>
+
+  <!-- Step 2: Backend generates pre-signed URL -->
+  <g filter="url(#shadow)">
+    <rect x="285" y="70" width="180" height="55" rx="8" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+    <text x="375" y="92" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#a6e3a1">2. FastAPI</text>
+    <text x="375" y="112" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#a6adc8">Generate pre-signed URL</text>
+  </g>
+
+  <!-- Arrow to R2 for signing -->
+  <line x1="465" y1="97" x2="555" y2="97" stroke="#585b70" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="510" y="87" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#a6adc8">S3 API (sign)</text>
+
+  <!-- R2 -->
+  <g filter="url(#shadow)">
+    <rect x="560" y="70" width="160" height="55" rx="8" fill="#313244" stroke="#f9e2af" stroke-width="1.5"/>
+    <text x="640" y="92" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#f9e2af">Cloudflare R2</text>
+    <text x="640" y="112" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#a6adc8">S3-compatible storage</text>
+  </g>
+
+  <!-- Return URL to browser -->
+  <line x1="375" y1="125" x2="375" y2="170" stroke="#a6e3a1" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="420" y="152" font-family="sans-serif" font-size="9" fill="#a6e3a1">{ upload_url, file_key }</text>
+
+  <!-- Step 3: Browser uploads directly to R2 -->
+  <g filter="url(#shadow)">
+    <rect x="30" y="175" width="160" height="55" rx="8" fill="#313244" stroke="#89b4fa" stroke-width="1.5"/>
+    <text x="110" y="197" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#89b4fa">3. Browser</text>
+    <text x="110" y="217" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#a6adc8">Upload file directly</text>
+  </g>
+
+  <line x1="190" y1="202" x2="555" y2="125" stroke="#f9e2af" stroke-width="2" marker-end="url(#arrow)" stroke-dasharray="6,3"/>
+  <text x="390" y="155" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#f9e2af">PUT (file bytes)</text>
+
+  <!-- Key insight box -->
+  <g filter="url(#shadow)">
+    <rect x="500" y="170" width="320" height="80" rx="8" fill="#313244" stroke="#a6e3a1" stroke-width="2"/>
+    <text x="660" y="195" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#a6e3a1">Why Pre-signed URLs?</text>
+    <text x="660" y="215" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#a6adc8">Backend never touches file bytes.</text>
+    <text x="660" y="233" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#a6adc8">0 MB RAM used. No bandwidth cost.</text>
+  </g>
+
+  <!-- Comparison box -->
+  <g filter="url(#shadow)">
+    <rect x="50" y="275" width="340" height="85" rx="8" fill="#313244" stroke="#f38ba8" stroke-width="1.5"/>
+    <text x="220" y="298" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#f38ba8">TRAP: Upload through backend</text>
+    <text x="220" y="318" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#a6adc8">50 MB file = 50 MB backend RAM</text>
+    <text x="220" y="336" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#a6adc8">10 concurrent uploads = 500 MB RAM</text>
+    <text x="220" y="352" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#f38ba8">VPS has only 4 GB total</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="430" y="275" width="380" height="85" rx="8" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+    <text x="620" y="298" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#a6e3a1">SAFE: Pre-signed URL upload</text>
+    <text x="620" y="318" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#a6adc8">Backend generates URL only (0 MB RAM)</text>
+    <text x="620" y="336" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#a6adc8">Browser uploads directly to R2</text>
+    <text x="620" y="352" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#a6e3a1">Scales to any file size</text>
+  </g>
+</svg>

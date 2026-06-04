@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 380" font-family="system-ui, -apple-system, sans-serif">
+  <rect width="720" height="380" fill="#0f172a" rx="8"/>
+  <text x="360" y="32" text-anchor="middle" fill="#e2e8f0" font-size="16" font-weight="bold">Bundle Composition Breakdown</text>
+
+  <!-- Total bundle label -->
+  <text x="360" y="60" text-anchor="middle" fill="#94a3b8" font-size="12">Total: 312 kB gzipped</text>
+
+  <!-- Stacked horizontal bar -->
+  <rect x="60" y="80" width="250" height="44" fill="#38bdf8" rx="4"/>
+  <text x="185" y="106" text-anchor="middle" fill="#0f172a" font-size="12" font-weight="bold">Application Code — 148 kB (47%)</text>
+
+  <rect x="310" y="80" width="150" height="44" fill="#f59e0b" rx="0"/>
+  <text x="385" y="106" text-anchor="middle" fill="#0f172a" font-size="12" font-weight="bold">Vendor — 82 kB (26%)</text>
+
+  <rect x="460" y="80" width="90" height="44" fill="#22c55e" rx="0"/>
+  <text x="505" y="106" text-anchor="middle" fill="#0f172a" font-size="12" font-weight="bold">UI — 48 kB</text>
+
+  <rect x="550" y="80" width="110" height="44" fill="#a78bfa" rx="4"/>
+  <text x="605" y="106" text-anchor="middle" fill="#0f172a" font-size="12" font-weight="bold">Other — 34 kB</text>
+
+  <!-- Breakdown: Application Code -->
+  <rect x="60" y="148" width="250" height="200" fill="#1e293b" rx="6" stroke="#38bdf8" stroke-width="1"/>
+  <text x="185" y="170" text-anchor="middle" fill="#38bdf8" font-size="12" font-weight="bold">Application Code</text>
+  <text x="75" y="194" fill="#94a3b8" font-size="11">Routes / Pages</text>
+  <text x="295" y="194" text-anchor="end" fill="#e2e8f0" font-size="11">52 kB</text>
+  <text x="75" y="214" fill="#94a3b8" font-size="11">Components</text>
+  <text x="295" y="214" text-anchor="end" fill="#e2e8f0" font-size="11">38 kB</text>
+  <text x="75" y="234" fill="#94a3b8" font-size="11">State management</text>
+  <text x="295" y="234" text-anchor="end" fill="#e2e8f0" font-size="11">22 kB</text>
+  <text x="75" y="254" fill="#94a3b8" font-size="11">API client</text>
+  <text x="295" y="254" text-anchor="end" fill="#e2e8f0" font-size="11">18 kB</text>
+  <text x="75" y="274" fill="#94a3b8" font-size="11">Utilities</text>
+  <text x="295" y="274" text-anchor="end" fill="#e2e8f0" font-size="11">12 kB</text>
+  <text x="75" y="294" fill="#94a3b8" font-size="11">Types / constants</text>
+  <text x="295" y="294" text-anchor="end" fill="#e2e8f0" font-size="11">6 kB</text>
+
+  <!-- Breakdown: Vendor -->
+  <rect x="330" y="148" width="200" height="200" fill="#1e293b" rx="6" stroke="#f59e0b" stroke-width="1"/>
+  <text x="430" y="170" text-anchor="middle" fill="#f59e0b" font-size="12" font-weight="bold">Vendor Libraries</text>
+  <text x="345" y="194" fill="#94a3b8" font-size="11">react + react-dom</text>
+  <text x="515" y="194" text-anchor="end" fill="#e2e8f0" font-size="11">42 kB</text>
+  <text x="345" y="214" fill="#94a3b8" font-size="11">date-fns</text>
+  <text x="515" y="214" text-anchor="end" fill="#e2e8f0" font-size="11">14 kB</text>
+  <text x="345" y="234" fill="#94a3b8" font-size="11">zod</text>
+  <text x="515" y="234" text-anchor="end" fill="#e2e8f0" font-size="11">11 kB</text>
+  <text x="345" y="254" fill="#94a3b8" font-size="11">axios</text>
+  <text x="515" y="254" text-anchor="end" fill="#e2e8f0" font-size="11">8 kB</text>
+  <text x="345" y="274" fill="#ef4444" font-size="11">lodash (full)</text>
+  <text x="515" y="274" text-anchor="end" fill="#ef4444" font-size="11">7 kB ⚠</text>
+  <text x="345" y="300" fill="#94a3b8" font-size="10">⚠ Only debounce used</text>
+  <text x="345" y="316" fill="#94a3b8" font-size="10">Replace with lodash-es/debounce</text>
+  <text x="345" y="332" fill="#22c55e" font-size="10">Saving: 6.2 kB</text>
+
+  <!-- Duplicate warning -->
+  <rect x="548" y="148" width="152" height="100" fill="#1e293b" rx="6" stroke="#ef4444" stroke-width="1"/>
+  <text x="624" y="170" text-anchor="middle" fill="#ef4444" font-size="12" font-weight="bold">Duplicates</text>
+  <text x="563" y="194" fill="#94a3b8" font-size="11">tslib (x2)</text>
+  <text x="685" y="194" text-anchor="end" fill="#ef4444" font-size="11">+4 kB</text>
+  <text x="563" y="214" fill="#94a3b8" font-size="11">classnames (x3)</text>
+  <text x="685" y="214" text-anchor="end" fill="#ef4444" font-size="11">+2 kB</text>
+  <text x="563" y="234" fill="#22c55e" font-size="11">Dedupe saving</text>
+  <text x="685" y="234" text-anchor="end" fill="#22c55e" font-size="11">-6 kB</text>
+
+  <!-- Bottom summary -->
+  <rect x="548" y="260" width="152" height="88" fill="#1e293b" rx="6" stroke="#22c55e" stroke-width="1"/>
+  <text x="624" y="282" text-anchor="middle" fill="#22c55e" font-size="12" font-weight="bold">Quick Wins</text>
+  <text x="563" y="304" fill="#94a3b8" font-size="11">lodash → lodash-es</text>
+  <text x="685" y="304" text-anchor="end" fill="#22c55e" font-size="11">-6.2 kB</text>
+  <text x="563" y="324" fill="#94a3b8" font-size="11">Deduplicate</text>
+  <text x="685" y="324" text-anchor="end" fill="#22c55e" font-size="11">-6.0 kB</text>
+  <text x="563" y="340" fill="#e2e8f0" font-size="11" font-weight="bold">Total</text>
+  <text x="685" y="340" text-anchor="end" fill="#22c55e" font-size="11" font-weight="bold">-12.2 kB</text>
+</svg>

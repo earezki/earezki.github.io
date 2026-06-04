@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" width="900" height="560" font-family="monospace">
+  <rect width="900" height="560" fill="#1e1e2e"/>
+  <text x="450" y="30" text-anchor="middle" fill="#cdd6f4" font-size="15" font-weight="bold">Northeast Blackout: Cascade Sequence</text>
+  
+  <!-- Time markers -->
+  <text x="50" y="70" fill="#a6adc8" font-size="10" font-weight="bold">TIME</text>
+  <text x="180" y="70" fill="#a6adc8" font-size="10" font-weight="bold">EVENT</text>
+  <text x="700" y="70" fill="#a6adc8" font-size="10" font-weight="bold">STATUS</text>
+  <line x1="40" y1="78" x2="860" y2="78" stroke="#585b70" stroke-width="1"/>
+
+  <!-- Event 1: Alarm system failure -->
+  <text x="50" y="108" fill="#a6adc8" font-size="10">14:14</text>
+  <rect x="120" y="90" width="500" height="30" rx="4" fill="#313244" stroke="#f38ba8" stroke-width="1.5"/>
+  <text x="130" y="110" fill="#f38ba8" font-size="10" font-weight="bold">XA/21 alarm system fails — race condition in event queue</text>
+  <rect x="680" y="93" width="120" height="24" rx="3" fill="#f38ba8" fill-opacity="0.2"/>
+  <text x="740" y="109" text-anchor="middle" fill="#f38ba8" font-size="9">SILENT FAILURE</text>
+
+  <!-- Event 2: First line sags -->
+  <text x="50" y="148" fill="#a6adc8" font-size="10">15:05</text>
+  <rect x="120" y="130" width="500" height="30" rx="4" fill="#313244" stroke="#89b4fa" stroke-width="1.5"/>
+  <text x="130" y="150" fill="#89b4fa" font-size="10">Chamberlin-Harding 345kV line sags into tree — trips</text>
+  <rect x="680" y="133" width="120" height="24" rx="3" fill="#89b4fa" fill-opacity="0.2"/>
+  <text x="740" y="149" text-anchor="middle" fill="#89b4fa" font-size="9">NO ALARM</text>
+
+  <!-- Event 3: Second line -->
+  <text x="50" y="188" fill="#a6adc8" font-size="10">15:32</text>
+  <rect x="120" y="170" width="500" height="30" rx="4" fill="#313244" stroke="#89b4fa" stroke-width="1.5"/>
+  <text x="130" y="190" fill="#89b4fa" font-size="10">Hanna-Juniper 345kV line sags into tree — trips</text>
+  <rect x="680" y="173" width="120" height="24" rx="3" fill="#89b4fa" fill-opacity="0.2"/>
+  <text x="740" y="189" text-anchor="middle" fill="#89b4fa" font-size="9">NO ALARM</text>
+
+  <!-- Event 4: Third line -->
+  <text x="50" y="228" fill="#a6adc8" font-size="10">15:41</text>
+  <rect x="120" y="210" width="500" height="30" rx="4" fill="#313244" stroke="#89b4fa" stroke-width="1.5"/>
+  <text x="130" y="230" fill="#89b4fa" font-size="10">Star-South Canton 345kV line trips on overload</text>
+  <rect x="680" y="213" width="120" height="24" rx="3" fill="#89b4fa" fill-opacity="0.2"/>
+  <text x="740" y="229" text-anchor="middle" fill="#89b4fa" font-size="9">NO ALARM</text>
+
+  <!-- Operator state -->
+  <rect x="120" y="252" width="300" height="24" rx="3" fill="#f38ba8" fill-opacity="0.1" stroke="#f38ba8" stroke-width="1" stroke-dasharray="4"/>
+  <text x="130" y="268" fill="#f38ba8" font-size="9">Operators see quiet screens, believe system is stable</text>
+
+  <!-- Event 5: Cascade begins -->
+  <text x="50" y="308" fill="#a6adc8" font-size="10">16:05</text>
+  <rect x="120" y="290" width="500" height="30" rx="4" fill="#313244" stroke="#f38ba8" stroke-width="2"/>
+  <text x="130" y="310" fill="#f38ba8" font-size="10" font-weight="bold">CASCADE BEGINS — multiple 345kV lines trip simultaneously</text>
+  <rect x="680" y="293" width="120" height="24" rx="3" fill="#f38ba8" fill-opacity="0.3"/>
+  <text x="740" y="309" text-anchor="middle" fill="#f38ba8" font-size="9" font-weight="bold">OVERLOAD</text>
+
+  <!-- Event 6: Generators trip -->
+  <text x="50" y="348" fill="#a6adc8" font-size="10">16:10</text>
+  <rect x="120" y="330" width="500" height="30" rx="4" fill="#313244" stroke="#f38ba8" stroke-width="2"/>
+  <text x="130" y="350" fill="#f38ba8" font-size="10">Power plants disconnect — frequency deviation exceeds limits</text>
+  <rect x="680" y="333" width="120" height="24" rx="3" fill="#f38ba8" fill-opacity="0.3"/>
+  <text x="740" y="349" text-anchor="middle" fill="#f38ba8" font-size="9" font-weight="bold">SPREADING</text>
+
+  <!-- Event 7: Total blackout -->
+  <text x="50" y="388" fill="#a6adc8" font-size="10">16:13</text>
+  <rect x="120" y="370" width="500" height="34" rx="4" fill="#f38ba8" fill-opacity="0.2" stroke="#f38ba8" stroke-width="2"/>
+  <text x="130" y="392" fill="#f38ba8" font-size="11" font-weight="bold">TOTAL BLACKOUT — 55 million people affected</text>
+  <rect x="680" y="373" width="120" height="28" rx="3" fill="#f38ba8" fill-opacity="0.4"/>
+  <text x="740" y="391" text-anchor="middle" fill="#f38ba8" font-size="9" font-weight="bold">COLLAPSED</text>
+
+  <!-- Impact summary -->
+  <rect x="60" y="430" width="780" height="40" rx="5" fill="#313244"/>
+  <text x="80" y="448" fill="#a6adc8" font-size="10">Total silent window:</text>
+  <text x="215" y="448" fill="#f38ba8" font-size="10" font-weight="bold">1 hour 51 minutes</text>
+  <text x="400" y="448" fill="#a6adc8" font-size="10">|  Lines lost before cascade:</text>
+  <text x="600" y="448" fill="#f38ba8" font-size="10" font-weight="bold">3</text>
+  <text x="640" y="448" fill="#a6adc8" font-size="10">|  Area:</text>
+  <text x="690" y="448" fill="#f38ba8" font-size="10" font-weight="bold">93,000 sq mi</text>
+
+  <!-- Lesson -->
+  <rect x="60" y="490" width="780" height="50" rx="5" fill="#313244"/>
+  <text x="80" y="510" fill="#a6e3a1" font-size="10" font-weight="bold">Root Cause:</text>
+  <text x="170" y="510" fill="#cdd6f4" font-size="10">Alarm system had no self-monitoring. Its failure was indistinguishable from</text>
+  <text x="80" y="526" fill="#cdd6f4" font-size="10">"no problems." Operators had no way to know they were flying blind.</text>
+</svg>

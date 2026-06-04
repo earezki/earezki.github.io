@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 480" width="900" height="480" font-family="monospace">
+  <rect width="900" height="480" fill="#1e1e2e"/>
+  <text x="450" y="30" text-anchor="middle" fill="#cdd6f4" font-size="15" font-weight="bold">Boeing 737 MAX: MCAS Single-Sensor Control Loop</text>
+  
+  <!-- The two AOA sensors -->
+  <rect x="60" y="80" width="140" height="55" rx="5" fill="#313244" stroke="#89b4fa" stroke-width="1.5"/>
+  <text x="130" y="100" text-anchor="middle" fill="#89b4fa" font-size="10" font-weight="bold">AOA Sensor 1</text>
+  <text x="130" y="116" text-anchor="middle" fill="#cdd6f4" font-size="9">Left side</text>
+  <text x="130" y="128" text-anchor="middle" fill="#a6e3a1" font-size="8">Captain's instruments</text>
+  
+  <rect x="60" y="160" width="140" height="55" rx="5" fill="#313244" stroke="#585b70" stroke-width="1.5" stroke-dasharray="5"/>
+  <text x="130" y="180" text-anchor="middle" fill="#585b70" font-size="10">AOA Sensor 2</text>
+  <text x="130" y="196" text-anchor="middle" fill="#585b70" font-size="9">Right side</text>
+  <text x="130" y="208" text-anchor="middle" fill="#585b70" font-size="8">F/O's instruments</text>
+  
+  <!-- Label: Not connected to MCAS -->
+  <text x="130" y="230" text-anchor="middle" fill="#f38ba8" font-size="8">NOT CONNECTED TO MCAS</text>
+  
+  <!-- Arrow from sensor 1 to MCAS -->
+  <line x1="200" y1="107" x2="310" y2="107" stroke="#89b4fa" stroke-width="2" marker-end="url(#arrowB)"/>
+  <text x="255" y="98" fill="#89b4fa" font-size="8">angle data</text>
+  
+  <!-- No arrow from sensor 2 -->
+  <line x1="200" y1="187" x2="250" y2="187" stroke="#585b70" stroke-width="1" stroke-dasharray="4"/>
+  <text x="260" y="191" fill="#f38ba8" font-size="14">✗</text>
+  
+  <!-- MCAS -->
+  <rect x="310" y="75" width="200" height="120" rx="8" fill="#313244" stroke="#f38ba8" stroke-width="2"/>
+  <text x="410" y="100" text-anchor="middle" fill="#f38ba8" font-size="12" font-weight="bold">MCAS</text>
+  <text x="410" y="118" text-anchor="middle" fill="#cdd6f4" font-size="9">Maneuvering Characteristics</text>
+  <text x="410" y="132" text-anchor="middle" fill="#cdd6f4" font-size="9">Augmentation System</text>
+  <line x1="320" y1="148" x2="500" y2="148" stroke="#585b70" stroke-width="0.5"/>
+  <text x="410" y="166" text-anchor="middle" fill="#f38ba8" font-size="9">Single sensor input</text>
+  <text x="410" y="180" text-anchor="middle" fill="#f38ba8" font-size="9">No cross-check logic</text>
+  
+  <!-- Arrow to stabilizer -->
+  <line x1="510" y1="135" x2="600" y2="135" stroke="#f38ba8" stroke-width="2" marker-end="url(#arrowR2)"/>
+  <text x="555" y="125" fill="#f38ba8" font-size="8">commands</text>
+  
+  <!-- Horizontal Stabilizer -->
+  <rect x="600" y="100" width="200" height="70" rx="5" fill="#313244" stroke="#f38ba8" stroke-width="2"/>
+  <text x="700" y="125" text-anchor="middle" fill="#f38ba8" font-size="10" font-weight="bold">Horizontal Stabilizer</text>
+  <text x="700" y="143" text-anchor="middle" fill="#cdd6f4" font-size="9">Nose-down trim applied</text>
+  <text x="700" y="158" text-anchor="middle" fill="#f38ba8" font-size="9">2.5° increments, repeating</text>
+  
+  <!-- Failure scenario -->
+  <rect x="310" y="240" width="500" height="55" rx="5" fill="#f38ba8" fill-opacity="0.1" stroke="#f38ba8" stroke-width="1.5"/>
+  <text x="560" y="260" text-anchor="middle" fill="#f38ba8" font-size="10" font-weight="bold">FAILURE MODE: Faulty AOA Sensor 1</text>
+  <text x="560" y="278" text-anchor="middle" fill="#cdd6f4" font-size="9">Sensor reads high angle → MCAS trims nose down → pilot pulls up → MCAS trims again</text>
+  
+  <!-- Feedback loop in failure -->
+  <rect x="310" y="310" width="500" height="30" rx="3" fill="#313244" stroke="#f38ba8" stroke-width="1" stroke-dasharray="4"/>
+  <text x="560" y="330" text-anchor="middle" fill="#f38ba8" font-size="9">REPEATING LOOP: MCAS fires every 10 seconds, pilot fights stabilizer authority</text>
+  
+  <!-- AOA Disagree Alert (optional purchase) -->
+  <rect x="60" y="280" width="200" height="70" rx="5" fill="#313244" stroke="#f9e2af" stroke-width="1.5"/>
+  <text x="160" y="300" text-anchor="middle" fill="#f9e2af" font-size="10" font-weight="bold">AOA Disagree Alert</text>
+  <text x="160" y="316" text-anchor="middle" fill="#cdd6f4" font-size="9">Would warn pilot of</text>
+  <text x="160" y="330" text-anchor="middle" fill="#cdd6f4" font-size="9">sensor disagreement</text>
+  <text x="160" y="344" text-anchor="middle" fill="#f9e2af" font-size="9" font-weight="bold">OPTIONAL PURCHASE</text>
+  
+  <!-- What correct design looks like -->
+  <rect x="60" y="380" width="380" height="80" rx="5" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="250" y="400" text-anchor="middle" fill="#a6e3a1" font-size="10" font-weight="bold">What Safe Design Requires</text>
+  <text x="80" y="418" fill="#a6adc8" font-size="9">• Dual-sensor cross-check before any MCAS activation</text>
+  <text x="80" y="434" fill="#a6adc8" font-size="9">• AOA disagree as standard, not optional equipment</text>
+  <text x="80" y="450" fill="#a6adc8" font-size="9">• Rate limiting on stabilizer authority per activation cycle</text>
+
+  <!-- Consequences -->
+  <rect x="500" y="380" width="340" height="80" rx="5" fill="#f38ba8" fill-opacity="0.15" stroke="#f38ba8" stroke-width="1.5"/>
+  <text x="670" y="400" text-anchor="middle" fill="#f38ba8" font-size="10" font-weight="bold">Consequences</text>
+  <text x="520" y="418" fill="#cdd6f4" font-size="9">Lion Air Flight 610: 189 fatalities</text>
+  <text x="520" y="434" fill="#cdd6f4" font-size="9">Ethiopian Airlines Flight 302: 157 fatalities</text>
+  <text x="520" y="450" fill="#f38ba8" font-size="9" font-weight="bold">346 lives lost. 20 months grounded.</text>
+
+  <defs>
+    <marker id="arrowB" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#89b4fa"/></marker>
+    <marker id="arrowR2" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#f38ba8"/></marker>
+  </defs>
+</svg>

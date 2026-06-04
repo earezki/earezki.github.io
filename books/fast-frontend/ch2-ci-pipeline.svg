@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 340" font-family="system-ui, -apple-system, sans-serif">
+  <rect width="720" height="340" fill="#0f172a" rx="8"/>
+  <text x="360" y="32" text-anchor="middle" fill="#e2e8f0" font-size="16" font-weight="bold">CI/CD Performance Gate Pipeline</text>
+
+  <!-- Pipeline boxes -->
+  <rect x="30" y="70" width="120" height="56" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5" rx="6"/>
+  <text x="90" y="94" text-anchor="middle" fill="#38bdf8" font-size="12" font-weight="bold">Push / PR</text>
+  <text x="90" y="112" text-anchor="middle" fill="#94a3b8" font-size="10">Trigger</text>
+
+  <rect x="180" y="70" width="120" height="56" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5" rx="6"/>
+  <text x="240" y="94" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="bold">Build</text>
+  <text x="240" y="112" text-anchor="middle" fill="#94a3b8" font-size="10">npm run build</text>
+
+  <rect x="330" y="70" width="120" height="56" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5" rx="6"/>
+  <text x="390" y="94" text-anchor="middle" fill="#f59e0b" font-size="12" font-weight="bold">Size Limit</text>
+  <text x="390" y="112" text-anchor="middle" fill="#94a3b8" font-size="10">Bundle budget</text>
+
+  <rect x="480" y="70" width="120" height="56" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5" rx="6"/>
+  <text x="540" y="94" text-anchor="middle" fill="#f59e0b" font-size="12" font-weight="bold">Lighthouse CI</text>
+  <text x="540" y="112" text-anchor="middle" fill="#94a3b8" font-size="10">CWV assertions</text>
+
+  <rect x="570" y="160" width="120" height="56" fill="#1e293b" stroke="#22c55e" stroke-width="1.5" rx="6"/>
+  <text x="630" y="184" text-anchor="middle" fill="#22c55e" font-size="12" font-weight="bold">Pass</text>
+  <text x="630" y="202" text-anchor="middle" fill="#94a3b8" font-size="10">Merge allowed</text>
+
+  <rect x="570" y="240" width="120" height="56" fill="#1e293b" stroke="#ef4444" stroke-width="1.5" rx="6"/>
+  <text x="630" y="264" text-anchor="middle" fill="#ef4444" font-size="12" font-weight="bold">Fail</text>
+  <text x="630" y="282" text-anchor="middle" fill="#94a3b8" font-size="10">PR comment</text>
+
+  <!-- Arrows -->
+  <path d="M 150 98 L 175 98" stroke="#475569" stroke-width="1.5" fill="none" marker-end="url(#arrowhead)"/>
+  <path d="M 300 98 L 325 98" stroke="#475569" stroke-width="1.5" fill="none" marker-end="url(#arrowhead)"/>
+  <path d="M 450 98 L 475 98" stroke="#475569" stroke-width="1.5" fill="none" marker-end="url(#arrowhead)"/>
+  <path d="M 600 126 L 630 155" stroke="#22c55e" stroke-width="1.5" fill="none" marker-end="url(#arrowG)"/>
+  <path d="M 600 126 L 630 235" stroke="#ef4444" stroke-width="1.5" fill="none" marker-end="url(#arrowR)"/>
+
+  <!-- Gate details -->
+  <rect x="30" y="160" width="220" height="160" fill="#1e293b" rx="6" stroke="#475569" stroke-width="1"/>
+  <text x="140" y="182" text-anchor="middle" fill="#f59e0b" font-size="12" font-weight="bold">Size Limit Thresholds</text>
+  <text x="45" y="204" fill="#94a3b8" font-size="11">main.js</text>
+  <text x="230" y="204" text-anchor="end" fill="#e2e8f0" font-size="11">&lt; 150 kB</text>
+  <text x="45" y="224" fill="#94a3b8" font-size="11">vendor.js</text>
+  <text x="230" y="224" text-anchor="end" fill="#e2e8f0" font-size="11">&lt; 80 kB</text>
+  <text x="45" y="244" fill="#94a3b8" font-size="11">CSS total</text>
+  <text x="230" y="244" text-anchor="end" fill="#e2e8f0" font-size="11">&lt; 30 kB</text>
+  <text x="45" y="264" fill="#94a3b8" font-size="11">Images (per page)</text>
+  <text x="230" y="264" text-anchor="end" fill="#e2e8f0" font-size="11">&lt; 200 kB</text>
+  <text x="45" y="284" fill="#94a3b8" font-size="11">Total transfer</text>
+  <text x="230" y="284" text-anchor="end" fill="#e2e8f0" font-size="11">&lt; 500 kB</text>
+  <text x="45" y="304" fill="#94a3b8" font-size="11">Font files</text>
+  <text x="230" y="304" text-anchor="end" fill="#e2e8f0" font-size="11">&lt; 60 kB</text>
+
+  <rect x="280" y="160" width="260" height="160" fill="#1e293b" rx="6" stroke="#475569" stroke-width="1"/>
+  <text x="410" y="182" text-anchor="middle" fill="#f59e0b" font-size="12" font-weight="bold">Lighthouse CI Assertions</text>
+  <text x="295" y="204" fill="#94a3b8" font-size="11">LCP</text>
+  <text x="520" y="204" text-anchor="end" fill="#e2e8f0" font-size="11">&lt; 2,500ms</text>
+  <text x="295" y="224" fill="#94a3b8" font-size="11">FCP</text>
+  <text x="520" y="224" text-anchor="end" fill="#e2e8f0" font-size="11">&lt; 1,800ms</text>
+  <text x="295" y="244" fill="#94a3b8" font-size="11">TBT</text>
+  <text x="520" y="244" text-anchor="end" fill="#e2e8f0" font-size="11">&lt; 200ms</text>
+  <text x="295" y="264" fill="#94a3b8" font-size="11">CLS</text>
+  <text x="520" y="264" text-anchor="end" fill="#e2e8f0" font-size="11">&lt; 0.1</text>
+  <text x="295" y="284" fill="#94a3b8" font-size="11">Performance score</text>
+  <text x="520" y="284" text-anchor="end" fill="#e2e8f0" font-size="11">&gt;= 90</text>
+  <text x="295" y="304" fill="#94a3b8" font-size="11">Accessibility score</text>
+  <text x="520" y="304" text-anchor="end" fill="#e2e8f0" font-size="11">&gt;= 95</text>
+
+  <!-- Arrow markers -->
+  <defs>
+    <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#475569"/>
+    </marker>
+    <marker id="arrowG" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#22c55e"/>
+    </marker>
+    <marker id="arrowR" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#ef4444"/>
+    </marker>
+  </defs>
+</svg>

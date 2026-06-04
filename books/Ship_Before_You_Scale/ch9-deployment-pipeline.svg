@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 400" width="850" height="400">
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#585b70"/>
+    </marker>
+    <filter id="shadow" x="-2%" y="-2%" width="104%" height="104%">
+      <feDropShadow dx="1" dy="1" stdDeviation="2" flood-color="#000" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="850" height="400" rx="12" fill="#1e1e2e"/>
+
+  <!-- Title -->
+  <text x="425" y="35" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="bold" fill="#cdd6f4">Deployment Pipeline — GitHub to Production</text>
+
+  <!-- GitHub -->
+  <g filter="url(#shadow)">
+    <rect x="30" y="70" width="160" height="60" rx="8" fill="#313244" stroke="#89b4fa" stroke-width="1.5"/>
+    <text x="110" y="95" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="bold" fill="#89b4fa">GitHub</text>
+    <text x="110" y="115" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#a6adc8">Push to main</text>
+  </g>
+
+  <!-- Arrow -->
+  <line x1="190" y1="100" x2="230" y2="100" stroke="#585b70" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- GitHub Actions -->
+  <g filter="url(#shadow)">
+    <rect x="235" y="70" width="160" height="60" rx="8" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+    <text x="315" y="95" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="bold" fill="#a6e3a1">GitHub Actions</text>
+    <text x="315" y="115" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#a6adc8">CI: test + lint</text>
+  </g>
+
+  <!-- Split into staging and production -->
+  <line x1="395" y1="90" x2="480" y2="90" stroke="#585b70" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="395" y1="110" x2="480" y2="200" stroke="#585b70" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Staging path label -->
+  <text x="445" y="78" font-family="sans-serif" font-size="10" fill="#a6e3a1">auto</text>
+  <text x="445" y="168" font-family="sans-serif" font-size="10" fill="#f9e2af">manual / tag</text>
+
+  <!-- Coolify Staging -->
+  <g filter="url(#shadow)">
+    <rect x="485" y="65" width="160" height="60" rx="8" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+    <text x="565" y="88" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#a6e3a1">Coolify (Staging)</text>
+    <text x="565" y="108" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#a6adc8">Homelab Server</text>
+  </g>
+
+  <!-- Arrow to staging env -->
+  <line x1="645" y1="95" x2="685" y2="95" stroke="#585b70" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Staging accessible -->
+  <g filter="url(#shadow)">
+    <rect x="690" y="65" width="130" height="60" rx="8" fill="#313244" stroke="#f9e2af" stroke-width="1.5"/>
+    <text x="755" y="88" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#f9e2af">staging.</text>
+    <text x="755" y="105" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#f9e2af">marketflow.app</text>
+  </g>
+
+  <!-- Coolify Production -->
+  <g filter="url(#shadow)">
+    <rect x="485" y="175" width="160" height="60" rx="8" fill="#313244" stroke="#cba6f7" stroke-width="1.5"/>
+    <text x="565" y="198" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#cba6f7">Coolify (Prod)</text>
+    <text x="565" y="218" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#a6adc8">Hetzner CX22</text>
+  </g>
+
+  <!-- Arrow to production env -->
+  <line x1="645" y1="205" x2="685" y2="205" stroke="#585b70" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Production accessible -->
+  <g filter="url(#shadow)">
+    <rect x="690" y="175" width="130" height="60" rx="8" fill="#313244" stroke="#f38ba8" stroke-width="1.5"/>
+    <text x="755" y="198" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#f38ba8">marketflow.app</text>
+    <text x="755" y="218" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#a6adc8">Live users</text>
+  </g>
+
+  <!-- Deploy process detail -->
+  <g filter="url(#shadow)">
+    <rect x="60" y="270" width="730" height="110" rx="8" fill="#313244" stroke="#585b70" stroke-width="1.5"/>
+    <text x="425" y="295" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="bold" fill="#cdd6f4">Production Deploy Sequence</text>
+
+    <!-- Steps -->
+    <g>
+      <rect x="85" y="310" width="130" height="45" rx="6" fill="#1e1e2e" stroke="#a6e3a1" stroke-width="1"/>
+      <text x="150" y="330" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#a6e3a1">1. Pull image</text>
+      <text x="150" y="345" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#a6adc8">docker compose pull</text>
+    </g>
+
+    <line x1="215" y1="332" x2="240" y2="332" stroke="#585b70" stroke-width="1" marker-end="url(#arrow)"/>
+
+    <g>
+      <rect x="245" y="310" width="130" height="45" rx="6" fill="#1e1e2e" stroke="#f9e2af" stroke-width="1"/>
+      <text x="310" y="330" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#f9e2af">2. Run migrations</text>
+      <text x="310" y="345" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#a6adc8">alembic upgrade head</text>
+    </g>
+
+    <line x1="375" y1="332" x2="400" y2="332" stroke="#585b70" stroke-width="1" marker-end="url(#arrow)"/>
+
+    <g>
+      <rect x="405" y="310" width="130" height="45" rx="6" fill="#1e1e2e" stroke="#89b4fa" stroke-width="1"/>
+      <text x="470" y="330" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#89b4fa">3. Restart app</text>
+      <text x="470" y="345" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#a6adc8">docker compose up -d</text>
+    </g>
+
+    <line x1="535" y1="332" x2="560" y2="332" stroke="#585b70" stroke-width="1" marker-end="url(#arrow)"/>
+
+    <g>
+      <rect x="565" y="310" width="130" height="45" rx="6" fill="#1e1e2e" stroke="#a6e3a1" stroke-width="1"/>
+      <text x="630" y="330" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#a6e3a1">4. Health check</text>
+      <text x="630" y="345" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#a6adc8">curl /health</text>
+    </g>
+  </g>
+</svg>

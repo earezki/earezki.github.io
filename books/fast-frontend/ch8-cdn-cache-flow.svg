@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 380" font-family="system-ui, -apple-system, sans-serif">
+  <rect width="720" height="380" fill="#0f172a" rx="8"/>
+  <text x="360" y="32" text-anchor="middle" fill="#e2e8f0" font-size="16" font-weight="bold">CDN Cache Hit and Miss Flow</text>
+
+  <!-- Browser -->
+  <rect x="30" y="60" width="100" height="50" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5" rx="6"/>
+  <text x="80" y="82" text-anchor="middle" fill="#38bdf8" font-size="11" font-weight="bold">Browser</text>
+  <text x="80" y="98" text-anchor="middle" fill="#94a3b8" font-size="9">User request</text>
+
+  <!-- CDN Edge -->
+  <rect x="200" y="60" width="130" height="50" fill="#1e293b" stroke="#22c55e" stroke-width="1.5" rx="6"/>
+  <text x="265" y="82" text-anchor="middle" fill="#22c55e" font-size="11" font-weight="bold">CDN Edge</text>
+  <text x="265" y="98" text-anchor="middle" fill="#94a3b8" font-size="9">Cache layer</text>
+
+  <!-- Origin -->
+  <rect x="430" y="60" width="120" height="50" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5" rx="6"/>
+  <text x="490" y="82" text-anchor="middle" fill="#f59e0b" font-size="11" font-weight="bold">Origin</text>
+  <text x="490" y="98" text-anchor="middle" fill="#94a3b8" font-size="9">Server</text>
+
+  <!-- Database -->
+  <rect x="610" y="60" width="80" height="50" fill="#1e293b" stroke="#a78bfa" stroke-width="1.5" rx="6"/>
+  <text x="650" y="82" text-anchor="middle" fill="#a78bfa" font-size="11" font-weight="bold">DB</text>
+  <text x="650" y="98" text-anchor="middle" fill="#94a3b8" font-size="9">Data store</text>
+
+  <!-- Request arrow -->
+  <path d="M130 85 L195 85" stroke="#38bdf8" stroke-width="1.5" fill="none" marker-end="url(#cdnArrowB)"/>
+
+  <!-- CACHE HIT flow -->
+  <rect x="30" y="140" width="640" height="100" fill="#1e293b" rx="8" stroke="#22c55e" stroke-width="1" opacity="0.4"/>
+  <text x="50" y="160" fill="#22c55e" font-size="12" font-weight="bold">Cache HIT (8ms TTFB)</text>
+
+  <rect x="50" y="170" width="90" height="28" fill="#0f172a" rx="4" stroke="#38bdf8" stroke-width="1"/>
+  <text x="95" y="188" text-anchor="middle" fill="#38bdf8" font-size="9">GET /product.js</text>
+
+  <path d="M140 184 L180 184" stroke="#22c55e" stroke-width="1.5" fill="none" marker-end="url(#cdnArrowG)"/>
+
+  <rect x="185" y="170" width="90" height="28" fill="#0f172a" rx="4" stroke="#22c55e" stroke-width="1"/>
+  <text x="230" y="188" text-anchor="middle" fill="#22c55e" font-size="9">Cache lookup</text>
+
+  <path d="M275 184 L310 184" stroke="#22c55e" stroke-width="1.5" fill="none" marker-end="url(#cdnArrowG)"/>
+
+  <rect x="315" y="170" width="70" height="28" fill="#22c55e" rx="4" opacity="0.3"/>
+  <text x="350" y="188" text-anchor="middle" fill="#22c55e" font-size="9" font-weight="bold">HIT ✓</text>
+
+  <path d="M385 184 L420 184" stroke="#22c55e" stroke-width="1.5" fill="none" marker-end="url(#cdnArrowG)"/>
+
+  <rect x="425" y="170" width="120" height="28" fill="#0f172a" rx="4" stroke="#22c55e" stroke-width="1"/>
+  <text x="485" y="188" text-anchor="middle" fill="#22c55e" font-size="9">200 + cached body</text>
+
+  <path d="M425 198 L95 218" stroke="#22c55e" stroke-width="1" fill="none" stroke-dasharray="4" marker-end="url(#cdnArrowG)"/>
+  <text x="260" y="214" text-anchor="middle" fill="#22c55e" font-size="9">Response: 8ms</text>
+
+  <!-- CACHE MISS flow -->
+  <rect x="30" y="250" width="640" height="110" fill="#1e293b" rx="8" stroke="#f59e0b" stroke-width="1" opacity="0.4"/>
+  <text x="50" y="270" fill="#f59e0b" font-size="12" font-weight="bold">Cache MISS (180ms TTFB)</text>
+
+  <rect x="50" y="280" width="90" height="28" fill="#0f172a" rx="4" stroke="#38bdf8" stroke-width="1"/>
+  <text x="95" y="298" text-anchor="middle" fill="#38bdf8" font-size="9">GET /api/data</text>
+
+  <path d="M140 294 L180 294" stroke="#f59e0b" stroke-width="1.5" fill="none" marker-end="url(#cdnArrowW)"/>
+
+  <rect x="185" y="280" width="90" height="28" fill="#0f172a" rx="4" stroke="#f59e0b" stroke-width="1"/>
+  <text x="230" y="298" text-anchor="middle" fill="#f59e0b" font-size="9">Cache lookup</text>
+
+  <path d="M275 294 L310 294" stroke="#ef4444" stroke-width="1.5" fill="none" marker-end="url(#cdnArrowR)"/>
+
+  <rect x="315" y="280" width="70" height="28" fill="#ef4444" rx="4" opacity="0.3"/>
+  <text x="350" y="298" text-anchor="middle" fill="#ef4444" font-size="9" font-weight="bold">MISS ✗</text>
+
+  <path d="M385 294 L430 294" stroke="#f59e0b" stroke-width="1.5" fill="none" marker-end="url(#cdnArrowW)"/>
+
+  <rect x="435" y="280" width="80" height="28" fill="#0f172a" rx="4" stroke="#f59e0b" stroke-width="1"/>
+  <text x="475" y="298" text-anchor="middle" fill="#f59e0b" font-size="9">Origin fetch</text>
+
+  <path d="M515 294 L545 294" stroke="#f59e0b" stroke-width="1.5" fill="none" marker-end="url(#cdnArrowW)"/>
+
+  <rect x="550" y="280" width="60" height="28" fill="#0f172a" rx="4" stroke="#a78bfa" stroke-width="1"/>
+  <text x="580" y="298" text-anchor="middle" fill="#a78bfa" font-size="9">DB query</text>
+
+  <path d="M580 308 L230 340" stroke="#f59e0b" stroke-width="1" fill="none" stroke-dasharray="4" marker-end="url(#cdnArrowW)"/>
+  <text x="405" y="330" text-anchor="middle" fill="#f59e0b" font-size="9">Response: 180ms (cached for next request)</text>
+
+  <path d="M230 340 L95 340" stroke="#38bdf8" stroke-width="1" fill="none" stroke-dasharray="4" marker-end="url(#cdnArrowB)"/>
+
+  <defs>
+    <marker id="cdnArrowB" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <polygon points="0 0, 7 2.5, 0 5" fill="#38bdf8"/>
+    </marker>
+    <marker id="cdnArrowG" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <polygon points="0 0, 7 2.5, 0 5" fill="#22c55e"/>
+    </marker>
+    <marker id="cdnArrowW" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <polygon points="0 0, 7 2.5, 0 5" fill="#f59e0b"/>
+    </marker>
+    <marker id="cdnArrowR" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <polygon points="0 0, 7 2.5, 0 5" fill="#ef4444"/>
+    </marker>
+  </defs>
+</svg>

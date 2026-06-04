@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 480" width="850" height="480">
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#585b70"/>
+    </marker>
+    <filter id="shadow" x="-2%" y="-2%" width="104%" height="104%">
+      <feDropShadow dx="1" dy="1" stdDeviation="2" flood-color="#000" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="850" height="480" rx="12" fill="#1e1e2e"/>
+
+  <!-- Title -->
+  <text x="425" y="35" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="bold" fill="#cdd6f4">Stripe Billing Event Flow</text>
+
+  <!-- Step 1: Organizer clicks upgrade -->
+  <g filter="url(#shadow)">
+    <rect x="30" y="65" width="170" height="55" rx="8" fill="#313244" stroke="#89b4fa" stroke-width="1.5"/>
+    <text x="115" y="87" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#89b4fa">1. Organizer</text>
+    <text x="115" y="107" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#a6adc8">Clicks "Upgrade"</text>
+  </g>
+
+  <!-- Arrow -->
+  <line x1="200" y1="92" x2="235" y2="92" stroke="#585b70" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Step 2: Backend creates checkout session -->
+  <g filter="url(#shadow)">
+    <rect x="240" y="65" width="170" height="55" rx="8" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+    <text x="325" y="87" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#a6e3a1">2. FastAPI</text>
+    <text x="325" y="107" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#a6adc8">Creates Checkout Session</text>
+  </g>
+
+  <!-- Arrow -->
+  <line x1="410" y1="92" x2="445" y2="92" stroke="#585b70" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Step 3: Stripe Checkout -->
+  <g filter="url(#shadow)">
+    <rect x="450" y="65" width="170" height="55" rx="8" fill="#313244" stroke="#cba6f7" stroke-width="1.5"/>
+    <text x="535" y="87" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#cba6f7">3. Stripe Checkout</text>
+    <text x="535" y="107" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#a6adc8">Hosted Payment Page</text>
+  </g>
+
+  <!-- Arrow -->
+  <line x1="620" y1="92" x2="655" y2="92" stroke="#585b70" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Step 4: Payment -->
+  <g filter="url(#shadow)">
+    <rect x="660" y="65" width="160" height="55" rx="8" fill="#313244" stroke="#f9e2af" stroke-width="1.5"/>
+    <text x="740" y="87" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#f9e2af">4. Payment</text>
+    <text x="740" y="107" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#a6adc8">Card Charged</text>
+  </g>
+
+  <!-- Webhook flow - arrow down from Stripe -->
+  <line x1="535" y1="120" x2="535" y2="170" stroke="#f38ba8" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="555" y="150" font-family="sans-serif" font-size="10" fill="#f38ba8">webhook</text>
+
+  <!-- Webhook event box -->
+  <g filter="url(#shadow)">
+    <rect x="380" y="175" width="310" height="55" rx="8" fill="#313244" stroke="#f38ba8" stroke-width="1.5"/>
+    <text x="535" y="197" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#f38ba8">5. checkout.session.completed</text>
+    <text x="535" y="217" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#a6adc8">Webhook → POST /api/webhooks/stripe</text>
+  </g>
+
+  <!-- Arrow down to handler -->
+  <line x1="535" y1="230" x2="535" y2="265" stroke="#585b70" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Webhook handler -->
+  <g filter="url(#shadow)">
+    <rect x="350" y="270" width="370" height="70" rx="8" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+    <text x="535" y="295" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#a6e3a1">6. Webhook Handler</text>
+    <text x="535" y="313" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#a6adc8">Verify signature → Update tier → Store subscription ID</text>
+    <text x="535" y="329" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#a6adc8">Send confirmation email → Track conversion event</text>
+  </g>
+
+  <!-- Monthly renewal flow -->
+  <text x="425" y="375" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#cdd6f4">Monthly Renewal Flow</text>
+
+  <!-- Renewal boxes -->
+  <g filter="url(#shadow)">
+    <rect x="40" y="395" width="170" height="50" rx="8" fill="#313244" stroke="#cba6f7" stroke-width="1.5"/>
+    <text x="125" y="418" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#cba6f7">Stripe auto-charges</text>
+    <text x="125" y="435" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#a6adc8">invoice.paid webhook</text>
+  </g>
+
+  <line x1="210" y1="420" x2="255" y2="420" stroke="#585b70" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <g filter="url(#shadow)">
+    <rect x="260" y="395" width="170" height="50" rx="8" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+    <text x="345" y="418" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#a6e3a1">Record payment</text>
+    <text x="345" y="435" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#a6adc8">Send receipt email</text>
+  </g>
+
+  <line x1="430" y1="420" x2="475" y2="420" stroke="#585b70" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Failure path -->
+  <g filter="url(#shadow)">
+    <rect x="480" y="395" width="170" height="50" rx="8" fill="#313244" stroke="#f38ba8" stroke-width="1.5"/>
+    <text x="565" y="418" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#f38ba8">Payment failed?</text>
+    <text x="565" y="435" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#a6adc8">invoice.payment_failed</text>
+  </g>
+
+  <line x1="650" y1="420" x2="695" y2="420" stroke="#585b70" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <g filter="url(#shadow)">
+    <rect x="700" y="395" width="120" height="50" rx="8" fill="#313244" stroke="#f9e2af" stroke-width="1.5"/>
+    <text x="760" y="418" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#f9e2af">Grace period</text>
+    <text x="760" y="435" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#a6adc8">7 days to fix</text>
+  </g>
+</svg>

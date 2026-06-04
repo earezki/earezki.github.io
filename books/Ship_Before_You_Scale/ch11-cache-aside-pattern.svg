@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 400" width="850" height="400">
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#585b70"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#a6e3a1"/>
+    </marker>
+    <marker id="arrowRed" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#f38ba8"/>
+    </marker>
+    <filter id="shadow" x="-2%" y="-2%" width="104%" height="104%">
+      <feDropShadow dx="1" dy="1" stdDeviation="2" flood-color="#000" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="850" height="400" rx="12" fill="#1e1e2e"/>
+
+  <!-- Title -->
+  <text x="425" y="35" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="bold" fill="#cdd6f4">Cache-Aside Pattern</text>
+
+  <!-- Application -->
+  <g filter="url(#shadow)">
+    <rect x="300" y="65" width="250" height="60" rx="8" fill="#313244" stroke="#89b4fa" stroke-width="2"/>
+    <text x="425" y="93" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#89b4fa">FastAPI Application</text>
+    <text x="425" y="113" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#a6adc8">GET /markets/{id}</text>
+  </g>
+
+  <!-- Redis Cache -->
+  <g filter="url(#shadow)">
+    <rect x="80" y="200" width="200" height="70" rx="8" fill="#313244" stroke="#f38ba8" stroke-width="1.5"/>
+    <text x="180" y="228" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#f38ba8">Redis Cache</text>
+    <text x="180" y="250" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#a6adc8">TTL: 5 minutes</text>
+  </g>
+
+  <!-- PostgreSQL -->
+  <g filter="url(#shadow)">
+    <rect x="570" y="200" width="200" height="70" rx="8" fill="#313244" stroke="#a6e3a1" stroke-width="1.5"/>
+    <text x="670" y="228" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#a6e3a1">PostgreSQL</text>
+    <text x="670" y="250" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#a6adc8">Source of truth</text>
+  </g>
+
+  <!-- Step 1: Check cache -->
+  <line x1="345" y1="125" x2="220" y2="195" stroke="#89b4fa" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="250" y="150" font-family="sans-serif" font-size="11" font-weight="bold" fill="#89b4fa">1. Check cache</text>
+
+  <!-- Cache hit path -->
+  <line x1="160" y1="195" x2="160" y2="155" stroke="#a6e3a1" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrowGreen)"/>
+  <text x="100" y="177" font-family="sans-serif" font-size="10" fill="#a6e3a1">HIT: return</text>
+  <text x="82" y="153" font-family="sans-serif" font-size="10" fill="#a6e3a1">(sub-ms)</text>
+
+  <!-- Cache miss path to DB -->
+  <line x1="505" y1="125" x2="630" y2="195" stroke="#f38ba8" stroke-width="1.5" marker-end="url(#arrowRed)"/>
+  <text x="600" y="150" font-family="sans-serif" font-size="11" font-weight="bold" fill="#f38ba8">2. MISS: query DB</text>
+
+  <!-- DB returns data -->
+  <line x1="670" y1="270" x2="670" y2="310" stroke="#a6e3a1" stroke-width="1.5" marker-end="url(#arrowGreen)"/>
+
+  <!-- Step 3: Store in cache -->
+  <line x1="570" y1="320" x2="280" y2="255" stroke="#f9e2af" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrow)"/>
+  <text x="400" y="300" font-family="sans-serif" font-size="11" font-weight="bold" fill="#f9e2af">3. Store in cache</text>
+
+  <!-- Step 4: Return to client -->
+  <g filter="url(#shadow)">
+    <rect x="540" y="310" width="260" height="45" rx="6" fill="#313244" stroke="#a6e3a1" stroke-width="1"/>
+    <text x="670" y="337" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#a6e3a1">4. Return data to client (10-50ms)</text>
+  </g>
+
+  <!-- Write invalidation note -->
+  <g filter="url(#shadow)">
+    <rect x="50" y="310" width="350" height="70" rx="8" fill="#313244" stroke="#cba6f7" stroke-width="1.5"/>
+    <text x="225" y="335" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#cba6f7">On Write (PUT/POST/DELETE)</text>
+    <text x="225" y="355" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#a6adc8">1. Update PostgreSQL (source of truth)</text>
+    <text x="225" y="372" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#a6adc8">2. Delete from Redis (cache_delete pattern)</text>
+  </g>
+</svg>
