@@ -1,0 +1,470 @@
+<!DOCTYPE html><html lang="en" data-theme-name="classic" data-theme="dark"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Why You Probably Don&#39;t Need a Backend • Dev|Journal</title><meta name="description" content="Before you spin up another Express app, deploy a PostgreSQL database, and configure a Redis cache, ask yourself: does this actually need a backend? For most projects, a static site coupled with a Git-based cron job is faster, cheaper, and infinitely more reliable. Here is how to build backendless apps."><meta name="keywords" content="software architecture, backend development, microservices, Java, Python, Spring Boot, technical blog"><meta name="author" content="El Mehdi Arezki"><meta name="robots" content="index,follow"><meta property="og:type" content="article"><meta property="og:url" content="https://earezki.com/why-you-probably-dont-need-a-backend/"><meta property="og:title" content="Why You Probably Don't Need a Backend • Dev|Journal"><meta property="og:site_name" content="Dev|Journal"><meta property="og:description" content="Before you spin up another Express app, deploy a PostgreSQL database, and configure a Redis cache, ask yourself: does this actually need a backend? For most projects, a static site coupled with a Git-based cron job is faster, cheaper, and infinitely more reliable. Here is how to build backendless apps."><meta property="og:image" content="https://earezki.com/assets/og-image-default.webp"><meta property="og:locale" content="en_US"><meta property="article:published_time" content="2026-07-10T00:00:00.000Z"><meta property="article:modified_time" content="2026-07-10T00:00:00.000Z"><meta property="article:author" content="El Mehdi Arezki"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:url" content="https://earezki.com/why-you-probably-dont-need-a-backend/"><meta name="twitter:title" content="Why You Probably Don't Need a Backend • Dev|Journal"><meta name="twitter:description" content="Before you spin up another Express app, deploy a PostgreSQL database, and configure a Redis cache, ask yourself: does this actually need a backend? For most projects, a static site coupled with a Git-based cron job is faster, cheaper, and infinitely more reliable. Here is how to build backendless apps."><meta name="twitter:image" content="https://earezki.com/assets/og-image-default.webp"><meta name="twitter:site" content="@earezki"><meta name="twitter:creator" content="@earezki"><link rel="canonical" href="https://earezki.com/why-you-probably-dont-need-a-backend/"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"><link rel="dns-prefetch" href="https://cloud.umami.is"><script defer src="https://cloud.umami.is/script.js" data-website-id="4a26531d-1053-4f79-97a6-06a1366aff91"></script><!-- Self-hosted Inter font — eliminates render-blocking Google Fonts request --><link rel="preload" as="font" type="font/woff2" href="/fonts/inter-latin-regular.woff2" crossorigin><!-- WebSite structured data --><script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Dev|Journal","url":"https://earezki.com","description":"Technical blog covering software architecture, backend development, and engineering best practices.","author":{"@type":"Person","name":"El Mehdi Arezki","url":"https://earezki.com/about"},"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://earezki.com/search?q={search_term_string}"},"query-input":"required name=search_term_string"}}</script><!-- Theme initialization - parse Zustand persist format --><script type="text/javascript">
+      (function () {
+        try {
+          const THEMES = {"classic":{"id":"classic","name":"Classic Obsidian","modes":["dark","light"],"defaultMode":"dark"},"cyberpunk":{"id":"cyberpunk","name":"Neon Cyberpunk","modes":["dark"],"defaultMode":"dark"},"forest":{"id":"forest","name":"Emerald Forest","modes":["dark","light"],"defaultMode":"dark"},"sakura":{"id":"sakura","name":"Sakura Blossom","modes":["light"],"defaultMode":"light"},"nord":{"id":"nord","name":"Nordic Frost","modes":["dark","light"],"defaultMode":"dark"},"amber":{"id":"amber","name":"Warm Amber","modes":["dark","light"],"defaultMode":"light"},"synthwave":{"id":"synthwave","name":"Retro Synthwave","modes":["dark"],"defaultMode":"dark"},"terminal":{"id":"terminal","name":"Vintage Terminal","modes":["dark"],"defaultMode":"dark"},"glass":{"id":"glass","name":"Frosted Glassmorphism","modes":["dark","light"],"defaultMode":"dark"},"velvet":{"id":"velvet","name":"Royal Velvet & Gold","modes":["dark","light"],"defaultMode":"dark"},"dracula":{"id":"dracula","name":"Nocturnal Dracula Pro","modes":["dark"],"defaultMode":"dark"}};
+          const buildTimeThemeId = "classic";
+          
+          let themeId = buildTimeThemeId;
+          let savedThemeMode = null;
+
+          const raw = localStorage.getItem("theme");
+          if (raw) {
+            try {
+              const parsed = JSON.parse(raw);
+              if (parsed && parsed.state) {
+                if (parsed.state.themeName && THEMES[parsed.state.themeName]) {
+                  themeId = parsed.state.themeName;
+                }
+                if (parsed.state.theme) {
+                  savedThemeMode = parsed.state.theme;
+                }
+              }
+            } catch (e) {}
+          }
+
+          const activeTheme = THEMES[themeId] || THEMES[buildTimeThemeId] || THEMES.classic;
+          const supportedModes = activeTheme.modes;
+          const defaultMode = activeTheme.defaultMode;
+
+          document.documentElement.setAttribute("data-theme-name", activeTheme.id);
+
+          if (supportedModes.length === 1) {
+            document.documentElement.setAttribute("data-theme", supportedModes[0]);
+            return;
+          }
+
+          let resolvedMode = defaultMode;
+          if (savedThemeMode === "light" && supportedModes.includes("light")) {
+            resolvedMode = "light";
+          } else if (savedThemeMode === "dark" && supportedModes.includes("dark")) {
+            resolvedMode = "dark";
+          } else if (savedThemeMode === "system") {
+            const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+            const systemMode = prefersDark ? "dark" : "light";
+            resolvedMode = supportedModes.includes(systemMode) ? systemMode : defaultMode;
+          } else {
+            const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+            const systemMode = prefersDark ? "dark" : "light";
+            resolvedMode = supportedModes.includes(systemMode) ? systemMode : defaultMode;
+          }
+          document.documentElement.setAttribute("data-theme", resolvedMode);
+        } catch (e) {
+          document.documentElement.setAttribute("data-theme", "dark");
+        }
+      })();
+    </script><link rel="stylesheet" href="/_astro/_slug_.Cruqp4W_.css">
+<style>html{scroll-behavior:smooth;scroll-padding-top:5rem}
+</style></head> <body class="min-h-screen flex flex-col bg-background text-foreground"> <!-- Skip to content link --> <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:p-4 focus:bg-primary focus:text-primary-foreground focus:rounded-lg">
+Skip to main content
+</a> <!-- Smart Header with hide/show on scroll --> <style>astro-island,astro-slot,astro-static-slot{display:contents}</style><script>(()=>{var e=async t=>{await(await t())()};(self.Astro||(self.Astro={})).only=e;window.dispatchEvent(new Event("astro:only"));})();</script><script>(()=>{var A=Object.defineProperty;var g=(i,o,a)=>o in i?A(i,o,{enumerable:!0,configurable:!0,writable:!0,value:a}):i[o]=a;var d=(i,o,a)=>g(i,typeof o!="symbol"?o+"":o,a);{let i={0:t=>m(t),1:t=>a(t),2:t=>new RegExp(t),3:t=>new Date(t),4:t=>new Map(a(t)),5:t=>new Set(a(t)),6:t=>BigInt(t),7:t=>new URL(t),8:t=>new Uint8Array(t),9:t=>new Uint16Array(t),10:t=>new Uint32Array(t),11:t=>1/0*t},o=t=>{let[l,e]=t;return l in i?i[l](e):void 0},a=t=>t.map(o),m=t=>typeof t!="object"||t===null?t:Object.fromEntries(Object.entries(t).map(([l,e])=>[l,o(e)]));class y extends HTMLElement{constructor(){super(...arguments);d(this,"Component");d(this,"hydrator");d(this,"hydrate",async()=>{var b;if(!this.hydrator||!this.isConnected)return;let e=(b=this.parentElement)==null?void 0:b.closest("astro-island[ssr]");if(e){e.addEventListener("astro:hydrate",this.hydrate,{once:!0});return}let c=this.querySelectorAll("astro-slot"),n={},h=this.querySelectorAll("template[data-astro-template]");for(let r of h){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("data-astro-template")||"default"]=r.innerHTML,r.remove())}for(let r of c){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("name")||"default"]=r.innerHTML)}let p;try{p=this.hasAttribute("props")?m(JSON.parse(this.getAttribute("props"))):{}}catch(r){let s=this.getAttribute("component-url")||"<unknown>",v=this.getAttribute("component-export");throw v&&(s+=` (export ${v})`),console.error(`[hydrate] Error parsing props for component ${s}`,this.getAttribute("props"),r),r}let u;await this.hydrator(this)(this.Component,p,n,{client:this.getAttribute("client")}),this.removeAttribute("ssr"),this.dispatchEvent(new CustomEvent("astro:hydrate"))});d(this,"unmount",()=>{this.isConnected||this.dispatchEvent(new CustomEvent("astro:unmount"))})}disconnectedCallback(){document.removeEventListener("astro:after-swap",this.unmount),document.addEventListener("astro:after-swap",this.unmount,{once:!0})}connectedCallback(){if(!this.hasAttribute("await-children")||document.readyState==="interactive"||document.readyState==="complete")this.childrenConnectedCallback();else{let e=()=>{document.removeEventListener("DOMContentLoaded",e),c.disconnect(),this.childrenConnectedCallback()},c=new MutationObserver(()=>{var n;((n=this.lastChild)==null?void 0:n.nodeType)===Node.COMMENT_NODE&&this.lastChild.nodeValue==="astro:end"&&(this.lastChild.remove(),e())});c.observe(this,{childList:!0}),document.addEventListener("DOMContentLoaded",e)}}async childrenConnectedCallback(){let e=this.getAttribute("before-hydration-url");e&&await import(e),this.start()}async start(){let e=JSON.parse(this.getAttribute("opts")),c=this.getAttribute("client");if(Astro[c]===void 0){window.addEventListener(`astro:${c}`,()=>this.start(),{once:!0});return}try{await Astro[c](async()=>{let n=this.getAttribute("renderer-url"),[h,{default:p}]=await Promise.all([import(this.getAttribute("component-url")),n?import(n):()=>()=>{}]),u=this.getAttribute("component-export")||"default";if(!u.includes("."))this.Component=h[u];else{this.Component=h;for(let f of u.split("."))this.Component=this.Component[f]}return this.hydrator=p,this.hydrate},e,this)}catch(n){console.error(`[astro-island] Error hydrating ${this.getAttribute("component-url")}`,n)}}attributeChangedCallback(){this.hydrate()}}d(y,"observedAttributes",["props"]),customElements.get("astro-island")||customElements.define("astro-island",y)}})();</script><astro-island uid="1YpyxB" component-url="/_astro/SmartHeader.CWrIS9Ux.js" component-export="SmartHeader" renderer-url="/_astro/client.DXtk3Te4.js" props="{}" ssr client="only" opts="{&quot;name&quot;:&quot;SmartHeader&quot;,&quot;value&quot;:&quot;preact&quot;}"></astro-island> <!-- Command Palette --> <astro-island uid="1KbDpu" component-url="/_astro/CommandPalette.CMMdevE7.js" component-export="CommandPalette" renderer-url="/_astro/client.DXtk3Te4.js" props="{}" ssr client="only" opts="{&quot;name&quot;:&quot;CommandPalette&quot;,&quot;value&quot;:&quot;preact&quot;}"></astro-island> <!-- Main Content with fade-in --> <main id="main-content" class="flex-1 container mx-auto px-4 py-8 animate-fade-in" tabindex="-1">  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Why You Probably Don't Need a Backend","description":"Before you spin up another Express app, deploy a PostgreSQL database, and configure a Redis cache, ask yourself: does this actually need a backend? For most projects, a static site coupled with a Git-based cron job is faster, cheaper, and infinitely more reliable. Here is how to build backendless apps.","datePublished":"2026-07-10T00:00:00.000Z","dateModified":"2026-07-10T00:00:00.000Z","author":{"@type":"Person","name":"El Mehdi Arezki","url":"https://earezki.com/about"},"publisher":{"@type":"Organization","name":"Dev|Journal","url":"https://earezki.com","logo":{"@type":"ImageObject","url":"https://earezki.com/assets/logo.svg"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://earezki.com/why-you-probably-dont-need-a-backend/"},"wordCount":1541,"articleSection":"Architecture, Web Development, Opinion","keywords":"Architecture, Web Development, Opinion","inLanguage":"en-US"}</script> <script>(()=>{var l=(n,t)=>{let i=async()=>{await(await n())()},e=typeof t.value=="object"?t.value:void 0,s={timeout:e==null?void 0:e.timeout};"requestIdleCallback"in window?window.requestIdleCallback(i,s):setTimeout(i,s.timeout||200)};(self.Astro||(self.Astro={})).idle=l;window.dispatchEvent(new Event("astro:idle"));})();</script><astro-island uid="DWU9s" component-url="/_astro/ArticleReadingTracker.BzTJNTMW.js" component-export="default" renderer-url="/_astro/client.DXtk3Te4.js" props="{&quot;url&quot;:[0,&quot;/why-you-probably-dont-need-a-backend/&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ArticleReadingTracker&quot;,&quot;value&quot;:true}" await-children><div class="fixed top-0 left-0 w-full h-1 z-50 bg-muted/20 fixed top-0 left-0 w-full z-50"><div class="h-full bg-primary transition-all duration-100 ease-out" style="width:0%;"></div></div><!--astro:end--></astro-island> <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"> <div class="grid grid-cols-1 lg:grid-cols-[250px_1fr] gap-8"> <!-- Table of Contents Sidebar (Left, desktop only) --> <aside class="hidden lg:block order-2 lg:order-1"> <nav class="toc-container sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto hidden lg:block w-64 text-sm pr-4" data-astro-cid-xvrfupwn><div class="flex items-center gap-2 mb-4" data-astro-cid-xvrfupwn><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><path d="M4 6h16M4 12h16M4 18h7" /></svg><h2 class="font-semibold text-xs text-foreground tracking-wide uppercase" data-astro-cid-xvrfupwn>On This Page</h2></div><ul class="space-y-0.5 border-l border-border/50" data-astro-cid-xvrfupwn><li class="toc-item depth-2 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#the-default-reflex" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:0.75rem" data-astro-cid-xvrfupwn>The Default Reflex</a></li><li class="toc-item depth-2 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#the-static--ci-architecture-the-git-as-a-database-pattern" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:0.75rem" data-astro-cid-xvrfupwn>The “Static + CI” Architecture (The Git-as-a-Database Pattern)</a></li><li class="toc-item depth-3 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#the-worker-script" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:1.5rem" data-astro-cid-xvrfupwn>The Worker Script</a></li><li class="toc-item depth-3 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#the-ci-pipeline" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:1.5rem" data-astro-cid-xvrfupwn>The CI Pipeline</a></li><li class="toc-item depth-3 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#why-this-is-brilliant" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:1.5rem" data-astro-cid-xvrfupwn>Why this is brilliant:</a></li><li class="toc-item depth-2 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#but-what-about-the-dynamic-excuses" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:0.75rem" data-astro-cid-xvrfupwn>But What About…? (The “Dynamic” Excuses)</a></li><li class="toc-item depth-3 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#1-contact-and-intake-forms" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:1.5rem" data-astro-cid-xvrfupwn>1. Contact and Intake Forms</a></li><li class="toc-item depth-3 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#2-full-text-search" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:1.5rem" data-astro-cid-xvrfupwn>2. Full-Text Search</a></li><li class="toc-item depth-3 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#3-user-comments" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:1.5rem" data-astro-cid-xvrfupwn>3. User Comments</a></li><li class="toc-item depth-3 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#4-interactive-state-and-authentication" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:1.5rem" data-astro-cid-xvrfupwn>4. Interactive State and Authentication</a></li><li class="toc-item depth-2 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#when-a-backend-is-actually-mandatory" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:0.75rem" data-astro-cid-xvrfupwn>When a Backend is Actually Mandatory</a></li><li class="toc-item depth-2 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#the-operational-comparison" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:0.75rem" data-astro-cid-xvrfupwn>The Operational Comparison</a></li><li class="toc-item depth-2 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#conclusion-keep-it-simple" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:0.75rem" data-astro-cid-xvrfupwn>Conclusion: Keep it Simple</a></li></ul><style>
+      .toc-container::-webkit-scrollbar {
+        width: 4px;
+      }
+      .toc-container::-webkit-scrollbar-thumb {
+        background: hsl(var(--muted-foreground) / 0.3);
+        border-radius: 4px;
+      }
+      .toc-container::-webkit-scrollbar-track {
+        background: transparent;
+      }
+    </style></nav><script type="module">const s=new IntersectionObserver(r=>{r.forEach(t=>{const i=t.target.getAttribute("id"),e=document.querySelector(`.toc-container a[href="#${i}"]`);t.isIntersecting&&(document.querySelectorAll(".toc-container a").forEach(o=>{o.classList.remove("text-primary","font-medium","border-primary"),o.classList.add("border-transparent")}),e&&(e.classList.add("text-primary","font-medium","border-primary"),e.classList.remove("border-transparent")))})},{rootMargin:"-100px 0px -66% 0px"});document.querySelectorAll("h2[id], h3[id]").forEach(r=>s.observe(r));</script> </aside> <astro-island uid="1P2yN6" component-url="/_astro/MobileTableOfContents.BXiPgGr4.js" component-export="MobileTableOfContents" renderer-url="/_astro/client.DXtk3Te4.js" props="{&quot;headings&quot;:[1,[[0,{&quot;depth&quot;:[0,2],&quot;slug&quot;:[0,&quot;the-default-reflex&quot;],&quot;text&quot;:[0,&quot;The Default Reflex&quot;]}],[0,{&quot;depth&quot;:[0,2],&quot;slug&quot;:[0,&quot;the-static--ci-architecture-the-git-as-a-database-pattern&quot;],&quot;text&quot;:[0,&quot;The “Static + CI” Architecture (The Git-as-a-Database Pattern)&quot;]}],[0,{&quot;depth&quot;:[0,3],&quot;slug&quot;:[0,&quot;the-worker-script&quot;],&quot;text&quot;:[0,&quot;The Worker Script&quot;]}],[0,{&quot;depth&quot;:[0,3],&quot;slug&quot;:[0,&quot;the-ci-pipeline&quot;],&quot;text&quot;:[0,&quot;The CI Pipeline&quot;]}],[0,{&quot;depth&quot;:[0,3],&quot;slug&quot;:[0,&quot;why-this-is-brilliant&quot;],&quot;text&quot;:[0,&quot;Why this is brilliant:&quot;]}],[0,{&quot;depth&quot;:[0,2],&quot;slug&quot;:[0,&quot;but-what-about-the-dynamic-excuses&quot;],&quot;text&quot;:[0,&quot;But What About…? (The “Dynamic” Excuses)&quot;]}],[0,{&quot;depth&quot;:[0,3],&quot;slug&quot;:[0,&quot;1-contact-and-intake-forms&quot;],&quot;text&quot;:[0,&quot;1. Contact and Intake Forms&quot;]}],[0,{&quot;depth&quot;:[0,3],&quot;slug&quot;:[0,&quot;2-full-text-search&quot;],&quot;text&quot;:[0,&quot;2. Full-Text Search&quot;]}],[0,{&quot;depth&quot;:[0,3],&quot;slug&quot;:[0,&quot;3-user-comments&quot;],&quot;text&quot;:[0,&quot;3. User Comments&quot;]}],[0,{&quot;depth&quot;:[0,3],&quot;slug&quot;:[0,&quot;4-interactive-state-and-authentication&quot;],&quot;text&quot;:[0,&quot;4. Interactive State and Authentication&quot;]}],[0,{&quot;depth&quot;:[0,2],&quot;slug&quot;:[0,&quot;when-a-backend-is-actually-mandatory&quot;],&quot;text&quot;:[0,&quot;When a Backend is Actually Mandatory&quot;]}],[0,{&quot;depth&quot;:[0,2],&quot;slug&quot;:[0,&quot;the-operational-comparison&quot;],&quot;text&quot;:[0,&quot;The Operational Comparison&quot;]}],[0,{&quot;depth&quot;:[0,2],&quot;slug&quot;:[0,&quot;conclusion-keep-it-simple&quot;],&quot;text&quot;:[0,&quot;Conclusion: Keep it Simple&quot;]}]]]}" ssr client="idle" opts="{&quot;name&quot;:&quot;MobileTableOfContents&quot;,&quot;value&quot;:true}" await-children><button class="lg:hidden fixed bottom-6 right-6 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg shadow-primary/25 hover:bg-primary/90 transition-colors" aria-label="Table of Contents"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-list h-5 w-5" aria-hidden="true"><path d="M3 5h.01"></path><path d="M3 12h.01"></path><path d="M3 19h.01"></path><path d="M8 5h13"></path><path d="M8 12h13"></path><path d="M8 19h13"></path></svg></button><div class="lg:hidden fixed inset-x-0 bottom-0 z-50 transform transition-transform duration-300 ease-out translate-y-full"><div class="rounded-t-2xl border-t border-border bg-card shadow-2xl max-h-[70vh] flex flex-col"><div class="flex items-center justify-between px-5 py-4 border-b border-border/50"><div class="flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-list h-4 w-4 text-primary" aria-hidden="true"><path d="M3 5h.01"></path><path d="M3 12h.01"></path><path d="M3 19h.01"></path><path d="M8 5h13"></path><path d="M8 12h13"></path><path d="M8 19h13"></path></svg><h2 class="text-sm font-semibold text-foreground tracking-wide uppercase">On This Page</h2></div><button class="p-1.5 rounded-md hover:bg-muted text-muted-foreground hover:text-foreground transition-colors" aria-label="Close"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x h-4 w-4" aria-hidden="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button></div><nav class="overflow-y-auto overscroll-contain p-4 -webkit-overflow-scrolling-touch"><ul class="space-y-0.5"><li><button class="w-full text-left flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm transition-colors text-muted-foreground hover:bg-muted hover:text-foreground" style="padding-left:0.75rem;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right h-3.5 w-3.5 shrink-0 transition-colors text-muted-foreground/40" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg><span class="line-clamp-2">The Default Reflex</span></button></li><li><button class="w-full text-left flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm transition-colors text-muted-foreground hover:bg-muted hover:text-foreground" style="padding-left:0.75rem;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right h-3.5 w-3.5 shrink-0 transition-colors text-muted-foreground/40" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg><span class="line-clamp-2">The “Static + CI” Architecture (The Git-as-a-Database Pattern)</span></button></li><li><button class="w-full text-left flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm transition-colors text-muted-foreground hover:bg-muted hover:text-foreground" style="padding-left:1.75rem;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right h-3.5 w-3.5 shrink-0 transition-colors text-muted-foreground/40" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg><span class="line-clamp-2">The Worker Script</span></button></li><li><button class="w-full text-left flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm transition-colors text-muted-foreground hover:bg-muted hover:text-foreground" style="padding-left:1.75rem;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right h-3.5 w-3.5 shrink-0 transition-colors text-muted-foreground/40" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg><span class="line-clamp-2">The CI Pipeline</span></button></li><li><button class="w-full text-left flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm transition-colors text-muted-foreground hover:bg-muted hover:text-foreground" style="padding-left:1.75rem;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right h-3.5 w-3.5 shrink-0 transition-colors text-muted-foreground/40" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg><span class="line-clamp-2">Why this is brilliant:</span></button></li><li><button class="w-full text-left flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm transition-colors text-muted-foreground hover:bg-muted hover:text-foreground" style="padding-left:0.75rem;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right h-3.5 w-3.5 shrink-0 transition-colors text-muted-foreground/40" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg><span class="line-clamp-2">But What About…? (The “Dynamic” Excuses)</span></button></li><li><button class="w-full text-left flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm transition-colors text-muted-foreground hover:bg-muted hover:text-foreground" style="padding-left:1.75rem;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right h-3.5 w-3.5 shrink-0 transition-colors text-muted-foreground/40" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg><span class="line-clamp-2">1. Contact and Intake Forms</span></button></li><li><button class="w-full text-left flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm transition-colors text-muted-foreground hover:bg-muted hover:text-foreground" style="padding-left:1.75rem;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right h-3.5 w-3.5 shrink-0 transition-colors text-muted-foreground/40" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg><span class="line-clamp-2">2. Full-Text Search</span></button></li><li><button class="w-full text-left flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm transition-colors text-muted-foreground hover:bg-muted hover:text-foreground" style="padding-left:1.75rem;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right h-3.5 w-3.5 shrink-0 transition-colors text-muted-foreground/40" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg><span class="line-clamp-2">3. User Comments</span></button></li><li><button class="w-full text-left flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm transition-colors text-muted-foreground hover:bg-muted hover:text-foreground" style="padding-left:1.75rem;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right h-3.5 w-3.5 shrink-0 transition-colors text-muted-foreground/40" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg><span class="line-clamp-2">4. Interactive State and Authentication</span></button></li><li><button class="w-full text-left flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm transition-colors text-muted-foreground hover:bg-muted hover:text-foreground" style="padding-left:0.75rem;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right h-3.5 w-3.5 shrink-0 transition-colors text-muted-foreground/40" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg><span class="line-clamp-2">When a Backend is Actually Mandatory</span></button></li><li><button class="w-full text-left flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm transition-colors text-muted-foreground hover:bg-muted hover:text-foreground" style="padding-left:0.75rem;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right h-3.5 w-3.5 shrink-0 transition-colors text-muted-foreground/40" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg><span class="line-clamp-2">The Operational Comparison</span></button></li><li><button class="w-full text-left flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm transition-colors text-muted-foreground hover:bg-muted hover:text-foreground" style="padding-left:0.75rem;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right h-3.5 w-3.5 shrink-0 transition-colors text-muted-foreground/40" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg><span class="line-clamp-2">Conclusion: Keep it Simple</span></button></li></ul></nav></div></div><!--astro:end--></astro-island> <article class="max-w-3xl w-full order-1 lg:order-2"> <nav aria-label="Breadcrumb" class="flex items-center text-xs text-muted-foreground mb-6 flex-wrap animate-fade-in"> <ol class="flex items-center gap-1.5 flex-wrap"> <li> <a href="/" class="hover:text-primary transition-colors duration-200 flex items-center gap-1"> <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg> <span class="hidden sm:inline">Home</span> </a> </li> <li class="flex items-center gap-1.5 min-w-0"> <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground/40 shrink-0"><path d="M9 5l7 7-7 7" /></svg> <a href="/" class="hover:text-primary transition-colors duration-200 truncate max-w-[150px]" title="Blog"> Blog </a> </li><li class="flex items-center gap-1.5 min-w-0"> <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground/40 shrink-0"><path d="M9 5l7 7-7 7" /></svg> <span class="font-medium text-foreground truncate max-w-[200px] sm:max-w-xs" title="Why You Probably Don't Need a Backend"> Why You Probably Don&#39;t Need a ... </span> </li> </ol> </nav> <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://earezki.com/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://earezki.com/"},{"@type":"ListItem","position":3,"name":"Why You Probably Don't Need a Backend","item":"https://earezki.com/why-you-probably-dont-need-a-backend/"}]}</script> <!-- Article Header --> <header class="mb-8 mt-6"> <div class="bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 border border-yellow-500/20 rounded-lg p-4 mb-8 flex items-start gap-3"> <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 flex-shrink-0"> <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path> <polyline points="14 2 14 8 20 8"></polyline> <line x1="12" y1="18" x2="12" y2="18"></line> <line x1="12" y1="12" x2="12" y2="16"></line> </svg> <div> <h3 class="font-semibold text-sm mb-1">Draft / Scheduled Content</h3> <p class="text-sm opacity-90">
+This article is a draft or scheduled for future publication. The content is subject to change.
+</p> </div> </div> <div class="flex flex-wrap gap-2 mb-4"> <a href="/tags/architecture/" class="inline-flex items-center px-2.5 py-0.5 text-xs font-medium rounded-full bg-muted text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors"> Architecture </a><a href="/tags/web-development/" class="inline-flex items-center px-2.5 py-0.5 text-xs font-medium rounded-full bg-muted text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors"> Web Development </a><a href="/tags/opinion/" class="inline-flex items-center px-2.5 py-0.5 text-xs font-medium rounded-full bg-muted text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors"> Opinion </a> </div> <h1 class="text-3xl md:text-4xl font-bold mb-4">Why You Probably Don&#39;t Need a Backend</h1> <div class="flex items-center gap-4 text-sm text-muted-foreground"> <time datetime="2026-07-10T00:00:00.000Z"> July 10, 2026 </time> <span>•</span> <span>8 min read</span> </div> <div class="mt-3 flex items-center gap-2 flex-wrap"> <astro-island uid="Z1DmriJ" component-url="/_astro/AIActionMenu.TqlCgLFN.js" component-export="AIActionMenu" renderer-url="/_astro/client.DXtk3Te4.js" props="{}" ssr client="only" opts="{&quot;name&quot;:&quot;AIActionMenu&quot;,&quot;value&quot;:&quot;preact&quot;}"></astro-island> <astro-island uid="Hp7dA" component-url="/_astro/ReadingListButton.BDz8R51_.js" component-export="ReadingListButton" renderer-url="/_astro/client.DXtk3Te4.js" props="{&quot;url&quot;:[0,&quot;/why-you-probably-dont-need-a-backend/&quot;],&quot;title&quot;:[0,&quot;Why You Probably Don&#39;t Need a Backend&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadingListButton&quot;,&quot;value&quot;:true}" await-children><button title="Save to reading list (B)" aria-label="Save to reading list" class="inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium transition-all duration-200 border-border bg-muted/40 text-muted-foreground hover:border-primary/40 hover:text-foreground"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path></svg>Save</button><!--astro:end--></astro-island> </div> <div class="mt-4"> <div class="flex items-center gap-3 flex-wrap"> <span class="text-xs text-muted-foreground font-medium uppercase tracking-wide">Share</span> <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fearezki.com%2Fwhy-you-probably-dont-need-a-backend%2F&text=Why%20You%20Probably%20Don't%20Need%20a%20Backend" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center w-8 h-8 rounded-full border border-border/50 hover:bg-primary/10 hover:border-primary/50 transition-all duration-200 text-muted-foreground hover:text-primary" aria-label="Share on X / Twitter"> <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"> <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path> </svg> </a> <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fearezki.com%2Fwhy-you-probably-dont-need-a-backend%2F" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center w-8 h-8 rounded-full border border-border/50 hover:bg-primary/10 hover:border-primary/50 transition-all duration-200 text-muted-foreground hover:text-primary" aria-label="Share on LinkedIn"> <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"> <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"></path> </svg> </a> <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fearezki.com%2Fwhy-you-probably-dont-need-a-backend%2F&t=Why%20You%20Probably%20Don't%20Need%20a%20Backend" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center w-8 h-8 rounded-full border border-border/50 hover:bg-primary/10 hover:border-primary/50 transition-all duration-200 text-muted-foreground hover:text-primary" aria-label="Share on Hacker News"> <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"> <path d="M0 0v24h24V0H0zm12.8 14.4v5.2h-1.6v-5.2L7 4.8h1.8l3.2 6 3.2-6H17l-4.2 9.6z"></path> </svg> </a> <a href="https://reddit.com/submit?url=https%3A%2F%2Fearezki.com%2Fwhy-you-probably-dont-need-a-backend%2F&title=Why%20You%20Probably%20Don't%20Need%20a%20Backend" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center w-8 h-8 rounded-full border border-border/50 hover:bg-primary/10 hover:border-primary/50 transition-all duration-200 text-muted-foreground hover:text-primary" aria-label="Share on Reddit"> <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"> <path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"></path> </svg> </a> </div> </div>  </header> <!-- Article Content --> <div class="prose dark:prose-invert max-w-none break-words [overflow-wrap:break-word]"> <h2 id="the-default-reflex">The Default Reflex</h2>
+<p>Here is how almost every modern software project starts:</p>
+<ol>
+<li>You get a cool idea.</li>
+<li>You run <code>npx create-next-app</code>.</li>
+<li>You immediately run <code>mkdir server</code> (or <code>backend</code>), initiate a Docker Compose file with PostgreSQL, spin up an Express/FastAPI/Go app, and figure out how to configure CORS, JWT authentication, and database migrations.</li>
+</ol>
+<p>We do this because it’s what we know. We are trained to think in terms of client-server architecture. We assume that if an application needs data, it must fetch that data from an active server database over HTTP on every single page load.</p>
+<p>But as the project goes live, reality sets in.</p>
+<p>Suddenly, you are responsible for maintaining a database. You have to monitor connection pools, manage database migrations, run security updates on the OS, and set up Prometheus alerts to tell you if the server runs out of memory. If your project gets featured on Hacker News, your backend crashes under the sudden spike of 500 concurrent connections. If it gets no traffic, you are still paying $15/month for idle compute and DB instances just to keep the lights on.</p>
+<p>It doesn’t have to be this way.</p>
+<p>For a massive category of web applications, <strong>you do not need an active backend.</strong> A static site hosted on a global CDN, combined with a background builder job running in GitHub Actions or GitLab CI, is not only cheaper and easier to maintain—it is objectively better.</p>
+<hr>
+<h2 id="the-static--ci-architecture-the-git-as-a-database-pattern">The “Static + CI” Architecture (The Git-as-a-Database Pattern)</h2>
+<p>Think about the data your app actually uses. Does it change every millisecond? Or does it change once an hour, once a day, or only when you publish a new article?</p>
+<p>If you are building a job board, a price tracker, a portfolio, a documentation site, a news aggregator, a dashboard showing public metrics, or even a local business directory, the data changes slowly. Fetching that data from a database on every page load is a waste of compute resources.</p>
+<p>Instead, let the build pipeline do the heavy lifting:</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>+---------------------+</span></span>
+<span class="line"><span>| Scheduled Cron Job  |  &#x3C;--- Triggered every hour (GitHub Actions / GitLab CI)</span></span>
+<span class="line"><span>+---------------------+</span></span>
+<span class="line"><span>           |</span></span>
+<span class="line"><span>           v</span></span>
+<span class="line"><span>+---------------------+</span></span>
+<span class="line"><span>| Python/Node Script  |  &#x3C;--- Scrapes APIs, pulls DB records, queries RSS feeds</span></span>
+<span class="line"><span>+---------------------+</span></span>
+<span class="line"><span>           |</span></span>
+<span class="line"><span>           v</span></span>
+<span class="line"><span>+---------------------+</span></span>
+<span class="line"><span>| Commit Data to Git  |  &#x3C;--- Updates jobs.json or content/posts/</span></span>
+<span class="line"><span>+---------------------+</span></span>
+<span class="line"><span>           |</span></span>
+<span class="line"><span>           v</span></span>
+<span class="line"><span>+---------------------+</span></span>
+<span class="line"><span>| Static Site Build   |  &#x3C;--- Rebuilds HTML &#x26; JS (Astro, Hugo, Next.js)</span></span>
+<span class="line"><span>+---------------------+</span></span>
+<span class="line"><span>           |</span></span>
+<span class="line"><span>           v</span></span>
+<span class="line"><span>+---------------------+</span></span>
+<span class="line"><span>| Edge CDN (Pages)    |  &#x3C;--- Served globally at 0ms latency, zero database calls</span></span>
+<span class="line"><span>+---------------------+</span></span></code></pre>
+<h3 id="the-worker-script">The Worker Script</h3>
+<p>Instead of writing a REST API, you write a simple script (Node, Python, or Go) that fetches your data, formats it, and writes it directly to a static file in your repository (like <code>src/data/jobs.json</code>).</p>
+<p>Here is a simple example in Node.js (<code>scripts/update-jobs.js</code>):</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="javascript"><code><span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">import</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> fs </span><span style="color:#D73A49;--shiki-dark:#F97583">from</span><span style="color:#032F62;--shiki-dark:#9ECBFF"> 'fs'</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">import</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> fetch </span><span style="color:#D73A49;--shiki-dark:#F97583">from</span><span style="color:#032F62;--shiki-dark:#9ECBFF"> 'node-fetch'</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">async</span><span style="color:#D73A49;--shiki-dark:#F97583"> function</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> syncData</span><span style="color:#24292E;--shiki-dark:#E1E4E8">() {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  console.</span><span style="color:#6F42C1;--shiki-dark:#B392F0">log</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"Fetching latest job listings..."</span><span style="color:#24292E;--shiki-dark:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  const</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> response</span><span style="color:#D73A49;--shiki-dark:#F97583"> =</span><span style="color:#D73A49;--shiki-dark:#F97583"> await</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> fetch</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"https://api.externalpartner.com/jobs?status=active"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  const</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> jobs</span><span style="color:#D73A49;--shiki-dark:#F97583"> =</span><span style="color:#D73A49;--shiki-dark:#F97583"> await</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> response.</span><span style="color:#6F42C1;--shiki-dark:#B392F0">json</span><span style="color:#24292E;--shiki-dark:#E1E4E8">();</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">  // Save directly to the frontend's source folder</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  fs.</span><span style="color:#6F42C1;--shiki-dark:#B392F0">writeFileSync</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">    './src/data/jobs.json'</span><span style="color:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">    JSON</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.</span><span style="color:#6F42C1;--shiki-dark:#B392F0">stringify</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(jobs, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">null</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#005CC5;--shiki-dark:#79B8FF">2</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  );</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  console.</span><span style="color:#6F42C1;--shiki-dark:#B392F0">log</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#032F62;--shiki-dark:#9ECBFF">`Saved ${</span><span style="color:#24292E;--shiki-dark:#E1E4E8">jobs</span><span style="color:#032F62;--shiki-dark:#9ECBFF">.</span><span style="color:#005CC5;--shiki-dark:#79B8FF">length</span><span style="color:#032F62;--shiki-dark:#9ECBFF">} jobs to static repository.`</span><span style="color:#24292E;--shiki-dark:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">syncData</span><span style="color:#24292E;--shiki-dark:#E1E4E8">();</span></span></code></pre>
+<h3 id="the-ci-pipeline">The CI Pipeline</h3>
+<p>You schedule this script to run periodically using GitHub Actions or GitLab CI. The runner executes the script, checks if the data changed, commits the changes back to the repository, and triggers a redeployment.</p>
+<p>Here is a complete GitHub Actions workflow (<code>.github/workflows/sync-data.yml</code>):</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">name</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">Hourly Data Sync</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">on</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">  schedule</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    - </span><span style="color:#22863A;--shiki-dark:#85E89D">cron</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">'0 * * * *'</span><span style="color:#6A737D;--shiki-dark:#6A737D"> # Run every hour</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">  workflow_dispatch</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#6A737D;--shiki-dark:#6A737D"># Allow manual trigger</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">jobs</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">  build-and-sync</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">    runs-on</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">ubuntu-latest</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">    steps</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      - </span><span style="color:#22863A;--shiki-dark:#85E89D">name</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">Checkout Code</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">        uses</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">actions/checkout@v4</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      - </span><span style="color:#22863A;--shiki-dark:#85E89D">name</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">Setup Node.js</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">        uses</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">actions/setup-node@v4</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">        with</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">          node-version</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#005CC5;--shiki-dark:#79B8FF">20</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      - </span><span style="color:#22863A;--shiki-dark:#85E89D">name</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">Install Dependencies</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">        run</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">npm ci</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      - </span><span style="color:#22863A;--shiki-dark:#85E89D">name</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">Fetch and Sync Data</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">        run</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">node scripts/update-jobs.js</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      - </span><span style="color:#22863A;--shiki-dark:#85E89D">name</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">Commit and Push Changes</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">        run</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#D73A49;--shiki-dark:#F97583">|</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">          git config --global user.name "github-actions[bot]"</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">          git config --global user.email "github-actions[bot]@users.noreply.github.com"</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">          git add src/data/jobs.json</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">          if ! git diff-index --quiet HEAD; then</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">            git commit -m "chore: auto-update jobs database [skip ci]"</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">            git push</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">          else</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">            echo "No data changes detected. Skipping commit."</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">          fi</span></span></code></pre>
+<h3 id="why-this-is-brilliant">Why this is brilliant:</h3>
+<ul>
+<li><strong>0ms Database Latency</strong>: The user gets a pre-built JSON file or pure HTML. There are no database queries, no connection pools to overflow, and no backend routing.</li>
+<li><strong>Infinite Scaling</strong>: Since the site is 100% static, it is cached globally at the edge on Cloudflare, GitHub Pages, or Netlify. It can handle 10,000 requests per second without sweating, costing you exactly $0.</li>
+<li><strong>Instant Version History</strong>: Your database <em>is</em> your Git history. If something goes wrong or bad data gets imported, you don’t have to restore a database backup. You just run <code>git revert</code> to go back to the last clean state.</li>
+</ul>
+<hr>
+<h2 id="but-what-about-the-dynamic-excuses">But What About…? (The “Dynamic” Excuses)</h2>
+<p>“But wait,” you say, “my app needs dynamic features! A static site can’t handle user input!”</p>
+<p>Yes, it can. We no longer live in 2005. The modern web ecosystem has commoditized the generic parts of backends. Here is how you replace the most common backend dependencies:</p>
+<h3 id="1-contact-and-intake-forms">1. Contact and Intake Forms</h3>
+<ul>
+<li><strong>The Backend Way</strong>: Write an <code>/api/contact</code> route, validation logic, configure an SMTP server client, and handle spam prevention.</li>
+<li><strong>The Static Way</strong>: Use a static-friendly form provider like <strong>Web3Forms</strong>, <strong>Formspree</strong>, or <strong>SmartForms</strong>. You point your standard HTML form action directly to their endpoint, and they handle verification, spam filtering, and email forwarding.</li>
+</ul>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="html"><code><span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">&#x3C;</span><span style="color:#22863A;--shiki-dark:#85E89D">form</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> action</span><span style="color:#24292E;--shiki-dark:#E1E4E8">=</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"https://api.web3forms.com/submit"</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> method</span><span style="color:#24292E;--shiki-dark:#E1E4E8">=</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"POST"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">></span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  &#x3C;</span><span style="color:#22863A;--shiki-dark:#85E89D">input</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> type</span><span style="color:#24292E;--shiki-dark:#E1E4E8">=</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"hidden"</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> name</span><span style="color:#24292E;--shiki-dark:#E1E4E8">=</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"access_key"</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> value</span><span style="color:#24292E;--shiki-dark:#E1E4E8">=</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"YOUR-KEY-HERE"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">></span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  &#x3C;</span><span style="color:#22863A;--shiki-dark:#85E89D">input</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> type</span><span style="color:#24292E;--shiki-dark:#E1E4E8">=</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"email"</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> name</span><span style="color:#24292E;--shiki-dark:#E1E4E8">=</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"email"</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> required</span><span style="color:#24292E;--shiki-dark:#E1E4E8">></span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  &#x3C;</span><span style="color:#22863A;--shiki-dark:#85E89D">textarea</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> name</span><span style="color:#24292E;--shiki-dark:#E1E4E8">=</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"message"</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> required</span><span style="color:#24292E;--shiki-dark:#E1E4E8">>&#x3C;/</span><span style="color:#22863A;--shiki-dark:#85E89D">textarea</span><span style="color:#24292E;--shiki-dark:#E1E4E8">></span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  &#x3C;</span><span style="color:#22863A;--shiki-dark:#85E89D">button</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> type</span><span style="color:#24292E;--shiki-dark:#E1E4E8">=</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"submit"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">>Submit&#x3C;/</span><span style="color:#22863A;--shiki-dark:#85E89D">button</span><span style="color:#24292E;--shiki-dark:#E1E4E8">></span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">&#x3C;/</span><span style="color:#22863A;--shiki-dark:#85E89D">form</span><span style="color:#24292E;--shiki-dark:#E1E4E8">></span></span></code></pre>
+<h3 id="2-full-text-search">2. Full-Text Search</h3>
+<ul>
+<li><strong>The Backend Way</strong>: Set up Elasticsearch or Meilisearch, configure syncing cron jobs, and expose a search API.</li>
+<li><strong>The Static Way</strong>: Use <strong>Pagefind</strong>. Pagefind runs <em>during</em> your static site build. It parses your generated HTML files, extracts keywords, and outputs a highly optimized static search index (usually only a few hundred kilobytes). In the browser, a lightweight JS script queries this index locally. It is blazingly fast, runs offline, and requires zero servers.</li>
+</ul>
+<h3 id="3-user-comments">3. User Comments</h3>
+<ul>
+<li><strong>The Backend Way</strong>: Build a <code>comments</code> database table, design moderation panels, implement markdown sanitization to prevent XSS.</li>
+<li><strong>The Static Way</strong>: Use <strong>Giscus</strong> or <strong>Utterances</strong>. They use GitHub Discussions or Issues as the database. Users sign in with their GitHub account, and comments are stored directly in your repo’s discussions tab, completely managed by GitHub.</li>
+</ul>
+<h3 id="4-interactive-state-and-authentication">4. Interactive State and Authentication</h3>
+<p>If you need user bookmarks, local settings, or client-side folders, don’t rush to a DB.</p>
+<ul>
+<li>Use the browser’s <strong>localStorage</strong> or <strong>IndexedDB</strong>.</li>
+<li>If you absolutely need cross-device user sync, use a lightweight Backend-as-a-Service (BaaS) provider like <strong>Supabase</strong> or <strong>Firebase</strong> directly from the frontend. Let them handle the authentication and security rules, leaving your frontend codebase serverless.</li>
+</ul>
+<hr>
+<h2 id="when-a-backend-is-actually-mandatory">When a Backend is Actually Mandatory</h2>
+<p>We shouldn’t be dogmatic. There are absolute limits to what static files and Git pipelines can do. You definitely need a custom backend if your application falls into these categories:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th align="left">Use Case</th><th align="left">Why Static/CI Fails</th></tr></thead><tbody><tr><td align="left"><strong>Real-time Collaboration</strong></td><td align="left">Apps like Google Docs, Figma, or chat apps require WebSockets and immediate, sub-second state synchronization between multiple clients.</td></tr><tr><td align="left"><strong>Sensitive Calculations / Secrets</strong></td><td align="left">If your application has proprietary pricing algorithms, custom machine learning logic, or handles sensitive API keys that must never be exposed to the client browser.</td></tr><tr><td align="left"><strong>Instant Global Writes</strong></td><td align="left">Social networks or forums where users write content that must be immediately visible to other users globally, with strict moderation and relational index updates.</td></tr><tr><td align="left"><strong>Transactional High-Write Systems</strong></td><td align="left">Core banking platforms, real-time airline ticket booking, or stock trading systems where race conditions (double spending/booking) must be avoided at all costs.</td></tr></tbody></table>
+<p>If your app isn’t doing these things, you are wasting time, energy, and money writing a backend.</p>
+<hr>
+<h2 id="the-operational-comparison">The Operational Comparison</h2>
+<p>Let’s look at the maintenance reality of both approaches over a 12-month horizon:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th align="left">Operational Metric</th><th align="left">Standard Backend Setup (VPS / Serverless)</th><th align="left">Static Site + Git CI Pipeline</th></tr></thead><tbody><tr><td align="left"><strong>Hosting Cost</strong></td><td align="left">$10 - $100+/month (VM, Database, Redis, NAT)</td><td align="left">$0 (GitHub Pages, Cloudflare Pages, Netlify)</td></tr><tr><td align="left"><strong>Security Risks</strong></td><td align="left">Server exploits, SQL injection, database leakage, expired SSL certificates</td><td align="left">Practically zero (Read-only static assets on CDN)</td></tr><tr><td align="left"><strong>Scaling Strategy</strong></td><td align="left">Load balancers, horizontal scaling, replica DBs</td><td align="left">Auto-scaled by global CDN infrastructure</td></tr><tr><td align="left"><strong>Backup Strategy</strong></td><td align="left">Weekly DB dumps, point-in-time recovery setups</td><td align="left">Every data change is a Git commit. Pure history</td></tr><tr><td align="left"><strong>Deployment Complexity</strong></td><td align="left">Docker builds, orchestration, environment variables management</td><td align="left">Git push / Git merge</td></tr></tbody></table>
+<hr>
+<h2 id="conclusion-keep-it-simple">Conclusion: Keep it Simple</h2>
+<p>Every line of backend code you write is a line you have to maintain, secure, test, and debug. Every infrastructure piece you deploy is a potential point of failure.</p>
+<p>If your web application is primarily displaying information, aggregating data from third-party sources, or performing calculations that can run in the user’s browser, do yourself a favor: <strong>Delete the backend folder.</strong></p>
+<p>Write a simple Node script, schedule it with a cron job on GitHub Actions or GitLab CI, check the data into Git, and let the CDN handle the rest. You will spend less time debugging servers and more time building features.</p> </div>  <!-- Related Posts (Smart) --> <section class="mt-16 pt-10 border-t border-border/50 relative"><div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent"></div><h2 class="text-xl font-semibold mb-6 flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><path d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+Related Content
+</h2><div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3"><a href="/kubernetes-money-pit-startups/" class="group block rounded-xl border border-border bg-card overflow-hidden transition-all duration-300 ease-out hover:border-primary/50 hover:shadow-md hover:-translate-y-0.5 animate-fade-up opacity-0 stagger-1"><div class="p-5"><div class="text-xs text-muted-foreground mb-2">Jul 20, 2026</div><h3 class="text-base font-semibold mb-2 group-hover:text-primary transition-colors duration-200 line-clamp-2">Kubernetes is the Ultimate Developer Money Pit for Startups</h3><p class="text-sm text-muted-foreground line-clamp-2 mb-3">Startups are adopting Kubernetes because Big Tech does. In doing so, they inherit massive complexity, exorbitant cloud bills, and dedicated infrastructure team requirements before they even have product-market fit. You probably just need a single VPS.</p><div class="text-sm font-medium text-primary flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+Read article
+<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-x-0.5 transition-transform"><path d="M5 12h14" /><path d="M12 5l7 7-7 7" /></svg></div></div></a><a href="/modular-monoliths-win-more-fights/" class="group block rounded-xl border border-border bg-card overflow-hidden transition-all duration-300 ease-out hover:border-primary/50 hover:shadow-md hover:-translate-y-0.5 animate-fade-up opacity-0 stagger-2"><div class="p-5"><div class="text-xs text-muted-foreground mb-2">Jun 20, 2026</div><h3 class="text-base font-semibold mb-2 group-hover:text-primary transition-colors duration-200 line-clamp-2">Modular Monoliths Win More Fights Than Microservices</h3><p class="text-sm text-muted-foreground line-clamp-2 mb-3">Why the modular monolith is often the most honest architecture choice: less ceremony, fewer distributed systems surprises, and more time spent shipping actual product instead of negotiating with Kubernetes.</p><div class="text-sm font-medium text-primary flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+Read article
+<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-x-0.5 transition-transform"><path d="M5 12h14" /><path d="M12 5l7 7-7 7" /></svg></div></div></a><a href="/spa-obsession-ruined-web/" class="group block rounded-xl border border-border bg-card overflow-hidden transition-all duration-300 ease-out hover:border-primary/50 hover:shadow-md hover:-translate-y-0.5 animate-fade-up opacity-0 stagger-3"><div class="p-5"><div class="text-xs text-muted-foreground mb-2">Jul 5, 2026</div><h3 class="text-base font-semibold mb-2 group-hover:text-primary transition-colors duration-200 line-clamp-2">The SPA Obsession Has Ruined the Web</h3><p class="text-sm text-muted-foreground line-clamp-2 mb-3">Single Page Applications (SPAs) were supposed to make the web feel like desktop apps. Instead, they gave us megabytes of JavaScript, blank pages during loading, broken back buttons, and over-engineered build steps. It&#39;s time to admit SPAs are a failure for 90% of websites.</p><div class="text-sm font-medium text-primary flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+Read article
+<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-x-0.5 transition-transform"><path d="M5 12h14" /><path d="M12 5l7 7-7 7" /></svg></div></div></a></div></section> </article> </div> </div>  </main> <!-- Footer with gradient accent --> <footer class="border-t border-border/50 mt-auto relative bg-background/50 backdrop-blur-sm"> <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent"></div> <div class="container mx-auto px-4 py-8"> <div class="flex flex-col md:flex-row items-center justify-between gap-6">  <div class="flex flex-col items-center md:items-start gap-4"> <nav class="flex flex-wrap items-center justify-center md:justify-start gap-x-6 gap-y-2 text-sm text-muted-foreground"> <a href="/about" class="hover:text-foreground transition-colors">About</a> <a href="/terms" class="hover:text-foreground transition-colors">Terms & License</a> <a href="mailto:arezki.elmehdi@gmail.com?subject=Hello%20Dev|Journal&body=Hi%20Mehdi," class="hover:text-foreground transition-colors">Contact</a> <div class="hidden md:block w-px h-3 bg-border"></div> <a href="https://github.com/earezki" target="_blank" rel="noopener noreferrer" class="hover:text-foreground transition-colors">GitHub</a> <a href="/rss.xml" class="hover:text-foreground transition-colors">RSS</a> <a href="/tags/" class="hover:text-foreground transition-colors">Tags</a> <a href="/learning-paths/" class="hover:text-foreground transition-colors">Paths</a> <a href="/sitemap-index.xml" class="hover:text-foreground transition-colors">Sitemap</a> <a href="/subscribe" class="hover:text-foreground transition-colors">Subscribe</a> </nav> <p class="text-muted-foreground text-sm text-center md:text-left">
+&copy; 2026 AREZKI El Mehdi
+</p> </div>  <div class="w-full md:w-auto md:min-w-[280px]"> <astro-island uid="kvPS3" component-url="/_astro/EmailSubscribeInput.cXM7kdQk.js" component-export="EmailSubscribeInput" renderer-url="/_astro/client.DXtk3Te4.js" props="{&quot;placeholder&quot;:[0,&quot;Subscribe to newsletter&quot;],&quot;buttonLabel&quot;:[0,&quot;Join&quot;],&quot;glow&quot;:[0,true]}" ssr client="idle" opts="{&quot;name&quot;:&quot;EmailSubscribeInput&quot;,&quot;value&quot;:true}" await-children><form class="relative group "><div class="absolute -inset-0.5 bg-gradient-to-r from-primary via-purple-500 to-pink-500 rounded-lg blur opacity-75 animate-pulse group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div><div class="relative flex items-center bg-background rounded-lg border border-border/50 p-1"><input type="email" required value placeholder="Subscribe to newsletter" class="bg-transparent border-none focus:ring-0 text-sm outline-none placeholder:text-muted-foreground/50 text-foreground w-full px-3 py-1.5"/><button type="submit" class="shrink-0 bg-primary text-primary-foreground rounded-md text-sm font-medium hover:bg-primary/90 transition-colors shadow-sm flex items-center gap-1.5 px-4 py-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send h-3.5 w-3.5" aria-hidden="true"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"></path><path d="m21.854 2.147-10.94 10.939"></path></svg><span class="hidden sm:inline">Join</span></button></div></form><!--astro:end--></astro-island> </div> </div> </div> </footer> <!-- Global persistent audio player --> <astro-island uid="Z2p6bdR" component-url="/_astro/GlobalMiniPlayer.D7LYXxK9.js" component-export="GlobalMiniPlayer" renderer-url="/_astro/client.DXtk3Te4.js" props="{&quot;latestEpisodeUrl&quot;:[0,&quot;https://weekly.podcast.earezki.com/morning_brief_2026-06-25.mp3&quot;],&quot;latestEpisodeTitle&quot;:[0,&quot;The Privileged Port&quot;],&quot;preloadIfEmpty&quot;:[0,false]}" ssr client="only" opts="{&quot;name&quot;:&quot;GlobalMiniPlayer&quot;,&quot;value&quot;:&quot;preact&quot;}"></astro-island> <!-- Global toast notifications --> <astro-island uid="BtXef" component-url="/_astro/Toaster.CIEeAYjk.js" component-export="Toaster" renderer-url="/_astro/client.DXtk3Te4.js" props="{}" ssr client="only" opts="{&quot;name&quot;:&quot;Toaster&quot;,&quot;value&quot;:&quot;preact&quot;}"></astro-island> <!-- SVG lightbox: click any SVG diagram in content to zoom; pinch-to-zoom on mobile --> <script>
+      (function () {
+        function openLightbox(src, alt) {
+          var scale = 1;
+          var pinchStartDist = 0;
+          var pinchStartScale = 1;
+          var lastTap = 0;
+
+          var backdrop = document.createElement("div");
+          Object.assign(backdrop.style, {
+            position: "fixed",
+            top: "0",
+            left: "0",
+            right: "0",
+            bottom: "0",
+            zIndex: "9998",
+            background: "rgba(0,0,0,0.88)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            cursor: "zoom-out",
+          });
+
+          var wrapper = document.createElement("div");
+          Object.assign(wrapper.style, {
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            touchAction: "none",
+            cursor: "default",
+          });
+
+          var img = document.createElement("img");
+          img.src = src;
+          img.alt = alt || "";
+          Object.assign(img.style, {
+            display: "block",
+            width: "90vw",
+            height: "90vh",
+            objectFit: "contain",
+            borderRadius: "6px",
+            boxShadow: "0 24px 48px rgba(0,0,0,0.6)",
+            userSelect: "none",
+            WebkitUserSelect: "none",
+            cursor: "zoom-out",
+            transformOrigin: "center",
+            willChange: "transform",
+          });
+
+          function setScale(s) {
+            scale = Math.min(Math.max(s, 1), 5);
+            img.style.transform = scale === 1 ? "" : "scale(" + scale + ")";
+          }
+
+          img.addEventListener("click", function (e) {
+            e.stopPropagation();
+            if (scale > 1) setScale(1);
+            else close();
+          });
+
+          wrapper.addEventListener(
+            "touchstart",
+            function (e) {
+              if (e.touches.length === 2) {
+                pinchStartDist = Math.hypot(
+                  e.touches[1].clientX - e.touches[0].clientX,
+                  e.touches[1].clientY - e.touches[0].clientY,
+                );
+                pinchStartScale = scale;
+                e.preventDefault();
+              } else if (e.touches.length === 1) {
+                var now = Date.now();
+                if (now - lastTap < 300) {
+                  setScale(scale > 1 ? 1 : 2.5);
+                  e.preventDefault();
+                }
+                lastTap = now;
+              }
+            },
+            { passive: false },
+          );
+
+          wrapper.addEventListener(
+            "touchmove",
+            function (e) {
+              if (e.touches.length === 2) {
+                var dist = Math.hypot(
+                  e.touches[1].clientX - e.touches[0].clientX,
+                  e.touches[1].clientY - e.touches[0].clientY,
+                );
+                setScale(pinchStartScale * (dist / pinchStartDist));
+                e.preventDefault();
+              }
+            },
+            { passive: false },
+          );
+
+          wrapper.addEventListener("touchend", function (e) {
+            if (scale < 1.05) setScale(1);
+          });
+
+          function close() {
+            backdrop.remove();
+            document.removeEventListener("keydown", keyHandler);
+            document.body.style.overflow = "";
+          }
+
+          function keyHandler(e) {
+            if (e.key === "Escape") close();
+          }
+          document.addEventListener("keydown", keyHandler);
+          backdrop.addEventListener("click", close);
+          document.body.style.overflow = "hidden";
+
+          wrapper.appendChild(img);
+          backdrop.appendChild(wrapper);
+          document.body.appendChild(backdrop);
+        }
+
+        function initSvgLightbox() {
+          document
+            .querySelectorAll("main img[src$='.svg']")
+            .forEach(function (img) {
+              if (img.closest("button, a")) return;
+              img.style.cursor = "zoom-in";
+              img.addEventListener("click", function (e) {
+                e.preventDefault();
+                openLightbox(img.src, img.alt);
+              });
+            });
+        }
+
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", initSvgLightbox);
+        } else {
+          initSvgLightbox();
+        }
+      })();
+    </script> <!-- Copy button for code blocks --> <script>
+      (function () {
+        function addCopyButtons() {
+          document
+            .querySelectorAll("pre:not([data-copy-added])")
+            .forEach(function (pre) {
+              pre.setAttribute("data-copy-added", "true");
+              pre.style.position = "relative";
+
+              var btn = document.createElement("button");
+              btn.setAttribute("aria-label", "Copy code");
+              btn.setAttribute("title", "Copy code");
+              btn.className = "code-copy-btn";
+              btn.innerHTML =
+                '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>';
+
+              btn.addEventListener("click", function () {
+                var code = pre.querySelector("code");
+                var text = code ? code.innerText : pre.innerText;
+                navigator.clipboard.writeText(text).then(function () {
+                  btn.innerHTML =
+                    '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>';
+                  btn.setAttribute("aria-label", "Copied!");
+                  setTimeout(function () {
+                    btn.innerHTML =
+                      '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>';
+                    btn.setAttribute("aria-label", "Copy code");
+                  }, 2000);
+                });
+              });
+
+              pre.appendChild(btn);
+            });
+        }
+
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", addCopyButtons);
+        } else {
+          addCopyButtons();
+        }
+      })();
+    </script> </body> </html>
