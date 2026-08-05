@@ -1,0 +1,349 @@
+<!DOCTYPE html><html lang="en" data-theme-name="classic" data-theme="dark"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Compatibility Is a Feature • Dev|Journal</title><meta name="description" content="Compatibility is a deliberate product promise, not an accidental property of old code. Additive changes, clear deprecation paths, and honest support windows let systems evolve without turning every upgrade into a negotiation."><meta name="keywords" content="software architecture, backend development, microservices, Java, Python, Spring Boot, technical blog"><meta name="author" content="El Mehdi Arezki"><meta name="robots" content="index,follow"><meta property="og:type" content="article"><meta property="og:url" content="https://earezki.com/compatibility-is-a-feature/"><meta property="og:title" content="Compatibility Is a Feature • Dev|Journal"><meta property="og:site_name" content="Dev|Journal"><meta property="og:description" content="Compatibility is a deliberate product promise, not an accidental property of old code. Additive changes, clear deprecation paths, and honest support windows let systems evolve without turning every upgrade into a negotiation."><meta property="og:image" content="https://earezki.com/assets/og-image-default.webp"><meta property="og:locale" content="en_US"><meta property="article:published_time" content="2027-01-31T00:00:00.000Z"><meta property="article:modified_time" content="2026-08-04T00:00:00.000Z"><meta property="article:author" content="El Mehdi Arezki"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:url" content="https://earezki.com/compatibility-is-a-feature/"><meta name="twitter:title" content="Compatibility Is a Feature • Dev|Journal"><meta name="twitter:description" content="Compatibility is a deliberate product promise, not an accidental property of old code. Additive changes, clear deprecation paths, and honest support windows let systems evolve without turning every upgrade into a negotiation."><meta name="twitter:image" content="https://earezki.com/assets/og-image-default.webp"><meta name="twitter:site" content="@earezki"><meta name="twitter:creator" content="@earezki"><link rel="canonical" href="https://earezki.com/compatibility-is-a-feature/"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"><link rel="dns-prefetch" href="https://cloud.umami.is"><script defer src="https://cloud.umami.is/script.js" data-website-id="4a26531d-1053-4f79-97a6-06a1366aff91"></script><!-- Self-hosted Inter font — eliminates render-blocking Google Fonts request --><link rel="preload" as="font" type="font/woff2" href="/fonts/inter-latin-regular.woff2" crossorigin><!-- WebSite structured data --><script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Dev|Journal","url":"https://earezki.com","description":"Technical blog covering software architecture, backend development, and engineering best practices.","author":{"@type":"Person","name":"El Mehdi Arezki","url":"https://earezki.com/about"},"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://earezki.com/search?q={search_term_string}"},"query-input":"required name=search_term_string"}}</script><!-- Theme initialization - parse Zustand persist format --><script type="text/javascript">
+      (function () {
+        try {
+          const THEMES = {"classic":{"id":"classic","name":"Classic Obsidian","modes":["dark","light"],"defaultMode":"dark"},"cyberpunk":{"id":"cyberpunk","name":"Neon Cyberpunk","modes":["dark"],"defaultMode":"dark"},"forest":{"id":"forest","name":"Emerald Forest","modes":["dark","light"],"defaultMode":"dark"},"sakura":{"id":"sakura","name":"Sakura Blossom","modes":["light"],"defaultMode":"light"},"nord":{"id":"nord","name":"Nordic Frost","modes":["dark","light"],"defaultMode":"dark"},"amber":{"id":"amber","name":"Warm Amber","modes":["dark","light"],"defaultMode":"light"},"synthwave":{"id":"synthwave","name":"Retro Synthwave","modes":["dark"],"defaultMode":"dark"},"terminal":{"id":"terminal","name":"Vintage Terminal","modes":["dark"],"defaultMode":"dark"},"glass":{"id":"glass","name":"Frosted Glassmorphism","modes":["dark","light"],"defaultMode":"dark"},"velvet":{"id":"velvet","name":"Royal Velvet & Gold","modes":["dark","light"],"defaultMode":"dark"},"dracula":{"id":"dracula","name":"Nocturnal Dracula Pro","modes":["dark"],"defaultMode":"dark"}};
+          const buildTimeThemeId = "classic";
+          
+          let themeId = buildTimeThemeId;
+          let savedThemeMode = null;
+
+          const raw = localStorage.getItem("theme");
+          if (raw) {
+            try {
+              const parsed = JSON.parse(raw);
+              if (parsed && parsed.state) {
+                if (parsed.state.themeName && THEMES[parsed.state.themeName]) {
+                  themeId = parsed.state.themeName;
+                }
+                if (parsed.state.theme) {
+                  savedThemeMode = parsed.state.theme;
+                }
+              }
+            } catch (e) {}
+          }
+
+          const activeTheme = THEMES[themeId] || THEMES[buildTimeThemeId] || THEMES.classic;
+          const supportedModes = activeTheme.modes;
+          const defaultMode = activeTheme.defaultMode;
+
+          document.documentElement.setAttribute("data-theme-name", activeTheme.id);
+
+          if (supportedModes.length === 1) {
+            document.documentElement.setAttribute("data-theme", supportedModes[0]);
+            return;
+          }
+
+          let resolvedMode = defaultMode;
+          if (savedThemeMode === "light" && supportedModes.includes("light")) {
+            resolvedMode = "light";
+          } else if (savedThemeMode === "dark" && supportedModes.includes("dark")) {
+            resolvedMode = "dark";
+          } else if (savedThemeMode === "system") {
+            const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+            const systemMode = prefersDark ? "dark" : "light";
+            resolvedMode = supportedModes.includes(systemMode) ? systemMode : defaultMode;
+          } else {
+            const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+            const systemMode = prefersDark ? "dark" : "light";
+            resolvedMode = supportedModes.includes(systemMode) ? systemMode : defaultMode;
+          }
+          document.documentElement.setAttribute("data-theme", resolvedMode);
+        } catch (e) {
+          document.documentElement.setAttribute("data-theme", "dark");
+        }
+      })();
+    </script><link rel="stylesheet" href="/_astro/_slug_._0x7Bkc6.css">
+<style>html{scroll-behavior:smooth;scroll-padding-top:5rem}
+</style></head> <body class="min-h-screen flex flex-col bg-background text-foreground"> <!-- Skip to content link --> <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:p-4 focus:bg-primary focus:text-primary-foreground focus:rounded-lg">
+Skip to main content
+</a> <!-- Smart Header with hide/show on scroll --> <style>astro-island,astro-slot,astro-static-slot{display:contents}</style><script>(()=>{var e=async t=>{await(await t())()};(self.Astro||(self.Astro={})).only=e;window.dispatchEvent(new Event("astro:only"));})();</script><script>(()=>{var A=Object.defineProperty;var g=(i,o,a)=>o in i?A(i,o,{enumerable:!0,configurable:!0,writable:!0,value:a}):i[o]=a;var d=(i,o,a)=>g(i,typeof o!="symbol"?o+"":o,a);{let i={0:t=>m(t),1:t=>a(t),2:t=>new RegExp(t),3:t=>new Date(t),4:t=>new Map(a(t)),5:t=>new Set(a(t)),6:t=>BigInt(t),7:t=>new URL(t),8:t=>new Uint8Array(t),9:t=>new Uint16Array(t),10:t=>new Uint32Array(t),11:t=>1/0*t},o=t=>{let[l,e]=t;return l in i?i[l](e):void 0},a=t=>t.map(o),m=t=>typeof t!="object"||t===null?t:Object.fromEntries(Object.entries(t).map(([l,e])=>[l,o(e)]));class y extends HTMLElement{constructor(){super(...arguments);d(this,"Component");d(this,"hydrator");d(this,"hydrate",async()=>{var b;if(!this.hydrator||!this.isConnected)return;let e=(b=this.parentElement)==null?void 0:b.closest("astro-island[ssr]");if(e){e.addEventListener("astro:hydrate",this.hydrate,{once:!0});return}let c=this.querySelectorAll("astro-slot"),n={},h=this.querySelectorAll("template[data-astro-template]");for(let r of h){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("data-astro-template")||"default"]=r.innerHTML,r.remove())}for(let r of c){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("name")||"default"]=r.innerHTML)}let p;try{p=this.hasAttribute("props")?m(JSON.parse(this.getAttribute("props"))):{}}catch(r){let s=this.getAttribute("component-url")||"<unknown>",v=this.getAttribute("component-export");throw v&&(s+=` (export ${v})`),console.error(`[hydrate] Error parsing props for component ${s}`,this.getAttribute("props"),r),r}let u;await this.hydrator(this)(this.Component,p,n,{client:this.getAttribute("client")}),this.removeAttribute("ssr"),this.dispatchEvent(new CustomEvent("astro:hydrate"))});d(this,"unmount",()=>{this.isConnected||this.dispatchEvent(new CustomEvent("astro:unmount"))})}disconnectedCallback(){document.removeEventListener("astro:after-swap",this.unmount),document.addEventListener("astro:after-swap",this.unmount,{once:!0})}connectedCallback(){if(!this.hasAttribute("await-children")||document.readyState==="interactive"||document.readyState==="complete")this.childrenConnectedCallback();else{let e=()=>{document.removeEventListener("DOMContentLoaded",e),c.disconnect(),this.childrenConnectedCallback()},c=new MutationObserver(()=>{var n;((n=this.lastChild)==null?void 0:n.nodeType)===Node.COMMENT_NODE&&this.lastChild.nodeValue==="astro:end"&&(this.lastChild.remove(),e())});c.observe(this,{childList:!0}),document.addEventListener("DOMContentLoaded",e)}}async childrenConnectedCallback(){let e=this.getAttribute("before-hydration-url");e&&await import(e),this.start()}async start(){let e=JSON.parse(this.getAttribute("opts")),c=this.getAttribute("client");if(Astro[c]===void 0){window.addEventListener(`astro:${c}`,()=>this.start(),{once:!0});return}try{await Astro[c](async()=>{let n=this.getAttribute("renderer-url"),[h,{default:p}]=await Promise.all([import(this.getAttribute("component-url")),n?import(n):()=>()=>{}]),u=this.getAttribute("component-export")||"default";if(!u.includes("."))this.Component=h[u];else{this.Component=h;for(let f of u.split("."))this.Component=this.Component[f]}return this.hydrator=p,this.hydrate},e,this)}catch(n){console.error(`[astro-island] Error hydrating ${this.getAttribute("component-url")}`,n)}}attributeChangedCallback(){this.hydrate()}}d(y,"observedAttributes",["props"]),customElements.get("astro-island")||customElements.define("astro-island",y)}})();</script><astro-island uid="1YpyxB" component-url="/_astro/SmartHeader.DtwaUGMB.js" component-export="SmartHeader" renderer-url="/_astro/client.DXtk3Te4.js" props="{}" ssr client="only" opts="{&quot;name&quot;:&quot;SmartHeader&quot;,&quot;value&quot;:&quot;preact&quot;}"></astro-island> <!-- Command Palette --> <astro-island uid="1KbDpu" component-url="/_astro/CommandPalette.CDeqRJRp.js" component-export="CommandPalette" renderer-url="/_astro/client.DXtk3Te4.js" props="{}" ssr client="only" opts="{&quot;name&quot;:&quot;CommandPalette&quot;,&quot;value&quot;:&quot;preact&quot;}"></astro-island> <!-- Main Content with fade-in --> <main id="main-content" class="flex-1 container mx-auto px-4 py-8 animate-fade-in" tabindex="-1">  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Compatibility Is a Feature","description":"Compatibility is a deliberate product promise, not an accidental property of old code. Additive changes, clear deprecation paths, and honest support windows let systems evolve without turning every upgrade into a negotiation.","datePublished":"2027-01-31T00:00:00.000Z","dateModified":"2026-08-04T00:00:00.000Z","author":{"@type":"Person","name":"El Mehdi Arezki","url":"https://earezki.com/about"},"publisher":{"@type":"Organization","name":"Dev|Journal","url":"https://earezki.com","logo":{"@type":"ImageObject","url":"https://earezki.com/assets/logo.svg"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://earezki.com/compatibility-is-a-feature/"},"wordCount":1072,"articleSection":"API design, Software architecture, Opinion","keywords":"API design, Software architecture, Opinion","inLanguage":"en-US"}</script> <script>(()=>{var l=(n,t)=>{let i=async()=>{await(await n())()},e=typeof t.value=="object"?t.value:void 0,s={timeout:e==null?void 0:e.timeout};"requestIdleCallback"in window?window.requestIdleCallback(i,s):setTimeout(i,s.timeout||200)};(self.Astro||(self.Astro={})).idle=l;window.dispatchEvent(new Event("astro:idle"));})();</script><astro-island uid="1WDgrn" component-url="/_astro/ArticleReadingTracker.BzTJNTMW.js" component-export="default" renderer-url="/_astro/client.DXtk3Te4.js" props="{&quot;url&quot;:[0,&quot;/compatibility-is-a-feature/&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ArticleReadingTracker&quot;,&quot;value&quot;:true}" await-children><div class="fixed top-0 left-0 w-full h-1 z-50 bg-muted/20 fixed top-0 left-0 w-full z-50"><div class="h-full bg-primary transition-all duration-100 ease-out" style="width:0%;"></div></div><!--astro:end--></astro-island> <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"> <div class="grid grid-cols-1 lg:grid-cols-[250px_1fr] gap-8"> <!-- Table of Contents Sidebar (Left, desktop only) --> <aside class="hidden lg:block order-2 lg:order-1"> <nav class="toc-container sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto hidden lg:block w-64 text-sm pr-4" data-astro-cid-xvrfupwn><div class="flex items-center gap-2 mb-4" data-astro-cid-xvrfupwn><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><path d="M4 6h16M4 12h16M4 18h7" /></svg><h2 class="font-semibold text-xs text-foreground tracking-wide uppercase" data-astro-cid-xvrfupwn>On This Page</h2></div><ul class="space-y-0.5 border-l border-border/50" data-astro-cid-xvrfupwn><li class="toc-item depth-2 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#the-upgrade-was-technically-correct" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:0.75rem" data-astro-cid-xvrfupwn>The Upgrade Was Technically Correct</a></li><li class="toc-item depth-2 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#add-before-you-remove" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:0.75rem" data-astro-cid-xvrfupwn>Add Before You Remove</a></li><li class="toc-item depth-2 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#versioning-does-not-fix-vague-contracts" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:0.75rem" data-astro-cid-xvrfupwn>Versioning Does Not Fix Vague Contracts</a></li><li class="toc-item depth-2 -ml-px transition-all duration-200" data-astro-cid-xvrfupwn><a href="#the-part-that-becomes-production" class="block py-1 pr-2 text-muted-foreground hover:text-primary transition-colors duration-200 line-clamp-2 border-l-2 border-transparent hover:border-primary/60" style="padding-left:0.75rem" data-astro-cid-xvrfupwn>The Part That Becomes Production</a></li></ul><style>
+      .toc-container::-webkit-scrollbar {
+        width: 4px;
+      }
+      .toc-container::-webkit-scrollbar-thumb {
+        background: hsl(var(--muted-foreground) / 0.3);
+        border-radius: 4px;
+      }
+      .toc-container::-webkit-scrollbar-track {
+        background: transparent;
+      }
+    </style></nav><script type="module">const s=new IntersectionObserver(r=>{r.forEach(t=>{const i=t.target.getAttribute("id"),e=document.querySelector(`.toc-container a[href="#${i}"]`);t.isIntersecting&&(document.querySelectorAll(".toc-container a").forEach(o=>{o.classList.remove("text-primary","font-medium","border-primary"),o.classList.add("border-transparent")}),e&&(e.classList.add("text-primary","font-medium","border-primary"),e.classList.remove("border-transparent")))})},{rootMargin:"-100px 0px -66% 0px"});document.querySelectorAll("h2[id], h3[id]").forEach(r=>s.observe(r));</script> </aside> <astro-island uid="2iAJnR" component-url="/_astro/MobileTableOfContents.BXiPgGr4.js" component-export="MobileTableOfContents" renderer-url="/_astro/client.DXtk3Te4.js" props="{&quot;headings&quot;:[1,[[0,{&quot;depth&quot;:[0,2],&quot;slug&quot;:[0,&quot;the-upgrade-was-technically-correct&quot;],&quot;text&quot;:[0,&quot;The Upgrade Was Technically Correct&quot;]}],[0,{&quot;depth&quot;:[0,2],&quot;slug&quot;:[0,&quot;add-before-you-remove&quot;],&quot;text&quot;:[0,&quot;Add Before You Remove&quot;]}],[0,{&quot;depth&quot;:[0,2],&quot;slug&quot;:[0,&quot;versioning-does-not-fix-vague-contracts&quot;],&quot;text&quot;:[0,&quot;Versioning Does Not Fix Vague Contracts&quot;]}],[0,{&quot;depth&quot;:[0,2],&quot;slug&quot;:[0,&quot;the-part-that-becomes-production&quot;],&quot;text&quot;:[0,&quot;The Part That Becomes Production&quot;]}]]]}" ssr client="idle" opts="{&quot;name&quot;:&quot;MobileTableOfContents&quot;,&quot;value&quot;:true}" await-children><button class="lg:hidden fixed bottom-6 right-6 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg shadow-primary/25 hover:bg-primary/90 transition-colors" aria-label="Table of Contents"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-list h-5 w-5" aria-hidden="true"><path d="M3 5h.01"></path><path d="M3 12h.01"></path><path d="M3 19h.01"></path><path d="M8 5h13"></path><path d="M8 12h13"></path><path d="M8 19h13"></path></svg></button><div class="lg:hidden fixed inset-x-0 bottom-0 z-50 transform transition-transform duration-300 ease-out translate-y-full"><div class="rounded-t-2xl border-t border-border bg-card shadow-2xl max-h-[70vh] flex flex-col"><div class="flex items-center justify-between px-5 py-4 border-b border-border/50"><div class="flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-list h-4 w-4 text-primary" aria-hidden="true"><path d="M3 5h.01"></path><path d="M3 12h.01"></path><path d="M3 19h.01"></path><path d="M8 5h13"></path><path d="M8 12h13"></path><path d="M8 19h13"></path></svg><h2 class="text-sm font-semibold text-foreground tracking-wide uppercase">On This Page</h2></div><button class="p-1.5 rounded-md hover:bg-muted text-muted-foreground hover:text-foreground transition-colors" aria-label="Close"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x h-4 w-4" aria-hidden="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button></div><nav class="overflow-y-auto overscroll-contain p-4 -webkit-overflow-scrolling-touch"><ul class="space-y-0.5"><li><button class="w-full text-left flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm transition-colors text-muted-foreground hover:bg-muted hover:text-foreground" style="padding-left:0.75rem;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right h-3.5 w-3.5 shrink-0 transition-colors text-muted-foreground/40" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg><span class="line-clamp-2">The Upgrade Was Technically Correct</span></button></li><li><button class="w-full text-left flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm transition-colors text-muted-foreground hover:bg-muted hover:text-foreground" style="padding-left:0.75rem;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right h-3.5 w-3.5 shrink-0 transition-colors text-muted-foreground/40" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg><span class="line-clamp-2">Add Before You Remove</span></button></li><li><button class="w-full text-left flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm transition-colors text-muted-foreground hover:bg-muted hover:text-foreground" style="padding-left:0.75rem;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right h-3.5 w-3.5 shrink-0 transition-colors text-muted-foreground/40" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg><span class="line-clamp-2">Versioning Does Not Fix Vague Contracts</span></button></li><li><button class="w-full text-left flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm transition-colors text-muted-foreground hover:bg-muted hover:text-foreground" style="padding-left:0.75rem;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right h-3.5 w-3.5 shrink-0 transition-colors text-muted-foreground/40" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg><span class="line-clamp-2">The Part That Becomes Production</span></button></li></ul></nav></div></div><!--astro:end--></astro-island> <article class="max-w-3xl w-full order-1 lg:order-2"> <nav aria-label="Breadcrumb" class="flex items-center text-xs text-muted-foreground mb-6 flex-wrap animate-fade-in"> <ol class="flex items-center gap-1.5 flex-wrap"> <li> <a href="/" class="hover:text-primary transition-colors duration-200 flex items-center gap-1"> <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg> <span class="hidden sm:inline">Home</span> </a> </li> <li class="flex items-center gap-1.5 min-w-0"> <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground/40 shrink-0"><path d="M9 5l7 7-7 7" /></svg> <a href="/" class="hover:text-primary transition-colors duration-200 truncate max-w-[150px]" title="Blog"> Blog </a> </li><li class="flex items-center gap-1.5 min-w-0"> <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground/40 shrink-0"><path d="M9 5l7 7-7 7" /></svg> <span class="font-medium text-foreground truncate max-w-[200px] sm:max-w-xs" title="Compatibility Is a Feature"> Compatibility Is a Feature </span> </li> </ol> </nav> <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://earezki.com/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://earezki.com/"},{"@type":"ListItem","position":3,"name":"Compatibility Is a Feature","item":"https://earezki.com/compatibility-is-a-feature/"}]}</script> <!-- Article Header --> <header class="mb-8 mt-6"> <div class="bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 border border-yellow-500/20 rounded-lg p-4 mb-8 flex items-start gap-3"> <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 flex-shrink-0"> <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path> <polyline points="14 2 14 8 20 8"></polyline> <line x1="12" y1="18" x2="12" y2="18"></line> <line x1="12" y1="12" x2="12" y2="16"></line> </svg> <div> <h3 class="font-semibold text-sm mb-1">Draft / Scheduled Content</h3> <p class="text-sm opacity-90">
+This article is a draft or scheduled for future publication. The content is subject to change.
+</p> </div> </div> <div class="flex flex-wrap gap-2 mb-4"> <a href="/tags/api-design/" class="inline-flex items-center px-2.5 py-0.5 text-xs font-medium rounded-full bg-muted text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors"> API design </a><a href="/tags/software-architecture/" class="inline-flex items-center px-2.5 py-0.5 text-xs font-medium rounded-full bg-muted text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors"> Software architecture </a><a href="/tags/opinion/" class="inline-flex items-center px-2.5 py-0.5 text-xs font-medium rounded-full bg-muted text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors"> Opinion </a> </div> <h1 class="text-3xl md:text-4xl font-bold mb-4">Compatibility Is a Feature</h1> <div class="flex items-center gap-4 text-sm text-muted-foreground"> <time datetime="2027-01-31T00:00:00.000Z"> January 31, 2027 </time> <span>•</span> <span>6 min read</span> </div> <div class="mt-3 flex items-center gap-2 flex-wrap"> <astro-island uid="Z1DmriJ" component-url="/_astro/AIActionMenu.DP9Po76K.js" component-export="AIActionMenu" renderer-url="/_astro/client.DXtk3Te4.js" props="{}" ssr client="only" opts="{&quot;name&quot;:&quot;AIActionMenu&quot;,&quot;value&quot;:&quot;preact&quot;}"></astro-island> <astro-island uid="Z1NpOTC" component-url="/_astro/ReadingListButton.De-CBFG4.js" component-export="ReadingListButton" renderer-url="/_astro/client.DXtk3Te4.js" props="{&quot;url&quot;:[0,&quot;/compatibility-is-a-feature/&quot;],&quot;title&quot;:[0,&quot;Compatibility Is a Feature&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;ReadingListButton&quot;,&quot;value&quot;:true}" await-children><button title="Save to reading list (B)" aria-label="Save to reading list" class="inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium transition-all duration-200 border-border bg-muted/40 text-muted-foreground hover:border-primary/40 hover:text-foreground"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path></svg>Save</button><!--astro:end--></astro-island> </div> <div class="mt-4"> <div class="flex items-center gap-3 flex-wrap"> <span class="text-xs text-muted-foreground font-medium uppercase tracking-wide">Share</span> <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fearezki.com%2Fcompatibility-is-a-feature%2F&text=Compatibility%20Is%20a%20Feature" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center w-8 h-8 rounded-full border border-border/50 hover:bg-primary/10 hover:border-primary/50 transition-all duration-200 text-muted-foreground hover:text-primary" aria-label="Share on X / Twitter"> <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"> <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path> </svg> </a> <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fearezki.com%2Fcompatibility-is-a-feature%2F" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center w-8 h-8 rounded-full border border-border/50 hover:bg-primary/10 hover:border-primary/50 transition-all duration-200 text-muted-foreground hover:text-primary" aria-label="Share on LinkedIn"> <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"> <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"></path> </svg> </a> <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fearezki.com%2Fcompatibility-is-a-feature%2F&t=Compatibility%20Is%20a%20Feature" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center w-8 h-8 rounded-full border border-border/50 hover:bg-primary/10 hover:border-primary/50 transition-all duration-200 text-muted-foreground hover:text-primary" aria-label="Share on Hacker News"> <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"> <path d="M0 0v24h24V0H0zm12.8 14.4v5.2h-1.6v-5.2L7 4.8h1.8l3.2 6 3.2-6H17l-4.2 9.6z"></path> </svg> </a> <a href="https://reddit.com/submit?url=https%3A%2F%2Fearezki.com%2Fcompatibility-is-a-feature%2F&title=Compatibility%20Is%20a%20Feature" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center w-8 h-8 rounded-full border border-border/50 hover:bg-primary/10 hover:border-primary/50 transition-all duration-200 text-muted-foreground hover:text-primary" aria-label="Share on Reddit"> <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"> <path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"></path> </svg> </a> </div> </div>  </header> <!-- Article Content --> <div class="prose dark:prose-invert max-w-none break-words [overflow-wrap:break-word]"> <h2 id="the-upgrade-was-technically-correct">The Upgrade Was Technically Correct</h2>
+<p>Compatibility is the cost of having a boundary. Once a field appears in a client, export, or integration, removing it becomes a migration even if the original design was imperfect.</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">def</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> response</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(customer):</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  return</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> {</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"name"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: customer.name, </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"display_name"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: customer.name}</span></span></code></pre>
+<p>The new release removed a field nobody used, renamed a command to make it clearer, and changed an error from a string to an object. The implementation was cleaner. Every client broke.</p>
+<p>Compatibility is the cost of having a boundary. If other people or systems depend on it, their inconvenience is part of the design equation even when their usage is not elegant.</p>
+<h2 id="add-before-you-remove">Add Before You Remove</h2>
+<p>An additive change gives clients time to move:</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">def</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> customer_response</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(customer):</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    return</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">        "name"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: customer.display_name,</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">        "display_name"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: customer.display_name,</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span></code></pre>
+<p>The duplicated field is not beautiful. It is a bridge. Mark the old field deprecated, measure its use, document the replacement, and remove it only after the support window means something.</p>
+<p>For commands, accept both old and new forms at the boundary and normalize them into one internal representation. Compatibility logic belongs near the edge so it does not infect the core.</p>
+<h2 id="versioning-does-not-fix-vague-contracts">Versioning Does Not Fix Vague Contracts</h2>
+<p>A new version can preserve a bad design while multiplying the number of contracts the team must operate. Version only when the shape or semantics genuinely cannot evolve additively. Otherwise, prefer clear deprecation and a migration path.</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">record</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> DeprecatedField</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(String value, Instant removalDate) {}</span></span></code></pre>
+<p>The exact mechanism varies. The principle is stable: tell clients what changes, when it changes, and what they should do next.</p>
+<p>Compatibility is not cowardice about cleanup. It is respect for the systems that made your boundary valuable in the first place.</p>
+<h2 id="the-part-that-becomes-production">The Part That Becomes Production</h2>
+<p>The central idea in this article matters because software is not finished when the main branch returns the expected value. It is finished when the surrounding decisions are visible enough for another person to operate, change, and recover it. That means asking what happens with empty input, duplicated input, old input, slow input, and input that arrives after the system has changed. Happy paths are examples. Contracts are the real product.</p>
+<p>A useful way to make those contracts concrete is to write down the state transitions before adding more implementation. What states can the thing occupy? Which transitions are allowed? Who can cause each transition? What evidence should remain afterward? Even a small table often reveals missing behavior:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Situation</th><th>Expected result</th><th>Observable evidence</th><th>Recovery</th></tr></thead><tbody><tr><td>Normal request</td><td>The intended state is reached</td><td>A useful success event</td><td>Continue</td></tr><tr><td>Invalid request</td><td>No partial state is committed</td><td>A structured rejection</td><td>Correct the input</td></tr><tr><td>Duplicate request</td><td>The same outcome is returned or ignored safely</td><td>An idempotency record</td><td>Retry safely</td></tr><tr><td>Slow dependency</td><td>The caller receives an honest bounded result</td><td>A timeout metric</td><td>Retry, queue, or stop</td></tr><tr><td>Partial failure</td><td>The unfinished work is visible</td><td>A durable status</td><td>Resume or reconcile</td></tr></tbody></table>
+<p>This is not process for the sake of process. It is a way to prevent the most expensive behavior from being invented during an incident. A system that can name its states can usually explain its failures. A system that only has success and exception tends to turn every interruption into a mystery.</p>
+<p>Boundaries deserve special attention. At each boundary, identify the input format, the output promise, the ownership of failure, and the lifetime of the data involved. A caller should know whether a successful response means completed, accepted, cached, or merely validated. A service should know whether it may retry an operation, whether a repeated request is safe, and whether the dependency can be asked to cancel work. These details are not implementation trivia once a second system depends on them.</p>
+<p>The smallest useful design often includes four things: a stable identifier, a meaningful status, a deadline, and an audit or diagnostic reference. An identifier lets a human and a machine discuss the same operation. A status prevents an invisible middle state. A deadline protects shared capacity. A reference lets an operator follow the decision across logs, jobs, and external calls without copying sensitive payloads everywhere.</p>
+<p>In Python, this might be represented as a deliberately plain value:</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">from</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> dataclasses </span><span style="color:#D73A49;--shiki-dark:#F97583">import</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> dataclass</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">from</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> datetime </span><span style="color:#D73A49;--shiki-dark:#F97583">import</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> datetime</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">@dataclass</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#E36209;--shiki-dark:#FFAB70">frozen</span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF">True</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">class</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> Operation</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">    id</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#005CC5;--shiki-dark:#79B8FF">str</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    state: </span><span style="color:#005CC5;--shiki-dark:#79B8FF">str</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    expires_at: datetime</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    correlation_id: </span><span style="color:#005CC5;--shiki-dark:#79B8FF">str</span></span></code></pre>
+<p>In Java, the same design can be expressed with a record:</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">public</span><span style="color:#D73A49;--shiki-dark:#F97583"> record</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> Operation</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    String id,</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    State state,</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Instant expiresAt,</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    String correlationId) {}</span></span></code></pre>
+<p>The syntax is not the point. The point is that the important facts are named instead of being hidden in a boolean, a null value, or a log sentence that nobody can query.</p>
+<p>There is also a maintenance question: what happens when the original assumption changes? Give temporary paths an owner and an exit condition. Give compatibility fields a removal date and usage measurement. Give migrations a rollback or forward-recovery story. Give alerts a human action. Give documentation a clean-environment test. These small acts turn accidental behavior into behavior the team can deliberately retire.</p>
+<p>Performance and reliability should be discussed together. Every operation consumes time, memory, connections, storage, attention, or some combination of them. Set a bound where the resource becomes scarce. A maximum is not an admission of weakness; it is a promise that one request will not silently consume the capacity needed by everyone else. When the limit is reached, fail in a way the caller can understand and the operator can measure.</p>
+<p>Finally, review the design from three perspectives. The user asks whether the result is understandable and recoverable. The operator asks whether failure is visible and whether the next action is clear. The future maintainer asks whether the code exposes the decision or merely preserves an accident. A solution that satisfies only the happy-path developer is not simple. It is unfinished.</p>
+<p>The practical test is straightforward: take one ordinary example, one invalid example, one repeated example, one delayed example, and one partially completed example. Describe the expected result for each. If the answer requires opening several unrelated modules or guessing what a status means, the system has more design work to do. If the answers are explicit, the implementation has a foundation that can survive the next change.</p> </div>  <!-- Related Posts (Smart) --> <section class="mt-16 pt-10 border-t border-border/50 relative"><div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent"></div><h2 class="text-xl font-semibold mb-6 flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><path d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+Related Content
+</h2><div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3"><a href="/boring-apis-are-better-apis/" class="group block rounded-xl border border-border bg-card overflow-hidden transition-all duration-300 ease-out hover:border-primary/50 hover:shadow-md hover:-translate-y-0.5 animate-fade-up opacity-0 stagger-1"><div class="p-5"><div class="text-xs text-muted-foreground mb-2">Aug 12, 2026</div><h3 class="text-base font-semibold mb-2 group-hover:text-primary transition-colors duration-200 line-clamp-2">Boring APIs Are Better APIs</h3><p class="text-sm text-muted-foreground line-clamp-2 mb-3">Predictable APIs are easier to consume, evolve, and debug than clever ones. Explicit contracts beat flexible response shapes and surprising defaults.</p><div class="text-sm font-medium text-primary flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+Read article
+<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-x-0.5 transition-transform"><path d="M5 12h14" /><path d="M12 5l7 7-7 7" /></svg></div></div></a><a href="/compatibility-tests-are-negotiation/" class="group block rounded-xl border border-border bg-card overflow-hidden transition-all duration-300 ease-out hover:border-primary/50 hover:shadow-md hover:-translate-y-0.5 animate-fade-up opacity-0 stagger-2"><div class="p-5"><div class="text-xs text-muted-foreground mb-2">Aug 1, 2027</div><h3 class="text-base font-semibold mb-2 group-hover:text-primary transition-colors duration-200 line-clamp-2">Compatibility Tests Are Negotiation</h3><p class="text-sm text-muted-foreground line-clamp-2 mb-3">Contract tests make assumptions between systems visible. They are most useful when they describe a negotiated boundary instead of freezing every internal implementation detail.</p><div class="text-sm font-medium text-primary flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+Read article
+<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-x-0.5 transition-transform"><path d="M5 12h14" /><path d="M12 5l7 7-7 7" /></svg></div></div></a><a href="/limits-are-design/" class="group block rounded-xl border border-border bg-card overflow-hidden transition-all duration-300 ease-out hover:border-primary/50 hover:shadow-md hover:-translate-y-0.5 animate-fade-up opacity-0 stagger-3"><div class="p-5"><div class="text-xs text-muted-foreground mb-2">May 31, 2027</div><h3 class="text-base font-semibold mb-2 group-hover:text-primary transition-colors duration-200 line-clamp-2">Limits Are Design</h3><p class="text-sm text-muted-foreground line-clamp-2 mb-3">Every system has limits whether the team documents them or discovers them in an outage. Explicit limits on size, time, concurrency, and retries turn accidental failure into behavior the product can reason about.</p><div class="text-sm font-medium text-primary flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+Read article
+<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-x-0.5 transition-transform"><path d="M5 12h14" /><path d="M12 5l7 7-7 7" /></svg></div></div></a></div></section> </article> </div> </div>  </main> <!-- Footer with gradient accent --> <footer class="border-t border-border/50 mt-auto relative bg-background/50 backdrop-blur-sm"> <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent"></div> <div class="container mx-auto px-4 py-8"> <div class="flex flex-col md:flex-row items-center justify-between gap-6">  <div class="flex flex-col items-center md:items-start gap-4"> <nav class="flex flex-wrap items-center justify-center md:justify-start gap-x-6 gap-y-2 text-sm text-muted-foreground"> <a href="/about" class="hover:text-foreground transition-colors">About</a> <a href="/terms" class="hover:text-foreground transition-colors">Terms & License</a> <a href="mailto:arezki.elmehdi@gmail.com?subject=Hello%20Dev|Journal&body=Hi%20Mehdi," class="hover:text-foreground transition-colors">Contact</a> <div class="hidden md:block w-px h-3 bg-border"></div> <a href="https://github.com/earezki" target="_blank" rel="noopener noreferrer" class="hover:text-foreground transition-colors">GitHub</a> <a href="https://www.buymeacoffee.com/earezki" target="_blank" rel="noopener noreferrer" class="hover:text-foreground transition-colors inline-flex items-center gap-1"> <span>☕</span> <span>Buy me a coffee</span> </a> <a href="/rss.xml" class="hover:text-foreground transition-colors">RSS</a> <a href="/tags/" class="hover:text-foreground transition-colors">Tags</a> <a href="/learning-paths/" class="hover:text-foreground transition-colors">Paths</a> <a href="/sitemap-index.xml" class="hover:text-foreground transition-colors">Sitemap</a> <a href="/subscribe" class="hover:text-foreground transition-colors">Subscribe</a> </nav> <p class="text-muted-foreground text-sm text-center md:text-left">
+&copy; 2026 AREZKI El Mehdi
+</p> </div>  <div class="w-full md:w-auto md:min-w-[280px]"> <astro-island uid="kvPS3" component-url="/_astro/EmailSubscribeInput.cXM7kdQk.js" component-export="EmailSubscribeInput" renderer-url="/_astro/client.DXtk3Te4.js" props="{&quot;placeholder&quot;:[0,&quot;Subscribe to newsletter&quot;],&quot;buttonLabel&quot;:[0,&quot;Join&quot;],&quot;glow&quot;:[0,true]}" ssr client="idle" opts="{&quot;name&quot;:&quot;EmailSubscribeInput&quot;,&quot;value&quot;:true}" await-children><form class="relative group "><div class="absolute -inset-0.5 bg-gradient-to-r from-primary via-purple-500 to-pink-500 rounded-lg blur opacity-75 animate-pulse group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div><div class="relative flex items-center bg-background rounded-lg border border-border/50 p-1"><input type="email" required value placeholder="Subscribe to newsletter" class="bg-transparent border-none focus:ring-0 text-sm outline-none placeholder:text-muted-foreground/50 text-foreground w-full px-3 py-1.5"/><button type="submit" class="shrink-0 bg-primary text-primary-foreground rounded-md text-sm font-medium hover:bg-primary/90 transition-colors shadow-sm flex items-center gap-1.5 px-4 py-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send h-3.5 w-3.5" aria-hidden="true"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"></path><path d="m21.854 2.147-10.94 10.939"></path></svg><span class="hidden sm:inline">Join</span></button></div></form><!--astro:end--></astro-island> </div> </div> </div> </footer> <!-- Global persistent audio player --> <astro-island uid="Y5RNh" component-url="/_astro/GlobalMiniPlayer.D7LYXxK9.js" component-export="GlobalMiniPlayer" renderer-url="/_astro/client.DXtk3Te4.js" props="{&quot;latestEpisodeUrl&quot;:[0,&quot;https://weekly.podcast.earezki.com/morning_brief_2026-08-05.mp3&quot;],&quot;latestEpisodeTitle&quot;:[0,&quot;The Transmutation Problem&quot;],&quot;preloadIfEmpty&quot;:[0,false]}" ssr client="only" opts="{&quot;name&quot;:&quot;GlobalMiniPlayer&quot;,&quot;value&quot;:&quot;preact&quot;}"></astro-island> <!-- Global toast notifications --> <astro-island uid="BtXef" component-url="/_astro/Toaster.CIEeAYjk.js" component-export="Toaster" renderer-url="/_astro/client.DXtk3Te4.js" props="{}" ssr client="only" opts="{&quot;name&quot;:&quot;Toaster&quot;,&quot;value&quot;:&quot;preact&quot;}"></astro-island> <!-- SVG lightbox: click any SVG diagram in content to zoom; pinch-to-zoom on mobile --> <script>
+      (function () {
+        function openLightbox(src, alt) {
+          var scale = 1;
+          var pinchStartDist = 0;
+          var pinchStartScale = 1;
+          var lastTap = 0;
+
+          var backdrop = document.createElement("div");
+          Object.assign(backdrop.style, {
+            position: "fixed",
+            top: "0",
+            left: "0",
+            right: "0",
+            bottom: "0",
+            zIndex: "9998",
+            background: "rgba(0,0,0,0.88)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            cursor: "zoom-out",
+          });
+
+          var wrapper = document.createElement("div");
+          Object.assign(wrapper.style, {
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            touchAction: "none",
+            cursor: "default",
+          });
+
+          var img = document.createElement("img");
+          img.src = src;
+          img.alt = alt || "";
+          Object.assign(img.style, {
+            display: "block",
+            width: "90vw",
+            height: "90vh",
+            objectFit: "contain",
+            borderRadius: "6px",
+            boxShadow: "0 24px 48px rgba(0,0,0,0.6)",
+            userSelect: "none",
+            WebkitUserSelect: "none",
+            cursor: "zoom-out",
+            transformOrigin: "center",
+            willChange: "transform",
+          });
+
+          function setScale(s) {
+            scale = Math.min(Math.max(s, 1), 5);
+            img.style.transform = scale === 1 ? "" : "scale(" + scale + ")";
+          }
+
+          img.addEventListener("click", function (e) {
+            e.stopPropagation();
+            if (scale > 1) setScale(1);
+            else close();
+          });
+
+          wrapper.addEventListener(
+            "touchstart",
+            function (e) {
+              if (e.touches.length === 2) {
+                pinchStartDist = Math.hypot(
+                  e.touches[1].clientX - e.touches[0].clientX,
+                  e.touches[1].clientY - e.touches[0].clientY,
+                );
+                pinchStartScale = scale;
+                e.preventDefault();
+              } else if (e.touches.length === 1) {
+                var now = Date.now();
+                if (now - lastTap < 300) {
+                  setScale(scale > 1 ? 1 : 2.5);
+                  e.preventDefault();
+                }
+                lastTap = now;
+              }
+            },
+            { passive: false },
+          );
+
+          wrapper.addEventListener(
+            "touchmove",
+            function (e) {
+              if (e.touches.length === 2) {
+                var dist = Math.hypot(
+                  e.touches[1].clientX - e.touches[0].clientX,
+                  e.touches[1].clientY - e.touches[0].clientY,
+                );
+                setScale(pinchStartScale * (dist / pinchStartDist));
+                e.preventDefault();
+              }
+            },
+            { passive: false },
+          );
+
+          wrapper.addEventListener("touchend", function (e) {
+            if (scale < 1.05) setScale(1);
+          });
+
+          function close() {
+            backdrop.remove();
+            document.removeEventListener("keydown", keyHandler);
+            document.body.style.overflow = "";
+          }
+
+          function keyHandler(e) {
+            if (e.key === "Escape") close();
+          }
+          document.addEventListener("keydown", keyHandler);
+          backdrop.addEventListener("click", close);
+          document.body.style.overflow = "hidden";
+
+          wrapper.appendChild(img);
+          backdrop.appendChild(wrapper);
+          document.body.appendChild(backdrop);
+        }
+
+        function initSvgLightbox() {
+          document
+            .querySelectorAll("main img[src$='.svg']")
+            .forEach(function (img) {
+              if (img.closest("button, a")) return;
+              img.style.cursor = "zoom-in";
+              img.addEventListener("click", function (e) {
+                e.preventDefault();
+                openLightbox(img.src, img.alt);
+              });
+            });
+        }
+
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", initSvgLightbox);
+        } else {
+          initSvgLightbox();
+        }
+      })();
+    </script> <!-- Copy button for code blocks --> <script>
+      (function () {
+        function addCopyButtons() {
+          document
+            .querySelectorAll("pre:not([data-copy-added])")
+            .forEach(function (pre) {
+              pre.setAttribute("data-copy-added", "true");
+              pre.style.position = "relative";
+
+              var btn = document.createElement("button");
+              btn.setAttribute("aria-label", "Copy code");
+              btn.setAttribute("title", "Copy code");
+              btn.className = "code-copy-btn";
+              btn.innerHTML =
+                '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>';
+
+              btn.addEventListener("click", function () {
+                var code = pre.querySelector("code");
+                var text = code ? code.innerText : pre.innerText;
+                navigator.clipboard.writeText(text).then(function () {
+                  btn.innerHTML =
+                    '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>';
+                  btn.setAttribute("aria-label", "Copied!");
+                  setTimeout(function () {
+                    btn.innerHTML =
+                      '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>';
+                    btn.setAttribute("aria-label", "Copy code");
+                  }, 2000);
+                });
+              });
+
+              pre.appendChild(btn);
+            });
+        }
+
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", addCopyButtons);
+        } else {
+          addCopyButtons();
+        }
+      })();
+    </script> </body> </html>
