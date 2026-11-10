@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 220" role="img" aria-labelledby="t d">
+  <title id="t">Chiron, the app's mascot, waving</title>
+  <desc id="d">A round purple mascot with a green leaf on its head. It bobs gently, blinks, waves one arm and sparkles.</desc>
+  <defs>
+    <linearGradient id="body" x1="0.1" y1="0" x2="0.9" y2="1">
+      <stop offset="0" stop-color="#9a7dff"/>
+      <stop offset="1" stop-color="#6e48f0"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#9a7dff" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#9a7dff" stop-opacity="0"/>
+    </radialGradient>
+    <path id="spark" d="M0 -9C1 -3 3 -1 9 0C3 1 1 3 0 9C-1 3 -3 1 -9 0C-3 -1 -1 -3 0 -9Z"/>
+  </defs>
+  <style>
+    .bob { animation: bob 3.6s ease-in-out infinite; }
+    .shadow { transform-box: fill-box; transform-origin: center; animation: shadow 3.6s ease-in-out infinite; }
+    .eyes { transform-box: fill-box; transform-origin: center; animation: blink 5s infinite; }
+    .leaf { transform-box: fill-box; transform-origin: 0% 100%; animation: wiggle 4.8s ease-in-out infinite; }
+    .arm { transform-box: view-box; transform-origin: 176px 138px; animation: wave 3.2s ease-in-out infinite; }
+    .cheek { animation: blush 3.6s ease-in-out infinite; }
+    .s1 { transform-box: fill-box; transform-origin: center; animation: twinkle 2.8s ease-in-out infinite; }
+    .s2 { transform-box: fill-box; transform-origin: center; animation: twinkle 2.8s ease-in-out 0.9s infinite; }
+    .s3 { transform-box: fill-box; transform-origin: center; animation: twinkle 2.8s ease-in-out 1.8s infinite; }
+    @keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+    @keyframes shadow { 0%, 100% { transform: scaleX(1); opacity: 1; } 50% { transform: scaleX(0.88); opacity: 0.7; } }
+    @keyframes blink { 0%, 92%, 100% { transform: scaleY(1); } 95% { transform: scaleY(0.08); } }
+    @keyframes wiggle { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(7deg); } }
+    @keyframes wave {
+      0%, 55%, 100% { transform: rotate(0deg); }
+      12% { transform: rotate(-38deg); }
+      24% { transform: rotate(-10deg); }
+      36% { transform: rotate(-38deg); }
+      46% { transform: rotate(-8deg); }
+    }
+    @keyframes blush { 0%, 100% { opacity: 0.7; } 50% { opacity: 1; } }
+    @keyframes twinkle { 0%, 100% { transform: scale(0.4); opacity: 0; } 50% { transform: scale(1); opacity: 1; } }
+    @media (prefers-reduced-motion: reduce) {
+      .bob, .shadow, .eyes, .leaf, .arm, .cheek { animation: none; }
+      .s1, .s2, .s3 { animation: none; opacity: 1; }
+    }
+  </style>
+
+  <ellipse cx="100" cy="112" rx="110" ry="100" fill="url(#glow)"/>
+  <ellipse class="shadow" cx="100" cy="206" rx="58" ry="8" fill="#1a0f66" fill-opacity="0.18"/>
+
+  <g class="bob">
+    <ellipse cx="72" cy="196" rx="19" ry="10" fill="#5a38d8"/>
+    <ellipse cx="128" cy="196" rx="19" ry="10" fill="#5a38d8"/>
+    <path d="M100 44C150 44 176 82 176 132C176 176 146 198 100 198C54 198 24 176 24 132C24 82 50 44 100 44Z" fill="url(#body)"/>
+    <path d="M30 150C40 186 70 198 100 198C130 198 160 186 170 150C150 172 50 172 30 150Z" fill="#4c2fc4" fill-opacity="0.45"/>
+    <ellipse cx="100" cy="146" rx="40" ry="32" fill="#fff" fill-opacity="0.2"/>
+    <ellipse class="cheek" cx="56" cy="132" rx="12" ry="7" fill="#ff8f7a" fill-opacity="0.85"/>
+    <ellipse class="cheek" cx="144" cy="132" rx="12" ry="7" fill="#ff8f7a" fill-opacity="0.85"/>
+    <g class="eyes">
+      <ellipse cx="78" cy="114" rx="9" ry="12" fill="#1a0f66"/>
+      <ellipse cx="122" cy="114" rx="9" ry="12" fill="#1a0f66"/>
+      <circle cx="81" cy="109" r="3.5" fill="#fff"/>
+      <circle cx="125" cy="109" r="3.5" fill="#fff"/>
+    </g>
+    <path d="M88 134Q100 148 112 134" fill="none" stroke="#1a0f66" stroke-width="4.5" stroke-linecap="round"/>
+    <path d="M100 46Q100 34 104 28" fill="none" stroke="#4c2fc4" stroke-width="4" stroke-linecap="round"/>
+    <path class="leaf" d="M104 28C116 16 134 20 132 34C119 37 109 35 104 28Z" fill="#9bd23c"/>
+    <g class="arm">
+      <ellipse cx="184" cy="160" rx="11" ry="25" transform="rotate(-18 184 160)" fill="#7d5cf5"/>
+    </g>
+  </g>
+
+  <g transform="translate(212 62)"><use class="s1" href="#spark" fill="#ffd25e"/></g>
+  <g transform="translate(30 48) scale(0.8)"><use class="s2" href="#spark" fill="#ffd25e"/></g>
+  <g transform="translate(228 126) scale(0.7)"><use class="s3" href="#spark" fill="#9bd23c"/></g>
+</svg>
